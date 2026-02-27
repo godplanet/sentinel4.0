@@ -1,0 +1,669 @@
+/**
+ * SENTINEL GRC v3.0 - PROFESSIONAL PRINT ENGINE
+ *
+ * Mission: Transform neon/glass UI into Harvard Business Review quality print output
+ * Target: A4 paper, black & white, serif fonts, professional layout
+ *
+ * Print Quality Standards:
+ * - Typography: Serif fonts for body, Sans-serif for headings
+ * - Layout: Standard A4 margins (2.5cm)
+ * - Colors: Black text on white, minimal color for charts only
+ * - Page Breaks: Smart breaks to avoid cutting content
+ * - Headers/Footers: Professional metadata display
+ */
+
+@media print {
+  /* ========================================
+     PHASE 1: GLOBAL RESET & VISIBILITY
+     ======================================== */
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Reset Page */
+  @page {
+    size: A4 portrait;
+    margin: 2.5cm 2cm 3cm 2cm;
+  }
+
+  /* Root Body Reset */
+  body {
+    background: white !important;
+    color: #000 !important;
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ========================================
+     PHASE 2: HIDE SCREEN-ONLY ELEMENTS
+     ======================================== */
+
+  /* Navigation & UI Chrome */
+  nav,
+  aside,
+  .sidebar,
+  [class*="Sidebar"],
+  header:not(.report-header),
+  .print\\:hidden,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Interactive Elements */
+  button:not(.print-visible),
+  .btn,
+  [role="button"]:not(.print-visible),
+  .floating-button,
+  .action-buttons,
+  .toolbar,
+  .warmth-slider,
+  input,
+  textarea,
+  select,
+  .edit-controls,
+  .drag-handle {
+    display: none !important;
+  }
+
+  /* Overlays & Modals */
+  .modal,
+  .drawer,
+  .toast,
+  .notification,
+  .tooltip,
+  .popover,
+  [role="dialog"],
+  [role="alert"]:not(.print-visible) {
+    display: none !important;
+  }
+
+  /* Glass Effects & Decorations */
+  [class*="backdrop-blur"],
+  [class*="glass"],
+  .gradient-overlay,
+  .neon-border,
+  .glow-effect,
+  .shadow-xl,
+  .shadow-2xl {
+    backdrop-filter: none !important;
+    background: white !important;
+    box-shadow: none !important;
+    border: 1px solid #e0e0e0 !important;
+  }
+
+  /* ========================================
+     PHASE 3: TYPOGRAPHY & READABILITY
+     ======================================== */
+
+  /* Headings - Sans Serif for structure */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Arial', 'Helvetica', sans-serif !important;
+    color: #000 !important;
+    font-weight: bold !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  h1 {
+    font-size: 24pt !important;
+    border-bottom: 2px solid #000 !important;
+    padding-bottom: 0.3em !important;
+  }
+
+  h2 {
+    font-size: 18pt !important;
+    border-bottom: 1px solid #666 !important;
+    padding-bottom: 0.2em !important;
+  }
+
+  h3 {
+    font-size: 14pt !important;
+    margin-top: 1em !important;
+  }
+
+  h4 {
+    font-size: 12pt !important;
+  }
+
+  /* Body Text - Serif for readability */
+  p, li, td, span, div {
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+    color: #000 !important;
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+
+  /* Links - Show URL */
+  a {
+    color: #000 !important;
+    text-decoration: underline !important;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")" !important;
+    font-size: 9pt !important;
+    color: #666 !important;
+  }
+
+  /* Remove URL for internal links */
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: "" !important;
+  }
+
+  /* ========================================
+     PHASE 4: SMART PAGE BREAKS
+     ======================================== */
+
+  /* Avoid breaking inside elements */
+  img,
+  svg,
+  figure,
+  table,
+  pre,
+  blockquote,
+  .chart-container,
+  .finding-card,
+  .signature-block,
+  .evidence-block,
+  .risk-matrix {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Keep headings with content */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* Force page break before major sections */
+  .page-break-before,
+  .chapter-start,
+  .signature-section {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  /* Prevent breaks after these */
+  .keep-together {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* ========================================
+     PHASE 5: LAYOUT & STRUCTURE
+     ======================================== */
+
+  /* Main Report Container */
+  .report-container,
+  .report-content,
+  [role="main"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  /* Remove all flex/grid constraints */
+  .flex,
+  .grid {
+    display: block !important;
+  }
+
+  /* ========================================
+     PHASE 6: CHARTS & IMAGES
+     ======================================== */
+
+  img, svg {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Chart containers */
+  .recharts-wrapper,
+  .chart-container {
+    max-width: 100% !important;
+    page-break-inside: avoid !important;
+    border: 1px solid #ccc !important;
+    padding: 1em !important;
+    margin: 1em 0 !important;
+  }
+
+  /* ========================================
+     PHASE 7: TABLES
+     ======================================== */
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1em 0 !important;
+    page-break-inside: auto !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+
+  tfoot {
+    display: table-footer-group !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  th, td {
+    border: 1px solid #333 !important;
+    padding: 8px !important;
+    text-align: left !important;
+    font-size: 10pt !important;
+  }
+
+  th {
+    background: #f0f0f0 !important;
+    font-weight: bold !important;
+    color: #000 !important;
+  }
+
+  /* ========================================
+     PHASE 8: FINDING CARDS
+     ======================================== */
+
+  .finding-card,
+  [class*="FindingCard"] {
+    border: 2px solid #000 !important;
+    background: white !important;
+    padding: 1em !important;
+    margin: 1em 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  .finding-title {
+    font-size: 13pt !important;
+    font-weight: bold !important;
+    color: #000 !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  /* Severity Indicators */
+  .severity-critical,
+  [data-severity="critical"] {
+    border-left: 5px solid #000 !important;
+  }
+
+  .severity-high,
+  [data-severity="high"] {
+    border-left: 5px solid #666 !important;
+  }
+
+  .severity-medium,
+  [data-severity="medium"] {
+    border-left: 5px solid #999 !important;
+  }
+
+  .severity-low,
+  [data-severity="low"] {
+    border-left: 5px solid #ccc !important;
+  }
+
+  /* ========================================
+     PHASE 9: SIGNATURE PANEL (LEGAL APPENDIX)
+     ======================================== */
+
+  .signature-panel,
+  .signature-section {
+    page-break-before: always !important;
+    border-top: 3px double #000 !important;
+    padding-top: 2em !important;
+    margin-top: 3em !important;
+  }
+
+  .signature-title {
+    font-size: 16pt !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    margin-bottom: 1.5em !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+  }
+
+  .signature-block {
+    border: 2px solid #000 !important;
+    background: white !important;
+    padding: 1.5em !important;
+    margin: 1em 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  .signature-role {
+    font-weight: bold !important;
+    font-size: 12pt !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  .signature-name {
+    font-size: 11pt !important;
+    margin: 0.3em 0 !important;
+  }
+
+  .signature-date {
+    font-size: 10pt !important;
+    color: #333 !important;
+    font-style: italic !important;
+  }
+
+  .signature-stamp {
+    border: 2px solid #000 !important;
+    border-radius: 50% !important;
+    width: 100px !important;
+    height: 100px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 1em auto !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    font-size: 10pt !important;
+  }
+
+  /* Dissent/Şerh Box */
+  .dissent-box,
+  .sherh-box {
+    border: 2px dashed #000 !important;
+    background: #f9f9f9 !important;
+    padding: 1em !important;
+    margin: 1em 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  .dissent-title,
+  .sherh-title {
+    font-weight: bold !important;
+    font-size: 11pt !important;
+    margin-bottom: 0.5em !important;
+    text-transform: uppercase !important;
+  }
+
+  /* ========================================
+     PHASE 10: COVER PAGE
+     ======================================== */
+
+  .print-cover-page {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100vh !important;
+    page-break-after: always !important;
+    text-align: center !important;
+    border: 5px double #000 !important;
+    padding: 3em !important;
+  }
+
+  .print-cover-logo {
+    width: 150px !important;
+    height: auto !important;
+    margin-bottom: 3em !important;
+  }
+
+  .print-cover-title {
+    font-size: 28pt !important;
+    font-weight: bold !important;
+    margin: 1em 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 3px !important;
+  }
+
+  .print-cover-confidential {
+    border: 3px solid #000 !important;
+    padding: 1em 2em !important;
+    font-size: 18pt !important;
+    font-weight: bold !important;
+    margin: 2em 0 !important;
+    letter-spacing: 4px !important;
+    transform: rotate(-5deg) !important;
+  }
+
+  .print-cover-meta {
+    font-size: 12pt !important;
+    margin-top: 3em !important;
+    color: #333 !important;
+  }
+
+  /* ========================================
+     PHASE 11: HEADER & FOOTER
+     ======================================== */
+
+  @page {
+    @bottom-left {
+      content: "Sentinel GRC - " attr(data-report-date);
+      font-size: 9pt;
+      color: #666;
+    }
+
+    @bottom-right {
+      content: "Sayfa " counter(page) " / " counter(pages);
+      font-size: 9pt;
+      color: #666;
+    }
+
+    @bottom-center {
+      content: "GİZLİ / CONFIDENTIAL";
+      font-size: 8pt;
+      color: #999;
+      font-weight: bold;
+    }
+  }
+
+  /* Fallback footer for browsers that don't support @page rules */
+  .print-footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1.5cm !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 2cm !important;
+    font-size: 9pt !important;
+    color: #666 !important;
+    border-top: 1px solid #ccc !important;
+    background: white !important;
+  }
+
+  /* ========================================
+     PHASE 12: UTILITIES
+     ======================================== */
+
+  /* Force visibility for print-only elements */
+  .print-only,
+  .print-visible {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Force hide for no-print elements */
+  .no-print,
+  .screen-only {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Text alignment */
+  .print-center {
+    text-align: center !important;
+  }
+
+  .print-right {
+    text-align: right !important;
+  }
+
+  /* Spacing */
+  .print-mt-1 {
+    margin-top: 1em !important;
+  }
+
+  .print-mb-1 {
+    margin-bottom: 1em !important;
+  }
+
+  .print-mt-2 {
+    margin-top: 2em !important;
+  }
+
+  .print-mb-2 {
+    margin-bottom: 2em !important;
+  }
+
+  /* ========================================
+     PHASE 13: ACCESSIBILITY & QUALITY
+     ======================================== */
+
+  /* Ensure high contrast */
+  * {
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Optimize text rendering */
+  body {
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
+
+  /* Remove animations */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* ========================================
+     PHASE 14: TIPTAP EDITOR CONTENT
+     ======================================== */
+
+  .tiptap,
+  .ProseMirror {
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+    color: #000 !important;
+  }
+
+  .tiptap p,
+  .ProseMirror p {
+    margin: 0.5em 0 !important;
+  }
+
+  .tiptap ul,
+  .tiptap ol,
+  .ProseMirror ul,
+  .ProseMirror ol {
+    margin: 0.5em 0 !important;
+    padding-left: 2em !important;
+  }
+
+  .tiptap li,
+  .ProseMirror li {
+    margin: 0.25em 0 !important;
+  }
+
+  /* ========================================
+     PHASE 15: FINAL POLISH
+     ======================================== */
+
+  /* Remove all hover states */
+  *:hover {
+    background: inherit !important;
+    color: inherit !important;
+  }
+
+  /* Ensure print consistency */
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Remove scrollbars */
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Optimize for grayscale printing */
+  @media print and (color) {
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+}
+
+/* ========================================
+   MODULE 6 REPORT EDITOR — PRINT RULES
+   ======================================== */
+
+@media print {
+  /* Hide all editor chrome (toolbar, nav, panels, action bar) */
+  .report-editor-toolbar,
+  .report-section-navigator,
+  .report-workflow-bar,
+  .report-block-palette,
+  .report-review-sidebar,
+  .report-ai-copilot,
+  .report-warmth-slider {
+    display: none !important;
+  }
+
+  /* Keep only the zen canvas and board briefing content */
+  .report-zen-canvas {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Finding cards and stats blocks: never split across pages */
+  .report-finding-block,
+  .report-stats-block,
+  .report-chart-block {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Section headings: keep with following content */
+  .report-block-heading {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* New section starts on a new page */
+  .report-section-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+}
+
+/* ========================================
+   END OF PRINT STYLES
+   ======================================== */

@@ -1,0 +1,1 @@
+export { BDDKPackageModal } from './BDDKPackageModal';

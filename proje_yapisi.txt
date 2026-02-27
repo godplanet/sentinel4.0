@@ -1,0 +1,391 @@
+Need to install the following packages:
+tree-node-cli@1.6.0
+Ok to proceed? (y) sentinel_v3.0
+├── docs
+├── scripts
+├── src
+│   ├── app
+│   │   ├── layout
+│   │   ├── providers
+│   │   ├── routes
+│   │   └── styles
+│   ├── entities
+│   │   ├── action
+│   │   │   ├── api
+│   │   │   ├── lib
+│   │   │   ├── model
+│   │   │   └── ui
+│   │   ├── advisory
+│   │   ├── ccm
+│   │   ├── dashboard
+│   │   │   └── model
+│   │   ├── esg
+│   │   ├── execution
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── finding
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── governance
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── incident
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── library
+│   │   ├── office
+│   │   ├── planning
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── policy
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── probe
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── qaip
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── quant
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── report
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── resources
+│   │   ├── risk
+│   │   ├── rkm
+│   │   ├── settings
+│   │   │   └── model
+│   │   ├── sox
+│   │   ├── strategy
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── survey
+│   │   │   ├── api
+│   │   │   └── model
+│   │   ├── talent
+│   │   ├── universe
+│   │   │   ├── api
+│   │   │   ├── lib
+│   │   │   └── model
+│   │   ├── user
+│   │   │   └── model
+│   │   └── workpaper
+│   │       ├── api
+│   │       └── model
+│   ├── features
+│   │   ├── academy
+│   │   │   ├── api
+│   │   │   ├── components
+│   │   │   └── store
+│   │   ├── action-analytics
+│   │   │   ├── lib
+│   │   │   └── ui
+│   │   ├── action-review
+│   │   │   └── ui
+│   │   ├── action-tracking
+│   │   ├── action-workflow
+│   │   │   └── ui
+│   │   ├── admin
+│   │   │   ├── methodology
+│   │   │   ├── risk-configuration
+│   │   │   └── template-manager
+│   │   ├── ai-agents
+│   │   │   ├── model
+│   │   │   └── sentinel-prime
+│   │   ├── ai-anomaly
+│   │   │   └── ui
+│   │   ├── ai-audit
+│   │   │   └── utils
+│   │   ├── ai-forensic
+│   │   ├── ai-persona
+│   │   ├── ai-probe-gen
+│   │   ├── audit-creation
+│   │   ├── audit-execution
+│   │   │   ├── components
+│   │   │   └── hooks
+│   │   ├── auditee-portal
+│   │   │   ├── hooks
+│   │   │   └── ui
+│   │   ├── automation
+│   │   ├── autonomous-remediation
+│   │   │   └── ui
+│   │   ├── bddk-export
+│   │   ├── ccm
+│   │   │   ├── components
+│   │   │   ├── hooks
+│   │   │   └── ui
+│   │   ├── chaos
+│   │   ├── compliance
+│   │   │   └── api
+│   │   ├── delphi-engine
+│   │   │   └── ui
+│   │   ├── diagnostics
+│   │   ├── engagement-kanban
+│   │   │   └── ui
+│   │   ├── esg
+│   │   ├── evidence-manager
+│   │   │   └── ui
+│   │   ├── excel-import
+│   │   ├── execution
+│   │   │   └── ui
+│   │   ├── field-agent
+│   │   ├── finding-form
+│   │   ├── finding-hub
+│   │   │   ├── api
+│   │   │   ├── hooks
+│   │   │   └── ui
+│   │   ├── finding-studio
+│   │   │   ├── api
+│   │   │   ├── components
+│   │   │   └── hooks
+│   │   ├── finding-workflow
+│   │   │   └── ui
+│   │   ├── grading-engine
+│   │   ├── independence
+│   │   ├── integrations
+│   │   ├── investigation
+│   │   ├── library
+│   │   │   ├── api
+│   │   │   └── ui
+│   │   ├── module-bridge
+│   │   │   └── ui
+│   │   ├── neural-map
+│   │   ├── pbc
+│   │   ├── planning
+│   │   │   ├── analytics
+│   │   │   ├── api
+│   │   │   ├── lib
+│   │   │   └── ui
+│   │   ├── probe-builder
+│   │   │   └── ui
+│   │   ├── process-canvas
+│   │   ├── qaip
+│   │   ├── quant
+│   │   ├── regulatory-export
+│   │   │   └── ui
+│   │   ├── report-editor
+│   │   │   ├── blocks
+│   │   │   ├── hooks
+│   │   │   ├── ui
+│   │   │   └── utils
+│   │   ├── reporting
+│   │   │   ├── api
+│   │   │   ├── lib
+│   │   │   └── ui
+│   │   ├── resources
+│   │   │   ├── allocation
+│   │   │   ├── capacity
+│   │   │   ├── profiles
+│   │   │   ├── talent
+│   │   │   ├── timesheets
+│   │   │   └── ui
+│   │   ├── risk-constitution
+│   │   ├── risk-contagion
+│   │   │   └── ui
+│   │   ├── risk-engine
+│   │   ├── risk-graph
+│   │   │   └── utils
+│   │   ├── risk-scoring
+│   │   │   └── ui
+│   │   ├── risk-simulation
+│   │   ├── rkm-library
+│   │   │   └── ui
+│   │   ├── sampling
+│   │   │   └── lib
+│   │   ├── settings
+│   │   │   └── api
+│   │   ├── shariah
+│   │   │   └── data
+│   │   ├── sox
+│   │   ├── strategy
+│   │   │   └── ui
+│   │   ├── supervision
+│   │   │   └── components
+│   │   ├── survey
+│   │   │   └── components
+│   │   ├── talent-os
+│   │   │   ├── api
+│   │   │   ├── components
+│   │   │   ├── hooks
+│   │   │   └── lib
+│   │   ├── theme-switcher
+│   │   ├── tprm
+│   │   ├── universe
+│   │   │   ├── api
+│   │   │   ├── lib
+│   │   │   └── ui
+│   │   ├── vendor-portal
+│   │   ├── workpaper-editor
+│   │   │   └── ui
+│   │   ├── workpaper-list
+│   │   │   └── ui
+│   │   └── workpaper-wizard
+│   │       └── ui
+│   ├── lib
+│   ├── pages
+│   │   ├── academy
+│   │   ├── action-workbench
+│   │   ├── admin
+│   │   ├── advisory
+│   │   ├── ai-agents
+│   │   ├── audit-start
+│   │   ├── auditee-portal
+│   │   ├── auditor
+│   │   ├── auth
+│   │   ├── automation
+│   │   ├── ccm
+│   │   ├── chaos-lab
+│   │   ├── compliance
+│   │   ├── dashboard
+│   │   ├── error
+│   │   ├── esg
+│   │   ├── execution
+│   │   ├── execution-consolidated
+│   │   ├── findings
+│   │   ├── governance
+│   │   ├── governance-vault
+│   │   ├── investigation
+│   │   ├── library
+│   │   ├── monitoring
+│   │   ├── negotiation
+│   │   ├── oracle
+│   │   ├── pbc
+│   │   ├── planning
+│   │   ├── playbook
+│   │   ├── process-canvas
+│   │   ├── qaip
+│   │   ├── quant
+│   │   ├── reporting
+│   │   ├── resources
+│   │   ├── risk-heatmap
+│   │   ├── risk-laboratory
+│   │   ├── rkm-library
+│   │   ├── settings
+│   │   ├── settings-consolidated
+│   │   ├── shariah
+│   │   ├── sox
+│   │   ├── strategy
+│   │   ├── surveys
+│   │   ├── talent
+│   │   ├── talent-os
+│   │   ├── tprm
+│   │   ├── universe
+│   │   └── vendor-portal
+│   ├── shared
+│   │   ├── api
+│   │   │   └── ai
+│   │   ├── config
+│   │   ├── data
+│   │   │   └── seed
+│   │   ├── hooks
+│   │   ├── lib
+│   │   │   ├── i18n
+│   │   │   └── theme
+│   │   ├── stores
+│   │   ├── types
+│   │   ├── ui
+│   │   └── utils
+│   └── widgets
+│       ├── AIAssistant
+│       ├── AdvisoryWorkspace
+│       ├── AgileBoard
+│       ├── AnnualPlanner
+│       ├── AnomalyCockpit
+│       ├── AuditStepsList
+│       ├── AuditeeActionWorkbench
+│       ├── AuditeePortalWidget
+│       ├── AutomationStudio
+│       ├── CCMDashboard
+│       ├── ChaosLab
+│       ├── CharterViewer
+│       ├── ComplianceDashboard
+│       ├── ComplianceMapper
+│       ├── ConstitutionEditor
+│       ├── Dashboard
+│       │   └── ecosystem
+│       ├── DataSignals
+│       ├── DeclarationForm
+│       ├── DeclarationsPanel
+│       ├── EsgDashboard
+│       ├── ExceptionQueue
+│       ├── ExecutionGrid
+│       ├── FileHealthCard
+│       ├── FindingHubWidget
+│       ├── FindingRightSidebar
+│       ├── FindingStudio
+│       ├── FindingWorkflow
+│       ├── GovernanceVault
+│       ├── GovernanceWorkbench
+│       │   └── ui
+│       ├── Header
+│       ├── IncidentPortal
+│       ├── MethodologySimulator
+│       ├── MissionControl
+│       ├── NegotiationPortal
+│       ├── OmniCommand
+│       │   └── ui
+│       ├── PersonaSwitcher
+│       ├── PlanAdherence
+│       ├── PolicyLibrary
+│       ├── PredictiveRadar
+│       ├── ProbeCards
+│       ├── ProbeEditor
+│       ├── ProcessCanvas
+│       ├── QAIPReview
+│       ├── QualityAssurance
+│       ├── QuantDashboard
+│       ├── RKMLibrary
+│       ├── RKMMasterGrid
+│       ├── ReportStudio
+│       ├── ResurrectionWatch
+│       │   └── ui
+│       ├── ReviewNotesPanel
+│       ├── Risk360Card
+│       ├── RiskNetwork
+│       ├── SamplingWizard
+│       ├── Scorecard
+│       ├── Seismograph
+│       ├── SentinelChat
+│       ├── SentinelOffice
+│       ├── SentinelScribble
+│       ├── Sidebar
+│       ├── SignOffPanel
+│       ├── SkillMatrix
+│       ├── SoxDashboard
+│       ├── SprintBoard
+│       ├── StrategicHeatmap
+│       ├── SuperDrawer
+│       ├── SurveyPortal
+│       ├── SystemHealth
+│       ├── TPRMDashboard
+│       ├── TPRMVendorDetail
+│       ├── TalentDashboard
+│       ├── TalentOS
+│       ├── TimeTracker
+│       ├── TraceabilityDrawer
+│       ├── TriageCockpit
+│       ├── UniversalFindingDrawer
+│       │   └── components
+│       ├── UniverseScoring
+│       ├── UniverseTree
+│       ├── WorkpaperDrawer
+│       │   └── components
+│       ├── WorkpaperEditor
+│       ├── WorkpaperGrid
+│       │   └── cells
+│       ├── WorkpaperSuperDrawer
+│       ├── action-super-drawer
+│       │   └── ui
+│       ├── charts
+│       ├── indicators
+│       ├── investigation
+│       ├── risk-matrix-table
+│       └── tables
+└── supabase
+    ├── functions
+    │   ├── pdf-export
+    │   ├── seed-manager
+    │   └── sentinel-ai
+    └── migrations

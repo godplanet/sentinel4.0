@@ -1,0 +1,3 @@
+-- Talent OS demo verileri seed.sql dosyasina tasindi.
+-- Orijinal icerik: talent_profiles, talent_skills, audit_service_templates
+-- Kaynak: seed.sql - Bolum 9

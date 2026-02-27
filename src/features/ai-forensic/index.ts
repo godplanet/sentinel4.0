@@ -1,0 +1,1 @@
+export { SentinelInsightCard } from './SentinelInsightCard';

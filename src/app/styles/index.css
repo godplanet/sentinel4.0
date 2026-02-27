@@ -1,0 +1,445 @@
+/* Professional Print Engine - Must be imported first */
+@import './print.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SENTINEL GRC v3.0 — DİNAMİK AÇIK TEMA MOTORU (Design Tokens)
+   Kural: data-theme niteliği <html> üzerinde Zustand ThemeStore tarafından yönetilir.
+   Tüm sayfalar bu token'ları otomatik devralır.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. ZEN PAPER (Varsayılan) — Sıcak kırık beyaz / Krem ──────────── */
+:root,
+[data-theme='zen'] {
+  --bg-canvas:       #FDFBF7;
+  --bg-surface:      #FFFFFF;
+  --bg-surface-alt:  #F7F5F0;
+  --bg-elevated:     rgba(255, 255, 255, 0.85);
+
+  --glass-bg:        rgba(255, 255, 255, 0.72);
+  --glass-border:    rgba(255, 255, 255, 0.45);
+  --glass-shadow:    0 4px 24px rgba(0, 0, 0, 0.06);
+
+  --text-primary:    #1E293B;
+  --text-secondary:  #64748B;
+  --text-muted:      #94A3B8;
+  --text-on-accent:  #FFFFFF;
+
+  --border-default:  rgba(226, 232, 240, 0.8);
+  --border-strong:   #CBD5E1;
+
+  --accent-primary:  #3B82F6;
+  --accent-hover:    #2563EB;
+  --accent-subtle:   #EFF6FF;
+
+  --theme-label:     'Zen Paper';
+}
+
+/* ── 2. CLOUD SLATE — Teknolojik serin mat gri ──────────────────────── */
+[data-theme='cloud'] {
+  --bg-canvas:       #F8FAFC;
+  --bg-surface:      #F1F5F9;
+  --bg-surface-alt:  #E2E8F0;
+  --bg-elevated:     rgba(248, 250, 252, 0.90);
+
+  --glass-bg:        rgba(241, 245, 249, 0.75);
+  --glass-border:    rgba(203, 213, 225, 0.50);
+  --glass-shadow:    0 4px 24px rgba(51, 65, 85, 0.08);
+
+  --text-primary:    #0F172A;
+  --text-secondary:  #475569;
+  --text-muted:      #94A3B8;
+  --text-on-accent:  #FFFFFF;
+
+  --border-default:  rgba(203, 213, 225, 0.70);
+  --border-strong:   #94A3B8;
+
+  --accent-primary:  #0EA5E9;
+  --accent-hover:    #0284C7;
+  --accent-subtle:   #F0F9FF;
+
+  --theme-label:     'Cloud Slate';
+}
+
+/* ── 3. ENTERPRISE CLEAN — Saf ve keskin kurumsal beyaz ─────────────── */
+[data-theme='enterprise'] {
+  --bg-canvas:       #FFFFFF;
+  --bg-surface:      #F9FAFB;
+  --bg-surface-alt:  #F3F4F6;
+  --bg-elevated:     rgba(255, 255, 255, 0.95);
+
+  --glass-bg:        rgba(255, 255, 255, 0.80);
+  --glass-border:    rgba(229, 231, 235, 0.60);
+  --glass-shadow:    0 2px 16px rgba(0, 0, 0, 0.05);
+
+  --text-primary:    #111827;
+  --text-secondary:  #6B7280;
+  --text-muted:      #9CA3AF;
+  --text-on-accent:  #FFFFFF;
+
+  --border-default:  rgba(229, 231, 235, 0.90);
+  --border-strong:   #D1D5DB;
+
+  --accent-primary:  #1D4ED8;
+  --accent-hover:    #1E40AF;
+  --accent-subtle:   #EFF6FF;
+
+  --theme-label:     'Enterprise Clean';
+}
+
+/* ── 4. ICE GLASS — Zihin açıcı uçuk buz mavisi ────────────────────── */
+[data-theme='ice'] {
+  --bg-canvas:       #F0F9FF;
+  --bg-surface:      #E0F2FE;
+  --bg-surface-alt:  #BAE6FD;
+  --bg-elevated:     rgba(240, 249, 255, 0.88);
+
+  --glass-bg:        rgba(224, 242, 254, 0.70);
+  --glass-border:    rgba(186, 230, 253, 0.55);
+  --glass-shadow:    0 4px 28px rgba(14, 165, 233, 0.10);
+
+  --text-primary:    #0C4A6E;
+  --text-secondary:  #0369A1;
+  --text-muted:      #38BDF8;
+  --text-on-accent:  #FFFFFF;
+
+  --border-default:  rgba(186, 230, 253, 0.70);
+  --border-strong:   #7DD3FC;
+
+  --accent-primary:  #0284C7;
+  --accent-hover:    #0369A1;
+  --accent-subtle:   #F0F9FF;
+
+  --theme-label:     'Ice Glass';
+}
+
+/* ── Tema token'larını body'e uygula ────────────────────────────────── */
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  transition: background-color 0.25s ease, color 0.15s ease;
+}
+
+
+/* TipTap Editor */
+.tiptap { outline: none; }
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #94a3b8;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
+}
+.tiptap h1 { font-size: 1.75rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; line-height: 1.2; }
+.tiptap h2 { font-size: 1.375rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.5rem; line-height: 1.3; }
+.tiptap h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; line-height: 1.4; }
+.tiptap p { margin-bottom: 0.75rem; line-height: 1.7; }
+.tiptap ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap li { margin-bottom: 0.25rem; }
+.tiptap blockquote {
+  border-left: 4px solid #3b82f6;
+  background: #eff6ff;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+}
+.tiptap hr { border-color: #e2e8f0; margin: 1.5rem 0; }
+.tiptap mark { background: #fef08a; padding: 0.1em 0.2em; border-radius: 0.2em; }
+.tiptap strong { font-weight: 700; }
+.tiptap em { font-style: italic; }
+.tiptap u { text-decoration: underline; }
+.tiptap s { text-decoration: line-through; }
+
+/* Print & PDF Export Styles */
+@media print {
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .print\\:hidden {
+    display: none !important;
+  }
+
+  .print\\:break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print\\:shadow-none {
+    box-shadow: none !important;
+  }
+
+  .print\\:bg-white {
+    background: white !important;
+  }
+
+  .print\\:border {
+    border: 1px solid #e2e8f0 !important;
+  }
+
+  .print\\:border-slate-300 {
+    border-color: #cbd5e1 !important;
+  }
+
+  .tiptap {
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+
+  .tiptap h1 {
+    font-size: 18pt;
+    margin-top: 12pt;
+    margin-bottom: 6pt;
+  }
+
+  .tiptap h2 {
+    font-size: 14pt;
+    margin-top: 10pt;
+    margin-bottom: 4pt;
+  }
+
+  .tiptap h3 {
+    font-size: 12pt;
+    margin-top: 8pt;
+    margin-bottom: 4pt;
+  }
+
+  .tiptap p {
+    margin-bottom: 6pt;
+  }
+
+  finding-node,
+  chart-node,
+  executive-summary-node,
+  callout-node {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+@layer base {
+  :root {
+    /* --- DIGITAL PAPER THEME (LIGHT DEFAULT) --- */
+    --background: 210 40% 98%;    /* Slate-50 equiv */
+    --foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+
+    /* Brand: Indigo-600 (RGB for Opacity) */
+    --primary: 79 70 229; 
+    --primary-foreground: 255 255 255;
+
+    /* Sidebar Defaults (PROD = Navy) */
+    --sidebar-bg: 15 23 42; 
+    --sidebar-fg: 248 250 252;
+    --sidebar-border: 30 41 59;
+
+    /* Glass Physics */
+    --glass-blur: 20px;
+    --glass-opacity: 0.72;
+  }
+
+  /* CHAMELEON: Environment Overrides */
+  .env-test { --sidebar-bg: 6 78 59; } /* Emerald (Test) */
+  .env-dev { --sidebar-bg: 136 19 55; } /* Rose (Dev) */
+
+  /* VDI MODE: Disable Glass Physics */
+  .perf-low {
+    --glass-blur: 0px;
+    --glass-opacity: 0.98;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* --- THE ATOM: GLASS PANEL --- */
+  .glass-panel {
+    @apply relative overflow-hidden transition-all duration-300;
+    background: rgba(255, 255, 255, var(--glass-opacity));
+    backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+
+  /* VDI Override (Force Solid) */
+  .perf-low .glass-panel {
+    background: #FFFFFF !important;
+    backdrop-filter: none !important;
+    border: 1px solid #E2E8F0 !important;
+    box-shadow: none !important;
+  }
+
+  /* SOLID INPUTS (Ergonomics) */
+  .input-solid {
+    @apply bg-white border border-slate-200 text-slate-900 shadow-sm
+           focus:ring-2 focus:ring-primary/20 focus:border-indigo-500 rounded-md;
+  }
+
+  /* CUSTOM SCROLLBAR */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184 / 0.3) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(148 163 184 / 0.3);
+    border-radius: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(148 163 184 / 0.5);
+  }
+
+  /* --- NEON GLOW EFFECTS --- */
+  .neon-border-blue {
+    @apply relative;
+  }
+
+  .neon-border-blue::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+    background-size: 200% 100%;
+    animation: neon-flow 3s ease-in-out infinite;
+    filter: blur(8px);
+  }
+
+  .neon-border-blue:hover::before {
+    @apply opacity-75;
+  }
+
+  .neon-border-emerald {
+    @apply relative;
+  }
+
+  .neon-border-emerald::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300;
+    background: linear-gradient(90deg, #10b981, #3b82f6, #10b981);
+    background-size: 200% 100%;
+    animation: neon-flow 3s ease-in-out infinite;
+    filter: blur(8px);
+  }
+
+  .neon-border-emerald:hover::before {
+    @apply opacity-75;
+  }
+
+  .neon-border-purple {
+    @apply relative;
+  }
+
+  .neon-border-purple::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300;
+    background: linear-gradient(90deg, #8b5cf6, #ec4899, #8b5cf6);
+    background-size: 200% 100%;
+    animation: neon-flow 3s ease-in-out infinite;
+    filter: blur(8px);
+  }
+
+  .neon-border-purple:hover::before {
+    @apply opacity-75;
+  }
+
+  .neon-border-orange {
+    @apply relative;
+  }
+
+  .neon-border-orange::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300;
+    background: linear-gradient(90deg, #f97316, #eab308, #f97316);
+    background-size: 200% 100%;
+    animation: neon-flow 3s ease-in-out infinite;
+    filter: blur(8px);
+  }
+
+  .neon-border-orange:hover::before {
+    @apply opacity-75;
+  }
+
+  @keyframes neon-flow {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* --- GLASS CARD VARIANTS --- */
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-xl border border-white/20 shadow-lg
+           rounded-xl transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply shadow-2xl border-white/40;
+    transform: translateY(-2px);
+  }
+
+  .glass-card-solid {
+    @apply bg-white border border-slate-200/80 shadow-md
+           rounded-xl transition-all duration-300;
+  }
+
+  .glass-card-solid:hover {
+    @apply shadow-xl border-slate-300;
+    transform: translateY(-2px);
+  }
+
+  /* VDI Override for Glass Cards */
+  .perf-low .glass-card {
+    @apply bg-white border border-slate-200 shadow-sm;
+    backdrop-filter: none !important;
+  }
+
+  .perf-low .glass-card:hover {
+    @apply shadow-md;
+  }
+
+  /* Animations */
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s ease-out;
+  }
+}
