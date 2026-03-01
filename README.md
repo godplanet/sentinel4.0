@@ -1,1 +1,1 @@
-sentinel-grc-v3-bolt.new
+sentinel-grc-v3-cursor
