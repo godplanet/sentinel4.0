@@ -20,16 +20,30 @@ export interface FindingSectionConfig {
   is_active: boolean; // Soft-delete yerine pasife alma imkanı
 }
 
+export type GradingScaleId = '4-POINT' | '5-POINT' | 'PERCENTAGE';
+
+export interface GradeThresholds {
+  A: number;
+  B: number;
+  C: number;
+}
+
+const DEFAULT_GRADE_THRESHOLDS: GradeThresholds = { A: 3.5, B: 2.5, C: 1.5 };
+
 interface MethodologyState {
   findingSections: FindingSectionConfig[];
   isLoading: boolean;
   error: string | null;
+  gradingScale: GradingScaleId;
+  gradeThresholds: GradeThresholds;
 }
 
 interface MethodologyActions {
   fetchConfig: () => Promise<void>;
   updateSection: (id: string, updates: Partial<FindingSectionConfig>) => void;
   resetToDefaults: () => void;
+  setGradingScale: (scale: GradingScaleId) => void;
+  updateThreshold: (letter: 'A' | 'B' | 'C', value: number) => void;
 }
 
 // --- Default Data (GIAS 2024 / 5C Methodology) ---
@@ -132,6 +146,8 @@ export const useMethodologyStore = create<MethodologyState & MethodologyActions>
         findingSections: [], // Başlangıçta boş, fetchConfig ile dolacak
         isLoading: false,
         error: null,
+        gradingScale: '4-POINT',
+        gradeThresholds: DEFAULT_GRADE_THRESHOLDS,
 
         // Actions
         fetchConfig: async () => {
@@ -167,11 +183,21 @@ export const useMethodologyStore = create<MethodologyState & MethodologyActions>
 
         resetToDefaults: () => {
           set({ findingSections: DEFAULT_5C_CONFIG, error: null });
-        }
+        },
+
+        setGradingScale: (scale) => set({ gradingScale: scale }),
+        updateThreshold: (letter, value) =>
+          set((state) => ({
+            gradeThresholds: { ...state.gradeThresholds, [letter]: value },
+          })),
       }),
       {
         name: 'sentinel-methodology-storage', // LocalStorage key
-        partialize: (state) => ({ findingSections: state.findingSections }), // Sadece config'i persist et
+        partialize: (state) => ({
+          findingSections: state.findingSections,
+          gradingScale: state.gradingScale,
+          gradeThresholds: state.gradeThresholds,
+        }),
       }
     )
   )

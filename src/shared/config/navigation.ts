@@ -601,6 +601,12 @@ export const navigationConfig: NavigationItem[] = [
     icon: Settings,
     children: [
       {
+        id: 'parameters-consolidated',
+        label: 'Sistem Parametreleri',
+        path: '/settings',
+        icon: Database,
+      },
+      {
         id: 'methodology',
         label: 'Parametreler ve Metodoloji',
         path: '/settings/methodology',

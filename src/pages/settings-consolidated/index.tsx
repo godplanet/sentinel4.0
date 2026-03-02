@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
 import { PageHeader } from '@/shared/ui';
 import { fetchSystemParameters } from '@/entities/settings/api';
-import { Settings, Database, Users as UsersIcon, FileText, Palette, Radio, RefreshCcw, AlertTriangle, ClipboardCheck } from 'lucide-react';
+import { Settings, Database, Users as UsersIcon, FileText, Palette, Radio, RefreshCcw, AlertTriangle, ClipboardCheck, Gauge } from 'lucide-react';
 import clsx from 'clsx';
 import { SidebarColorPicker } from '@/features/theme-switcher';
 import { DataSignalsPanel } from '@/widgets/DataSignals';
 import { UniversalSeeder } from '@/shared/data/seed';
 import { SurveyBuilder } from '@/features/survey/components/SurveyBuilder';
+import { MethodologySettings } from '@/features/admin/methodology/ui/MethodologySettings';
 
-type TabKey = 'parameters' | 'signals' | 'appearance' | 'users' | 'logs' | 'surveys';
+type TabKey = 'parameters' | 'signals' | 'methodology' | 'surveys' | 'appearance' | 'users' | 'logs';
 
 const TABS = [
   { key: 'parameters' as TabKey, label: 'Sistem Parametreleri', icon: Database },
   { key: 'signals' as TabKey, label: 'Entegrasyon & Sinyaller', icon: Radio },
+  { key: 'methodology' as TabKey, label: 'Denetim Notları', icon: Gauge },
   { key: 'surveys' as TabKey, label: 'Anket Tasarımı', icon: ClipboardCheck },
   { key: 'appearance' as TabKey, label: 'Gorunum', icon: Palette },
   { key: 'users' as TabKey, label: 'Kullanici Yonetimi', icon: UsersIcon },
@@ -237,6 +239,12 @@ export default function SettingsConsolidatedPage() {
         {activeTab === 'signals' && (
           <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
             <DataSignalsPanel />
+          </div>
+        )}
+
+        {activeTab === 'methodology' && (
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
+            <MethodologySettings />
           </div>
         )}
 

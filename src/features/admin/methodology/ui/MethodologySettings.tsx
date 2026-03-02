@@ -2,8 +2,12 @@ import { useMethodologyStore } from '../model/store';
 import { Gauge, CheckCircle2 } from 'lucide-react';
 import clsx from 'clsx';
 
+const DEFAULT_THRESHOLDS = { A: 3.5, B: 2.5, C: 1.5 };
+
 export const MethodologySettings = () => {
   const { gradingScale, gradeThresholds, setGradingScale, updateThreshold } = useMethodologyStore();
+  const selectedScale = gradingScale ?? '4-POINT';
+  const thresholds = gradeThresholds ?? DEFAULT_THRESHOLDS;
 
   const SCALES = [
     { id: '4-POINT', label: '4\'lü Skala (1-4)', desc: 'Geleneksel İç Denetim standardı.' },
@@ -32,12 +36,12 @@ export const MethodologySettings = () => {
               onClick={() => setGradingScale(scale.id)}
               className={clsx(
                 "relative p-4 rounded-xl border-2 text-left transition-all hover:scale-[1.02]",
-                gradingScale === scale.id
+                selectedScale === scale.id
                   ? "border-purple-600 bg-purple-50/50"
                   : "border-slate-100 bg-surface hover:border-purple-200"
               )}
             >
-              {gradingScale === scale.id && (
+              {selectedScale === scale.id && (
                 <div className="absolute top-3 right-3 text-purple-600">
                   <CheckCircle2 size={18} />
                 </div>
@@ -58,7 +62,7 @@ export const MethodologySettings = () => {
               <span className="text-sm text-slate-500">&gt;</span>
               <input
                 type="number" step="0.1"
-                value={gradeThresholds.A}
+                value={thresholds.A}
                 onChange={(e) => updateThreshold('A', parseFloat(e.target.value))}
                 className="w-full bg-surface border-emerald-200 rounded px-2 py-1 text-emerald-900 font-mono font-bold"
               />
@@ -71,7 +75,7 @@ export const MethodologySettings = () => {
               <span className="text-sm text-slate-500">&gt;</span>
               <input
                 type="number" step="0.1"
-                value={gradeThresholds.B}
+                value={thresholds.B}
                 onChange={(e) => updateThreshold('B', parseFloat(e.target.value))}
                 className="w-full bg-surface border-blue-200 rounded px-2 py-1 text-blue-900 font-mono font-bold"
               />
@@ -84,7 +88,7 @@ export const MethodologySettings = () => {
               <span className="text-sm text-slate-500">&gt;</span>
               <input
                 type="number" step="0.1"
-                value={gradeThresholds.C}
+                value={thresholds.C}
                 onChange={(e) => updateThreshold('C', parseFloat(e.target.value))}
                 className="w-full bg-surface border-yellow-200 rounded px-2 py-1 text-yellow-900 font-mono font-bold"
               />
