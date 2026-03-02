@@ -26,7 +26,7 @@ const SEVERITY_COLORS: Record<ContradictionSeverity, { bg: string; border: strin
   CRITICAL: { bg: 'bg-red-50', border: 'border-red-300', text: 'text-red-800', icon: 'text-red-500' },
   HIGH: { bg: 'bg-amber-50', border: 'border-amber-300', text: 'text-amber-800', icon: 'text-amber-500' },
   MEDIUM: { bg: 'bg-blue-50', border: 'border-blue-300', text: 'text-blue-800', icon: 'text-blue-500' },
-  LOW: { bg: 'bg-slate-50', border: 'border-slate-300', text: 'text-slate-700', icon: 'text-slate-500' },
+  LOW: { bg: 'bg-canvas', border: 'border-slate-300', text: 'text-slate-700', icon: 'text-slate-500' },
 };
 
 const SIMULATED_STT_PHRASES = [
@@ -235,8 +235,8 @@ export function InterrogationRoom({ caseId, suspectName, evidence }: Interrogati
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-      <div className="xl:col-span-2 flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden" style={{ minHeight: 500 }}>
-        <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200">
+      <div className="xl:col-span-2 flex flex-col bg-surface border border-slate-200 rounded-xl overflow-hidden" style={{ minHeight: 500 }}>
+        <div className="flex items-center justify-between px-4 py-3 bg-canvas border-b border-slate-200">
           <div className="flex items-center gap-2">
             <div className={clsx(
               'w-2 h-2 rounded-full',
@@ -332,7 +332,7 @@ export function InterrogationRoom({ caseId, suspectName, evidence }: Interrogati
         </AnimatePresence>
 
         {isActive && (
-          <div className="px-4 py-3 border-t border-slate-200 bg-slate-50">
+          <div className="px-4 py-3 border-t border-slate-200 bg-canvas">
             <div className="flex items-center gap-2 mb-2">
               <button
                 onClick={() => setSpeaker('INTERVIEWER')}
@@ -376,7 +376,7 @@ export function InterrogationRoom({ caseId, suspectName, evidence }: Interrogati
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendLine(); } }}
                 placeholder={speaker === 'INTERVIEWER' ? 'Sorunuzu yazin...' : `${suspectName} ifadesi...`}
-                className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-slate-400 transition-colors"
+                className="flex-1 px-3 py-2 bg-surface border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-slate-400 transition-colors"
               />
               <button
                 onClick={handleSendLine}
@@ -391,7 +391,7 @@ export function InterrogationRoom({ caseId, suspectName, evidence }: Interrogati
       </div>
 
       <div className="space-y-3">
-        <div className="bg-white border border-slate-200 rounded-xl p-4">
+        <div className="bg-surface border border-slate-200 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle size={14} className="text-amber-500" />
             <span className="text-xs font-bold text-slate-700">Sherlock Copilot</span>
@@ -443,7 +443,7 @@ export function InterrogationRoom({ caseId, suspectName, evidence }: Interrogati
           )}
         </div>
 
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-3">
+        <div className="bg-canvas border border-slate-200 rounded-xl p-3">
           <span className="text-[10px] font-bold text-slate-500 block mb-2">Oturum Bilgileri</span>
           <div className="space-y-1.5 text-[10px] text-slate-600">
             <div className="flex justify-between">

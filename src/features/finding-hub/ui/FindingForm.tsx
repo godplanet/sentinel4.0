@@ -76,9 +76,9 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+    <form onSubmit={handleSubmit} className="bg-surface rounded-lg border border-slate-200 overflow-hidden">
       <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-900">
+        <h2 className="text-lg font-semibold text-primary">
           {finding?.id ? 'Bulgu Düzenle' : 'Yeni Bulgu'}
         </h2>
         <button
@@ -99,7 +99,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
               required
               value={formData.code}
               onChange={(e) => setFormData({ ...formData, code: e.target.value })}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="ör: F-2024-001"
             />
           </div>
@@ -109,7 +109,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
             <select
               value={formData.severity}
               onChange={(e) => setFormData({ ...formData, severity: e.target.value as FindingSeverity })}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="LOW">Düşük</option>
               <option value="MEDIUM">Orta</option>
@@ -126,7 +126,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Bulgu başlığı"
           />
         </div>
@@ -137,7 +137,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
             <select
               value={formData.audit_type}
               onChange={(e) => setFormData({ ...formData, audit_type: e.target.value as AuditType })}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="SUBE">Şube</option>
               <option value="SUREC_BS">Süreç/BS</option>
@@ -153,7 +153,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
               step="0.01"
               value={formData.financial_impact}
               onChange={(e) => setFormData({ ...formData, financial_impact: parseFloat(e.target.value) || 0 })}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -164,7 +164,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
             value={formData.detection_html}
             onChange={(e) => setFormData({ ...formData, detection_html: e.target.value })}
             rows={4}
-            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Tespit edilen durum..."
           />
         </div>
@@ -175,7 +175,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
             value={formData.impact_html}
             onChange={(e) => setFormData({ ...formData, impact_html: e.target.value })}
             rows={3}
-            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Bulgunun etkisi..."
           />
         </div>
@@ -186,13 +186,13 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
             value={formData.recommendation_html}
             onChange={(e) => setFormData({ ...formData, recommendation_html: e.target.value })}
             rows={3}
-            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Düzeltici öneri..."
           />
         </div>
       </div>
 
-      <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
+      <div className="bg-canvas px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
         <button
           type="button"
           onClick={onCancel}

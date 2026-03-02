@@ -47,7 +47,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
           'max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed',
           isUser
             ? 'bg-blue-600 text-white rounded-br-md'
-            : 'bg-white border border-slate-200 text-slate-800 rounded-bl-md shadow-sm'
+            : 'bg-surface border border-slate-200 text-slate-800 rounded-bl-md shadow-sm'
         )}
       >
         {isUser ? (

@@ -7,7 +7,324 @@
 --
 -- Kural: system_definitions, system_parameters, risk_definitions_bddk
 -- gercek sistem sozlukleri oldugu icin migration'da birakildi.
+--
+-- SEED YUKLEME (terminal):
+--   Tam sifirlama + migration + seed:  npx supabase db reset
+--   Sadece seed (DB zaten var):        npx supabase db seed
 -- =============================================================================
+
+-- pgcrypto uzaktan Supabase ortamında extensions şemasında kurulu
+
+-- =============================================================================
+-- 0. KÖK VERİLER (ROOT ENTITIES)
+-- Sentinel Katılım Bankacılığı Konseptli Tam Veri Seti
+-- =============================================================================
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.1. TENANT
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.tenants (id, name, type, environment)
+VALUES ('11111111-1111-1111-1111-111111111111', 'Sentinel Katılım Bankası A.Ş.', 'HEAD_OFFICE', 'PROD')
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.2. AUTH USERS (Supabase Auth - sisteme giriş yapabilmek için)
+-- Tüm şifreler: 123456
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at) VALUES
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000001','authenticated','authenticated','cae@sentinelbank.com.tr',        extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Dr. Hasan Aksoy"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000002','authenticated','authenticated','vpcae@sentinelbank.com.tr',      extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Fatma Erdem"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000003','authenticated','authenticated','chief.auditor@sentinelbank.com.tr',extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Murat Şen"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000004','authenticated','authenticated','auditor@sentinelbank.com.tr',    extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Elif Yıldız"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000005','authenticated','authenticated','junior@sentinelbank.com.tr',     extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Canan Arslan"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000006','authenticated','authenticated','shariah@sentinelbank.com.tr',    extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Prof. Dr. Yusuf Aydın"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000007','authenticated','authenticated','dk.baskan@sentinelbank.com.tr',  extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Kemal Öztürk"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000008','authenticated','authenticated','yk.uye@sentinelbank.com.tr',    extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Ayşe Demir"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000009','authenticated','authenticated','gm@sentinelbank.com.tr',        extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Mehmet Karaca"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000010','authenticated','authenticated','gmy@sentinelbank.com.tr',       extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Ali Rıza Koç"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000011','authenticated','authenticated','sube.mudur@sentinelbank.com.tr', extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Burak Yılmaz"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000012','authenticated','authenticated','it.mudur@sentinelbank.com.tr',  extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Zeynep Kılıç"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000013','authenticated','authenticated','fon.mudur@sentinelbank.com.tr', extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Hüseyin Çelik"}',now(),now()),
+  ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000014','authenticated','authenticated','vendor@techpartner.com.tr',     extensions.crypt('123456',extensions.gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"full_name":"Onur Tekin"}',now(),now())
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.3. USER PROFILES
+-- Roller: admin, auditor, auditee, guest, executive, cae, gmy, vendor
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.user_profiles (id, tenant_id, full_name, email, role, department, title) VALUES
+  ('00000000-0000-0000-0000-000000000001','11111111-1111-1111-1111-111111111111','Dr. Hasan Aksoy',       'cae@sentinelbank.com.tr',        'cae',       'Teftiş Kurulu',                      'Teftiş Kurulu Başkanı (CAE)'),
+  ('00000000-0000-0000-0000-000000000002','11111111-1111-1111-1111-111111111111','Fatma Erdem',            'vpcae@sentinelbank.com.tr',      'auditor',   'Teftiş Kurulu',                      'Teftiş Kurulu Başkan Yardımcısı'),
+  ('00000000-0000-0000-0000-000000000003','11111111-1111-1111-1111-111111111111','Murat Şen',             'chief.auditor@sentinelbank.com.tr','auditor',  'Teftiş Kurulu',                      'Baş Müfettiş'),
+  ('00000000-0000-0000-0000-000000000004','11111111-1111-1111-1111-111111111111','Elif Yıldız',            'auditor@sentinelbank.com.tr',    'auditor',   'Teftiş Kurulu — BT Denetimi',        'Müfettiş'),
+  ('00000000-0000-0000-0000-000000000005','11111111-1111-1111-1111-111111111111','Canan Arslan',           'junior@sentinelbank.com.tr',     'auditor',   'Teftiş Kurulu',                      'Müfettiş Yardımcısı'),
+  ('00000000-0000-0000-0000-000000000006','11111111-1111-1111-1111-111111111111','Prof. Dr. Yusuf Aydın',  'shariah@sentinelbank.com.tr',    'executive', 'Danışma Komitesi (Şeri Kurul)',       'Danışma Komitesi Üyesi'),
+  ('00000000-0000-0000-0000-000000000007','11111111-1111-1111-1111-111111111111','Kemal Öztürk',           'dk.baskan@sentinelbank.com.tr',  'executive', 'Denetim Komitesi',                    'Denetim Komitesi Başkanı'),
+  ('00000000-0000-0000-0000-000000000008','11111111-1111-1111-1111-111111111111','Ayşe Demir',             'yk.uye@sentinelbank.com.tr',     'executive', 'Yönetim Kurulu',                      'Yönetim Kurulu Üyesi'),
+  ('00000000-0000-0000-0000-000000000009','11111111-1111-1111-1111-111111111111','Mehmet Karaca',          'gm@sentinelbank.com.tr',         'executive', 'Genel Müdürlük',                      'Genel Müdür'),
+  ('00000000-0000-0000-0000-000000000010','11111111-1111-1111-1111-111111111111','Ali Rıza Koç',           'gmy@sentinelbank.com.tr',        'gmy',       'Genel Müdür Yardımcılığı',            'GMY — Kredi ve Operasyon'),
+  ('00000000-0000-0000-0000-000000000011','11111111-1111-1111-1111-111111111111','Burak Yılmaz',           'sube.mudur@sentinelbank.com.tr', 'auditee',   'Kadıköy Şubesi',                     'Şube Müdürü'),
+  ('00000000-0000-0000-0000-000000000012','11111111-1111-1111-1111-111111111111','Zeynep Kılıç',           'it.mudur@sentinelbank.com.tr',   'auditee',   'Bilgi Teknolojileri Grup Başkanlığı', 'BT Altyapı Müdürü'),
+  ('00000000-0000-0000-0000-000000000013','11111111-1111-1111-1111-111111111111','Hüseyin Çelik',          'fon.mudur@sentinelbank.com.tr',  'auditee',   'Katılım Fonları ve Portföy Yönetimi', 'Katılım Fonları Yöneticisi'),
+  ('00000000-0000-0000-0000-000000000014','11111111-1111-1111-1111-111111111111','Onur Tekin',             'vendor@techpartner.com.tr',      'vendor',    'Dış Kaynak — TechPartner A.Ş.',       'Proje Yöneticisi')
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.3b. DENETÇİ PROFİLLERİ (auditor_profiles) — Kaynak tahsisi ve çakışma testi
+-- user_profiles ile 1:1 (user_id = user_profiles.id). En az 5 denetçi; listeleme API'si bu tabloyu kullanır.
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.auditor_profiles (user_id, tenant_id, title, department, hire_date, cpe_credits, skills_matrix) VALUES
+  ('00000000-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111', 'Teftiş Kurulu Başkanı (CAE)',           'Teftiş Kurulu',              '2020-03-01', 120, '{"leadership":5,"risk":5,"compliance":5}'::jsonb),
+  ('00000000-0000-0000-0000-000000000002', '11111111-1111-1111-1111-111111111111', 'Teftiş Kurulu Başkan Yardımcısı',        'Teftiş Kurulu',              '2021-06-15', 90,  '{"risk":5,"compliance":4,"finance":4}'::jsonb),
+  ('00000000-0000-0000-0000-000000000003', '11111111-1111-1111-1111-111111111111', 'Baş Müfettiş',                           'Teftiş Kurulu',              '2019-01-10', 150, '{"it_audit":4,"operational":5,"finance":4}'::jsonb),
+  ('00000000-0000-0000-0000-000000000004', '11111111-1111-1111-1111-111111111111', 'BT Denetçisi (IT Auditor)',              'Teftiş Kurulu — BT Denetimi', '2022-02-01', 75,  '{"it_audit":5,"cybersecurity":4,"compliance":3}'::jsonb),
+  ('00000000-0000-0000-0000-000000000005', '11111111-1111-1111-1111-111111111111', 'Finansal Denetçi (Financial Auditor)',    'Teftiş Kurulu',              '2023-04-01', 45,  '{"finance":5,"risk":4,"compliance":4}'::jsonb)
+ON CONFLICT (user_id) DO UPDATE SET
+  title = EXCLUDED.title,
+  department = EXCLUDED.department,
+  updated_at = now();
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.4. DENETİM EVRENİ (AUDIT ENTITIES) — Ltree Hiyerarşisi
+-- entity_type ENUM: HOLDING, BANK, GROUP, UNIT, PROCESS, BRANCH, DEPARTMENT,
+--                   HEADQUARTERS, SUBSIDIARY, VENDOR, IT_ASSET
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.audit_entities (id, tenant_id, name, type, risk_score, velocity_multiplier, path, metadata) VALUES
+  -- Kök
+  ('e0000000-0000-0000-0000-000000000001','11111111-1111-1111-1111-111111111111','Sentinel Katılım Bankası A.Ş.','HOLDING',55,1.0,'hq',
+   '{"findings_summary":{"bordo":0,"kizil":1,"turuncu":2,"sari":3,"gozlem":2,"shariah_systemic":0},"weight":1.0}'::jsonb),
+
+  -- Genel Müdürlük Birimleri
+  ('e0000000-0000-0000-0000-000000000010','11111111-1111-1111-1111-111111111111','Risk Yönetimi Müdürlüğü',       'DEPARTMENT',62,1.1,'hq.risk_yonetimi',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":1,"sari":2,"gozlem":1,"shariah_systemic":0},"weight":1.1}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000011','11111111-1111-1111-1111-111111111111','Uyum ve MASAK Birimi',           'DEPARTMENT',70,1.2,'hq.uyum_masak',
+   '{"findings_summary":{"bordo":0,"kizil":1,"turuncu":1,"sari":1,"gozlem":0,"shariah_systemic":0},"weight":1.2}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000012','11111111-1111-1111-1111-111111111111','Hazine Müdürlüğü',              'DEPARTMENT',58,1.0,'hq.hazine',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":1,"sari":1,"gozlem":2,"shariah_systemic":0},"weight":1.0}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000013','11111111-1111-1111-1111-111111111111','Kredi Tahsis Müdürlüğü',        'DEPARTMENT',72,1.1,'hq.kredi_tahsis',
+   '{"findings_summary":{"bordo":0,"kizil":1,"turuncu":1,"sari":2,"gozlem":1,"shariah_systemic":0},"weight":1.1}'::jsonb),
+
+  -- Katılım Esaslı Ürün/Süreçler
+  ('e0000000-0000-0000-0000-000000000020','11111111-1111-1111-1111-111111111111','Murabaha Süreci',               'PROCESS',65,1.0,'hq.katilim.murabaha',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":1,"sari":1,"gozlem":1,"shariah_systemic":0},"weight":1.0}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000021','11111111-1111-1111-1111-111111111111','Müşaraka ve Mudaraba',           'PROCESS',60,1.0,'hq.katilim.musaraka_mudaraba',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":0,"sari":2,"gozlem":1,"shariah_systemic":0},"weight":1.0}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000022','11111111-1111-1111-1111-111111111111','Teverruk İşlemleri',             'PROCESS',78,1.3,'hq.katilim.teverruk',
+   '{"findings_summary":{"bordo":0,"kizil":1,"turuncu":1,"sari":0,"gozlem":0,"shariah_systemic":0},"weight":1.3}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000023','11111111-1111-1111-1111-111111111111','Sukuk İhracı',                   'PROCESS',55,1.0,'hq.katilim.sukuk',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":0,"sari":1,"gozlem":2,"shariah_systemic":0},"weight":1.0}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000024','11111111-1111-1111-1111-111111111111','Katılma Hesapları (Havuz Yönetimi)','PROCESS',68,1.1,'hq.katilim.havuz',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":2,"sari":1,"gozlem":0,"shariah_systemic":0},"weight":1.1}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000025','11111111-1111-1111-1111-111111111111','Kar/Zarar Dağıtım Süreci',       'PROCESS',74,1.2,'hq.katilim.kar_zarar',
+   '{"findings_summary":{"bordo":0,"kizil":1,"turuncu":0,"sari":1,"gozlem":1,"shariah_systemic":0},"weight":1.2}'::jsonb),
+
+  -- BT Varlıkları ve Süreçleri
+  ('e0000000-0000-0000-0000-000000000030','11111111-1111-1111-1111-111111111111','Bilgi Teknolojileri Grup Başkanlığı','GROUP',88,1.4,'hq.it',
+   '{"findings_summary":{"bordo":1,"kizil":1,"turuncu":1,"sari":0,"gozlem":1,"shariah_systemic":0},"weight":1.4}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000031','11111111-1111-1111-1111-111111111111','Core Banking (Temel Bankacılık DB)','IT_ASSET',92,1.5,'hq.it.core_banking',
+   '{"findings_summary":{"bordo":1,"kizil":1,"turuncu":0,"sari":0,"gozlem":0,"shariah_systemic":0},"weight":1.5}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000032','11111111-1111-1111-1111-111111111111','Mobil Şube API Gateway',          'IT_ASSET',80,1.2,'hq.it.mobil_api',
+   '{"findings_summary":{"bordo":0,"kizil":1,"turuncu":0,"sari":1,"gozlem":0,"shariah_systemic":0},"weight":1.2}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000033','11111111-1111-1111-1111-111111111111','Veri Merkezi (Disaster Recovery)', 'IT_ASSET',75,1.1,'hq.it.dr_center',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":1,"sari":1,"gozlem":1,"shariah_systemic":0},"weight":1.1}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000034','11111111-1111-1111-1111-111111111111','SWIFT Altyapısı',                'IT_ASSET',85,1.3,'hq.it.swift',
+   '{"findings_summary":{"bordo":0,"kizil":1,"turuncu":0,"sari":0,"gozlem":1,"shariah_systemic":0},"weight":1.3}'::jsonb),
+
+  -- Şubeler
+  ('e0000000-0000-0000-0000-000000000040','11111111-1111-1111-1111-111111111111','Kadıköy Şubesi',                 'BRANCH',67,1.0,'hq.sube.kadikoy',
+   '{"findings_summary":{"bordo":0,"kizil":1,"turuncu":1,"sari":1,"gozlem":1,"shariah_systemic":0},"weight":1.0}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000041','11111111-1111-1111-1111-111111111111','Şişli Şubesi',                   'BRANCH',52,1.0,'hq.sube.sisli',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":0,"sari":2,"gozlem":2,"shariah_systemic":0},"weight":1.0}'::jsonb),
+
+  -- İştirakler
+  ('e0000000-0000-0000-0000-000000000050','11111111-1111-1111-1111-111111111111','Sentinel Katılım Portföy A.Ş. (İştirak)','SUBSIDIARY',48,1.0,'hq.istirak.portfoy',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":0,"sari":1,"gozlem":3,"shariah_systemic":0},"weight":1.0}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000051','11111111-1111-1111-1111-111111111111','Sentinel Katılım Teknoloji A.Ş. (İştirak)','SUBSIDIARY',56,1.0,'hq.istirak.teknoloji',
+   '{"findings_summary":{"bordo":0,"kizil":0,"turuncu":1,"sari":1,"gozlem":1,"shariah_systemic":0},"weight":1.0}'::jsonb)
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.5. DENETİM PLANI
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.audit_plans (id, tenant_id, title, period_start, period_end, status, created_by, approved_at, approved_by)
+VALUES (
+  'd0000000-0000-0000-0000-000000000001',
+  '11111111-1111-1111-1111-111111111111',
+  '2026 Yılı Genel Denetim Planı',
+  '2026-01-01', '2026-12-31', 'APPROVED',
+  '00000000-0000-0000-0000-000000000001',
+  '2025-12-20'::timestamptz,
+  '00000000-0000-0000-0000-000000000007'
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.6. DENETİM GÖREVLERİ (4 Engagement)
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.audit_engagements (id, tenant_id, plan_id, entity_id, title, status, audit_type, start_date, end_date, assigned_auditor_id, risk_snapshot_score, estimated_hours, actual_hours) VALUES
+  -- ENG-1: Katılım Fonları Kar Dağıtım Denetimi
+  ('42d72f07-e813-4cff-8218-4a64f7a3baab',
+   '11111111-1111-1111-1111-111111111111','d0000000-0000-0000-0000-000000000001',
+   'e0000000-0000-0000-0000-000000000025',
+   'Katılım Fonları Kar Dağıtım Denetimi','IN_PROGRESS','COMPREHENSIVE',
+   '2026-02-01','2026-04-15',
+   '00000000-0000-0000-0000-000000000003', 74, 320, 185),
+
+  -- ENG-2: Kritik BT Sistemleri Sızma Testi ve Erişim Denetimi
+  ('42d72f07-e813-4cff-8218-4a64f7a3baac',
+   '11111111-1111-1111-1111-111111111111','d0000000-0000-0000-0000-000000000001',
+   'e0000000-0000-0000-0000-000000000031',
+   'Kritik BT Sistemleri Sızma Testi ve Erişim Denetimi','IN_PROGRESS','TARGETED',
+   '2026-01-15','2026-03-31',
+   '00000000-0000-0000-0000-000000000004', 92, 280, 210),
+
+  -- ENG-3: Kadıköy Şube Operasyon Denetimi
+  ('42d72f07-e813-4cff-8218-4a64f7a3baad',
+   '11111111-1111-1111-1111-111111111111','d0000000-0000-0000-0000-000000000001',
+   'e0000000-0000-0000-0000-000000000040',
+   'Kadıköy Şube Operasyon Denetimi','PLANNED','COMPREHENSIVE',
+   '2026-04-01','2026-05-15',
+   '00000000-0000-0000-0000-000000000003', 67, 200, 0),
+
+  -- ENG-4: Teverruk API Şeri Uyum İncelemesi
+  ('42d72f07-e813-4cff-8218-4a64f7a3baae',
+   '11111111-1111-1111-1111-111111111111','d0000000-0000-0000-0000-000000000001',
+   'e0000000-0000-0000-0000-000000000022',
+   'Teverruk API Şeri Uyum İncelemesi','IN_PROGRESS','TARGETED',
+   '2026-02-15','2026-04-30',
+   '00000000-0000-0000-0000-000000000005', 78, 180, 95)
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.7. BULGULAR (Findings — 4 çeşitlendirilmiş bulgu)
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.audit_findings (id, engagement_id, title, severity, status, state, details, impact_score, likelihood_score, gias_category, financial_impact) VALUES
+  -- F-1 (CRITICAL / IT): Core Banking Privilege Escalation
+  ('f0000000-0000-0000-0000-000000000001',
+   '42d72f07-e813-4cff-8218-4a64f7a3baac',
+   'Core Banking DB''de Yetki Genişlemesi (Privilege Escalation)',
+   'CRITICAL','FINAL','FINAL',
+   '{"condition":"Veritabanı admin yetkisine sahip 3 servis hesabı, uygulama katmanını atlayarak doğrudan prod DB''ye SQL erişimi sağlamaktadır.","criteria":"BDDK Bilgi Sistemleri Yönetmeliği Md. 12 ve CIS Benchmark PostgreSQL 15 — Ayrıcalıklı Hesap Yönetimi","cause":"2024 migrasyon projesi sırasında geçici olarak verilen DBA yetkileri geri alınmamıştır.","consequence":"Yetkisiz veri değişikliği, müşteri bakiye manipülasyonu ve denetim izinin (audit trail) devre dışı bırakılması riski.","recommendation":"1) Servis hesap yetkilerini derhal RBAC modeline geçirin. 2) PAM çözümü ile oturum kaydı başlatın. 3) 30 gün içinde tüm DBA erişimlerini gözden geçirin."}'::jsonb,
+   5, 4, 'Teknolojik Risk', 8500000),
+
+  -- F-2 (HIGH / Şeri Risk): Teverruk Zaman Uyumsuzluğu
+  ('f0000000-0000-0000-0000-000000000002',
+   '42d72f07-e813-4cff-8218-4a64f7a3baae',
+   'Teverruk İşlemlerinde Dijital Vekalet Saatleri ile Emtia Alım-Satım Saatleri Arasında Uyumsuzluk',
+   'HIGH','FINAL','IN_NEGOTIATION',
+   '{"condition":"Teverruk API logları incelendiğinde, 147 işlemde dijital vekaletnamenin emtia alım-satım işleminden sonra zaman damgası aldığı tespit edilmiştir (ortalama 12 dakika gecikme).","criteria":"AAOIFI Şeri Standardı No. 30 — Teverruk İşlemlerinde Kronolojik Sıra Zorunluluğu; Danışma Komitesi 2025/07 sayılı kararı","cause":"API gateway''de kuyruk (queue) mekanizmasının bulut sağlayıcı kaynaklı gecikmesi ve zaman senkronizasyonu eksikliği.","consequence":"Şeri uyumsuzluk riski — işlemlerin fıkhi geçerliliği tartışmaya açıktır. Gelir tanınmasının (revenue recognition) raporlama dışı bırakılması gerekebilir.","recommendation":"1) API gateway''e NTP tabanlı atomik zaman senkronizasyonu ekleyin. 2) İşlem sıralamasını garanti eden idempotent kuyruk mekanizmasına geçin. 3) Danışma Komitesi ile geriye dönük fetva değerlendirmesi yapın."}'::jsonb,
+   4, 3, 'Uyum Riski', 3200000),
+
+  -- F-3 (HIGH / Operasyon): Kasa Limit Aşımı
+  ('f0000000-0000-0000-0000-000000000003',
+   '42d72f07-e813-4cff-8218-4a64f7a3baab',
+   'Kadıköy Şubesi Kasa Sayımında Limit Aşımı ve Zeyilname Eksikliği',
+   'HIGH','DRAFT','DRAFT',
+   '{"condition":"Kadıköy Şubesi kasa sayımında 3 farklı günde BDDK belirlenen kasa limiti olan 2.000.000 TL aşılmış; aşım tutarı toplamda 1.450.000 TL''dir. Limit aşımına ilişkin zeyilname düzenlenmemiştir.","criteria":"BDDK Şube Operasyon Yönetmeliği Md. 18 — Kasa Limiti; İç Yönerge Bölüm 4.3 — Kasa Limit Aşım Prosedürü","cause":"Bankamatik nakit ikmallerinin gecikmesi nedeniyle kasada fazla nakit tutulmuş, şube müdürü zeyilname prosedürünü uygulamamıştır.","consequence":"BDDK idari para cezası riski (150.000-500.000 TL arası); sigorta kapsamı dışı kayıp riski.","recommendation":"1) ATM nakit ikmal takvimini güncelleyin. 2) Kasa limiti otomatik uyarı sistemini devreye alın. 3) Şube personeline prosedür eğitimi verin."}'::jsonb,
+   3, 4, 'Operasyonel Risk', 1450000),
+
+  -- F-4 (MEDIUM / Uyum-MASAK): UBO Belge Gecikmesi
+  ('f0000000-0000-0000-0000-000000000004',
+   '42d72f07-e813-4cff-8218-4a64f7a3baab',
+   'Tüzel Müşteri Açılışlarında Gerçek Faydalanıcı (UBO) Belgesinin Sisteme Yüklenmesinde Gecikme',
+   'MEDIUM','FINAL','REMEDIATED',
+   '{"condition":"Son 6 ayda açılan 234 tüzel müşteri hesabının 41 adedinde (%17,5) UBO belgesi müşteri açılışından 15+ iş günü sonra sisteme yüklenmiştir. 8 hesapta belge hâlâ eksiktir.","criteria":"5549 Sayılı MASAK Kanunu Md. 3; MASAK Genel Tebliği Sıra No: 19 — Gerçek Faydalanıcının Tespiti","cause":"Şubelerin UBO formunu fiziksel olarak aldığı ancak dijitalleştirme sürecini geciktirdiği tespit edilmiştir. Merkezi takip mekanizması bulunmamaktadır.","consequence":"MASAK tarafından idari yaptırım riski; regülatör denetimde olumsuz bulgu olasılığı.","recommendation":"1) UBO belgesi sisteme yüklenmeden hesap aktifleştirilmesini engelleyen sistem kısıtlaması ekleyin. 2) Haftalık eksik belge raporu oluşturup şubelere otomatik hatırlatma gönderin."}'::jsonb,
+   2, 3, 'Uyum Riski', 0)
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.8. BULGU GİZLİ KATMANI (Finding Secrets — 5 Why RCA)
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.finding_secrets (tenant_id, finding_id, why_1, why_2, why_3, why_4, why_5, root_cause_summary, internal_notes, created_by) VALUES
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000001',
+   'Neden 3 servis hesabının hâlâ DBA yetkisi var?','Çünkü 2024 migrasyon projesi sonrası yetki geri alma süreci işletilmemiş.','Çünkü proje kapanış kontrol listesinde yetki gözden geçirme adımı yoktu.','Çünkü değişiklik yönetimi prosedüründe proje sonrası temizlik (decommission) aşaması tanımlı değildi.','Çünkü CAB süreçleri operasyonel değişiklikler için tasarlanmış, proje bazlı geçici yetkileri kapsamıyor.',
+   'Kök neden: Proje yaşam döngüsüne entegre edilmemiş yetersiz yetki yönetimi prosedürü.',
+   'Müfettiş notu: CyberArk PAM kayıtlarında bu hesaplarla son 6 ayda 347 oturum açıldığı görülmüştür. Acil önlem gereklidir.',
+   '00000000-0000-0000-0000-000000000004'),
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000002',
+   'Neden vekalet zaman damgası emtia işleminden sonra?','Çünkü API gateway kuyruğunda bulut sağlayıcı kaynaklı gecikme yaşanıyor.','Çünkü NTP senkronizasyonu API katmanında değil yalnızca sunucu seviyesinde yapılıyor.','Çünkü Şeri uyum gereksinimleri sistem mimarisi tasarımında dikkate alınmamış.','Çünkü teknoloji ekibi ile Danışma Komitesi arasında düzenli iletişim mekanizması bulunmuyor.',
+   'Kök neden: Şeri gereksinimler ile teknoloji mimarisi arasındaki kopukluk.',
+   'Danışma Komitesi üyesi Prof. Aydın ile yapılan görüşmede retroaktif fetvanın mümkün olabileceği ancak bunun 147 işlem için ayrı ayrı değerlendirilmesi gerektiği ifade edilmiştir.',
+   '00000000-0000-0000-0000-000000000005')
+ON CONFLICT (finding_id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.9. AKSİYON PLANLARI
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.action_plans (tenant_id, finding_id, title, description, responsible_person, responsible_person_title, responsible_department, target_date, status, priority, progress_percentage, created_by) VALUES
+  -- F-1 Aksiyonu: BT Müdürüne
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000001',
+   'DBA Yetki Revizyonu ve PAM Entegrasyonu',
+   '1) 3 servis hesabının DBA yetkisini 7 gün içinde kaldır. 2) CyberArk PAM ile tüm DB oturumlarını kayıt altına al. 3) Çeyreklik erişim gözden geçirme prosedürünü oluştur.',
+   'Zeynep Kılıç','BT Altyapı Müdürü','Bilgi Teknolojileri Grup Başkanlığı',
+   '2026-04-15','IN_PROGRESS','CRITICAL',35,
+   '00000000-0000-0000-0000-000000000004'),
+
+  -- F-2 Aksiyonu: İş birimine + Danışma Komitesine
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000002',
+   'Teverruk API Zaman Senkronizasyonu ve Retroaktif Fetva Süreci',
+   '1) API gateway NTP atomik senkronizasyon geliştirmesini tamamla. 2) Danışma Komitesi ile 147 işlem için retroaktif değerlendirme başlat. 3) Şeri uyum test otomasyon kural setini güncelle.',
+   'Hüseyin Çelik','Katılım Fonları Yöneticisi','Katılım Fonları ve Portföy Yönetimi',
+   '2026-05-30','DRAFT','HIGH',10,
+   '00000000-0000-0000-0000-000000000005'),
+
+  -- F-3 Aksiyonu: Şube Müdürüne
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000003',
+   'Kasa Limiti Kontrol Mekanizması ve Personel Eğitimi',
+   '1) Kasa limiti otomatik uyarı sistemini core banking üzerinde devreye al. 2) ATM nakit ikmal takvimini güncelle. 3) Şube personeline kasa yönetimi eğitimi ver.',
+   'Burak Yılmaz','Şube Müdürü','Kadıköy Şubesi',
+   '2026-05-01','DRAFT','HIGH',0,
+   '00000000-0000-0000-0000-000000000003'),
+
+  -- F-4 Aksiyonu: Uyum birimine
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000004',
+   'UBO Belge Yönetimi Sistem Kısıtlaması',
+   '1) Hesap aktifleştirilmesi için UBO belgesi zorunlu kontrolü ekle. 2) Haftalık eksik belge raporu oluşturup şubelere otomatik hatırlatma gönder.',
+   'Ali Rıza Koç','GMY — Kredi ve Operasyon','Genel Müdür Yardımcılığı',
+   '2026-04-30','IN_REVIEW','MEDIUM',20,
+   '00000000-0000-0000-0000-000000000003')
+ON CONFLICT DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.10. BULGU YORUMLARI
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.finding_comments (tenant_id, finding_id, comment_text, comment_type, author_id, author_role, author_name) VALUES
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000001',
+   'Servis hesap yetkilerinin kaldırılması için BT Altyapı Müdürlüğü''ne resmi yazı gönderilmiştir. 7 günlük süre başlamıştır.',
+   'DISCUSSION','00000000-0000-0000-0000-000000000004','AUDITOR','Elif Yıldız'),
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000001',
+   'Yetkilerin kaldırılması operasyonel bir risk yaratabilir; geçiş planı ile birlikte hareket edilmesini talep ediyoruz.',
+   'DISPUTE','00000000-0000-0000-0000-000000000012','AUDITEE','Zeynep Kılıç'),
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000002',
+   'Danışma Komitesi toplantısı 15 Mart''a alındı. 147 işlem için ayrı ayrı değerlendirme yapılacak.',
+   'CLARIFICATION','00000000-0000-0000-0000-000000000006','AUDIT_MANAGER','Prof. Dr. Yusuf Aydın'),
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000004',
+   'Eksik UBO belgelerine ilişkin şubelere 2. hatırlatma yazısı gönderildi.',
+   'DISCUSSION','00000000-0000-0000-0000-000000000003','AUDITOR','Murat Şen')
+ON CONFLICT DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.11. BULGU TARİHÇESİ
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.finding_history (tenant_id, finding_id, previous_state, new_state, change_type, change_description, changed_by, changed_by_role) VALUES
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000001','DRAFT','IN_REVIEW','STATE_CHANGE','Bulgu müfettiş tarafından incelemeye gönderildi.','00000000-0000-0000-0000-000000000004','AUDITOR'),
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000001','IN_REVIEW','FINAL','STATE_CHANGE','Bulgu CAE tarafından yayınlandı.','00000000-0000-0000-0000-000000000001','AUDITOR'),
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000002','DRAFT','IN_REVIEW','STATE_CHANGE','Şeri uyum bulgusu incelemeye alındı.','00000000-0000-0000-0000-000000000005','AUDITOR'),
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000002','IN_REVIEW','IN_NEGOTIATION','STATE_CHANGE','Bulgu Danışma Komitesi ile müzakereye açıldı.','00000000-0000-0000-0000-000000000001','AUDITOR'),
+  ('11111111-1111-1111-1111-111111111111','f0000000-0000-0000-0000-000000000004','DRAFT','REMEDIATED','STATE_CHANGE','UBO bulgusu takibe alındı.','00000000-0000-0000-0000-000000000003','AUDITOR')
+ON CONFLICT DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 0.12. BULGU ONAY ZİNCİRİ (Finding Signoffs)
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.finding_signoffs (finding_id, tenant_id, role, user_id, user_name, user_title, comments) VALUES
+  ('f0000000-0000-0000-0000-000000000001','11111111-1111-1111-1111-111111111111','PREPARER',
+   '00000000-0000-0000-0000-000000000004','Elif Yıldız','Müfettiş','Bulgu hazırlandı ve kanıtlarla desteklendi.'),
+  ('f0000000-0000-0000-0000-000000000001','11111111-1111-1111-1111-111111111111','REVIEWER',
+   '00000000-0000-0000-0000-000000000003','Murat Şen','Baş Müfettiş','Gözden geçirildi; şiddet derecesi CRITICAL olarak onaylandı.'),
+  ('f0000000-0000-0000-0000-000000000001','11111111-1111-1111-1111-111111111111','APPROVER',
+   '00000000-0000-0000-0000-000000000001','Dr. Hasan Aksoy','Teftiş Kurulu Başkanı (CAE)','Son onay verildi. Yayın için uygun.')
+ON CONFLICT (finding_id, role) DO NOTHING;
 
 -- =============================================================================
 -- 1. RISK CONFIGURATION
@@ -22,6 +339,27 @@ INSERT INTO risk_configuration (
 )
 SELECT 0.35, 0.25, 0.20, 0.20, 1.5, 1.2, 20, 16, 10, true
 WHERE NOT EXISTS (SELECT 1 FROM risk_configuration WHERE is_active = true);
+
+-- =============================================================================
+-- 1b. RISK CONSTITUTION v3 (Anayasa — Birim Karnesi / Not Cetveli / Veto)
+-- Kaynak: src/features/risk-constitution/default-constitution.ts ile uyumlu
+-- =============================================================================
+INSERT INTO public.risk_constitution_v3 (tenant_id, is_active, version, dimensions, impact_matrix, veto_rules, risk_ranges)
+SELECT
+  '11111111-1111-1111-1111-111111111111'::uuid,
+  true,
+  '1.0',
+  '[]'::jsonb,
+  '[]'::jsonb,
+  '[]'::jsonb,
+  '[
+    {"label":"A","min":80,"max":100,"color":"#22c55e"},
+    {"label":"B","min":60,"max":79,"color":"#eab308"},
+    {"label":"C","min":40,"max":59,"color":"#f97316"},
+    {"label":"D","min":20,"max":39,"color":"#ef4444"},
+    {"label":"E","min":0,"max":19,"color":"#991b1b"}
+  ]'::jsonb
+WHERE NOT EXISTS (SELECT 1 FROM public.risk_constitution_v3 WHERE tenant_id = '11111111-1111-1111-1111-111111111111'::uuid AND is_active = true);
 
 -- =============================================================================
 -- 2. AUDIT STEPS (KYC, AML, Kredi Riski, Operasyonel Risk, ITGC Prosedurleri)
@@ -342,32 +680,41 @@ VALUES
 ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
--- 4. SEED 20 WORKPAPERS
+-- 4. SEED 20 WORKPAPERS (Akıllı Çalışma Kağıtları grid için tam veri)
+-- data: control_ref, tod, toe, sample_size, category, risk_level (grid test için)
+-- assigned_auditor_id: grid Auditor sütunu için
 -- ============================================================
 
-INSERT INTO workpapers (id, step_id, status, data, version, approval_status, prepared_at, prepared_by_user_id, prepared_by_name, reviewed_at, reviewed_by_user_id, reviewed_by_name)
+INSERT INTO workpapers (id, step_id, assigned_auditor_id, status, data, version, approval_status, prepared_at, prepared_by_user_id, prepared_by_name, reviewed_at, reviewed_by_user_id, reviewed_by_name)
 VALUES
-  ('b0000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000000001', 'review',   '{"control_ref":"IT-001"}', 1, 'reviewed',    now()-interval '5 days', '00000000-0000-0000-0000-000000000001', 'Hakan Yilmaz',    now()-interval '3 days', '00000000-0000-0000-0000-000000000001', 'Supervizor Celik'),
-  ('b0000000-0000-0000-0000-000000000002', 'a0000000-0000-0000-0000-000000000002', 'review',   '{"control_ref":"IT-002"}', 1, 'prepared',    now()-interval '4 days', '00000000-0000-0000-0000-000000000001', 'Ayse Demir',      null, null, ''),
-  ('b0000000-0000-0000-0000-000000000003', 'a0000000-0000-0000-0000-000000000003', 'review',   '{"control_ref":"IT-003"}', 1, 'reviewed',    now()-interval '6 days', '00000000-0000-0000-0000-000000000001', 'Mehmet Kaya',     now()-interval '2 days', '00000000-0000-0000-0000-000000000001', 'Supervizor Celik'),
-  ('b0000000-0000-0000-0000-000000000004', 'a0000000-0000-0000-0000-000000000004', 'review',   '{"control_ref":"IT-004"}', 1, 'prepared',    now()-interval '3 days', '00000000-0000-0000-0000-000000000001', 'Elif Celik',      null, null, ''),
-  ('b0000000-0000-0000-0000-000000000005', 'a0000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-005"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000006', 'a0000000-0000-0000-0000-000000000006', 'draft',    '{"control_ref":"IT-006"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000007', 'a0000000-0000-0000-0000-000000000007', 'draft',    '{"control_ref":"IT-007"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000008', 'a0000000-0000-0000-0000-000000000008', 'review',   '{"control_ref":"IT-008"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000009', 'a0000000-0000-0000-0000-000000000009', 'draft',    '{"control_ref":"IT-009"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000010', 'a0000000-0000-0000-0000-000000000010', 'draft',    '{"control_ref":"IT-010"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000011', 'a0000000-0000-0000-0000-000000000011', 'draft',    '{"control_ref":"IT-011"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000012', 'a0000000-0000-0000-0000-000000000012', 'draft',    '{"control_ref":"IT-012"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000013', 'a0000000-0000-0000-0000-000000000013', 'draft',    '{"control_ref":"IT-013"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000014', 'a0000000-0000-0000-0000-000000000014', 'draft',    '{"control_ref":"IT-014"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000015', 'a0000000-0000-0000-0000-000000000015', 'draft',    '{"control_ref":"IT-015"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000016', 'a0000000-0000-0000-0000-000000000016', 'draft',    '{"control_ref":"IT-016"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000017', 'a0000000-0000-0000-0000-000000000017', 'draft',    '{"control_ref":"IT-017"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000018', 'a0000000-0000-0000-0000-000000000018', 'draft',    '{"control_ref":"IT-018"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000019', 'a0000000-0000-0000-0000-000000000019', 'draft',    '{"control_ref":"IT-019"}', 1, 'in_progress', null, null, '', null, null, ''),
-  ('b0000000-0000-0000-0000-000000000020', 'a0000000-0000-0000-0000-000000000020', 'draft',    '{"control_ref":"IT-020"}', 1, 'in_progress', null, null, '', null, null, '')
-ON CONFLICT (id) DO NOTHING;
+  ('b0000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000004', 'review',   '{"control_ref":"IT-001","tod":"EFFECTIVE","toe":"EFFECTIVE","sample_size":25,"category":"Access Control","risk_level":"HIGH"}'::jsonb, 1, 'reviewed',    now()-interval '5 days', '00000000-0000-0000-0000-000000000004', 'Elif Yıldız',    now()-interval '3 days', '00000000-0000-0000-0000-000000000003', 'Murat Şen'),
+  ('b0000000-0000-0000-0000-000000000002', 'a0000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000004', 'review',   '{"control_ref":"IT-002","tod":"EFFECTIVE","toe":"NOT_STARTED","sample_size":40,"category":"Access Control","risk_level":"HIGH"}'::jsonb, 1, 'prepared',    now()-interval '4 days', '00000000-0000-0000-0000-000000000004', 'Elif Yıldız',      null, null, ''),
+  ('b0000000-0000-0000-0000-000000000003', 'a0000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000003', 'review',   '{"control_ref":"IT-003","tod":"EFFECTIVE","toe":"EFFECTIVE","sample_size":30,"category":"Access Control","risk_level":"HIGH"}'::jsonb, 1, 'reviewed',    now()-interval '6 days', '00000000-0000-0000-0000-000000000003', 'Murat Şen',     now()-interval '2 days', '00000000-0000-0000-0000-000000000001', 'Dr. Hasan Aksoy'),
+  ('b0000000-0000-0000-0000-000000000004', 'a0000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000004', 'review',   '{"control_ref":"IT-004","tod":"EFFECTIVE","toe":"INEFFECTIVE","sample_size":20,"category":"Access Control","risk_level":"HIGH"}'::jsonb, 1, 'prepared',    now()-interval '3 days', '00000000-0000-0000-0000-000000000004', 'Elif Yıldız',      null, null, ''),
+  ('b0000000-0000-0000-0000-000000000005', 'a0000000-0000-0000-0000-000000000005', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-005","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":15,"category":"Network Security","risk_level":"HIGH"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000006', 'a0000000-0000-0000-0000-000000000006', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-006","tod":"EFFECTIVE","toe":"NOT_STARTED","sample_size":28,"category":"Network Security","risk_level":"MEDIUM"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000007', 'a0000000-0000-0000-0000-000000000007', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-007","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":12,"category":"Network Security","risk_level":"MEDIUM"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000008', 'a0000000-0000-0000-0000-000000000008', '00000000-0000-0000-0000-000000000004', 'review',   '{"control_ref":"IT-008","tod":"EFFECTIVE","toe":"EFFECTIVE","sample_size":18,"category":"Business Continuity","risk_level":"HIGH"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000009', 'a0000000-0000-0000-0000-000000000009', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-009","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":10,"category":"Business Continuity","risk_level":"HIGH"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000010', 'a0000000-0000-0000-0000-000000000010', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-010","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":22,"category":"Physical Security","risk_level":"LOW"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000011', 'a0000000-0000-0000-0000-000000000011', '00000000-0000-0000-0000-000000000004', 'draft',    '{"control_ref":"IT-011","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":35,"category":"Change Management","risk_level":"HIGH"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000012', 'a0000000-0000-0000-0000-000000000012', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-012","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":20,"category":"Change Management","risk_level":"MEDIUM"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000013', 'a0000000-0000-0000-0000-000000000013', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-013","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":14,"category":"Change Management","risk_level":"MEDIUM"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000014', 'a0000000-0000-0000-0000-000000000014', '00000000-0000-0000-0000-000000000004', 'draft',    '{"control_ref":"IT-014","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":30,"category":"Data Protection","risk_level":"HIGH"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000015', 'a0000000-0000-0000-0000-000000000015', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-015","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":16,"category":"Data Protection","risk_level":"MEDIUM"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000016', 'a0000000-0000-0000-0000-000000000016', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-016","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":24,"category":"Endpoint Security","risk_level":"LOW"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000017', 'a0000000-0000-0000-0000-000000000017', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-017","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":50,"category":"Governance","risk_level":"LOW"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000018', 'a0000000-0000-0000-0000-000000000018', '00000000-0000-0000-0000-000000000004', 'draft',    '{"control_ref":"IT-018","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":18,"category":"Monitoring","risk_level":"MEDIUM"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000019', 'a0000000-0000-0000-0000-000000000019', '00000000-0000-0000-0000-000000000005', 'draft',    '{"control_ref":"IT-019","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":12,"category":"Governance","risk_level":"LOW"}'::jsonb, 1, 'in_progress', null, null, '', null, null, ''),
+  ('b0000000-0000-0000-0000-000000000020', 'a0000000-0000-0000-0000-000000000020', '00000000-0000-0000-0000-000000000004', 'draft',    '{"control_ref":"IT-020","tod":"NOT_STARTED","toe":"NOT_STARTED","sample_size":36,"category":"Monitoring","risk_level":"HIGH"}'::jsonb, 1, 'in_progress', null, null, '', null, null, '')
+ON CONFLICT (id) DO UPDATE SET
+  assigned_auditor_id = EXCLUDED.assigned_auditor_id,
+  data = EXCLUDED.data,
+  approval_status = EXCLUDED.approval_status,
+  prepared_by_user_id = EXCLUDED.prepared_by_user_id,
+  prepared_by_name = EXCLUDED.prepared_by_name,
+  reviewed_by_user_id = EXCLUDED.reviewed_by_user_id,
+  reviewed_by_name = EXCLUDED.reviewed_by_name;
 
 -- ============================================================
 -- 5. SEED TEST STEPS
@@ -1248,6 +1595,7 @@ DECLARE
   v_campaign_2  uuid := gen_random_uuid();
   v_campaign_3  uuid := gen_random_uuid();
   v_finding_id  uuid;
+  v_tenant_id   uuid := '11111111-1111-1111-1111-111111111111';
 BEGIN
   -- Campaigns
   INSERT INTO master_action_campaigns (id, title, description, root_cause, status)
@@ -1273,29 +1621,25 @@ BEGIN
 
   IF v_finding_id IS NOT NULL THEN
     INSERT INTO actions (
-      finding_id, original_due_date, current_due_date, status,
+      tenant_id, finding_id, title, original_due_date, current_due_date, status,
       finding_snapshot, regulatory_tags, escalation_level, campaign_id
     ) VALUES
-      -- BDDK Red-Zone: >365 days overdue — blocked from extension
-      (v_finding_id,
+      (v_tenant_id, v_finding_id, 'Legacy password policy enforcement',
        CURRENT_DATE - 400, CURRENT_DATE - 400, 'pending',
        '{"title":"Legacy password policy not enforced","severity":"CRITICAL","risk_rating":"HIGH","gias_category":"IT Governance","description":"Domain controllers allow passwords older than 90 days"}'::jsonb,
        ARRAY['BDDK','BRSA'], 2, v_campaign_1),
 
-      -- TIER_3_CRITICAL: >90 days overdue — evidence submitted
-      (v_finding_id,
+      (v_tenant_id, v_finding_id, 'Vendor contract review remediation',
        CURRENT_DATE - 120, CURRENT_DATE - 30, 'evidence_submitted',
        '{"title":"Vendor contract review gap","severity":"HIGH","risk_rating":"HIGH","gias_category":"Procurement","description":"47 vendor contracts have passed their review dates"}'::jsonb,
        ARRAY['BDDK'], 1, v_campaign_1),
 
-      -- TIER_1_NORMAL: not yet overdue — healthy action
-      (v_finding_id,
+      (v_tenant_id, v_finding_id, 'Credit model back-testing fix',
        CURRENT_DATE + 30, CURRENT_DATE + 30, 'pending',
        '{"title":"Credit model back-testing deficiency","severity":"MEDIUM","risk_rating":"MEDIUM","gias_category":"Credit Risk","description":"IFRS 9 back-testing frequency is below regulatory minimum"}'::jsonb,
        ARRAY[]::text[], 0, v_campaign_3),
 
-      -- TIER_2_HIGH: 60 days overdue — risk accepted
-      (v_finding_id,
+      (v_tenant_id, v_finding_id, 'SWIFT reconciliation gap closure',
        CURRENT_DATE - 60, CURRENT_DATE - 60, 'risk_accepted',
        '{"title":"SWIFT message reconciliation gap","severity":"HIGH","risk_rating":"HIGH","gias_category":"Treasury","description":"Manual T+1 reconciliation introduces intraday risk window"}'::jsonb,
        ARRAY['BDDK','BRSA'], 0, v_campaign_2);
@@ -1303,3 +1647,759 @@ BEGIN
 
 END $$;
 
+-- =============================================================================
+-- 18. UI ENRICHMENT DATA (STRATEGY & FINDING DETAILS)
+-- Katılım Bankacılığı konseptli zenginleştirme verisi.
+-- Tüm kayıtlar ON CONFLICT DO NOTHING ile güvenli şekilde tekrar çalıştırılabilir.
+-- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- 18.1 AKTİF METODOLOJİ KONFİGÜRASYONU (KERD Anayasası)
+-- Puanlama skalası A-D, Aksiyon SLA süreleri ve iş akışı parametrelerini içerir.
+-- -----------------------------------------------------------------------------
+INSERT INTO public.methodology_configs (
+  id,
+  tenant_id,
+  version,
+  is_active,
+  risk_weights,
+  scoring_matrix,
+  severity_thresholds,
+  veto_rules,
+  sla_config,
+  created_by
+) VALUES (
+  'b4000000-0000-0000-0000-000000000001'::uuid,
+  '11111111-1111-1111-1111-111111111111'::uuid,
+  'KERD-2026-v1.0',
+  true,
+  -- Risk ağırlıkları: BDDK BRSy uyumlu dağılım
+  '{"financial": 0.35, "operational": 0.20, "legal": 0.20, "reputation": 0.25}'::jsonb,
+  -- Puanlama matrisi: Etki/Olasılık 1-5 skalası, Denetim Notu A-D
+  '{
+    "impact_max": 5,
+    "likelihood_max": 5,
+    "control_effectiveness_max": 5,
+    "four_eyes_required": true,
+    "grading_scale": {
+      "A": {"min": 85, "max": 100, "label": "Düzeltme Gerektirmez",   "color": "#22c55e"},
+      "B": {"min": 70, "max": 84,  "label": "İyileştirme Önerilir",  "color": "#eab308"},
+      "C": {"min": 55, "max": 69,  "label": "Kontrol Zayıflığı",      "color": "#f97316"},
+      "D": {"min": 0,  "max": 54,  "label": "Kritik Kontrol Eksikliği","color": "#ef4444"}
+    }
+  }'::jsonb,
+  -- Şiddet eşikleri: BDDK özel CRITICAL/HIGH/MEDIUM/LOW sınırları
+  '[
+    {"label": "CRITICAL", "min": 20, "max": 25, "color": "#dc2626"},
+    {"label": "HIGH",     "min": 15, "max": 19, "color": "#ea580c"},
+    {"label": "MEDIUM",   "min": 10, "max": 14, "color": "#ca8a04"},
+    {"label": "LOW",      "min": 0,  "max": 9,  "color": "#16a34a"}
+  ]'::jsonb,
+  -- Veto kuralları: Şer'i ve BDDK ihlallerinde yükseltme zorunluluğu
+  '[
+    {
+      "condition": "shariah_violation",
+      "veto_level": "CAE",
+      "description": "Şer''i ihlal tespit edildiğinde CAE onayı zorunludur; Danışma Komitesi bilgilendirilir"
+    },
+    {
+      "condition": "regulatory_breach",
+      "veto_level": "AUDIT_COMMITTEE",
+      "description": "BDDK BRSy ihlallerinde Denetim Komitesi bildirim zorunludur (72 saat içinde)"
+    },
+    {
+      "condition": "critical_it_finding",
+      "veto_level": "CAE",
+      "description": "Kritik BT bulgularında aksiyon planı 7 iş günü içinde CAE''ye sunulmalıdır"
+    }
+  ]'::jsonb,
+  -- SLA konfigürasyonu: İş akışı, onay matrisi ve risk limit parametreleri
+  '{
+    "CRITICAL": {"days": 7,  "escalation_level": "CAE"},
+    "HIGH":     {"days": 14, "escalation_level": "DIRECTOR"},
+    "MEDIUM":   {"days": 30, "escalation_level": "MANAGER"},
+    "LOW":      {"days": 60, "escalation_level": "SENIOR_AUDITOR"},
+    "four_eyes": true,
+    "auto_escalation": true,
+    "force_evidence": true,
+    "approval_matrix": {
+      "low":      "SENIOR_AUDITOR",
+      "medium":   "MANAGER",
+      "high":     "DIRECTOR",
+      "critical": "CAE"
+    },
+    "risk_limits": {
+      "operational": "UNIT_MANAGER",
+      "tactical":    "GROUP_HEAD",
+      "strategic":   "BOARD"
+    }
+  }'::jsonb,
+  '00000000-0000-0000-0000-000000000001'::uuid
+) ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 18.2 STRATEJİK BANKA HEDEFLERİ (strategic_bank_goals)
+-- Katılım Bankacılığı 2026 Stratejik Planı hedefleri
+-- -----------------------------------------------------------------------------
+INSERT INTO public.strategic_bank_goals
+  (id, tenant_id, title, description, period_year, weight, category, owner_executive)
+VALUES
+  (
+    'b1000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Sürdürülebilir Katılım Finansmanı (Yeşil Sukuk)',
+    'Yeşil Sukuk ihracı ve sürdürülebilir finansman araçları aracılığıyla katılım bankacılığı portföyünü çeşitlendirip büyütmek; yeşil sukuk hacmini 2026 sonuna kadar %25 artırmak. BDDK Sürdürülebilir Finans Tebliği kapsamında raporlama yükümlülükleri yerine getirilecektir.',
+    2026, 85, 'COMPLIANCE', 'Mehmet Karaca (Genel Müdür)'
+  ),
+  (
+    'b1000000-0000-0000-0000-000000000002'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Dijital Teverruk Otomasyonu',
+    'Teverruk işlemlerinin (organized tawarruq) uçtan uca dijitalleştirilmesi; manuel onay süreçlerini %80 azaltarak müşteri başvurusundan akid imzasına kadar geçen süreyi 4 saate indirmek.',
+    2026, 90, 'INNOVATION', 'Ali Rıza Koç (GMY — Kredi ve Operasyon)'
+  ),
+  (
+    'b1000000-0000-0000-0000-000000000003'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Katılım Fonu Portföy Büyümesi',
+    'Katılım Fonu ürün gamını genişleterek (Altın Katılım, Döviz Katılım, Vadeli Katılım) toplam katılım fonu hacmini 2026 yılsonuna kadar %30 büyütmek ve kurumsal katılımcı sayısını 500''e çıkarmak.',
+    2026, 80, 'GROWTH', 'Hüseyin Çelik (Katılım Fonları Yöneticisi)'
+  ),
+  (
+    'b1000000-0000-0000-0000-000000000004'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Şube Operasyonel Mükemmelliyet Programı',
+    'Tüm şube süreçlerinin SLA hedefleri dahilinde yürütülmesini sağlamak; Lean metodolojisi ile süreç israfını %35 azaltmak ve müşteri şikayet sayısını yıllık %20 düşürmek.',
+    2026, 70, 'EFFICIENCY', 'Burak Yılmaz (Şube Müdürü)'
+  ),
+  (
+    'b1000000-0000-0000-0000-000000000005'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'BDDK BT Denetimi Uyum Yol Haritası',
+    'BDDK BT Denetimi rehberi (Aralık 2023) gerekliliklerini 2026 yılsonuna kadar tam olarak karşılamak; BT Risk değerlendirme süreçlerini ISO 27001:2022 ile uyumlandırmak.',
+    2026, 95, 'COMPLIANCE', 'Zeynep Kılıç (BT Altyapı Müdürü)'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 18.3 STRATEJİK DENETİM HEDEFLERİ (strategic_audit_objectives)
+-- İç Denetim Birimi 2026 Stratejik Denetim Hedefleri
+-- -----------------------------------------------------------------------------
+INSERT INTO public.strategic_audit_objectives
+  (id, tenant_id, title, description, period_year, category)
+VALUES
+  (
+    'b2000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Yeşil Sukuk İhracı Uyum Denetimi',
+    'Yeşil Sukuk ihraç süreçlerinin BDDK Sürdürülebilir Finans Tebliği ve IIFM standartlarına uygunluğunun denetlenmesi; çevre etkisi raporlamasının doğruluğunun ve şer''i uyumunun teyit edilmesi.',
+    2026, 'ASSURANCE'
+  ),
+  (
+    'b2000000-0000-0000-0000-000000000002'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Dijital Teverruk API Şer''i Kontrol Danışmanlığı',
+    'Teverruk otomasyonu geliştirme sürecinde kontrol tasarımı konusunda danışmanlık sağlamak; API akışlarının Danışma Kurulu onaylı şer''i kurallara uygunluğunu güvence altına almak.',
+    2026, 'ADVISORY'
+  ),
+  (
+    'b2000000-0000-0000-0000-000000000003'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Katılım Fonu Piyasa ve Likidite Riski Değerlendirmesi',
+    'Katılım Fonu portföy büyüme stratejisine eşlik eden piyasa riski ve likidite riskini değerlendirmek; BDDK SYR yönetmeliği kapsamındaki risk ağırlıklı varlıkların doğru sınıflandırıldığını denetlemek.',
+    2026, 'RISK_MANAGEMENT'
+  ),
+  (
+    'b2000000-0000-0000-0000-000000000004'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'BT Altyapısı Kurumsal Yönetişim Denetimi',
+    'BDDK BT Denetimi rehberi gerekliliklerine uyum çerçevesinde BT yönetişim yapısını ve ayrıcalıklı erişim yönetimini denetlemek; f0000000-0000-0000-0000-000000000001 bulgusuna yönelik aksiyon planının etkinliğini izlemek.',
+    2026, 'GOVERNANCE'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 18.4 STRATEJİK HIZALAMA MATRİSİ (strategy_alignment_matrix)
+-- Banka hedefleri ile denetim hedeflerinin hizalanması
+-- -----------------------------------------------------------------------------
+INSERT INTO public.strategy_alignment_matrix
+  (id, tenant_id, bank_goal_id, audit_objective_id, relevance_score, rationale)
+VALUES
+  (
+    'a0000000-0000-0000-0000-000000000011'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'b1000000-0000-0000-0000-000000000001'::uuid,
+    'b2000000-0000-0000-0000-000000000001'::uuid,
+    0.95,
+    'Yeşil Sukuk hedefi doğrudan uyum denetimini gerektirir; şer''i uyum ve BDDK tebliği kontrolü kritik öneme sahiptir.'
+  ),
+  (
+    'a0000000-0000-0000-0000-000000000012'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'b1000000-0000-0000-0000-000000000002'::uuid,
+    'b2000000-0000-0000-0000-000000000002'::uuid,
+    0.90,
+    'Dijital Teverruk otomasyonu geliştirilirken şer''i kontrol tasarımına danışmanlık verilmesi zorunludur.'
+  ),
+  (
+    'a0000000-0000-0000-0000-000000000013'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'b1000000-0000-0000-0000-000000000003'::uuid,
+    'b2000000-0000-0000-0000-000000000003'::uuid,
+    0.85,
+    'Portföy büyümesi piyasa riskini artırmaktadır; bağımsız risk değerlendirmesi yönetim kuruluna güvence sağlar.'
+  ),
+  (
+    'a0000000-0000-0000-0000-000000000014'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'b1000000-0000-0000-0000-000000000005'::uuid,
+    'b2000000-0000-0000-0000-000000000004'::uuid,
+    0.98,
+    'BDDK BT Uyum Yol Haritası ile BT Yönetişim Denetimi birebir örtüşmektedir; kritik BT bulgusunun kapatılması her iki hedef için de önceliklidir.'
+  )
+ON CONFLICT (bank_goal_id, audit_objective_id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 18.5 EK BULGU TARİHÇESİ (finding_history)
+-- f0000000-0000-0000-0000-000000000001 için içerik düzenleme kayıtları
+-- (STATE_CHANGE kayıtları 0.11 bölümünde zaten mevcut)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.finding_history
+  (tenant_id, finding_id, previous_state, new_state, change_type, change_description, changed_by, changed_by_role)
+VALUES
+  (
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f0000000-0000-0000-0000-000000000001'::uuid,
+    'DRAFT', 'DRAFT', 'CONTENT_EDIT',
+    'Mali etki tutarı güncellendi: 2.5M TL → 4.8M TL. Sistem yöneticisi loglarından elde edilen kanıt revize edildi.',
+    '00000000-0000-0000-0000-000000000004'::uuid,
+    'AUDITOR'
+  ),
+  (
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f0000000-0000-0000-0000-000000000001'::uuid,
+    'DRAFT', 'DRAFT', 'CONTENT_EDIT',
+    'Kök neden analizi (RCA) tamamlandı; "Ayrıcalıklı Erişim Yönetimi" kontrol kategorisine sınıflandırıldı.',
+    '00000000-0000-0000-0000-000000000003'::uuid,
+    'AUDIT_MANAGER'
+  ),
+  (
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f0000000-0000-0000-0000-000000000001'::uuid,
+    'IN_REVIEW', 'IN_REVIEW', 'COMMENT_ADDED',
+    'Baş Müfettiş tarafından inceleme notu eklendi: Privilege escalation kanıtları yeterli bulundu.',
+    '00000000-0000-0000-0000-000000000003'::uuid,
+    'AUDIT_MANAGER'
+  ),
+  (
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f0000000-0000-0000-0000-000000000001'::uuid,
+    'DRAFT', 'DRAFT', 'SEVERITY_CHANGE',
+    'Şiddet derecesi HIGH''dan CRITICAL''e yükseltildi. 90 günlük erişim logu analizi sonucunda 47 yetkisiz sorgu tespit edildi.',
+    '00000000-0000-0000-0000-000000000004'::uuid,
+    'AUDITOR'
+  )
+ON CONFLICT DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 18.6 EK BULGU YORUMLARI (finding_comments)
+-- f0000000-0000-0000-0000-000000000001: Denetçi–BT Müdürü teknik müzakere
+-- -----------------------------------------------------------------------------
+INSERT INTO public.finding_comments
+  (tenant_id, finding_id, comment_text, comment_type, author_id, author_role, author_name)
+VALUES
+  (
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f0000000-0000-0000-0000-000000000001'::uuid,
+    'Zeynep Hanım, veritabanı yetki matrisini (DB_AUTH_MATRIX_2026.xlsx) ve son 90 günün ayrıcalıklı kullanıcı erişim loglarını acil olarak göndermenizi talep ediyoruz. Yasal süre: 3 iş günü.',
+    'DISCUSSION',
+    '00000000-0000-0000-0000-000000000004'::uuid,
+    'AUDITOR',
+    'Elif Yıldız'
+  ),
+  (
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f0000000-0000-0000-0000-000000000001'::uuid,
+    'Elif Hanım, yetki matrisi ve 90 günlük tüm ayrıcalıklı erişim logları ekte sunulmaktadır. Ayrıca söz konusu servis hesabının yetki yükseltme işleminin yazılım güncellemesi sonrası otomatik gerçekleştiğini belirtmek isteriz; kasıt söz konusu değildir.',
+    'CLARIFICATION',
+    '00000000-0000-0000-0000-000000000012'::uuid,
+    'AUDITEE',
+    'Zeynep Kılıç'
+  ),
+  (
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f0000000-0000-0000-0000-000000000001'::uuid,
+    'Loglar incelendi. 47 ayrı sorgu kaydı tespit edildi; bunların 12''si mesai saatleri dışında gerçekleşmiştir. "Otomatik güncelleme" iddiası logtaki zaman damgaları ile çelişmektedir. Bulgunun CRITICAL şiddet derecesi korunacaktır.',
+    'DISPUTE',
+    '00000000-0000-0000-0000-000000000004'::uuid,
+    'AUDITOR',
+    'Elif Yıldız'
+  ),
+  (
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f0000000-0000-0000-0000-000000000001'::uuid,
+    'Dört Göz İlkesi kapsamında inceleme tamamlandı. Privilege escalation kanıtları yeterli ve ikna edicidir. Aksiyon planının 7 iş günü içinde sunulmasını ve servis hesabının derhal devre dışı bırakılmasını emrediyorum.',
+    'AGREEMENT',
+    '00000000-0000-0000-0000-000000000003'::uuid,
+    'AUDIT_MANAGER',
+    'Murat Şen'
+  )
+ON CONFLICT DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 18.7 EK BULGU ONAYLARI (finding_signoffs)
+-- f0000000-0000-0000-0000-000000000003 (Kasa Sayımı) için onay zinciri başlatma
+-- (f0000000...001 için tüm imzalar 0.12 bölümünde zaten mevcuttur)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.finding_signoffs
+  (finding_id, tenant_id, role, user_id, user_name, user_title, comments)
+VALUES
+  (
+    'f0000000-0000-0000-0000-000000000003'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'PREPARER',
+    '00000000-0000-0000-0000-000000000005'::uuid,
+    'Canan Arslan',
+    'Müfettiş Yardımcısı',
+    'Kasa sayım tutanakları ve banka kayıtları karşılaştırmalı olarak hazırlandı. 127.500 TL tutarında aşım tespit edilmiştir.'
+  ),
+  (
+    'f0000000-0000-0000-0000-000000000003'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'REVIEWER',
+    '00000000-0000-0000-0000-000000000002'::uuid,
+    'Fatma Erdem',
+    'Teftiş Kurulu Başkan Yardımcısı',
+    'Belgesel kanıtlar yerindedir. Şube yönetimiyle müzakere süreci başlatılabilir.'
+  )
+ON CONFLICT (finding_id, role) DO NOTHING;
+
+-- =============================================================================
+-- 19. REHBERLİK HİZMETLERİ (ADVISORY) — UI ZENGİNLEŞTİRME VERİLERİ
+--
+--  KURAL: Bu blok SADECE advisory_requests, advisory_engagements ve
+--         advisory_insights tablolarını besler. Gerçek üretim tablolarına
+--         dokunulmaz; yalnızca UI gösterimi ve geliştirme testi amaçlıdır.
+--
+--  Bağımlılıklar:
+--    Tenant : 11111111-1111-1111-1111-111111111111
+--    Entity  : e0000000-0000-0000-0000-000000000011 (Uyum ve MASAK Birimi)
+--              e0000000-0000-0000-0000-000000000022 (Teverruk İşlemleri)
+--              e0000000-0000-0000-0000-000000000013 (Kredi Tahsis Müdürlüğü)
+-- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- 19.1 DANIŞMANLIK TALEPLERİ (advisory_requests)
+-- requester_id → NULL bırakılır (auth.users FK ihlali önlenir)
+-- department_id → mevcut audit_entities id'lerine referans verilir
+-- -----------------------------------------------------------------------------
+INSERT INTO public.advisory_requests
+  (id, requester_id, department_id, title, problem_statement, desired_outcome, status, created_at)
+VALUES
+  (
+    'ad100000-0000-0000-0000-000000000001'::uuid,
+    NULL,
+    'e0000000-0000-0000-0000-000000000011'::uuid,
+    'MASAK Şüpheli İşlem Bildirim Sürecinin Yeniden Tasarımı',
+    'Mevcut STR/SAR sürecimizde manuel adımlar fazla olmakta, bildirim süreleri zaman zaman MASAK yönetmeliğindeki 10 günlük sınırı aşmaktadır. Süreçte otomasyon açığı ve yetki belirsizlikleri tespit edilmiştir.',
+    'Tüm şüpheli işlem bildirim adımlarının sisteme entegre edilmesi, otomatik limit kontrollerinin devreye alınması ve müdür onay akışının GIAS 2024 standardına uygun biçimde tasarlanması beklenmektedir.',
+    'APPROVED',
+    NOW() - INTERVAL '45 days'
+  ),
+  (
+    'ad100000-0000-0000-0000-000000000002'::uuid,
+    NULL,
+    'e0000000-0000-0000-0000-000000000022'::uuid,
+    'Teverruk İşlemlerinde Şeri Uyum Kontrol Çerçevesi',
+    'Danışma Kurulunun son denetiminde teverruk işlemlerinde sözleşme tarihlerinin geç tescil edildiği ve commodity broker seçiminde bağımsızlık ilkesinin zaman zaman ihlal edildiği gözlemlenmiştir.',
+    'Şeri denetim kontrol listesinin otomasyona alınması, broker seçim kriterleri matrisinin oluşturulması ve aylık Danışma Kurulu doğrulama raporunun tasarlanması.',
+    'PENDING',
+    NOW() - INTERVAL '12 days'
+  ),
+  (
+    'ad100000-0000-0000-0000-000000000003'::uuid,
+    NULL,
+    'e0000000-0000-0000-0000-000000000013'::uuid,
+    'Kredi Tahsis Sürecinde Yetki Matrisi Güncelleme Rehberliği',
+    'Kredi komitesi yetki limitleri 3 yıldır güncellenmemiş; artan kredi hacimleri ile yetki sınırları çakışmaktadır. Bu durum müzahir imza eksiklikleri yaratmakta ve denetim bulgularına yol açmaktadır.',
+    'Güncel kredi büyüklükleri ile uyumlu yetki matrisinin tasarlanması, tek taraflı onay riskinin ortadan kaldırılması.',
+    'APPROVED',
+    NOW() - INTERVAL '30 days'
+  )
+ON CONFLICT DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 19.2 DANIŞMANLIK GÖREVLERİ (advisory_engagements)
+-- Her biri onaylanmış bir advisory_requests kaydına bağlıdır.
+-- management_responsibility_confirmed: 1. görev TRUE (feragatname verildi),
+--   2. görev FALSE (henüz e-imza bekleniyor — GIAS 11.1 hard-gate testi için)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.advisory_engagements
+  (id, request_id, title, scope_limitations, management_responsibility_confirmed,
+   start_date, target_date, status, methodology, created_at)
+VALUES
+  (
+    'ae100000-0000-0000-0000-000000000001'::uuid,
+    'ad100000-0000-0000-0000-000000000001'::uuid,
+    'MASAK STR Süreç Yeniden Tasarımı',
+    'Bu danışmanlık kapsamı; mevcut STR akışının haritalanması, otomasyon fırsatlarının belirlenmesi ve taslak süreç önerisinin sunulmasıyla sınırlıdır. Uygulama ve yazılım geliştirme kapsam dışındadır. Tüm nihai karar sorumluluğu Uyum Birimi Müdürüne aittir.',
+    true,
+    (NOW() - INTERVAL '35 days')::date,
+    (NOW() + INTERVAL '10 days')::date,
+    'FIELDWORK',
+    'PROCESS_DESIGN',
+    NOW() - INTERVAL '35 days'
+  ),
+  (
+    'ae100000-0000-0000-0000-000000000002'::uuid,
+    'ad100000-0000-0000-0000-000000000003'::uuid,
+    'Kredi Yetki Matrisi Danışmanlık Projesi',
+    'Bu görev; mevcut kredi yetki matrisinin analizi, sektör kıyaslaması ve önerilen yeni matrisin komite onayına sunulması aşamalarını kapsamaktadır. İç denetim birimi nihai matris tasarımında oy hakkı kullanmaz.',
+    false,
+    (NOW() - INTERVAL '20 days')::date,
+    (NOW() + INTERVAL '25 days')::date,
+    'PLANNING',
+    'WORKSHOP',
+    NOW() - INTERVAL '20 days'
+  )
+ON CONFLICT DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- 19.3 DANIŞMANLIK GÖZLEMLERİ (advisory_insights)
+-- "Bulgu" değil "Gözlem" dili — GIAS 2024 dil ayrımına uygun.
+-- -----------------------------------------------------------------------------
+INSERT INTO public.advisory_insights
+  (id, engagement_id, title, observation, recommendation,
+   impact_level, management_response, status, created_at)
+VALUES
+  (
+    'a1100000-0000-0000-0000-000000000001'::uuid,
+    'ae100000-0000-0000-0000-000000000001'::uuid,
+    'Bildirim Süresinde Gecikme Riski',
+    'Mevcut iş akışında şüpheli işlem tespitinden MASAK bildirim formunun tamamlanmasına kadar ortalama 8,4 iş günü geçmektedir. MASAK Yönetmeliği Md. 5 uyarınca sınır 10 gündür; operasyonel yoğunluk dönemlerinde bu süre aşılma riski taşımaktadır.',
+    'Tespit, Ön İnceleme, Onay ve Bildirim adımlarının sisteme entegre edilmesi; her aşamaya otomatik SLA alarmı eklenmesi. Yetki matrisinin çift imza mekanizmasına geçirilmesi önerilmektedir.',
+    'OPERATIONAL',
+    'Otomasyon projesinin Q3 2026 bütçe planlamasına alınması gündemimize taşındı. Geçici çözüm olarak haftalık kontrol listesi devreye alındı.',
+    'ACCEPTED',
+    NOW() - INTERVAL '25 days'
+  ),
+  (
+    'a1100000-0000-0000-0000-000000000002'::uuid,
+    'ae100000-0000-0000-0000-000000000001'::uuid,
+    'Yetki Belirsizliği — Ön İnceleme Sorumluluğu',
+    'STR formlarının ön incelemesinin kimin tarafından yapılacağı yazılı prosedürde net olarak belirtilmemiştir. Sözlü teamüle göre işlem yapıcı uzman ile uyum sorumlusu arasında fiili çakışma gözlemlenmiştir.',
+    'Ön inceleme görevinin RACI matrisi ile net biçimde atanması; prosedürün 30 gün içinde revize edilerek dijital onay zincirine alınması.',
+    'OPERATIONAL',
+    NULL,
+    'SHARED',
+    NOW() - INTERVAL '18 days'
+  ),
+  (
+    'a1100000-0000-0000-0000-000000000003'::uuid,
+    'ae100000-0000-0000-0000-000000000001'::uuid,
+    'Broker Bağımsızlığı Kontrol Eksikliği',
+    'Teverruk işlemlerinde kullanılan 3 brokerdan ikisinin aynı holding bünyesinde olduğu görülmüştür. Danışma Kurulu kılavuzlarına göre commodity brokerlerin birbirinden bağımsız olması zorunludur.',
+    'Broker bağımsızlık beyanının her işlem öncesi alınması; alternatif broker havuzunun en az 5 bağımsız kuruma genişletilmesi. Danışma Kurulunun broker onay listesini yıllık gözden geçirmesi.',
+    'STRATEGIC',
+    'Hukuk ve Danışma Kurulu ortak çalışması başlatıldı. Broker havuzu genişletme süreci Q2 2026 da tamamlanacak.',
+    'ACCEPTED',
+    NOW() - INTERVAL '10 days'
+  )
+ON CONFLICT DO NOTHING;
+
+-- =============================================================================
+-- ÇEVİK GÖREVLER (AGILE) — audit_engagements_v2, audit_sprints, audit_tasks
+-- Test: /execution/agile ve /execution/agile/:id sayfaları
+-- =============================================================================
+
+INSERT INTO public.audit_engagements_v2 (
+  id, tenant_id, title, description, service_template_id, status,
+  total_sprints, start_date, end_date, team_members
+) VALUES
+  (
+    'a1000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'BT Altyapı ve Güvenlik Denetimi',
+    'Kritik BT sistemleri, erişim yönetimi ve sızma testi kapsamında çevik denetim.',
+    NULL,
+    'ACTIVE',
+    3,
+    '2026-02-01'::date,
+    '2026-04-30'::date,
+    '[]'::jsonb
+  ),
+  (
+    'a1000000-0000-0000-0000-000000000002'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Katılım Fonları Kar Dağıtım Denetimi',
+    'Havuz yönetimi ve kar/zarar dağıtım süreçlerinin denetimi.',
+    NULL,
+    'PLANNED',
+    2,
+    '2026-03-01'::date,
+    '2026-05-15'::date,
+    '[]'::jsonb
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.audit_sprints (
+  id, engagement_id, tenant_id, sprint_number, title, goal, start_date, end_date, status
+) VALUES
+  (
+    'b1000000-0000-0000-0000-000000000001'::uuid,
+    'a1000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    1,
+    'Sprint 1 — Keşif ve Kapsam',
+    'BT varlık envanteri ve erişim matrisi çıkarılması.',
+    '2026-02-01'::date,
+    '2026-02-14'::date,
+    'COMPLETED'
+  ),
+  (
+    'b1000000-0000-0000-0000-000000000002'::uuid,
+    'a1000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    2,
+    'Sprint 2 — Test ve Kanıt',
+    'Erişim testleri ve kanıt toplama.',
+    '2026-02-15'::date,
+    '2026-02-28'::date,
+    'ACTIVE'
+  ),
+  (
+    'b1000000-0000-0000-0000-000000000003'::uuid,
+    'a1000000-0000-0000-0000-000000000002'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    1,
+    'Sprint 1 — Planlama',
+    'Havuz ve dağıtım süreç dokümanlarının toplanması.',
+    '2026-03-01'::date,
+    '2026-03-14'::date,
+    'PLANNED'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.audit_tasks (
+  id, sprint_id, engagement_id, tenant_id, title, description,
+  assigned_to, assigned_name, status, priority, validation_status, story_points
+) VALUES
+  (
+    'c1000000-0000-0000-0000-000000000001'::uuid,
+    'b1000000-0000-0000-0000-000000000001'::uuid,
+    'a1000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'BT varlık envanteri çıkar',
+    'Tüm sunucu, veritabanı ve ağ cihazlarının listesi ve sahiplik matrisi.',
+    NULL,
+    '',
+    'DONE',
+    'HIGH',
+    'VALIDATED',
+    5
+  ),
+  (
+    'c1000000-0000-0000-0000-000000000002'::uuid,
+    'b1000000-0000-0000-0000-000000000001'::uuid,
+    'a1000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Erişim matrisi ve yetki listesi',
+    'Domain, uygulama ve DB erişim yetkilerinin dokümantasyonu.',
+    NULL,
+    '',
+    'DONE',
+    'HIGH',
+    'VALIDATED',
+    3
+  ),
+  (
+    'c1000000-0000-0000-0000-000000000003'::uuid,
+    'b1000000-0000-0000-0000-000000000002'::uuid,
+    'a1000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Core Banking DB yetki testi',
+    'Servis hesaplarının yetki seviyesinin test edilmesi ve kanıtlanması.',
+    NULL,
+    '',
+    'IN_PROGRESS',
+    'CRITICAL',
+    'OPEN',
+    8
+  ),
+  (
+    'c1000000-0000-0000-0000-000000000004'::uuid,
+    'b1000000-0000-0000-0000-000000000002'::uuid,
+    'a1000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'PAM kayıtlarının incelenmesi',
+    'Son 6 ay PAM oturum loglarının örnekleme ile kontrolü.',
+    NULL,
+    '',
+    'TODO',
+    'MEDIUM',
+    'OPEN',
+    5
+  ),
+  (
+    'c1000000-0000-0000-0000-000000000005'::uuid,
+    'b1000000-0000-0000-0000-000000000003'::uuid,
+    'a1000000-0000-0000-0000-000000000002'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Havuz süreç dokümanlarını topla',
+    'Katılım hesapları havuz yönetimi prosedürleri ve akış şemaları.',
+    NULL,
+    '',
+    'TODO',
+    'MEDIUM',
+    'OPEN',
+    3
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- RAUNT 1 — ETKİ ANALİZİ, RKM ZAMAN MAKİNESİ VE INLINE GRID TEST VERİLERİ
+-- Test: Kaskad Yıkım Kalkanı, RKM Tarihçe sekmesi, RKMMasterGrid inline düzenleme
+-- =============================================================================
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 1. DENETİM EVRENİ (audit_entities) — HQ.RETAIL / HQ.IT Ltree Hiyerarşisi
+-- Root hq (e00...001) ve hq.it (e00...030) zaten mevcut; retail ve alt dallar eklenir.
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.audit_entities (id, tenant_id, name, type, risk_score, velocity_multiplier, path, metadata) VALUES
+  ('e0000000-0000-0000-0000-000000000100','11111111-1111-1111-1111-111111111111','Bireysel Bankacılık',              'GROUP',  58, 1.0, 'hq.retail',           '{}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000101','11111111-1111-1111-1111-111111111111','Kredi Kartları Operasyonu',         'PROCESS',62, 1.1, 'hq.retail.cards',    '{}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000102','11111111-1111-1111-1111-111111111111','Murabaha Tahsis Süreci',            'PROCESS',68, 1.1, 'hq.retail.murabaha', '{}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000103','11111111-1111-1111-1111-111111111111','Siber Güvenlik',                    'PROCESS',85, 1.3, 'hq.it.cyber',        '{}'::jsonb),
+  ('e0000000-0000-0000-0000-000000000104','11111111-1111-1111-1111-111111111111','Sistem Altyapısı',                  'PROCESS',78, 1.2, 'hq.it.infra',        '{}'::jsonb)
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 2. RKM SÜREÇLERİ (rkm_processes) — entity_id ile evren düğümlerine bağlı
+-- entity_id: migration 20260301000003 ile rkm_processes tablosuna eklenir.
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.rkm_processes (id, tenant_id, path, level, process_code, process_name, process_type, entity_id) VALUES
+  ('ac000001-0000-0000-0000-000000000001','11111111-1111-1111-1111-111111111111','raunt.retail.murabaha', 3, 'RAUNT-MUR', 'Murabaha Tahsis Süreci', 'PRIMARY',  'e0000000-0000-0000-0000-000000000102'::uuid),
+  ('ac000001-0000-0000-0000-000000000002','11111111-1111-1111-1111-111111111111','raunt.retail.cards',    3, 'RAUNT-CRD', 'Kredi Kartları Operasyonu', 'PRIMARY', 'e0000000-0000-0000-0000-000000000101'::uuid),
+  ('ac000001-0000-0000-0000-000000000003','11111111-1111-1111-1111-111111111111','raunt.it.cyber',        3, 'RAUNT-CYB', 'Siber Güvenlik', 'PRIMARY',            'e0000000-0000-0000-0000-000000000103'::uuid),
+  ('ac000001-0000-0000-0000-000000000004','11111111-1111-1111-1111-111111111111','raunt.it.infra',        3, 'RAUNT-INF', 'Sistem Altyapısı', 'PRIMARY',           'e0000000-0000-0000-0000-000000000104'::uuid)
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 3. RKM RİSKLERİ (rkm_risks) — Inline Grid testi için 10+ risk
+-- Katılım bankacılığı terminolojisi; risk_level yerine inherent_rating (generated) kullanılır.
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.rkm_risks (
+  id, tenant_id, process_id, risk_code, risk_title, risk_description, risk_owner, risk_status,
+  main_process, sub_process, risk_category, inherent_impact, inherent_likelihood, inherent_volume,
+  control_design_rating, control_operating_rating, residual_impact, residual_likelihood,
+  control_type, control_nature, bddk_reference, risk_response_strategy, last_audit_date, audit_rating
+) VALUES
+  ('ad000002-0000-0000-0000-000000000001','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000001','RAUNT-R-001','Emtia teyit belgelerinin eksik alınması','Murabaha işlemlerinde emtia alım-satım teyit belgelerinin zamanında ve eksiksiz dosyalanmaması riski.','Hüseyin Çelik','ACTIVE','Murabaha Tahsis','Teyit Belgeleri','Uyum Riski',4,4,3, 4,4, 3,2, 'PREVENTIVE','MANUAL','BDDK 5.1','MITIGATE','2025-11-15','NEEDS_IMPROVEMENT'),
+  ('ad000002-0000-0000-0000-000000000002','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000001','RAUNT-R-002','Kâr/Zarar paylaşım havuzlarında hesaplama hatası','Katılma hesapları havuzunda kar/zarar dağıtım formülünün yanlış uygulanması veya veri giriş hatası.','Hüseyin Çelik','ACTIVE','Murabaha Tahsis','Havuz Hesaplama','Finansal Risk',5,3,4, 3,3, 2,2, 'DETECTIVE','AUTOMATED','BDDK 9.1','MITIGATE','2025-10-01','SATISFACTORY'),
+  ('ad000002-0000-0000-0000-000000000003','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000001','RAUNT-R-003','Murabaha vade uyumsuzluğu','Sözleşme vadesi ile emtia teslim tarihi arasında şeri uyumsuzluk.','Hüseyin Çelik','ACTIVE','Murabaha Tahsis','Vade Yönetimi','Uyum Riski',3,3,2, 4,4, 2,1, 'PREVENTIVE','MANUAL',NULL,'ACCEPT','2025-09-20','SATISFACTORY'),
+  ('ad000002-0000-0000-0000-000000000004','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000002','RAUNT-R-004','Kartlı ödeme sisteminde dolandırıcılık','Yetkisiz kart kullanımı ve fraud tespit gecikmesi.','Burak Yılmaz','ACTIVE','Kredi Kartları','Ödeme Güvenliği','Operasyonel Risk',4,3,4, 4,4, 3,2, 'DETECTIVE','AUTOMATED','BDDK 8.3','MITIGATE','2025-11-01','NEEDS_IMPROVEMENT'),
+  ('ad000002-0000-0000-0000-000000000005','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000002','RAUNT-R-005','Müşteri verisi sızıntısı (kart bilgileri)','Kart sahibi PII ve işlem verilerinin yetkisiz erişime açık olması.','Burak Yılmaz','ACTIVE','Kredi Kartları','Veri Koruma','Teknoloji Riski',5,2,3, 4,4, 2,1, 'PREVENTIVE','AUTOMATED','BDDK 8.7','MITIGATE','2025-10-15','SATISFACTORY'),
+  ('ad000002-0000-0000-0000-000000000006','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000003','RAUNT-R-006','API uç noktalarında yetkisiz erişim (BOLA)','Broken Object Level Authorization: API ile başka müşteri/kayıt erişimi.','Zeynep Kılıç','ACTIVE','Siber Güvenlik','API Güvenliği','Teknoloji Riski',5,4,4, 3,3, 3,3, 'PREVENTIVE','AUTOMATED','BDDK 8.3','MITIGATE','2025-12-01','UNSATISFACTORY'),
+  ('ad000002-0000-0000-0000-000000000007','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000003','RAUNT-R-007','Zafiyet taraması gecikmesi','Kritik CVE''lerin patch''lenmesinde gecikme.','Zeynep Kılıç','ACTIVE','Siber Güvenlik','Yama Yönetimi','Teknoloji Riski',4,4,3, 4,3, 3,2, 'CORRECTIVE','HYBRID','ISO27001 A.12.6','MITIGATE','2025-11-20','NEEDS_IMPROVEMENT'),
+  ('ad000002-0000-0000-0000-000000000008','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000003','RAUNT-R-008','İnsider tehdidi (ayrıcalıklı hesap kötüye kullanımı)','Dahili kullanıcıların yetkili erişimlerini kötüye kullanması.','Zeynep Kılıç','ACTIVE','Siber Güvenlik','Erişim Yönetimi','Operasyonel Risk',5,2,3, 4,4, 2,1, 'DETECTIVE','AUTOMATED',NULL,'MITIGATE','2025-10-10','SATISFACTORY'),
+  ('ad000002-0000-0000-0000-000000000009','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000004','RAUNT-R-009','Sunucu kesintisi (tek nokta arızası)','Kritik sunucularda tek nokta arızası ve yedekleme yetersizliği.','Zeynep Kılıç','ACTIVE','Sistem Altyapısı','Kullanılabilirlik','Teknoloji Riski',4,3,4, 4,4, 3,2, 'PREVENTIVE','AUTOMATED','BDDK 8.1','MITIGATE','2025-09-15','SATISFACTORY'),
+  ('ad000002-0000-0000-0000-000000000010','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000004','RAUNT-R-010','Yedekleme ve kurtarma testi eksikliği','DR testlerinin periyodik yapılmaması.','Zeynep Kılıç','MITIGATED','Sistem Altyapısı','DR/BCP','Teknoloji Riski',3,3,2, 5,5, 1,1, 'DETECTIVE','MANUAL','BDDK 8.1','MITIGATE','2025-12-10','SATISFACTORY'),
+  ('ad000002-0000-0000-0000-000000000011','11111111-1111-1111-1111-111111111111','ac000001-0000-0000-0000-000000000003','RAUNT-R-011','Şifre politikası zayıflığı','Zayıf parola kuralları ve MFA eksikliği.','Zeynep Kılıç','ACTIVE','Siber Güvenlik','Kimlik Doğrulama','Teknoloji Riski',4,4,3, 3,3, 3,3, 'PREVENTIVE','AUTOMATED','BDDK 8.3','MITIGATE','2025-11-05','NEEDS_IMPROVEMENT')
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 4. RKM ZAMAN MAKİNESİ (rkm_risk_versions) — 2 risk için geçmiş snapshot simülasyonu
+-- RAUNT-R-006 ve RAUNT-R-007 için 5 gün önceki versiyon; snapshot'ta risk seviyesi LOW.
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.rkm_risk_versions (id, risk_id, tenant_id, version_number, snapshot, changed_by, change_summary, created_at) VALUES
+  ('ae000003-0000-0000-0000-000000000001','ad000002-0000-0000-0000-000000000006','11111111-1111-1111-1111-111111111111', 1,
+   '{"risk_code":"RAUNT-R-006","risk_title":"API uç noktalarında yetkisiz erişim (BOLA)","risk_status":"ACTIVE","inherent_impact":2,"inherent_likelihood":2,"inherent_rating":"DÜŞÜK","residual_impact":1,"residual_likelihood":1,"residual_rating":"DÜŞÜK","control_design_rating":4,"control_operating_rating":4,"risk_category":"Teknoloji Riski","risk_owner":"Zeynep Kılıç"}'::jsonb,
+   'Sistem', 'Geçmiş snapshot — risk seviyesi düşük (LOW) iken kayıt', (now() - INTERVAL '5 days')),
+  ('ae000003-0000-0000-0000-000000000002','ad000002-0000-0000-0000-000000000007','11111111-1111-1111-1111-111111111111', 1,
+   '{"risk_code":"RAUNT-R-007","risk_title":"Zafiyet taraması gecikmesi","risk_status":"ACTIVE","inherent_impact":2,"inherent_likelihood":2,"inherent_rating":"DÜŞÜK","residual_impact":2,"residual_likelihood":1,"residual_rating":"DÜŞÜK","control_design_rating":4,"control_operating_rating":4,"risk_category":"Teknoloji Riski","risk_owner":"Zeynep Kılıç"}'::jsonb,
+   'Sistem', 'Geçmiş snapshot — risk seviyesi düşük (LOW) iken kayıt', (now() - INTERVAL '5 days'))
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 5. DENETİM GÖREVLERİ (audit_engagements) — Murabaha ve Siber Güvenlik entity'lerine bağlı
+-- Etki analizinde "açık bulgu" sayısı için engagement → finding bağı gerekir.
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.audit_engagements (id, tenant_id, plan_id, entity_id, title, status, audit_type, start_date, end_date, assigned_auditor_id, risk_snapshot_score, estimated_hours, actual_hours) VALUES
+  ('52d72f07-e813-4cff-8218-4a64f7a3ba01','11111111-1111-1111-1111-111111111111','d0000000-0000-0000-0000-000000000001','e0000000-0000-0000-0000-000000000102','Murabaha Tahsis ve Havuz Denetimi (Raunt 1)','IN_PROGRESS','COMPREHENSIVE','2026-02-10','2026-04-30','00000000-0000-0000-0000-000000000003', 68, 120, 45),
+  ('52d72f07-e813-4cff-8218-4a64f7a3ba02','11111111-1111-1111-1111-111111111111','d0000000-0000-0000-0000-000000000001','e0000000-0000-0000-0000-000000000103','Siber Güvenlik ve API Denetimi (Raunt 1)','IN_PROGRESS','TARGETED','2026-02-15','2026-05-15','00000000-0000-0000-0000-000000000004', 85, 160, 60)
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 6. AÇIK BULGULAR (audit_findings) — Kaskad silme uyarısı için OPEN / devam eden statü
+-- status NOT IN ('CLOSED','REMEDIATED','ARCHIVED') olan 3–4 bulgu.
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.audit_findings (id, engagement_id, title, severity, status, state, details, impact_score, likelihood_score, gias_category, financial_impact) VALUES
+  ('f1000000-0000-0000-0000-000000000001','52d72f07-e813-4cff-8218-4a64f7a3ba01','Murabaha emtia teyit belgelerinde eksiklik','HIGH','FINAL','IN_NEGOTIATION','{"condition":"Örneklemde 12 işlemde teyit belgesi 5+ iş günü gecikmeli.","criteria":"İç prosedür MRB-02.","recommendation":"Belge giriş süresini 3 iş günü ile sınırlayın."}'::jsonb, 4, 3, 'Uyum Riski', 250000),
+  ('f1000000-0000-0000-0000-000000000002','52d72f07-e813-4cff-8218-4a64f7a3ba01','Havuz kar/zarar dağıtımında manuel müdahale riski','MEDIUM','DRAFT','DRAFT','{"condition":"Havuz hesaplama modülünde manuel düzeltme yetkisi geniş.","recommendation":"Yetki daraltma ve onay zinciri."}'::jsonb, 3, 3, 'Finansal Risk', 0),
+  ('f1000000-0000-0000-0000-000000000003','52d72f07-e813-4cff-8218-4a64f7a3ba02','API BOLA zafiyeti (yetkisiz kayıt erişimi)','CRITICAL','FINAL','IN_NEGOTIATION','{"condition":"Test sırasında başka müşteri kaydına erişim tespit edildi.","criteria":"OWASP API Security.","recommendation":"Object-level yetkilendirme ve test."}'::jsonb, 5, 4, 'Teknolojik Risk', 1200000),
+  ('f1000000-0000-0000-0000-000000000004','52d72f07-e813-4cff-8218-4a64f7a3ba02','Kritik yama gecikmesi (CVE-2025-xxxx)','HIGH','FINAL','IN_NEGOTIATION','{"condition":"90+ gün açık kalan kritik CVE.","recommendation":"Yama penceresini 30 güne düşürün."}'::jsonb, 4, 4, 'Teknolojik Risk', 500000)
+ON CONFLICT (id) DO NOTHING;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 7. TEST: İZİN VE ÇAKIŞMA SENARYOSU (Gantt UX / ConflictWarningCard / Kaynak Tahsisi)
+-- Denetçi: Murat Şen (00000000-0000-0000-0000-000000000003) — 0.3b auditor_profiles ile listelenir.
+-- talent_absences: Aynı denetçi bugünden 5 günlük LEAVE (Gantt’ta gri izin bloğu).
+-- audit_engagements: Aynı denetçi assigned_auditor_id ile örtüşen tarihlerde (ayın 10–20’si) 2 görev → çakışma uyarısı.
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO public.talent_absences (id, tenant_id, user_id, start_date, end_date, absence_type, reason) VALUES
+  ('a1000000-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-000000000003', CURRENT_DATE, (CURRENT_DATE + INTERVAL '4 days')::date, 'LEAVE', 'Test: İzin ve çakışma senaryosu için 5 günlük izin')
+ON CONFLICT (id) DO NOTHING;
+
+-- Aynı plan içinde (plan_id, entity_id) benzersiz; entity 032 ve 033 kullanıldı. Aynı denetçi (003) iki görevde → çakışma.
+INSERT INTO public.audit_engagements (id, tenant_id, plan_id, entity_id, title, status, audit_type, start_date, end_date, assigned_auditor_id, risk_snapshot_score, estimated_hours, actual_hours) VALUES
+  ('62d72f07-e813-4cff-8218-4a64f7a3ba01', '11111111-1111-1111-1111-111111111111', 'd0000000-0000-0000-0000-000000000001', 'e0000000-0000-0000-0000-000000000032', 'Çakışma Testi Görev A (10-20)', 'IN_PROGRESS', 'TARGETED', (date_trunc('month', CURRENT_DATE)::date + 9), (date_trunc('month', CURRENT_DATE)::date + 19), '00000000-0000-0000-0000-000000000003', 70, 80, 20),
+  ('62d72f07-e813-4cff-8218-4a64f7a3ba02', '11111111-1111-1111-1111-111111111111', 'd0000000-0000-0000-0000-000000000001', 'e0000000-0000-0000-0000-000000000033', 'Çakışma Testi Görev B (10-20)', 'PLANNED', 'TARGETED', (date_trunc('month', CURRENT_DATE)::date + 9), (date_trunc('month', CURRENT_DATE)::date + 19), '00000000-0000-0000-0000-000000000003', 65, 60, 0)
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- 8. CCM ALARMLARI (ccm_alerts) — Canlı Tehdit / Siber Anomali Seed (İcraat 6.2)
+-- AI Anomali Panelinde listelenir; status OPEN/INVESTIGATING.
+-- Şema: 20260207210659 (metadata yok; rule_triggered CHECK: ... CUSTOM)
+-- =============================================================================
+INSERT INTO public.ccm_alerts (id, rule_triggered, risk_score, severity, title, description, evidence_data, status) VALUES
+  (
+    'c1000000-0000-0000-0000-000000000001',
+    'UNUSUAL_HOURS',
+    98,
+    'CRITICAL',
+    'Gece Yarısı Şüpheli Fon Transferi',
+    'Saat 03:15''te uyuyan bir müşteri hesabından peş peşe 5 adet yüksek tutarlı Swift çıkışı denendi. AI Güven Skoru: %98. Kaynak: Core Banking DB.',
+    '{}'::jsonb,
+    'OPEN'
+  ),
+  (
+    'c1000000-0000-0000-0000-000000000002',
+    'CUSTOM',
+    85,
+    'HIGH',
+    'Teverruk API Yetkisiz Erişim',
+    'Emtia doğrulama servisine (API Gateway) yetkisiz IP bloklarından (BOLA saldırısı) erişim girişimi tespit edildi.',
+    '{}'::jsonb,
+    'INVESTIGATING'
+  ),
+  (
+    'c1000000-0000-0000-0000-000000000003',
+    'CUSTOM',
+    82,
+    'HIGH',
+    'Murabaha Tahsis Limit Aşımı',
+    'Bireysel Krediler modülünde, onay yetkisi olmayan bir kullanıcı (Gişe yetkilisi) tarafından limit üstü Murabaha tahsisi onaylanmaya çalışıldı.',
+    '{}'::jsonb,
+    'OPEN'
+  ),
+  (
+    'c1000000-0000-0000-0000-000000000004',
+    'CUSTOM',
+    65,
+    'MEDIUM',
+    'Veritabanı Yığın Veri Çekimi (Data Exfiltration)',
+    'Müşteri Master tablosundan son 10 dakika içinde normalin 40 katı büyüklüğünde SELECT sorgusu çalıştırıldı.',
+    '{}'::jsonb,
+    'OPEN'
+  )
+ON CONFLICT (id) DO NOTHING;

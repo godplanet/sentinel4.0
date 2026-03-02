@@ -85,7 +85,7 @@ export function BulkPlanningModal({
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="p-2 hover:bg-surface/10 rounded-lg transition-colors"
           >
             <X className="w-6 h-6 text-white/60" />
           </button>
@@ -95,19 +95,19 @@ export function BulkPlanningModal({
           {!result ? (
             <>
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                <div className="bg-surface/5 backdrop-blur-xl border border-white/10 rounded-xl p-4">
                   <div className="text-white/60 text-xs mb-1">Selected Entities</div>
                   <div className="text-3xl font-bold text-white">
                     {selectedEntities.length}
                   </div>
                 </div>
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                <div className="bg-surface/5 backdrop-blur-xl border border-white/10 rounded-xl p-4">
                   <div className="text-white/60 text-xs mb-1">Avg Risk Score</div>
                   <div className="text-3xl font-bold text-orange-400">
                     {avgRiskScore.toFixed(0)}
                   </div>
                 </div>
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                <div className="bg-surface/5 backdrop-blur-xl border border-white/10 rounded-xl p-4">
                   <div className="text-white/60 text-xs mb-1">Est. Total Hours</div>
                   <div className="text-3xl font-bold text-blue-400">
                     {totalEstimatedHours}
@@ -124,7 +124,7 @@ export function BulkPlanningModal({
                     type="number"
                     value={year}
                     onChange={(e) => setYear(parseInt(e.target.value))}
-                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full px-4 py-3 bg-surface/5 backdrop-blur-xl border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
 
@@ -135,7 +135,7 @@ export function BulkPlanningModal({
                   <select
                     value={auditType}
                     onChange={(e) => setAuditType(e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full px-4 py-3 bg-surface/5 backdrop-blur-xl border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                   >
                     <option value="AUTO">Auto (Risk-Based)</option>
                     <option value="COMPREHENSIVE">Comprehensive</option>
@@ -167,7 +167,7 @@ export function BulkPlanningModal({
               </div>
 
               <div className="border border-white/10 rounded-xl overflow-hidden">
-                <div className="bg-white/5 px-4 py-2 border-b border-white/10">
+                <div className="bg-surface/5 px-4 py-2 border-b border-white/10">
                   <div className="text-white font-medium text-sm">
                     Selected Entities
                   </div>
@@ -182,7 +182,7 @@ export function BulkPlanningModal({
                     return (
                       <div
                         key={entity.id}
-                        className="px-4 py-3 border-b border-white/5 hover:bg-white/5 flex items-center justify-between"
+                        className="px-4 py-3 border-b border-white/5 hover:bg-surface/5 flex items-center justify-between"
                       >
                         <div className="flex-1">
                           <div className="text-white font-medium text-sm">
@@ -246,7 +246,7 @@ export function BulkPlanningModal({
         <div className="border-t border-white/10 p-6 flex items-center justify-between">
           <button
             onClick={onClose}
-            className="px-6 py-3 bg-white/5 text-white rounded-xl font-semibold hover:bg-white/10 transition-colors"
+            className="px-6 py-3 bg-surface/5 text-white rounded-xl font-semibold hover:bg-surface/10 transition-colors"
           >
             {result ? 'Close' : 'Cancel'}
           </button>

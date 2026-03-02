@@ -51,10 +51,10 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-all">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-200 flex flex-col max-h-[90vh]">
+      <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-200 flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b bg-slate-50">
+        <div className="flex justify-between items-center p-6 border-b bg-canvas">
           <div className="flex items-center gap-3">
             <div className={`p-3 rounded-xl ${type === 'goal' ? 'bg-indigo-100 text-indigo-600' : 'bg-emerald-100 text-emerald-600'}`}>
               {type === 'goal' ? <Target size={24} /> : <ListChecks size={24} />}
@@ -123,7 +123,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
                         <Tag size={16} className="text-indigo-500" /> Stratejik Boyut (BSC)
                       </label>
                       <select 
-                        className="w-full px-3 py-2.5 border rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer hover:bg-white transition-colors"
+                        className="w-full px-3 py-2.5 border rounded-xl bg-canvas outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer hover:bg-surface transition-colors"
                         value={formData.category}
                         onChange={e => setFormData({...formData, category: e.target.value})}
                       >
@@ -147,7 +147,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
                             className={`py-2 rounded-lg text-sm font-bold border transition-all ${
                               formData.period_year === year 
                                 ? 'bg-indigo-600 text-white border-indigo-600 shadow-md' 
-                                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                : 'bg-surface text-slate-600 border-slate-200 hover:bg-canvas'
                             }`}
                           >
                             {year}
@@ -175,7 +175,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
                       <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-1.5">
                         <Percent size={16} className="text-indigo-500" /> Stratejik Ağırlık
                       </label>
-                      <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                      <div className="bg-canvas p-4 rounded-xl border border-slate-200">
                         <div className="flex justify-between mb-2">
                           <span className="text-xs font-bold text-slate-500">Etki Oranı</span>
                           <span className="text-sm font-bold text-indigo-600">%{formData.weight}</span>
@@ -206,7 +206,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
                             className={`py-2 rounded-lg text-xs font-bold border transition-all ${
                               formData.riskAppetite === opt.val 
                                 ? `ring-2 ring-offset-1 ring-slate-400 ${opt.color} shadow-sm` 
-                                : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
+                                : 'bg-surface text-slate-500 border-slate-200 hover:bg-canvas'
                             }`}
                           >
                             {opt.label}
@@ -224,7 +224,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">Denetim Faaliyet Türü</label>
                 <select 
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-white"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-surface"
                   value={formData.auditType}
                   onChange={e => setFormData({...formData, auditType: e.target.value})}
                 >
@@ -239,7 +239,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
         </div>
 
         {/* Footer Actions */}
-        <div className="p-6 border-t bg-slate-50 flex justify-between items-center">
+        <div className="p-6 border-t bg-canvas flex justify-between items-center">
           <div className="text-xs text-slate-400 font-medium">
             * Zorunlu alanlar işaretlenmiştir.
           </div>
@@ -247,7 +247,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
             <button 
               type="button" 
               onClick={onClose} 
-              className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 rounded-xl transition-all"
+              className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:bg-surface hover:shadow-sm border border-transparent hover:border-slate-200 rounded-xl transition-all"
             >
               Vazgeç
             </button>

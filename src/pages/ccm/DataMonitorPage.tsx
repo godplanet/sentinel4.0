@@ -25,14 +25,14 @@ function KPICard({ label, value, icon: Icon, color, sub }: KPICardProps) {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-sm transition-shadow"
+      className="bg-surface border border-slate-200 rounded-lg p-4 hover:shadow-sm transition-shadow"
     >
       <div className="flex items-start justify-between mb-2">
         <div className={clsx('w-9 h-9 rounded-lg flex items-center justify-center', color)}>
           <Icon size={18} />
         </div>
       </div>
-      <div className="text-2xl font-black text-slate-900 tabular-nums">{typeof value === 'number' ? value.toLocaleString('tr-TR') : value}</div>
+      <div className="text-2xl font-black text-primary tabular-nums">{typeof value === 'number' ? value.toLocaleString('tr-TR') : value}</div>
       <div className="text-[11px] text-slate-500 mt-0.5">{label}</div>
       {sub && <div className="text-[10px] text-slate-400 mt-0.5">{sub}</div>}
     </motion.div>
@@ -158,20 +158,20 @@ export default function DataMonitorPage() {
       {tab === 'overview' && (
         <div className="space-y-6">
           <div>
-            <h3 className="text-sm font-bold text-slate-900 mb-3">Veri Kaynaklari</h3>
+            <h3 className="text-sm font-bold text-primary mb-3">Veri Kaynaklari</h3>
             <SourceCards sources={sources} />
           </div>
 
           {alerts.filter((a) => a.status === 'OPEN').length > 0 && (
             <div>
-              <h3 className="text-sm font-bold text-slate-900 mb-3">Acik Alarmlar</h3>
+              <h3 className="text-sm font-bold text-primary mb-3">Acik Alarmlar</h3>
               <AlertPanel alerts={alerts.filter((a) => a.status === 'OPEN')} />
             </div>
           )}
 
           <div>
-            <h3 className="text-sm font-bold text-slate-900 mb-3">Son Islemler</h3>
-            <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+            <h3 className="text-sm font-bold text-primary mb-3">Son Islemler</h3>
+            <div className="bg-surface border border-slate-200 rounded-lg overflow-hidden">
               <LiveFeed transactions={transactions.slice(0, 20)} />
             </div>
           </div>
@@ -179,11 +179,11 @@ export default function DataMonitorPage() {
       )}
 
       {tab === 'feed' && (
-        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+        <div className="bg-surface border border-slate-200 rounded-lg overflow-hidden">
           <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Radio size={14} className="text-teal-600" />
-              <h3 className="text-sm font-bold text-slate-900">Canli Islem Akisi</h3>
+              <h3 className="text-sm font-bold text-primary">Canli Islem Akisi</h3>
             </div>
             <span className="text-[11px] text-slate-400">{transactions.length} islem gosteriliyor</span>
           </div>
@@ -194,7 +194,7 @@ export default function DataMonitorPage() {
       {tab === 'alerts' && (
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-bold text-slate-900">Tum Alarmlar</h3>
+            <h3 className="text-sm font-bold text-primary">Tum Alarmlar</h3>
             <span className="text-[11px] text-slate-400">{alerts.length} alarm</span>
           </div>
           <AlertPanel alerts={alerts} />

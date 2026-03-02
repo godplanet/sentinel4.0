@@ -44,14 +44,14 @@ export default function ResourcesPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Kaynak Yönetimi"
         subtitle="Yetenek, Beceri ve Eğitim Yönetimi"
         icon={Users}
       />
 
-      <div className="border-b border-slate-200 bg-white px-6">
+      <div className="border-b border-slate-200 bg-surface px-6">
         <div className="flex gap-1">
           {TABS.map((tab) => (
             <button
@@ -61,7 +61,7 @@ export default function ResourcesPage() {
                 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                 activeTab === tab.key
                   ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
               )}
             >
               <tab.icon size={16} />
@@ -73,7 +73,7 @@ export default function ResourcesPage() {
 
       <div className="flex-1 overflow-auto p-6">
         {activeTab === 'talent' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <Users size={20} className="text-blue-600" />
               Denetçi Yetenek Matrisi
@@ -86,7 +86,7 @@ export default function ResourcesPage() {
         )}
 
         {activeTab === 'cpe' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <GraduationCap size={20} className="text-green-600" />
               Sürekli Mesleki Eğitim (CPE)
@@ -117,8 +117,8 @@ export default function ResourcesPage() {
                   </thead>
                   <tbody>
                     {cpeRecords.map((record) => (
-                      <tr key={record.id} className="border-b border-slate-100 hover:bg-slate-50">
-                        <td className="py-3 px-4 text-sm text-slate-900">{record.activity_name}</td>
+                      <tr key={record.id} className="border-b border-slate-100 hover:bg-canvas">
+                        <td className="py-3 px-4 text-sm text-primary">{record.activity_name}</td>
                         <td className="py-3 px-4">
                           <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">
                             <Award size={12} />

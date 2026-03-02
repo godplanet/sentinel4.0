@@ -82,7 +82,7 @@ function SectionView({ section, readOnly, collabCtx }: SectionViewProps) {
       id={`section-${section.id}`}
       className="mb-16 scroll-mt-8"
     >
-      <h2 className="font-serif text-3xl font-bold mb-6 text-slate-900 pb-3 border-b border-slate-200">
+      <h2 className="font-serif text-3xl font-bold mb-6 text-primary pb-3 border-b border-slate-200">
         {section.title}
       </h2>
       <div>
@@ -176,7 +176,7 @@ export function ZenCanvas({ readOnly = false, warmth = 2, externalCollabCtx }: Z
 
   if (!activeReport) {
     return (
-      <main className="flex-1 bg-slate-100 overflow-y-auto p-6 lg:p-10 flex items-center justify-center">
+      <main className="flex-1 bg-canvas overflow-y-auto p-6 lg:p-10 flex items-center justify-center">
         <div className="text-center space-y-2">
           <div className="w-10 h-10 rounded-full bg-slate-200 animate-pulse mx-auto" />
           <p className="text-sm font-sans text-slate-400">Rapor yükleniyor...</p>
@@ -190,7 +190,7 @@ export function ZenCanvas({ readOnly = false, warmth = 2, externalCollabCtx }: Z
   return (
     <main
       ref={scrollRef as React.RefObject<HTMLElement>}
-      className="flex-1 bg-slate-100 overflow-y-auto p-6 lg:p-10"
+      className="flex-1 bg-canvas overflow-y-auto p-6 lg:p-10"
     >
       <div
         className="max-w-4xl mx-auto min-h-[1056px] p-10 lg:p-16 rounded-sm

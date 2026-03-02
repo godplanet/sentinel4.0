@@ -28,14 +28,14 @@ export function SprintSelector({ sprints, activeSprint, onSelect }: SprintSelect
               'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-all whitespace-nowrap',
               isActive
                 ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                : 'bg-surface text-slate-700 border-slate-200 hover:bg-canvas'
             )}
           >
             <Target size={14} />
             <span>Sprint {sprint.sprint_number}</span>
             <span className={clsx(
               'text-[10px] px-1.5 py-0.5 rounded font-semibold',
-              isActive ? 'bg-white/20 text-white' : STATUS_COLORS[sprint.status]
+              isActive ? 'bg-surface/20 text-white' : STATUS_COLORS[sprint.status]
             )}>
               {SPRINT_STATUS_LABELS[sprint.status]}
             </span>

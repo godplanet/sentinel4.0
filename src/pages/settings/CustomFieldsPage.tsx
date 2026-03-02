@@ -112,7 +112,7 @@ export default function CustomFieldsPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Ozel Alan Yoneticisi"
         subtitle="Modul bazli dinamik alan tanimlari"
@@ -121,14 +121,14 @@ export default function CustomFieldsPage() {
 
       <div className="flex-1 overflow-auto p-6 space-y-6">
         <div className="flex items-center justify-between">
-          <div className="flex bg-white border border-slate-200 p-0.5 rounded-lg shadow-sm">
+          <div className="flex bg-surface border border-slate-200 p-0.5 rounded-lg shadow-sm">
             {(Object.keys(MODULE_CONFIG) as EntityModule[]).map(m => (
               <button
                 key={m}
                 onClick={() => setActiveModule(m)}
                 className={clsx(
                   'px-4 py-2 text-xs font-bold rounded-md transition-all',
-                  activeModule === m ? 'bg-slate-800 text-white' : 'text-slate-600 hover:bg-slate-50'
+                  activeModule === m ? 'bg-slate-800 text-white' : 'text-slate-600 hover:bg-canvas'
                 )}
               >
                 {MODULE_CONFIG[m].label}
@@ -145,7 +145,7 @@ export default function CustomFieldsPage() {
         </div>
 
         {moduleFields.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-xl border-2 border-dashed border-slate-200">
+          <div className="text-center py-16 bg-surface rounded-xl border-2 border-dashed border-slate-200">
             <Settings2 className="mx-auto text-slate-300 mb-3" size={48} />
             <p className="text-sm font-semibold text-slate-600">Bu modul icin ozel alan tanimlanmamis</p>
             <p className="text-xs text-slate-500 mt-1">Yeni alan eklemek icin butonu kullanin</p>
@@ -163,7 +163,7 @@ export default function CustomFieldsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.03 }}
                   className={clsx(
-                    'bg-white rounded-lg border border-slate-200 p-4 flex items-center gap-4 group',
+                    'bg-surface rounded-lg border border-slate-200 p-4 flex items-center gap-4 group',
                     !field.active && 'opacity-50'
                   )}
                 >
@@ -175,7 +175,7 @@ export default function CustomFieldsPage() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="font-semibold text-slate-900 text-sm">{field.label}</p>
+                      <p className="font-semibold text-primary text-sm">{field.label}</p>
                       {field.required && (
                         <span className="text-[10px] font-bold px-1.5 py-0.5 bg-red-100 text-red-700 rounded">ZORUNLU</span>
                       )}
@@ -223,12 +223,12 @@ export default function CustomFieldsPage() {
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-lg w-full"
+              className="bg-surface rounded-2xl shadow-2xl max-w-lg w-full"
               onClick={e => e.stopPropagation()}
             >
               <div className="bg-slate-800 px-6 py-4 rounded-t-2xl flex items-center justify-between">
                 <h2 className="text-lg font-bold text-white">{editingField ? 'Alan Duzenle' : 'Yeni Alan Ekle'}</h2>
-                <button onClick={() => setShowForm(false)} className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30">
+                <button onClick={() => setShowForm(false)} className="w-8 h-8 bg-surface/20 rounded-lg flex items-center justify-center hover:bg-surface/30">
                   <X size={16} className="text-white" />
                 </button>
               </div>
@@ -237,12 +237,12 @@ export default function CustomFieldsPage() {
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1">Alan Adi (key)</label>
                     <input type="text" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm font-mono" placeholder="field_name" />
+                      className="w-full px-3 py-2 bg-canvas border-2 border-slate-300 rounded-lg text-sm font-mono" placeholder="field_name" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1">Etiket</label>
                     <input type="text" value={form.label} onChange={e => setForm(p => ({ ...p, label: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm" placeholder="Gorunen ad" />
+                      className="w-full px-3 py-2 bg-canvas border-2 border-slate-300 rounded-lg text-sm" placeholder="Gorunen ad" />
                   </div>
                 </div>
                 <div>
@@ -265,14 +265,14 @@ export default function CustomFieldsPage() {
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1">Secenekler (virgul ile ayirin)</label>
                     <input type="text" value={form.options} onChange={e => setForm(p => ({ ...p, options: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm" placeholder="Secenek1, Secenek2, Secenek3" />
+                      className="w-full px-3 py-2 bg-canvas border-2 border-slate-300 rounded-lg text-sm" placeholder="Secenek1, Secenek2, Secenek3" />
                   </div>
                 )}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1">Varsayilan Deger</label>
                     <input type="text" value={form.defaultValue} onChange={e => setForm(p => ({ ...p, defaultValue: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm" placeholder="Opsiyonel" />
+                      className="w-full px-3 py-2 bg-canvas border-2 border-slate-300 rounded-lg text-sm" placeholder="Opsiyonel" />
                   </div>
                   <div className="flex items-end">
                     <label className="flex items-center gap-2 cursor-pointer">
@@ -283,8 +283,8 @@ export default function CustomFieldsPage() {
                   </div>
                 </div>
               </div>
-              <div className="bg-slate-50 px-6 py-4 flex justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
-                <button onClick={() => setShowForm(false)} className="px-5 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">Iptal</button>
+              <div className="bg-canvas px-6 py-4 flex justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
+                <button onClick={() => setShowForm(false)} className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">Iptal</button>
                 <button onClick={handleSave} disabled={!form.name.trim() || !form.label.trim()}
                   className="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold text-sm disabled:bg-slate-400">
                   <CheckCircle2 size={14} /> Kaydet

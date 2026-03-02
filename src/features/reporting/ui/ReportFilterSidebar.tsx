@@ -58,7 +58,7 @@ export function ReportFilterSidebar({
     onChange({ ...filters, [key]: value });
 
   return (
-    <aside className="w-64 flex-shrink-0 border-r border-slate-200 bg-white h-full overflow-y-auto">
+    <aside className="w-64 flex-shrink-0 border-r border-slate-200 bg-surface h-full overflow-y-auto">
       <div className="p-4">
         <div className="flex items-center gap-2 mb-5">
           <Filter size={15} className="text-slate-500" />
@@ -73,7 +73,7 @@ export function ReportFilterSidebar({
             <select
               value={filters.year}
               onChange={(e) => set('year', e.target.value)}
-              className="w-full appearance-none border border-slate-200 rounded-lg px-3 py-2 text-sm font-sans text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-colors pr-8"
+              className="w-full appearance-none border border-slate-200 rounded-lg px-3 py-2 text-sm font-sans text-slate-700 bg-surface focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-colors pr-8"
             >
               {YEARS.map((y) => (
                 <option key={y} value={y}>
@@ -104,7 +104,7 @@ export function ReportFilterSidebar({
                     'w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-sm font-sans transition-colors text-left',
                     isActive
                       ? 'bg-blue-50 text-blue-700 font-semibold'
-                      : 'text-slate-600 hover:bg-slate-50',
+                      : 'text-slate-600 hover:bg-canvas',
                   )}
                 >
                   <span>{rt.label}</span>
@@ -137,7 +137,7 @@ export function ReportFilterSidebar({
                     'w-full px-3 py-1.5 rounded-lg text-sm font-sans transition-colors text-left',
                     isActive
                       ? 'bg-blue-50 text-blue-700 font-semibold'
-                      : 'text-slate-600 hover:bg-slate-50',
+                      : 'text-slate-600 hover:bg-canvas',
                   )}
                 >
                   {rl.label}
@@ -162,7 +162,7 @@ export function ReportFilterSidebar({
                     'w-full px-3 py-1.5 rounded-lg text-sm font-sans transition-colors text-left',
                     isActive
                       ? 'bg-blue-50 text-blue-700 font-semibold'
-                      : 'text-slate-600 hover:bg-slate-50',
+                      : 'text-slate-600 hover:bg-canvas',
                   )}
                 >
                   {s.label}

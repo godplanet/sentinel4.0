@@ -189,12 +189,12 @@ function FixScenarioCard({ scenario }: { scenario: FixScenario }) {
 
   return (
     <div className={clsx(
-      'bg-white border rounded-xl overflow-hidden transition-all',
+      'bg-surface border rounded-xl overflow-hidden transition-all',
       phase === 'success' ? 'border-emerald-200' : 'border-slate-200',
     )}>
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-3 p-4 text-left hover:bg-slate-50/50 transition-colors"
+        className="w-full flex items-center gap-3 p-4 text-left hover:bg-canvas/50 transition-colors"
       >
         <div className={clsx(
           'w-8 h-8 rounded-lg flex items-center justify-center shrink-0',
@@ -208,7 +208,7 @@ function FixScenarioCard({ scenario }: { scenario: FixScenario }) {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-slate-900">{scenario.title}</span>
+            <span className="text-sm font-bold text-primary">{scenario.title}</span>
             <span className={clsx('text-[9px] font-bold px-1.5 py-0.5 rounded border', severityColors[scenario.severity])}>
               {scenario.severity}
             </span>
@@ -329,7 +329,7 @@ export function FixItCard() {
     <div className="space-y-3">
       <div className="flex items-center gap-2 mb-1">
         <Wrench size={16} className="text-slate-600" />
-        <h3 className="text-sm font-bold text-slate-900">Aktif Iyilestirme (Fix-It)</h3>
+        <h3 className="text-sm font-bold text-primary">Aktif Iyilestirme (Fix-It)</h3>
         <span className="text-[10px] text-slate-500">IaC tabanli otomatik duzeltme</span>
       </div>
 

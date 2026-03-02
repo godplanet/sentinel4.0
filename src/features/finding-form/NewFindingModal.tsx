@@ -16,9 +16,6 @@ import { ACTIVE_TENANT_ID } from '@/shared/lib/constants';
 
 import { RichTextEditor } from '@/shared/ui/RichTextEditor';
 
-// UNIVERSAL DRAWER (SINGLE SOURCE OF TRUTH)
-import { UniversalFindingDrawer } from '@/widgets/UniversalFindingDrawer';
-
 // STORE BAĞLANTILARI
 import { useParameterStore } from '@/entities/settings/model/parameter-store';
 import { useUIStore } from '@/shared/stores/ui-store';
@@ -35,7 +32,7 @@ interface NewFindingModalProps {
   engagementId?: string | null;
 }
 
-type FormSection = 'tespit' | 'risk' | 'koken' | 'oneri';
+type FormSection = 'kriter' | 'tespit' | 'risk' | 'koken' | 'oneri';
 
 // --- UI ÇEVİRİ SÖZLÜĞÜ ---
 const SEVERITY_TR: Record<string, string> = {
@@ -53,7 +50,7 @@ const MultiSelectDropdown = ({ options, selected, onChange, placeholder }: { opt
 
     return (
       <div className="relative">
-        <div className="w-full px-4 py-2.5 border border-slate-300 rounded-lg bg-white cursor-pointer flex items-center justify-between hover:border-blue-400 transition-colors" onClick={() => setIsOpen(!isOpen)}>
+        <div className="w-full px-4 py-2.5 border border-slate-300 rounded-lg bg-surface cursor-pointer flex items-center justify-between hover:border-blue-400 transition-colors" onClick={() => setIsOpen(!isOpen)}>
           <span className={clsx("truncate text-sm font-medium", selected.length === 0 ? "text-slate-400" : "text-slate-800")}>
             {selected.length === 0 ? placeholder : `${selected.length} Risk Kategorisi Seçildi`}
           </span>
@@ -62,9 +59,9 @@ const MultiSelectDropdown = ({ options, selected, onChange, placeholder }: { opt
         {isOpen && (
           <>
             <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)}></div>
-            <div className="absolute z-20 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-auto">
+            <div className="absolute z-20 w-full mt-1 bg-surface border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-auto">
               {safeOptions.map((opt) => (
-                <label key={opt.id} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-0 transition-colors">
+                <label key={opt.id} className="flex items-center gap-3 px-4 py-3 hover:bg-canvas cursor-pointer border-b border-slate-100 last:border-0 transition-colors">
                   <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-slate-300 cursor-pointer" checked={selected.includes(opt.id)}
                     onChange={() => {
                       if (selected.includes(opt.id)) { onChange(selected.filter(s => s !== opt.id)); }
@@ -102,17 +99,14 @@ const RiskSlider = ({ label, value, onChange, icon: Icon }: { label: string, val
 
 
 export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engagementId }: NewFindingModalProps) => {
-  const [activeSection, setActiveSection] = useState<FormSection>('tespit');
+  const [activeSection, setActiveSection] = useState<FormSection>('kriter');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRegulationModalOpen, setIsRegulationModalOpen] = useState(false);
   const [selectedRegulation, setSelectedRegulation] = useState<any>(null);
 
-  // UNIVERSAL DRAWER STATE
-  const [isUniversalDrawerOpen, setIsUniversalDrawerOpen] = useState(false);
-
   // STORE BAĞLANTILARI
   const { giasCategories, rcaCategories, riskTypes } = useParameterStore();
-  const { sidebarColor } = useUIStore();
+  const { sidebarColor, openDrawer, closeDrawer } = useUIStore();
 
   // Risk Konfigürasyonu
   const riskConfigStore = useRiskConfigStore();
@@ -145,7 +139,8 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
   });
 
   const sections = [
-    { id: 'tespit' as const, label: 'Kriter & Tespit', icon: FileSearch, color: 'blue' },
+    { id: 'kriter' as const, label: 'Kriter', icon: BookOpen, color: 'indigo' },
+    { id: 'tespit' as const, label: 'Tespit', icon: FileSearch, color: 'blue' },
     { id: 'risk' as const, label: 'Risk & Etki', icon: TrendingUp, color: 'orange' },
     { id: 'koken' as const, label: 'Kök Neden', icon: AlertTriangle, color: 'red' },
     { id: 'oneri' as const, label: 'Öneri', icon: Lightbulb, color: 'green' },
@@ -272,7 +267,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
       <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative min-h-screen flex items-center justify-center p-4">
 
-        <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-7xl max-h-[95vh] flex flex-col overflow-hidden">
+        <div className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-7xl max-h-[95vh] flex flex-col overflow-hidden">
 
           {/* HEADER - APPLE GLASS DOKUNUŞU VE SİDEBAR RENGİ */}
           <div
@@ -308,7 +303,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
                         <span className="bg-black/20 px-1.5 py-0.5 rounded text-xs">{(liveRisk.calculated_score ?? 0).toFixed(1)}</span>
                     </div>
 
-                    <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors ml-2 group">
+                    <button onClick={onClose} className="p-2 hover:bg-surface/10 rounded-full transition-colors ml-2 group">
                         <X className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
                     </button>
                 </div>
@@ -316,83 +311,90 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
           </div>
 
           {/* MAIN CONTENT AREA */}
-          <div className="flex-1 overflow-y-auto p-6 bg-slate-50">
+          <div className="flex-1 overflow-y-auto p-6 bg-canvas">
             <div className="max-w-6xl mx-auto space-y-6">
 
               {/* TEMEL BİLGİLER */}
-              <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
-                    <FileSearch className="w-5 h-5 text-blue-600"/> Temel Bilgiler
+              <div className="bg-surface rounded-xl p-4 border border-slate-200 shadow-sm">
+                <h3 className="text-sm font-bold text-primary mb-4 flex items-center gap-1.5">
+                  <FileSearch className="w-4 h-4 text-blue-600"/> Temel Bilgiler
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Bulgu Başlığı *</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">Bulgu Başlığı *</label>
                     <input
-                        type="text"
-                        value={formData.title}
-                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                        className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
-                        placeholder="Örn: Kasa İşlemlerinde Çift Anahtar Kuralı İhlali"
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-surface text-sm"
+                      placeholder="Örn: Kasa İşlemlerinde Çift Anahtar Kuralı İhlali"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Referans No *</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">Referans No *</label>
                     <input
-                        type="text"
-                        value={formData.code}
-                        onChange={(e) => setFormData({ ...formData, code: e.target.value })}
-                        className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white font-mono"
-                        placeholder="AUD-2025-SR-XX"
+                      type="text"
+                      value={formData.code}
+                      onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-surface font-mono text-sm"
+                      placeholder="AUD-2025-SR-XX"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Sistem Tarafından Atanan Seviye</label>
-                    <div className="w-full px-4 py-2.5 border border-slate-200 rounded-lg bg-slate-100 text-slate-700 font-bold cursor-not-allowed flex items-center shadow-inner">
-                        <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: liveRisk.color_code}}></span>
-                        {SEVERITY_TR[liveRisk.severity]} (Otomatik)
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">Sistem Tarafından Atanan Seviye</label>
+                    <div className="w-full px-3 py-2 border border-slate-200 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold cursor-not-allowed flex items-center shadow-inner">
+                      <span className="w-2.5 h-2.5 rounded-full mr-1.5" style={{backgroundColor: liveRisk.color_code}}></span>
+                      {SEVERITY_TR[liveRisk.severity]} (Otomatik)
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">GIAS Kategorisi</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">GIAS Kategorisi</label>
                     <select
-                        value={formData.gias_category}
-                        onChange={(e) => setFormData({ ...formData, gias_category: e.target.value as any })}
-                        className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                      value={formData.gias_category}
+                      onChange={(e) => setFormData({ ...formData, gias_category: e.target.value as GIASCategory | '' })}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-surface text-sm"
                     >
                       <option value="">Seçiniz</option>
                       {giasCategories.map(cat => (
-                          <option key={cat.id} value={cat.label}>{cat.label}</option>
+                        <option key={cat.id} value={cat.label}>{cat.label}</option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Sorumlu Birim</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">Sorumlu Birim</label>
                     <input
-                        type="text"
-                        value={formData.auditee_department}
-                        onChange={(e) => setFormData({ ...formData, auditee_department: e.target.value })}
-                        className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
-                        placeholder="Örn: Şube Müdürlüğü"
+                      type="text"
+                      value={formData.auditee_department}
+                      onChange={(e) => setFormData({ ...formData, auditee_department: e.target.value })}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-surface text-sm"
+                      placeholder="Örn: Şube Müdürlüğü"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* SECTION TABS */}
-              <div className="flex gap-2">
+              {/* SECTION TABS: Kriter, Tespit, Risk & Etki, Kök Neden, Öneri */}
+              <div className="flex flex-wrap gap-1.5">
                 {sections.map((section) => {
                   const Icon = section.icon;
                   const isActive = activeSection === section.id;
+                  const activeClasses: Record<string, string> = {
+                    indigo: 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20',
+                    blue: 'bg-blue-600 text-white shadow-md shadow-blue-600/20',
+                    orange: 'bg-orange-600 text-white shadow-md shadow-orange-600/20',
+                    red: 'bg-red-600 text-white shadow-md shadow-red-600/20',
+                    green: 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20',
+                  };
                   return (
                     <button
                         key={section.id}
                         onClick={() => setActiveSection(section.id)}
                         className={clsx(
-                            'flex-1 flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-bold text-sm transition-all',
-                            isActive ? `bg-${section.color}-600 text-white shadow-md shadow-${section.color}-600/20` : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                            'flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg font-bold text-xs transition-all',
+                            isActive ? activeClasses[section.color] ?? 'bg-slate-700 text-white' : 'bg-surface border border-slate-200 text-slate-600 hover:bg-canvas'
                         )}
                     >
-                      <Icon className="w-4 h-4" />{section.label}
+                      <Icon className="w-3.5 h-3.5" />{section.label}
                     </button>
                   );
                 })}
@@ -401,73 +403,68 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
               {/* TABS CONTENT */}
               <div className="space-y-6">
 
-                {/* KRİTER & TESPİT */}
-                {activeSection === 'tespit' && (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-2">
-                    <div className="bg-white rounded-xl p-5 border border-indigo-100 shadow-sm flex flex-col min-h-[500px] ring-1 ring-inset ring-indigo-50">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-indigo-50 rounded-lg flex items-center justify-center">
-                                <BookOpen className="w-5 h-5 text-indigo-600" />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-slate-900">Kriter (Criteria)</h3>
-                            </div>
+                {/* KRİTER (önce, tek sütun) */}
+                {activeSection === 'kriter' && (
+                  <div className="bg-surface rounded-xl p-5 border border-indigo-100 shadow-sm flex flex-col min-h-[420px] ring-1 ring-inset ring-indigo-50 animate-in fade-in slide-in-from-bottom-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center">
+                          <BookOpen className="w-4 h-4 text-indigo-600" />
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => setIsRegulationModalOpen(true)}
-                            className="px-3 py-1.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition-colors text-xs font-bold flex items-center gap-1.5"
-                        >
-                            <BookOpen size={14} /> Kütüphaneden Seç
-                        </button>
+                        <h3 className="text-sm font-bold text-primary">Kriter (Criteria)</h3>
                       </div>
-
-                      {selectedRegulation && (
-                          <div className="mb-4 p-3 bg-indigo-50/50 border border-indigo-100 rounded-lg flex items-start gap-3">
-                              <Scale className="w-5 h-5 text-indigo-500 mt-0.5 shrink-0" />
-                              <div>
-                                  <p className="text-xs font-bold text-indigo-900">{selectedRegulation.category} Mevzuatı</p>
-                                  <p className="text-xs text-indigo-700 mt-0.5 line-clamp-2">{selectedRegulation.title}</p>
-                              </div>
-                          </div>
-                      )}
-
-                      <div className="flex-1">
-                          <RichTextEditor
-                              value={formData.criteria_html}
-                              onChange={(val) => setFormData({...formData, criteria_html: val})}
-                              placeholder="İlgili mevzuat maddesi veya prosedür referansı..."
-                              minHeight="min-h-full"
-                          />
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setIsRegulationModalOpen(true)}
+                        className="px-2.5 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition-colors text-[11px] font-bold flex items-center gap-1"
+                      >
+                        <BookOpen size={12} /> Kütüphaneden Seç
+                      </button>
                     </div>
-
-                    <div className="bg-white rounded-xl p-5 border border-blue-100 shadow-sm flex flex-col min-h-[500px] ring-1 ring-inset ring-blue-50">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-                                <FileSearch className="w-5 h-5 text-blue-600" />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-slate-900">Tespit (Condition)</h3>
-                            </div>
+                    {selectedRegulation && (
+                      <div className="mb-3 p-2.5 bg-indigo-50/50 border border-indigo-100 rounded-lg flex items-start gap-2">
+                        <Scale className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-[11px] font-bold text-indigo-900">{selectedRegulation.category} Mevzuatı</p>
+                          <p className="text-[11px] text-indigo-700 mt-0.5 line-clamp-2">{selectedRegulation.title}</p>
                         </div>
-                        <button
-                            type="button"
-                            className="px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-xs font-bold flex items-center gap-1.5"
-                        >
-                            <Sparkles size={14} /> AI Destek
-                        </button>
                       </div>
-                      <div className="flex-1">
-                          <RichTextEditor
-                              value={formData.detection_html}
-                              onChange={(val) => setFormData({...formData, detection_html: val})}
-                              placeholder="Saha çalışmasında tespit edilen bulguyu detaylı olarak açıklayın..."
-                              minHeight="min-h-full"
-                          />
+                    )}
+                    <div className="flex-1 min-h-[280px]">
+                      <RichTextEditor
+                        value={formData.criteria_html}
+                        onChange={(val) => setFormData({ ...formData, criteria_html: val })}
+                        placeholder="İlgili mevzuat maddesi veya prosedür referansı..."
+                        minHeight="min-h-[260px]"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* TESPİT (sonra, tek sütun) */}
+                {activeSection === 'tespit' && (
+                  <div className="bg-surface rounded-xl p-5 border border-blue-100 shadow-sm flex flex-col min-h-[420px] ring-1 ring-inset ring-blue-50 animate-in fade-in slide-in-from-bottom-2">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                          <FileSearch className="w-4 h-4 text-blue-600" />
+                        </div>
+                        <h3 className="text-sm font-bold text-primary">Tespit (Condition)</h3>
                       </div>
+                      <button
+                        type="button"
+                        className="px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-[11px] font-bold flex items-center gap-1"
+                      >
+                        <Sparkles size={12} /> AI Destek
+                      </button>
+                    </div>
+                    <div className="flex-1 min-h-[280px]">
+                      <RichTextEditor
+                        value={formData.detection_html}
+                        onChange={(val) => setFormData({ ...formData, detection_html: val })}
+                        placeholder="Saha çalışmasında tespit edilen bulguyu detaylı olarak açıklayın..."
+                        minHeight="min-h-[260px]"
+                      />
                     </div>
                   </div>
                 )}
@@ -478,14 +475,14 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
                       <div className="xl:col-span-2 flex flex-col gap-6">
 
                           {/* RİSK SEÇİMİ */}
-                          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-                               <div className="flex items-center gap-3 mb-5">
-                                  <div className="w-10 h-10 bg-violet-50 rounded-lg flex items-center justify-center">
-                                      <AlertCircle className="w-5 h-5 text-violet-600" />
+                          <div className="bg-surface rounded-xl p-6 border border-slate-200 shadow-sm">
+                               <div className="flex items-center gap-2 mb-4">
+                                  <div className="w-8 h-8 bg-violet-50 rounded-lg flex items-center justify-center">
+                                      <AlertCircle className="w-4 h-4 text-violet-600" />
                                   </div>
                                   <div>
-                                      <h3 className="text-lg font-bold text-slate-900">Risk Kategorizasyonu</h3>
-                                      <p className="text-xs text-slate-500">Bu bulgu hangi risk türlerini barındırıyor?</p>
+                                      <h3 className="text-sm font-bold text-primary">Risk Kategorizasyonu</h3>
+                                      <p className="text-[11px] text-slate-500">Bu bulgu hangi risk türlerini barındırıyor?</p>
                                   </div>
                                </div>
 
@@ -507,14 +504,14 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
                           </div>
 
                           {/* ETKİ AÇIKLAMASI */}
-                          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col min-h-[400px]">
-                              <div className="flex items-center gap-3 mb-4">
-                                  <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
-                                      <TrendingUp className="w-5 h-5 text-orange-600" />
+                          <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col min-h-[400px]">
+                              <div className="flex items-center gap-2 mb-3">
+                                  <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
+                                      <TrendingUp className="w-4 h-4 text-orange-600" />
                                   </div>
                                   <div>
-                                      <h3 className="text-lg font-bold text-slate-900">Risk ve Etki Açıklaması (Effect)</h3>
-                                      <p className="text-xs text-slate-500">Seçilen risklerin kurum üzerindeki etkileri</p>
+                                      <h3 className="text-sm font-bold text-primary">Risk ve Etki Açıklaması (Effect)</h3>
+                                      <p className="text-[11px] text-slate-500">Seçilen risklerin kurum üzerindeki etkileri</p>
                                   </div>
                               </div>
                               <div className="flex-1">
@@ -530,8 +527,8 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
 
                       {/* MOTOR VE VETOLAR */}
                       <div className="flex flex-col gap-6">
-                          <div className="bg-white rounded-xl p-6 border border-orange-100 shadow-sm ring-1 ring-inset ring-orange-50">
-                              <h3 className="text-base font-black text-slate-800 mb-5 pb-3 border-b border-slate-100">Etki Motoru (WIF)</h3>
+                          <div className="bg-surface rounded-xl p-6 border border-orange-100 shadow-sm ring-1 ring-inset ring-orange-50">
+                              <h3 className="text-sm font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">Etki Motoru (WIF)</h3>
 
                               <RiskSlider label="Finansal Etki" value={formData.impact_financial} onChange={v => setFormData({...formData, impact_financial: v})} icon={Banknote} />
                               <RiskSlider label="Yasal Etki" value={formData.impact_legal} onChange={v => setFormData({...formData, impact_legal: v})} icon={Scale} />
@@ -549,7 +546,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
                                       type="text"
                                       value={formatCurrency(formData.financial_impact)}
                                       onChange={handleFinancialImpactChange}
-                                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg bg-slate-50 focus:bg-white text-base font-bold text-slate-800"
+                                      className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-canvas focus:bg-surface text-sm font-bold text-slate-800"
                                       placeholder="0"
                                   />
                               </div>
@@ -567,7 +564,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
                                       </button>
                                   </div>
                                   {formData.isShariahRisk && (
-                                      <div className="p-5 border-t border-emerald-100 bg-white">
+                                      <div className="p-5 border-t border-emerald-100 bg-surface">
                                           <RiskSlider label="Şer'i İhlal Etkisi" value={formData.shariah_impact} onChange={v => setFormData({...formData, shariah_impact: v})} icon={Scale} />
                                           <button
                                               type="button"
@@ -581,7 +578,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
                                   )}
                               </div>
 
-                              <div className="bg-slate-50/50 rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                              <div className="bg-canvas/50 rounded-xl border border-slate-200 overflow-hidden shadow-sm">
                                   <div className="flex items-center justify-between p-4 bg-slate-100/50">
                                       <div><p className="font-bold text-sm text-slate-800">IT / Siber Risk Veto Kapısı</p></div>
                                       <button type="button" onClick={() => setFormData({...formData, isItRisk: !formData.isItRisk})}>
@@ -589,7 +586,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
                                       </button>
                                   </div>
                                   {formData.isItRisk && (
-                                      <div className="p-5 grid grid-cols-2 gap-4 border-t border-slate-200 bg-white">
+                                      <div className="p-5 grid grid-cols-2 gap-4 border-t border-slate-200 bg-surface">
                                           <div>
                                               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">CVSS Skoru</label>
                                               <input
@@ -616,12 +613,12 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
                                   )}
                               </div>
 
-                              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
+                              <div className="bg-surface rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
                                   <div><p className="font-bold text-sm text-slate-800">Aksiyon Tipi (SLA)</p></div>
                                   <select
                                       value={formData.sla_type}
                                       onChange={e => setFormData({...formData, sla_type: e.target.value})}
-                                      className="px-4 py-2 border border-slate-300 rounded-lg bg-slate-50 text-sm font-bold"
+                                      className="px-4 py-2 border border-slate-300 rounded-lg bg-canvas text-sm font-bold"
                                   >
                                       <option value="FIXED_DATE">Takvim Günü</option>
                                       <option value="AGILE_SPRINT">Agile Sprint</option>
@@ -634,42 +631,52 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
 
                 {/* KÖK NEDEN */}
                 {activeSection === 'koken' && (
-                  <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-2 h-[500px] flex flex-col">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 pb-4 border-b border-slate-100 gap-4 shrink-0">
-                      <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
-                              <AlertTriangle className="w-5 h-5 text-red-600" />
-                          </div>
-                          <div><h3 className="text-lg font-bold text-slate-900">Kök Neden Özeti (Cause)</h3></div>
+                  <div className="bg-surface rounded-xl p-4 border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-2 min-h-[420px] flex flex-col">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-3 border-b border-slate-100 gap-3 shrink-0">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center">
+                          <AlertTriangle className="w-4 h-4 text-red-600" />
+                        </div>
+                        <h3 className="text-sm font-bold text-primary">Kök Neden Özeti (Cause)</h3>
                       </div>
 
-                      {/* UNIVERSAL DRAWER BUTON */}
+                      {/* Evrensel drawer ile Gelişmiş RCA (MasterSuperDrawer) */}
                       <button
                           type="button"
-                          onClick={() => setIsUniversalDrawerOpen(true)}
-                          className="px-5 py-2.5 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors text-sm font-bold flex items-center justify-center gap-2 shadow-sm ring-1 ring-inset ring-red-100"
+                          onClick={() => openDrawer('FINDING_DETAIL', null, {
+                            defaultTab: 'rca',
+                            onApplyRCA: (html: string, rawData: { category?: string }) => {
+                              setFormData(prev => ({
+                                ...prev,
+                                root_cause_html: html,
+                                rca_category: rawData?.category ?? prev.rca_category,
+                              }));
+                              closeDrawer();
+                            },
+                          })}
+                          className="px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors text-xs font-bold flex items-center justify-center gap-2 shadow-sm ring-1 ring-inset ring-red-100"
                       >
-                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                           Gelişmiş RCA Aracı
                       </button>
                     </div>
 
-                    <div className="mb-6 shrink-0">
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Kök Neden Kategorisi</label>
-                        <select
-                            value={formData.rca_category}
-                            onChange={(e) => setFormData({ ...formData, rca_category: e.target.value })}
-                            className="w-full md:w-1/2 px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 bg-white shadow-sm"
-                        >
-                          <option value="">Kategori Seçiniz...</option>
-                          {rcaCategories.map(cat => (
-                              <option key={cat.id} value={cat.label}>{cat.label}</option>
-                          ))}
-                        </select>
+                    <div className="mb-4 shrink-0">
+                      <label className="block text-xs font-bold text-slate-700 mb-1.5">Kök Neden Kategorisi</label>
+                      <select
+                        value={formData.rca_category}
+                        onChange={(e) => setFormData({ ...formData, rca_category: e.target.value })}
+                        className="w-full max-w-xs px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 bg-surface text-sm shadow-sm"
+                      >
+                        <option value="">Kategori Seçiniz...</option>
+                        {rcaCategories.map(cat => (
+                          <option key={cat.id} value={cat.label}>{cat.label}</option>
+                        ))}
+                      </select>
                     </div>
 
                     <div className="flex-1 flex flex-col min-h-0">
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Kök Neden Açıklaması</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1.5">Kök Neden Açıklaması</label>
                         <RichTextEditor
                             value={formData.root_cause_html}
                             onChange={(val) => setFormData({...formData, root_cause_html: val})}
@@ -682,19 +689,19 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
 
                 {/* ÖNERİ */}
                 {activeSection === 'oneri' && (
-                  <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-2 h-[500px] flex flex-col">
-                    <div className="flex items-center justify-between mb-5 shrink-0 pb-4 border-b border-slate-100">
-                      <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center">
-                              <Lightbulb className="w-5 h-5 text-emerald-600" />
-                          </div>
-                          <div><h3 className="text-lg font-bold text-slate-900">Öneri (Recommendation)</h3></div>
+                  <div className="bg-surface rounded-xl p-4 border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-2 min-h-[420px] flex flex-col">
+                    <div className="flex items-center justify-between mb-4 shrink-0 pb-3 border-b border-slate-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
+                          <Lightbulb className="w-4 h-4 text-emerald-600" />
+                        </div>
+                        <h3 className="text-sm font-bold text-primary">Öneri (Recommendation)</h3>
                       </div>
                       <button
-                          type="button"
-                          className="px-4 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors text-sm font-bold flex items-center gap-2 shadow-sm"
+                        type="button"
+                        className="px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors text-xs font-bold flex items-center gap-1.5 shadow-sm"
                       >
-                          <Sparkles className="w-4 h-4" /> AI Taslak Oluştur
+                        <Sparkles className="w-3.5 h-3.5" /> AI Taslak Oluştur
                       </button>
                     </div>
                     <div className="flex-1 flex flex-col min-h-0">
@@ -712,28 +719,28 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
           </div>
 
           {/* FOOTER */}
-          <div className="flex items-center justify-between p-5 border-t border-slate-200 bg-white rounded-b-xl shrink-0">
+          <div className="flex items-center justify-between p-4 border-t border-slate-200 bg-surface rounded-b-xl shrink-0">
             <button
-                onClick={onClose}
-                disabled={isSubmitting}
-                className="px-6 py-2.5 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors font-bold border border-transparent hover:border-slate-200"
+              onClick={onClose}
+              disabled={isSubmitting}
+              className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors text-xs font-bold border border-transparent hover:border-slate-200"
             >
-                İptal Et
+              İptal Et
             </button>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <button
-                  onClick={() => handleSave('DRAFT')}
-                  className="px-6 py-2.5 bg-white text-slate-700 border border-slate-300 shadow-sm rounded-lg hover:bg-slate-50 transition-colors font-bold"
-                  disabled={isSubmitting}
+                onClick={() => handleSave('DRAFT')}
+                className="px-4 py-2 bg-surface text-slate-700 border border-slate-300 shadow-sm rounded-lg hover:bg-canvas transition-colors text-xs font-bold"
+                disabled={isSubmitting}
               >
-                  Taslak Olarak Kaydet
+                Taslak Olarak Kaydet
               </button>
               <button
-                  onClick={() => handleSave('PUBLISHED')}
-                  disabled={isSubmitting}
-                  className="px-8 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all font-black flex items-center gap-2 shadow-md hover:shadow-lg disabled:opacity-70"
+                onClick={() => handleSave('PUBLISHED')}
+                disabled={isSubmitting}
+                className="px-6 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all text-xs font-black flex items-center gap-1.5 shadow-md hover:shadow-lg disabled:opacity-70"
               >
-                {isSubmitting ? <><Loader2 className="w-5 h-5 animate-spin" /> Kaydediliyor...</> : <><Save className="w-5 h-5" /> Bulguyu Sisteme İşle</>}
+                {isSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Kaydediliyor...</> : <><Save className="w-4 h-4" /> Bulguyu Sisteme İşle</>}
               </button>
             </div>
           </div>
@@ -749,24 +756,6 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
               setFormData(prev => ({ ...prev, code: reg.code, criteria_html: regHtml }));
               setSelectedRegulation(reg);
           }}
-      />
-
-      {/* UNIVERSAL DRAWER (SINGLE SOURCE OF TRUTH) */}
-      <UniversalFindingDrawer
-        findingId={null} // Yeni bulgu için ID yok
-        isOpen={isUniversalDrawerOpen}
-        defaultTab="rca" // RCA sekmesinde başlat
-        onClose={() => setIsUniversalDrawerOpen(false)}
-        onApplyRCA={(html, rawData) => {
-            // Çekmeceden gelen RCA verisini forma aktar
-            console.log('RCA Applied from Universal Drawer:', { html, rawData });
-            setFormData(prev => ({
-                ...prev,
-                root_cause_html: html,
-                rca_category: rawData?.category || prev.rca_category
-            }));
-            setIsUniversalDrawerOpen(false);
-        }}
       />
     </div>
   );

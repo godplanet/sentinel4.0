@@ -61,11 +61,11 @@ export function CertificateGenerator({ data, onClose }: CertificateGeneratorProp
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
          style={{ backgroundColor: 'rgba(0,0,0,0.55)' }}>
-      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+      <div className="w-full max-w-3xl bg-surface rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <Award size={18} className="text-amber-500" />
-            <h2 className="text-slate-900 font-semibold text-base">Certificate of Completion</h2>
+            <h2 className="text-primary font-semibold text-base">Certificate of Completion</h2>
           </div>
           <div className="flex items-center gap-2">
             <button

@@ -188,10 +188,10 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
   };
 
   return (
-    <div className="h-full flex flex-col bg-slate-50 border-r border-slate-200 w-full lg:max-w-xs overflow-y-auto">
+    <div className="h-full flex flex-col bg-canvas border-r border-slate-200 w-full lg:max-w-xs overflow-y-auto">
       
       {/* --- 0. AUDIT FRAMEWORK TOGGLE (NEW) --- */}
-      <div className="p-4 border-b border-slate-200 bg-white">
+      <div className="p-4 border-b border-slate-200 bg-surface">
         <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">
           Denetim Çerçevesi
         </label>
@@ -200,7 +200,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
             onClick={() => handleFrameworkChange('STANDARD')}
             className={cn(
               "flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-semibold transition-all",
-              auditFramework === 'STANDARD' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+              auditFramework === 'STANDARD' ? "bg-surface text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
             )}
           >
             <Globe size={12} /> Global
@@ -209,7 +209,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
             onClick={() => handleFrameworkChange('BDDK')}
             className={cn(
               "flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-semibold transition-all",
-              auditFramework === 'BDDK' ? "bg-white text-rose-700 shadow-sm" : "text-slate-500 hover:text-slate-700"
+              auditFramework === 'BDDK' ? "bg-surface text-rose-700 shadow-sm" : "text-slate-500 hover:text-slate-700"
             )}
           >
             <Gavel size={12} /> BDDK
@@ -218,7 +218,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
       </div>
 
       {/* --- 1. RISK ENGINE COCKPIT --- */}
-      <div className="p-6 border-b border-slate-200 bg-white relative overflow-hidden group">
+      <div className="p-6 border-b border-slate-200 bg-surface relative overflow-hidden group">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -236,7 +236,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
               "text-[10px] px-2 py-1 rounded border flex items-center gap-1 transition-colors",
               finding.severity === 'OBSERVATION' 
                 ? "bg-slate-800 text-white border-slate-800" 
-                : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"
+                : "bg-surface text-slate-500 border-slate-200 hover:bg-canvas"
             )}
             title={finding.severity === 'OBSERVATION' ? "Puanlamayı Aç" : "Gözlem Olarak İşaretle"}
           >
@@ -284,7 +284,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
                   "w-full p-2.5 rounded-lg border text-left transition-all flex items-center gap-3",
                   finding.bddk_deficiency_type === code 
                     ? "border-rose-500 bg-rose-50 shadow-sm ring-1 ring-rose-200" 
-                    : "border-slate-200 bg-white hover:border-rose-200 hover:bg-rose-50/50"
+                    : "border-slate-200 bg-surface hover:border-rose-200 hover:bg-rose-50/50"
                 )}
               >
                 <div className={cn("w-2.5 h-2.5 rounded-full shrink-0", def.color)} />
@@ -305,7 +305,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-medium text-slate-600">
                 <span>Etki (Impact)</span>
-                <span className="text-slate-900 font-bold">{impact}</span>
+                <span className="text-primary font-bold">{impact}</span>
               </div>
               <input 
                 type="range" min="1" max="5" step="1"
@@ -325,7 +325,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-medium text-slate-600">
                 <span>Olasılık (Likelihood)</span>
-                <span className="text-slate-900 font-bold">{likelihood}</span>
+                <span className="text-primary font-bold">{likelihood}</span>
               </div>
               <input 
                 type="range" min="1" max="5" step="1"
@@ -383,7 +383,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
           <select 
             value={finding.category || ''}
             onChange={(e) => onUpdate('category', e.target.value)}
-            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
+            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-surface focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
           >
             <option value="">Seçiniz...</option>
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -398,7 +398,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
           <select 
             value={finding.department || ''}
             onChange={(e) => onUpdate('department', e.target.value)}
-            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
+            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-surface focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
           >
             <option value="">Seçiniz...</option>
             {DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
@@ -415,7 +415,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
           <select
             value={finding.risk_category || ''}
             onChange={(e) => onUpdate('risk_category', e.target.value)}
-            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
+            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-surface focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
           >
             <option value="">Seçiniz...</option>
             {RISK_TYPES.map(rt => (
@@ -432,7 +432,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
           <select
             value={finding.process_id || ''}
             onChange={(e) => onUpdate('process_id', e.target.value)}
-            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
+            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-surface focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
           >
             <option value="">Seçiniz...</option>
             {PROCESSES.map(p => (
@@ -448,7 +448,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
             <select
               value={finding.subprocess_id || ''}
               onChange={(e) => onUpdate('subprocess_id', e.target.value)}
-              className="w-full text-sm p-2 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 outline-none transition-all"
+              className="w-full text-sm p-2 rounded-lg border border-slate-200 bg-canvas focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 outline-none transition-all"
             >
               <option value="">Seçiniz...</option>
               {PROCESSES.find(p => p.id === finding.process_id)?.subprocesses.map(sp => (
@@ -466,7 +466,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
           <select
             value={finding.control_id || ''}
             onChange={(e) => onUpdate('control_id', e.target.value)}
-            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
+            className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-surface focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all"
           >
             <option value="">Seçiniz...</option>
             {CONTROLS.map(c => (
@@ -480,7 +480,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
           <label className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
              <Tags size={14} /> Etiketler
           </label>
-          <div className="bg-white border border-slate-200 rounded-lg p-2 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
+          <div className="bg-surface border border-slate-200 rounded-lg p-2 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
             <div className="flex flex-wrap gap-2 mb-2">
               {(finding.tags || []).map((tag: string) => (
                 <span key={tag} className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
@@ -525,7 +525,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
             {finding.related_items.map((item: any, idx: number) => (
               <div
                 key={idx}
-                className="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-start justify-between gap-2 hover:bg-slate-100 transition-colors"
+                className="p-3 bg-canvas rounded-lg border border-slate-200 flex items-start justify-between gap-2 hover:bg-slate-100 transition-colors"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -549,14 +549,14 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
             ))}
           </div>
         ) : (
-          <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 border-dashed text-center">
+          <div className="p-3 bg-canvas rounded-lg border border-slate-200 border-dashed text-center">
             <p className="text-xs text-slate-400">Henüz bağlantı yok</p>
           </div>
         )}
       </div>
 
       {/* --- 3. ACTIONS FOOTER --- */}
-      <div className="p-4 border-t border-slate-200 bg-white space-y-2">
+      <div className="p-4 border-t border-slate-200 bg-surface space-y-2">
         {/* GÖREV 1: İncelemeye Gönder (QAIP Quality Gate) */}
         {finding.status === 'draft' && (
           <button
@@ -570,7 +570,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
 
         <button
           onClick={() => console.log('Open Root Cause Tool')}
-          className="w-full py-2.5 px-4 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wide rounded-lg border border-slate-200 flex items-center justify-center gap-2 transition-colors active:scale-95"
+          className="w-full py-2.5 px-4 bg-canvas hover:bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wide rounded-lg border border-slate-200 flex items-center justify-center gap-2 transition-colors active:scale-95"
         >
           <GitPullRequestArrow size={16} />
           Kök Neden Analizi Başlat
@@ -624,7 +624,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
             onClick={() => setIsLinkModalOpen(false)}
           />
           <div className="fixed inset-0 flex items-center justify-center z-[201] p-4 pointer-events-none">
-            <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md pointer-events-auto">
+            <div className="bg-surface rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md pointer-events-auto">
               <div className="p-6 border-b border-slate-200">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-bold text-slate-800">İlişkili Kayıt Ekle</h3>

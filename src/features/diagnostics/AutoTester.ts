@@ -7,7 +7,7 @@ export interface TestResult {
   status: 'PASS' | 'FAIL' | 'WARN';
   duration: number;
   error?: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 export interface DiagnosticReport {

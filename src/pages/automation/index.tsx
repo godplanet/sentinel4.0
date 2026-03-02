@@ -33,7 +33,7 @@ export default function AutomationPage() {
 
       <div className="bg-gradient-to-r from-slate-700 to-slate-900 rounded-xl p-6 text-white">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
             <Cpu className="w-6 h-6" />
           </div>
           <div>
@@ -44,15 +44,15 @@ export default function AutomationPage() {
               BT denetimleri icin otomatik CISO onayi ve daha fazlasi.
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+              <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                 <List className="w-4 h-4" />
                 <span>IFTTT Kurallar</span>
               </div>
-              <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+              <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                 <FlaskConical className="w-4 h-4" />
                 <span>Simulasyon Sandbox</span>
               </div>
-              <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+              <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                 <ScrollText className="w-4 h-4" />
                 <span>Denetim Izi</span>
               </div>
@@ -71,7 +71,7 @@ export default function AutomationPage() {
               className={clsx(
                 'flex items-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold transition-all flex-1 justify-center',
                 tab === t.key
-                  ? 'bg-white text-slate-800 shadow-sm'
+                  ? 'bg-surface text-slate-800 shadow-sm'
                   : 'text-slate-500 hover:text-slate-700',
               )}
             >

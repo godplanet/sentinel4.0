@@ -51,7 +51,7 @@ export function AuditeeActionWorkbench() {
   const refresh = () => setRefreshKey((k) => k + 1);
 
   return (
-    <div className="flex h-full rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white">
+    <div className="flex h-full rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-surface">
       <LeftPane
         actions={actions}
         loading={loading}
@@ -112,7 +112,7 @@ function LeftPane({
   onRefresh: () => void;
 }) {
   return (
-    <div className="w-80 shrink-0 flex flex-col border-r border-slate-200 bg-white">
+    <div className="w-80 shrink-0 flex flex-col border-r border-slate-200 bg-surface">
       <div className="px-4 py-4 border-b border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
@@ -173,7 +173,7 @@ function ActionInboxItem({
     <button
       onClick={onClick}
       className={clsx(
-        'w-full text-left px-4 py-3.5 transition-all hover:bg-slate-50',
+        'w-full text-left px-4 py-3.5 transition-all hover:bg-canvas',
         isSelected && 'bg-blue-50 border-r-2 border-blue-600',
       )}
     >
@@ -214,7 +214,7 @@ function ActionInboxItem({
 function DetailHeader({ action }: { action: ActionAgingMetrics }) {
   const snapshot = action.finding_snapshot;
   return (
-    <div className="px-6 py-4 bg-white/70 backdrop-blur-md border-b border-slate-200 shadow-sm flex items-center gap-4">
+    <div className="px-6 py-4 bg-surface/70 backdrop-blur-md border-b border-slate-200 shadow-sm flex items-center gap-4">
       <div className={clsx(
         'w-10 h-10 rounded-xl flex items-center justify-center shrink-0',
         action.is_bddk_breach
@@ -228,7 +228,7 @@ function DetailHeader({ action }: { action: ActionAgingMetrics }) {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <h2 className="text-sm font-bold text-slate-900 truncate">
+        <h2 className="text-sm font-bold text-primary truncate">
           {snapshot?.title ?? 'Aksiyon'}
         </h2>
         <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -257,8 +257,8 @@ function IronVault({ action }: { action: ActionAgingMetrics }) {
           Bulgu Kaydı — Değişmez Kayıt (Iron Vault)
         </span>
       </div>
-      <div className="font-serif text-sm leading-relaxed text-slate-700 bg-white border border-slate-200 rounded-md p-5 shadow-sm space-y-2">
-        <p className="font-bold text-slate-900 text-base not-italic">
+      <div className="font-serif text-sm leading-relaxed text-slate-700 bg-surface border border-slate-200 rounded-md p-5 shadow-sm space-y-2">
+        <p className="font-bold text-primary text-base not-italic">
           {snapshot?.title ?? 'Başlık Yok'}
         </p>
         {snapshot?.gias_category && (
@@ -274,7 +274,7 @@ function IronVault({ action }: { action: ActionAgingMetrics }) {
             'inline-flex px-2.5 py-0.5 rounded text-[11px] font-bold',
             snapshot?.severity === 'CRITICAL' ? 'bg-[#eb0000] text-white' :
             snapshot?.severity === 'HIGH' ? 'bg-[#ff960a] text-white' :
-            snapshot?.severity === 'MEDIUM' ? 'bg-[#FFD700] text-black' :
+            snapshot?.severity === 'MEDIUM' ? 'bg-[#FFD700] text-primary' :
             'bg-[#28a745] text-white',
           )}>
             {snapshot?.severity ?? 'N/A'}
@@ -303,7 +303,7 @@ function TabBar({
   isBddk: boolean;
 }) {
   return (
-    <div className="flex border-b border-slate-200 bg-white">
+    <div className="flex border-b border-slate-200 bg-surface">
       {(
         [
           { id: 'evidence' as DetailTab, label: 'Kanıt Yükle', icon: UploadCloud },

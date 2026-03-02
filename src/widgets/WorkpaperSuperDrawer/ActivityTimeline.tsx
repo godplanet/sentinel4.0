@@ -57,12 +57,12 @@ export function ActivityTimeline({ logs, loading, open, onClose }: ActivityTimel
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -8, scale: 0.95 }}
           transition={{ duration: 0.15 }}
-          className="absolute right-12 top-2 w-[360px] bg-white rounded-xl shadow-2xl border border-slate-200 z-[60] overflow-hidden"
+          className="absolute right-12 top-2 w-[360px] bg-surface rounded-xl shadow-2xl border border-slate-200 z-[60] overflow-hidden"
         >
-          <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200">
+          <div className="flex items-center justify-between px-4 py-3 bg-canvas border-b border-slate-200">
             <div className="flex items-center gap-2">
               <Clock size={14} className="text-slate-600" />
-              <h3 className="text-sm font-bold text-slate-900">Aktivite Gecmisi</h3>
+              <h3 className="text-sm font-bold text-primary">Aktivite Gecmisi</h3>
             </div>
             <button
               onClick={onClose}

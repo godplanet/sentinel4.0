@@ -31,7 +31,7 @@ function getCellColor(score: number): string {
   for (let i = keys.length - 1; i >= 0; i--) {
     if (score >= keys[i]) return CELL_COLORS[keys[i]];
   }
-  return 'bg-slate-50';
+  return 'bg-canvas';
 }
 
 export function ClassicGrid({ assessments, mode, onCellClick, selectedCell }: ClassicGridProps) {
@@ -56,16 +56,16 @@ export function ClassicGrid({ assessments, mode, onCellClick, selectedCell }: Cl
       <span className="text-[10px] font-bold text-slate-400 -rotate-90 whitespace-nowrap">ETKI</span>
       <div className="flex-1">
         <div className="grid grid-cols-6 gap-px bg-slate-200 rounded-lg overflow-hidden">
-          <div className="bg-slate-50" />
+          <div className="bg-canvas" />
           {[1, 2, 3, 4, 5].map(x => (
-            <div key={x} className="bg-slate-50 p-2 text-center">
+            <div key={x} className="bg-canvas p-2 text-center">
               <span className="text-xs font-bold text-slate-500">{x}</span>
             </div>
           ))}
 
           {[5, 4, 3, 2, 1].map(y => (
             <div key={`row-${y}`} className="contents">
-              <div className="bg-slate-50 p-2 flex items-center justify-center">
+              <div className="bg-canvas p-2 flex items-center justify-center">
                 <span className="text-xs font-bold text-slate-500">{y}</span>
               </div>
               {[1, 2, 3, 4, 5].map(x => {

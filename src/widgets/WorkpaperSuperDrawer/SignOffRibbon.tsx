@@ -68,7 +68,7 @@ export function SignOffRibbon({
           ? 'bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200'
           : isPrepared
           ? 'bg-gradient-to-r from-blue-50 to-sky-50 border-blue-200'
-          : 'bg-slate-50 border-slate-200'
+          : 'bg-canvas border-slate-200'
       )}
     >
       <AnimatePresence>
@@ -96,8 +96,8 @@ export function SignOffRibbon({
               className={clsx(
                 'flex items-center gap-2 p-2.5 rounded-xl border-2 transition-all',
                 isPrepared
-                  ? 'bg-white border-emerald-300'
-                  : 'bg-white border-slate-200'
+                  ? 'bg-surface border-emerald-300'
+                  : 'bg-surface border-slate-200'
               )}
             >
               <div
@@ -121,7 +121,7 @@ export function SignOffRibbon({
                       <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center text-[9px] font-bold text-white">
                         AD
                       </div>
-                      <span className="text-xs font-semibold text-slate-900 truncate">
+                      <span className="text-xs font-semibold text-primary truncate">
                         {workpaper?.prepared_by_name || 'Denetci'}
                       </span>
                     </div>
@@ -174,10 +174,10 @@ export function SignOffRibbon({
               className={clsx(
                 'flex items-center gap-2 p-2.5 rounded-xl border-2 transition-all',
                 isReviewed
-                  ? 'bg-white border-emerald-300'
+                  ? 'bg-surface border-emerald-300'
                   : !isPrepared
                   ? 'bg-slate-100 border-slate-200 opacity-60'
-                  : 'bg-white border-slate-200'
+                  : 'bg-surface border-slate-200'
               )}
             >
               <div
@@ -209,7 +209,7 @@ export function SignOffRibbon({
                       <div className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-[9px] font-bold text-white">
                         SV
                       </div>
-                      <span className="text-xs font-semibold text-slate-900 truncate">
+                      <span className="text-xs font-semibold text-primary truncate">
                         {workpaper?.reviewed_by_name || 'Supervizor'}
                       </span>
                     </div>

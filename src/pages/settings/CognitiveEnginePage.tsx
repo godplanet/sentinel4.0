@@ -56,7 +56,7 @@ export default function CognitiveEnginePage() {
     : '';
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-canvas">
       <PageHeader
         title="Sentinel Cognitive Engine"
         description="Yapay Zeka Motor Konfigurasyonu"
@@ -64,7 +64,7 @@ export default function CognitiveEnginePage() {
       />
 
       <div>
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="flex border-b border-slate-200">
             <button
               onClick={() => setTab('connection')}
@@ -115,7 +115,7 @@ export default function CognitiveEnginePage() {
                             'flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all text-center',
                             active
                               ? 'border-blue-500 bg-blue-50 shadow-sm'
-                              : 'border-slate-200 hover:border-slate-300 bg-white'
+                              : 'border-slate-200 hover:border-slate-300 bg-surface'
                           )}
                         >
                           <div className={clsx(
@@ -146,7 +146,7 @@ export default function CognitiveEnginePage() {
                         onChange={(e) => store.setApiKey(e.target.value)}
                         onFocus={() => setShowKey(true)}
                         placeholder={`${PROVIDER_LABELS[store.provider]} API anahtarinizi girin`}
-                        className="w-full px-4 py-3 pr-12 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
+                        className="w-full px-4 py-3 pr-12 border border-slate-200 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
                       />
                       <button
                         onClick={() => setShowKey(!showKey)}
@@ -171,7 +171,7 @@ export default function CognitiveEnginePage() {
                       value={store.baseUrl}
                       onChange={(e) => store.setBaseUrl(e.target.value)}
                       placeholder="http://localhost:1234/v1"
-                      className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
+                      className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
                     />
                     <p className="text-[11px] text-slate-400 mt-1">
                       LM Studio veya Ollama sunucu adresi (OpenAI uyumlu endpoint).
@@ -193,7 +193,7 @@ export default function CognitiveEnginePage() {
                       setPingWarning(null);
                     }}
                     placeholder={DEFAULT_MODELS[store.provider]}
-                    className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
+                    className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
                   />
                   {store.provider === 'gemini' && (
                     <div className="mt-3 space-y-2">
@@ -212,7 +212,7 @@ export default function CognitiveEnginePage() {
                               'px-3 py-2 text-left rounded-lg border text-sm transition-all',
                               store.model === m.id
                                 ? 'border-blue-500 bg-blue-50 text-blue-700 font-semibold'
-                                : 'border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:bg-slate-50'
+                                : 'border-slate-200 bg-surface text-slate-600 hover:border-blue-300 hover:bg-canvas'
                             )}
                           >
                             <div className="font-medium">{m.label}</div>
@@ -227,7 +227,7 @@ export default function CognitiveEnginePage() {
                   )}
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <div className="flex items-center justify-between p-4 bg-canvas rounded-xl border border-slate-200">
                   <div className="flex items-center gap-3">
                     <div className={clsx(
                       'w-3 h-3 rounded-full',
@@ -342,7 +342,7 @@ export default function CognitiveEnginePage() {
                   value={store.persona}
                   onChange={(e) => store.setPersona(e.target.value)}
                   rows={10}
-                  className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 leading-relaxed resize-y"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500 leading-relaxed resize-y"
                 />
                 <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
                   <div className="flex items-center gap-2 mb-2">

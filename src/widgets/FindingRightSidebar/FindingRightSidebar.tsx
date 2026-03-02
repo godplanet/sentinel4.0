@@ -50,7 +50,7 @@ export const FindingRightSidebar = ({ finding, isOpen: isOpenProp, onClose, onNa
       {/* Sidebar */}
       <div
         className={clsx(
-          'fixed right-0 top-0 h-screen w-[480px] bg-white border-l border-gray-200 z-50',
+          'fixed right-0 top-0 h-screen w-[480px] bg-surface border-l border-gray-200 z-50',
           'transform transition-transform duration-300 ease-in-out shadow-2xl',
           isOpen ? 'translate-x-0' : 'translate-x-full'
         )}
@@ -102,11 +102,11 @@ const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Genel Bilgiler</h3>
+        <h3 className="text-sm font-semibold text-primary mb-3">Genel Bilgiler</h3>
         <div className="space-y-3">
           <div className="flex items-start justify-between py-2 border-b border-gray-100">
             <span className="text-sm text-gray-600">Referans No</span>
-            <span className="text-sm font-mono font-semibold text-gray-900">{finding.code}</span>
+            <span className="text-sm font-mono font-semibold text-primary">{finding.code}</span>
           </div>
           <div className="flex items-start justify-between py-2 border-b border-gray-100">
             <span className="text-sm text-gray-600">Durum</span>
@@ -150,14 +150,14 @@ const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
           </div>
           <div className="flex items-start justify-between py-2 border-b border-gray-100">
             <span className="text-sm text-gray-600">Kategori</span>
-            <span className="text-sm font-medium text-gray-900">
+            <span className="text-sm font-medium text-primary">
               {finding.gias_category || 'Belirlenmedi'}
             </span>
           </div>
           {finding.financial_impact && (
             <div className="flex items-start justify-between py-2 border-b border-gray-100">
               <span className="text-sm text-gray-600">Finansal Etki</span>
-              <span className="text-sm font-bold text-gray-900">
+              <span className="text-sm font-bold text-primary">
                 ₺{(finding.financial_impact / 1000000).toFixed(2)}M
               </span>
             </div>
@@ -166,14 +166,14 @@ const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Sorumlu Birim</h3>
-        <div className="bg-gray-50 rounded-lg p-4">
+        <h3 className="text-sm font-semibold text-primary mb-3">Sorumlu Birim</h3>
+        <div className="bg-canvas rounded-lg p-4">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
               <User className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">
+              <p className="text-sm font-medium text-primary">
                 {finding.auditee_department || 'Atanmadı'}
               </p>
               <p className="text-xs text-gray-500">Sorumlu Birim</p>
@@ -183,12 +183,12 @@ const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Tarihler</h3>
+        <h3 className="text-sm font-semibold text-primary mb-3">Tarihler</h3>
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-sm">
             <Calendar className="w-4 h-4 text-gray-400" />
             <span className="text-gray-600">Oluşturulma:</span>
-            <span className="font-medium text-gray-900">
+            <span className="font-medium text-primary">
               {new Date(finding.created_at).toLocaleDateString('tr-TR')}
             </span>
           </div>
@@ -196,7 +196,7 @@ const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
             <div className="flex items-center gap-2 text-sm">
               <Calendar className="w-4 h-4 text-gray-400" />
               <span className="text-gray-600">Müzakere Başlangıcı:</span>
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-primary">
                 {new Date(finding.negotiation_started_at).toLocaleDateString('tr-TR')}
               </span>
             </div>
@@ -205,7 +205,7 @@ const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
             <div className="flex items-center gap-2 text-sm">
               <CheckCircle2 className="w-4 h-4 text-green-500" />
               <span className="text-gray-600">Mutabakat:</span>
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-primary">
                 {new Date(finding.agreed_at).toLocaleDateString('tr-TR')}
               </span>
             </div>
@@ -215,14 +215,14 @@ const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
 
       {finding.action_plans && finding.action_plans.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+          <h3 className="text-sm font-semibold text-primary mb-3">
             Aksiyon Planları ({finding.action_plans.length})
           </h3>
           <div className="space-y-3">
             {finding.action_plans.map((plan) => (
-              <div key={plan.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+              <div key={plan.id} className="bg-canvas rounded-lg p-4 border border-gray-200">
                 <div className="flex items-start justify-between mb-2">
-                  <h4 className="text-sm font-medium text-gray-900">{plan.title}</h4>
+                  <h4 className="text-sm font-medium text-primary">{plan.title}</h4>
                   <span
                     className={clsx(
                       'text-xs px-2 py-0.5 rounded font-medium',
@@ -249,7 +249,7 @@ const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
                   <div className="mt-3">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs text-gray-600">İlerleme</span>
-                      <span className="text-xs font-medium text-gray-900">
+                      <span className="text-xs font-medium text-primary">
                         {plan.progress_percentage}%
                       </span>
                     </div>
@@ -275,7 +275,7 @@ const TarihceTab = ({ finding }: { finding: ComprehensiveFinding }) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-semibold text-gray-900">Bulgu Geçmişi</h3>
+      <h3 className="text-sm font-semibold text-primary">Bulgu Geçmişi</h3>
       {allHistory.length > 0 ? (
         <div className="space-y-4">
           {allHistory.map((item, index) => (
@@ -284,7 +284,7 @@ const TarihceTab = ({ finding }: { finding: ComprehensiveFinding }) => {
                 <div className="absolute left-2 top-6 bottom-0 w-px bg-gray-200" />
               )}
               <div className="absolute left-0 top-1 w-4 h-4 rounded-full bg-blue-100 border-2 border-blue-600" />
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-canvas rounded-lg p-4">
                 <div className="flex items-start justify-between mb-2">
                   <span className="text-xs font-medium text-blue-600">
                     {item.change_type === 'STATE_CHANGE'
@@ -345,7 +345,7 @@ const AITab = ({ finding }: { finding: ComprehensiveFinding }) => {
           <button className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
             Benzerlik Analizi
           </button>
-          <button className="flex-1 px-4 py-2 bg-white text-purple-600 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-sm font-medium">
+          <button className="flex-1 px-4 py-2 bg-surface text-purple-600 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-sm font-medium">
             Önerileri Gör
           </button>
         </div>
@@ -353,7 +353,7 @@ const AITab = ({ finding }: { finding: ComprehensiveFinding }) => {
 
       {/* Tekrar Eden Bulgular */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Tekrar Eden Bulgular</h3>
+        <h3 className="text-sm font-semibold text-primary mb-3">Tekrar Eden Bulgular</h3>
         <div className="space-y-3">
           {[
             {
@@ -383,13 +383,13 @@ const AITab = ({ finding }: { finding: ComprehensiveFinding }) => {
           ].map((item) => (
             <div
               key={item.id}
-              className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+              className="flex items-start gap-3 p-3 bg-canvas rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
                 <CheckCircle2 className="w-4 h-4 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">{item.title}</p>
+                <p className="text-sm font-medium text-primary">{item.title}</p>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-xs text-gray-500">{item.branch}</span>
                   <span className="text-xs text-gray-400">•</span>
@@ -435,7 +435,7 @@ const NotlarTab = ({ finding }: { finding: ComprehensiveFinding }) => {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Müfettiş Notları</h3>
+        <h3 className="text-sm font-semibold text-primary mb-3">Müfettiş Notları</h3>
         <p className="text-xs text-gray-600 mb-4">
           Notlarınızı buraya yazın. Sentinel AI bu notları analiz ederek bulguya dönüştürebilir.
         </p>
@@ -443,7 +443,7 @@ const NotlarTab = ({ finding }: { finding: ComprehensiveFinding }) => {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Notlarınız..."
-          className="w-full h-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white text-sm"
+          className="w-full h-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-surface text-sm"
         />
         <div className="flex gap-2 mt-3">
           <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center justify-center gap-2">
@@ -458,7 +458,7 @@ const NotlarTab = ({ finding }: { finding: ComprehensiveFinding }) => {
 
       {/* Önceki Notlar */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Önceki Notlar</h3>
+        <h3 className="text-sm font-semibold text-primary mb-3">Önceki Notlar</h3>
         <div className="space-y-3">
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
             <div className="flex items-start justify-between mb-2">
@@ -492,14 +492,14 @@ const YorumTab = ({ finding }: { finding: ComprehensiveFinding }) => {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Müzakere Yorumları</h3>
+        <h3 className="text-sm font-semibold text-primary mb-3">Müzakere Yorumları</h3>
         <div className="space-y-4 mb-6">
           {comments.length > 0 ? (
             comments.map((comment) => (
               <div key={comment.id} className="border-l-2 border-blue-200 pl-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-900">{comment.author_name}</span>
+                    <span className="text-sm font-medium text-primary">{comment.author_name}</span>
                     <span
                       className={clsx(
                         'px-2 py-0.5 rounded text-xs font-medium',
@@ -532,7 +532,7 @@ const YorumTab = ({ finding }: { finding: ComprehensiveFinding }) => {
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Yorum ekle..."
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white text-sm"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-surface text-sm"
             rows={4}
           />
           <button className="mt-3 w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center justify-center gap-2">

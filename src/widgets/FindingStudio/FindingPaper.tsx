@@ -11,7 +11,7 @@ export function FindingPaper({ finding }: FindingPaperProps) {
   const ui = SENTINEL_CONSTITUTION.UI;
 
   return (
-    <div className="bg-white shadow-2xl min-h-[297mm] w-full relative print:shadow-none print:w-auto">
+    <div className="bg-surface shadow-2xl min-h-[297mm] w-full relative print:shadow-none print:w-auto">
       
       {/* 1. KAĞIT ÜST BİLGİ & TOOLBAR (YENİ EKLENDİ) */}
       <div className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur-md text-white p-3 flex justify-between items-center rounded-t-lg print:hidden">
@@ -20,20 +20,20 @@ export function FindingPaper({ finding }: FindingPaperProps) {
               {finding.code}
           </div>
           <div className="flex gap-2">
-              <button className="p-2 hover:bg-white/10 rounded-lg text-white transition-colors" title="PDF İndir">
+              <button className="p-2 hover:bg-surface/10 rounded-lg text-white transition-colors" title="PDF İndir">
                   <Download size={16}/>
               </button>
-              <button className="p-2 hover:bg-white/10 rounded-lg text-white transition-colors" title="Yazdır">
+              <button className="p-2 hover:bg-surface/10 rounded-lg text-white transition-colors" title="Yazdır">
                   <Printer size={16}/>
               </button>
-              <button className="p-2 hover:bg-white/10 rounded-lg text-white transition-colors" title="Paylaş">
+              <button className="p-2 hover:bg-surface/10 rounded-lg text-white transition-colors" title="Paylaş">
                   <Share2 size={16}/>
               </button>
           </div>
       </div>
 
       {/* 2. KAĞIT İÇERİĞİ */}
-      <div className="p-[20mm] space-y-8 font-serif text-slate-900">
+      <div className="p-[20mm] space-y-8 font-serif text-primary">
         
         {/* Başlık Alanı */}
         <div className="border-b-4 border-slate-900 pb-6 mb-8">
@@ -41,7 +41,7 @@ export function FindingPaper({ finding }: FindingPaperProps) {
                 <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">İç Denetim Raporu</span>
                 <span className="text-xs font-mono text-slate-400">{new Date(finding.created_at).toLocaleDateString('tr-TR')}</span>
             </div>
-            <h1 className="text-3xl font-bold leading-tight text-slate-900 mb-4">{finding.title}</h1>
+            <h1 className="text-3xl font-bold leading-tight text-primary mb-4">{finding.title}</h1>
             
             <div className="flex items-center gap-3">
                 <RiskBadge score={finding.impact_score || 0} showLabel={true} />
@@ -62,14 +62,14 @@ export function FindingPaper({ finding }: FindingPaperProps) {
 
         {/* Detaylı Analiz (Condition, Criteria, Cause, Effect) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-            <section className="bg-slate-50 p-6 rounded-xl border border-slate-100">
+            <section className="bg-canvas p-6 rounded-xl border border-slate-100">
                 <h3 className="text-xs font-bold text-slate-500 uppercase mb-2 font-sans">Mevcut Durum (Condition)</h3>
                 <p className="text-sm leading-relaxed text-slate-700">
                     {finding.detailed_observation || "Detaylı gözlem verisi bulunamadı."}
                 </p>
             </section>
 
-            <section className="bg-slate-50 p-6 rounded-xl border border-slate-100">
+            <section className="bg-canvas p-6 rounded-xl border border-slate-100">
                 <h3 className="text-xs font-bold text-slate-500 uppercase mb-2 font-sans">Olması Gereken (Criteria)</h3>
                 <p className="text-sm leading-relaxed text-slate-700">
                     {finding.criteria || "İlgili mevzuat ve prosedür referansları."}

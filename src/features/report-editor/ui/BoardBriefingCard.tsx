@@ -100,7 +100,7 @@ function DynamicSectionCard({ section }: { section: DynamicSection }) {
 
 function PageFooter({ report }: { report: M6Report }) {
   return (
-    <div className="px-8 py-6 mt-6 border-t border-slate-100 bg-white/40 flex items-center justify-between">
+    <div className="px-8 py-6 mt-6 border-t border-slate-100 bg-surface/40 flex items-center justify-between">
       <p className="text-xs text-slate-400 font-sans">
         Bu belge Sentinel v3.0 tarafından oluşturulmuştur. GIAS 2024 · BDDK Uyumlu.
       </p>
@@ -157,7 +157,7 @@ function StandardAuditLayout({ report, warmth }: Props) {
           <p className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-400 mb-1">
             Yönetim Kurulu Bilgilendirme Raporu
           </p>
-          <h1 className="font-serif text-2xl font-bold text-slate-900 leading-tight">{title}</h1>
+          <h1 className="font-serif text-2xl font-bold text-primary leading-tight">{title}</h1>
         </div>
         <div
           className="flex-shrink-0 ml-6 rounded-xl px-5 py-3 text-center min-w-[120px]"
@@ -172,12 +172,12 @@ function StandardAuditLayout({ report, warmth }: Props) {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-slate-200/50 border-b border-slate-100">
-        <div className="bg-white/70 px-5 py-4 text-center">
+        <div className="bg-surface/70 px-5 py-4 text-center">
           <p className="text-xs text-slate-500 font-sans mb-1">Hassas Skor</p>
-          <p className="text-2xl font-bold font-serif text-slate-900">{es.score.toFixed(1)}</p>
+          <p className="text-2xl font-bold font-serif text-primary">{es.score.toFixed(1)}</p>
           <p className="text-xs text-slate-400 font-sans">/ 100</p>
         </div>
-        <div className="bg-white/70 px-5 py-4 text-center">
+        <div className="bg-surface/70 px-5 py-4 text-center">
           <p className="text-xs text-slate-500 font-sans mb-1">Trend</p>
           <div className="flex items-center justify-center gap-1">
             {trendNeutral ? (
@@ -193,7 +193,7 @@ function StandardAuditLayout({ report, warmth }: Props) {
           </div>
           <p className="text-xs text-slate-400 font-sans">önceki döneme göre</p>
         </div>
-        <div className="bg-white/70 px-5 py-4 text-center">
+        <div className="bg-surface/70 px-5 py-4 text-center">
           <p className="text-xs text-slate-500 font-sans mb-1">Önceki Not</p>
           <span
             className="inline-block rounded-lg px-3 py-1 text-lg font-bold font-serif"
@@ -203,14 +203,14 @@ function StandardAuditLayout({ report, warmth }: Props) {
           </span>
           <p className="text-xs text-slate-400 font-sans mt-1">{gradeLabel(es.previousGrade)}</p>
         </div>
-        <div className="bg-white/70 px-5 py-4 text-center">
+        <div className="bg-surface/70 px-5 py-4 text-center">
           <p className="text-xs text-slate-500 font-sans mb-1">Bulgu Sayısı</p>
-          <p className="text-2xl font-bold font-serif text-slate-900">
+          <p className="text-2xl font-bold font-serif text-primary">
             {Object.values(es.findingCounts).reduce((a, b) => a + b, 0)}
           </p>
           <p className="text-xs text-slate-400 font-sans">toplam bulgu</p>
         </div>
-        <div className="bg-white/70 px-5 py-4 text-center">
+        <div className="bg-surface/70 px-5 py-4 text-center">
           <p className="text-xs text-slate-500 font-sans mb-2">Güvence Seviyesi</p>
           <span
             className="inline-flex items-center rounded-lg px-3 py-1 text-xs font-sans font-semibold"
@@ -244,7 +244,7 @@ function StandardAuditLayout({ report, warmth }: Props) {
         )}
 
         {es.managementResponse && (
-          <div className="bg-slate-50 border-l-4 border-slate-400 p-4 mt-6 rounded-r-lg">
+          <div className="bg-canvas border-l-4 border-slate-400 p-4 mt-6 rounded-r-lg">
             <p className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-2">
               Yönetim Beyanı ve Taahhüdü
             </p>
@@ -307,26 +307,26 @@ function InvestigationLayout({ report, warmth }: Props) {
 
       {(dm.maliBoyu || dm.olayTarihi || dm.ilgiliBirim) && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-red-900/20 border-b border-red-200">
-          <div className="bg-white/90 px-6 py-4">
+          <div className="bg-surface/90 px-6 py-4">
             <div className="flex items-center gap-2 mb-1">
               <Banknote size={14} className="text-red-600" />
               <p className="text-xs font-sans font-semibold uppercase tracking-wider text-red-600">Mali Boyut / Zarar</p>
             </div>
-            <p className="font-serif text-lg font-bold text-slate-900">{dm.maliBoyu || '—'}</p>
+            <p className="font-serif text-lg font-bold text-primary">{dm.maliBoyu || '—'}</p>
           </div>
-          <div className="bg-white/90 px-6 py-4">
+          <div className="bg-surface/90 px-6 py-4">
             <div className="flex items-center gap-2 mb-1">
               <Calendar size={14} className="text-red-600" />
               <p className="text-xs font-sans font-semibold uppercase tracking-wider text-red-600">Olay Tarihi</p>
             </div>
-            <p className="font-serif text-lg font-bold text-slate-900">{dm.olayTarihi || '—'}</p>
+            <p className="font-serif text-lg font-bold text-primary">{dm.olayTarihi || '—'}</p>
           </div>
-          <div className="bg-white/90 px-6 py-4">
+          <div className="bg-surface/90 px-6 py-4">
             <div className="flex items-center gap-2 mb-1">
               <Building size={14} className="text-red-600" />
               <p className="text-xs font-sans font-semibold uppercase tracking-wider text-red-600">İlgili Birim / Personel</p>
             </div>
-            <p className="font-serif text-lg font-bold text-slate-900">{dm.ilgiliBirim || '—'}</p>
+            <p className="font-serif text-lg font-bold text-primary">{dm.ilgiliBirim || '—'}</p>
           </div>
         </div>
       )}
@@ -381,7 +381,7 @@ function InfoNoteLayout({ report, warmth }: Props) {
               Bilgi Notu
             </span>
           </div>
-          <h1 className="font-serif text-2xl font-bold text-slate-900 leading-tight">{title}</h1>
+          <h1 className="font-serif text-2xl font-bold text-primary leading-tight">{title}</h1>
         </div>
       </div>
 

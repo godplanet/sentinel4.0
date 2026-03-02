@@ -161,7 +161,7 @@ export function AIBadge({ type }: AIBadgeProps) {
         animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       }}
     >
-      <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+      <span className="w-2 h-2 bg-surface rounded-full animate-pulse" />
       {type === 'gen' ? 'GenAI Active' : 'ComputeAI Active'}
     </div>
   );
@@ -192,7 +192,7 @@ export function FourEyesIndicator({
   const isApproved = !!reviewerId;
 
   return (
-    <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
+    <div className="flex items-center gap-3 p-3 bg-canvas rounded-lg border border-slate-200">
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
           P

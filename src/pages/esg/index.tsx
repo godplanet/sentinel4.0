@@ -23,7 +23,7 @@ export default function EsgPage() {
           className={clsx(
             'flex items-center gap-2 flex-1 justify-center px-4 py-2.5 rounded-md text-xs font-bold transition-all',
             view === 'pulse'
-              ? 'bg-white text-slate-800 shadow-sm'
+              ? 'bg-surface text-slate-800 shadow-sm'
               : 'text-slate-500 hover:text-slate-700',
           )}
         >
@@ -35,7 +35,7 @@ export default function EsgPage() {
           className={clsx(
             'flex items-center gap-2 flex-1 justify-center px-4 py-2.5 rounded-md text-xs font-bold transition-all',
             view === 'entry'
-              ? 'bg-white text-slate-800 shadow-sm'
+              ? 'bg-surface text-slate-800 shadow-sm'
               : 'text-slate-500 hover:text-slate-700',
           )}
         >

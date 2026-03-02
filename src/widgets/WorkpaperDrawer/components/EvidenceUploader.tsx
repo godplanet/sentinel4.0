@@ -141,7 +141,7 @@ export const EvidenceUploader = ({ workpaperId }: EvidenceUploaderProps) => {
           relative border-2 border-dashed rounded-lg p-8 transition-all duration-200
           ${isDragging
             ? 'border-emerald-500 bg-emerald-50/50'
-            : 'border-gray-300 hover:border-gray-400 bg-white/50'
+            : 'border-gray-300 hover:border-gray-400 bg-surface/50'
           }
         `}
       >
@@ -172,7 +172,7 @@ export const EvidenceUploader = ({ workpaperId }: EvidenceUploaderProps) => {
         </label>
 
         {isUploading && (
-          <div className="absolute inset-0 bg-white/90 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center">
+          <div className="absolute inset-0 bg-surface/90 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center">
             <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mb-3" />
             <p className="text-sm font-medium text-gray-700">SHA-256 Özeti Hesaplanıyor...</p>
             <div className="w-48 h-2 bg-gray-200 rounded-full mt-2 overflow-hidden">
@@ -200,7 +200,7 @@ export const EvidenceUploader = ({ workpaperId }: EvidenceUploaderProps) => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-lg p-4"
+                className="bg-surface/80 backdrop-blur-sm border border-emerald-200 rounded-lg p-4"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex items-center justify-center w-10 h-10 bg-emerald-100 rounded-lg shrink-0">
@@ -209,7 +209,7 @@ export const EvidenceUploader = ({ workpaperId }: EvidenceUploaderProps) => {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-sm font-medium text-primary truncate">
                         {file.name}
                       </p>
                       <div className="flex items-center gap-1 px-2 py-0.5 bg-emerald-100 rounded-full">
@@ -222,7 +222,7 @@ export const EvidenceUploader = ({ workpaperId }: EvidenceUploaderProps) => {
                       {formatFileSize(file.size)} • {file.uploadedAt.toLocaleTimeString('tr-TR')}
                     </p>
 
-                    <div className="bg-gray-50 rounded p-2 border border-gray-200">
+                    <div className="bg-canvas rounded p-2 border border-gray-200">
                       <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">
                         SHA-256 Hash
                       </p>

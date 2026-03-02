@@ -47,7 +47,7 @@ export function TalentCard({ profile, selected, onClick }: TalentCardProps) {
       transition={{ duration: 0.2 }}
       onClick={onClick}
       className={clsx(
-        'bg-white rounded-xl border-l-4 border border-slate-200 shadow-sm cursor-pointer transition-shadow',
+        'bg-surface rounded-xl border-l-4 border border-slate-200 shadow-sm cursor-pointer transition-shadow',
         ZONE_BORDER[profile.burnout_zone],
         selected && 'ring-2 ring-blue-500 shadow-md',
         profile.burnout_zone === 'RED' && 'opacity-80'
@@ -69,7 +69,7 @@ export function TalentCard({ profile, selected, onClick }: TalentCardProps) {
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-slate-900 truncate">{profile.full_name}</h3>
+              <h3 className="font-semibold text-primary truncate">{profile.full_name}</h3>
               {profile.burnout_zone === 'RED' && (
                 <AlertTriangle size={14} className="text-red-500 flex-shrink-0" />
               )}

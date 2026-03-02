@@ -33,7 +33,7 @@ export function WorkpaperList({ onSelectWorkpaper }: WorkpaperListProps) {
 
   if (workpapers.length === 0) {
     return (
-      <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-8">
+      <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-8">
         <div className="text-center">
           <svg
             className="w-16 h-16 mx-auto text-gray-300 mb-3"
@@ -65,13 +65,13 @@ export function WorkpaperList({ onSelectWorkpaper }: WorkpaperListProps) {
         return (
           <div
             key={workpaper.id}
-            className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4 hover:shadow-md transition-all cursor-pointer"
+            className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4 hover:shadow-md transition-all cursor-pointer"
             onClick={() => onSelectWorkpaper?.(workpaper.id)}
           >
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-semibold text-gray-900">{step?.title || 'Unknown Step'}</h3>
+                  <h3 className="font-semibold text-primary">{step?.title || 'Unknown Step'}</h3>
                   {findings.length > 0 && (
                     <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full font-medium">
                       {findings.length} {findings.length === 1 ? 'Finding' : 'Findings'}

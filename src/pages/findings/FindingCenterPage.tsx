@@ -6,9 +6,8 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 
-// MİMARİ BAĞLANTILAR
+// MİMARİ BAĞLANTILAR (FSD Kurallarına Uygun)
 import { PageHeader } from '@/shared/ui/PageHeader';
-import { FindingDataGrid } from '@/widgets/tables/FindingDataGrid';
 import { FindingKanbanBoard } from '@/features/finding-hub';
 import { NewFindingModal } from '@/features/finding-form'; 
 import { comprehensiveFindingApi } from '@/entities/finding/api/module5-api';
@@ -35,7 +34,7 @@ export default function FindingCenterPage() {
   // Modal Kontrolleri
   const [showNewFindingModal, setShowNewFindingModal] = useState(false);
 
-  // 1. VERİ YÜKLEME (Tek Gerçek Kaynak)
+  // 1. VERİ YÜKLEME (Entities API Katmanından)
   useEffect(() => {
     loadFindings();
   }, []);
@@ -43,9 +42,7 @@ export default function FindingCenterPage() {
   const loadFindings = async () => {
     try {
       setLoading(true);
-      console.log('FindingCenterPage: Loading findings...');
       const data = await comprehensiveFindingApi.getAll();
-      console.log('FindingCenterPage: Loaded', data?.length || 0, 'findings');
       setFindings(data || []);
     } catch (error) {
       console.error('FindingCenterPage: Failed to load findings:', error);
@@ -89,14 +86,17 @@ export default function FindingCenterPage() {
     };
   }, [findings]);
 
-  // 4. NAVİGASYON (Detail Page'e Git)
+  // 4. GÜVENLİ NAVİGASYON (Hata Giderildi)
+  const handleNavigateToDetail = (id: string, view: 'studio' | 'reader' = 'studio') => {
+    navigate(`/execution/findings/${id}?view=${view}`);
+  };
+
   const handleRowClick = (finding: ComprehensiveFinding) => {
-    // Yeni Finding Studio Page'e git
-    navigate(`/execution/findings/${finding.id}`);
+    handleNavigateToDetail(finding.id, 'studio');
   };
 
   return (
-    <div className="space-y-6 p-6 min-h-screen bg-slate-50">
+    <div className="space-y-6 p-6 min-h-screen bg-canvas">
       
       {/* HEADER */}
       <PageHeader
@@ -105,28 +105,28 @@ export default function FindingCenterPage() {
         icon={FileSearch}
         action={
           <div className="flex items-center gap-3">
-            {/* Görünüm Değiştirici */}
-            <div className="flex bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden p-0.5">
+            {/* Görünüm Değiştirici (Apple Glass Segmented Control) */}
+            <div className="flex bg-surface border border-slate-200 rounded-lg shadow-sm overflow-hidden p-0.5">
               <button 
                   onClick={() => setViewMode('list')} 
-                  className={clsx('px-3 py-2 rounded-md transition-colors', viewMode === 'list' ? 'bg-slate-100 text-slate-900 font-medium' : 'text-slate-500 hover:bg-slate-50')}
+                  className={clsx('px-3 py-2 rounded-md transition-colors', viewMode === 'list' ? 'bg-slate-100 text-primary font-medium' : 'text-slate-500 hover:bg-canvas')}
                   title="Liste Görünümü"
               >
                   <List size={16}/>
               </button>
               <button 
                   onClick={() => setViewMode('kanban')} 
-                  className={clsx('px-3 py-2 rounded-md transition-colors', viewMode === 'kanban' ? 'bg-slate-100 text-slate-900 font-medium' : 'text-slate-500 hover:bg-slate-50')}
+                  className={clsx('px-3 py-2 rounded-md transition-colors', viewMode === 'kanban' ? 'bg-slate-100 text-primary font-medium' : 'text-slate-500 hover:bg-canvas')}
                   title="Kanban Görünümü"
               >
                   <LayoutGrid size={16}/>
               </button>
             </div>
 
-            {/* Zen Modu - Opens in Zen view */}
+            {/* Zen Modu */}
             <button
               onClick={() => navigate('/execution/findings/new?mode=zen')}
-              className="flex items-center gap-2 px-4 py-2.5 bg-white text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-50 shadow-sm font-bold text-xs transition-all"
+              className="flex items-center gap-2 px-4 py-2.5 bg-surface text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-50 shadow-sm font-bold text-xs transition-all"
             >
               <Sparkles size={16} /> Zen Modu
             </button>
@@ -152,7 +152,7 @@ export default function FindingCenterPage() {
       </div>
 
       {/* FİLTRE VE ARAMA */}
-      <div className="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+      <div className="flex items-center gap-4 bg-surface p-4 rounded-xl border border-slate-200 shadow-sm">
           <div className="relative flex-1">
               <FileSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input 
@@ -160,7 +160,7 @@ export default function FindingCenterPage() {
                   placeholder="Bulgu başlığı veya referans kodu ara..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                  className="w-full pl-10 pr-4 py-2 bg-canvas border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
               />
           </div>
           <div className="flex items-center gap-2 border-l border-slate-200 pl-4">
@@ -181,12 +181,12 @@ export default function FindingCenterPage() {
 
       {/* LİSTE GÖRÜNÜMÜ */}
       {loading ? (
-        <div className="bg-white rounded-xl border border-slate-200 p-12 text-center shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-12 text-center shadow-sm">
           <div className="animate-spin w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full mx-auto mb-3" />
           <span className="text-sm text-slate-500 font-medium">Veriler yükleniyor...</span>
         </div>
       ) : filteredFindings.length === 0 ? (
-        <div className="bg-white rounded-xl border border-slate-200 p-16 text-center shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-16 text-center shadow-sm">
           <FileSearch size={32} className="mx-auto mb-4 text-slate-300" />
           <h3 className="text-lg font-bold text-slate-800 mb-1">Eşleşen kayıt bulunamadı</h3>
           <p className="text-sm text-slate-500">Arama kriterlerinizi değiştirin veya yeni bir bulgu ekleyin.</p>
@@ -197,12 +197,12 @@ export default function FindingCenterPage() {
                 <div 
                     key={finding.id} 
                     onClick={() => handleRowClick(finding)} 
-                    className="bg-white border border-slate-200 rounded-xl p-4 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden"
+                    className="bg-surface border border-slate-200 rounded-xl p-4 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden"
                 >
-                    <div className={clsx("absolute left-0 top-0 bottom-0 w-1.5", getSeverityColor(finding.severity).split(' ')[0].replace('bg-', 'bg-'))} />
+                    <div className={clsx("absolute left-0 top-0 bottom-0 w-1.5", getSeverityColor(finding.severity).split(' ')[0])} />
                     <div className="flex items-center justify-between pl-4">
                         <div className="flex items-center gap-4">
-                            <div className="flex flex-col items-center justify-center w-12 h-12 bg-slate-50 rounded-lg border border-slate-100">
+                            <div className="flex flex-col items-center justify-center w-12 h-12 bg-canvas rounded-lg border border-slate-100">
                                 <span className="text-[10px] font-black text-slate-400">SKOR</span>
                                 <span className={clsx("text-xs font-bold", finding.severity === 'CRITICAL' ? 'text-red-600' : 'text-slate-600')}>{finding.impact_score || 0}</span>
                             </div>
@@ -225,14 +225,14 @@ export default function FindingCenterPage() {
                              >
                                 <Layers size={14} /> Studio
                              </button>
-                             <ArrowRight className="text-slate-300 group-hover:text-indigo-600" size={20} />
+                             <ArrowRight className="text-slate-300 group-hover:text-indigo-600 transition-colors" size={20} />
                         </div>
                     </div>
                 </div>
              ))}
         </div>
       ) : (
-        <FindingKanbanBoard findings={filteredFindings} onFindingUpdate={() => {}} />
+        <FindingKanbanBoard findings={filteredFindings} onFindingUpdate={() => loadFindings()} />
       )}
 
       <NewFindingModal isOpen={showNewFindingModal} onClose={() => setShowNewFindingModal(false)} onSave={() => loadFindings()} />
@@ -242,22 +242,22 @@ export default function FindingCenterPage() {
 
 // İSTATİSTİK KART BİLEŞENİ
 function StatCard({ label, value, icon: Icon, color }: { label: string; value: number; icon: any; color: string }) {
-  const colors: any = { 
+  const colors: Record<string, string> = { 
       blue: 'text-blue-600 bg-blue-50 border-blue-100', 
       red: 'text-red-600 bg-red-50 border-red-100', 
       amber: 'text-amber-600 bg-amber-50 border-amber-100', 
       emerald: 'text-emerald-600 bg-emerald-50 border-emerald-100', 
-      slate: 'text-slate-600 bg-slate-50 border-slate-200' 
+      slate: 'text-slate-600 bg-canvas border-slate-200' 
   };
   
   return (
-    <div className={clsx("rounded-xl border p-4 flex items-center gap-4 transition-all hover:shadow-sm", colors[color])}>
-      <div className="p-3 bg-white/80 rounded-lg shadow-sm">
+    <div className={clsx("rounded-xl border p-4 flex items-center gap-4 transition-all hover:shadow-sm bg-surface", colors[color])}>
+      <div className="p-3 bg-surface/80 backdrop-blur-sm rounded-lg shadow-sm">
         <Icon size={20} className="opacity-90" />
       </div>
       <div>
-        <div className="text-2xl font-black">{value}</div>
-        <div className="text-[10px] font-bold uppercase tracking-wider opacity-70">{label}</div>
+        <div className="text-2xl font-black text-primary">{value}</div>
+        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-600">{label}</div>
       </div>
     </div>
   );

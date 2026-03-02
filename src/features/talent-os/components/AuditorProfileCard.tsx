@@ -52,7 +52,7 @@ const CERT_COLORS: Record<string, { bg: string; text: string; border: string }> 
   SPK:   { bg: 'bg-sky-50',     text: 'text-sky-700',     border: 'border-sky-200'    },
   TKBB:  { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200'},
 };
-const DEFAULT_CERT_COLOR = { bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' };
+const DEFAULT_CERT_COLOR = { bg: 'bg-canvas', text: 'text-slate-600', border: 'border-slate-200' };
 
 function getInitials(name: string) {
   return name.split(' ').slice(0, 2).map((n) => n[0]).join('').toUpperCase();
@@ -194,7 +194,7 @@ export function AuditorProfileCard({
       onClick={onSelect}
       className={`
         relative rounded-2xl p-5 cursor-pointer transition-all duration-300
-        bg-white border shadow-sm hover:shadow-md
+        bg-surface border shadow-sm hover:shadow-md
         ${isSelected
           ? 'border-sky-400 ring-1 ring-sky-300 shadow-sky-100'
           : isGateBlocked
@@ -224,7 +224,7 @@ export function AuditorProfileCard({
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="text-slate-900 font-semibold text-sm leading-tight truncate">{profile.full_name}</h3>
+          <h3 className="text-primary font-semibold text-sm leading-tight truncate">{profile.full_name}</h3>
           <p className="text-slate-500 text-xs mt-0.5">{TITLE_MAP[profile.title] ?? profile.title}</p>
           <p className="text-slate-400 text-[10px] mt-0.5 truncate">{profile.department}</p>
           <div className="flex items-center gap-2 mt-1.5">
@@ -275,7 +275,7 @@ export function AuditorProfileCard({
               <button
                 onClick={(e) => { e.stopPropagation(); navigate('/playbook'); }}
                 className="w-full flex items-center justify-center gap-2 py-2 rounded-lg
-                  bg-white border border-rose-200 text-rose-700 text-[10px] font-semibold
+                  bg-surface border border-rose-200 text-rose-700 text-[10px] font-semibold
                   hover:bg-rose-100 transition-all"
               >
                 <BookOpen className="w-3 h-3" />
@@ -349,7 +349,7 @@ export function AuditorProfileCard({
           className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-all
             ${isSelected
               ? 'bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100'
-              : 'bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 hover:text-slate-900'}`}
+              : 'bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 hover:text-primary'}`}
         >
           <Star className="w-3 h-3" />
           Radar

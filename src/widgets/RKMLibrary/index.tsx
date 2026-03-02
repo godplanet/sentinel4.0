@@ -88,12 +88,12 @@ export function RKMLibrary() {
   return (
     <div className="flex h-[calc(100vh-8rem)] gap-4">
       {/* COLUMN 1: PROCESSES */}
-      <div className="w-1/3 flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-200 bg-slate-50">
+      <div className="w-1/3 flex flex-col bg-surface rounded-lg border border-slate-200 overflow-hidden">
+        <div className="p-4 border-b border-slate-200 bg-canvas">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-slate-600" />
-              <h2 className="text-lg font-semibold text-slate-900">Processes</h2>
+              <h2 className="text-lg font-semibold text-primary">Processes</h2>
             </div>
             <button
               onClick={() => setShowProcessModal(true)}
@@ -120,7 +120,7 @@ export function RKMLibrary() {
                   className={`w-full p-4 text-left transition-colors ${
                     selectedProcess?.id === process.id
                       ? 'bg-blue-50 border-l-4 border-blue-600'
-                      : 'hover:bg-slate-50'
+                      : 'hover:bg-canvas'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -135,7 +135,7 @@ export function RKMLibrary() {
                           </span>
                         )}
                       </div>
-                      <div className="font-semibold text-slate-900 mb-1">{process.title}</div>
+                      <div className="font-semibold text-primary mb-1">{process.title}</div>
                       {process.description && (
                         <p className="text-sm text-slate-600 line-clamp-2">{process.description}</p>
                       )}
@@ -166,12 +166,12 @@ export function RKMLibrary() {
       </div>
 
       {/* COLUMN 2: RISKS */}
-      <div className="w-1/3 flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-200 bg-slate-50">
+      <div className="w-1/3 flex flex-col bg-surface rounded-lg border border-slate-200 overflow-hidden">
+        <div className="p-4 border-b border-slate-200 bg-canvas">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-slate-600" />
-              <h2 className="text-lg font-semibold text-slate-900">Risks</h2>
+              <h2 className="text-lg font-semibold text-primary">Risks</h2>
             </div>
             {selectedProcess && (
               <button
@@ -207,7 +207,7 @@ export function RKMLibrary() {
                   className={`w-full p-4 text-left transition-colors ${
                     selectedRisk?.id === risk.id
                       ? 'bg-blue-50 border-l-4 border-blue-600'
-                      : 'hover:bg-slate-50'
+                      : 'hover:bg-canvas'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -232,7 +232,7 @@ export function RKMLibrary() {
                           {risk.risk_level}
                         </span>
                       </div>
-                      <div className="font-semibold text-slate-900 mb-1">{risk.risk_title}</div>
+                      <div className="font-semibold text-primary mb-1">{risk.risk_title}</div>
                       <p className="text-sm text-slate-600 line-clamp-2">{risk.description}</p>
                       {risk.risk_category && (
                         <div className="mt-2 text-xs text-slate-500">
@@ -261,12 +261,12 @@ export function RKMLibrary() {
       </div>
 
       {/* COLUMN 3: CONTROLS */}
-      <div className="w-1/3 flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-200 bg-slate-50">
+      <div className="w-1/3 flex flex-col bg-surface rounded-lg border border-slate-200 overflow-hidden">
+        <div className="p-4 border-b border-slate-200 bg-canvas">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <Shield className="w-5 h-5 text-slate-600" />
-              <h2 className="text-lg font-semibold text-slate-900">Controls</h2>
+              <h2 className="text-lg font-semibold text-primary">Controls</h2>
             </div>
             <div className="flex items-center gap-2">
               {selectedControls.length > 0 && (
@@ -311,7 +311,7 @@ export function RKMLibrary() {
                 <div
                   key={control.id}
                   className={`p-4 transition-colors ${
-                    selectedControls.includes(control.id) ? 'bg-green-50' : 'hover:bg-slate-50'
+                    selectedControls.includes(control.id) ? 'bg-green-50' : 'hover:bg-canvas'
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -333,7 +333,7 @@ export function RKMLibrary() {
                           </span>
                         )}
                       </div>
-                      <div className="font-semibold text-slate-900 mb-1">{control.title}</div>
+                      <div className="font-semibold text-primary mb-1">{control.title}</div>
                       <p className="text-sm text-slate-600 mb-2 line-clamp-2">{control.description}</p>
 
                       <div className="flex items-center gap-2 flex-wrap text-xs mb-2">
@@ -431,11 +431,11 @@ export function RKMLibrary() {
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
-              className="fixed inset-y-0 right-0 w-full max-w-7xl bg-slate-50 shadow-2xl z-50 overflow-y-auto"
+              className="fixed inset-y-0 right-0 w-full max-w-7xl bg-canvas shadow-2xl z-50 overflow-y-auto"
             >
-              <div className="sticky top-0 bg-white border-b border-slate-200 p-4 flex items-center justify-between z-10">
+              <div className="sticky top-0 bg-surface border-b border-slate-200 p-4 flex items-center justify-between z-10">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-900">
+                  <h2 className="text-lg font-semibold text-primary">
                     Compliance Framework Mapping
                   </h2>
                   <p className="text-sm text-slate-600">
@@ -488,9 +488,9 @@ function ProcessModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div className="bg-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-slate-200">
-          <h3 className="text-lg font-semibold text-slate-900">Add Process</h3>
+          <h3 className="text-lg font-semibold text-primary">Add Process</h3>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
@@ -603,9 +603,9 @@ function RiskModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div className="bg-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-slate-200">
-          <h3 className="text-lg font-semibold text-slate-900">Add Risk</h3>
+          <h3 className="text-lg font-semibold text-primary">Add Risk</h3>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
@@ -724,9 +724,9 @@ function ControlModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div className="bg-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-slate-200">
-          <h3 className="text-lg font-semibold text-slate-900">Add Control</h3>
+          <h3 className="text-lg font-semibold text-primary">Add Control</h3>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
@@ -902,9 +902,9 @@ function ImportModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div className="bg-surface rounded-lg shadow-xl w-full max-w-md">
         <div className="p-6 border-b border-slate-200">
-          <h3 className="text-lg font-semibold text-slate-900">Denetim Görevine İçe Aktar</h3>
+          <h3 className="text-lg font-semibold text-primary">Denetim Görevine İçe Aktar</h3>
           <p className="text-sm text-slate-500 mt-1">
             <strong>{controlCount}</strong> kontrol seçili
           </p>
@@ -919,7 +919,7 @@ function ImportModal({
                 Görevler yükleniyor...
               </div>
             ) : engagements.length === 0 ? (
-              <div className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-500 bg-slate-50">
+              <div className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-500 bg-canvas">
                 Aktif denetim görevi bulunamadı
               </div>
             ) : (

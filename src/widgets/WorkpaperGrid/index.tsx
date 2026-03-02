@@ -74,7 +74,7 @@ export function WorkpaperGrid({ data, onUpdate, onOpenDrawer }: WorkpaperGridPro
         const row = info.row.original;
         return (
           <div className="group relative">
-            <div className="text-sm font-medium text-slate-900 truncate max-w-[260px]">
+            <div className="text-sm font-medium text-primary truncate max-w-[260px]">
               {info.getValue()}
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5">{row.category}</div>
@@ -165,7 +165,7 @@ export function WorkpaperGrid({ data, onUpdate, onOpenDrawer }: WorkpaperGridPro
 
   return (
     <div className="space-y-4">
-      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+      <div className="bg-surface border border-slate-200 rounded-xl p-4 shadow-sm">
         <ProgressBar
           tested={stats.tested}
           total={stats.total}
@@ -174,20 +174,20 @@ export function WorkpaperGrid({ data, onUpdate, onOpenDrawer }: WorkpaperGridPro
         />
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
               {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id} className="bg-slate-50 border-b-2 border-slate-200">
+                <tr key={headerGroup.id} className="bg-canvas border-b-2 border-slate-200">
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
                       style={{ width: header.getSize() }}
                       className={clsx(
                         'px-4 py-3 text-left text-[11px] font-bold text-slate-600 uppercase tracking-wider select-none',
-                        header.column.getCanSort() && 'cursor-pointer hover:text-slate-900',
-                        header.id === 'control_id' && 'sticky left-0 z-20 bg-slate-50'
+                        header.column.getCanSort() && 'cursor-pointer hover:text-primary',
+                        header.id === 'control_id' && 'sticky left-0 z-20 bg-canvas'
                       )}
                       onClick={header.column.getToggleSortingHandler()}
                     >
@@ -211,7 +211,7 @@ export function WorkpaperGrid({ data, onUpdate, onOpenDrawer }: WorkpaperGridPro
                     key={row.id}
                     className={clsx(
                       'border-b border-slate-100 transition-colors',
-                      hasIssue ? 'bg-red-50/40 hover:bg-red-50/70' : i % 2 === 0 ? 'bg-white hover:bg-slate-50' : 'bg-slate-50/30 hover:bg-slate-50'
+                      hasIssue ? 'bg-red-50/40 hover:bg-red-50/70' : i % 2 === 0 ? 'bg-surface hover:bg-canvas' : 'bg-canvas/30 hover:bg-canvas'
                     )}
                   >
                     {row.getVisibleCells().map((cell) => (

@@ -1,3 +1,0 @@
--- Raporlama modulu zengin seed verileri seed.sql dosyasina tasindi.
--- Orijinal icerik: m6_report_templates, m6_reports, m6_report_sections, m6_report_blocks
--- Kaynak: seed.sql - Bolum 12

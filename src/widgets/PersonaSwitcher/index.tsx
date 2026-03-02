@@ -87,9 +87,9 @@ export const PersonaSwitcher = ({ compact = false, className }: PersonaSwitcherP
               className="fixed inset-0 z-40"
               onClick={() => setIsOpen(false)}
             />
-            <div className="absolute top-full right-0 mt-2 z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-2xl overflow-hidden min-w-[280px]">
-              <div className="px-4 py-2 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
-                <div className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+            <div className="absolute top-full right-0 mt-2 z-50 bg-surface dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-2xl overflow-hidden min-w-[280px]">
+              <div className="px-4 py-2 bg-canvas dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+                <div className="text-xs font-bold text-primary dark:text-white uppercase tracking-wider">
                   Rol Simülasyonu
                 </div>
               </div>
@@ -107,14 +107,14 @@ export const PersonaSwitcher = ({ compact = false, className }: PersonaSwitcherP
                       'w-full flex items-center gap-3 px-4 py-3 text-left transition-colors',
                       isActive
                         ? 'bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500'
-                        : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'
+                        : 'hover:bg-canvas dark:hover:bg-slate-700/50'
                     )}
                   >
                     <div className={clsx('w-10 h-10 rounded-full flex items-center justify-center', roleColors.bg)}>
                       <RoleIcon size={20} className="text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-semibold text-sm text-slate-900 dark:text-white">
+                      <div className="font-semibold text-sm text-primary dark:text-white">
                         {persona.name}
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400">
@@ -134,9 +134,9 @@ export const PersonaSwitcher = ({ compact = false, className }: PersonaSwitcherP
 
   // Full card view
   return (
-    <div className={clsx('bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 border border-slate-200 dark:border-slate-700', className)}>
+    <div className={clsx('bg-surface dark:bg-slate-800 rounded-xl shadow-lg p-6 border border-slate-200 dark:border-slate-700', className)}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+        <h3 className="text-lg font-bold text-primary dark:text-white">
           Aktif Persona
         </h3>
         <div className={clsx('w-10 h-10 rounded-full flex items-center justify-center', colors.bg)}>
@@ -145,7 +145,7 @@ export const PersonaSwitcher = ({ compact = false, className }: PersonaSwitcherP
       </div>
 
       <div className="mb-4">
-        <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+        <div className="text-xl font-bold text-primary dark:text-white mb-1">
           {currentConfig.name}
         </div>
         <div className="text-sm text-slate-600 dark:text-slate-400">
@@ -169,9 +169,9 @@ export const PersonaSwitcher = ({ compact = false, className }: PersonaSwitcherP
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute top-0 left-0 right-0 z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-2xl max-h-[480px] overflow-y-auto">
-            <div className="sticky top-0 px-4 py-3 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <div className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+          <div className="absolute top-0 left-0 right-0 z-50 bg-surface dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-2xl max-h-[480px] overflow-y-auto">
+            <div className="sticky top-0 px-4 py-3 bg-canvas dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <div className="text-sm font-bold text-primary dark:text-white uppercase tracking-wider">
                 Persona Seç
               </div>
               <button
@@ -196,14 +196,14 @@ export const PersonaSwitcher = ({ compact = false, className }: PersonaSwitcherP
                     'w-full flex items-center gap-3 px-4 py-3 text-left transition-colors border-l-4',
                     isActive
                       ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500'
-                      : 'hover:bg-slate-50 dark:hover:bg-slate-700/50 border-transparent'
+                      : 'hover:bg-canvas dark:hover:bg-slate-700/50 border-transparent'
                   )}
                 >
                   <div className={clsx('w-12 h-12 rounded-full flex items-center justify-center', roleColors.bg)}>
                     <RoleIcon size={24} className="text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-slate-900 dark:text-white">
+                    <div className="font-semibold text-primary dark:text-white">
                       {persona.name}
                     </div>
                     <div className="text-sm text-slate-600 dark:text-slate-400">

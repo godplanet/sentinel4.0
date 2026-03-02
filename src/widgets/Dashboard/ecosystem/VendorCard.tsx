@@ -1,21 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Globe, Loader2, ShieldAlert, Clock, CheckCircle2, Send } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import clsx from 'clsx';
-import { supabase } from '@/shared/api/supabase';
-
-interface VendorRow {
-  name: string;
-  risk_tier: string;
-  criticality_score: number;
-  status: string;
-}
-
-interface AssessmentRow {
-  status: string;
-  risk_score: number | null;
-  vendor_id: string;
-}
+import { useQuery } from '@tanstack/react-query';
+import { fetchVendorEcosystemData } from '@/entities/tprm/api';
 
 const STATUS_COLORS: Record<string, { color: string; label: string; icon: typeof CheckCircle2 }> = {
   Completed: { color: '#10b981', label: 'Tamamlandi', icon: CheckCircle2 },
@@ -25,29 +12,21 @@ const STATUS_COLORS: Record<string, { color: string; label: string; icon: typeof
 };
 
 export function VendorCard() {
-  const [vendors, setVendors] = useState<VendorRow[]>([]);
-  const [assessments, setAssessments] = useState<AssessmentRow[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading } = useQuery({
+    queryKey: ['vendor-ecosystem'],
+    queryFn: fetchVendorEcosystemData,
+  });
 
-  useEffect(() => {
-    (async () => {
-      const [vRes, aRes] = await Promise.all([
-        supabase.from('tprm_vendors').select('name, risk_tier, criticality_score, status'),
-        supabase.from('tprm_assessments').select('status, risk_score, vendor_id'),
-      ]);
-      if (vRes.data) setVendors(vRes.data);
-      if (aRes.data) setAssessments(aRes.data);
-      setLoading(false);
-    })();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="bg-white border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
+      <div className="bg-surface border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
         <Loader2 size={20} className="animate-spin text-slate-400" />
       </div>
     );
   }
+
+  const vendors = data?.vendors ?? [];
+  const assessments = data?.assessments ?? [];
 
   const tier1 = vendors.filter((v) => v.risk_tier === 'Tier 1');
   const criticalVendors = vendors.filter((v) => v.criticality_score >= 85);
@@ -125,17 +104,17 @@ export function VendorCard() {
         </div>
 
         <div className="grid grid-cols-3 gap-2 mb-2">
-          <div className="bg-white/70 border border-sky-100 rounded-xl p-2.5 text-center">
+          <div className="bg-surface/70 border border-sky-100 rounded-xl p-2.5 text-center">
             <p className="text-[9px] text-slate-500 font-medium">Tier 1</p>
             <p className="text-lg font-bold text-slate-800">{tier1.length}</p>
           </div>
-          <div className="bg-white/70 border border-sky-100 rounded-xl p-2.5 text-center">
+          <div className="bg-surface/70 border border-sky-100 rounded-xl p-2.5 text-center">
             <p className="text-[9px] text-slate-500 font-medium">Kritik Risk</p>
             <p className={clsx('text-lg font-bold', criticalVendors.length > 0 ? 'text-red-600' : 'text-slate-800')}>
               {criticalVendors.length}
             </p>
           </div>
-          <div className="bg-white/70 border border-sky-100 rounded-xl p-2.5 text-center">
+          <div className="bg-surface/70 border border-sky-100 rounded-xl p-2.5 text-center">
             <p className="text-[9px] text-slate-500 font-medium">Ort. Risk</p>
             <p className={clsx('text-lg font-bold', avgRiskScore >= 80 ? 'text-red-600' : avgRiskScore >= 50 ? 'text-amber-600' : 'text-emerald-600')}>
               {avgRiskScore}

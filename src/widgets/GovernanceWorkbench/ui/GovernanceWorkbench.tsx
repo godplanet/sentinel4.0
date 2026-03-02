@@ -15,8 +15,8 @@ export function GovernanceWorkbench({ actions, onSelectAction }: Props) {
       <BDDKWatchlist actions={actions} onSelectAction={onSelectAction} />
 
       <div className="grid grid-cols-3 gap-5">
-        <div className="col-span-2 bg-white/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-5 flex flex-col" style={{ minHeight: 360 }}>
-          <h3 className="font-serif text-base font-bold text-slate-900 mb-1">
+        <div className="col-span-2 bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-5 flex flex-col" style={{ minHeight: 360 }}>
+          <h3 className="font-serif text-base font-bold text-primary mb-1">
             İkili Yaşlanma Analizi — Maskelenen Risk Göstergesi
           </h3>
           <p className="text-xs text-slate-500 mb-4">
@@ -27,8 +27,8 @@ export function GovernanceWorkbench({ actions, onSelectAction }: Props) {
           </div>
         </div>
 
-        <div className="col-span-1 bg-white/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-5 flex flex-col" style={{ minHeight: 360 }}>
-          <h3 className="font-serif text-base font-bold text-slate-900 mb-4">
+        <div className="col-span-1 bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-5 flex flex-col" style={{ minHeight: 360 }}>
+          <h3 className="font-serif text-base font-bold text-primary mb-4">
             Güvence Bütünlüğü
           </h3>
           <div className="flex-1 min-h-0">
@@ -37,8 +37,8 @@ export function GovernanceWorkbench({ actions, onSelectAction }: Props) {
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-5">
-        <h3 className="font-serif text-base font-bold text-slate-900 mb-1">
+      <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-5">
+        <h3 className="font-serif text-base font-bold text-primary mb-1">
           Aksiyon Matris Tablosu — Yüksek Performanslı Sanal Izgara
         </h3>
         <p className="text-xs text-slate-500 mb-4">

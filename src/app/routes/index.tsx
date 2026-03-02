@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import { usePersonaStore } from '@/entities/user/model/persona-store';
 
 import DashboardPage from '@/pages/dashboard';
@@ -72,8 +72,7 @@ import AutomationPage from '@/pages/automation';
 import SoxPage from '@/pages/sox';
 import EsgPage from '@/pages/esg';
 import NewEngagementPage from '@/pages/execution/NewEngagementPage';
-import SprintBoardPage from '@/pages/execution/SprintBoardPage';
-import { AgileEngagementsPage } from '@/pages/execution/AgileEngagementsPage';
+import AgileTasksPage from '@/pages/execution/AgileTasksPage';
 import DataMonitorPage from '@/pages/ccm/DataMonitorPage';
 import AnomalyDashboard from '@/pages/ccm/AnomalyDashboard';
 import PredatorCockpit from '@/pages/ccm/PredatorCockpit';
@@ -94,7 +93,6 @@ import RiskLibraryPage from '@/pages/library/RiskLibraryPage';
 import ProceduresPage from '@/pages/library/ProceduresPage';
 import ProgramLibraryPage from '@/pages/library/ProgramLibraryPage';
 import ProgramBuilderPage from '@/pages/library/ProgramBuilderPage';
-import UniverseModule2Page from '@/pages/universe/UniverseModule2Page';
 import AuditUniversePage from '@/pages/strategy/AuditUniversePage';
 import RiskSimulationPage from '@/pages/strategy/RiskSimulationPage';
 import NeuralMapPage from '@/pages/strategy/NeuralMapPage';
@@ -103,6 +101,11 @@ import FatwaGPTPage from '@/pages/shariah/FatwaGPTPage';
 import AcademyPage from '@/pages/academy';
 import PlaybookPage from '@/pages/playbook';
 import ActivityReportsPage from '@/pages/reporting/ActivityReportsPage';
+
+function SprintBoardRedirect() {
+  const { id } = useParams<{ id: string }>();
+  return <Navigate to={id ? `/execution/agile/${id}` : '/execution/agile'} replace />;
+}
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true' || localStorage.getItem('sentinel_token');
@@ -137,7 +140,6 @@ export const AppRoutes = () => {
 
       <Route path="/strategy/objectives" element={<ProtectedRoute><ObjectivesPage /></ProtectedRoute>} />
       <Route path="/strategy/universe" element={<ProtectedRoute><StrategyPage /></ProtectedRoute>} />
-      <Route path="/strategy/universe-module2" element={<ProtectedRoute><UniverseModule2Page /></ProtectedRoute>} />
       <Route path="/strategy/audit-universe" element={<ProtectedRoute><AuditUniversePage /></ProtectedRoute>} />
       <Route path="/strategy/risk-assessment" element={<ProtectedRoute><RkmLibraryPage /></ProtectedRoute>} />
       <Route path="/strategy/annual-plan" element={<ProtectedRoute><StrategicPlanningPage /></ProtectedRoute>} />
@@ -165,10 +167,11 @@ export const AppRoutes = () => {
       <Route path="/execution/actions" element={<ProtectedRoute><ActionWorkbenchPage /></ProtectedRoute>} />
       <Route path="/execution/pbc" element={<ProtectedRoute><PBCPage /></ProtectedRoute>} />
       <Route path="/execution/start" element={<ProtectedRoute><AuditStartPage /></ProtectedRoute>} />
-      <Route path="/execution/agile" element={<ProtectedRoute><AgileEngagementsPage /></ProtectedRoute>} />
+      <Route path="/execution/agile" element={<ProtectedRoute><AgileTasksPage /></ProtectedRoute>} />
+      <Route path="/execution/agile/:id" element={<ProtectedRoute><AgileTasksPage /></ProtectedRoute>} />
       <Route path="/execution/new-engagement" element={<ProtectedRoute><NewEngagementPage /></ProtectedRoute>} />
-      <Route path="/execution/sprint-board" element={<ProtectedRoute><AgileEngagementsPage /></ProtectedRoute>} />
-      <Route path="/execution/sprint-board/:id" element={<ProtectedRoute><SprintBoardPage /></ProtectedRoute>} />
+      <Route path="/execution/sprint-board" element={<Navigate to="/execution/agile" replace />} />
+      <Route path="/execution/sprint-board/:id" element={<ProtectedRoute><SprintBoardRedirect /></ProtectedRoute>} />
       <Route path="/execution/field-agent" element={<ProtectedRoute><FieldAgentPage /></ProtectedRoute>} />
 
       <Route path="/talent" element={<ProtectedRoute><TalentPage /></ProtectedRoute>} />

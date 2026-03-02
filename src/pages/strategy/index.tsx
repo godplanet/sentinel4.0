@@ -22,14 +22,14 @@ export default function StrategyPage() {
   const [universeView, setUniverseView] = useState<UniverseView>('tree');
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Strateji Yonetimi"
         subtitle="Denetim Evreni, Risk Degerlendirme ve Yillik Planlama"
         icon={Target}
       />
 
-      <div className="border-b border-slate-200 bg-white px-6">
+      <div className="border-b border-slate-200 bg-surface px-6">
         <div className="flex gap-1">
           {TABS.map((tab) => (
             <button
@@ -39,7 +39,7 @@ export default function StrategyPage() {
                 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                 activeTab === tab.key
                   ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
               )}
             >
               <tab.icon size={16} />
@@ -72,7 +72,7 @@ export default function StrategyPage() {
                       className={clsx(
                         'px-3 py-1.5 text-xs font-bold rounded-md transition-all flex items-center gap-1.5',
                         universeView === v.key
-                          ? 'bg-white text-slate-800 shadow-sm'
+                          ? 'bg-surface text-slate-800 shadow-sm'
                           : 'text-slate-500 hover:text-slate-700'
                       )}
                     >
@@ -94,7 +94,7 @@ export default function StrategyPage() {
             {universeView === 'tree' && <UniverseTree />}
             {universeView === 'list' && <UniverseListView />}
             {universeView === 'scoring' && (
-              <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+              <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
                 <UniverseScoring />
               </div>
             )}
@@ -104,7 +104,7 @@ export default function StrategyPage() {
         {activeTab === 'risk' && <StrategicHeatmap />}
 
         {activeTab === 'plan' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <Calendar size={20} className="text-green-600" />
               Yillik Denetim Plani

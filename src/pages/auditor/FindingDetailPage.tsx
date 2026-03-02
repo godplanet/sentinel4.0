@@ -40,7 +40,7 @@ export function FindingDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-50">
+      <div className="h-full flex items-center justify-center bg-canvas">
         <Loader2 className="w-10 h-10 animate-spin text-slate-400" />
       </div>
     );
@@ -48,7 +48,7 @@ export function FindingDetailPage() {
 
   if (!finding) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-50">
+      <div className="h-full flex items-center justify-center bg-canvas">
         <div className="text-center">
           <AlertTriangle className="h-12 w-12 text-slate-300 mx-auto mb-4" />
           <p className="text-slate-600 text-lg font-semibold">Bulgu bulunamadi</p>
@@ -64,8 +64,8 @@ export function FindingDetailPage() {
   }
 
   return (
-    <div className="h-full flex flex-col bg-slate-50 overflow-hidden">
-      <div className="shrink-0 border-b border-slate-200 bg-white px-6 py-3">
+    <div className="h-full flex flex-col bg-canvas overflow-hidden">
+      <div className="shrink-0 border-b border-slate-200 bg-surface px-6 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
@@ -89,7 +89,7 @@ export function FindingDetailPage() {
                 'flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border',
                 spyMode
                   ? 'bg-red-50 text-red-700 border-red-200 shadow-sm'
-                  : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
+                  : 'bg-surface text-slate-500 border-slate-200 hover:border-slate-300'
               )}
             >
               {spyMode ? <Eye size={14} /> : <EyeOff size={14} />}
@@ -113,7 +113,7 @@ export function FindingDetailPage() {
         />
       </div>
 
-      <div className="shrink-0 border-b border-slate-200 bg-white px-6">
+      <div className="shrink-0 border-b border-slate-200 bg-surface px-6">
         <div className="flex gap-1">
           {LEFT_TABS.map((tab) => (
             <button
@@ -123,7 +123,7 @@ export function FindingDetailPage() {
                 'flex items-center gap-2 px-5 py-2.5 text-sm font-bold transition-all relative',
                 activeLeftTab === tab.key
                   ? 'text-slate-800 border-b-2 border-slate-800'
-                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-canvas'
               )}
             >
               <div className={clsx('w-5 h-5 rounded flex items-center justify-center', activeLeftTab === tab.key ? tab.color : 'bg-slate-200')}>
@@ -180,7 +180,7 @@ function TespitTab({ finding }: { finding: any }) {
         </p>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-5">
+      <div className="bg-surface rounded-xl border border-slate-200 p-5">
         <h3 className="text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
           Detayli Tespit
         </h3>
@@ -197,13 +197,13 @@ function TespitTab({ finding }: { finding: any }) {
       </div>
 
       {finding.criteria_json && finding.criteria_json.length > 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5">
           <h3 className="text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
             Denetim Kriterleri
           </h3>
           <div className="space-y-2">
             {finding.criteria_json.map((criteria: any, idx: number) => (
-              <div key={idx} className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+              <div key={idx} className="flex items-start gap-3 p-3 bg-canvas rounded-lg">
                 <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold shrink-0">
                   {idx + 1}
                 </div>
@@ -232,7 +232,7 @@ function RiskTab({ finding, secret }: { finding: any; secret: FindingSecret | nu
       </div>
 
       {finding.impact_html && (
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5">
           <h3 className="text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
             Etki Analizi
           </h3>
@@ -244,7 +244,7 @@ function RiskTab({ finding, secret }: { finding: any; secret: FindingSecret | nu
       )}
 
       {secret && (secret.why_1 || secret.root_cause_summary) && (
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5">
           <h3 className="text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
             5-Neden Analizi (Kok Neden)
           </h3>
@@ -295,7 +295,7 @@ function OneriTab({ finding }: { finding: any }) {
       </div>
 
       {finding.action_plans && finding.action_plans.length > 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5">
           <h3 className="text-xs font-black text-slate-600 uppercase tracking-wider mb-4">
             Aksiyon Planlari ({finding.action_plans.length})
           </h3>
@@ -347,7 +347,7 @@ function IronCurtainPanel({ secret }: { secret: FindingSecret }) {
         {secret.root_cause_analysis_internal && (
           <div>
             <h3 className="text-xs font-bold text-red-600 mb-1">Ic Kok Neden Analizi</h3>
-            <p className="text-sm text-red-900 bg-white rounded-lg p-3 border border-red-100">
+            <p className="text-sm text-red-900 bg-surface rounded-lg p-3 border border-red-100">
               {secret.root_cause_analysis_internal}
             </p>
           </div>
@@ -355,7 +355,7 @@ function IronCurtainPanel({ secret }: { secret: FindingSecret }) {
         {secret.detection_methodology && (
           <div>
             <h3 className="text-xs font-bold text-red-600 mb-1">Tespit Metodolojisi</h3>
-            <p className="text-sm text-red-900 bg-white rounded-lg p-3 border border-red-100">
+            <p className="text-sm text-red-900 bg-surface rounded-lg p-3 border border-red-100">
               {secret.detection_methodology}
             </p>
           </div>
@@ -363,7 +363,7 @@ function IronCurtainPanel({ secret }: { secret: FindingSecret }) {
         {secret.internal_notes && (
           <div>
             <h3 className="text-xs font-bold text-red-600 mb-1">Mufettis Ic Notlari</h3>
-            <p className="text-sm text-red-900 bg-white rounded-lg p-3 border border-red-100">
+            <p className="text-sm text-red-900 bg-surface rounded-lg p-3 border border-red-100">
               {secret.internal_notes}
             </p>
           </div>
@@ -375,7 +375,7 @@ function IronCurtainPanel({ secret }: { secret: FindingSecret }) {
 
 function ScoreCard({ label, value, max, color }: { label: string; value: string | number; max?: number; color: string }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4">
+    <div className="bg-surface rounded-xl border border-slate-200 p-4">
       <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">{label}</p>
       <div className="flex items-end gap-1">
         <span className="text-2xl font-black text-slate-800">{value}</span>

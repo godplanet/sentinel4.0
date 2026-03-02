@@ -85,7 +85,7 @@ export function Scorecard({ engagementId, engagementTitle, demoMode = false }: P
 
   if (loading) {
     return (
-      <div className="bg-white border border-slate-200 rounded-xl p-12 flex items-center justify-center">
+      <div className="bg-surface border border-slate-200 rounded-xl p-12 flex items-center justify-center">
         <Loader2 className="animate-spin text-slate-400" size={28} />
       </div>
     );
@@ -100,7 +100,7 @@ export function Scorecard({ engagementId, engagementTitle, demoMode = false }: P
             'flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg border transition-all',
             activeView === 'scorecard'
               ? 'bg-slate-800 text-white border-slate-800'
-              : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
+              : 'bg-surface text-slate-500 border-slate-200 hover:border-slate-300'
           )}
         >
           <Award size={14} />
@@ -112,7 +112,7 @@ export function Scorecard({ engagementId, engagementTitle, demoMode = false }: P
             'flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg border transition-all',
             activeView === 'consolidation'
               ? 'bg-slate-800 text-white border-slate-800'
-              : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
+              : 'bg-surface text-slate-500 border-slate-200 hover:border-slate-300'
           )}
         >
           <Users size={14} />
@@ -154,7 +154,7 @@ function ScorecardView({
   onRefresh: () => void;
 }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+    <div className="bg-surface border border-slate-200 rounded-xl overflow-hidden">
       <div className="px-5 py-4 bg-slate-800 text-white flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Award size={18} />
@@ -238,7 +238,7 @@ function CountBadge({ label, count, color }: { label: string; count: number; col
 function ConsolidationView({ data }: { data: GroupConsolidationRow[] }) {
   if (data.length === 0) {
     return (
-      <div className="bg-white border border-slate-200 rounded-xl p-12 text-center">
+      <div className="bg-surface border border-slate-200 rounded-xl p-12 text-center">
         <AlertTriangle size={28} className="text-slate-300 mx-auto mb-2" />
         <p className="text-sm text-slate-500">Konsolidasyon verisi bulunamadi.</p>
         <p className="text-xs text-slate-400 mt-1">Tamamlanmis denetim sonuclari gereklidir.</p>
@@ -247,7 +247,7 @@ function ConsolidationView({ data }: { data: GroupConsolidationRow[] }) {
   }
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+    <div className="bg-surface border border-slate-200 rounded-xl overflow-hidden">
       <div className="px-5 py-4 bg-slate-800 text-white flex items-center gap-3">
         <Users size={18} />
         <div>
@@ -259,7 +259,7 @@ function ConsolidationView({ data }: { data: GroupConsolidationRow[] }) {
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
           <thead>
-            <tr className="bg-slate-50 border-b border-slate-200">
+            <tr className="bg-canvas border-b border-slate-200">
               <th className="text-left px-4 py-3 font-bold text-slate-600">Plan</th>
               <th className="text-center px-4 py-3 font-bold text-slate-600">Denetim</th>
               <th className="text-center px-4 py-3 font-bold text-slate-600">Agirlikli Ort.</th>
@@ -272,7 +272,7 @@ function ConsolidationView({ data }: { data: GroupConsolidationRow[] }) {
             {data.map((row, idx) => (
               <tr
                 key={idx}
-                className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                className="border-b border-slate-100 hover:bg-canvas transition-colors"
               >
                 <td className="px-4 py-3 font-mono text-slate-600 truncate max-w-[200px]">
                   {row.plan_id?.slice(0, 8) ?? '-'}

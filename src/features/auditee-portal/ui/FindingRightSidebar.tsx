@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, UserPlus, Send, Users, MessageCircle } from 'lucide-react';
 import clsx from 'clsx';
+import { useNegotiationChat, type NegotiationMessage } from '@/features/finding-studio/api/useNegotiationChat';
 
 interface FindingRightSidebarProps {
   findingId: string;
@@ -29,31 +30,28 @@ const AVAILABLE_TEAM_MEMBERS: TeamMember[] = [
   { id: '4', name: 'Ahmet Şahin', role: 'BT Sorumlusu' },
 ];
 
-const MOCK_MESSAGES: Message[] = [
-  {
-    id: '1',
-    author: 'Ahmet Aslan',
-    role: 'Denetçi',
-    message: 'Merhaba, bu bulgu ile ilgili görüşünüzü bekliyorum. Aksiyon planınızı 3 gün içinde iletebilir misiniz?',
-    timestamp: '2026-02-01T14:32:00',
-  },
-  {
-    id: '2',
-    author: 'Mehmet Yılmaz',
-    role: 'Şube Müdürü',
-    message: 'Bulguyu inceledik. Aksiyon planını hazırlıyoruz. Yarın iletelim.',
-    timestamp: '2026-02-01T15:45:00',
-  },
-];
+function mapApiMessageToUi(msg: NegotiationMessage, currentUserId: string): Message {
+  const isCurrentUser = msg.author_user_id === currentUserId;
+  const roleLabel = msg.role === 'AUDITOR' ? 'Denetçi' : 'Denetlenen';
+  return {
+    id: msg.id,
+    author: isCurrentUser ? 'Sen' : msg.author_name,
+    role: isCurrentUser ? 'Denetlenen' : (msg.author_title ?? roleLabel),
+    message: msg.message_text,
+    timestamp: msg.created_at,
+  };
+}
 
 export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarProps) => {
+  const { data: apiMessages = [], isLoading: messagesLoading, sendMessage, isSending, currentUser } = useNegotiationChat(findingId);
+  const messages: Message[] = apiMessages.map((m) => mapApiMessageToUi(m, currentUser.author_user_id));
+
   const [activeTab, setActiveTab] = useState<'team' | 'messages'>('team');
   const [assignedMembers, setAssignedMembers] = useState<TeamMember[]>([
     { id: '2', name: 'Mehmet Yılmaz', role: 'Şube Müdürü' },
   ]);
   const [showAddMember, setShowAddMember] = useState(false);
   const [newMessage, setNewMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>(MOCK_MESSAGES);
 
   const handleAddMember = (member: TeamMember) => {
     if (!assignedMembers.find((m) => m.id === member.id)) {
@@ -66,26 +64,21 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
     setAssignedMembers(assignedMembers.filter((m) => m.id !== memberId));
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
-
-    const message: Message = {
-      id: String(Date.now()),
-      author: 'Sen',
-      role: 'Denetlenen',
-      message: newMessage,
-      timestamp: new Date().toISOString(),
-    };
-
-    setMessages([...messages, message]);
-    setNewMessage('');
+    try {
+      await sendMessage(newMessage.trim(), 'AUDITEE');
+      setNewMessage('');
+    } catch (err) {
+      console.error('Müzakere mesajı gönderilemedi:', err);
+    }
   };
 
   return (
-    <div className="fixed right-0 top-0 h-screen w-96 bg-white border-l border-gray-200 shadow-xl z-50 flex flex-col">
+    <div className="fixed right-0 top-0 h-screen w-96 bg-surface border-l border-gray-200 shadow-xl z-50 flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900">Bulgu Yönetimi</h3>
+        <h3 className="text-lg font-semibold text-primary">Bulgu Yönetimi</h3>
         <button
           onClick={onClose}
           className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -102,7 +95,7 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
             'flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors',
             activeTab === 'team'
               ? 'text-blue-600 border-b-2 border-blue-600'
-              : 'text-gray-600 hover:text-gray-900'
+              : 'text-gray-600 hover:text-primary'
           )}
         >
           <Users className="w-4 h-4" />
@@ -114,7 +107,7 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
             'flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors',
             activeTab === 'messages'
               ? 'text-blue-600 border-b-2 border-blue-600'
-              : 'text-gray-600 hover:text-gray-900'
+              : 'text-gray-600 hover:text-primary'
           )}
         >
           <MessageCircle className="w-4 h-4" />
@@ -127,7 +120,7 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
         {activeTab === 'team' && (
           <div className="p-4 space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="text-sm font-semibold text-gray-900">Atanan Ekip Üyeleri</h4>
+              <h4 className="text-sm font-semibold text-primary">Atanan Ekip Üyeleri</h4>
               <button
                 onClick={() => setShowAddMember(!showAddMember)}
                 className="flex items-center gap-1 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
@@ -152,7 +145,7 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
                       {member.name.split(' ').map((n) => n[0]).join('')}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{member.name}</div>
+                      <div className="text-sm font-medium text-primary">{member.name}</div>
                       <div className="text-xs text-gray-600">{member.role}</div>
                     </div>
                   </button>
@@ -164,14 +157,14 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
               {assignedMembers.map((member) => (
                 <div
                   key={member.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200"
+                  className="flex items-center justify-between p-3 bg-canvas rounded-lg border border-gray-200"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
                       {member.name.split(' ').map((n) => n[0]).join('')}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{member.name}</div>
+                      <div className="text-sm font-medium text-primary">{member.name}</div>
                       <div className="text-xs text-gray-600">{member.role}</div>
                     </div>
                   </div>
@@ -202,14 +195,17 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
         {activeTab === 'messages' && (
           <div className="flex flex-col h-full">
             <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-              {messages.map((message) => (
+              {messagesLoading ? (
+                <div className="text-sm text-gray-500 py-4">Mesajlar yükleniyor...</div>
+              ) : (
+              messages.map((message) => (
                 <div
                   key={message.id}
                   className={clsx(
                     'p-3 rounded-lg',
                     message.author === 'Sen'
                       ? 'bg-blue-50 border border-blue-200 ml-8'
-                      : 'bg-gray-50 border border-gray-200 mr-8'
+                      : 'bg-canvas border border-gray-200 mr-8'
                   )}
                 >
                   <div className="flex items-start gap-2 mb-2">
@@ -222,7 +218,7 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
                       {message.author.split(' ').map((n) => n[0]).join('')}
                     </div>
                     <div>
-                      <div className="text-xs font-semibold text-gray-900">{message.author}</div>
+                      <div className="text-xs font-semibold text-primary">{message.author}</div>
                       <div className="text-xs text-gray-600">{message.role}</div>
                     </div>
                   </div>
@@ -236,7 +232,8 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
                     })}
                   </div>
                 </div>
-              ))}
+              ))
+              )}
             </div>
 
             <div className="p-4 border-t border-gray-200">
@@ -255,8 +252,8 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
                   placeholder="Mesaj yaz..."
                 />
                 <button
-                  onClick={handleSendMessage}
-                  disabled={!newMessage.trim()}
+                  onClick={() => handleSendMessage()}
+                  disabled={isSending || !newMessage.trim()}
                   className="absolute right-2 bottom-2 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Send className="w-4 h-4 text-white" />

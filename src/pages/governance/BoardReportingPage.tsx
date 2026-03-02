@@ -71,7 +71,7 @@ export default function BoardReportingPage() {
           { label: 'Kapanma Oranı', value: '87%', icon: CheckCircle2, color: 'green' },
           { label: 'Risk Skoru', value: '72/100', icon: TrendingUp, color: 'amber' },
         ].map((stat, i) => (
-          <div key={i} className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <div className={`w-10 h-10 rounded-lg bg-${stat.color}-100 flex items-center justify-center`}>
                 <stat.icon size={20} className={`text-${stat.color}-600`} />
@@ -83,7 +83,7 @@ export default function BoardReportingPage() {
         ))}
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
         <div className="p-6 border-b border-slate-200">
           <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <Calendar size={20} className="text-blue-600" />
@@ -127,7 +127,7 @@ export default function BoardReportingPage() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Önümüzdeki Sunumlar</h3>
           <div className="space-y-3">
             {[
@@ -150,7 +150,7 @@ export default function BoardReportingPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Standart Rapor Şablonları</h3>
           <div className="space-y-2">
             {[
@@ -171,7 +171,7 @@ export default function BoardReportingPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
         <div className="p-6 border-b border-slate-200">
           <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <Users size={20} className="text-purple-600" />

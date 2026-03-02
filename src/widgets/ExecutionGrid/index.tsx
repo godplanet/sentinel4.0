@@ -135,12 +135,12 @@ export function ExecutionGrid() {
             onClick={() => setContextMenu({ ...contextMenu, visible: false })}
           />
           <div
-            className="fixed z-50 bg-white border border-gray-200 rounded-lg shadow-xl py-2 min-w-[200px]"
+            className="fixed z-50 bg-surface border border-gray-200 rounded-lg shadow-xl py-2 min-w-[200px]"
             style={{ left: contextMenu.x, top: contextMenu.y }}
           >
             <button
               onClick={handleAddCoachingNote}
-              className="w-full px-4 py-2 text-left text-sm hover:bg-blue-50 flex items-center gap-2 text-gray-900"
+              className="w-full px-4 py-2 text-left text-sm hover:bg-blue-50 flex items-center gap-2 text-primary"
             >
               <MessageSquarePlus className="w-4 h-4 text-blue-600" />
               İnceleme Notu Ekle
@@ -157,8 +157,8 @@ export function ExecutionGrid() {
             onClick={() => setAddNoteModal(false)}
           />
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-2xl max-w-lg w-full p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="bg-surface rounded-lg shadow-2xl max-w-lg w-full p-6">
+              <h3 className="text-lg font-semibold text-primary mb-4">
                 Yeni İnceleme Notu
               </h3>
 
@@ -193,7 +193,7 @@ export function ExecutionGrid() {
                   </button>
                   <button
                     onClick={() => setAddNoteModal(false)}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-canvas transition-colors"
                   >
                     İptal
                   </button>
@@ -207,7 +207,7 @@ export function ExecutionGrid() {
       {/* Grid Content */}
       <div className="flex-1 overflow-auto p-6">
         <div className="glass-card p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Test Alanları</h3>
+          <h3 className="text-lg font-semibold text-primary mb-4">Test Alanları</h3>
 
           <div className="space-y-4">
             {['test_sample_1', 'test_sample_2', 'test_sample_3'].map((fieldKey) => {
@@ -220,7 +220,7 @@ export function ExecutionGrid() {
                   onContextMenu={(e) => handleContextMenu(e, fieldKey)}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-sm font-medium text-gray-900">{fieldKey}</label>
+                    <label className="text-sm font-medium text-primary">{fieldKey}</label>
                     <div className="flex items-center gap-2">
                       {note && (
                         <ReviewNotePin
@@ -269,7 +269,7 @@ export function ExecutionGrid() {
       </div>
 
       {/* Sign-off Bar (Sticky Footer) */}
-      <div className="sticky bottom-0 z-30 bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl">
+      <div className="sticky bottom-0 z-30 bg-surface/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl">
         <div className="p-4">
           {isAuditor ? (
             /* Auditor View */
@@ -277,7 +277,7 @@ export function ExecutionGrid() {
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-5 h-5 text-blue-600" />
                 <div>
-                  <p className="text-sm font-semibold text-gray-900">Denetçi Görünümü</p>
+                  <p className="text-sm font-semibold text-primary">Denetçi Görünümü</p>
                   <p className="text-xs text-gray-600">
                     {isPrepared
                       ? 'Yönetici incelemesinde'
@@ -328,7 +328,7 @@ export function ExecutionGrid() {
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-5 h-5 text-purple-600" />
                 <div>
-                  <p className="text-sm font-semibold text-gray-900">Yönetici Görünümü</p>
+                  <p className="text-sm font-semibold text-primary">Yönetici Görünümü</p>
                   <p className="text-xs text-gray-600">
                     {openNotesCount > 0
                       ? `${openNotesCount} açık not var - Tüm notlar çözülene kadar onaylayamazsınız`

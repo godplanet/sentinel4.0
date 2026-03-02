@@ -1,12 +1,14 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { PageHeader } from '@/shared/ui';
 import { WorkpaperGrid, type ControlRow, type ApprovalStatus } from '@/widgets/WorkpaperGrid';
-import { WorkpaperSuperDrawer } from '@/widgets/WorkpaperSuperDrawer';
 import { WorkpaperList } from '@/features/workpaper-list/ui/WorkpaperList';
 import { WorkpaperWizard } from '@/features/workpaper-wizard/ui/WorkpaperWizard';
 import { FileText, Search, Filter, Database, Loader2, LayoutGrid, List, Plus } from 'lucide-react';
-import { supabase } from '@/shared/api/supabase';
 import clsx from 'clsx';
+import { useUIStore } from '@/shared/stores/ui-store';
+
+import { useWorkpaperMappings, type WorkpaperMapping } from '@/entities/workpaper/api/useWorkpaperMappings';
+import { useWorkpaperControlSet } from '@/entities/workpaper/api/fetchWorkpaperControlSet';
 
 type ViewMode = 'table' | 'list';
 
@@ -23,63 +25,36 @@ const CATEGORY_FILTERS = [
   'Monitoring',
 ];
 
-interface WorkpaperMapping {
-  id: string;
-  approval_status: ApprovalStatus;
-}
-
 export default function WorkpapersPage() {
-  const [controls, setControls] = useState<ControlRow[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
-  const [drawerRow, setDrawerRow] = useState<ControlRow | null>(null);
-  const [activeWorkpaperId, setActiveWorkpaperId] = useState<string | null>(null);
   const [workpaperMap, setWorkpaperMap] = useState<Record<string, WorkpaperMapping>>({});
-  const [dbLoading, setDbLoading] = useState(true);
   const [mappedCount, setMappedCount] = useState(0);
   const [viewMode, setViewMode] = useState<ViewMode>('table');
   const [showWizard, setShowWizard] = useState(false);
+  const { openDrawer } = useUIStore();
+
+  const [controls, setControls] = useState<ControlRow[]>([]);
+  const { data: controlSetData, isLoading: controlSetLoading } = useWorkpaperControlSet();
+  const { data: fetchedMap, isLoading: dbLoading } = useWorkpaperMappings();
 
   useEffect(() => {
-    loadWorkpaperMappings();
-  }, []);
+    if (!controlSetData) return;
+    const list = fetchedMap
+      ? controlSetData.map((c) => {
+          const wpInfo = fetchedMap[c.control_id];
+          return wpInfo ? { ...c, approval_status: wpInfo.approval_status } : c;
+        })
+      : controlSetData;
+    setControls(list);
+  }, [controlSetData, fetchedMap]);
 
-  const loadWorkpaperMappings = async () => {
-    try {
-      setDbLoading(true);
-      const { data, error } = await supabase
-        .from('workpapers')
-        .select('id, approval_status, data');
-
-      if (error) throw error;
-      if (!data) return;
-
-      const map: Record<string, WorkpaperMapping> = {};
-      for (const wp of data) {
-        const controlRef = (wp.data as Record<string, unknown> | null)?.control_ref as string | undefined;
-        if (controlRef) {
-          map[controlRef] = {
-            id: wp.id,
-            approval_status: (wp.approval_status as ApprovalStatus) || 'in_progress',
-          };
-        }
-      }
-
-      setWorkpaperMap(map);
-      setMappedCount(Object.keys(map).length);
-
-      setControls(prev => prev.map(c => {
-        const wpInfo = map[c.control_id];
-        return wpInfo
-          ? { ...c, approval_status: wpInfo.approval_status }
-          : c;
-      }));
-    } catch {
-      setWorkpaperMap({});
-    } finally {
-      setDbLoading(false);
+  useEffect(() => {
+    if (fetchedMap) {
+      setWorkpaperMap(fetchedMap);
+      setMappedCount(Object.keys(fetchedMap).length);
     }
-  };
+  }, [fetchedMap]);
 
   const filteredControls = useMemo(() => {
     let result = controls;
@@ -106,12 +81,6 @@ export default function WorkpapersPage() {
     ));
   }, []);
 
-  const handleOpenDrawer = useCallback((row: ControlRow) => {
-    const wpInfo = workpaperMap[row.control_id];
-    setDrawerRow(row);
-    setActiveWorkpaperId(wpInfo?.id || null);
-  }, [workpaperMap]);
-
   const handleStatusChange = useCallback((workpaperId: string, status: string) => {
     setControls(prev => prev.map(c => {
       const wpInfo = workpaperMap[c.control_id];
@@ -130,8 +99,49 @@ export default function WorkpapersPage() {
     }
   }, [workpaperMap]);
 
+  const handleOpenDrawer = useCallback(
+    (row: ControlRow) => {
+      openDrawer('WORKPAPER_DETAIL', row.id, {
+        row,
+        onStatusChange: handleStatusChange,
+      });
+    },
+    [openDrawer, handleStatusChange]
+  );
+
+  const handleListSelect = useCallback(
+    (workpaperId: string) => {
+      const row = controls.find((c) => c.id === workpaperId) ?? null;
+      if (row) {
+        openDrawer('WORKPAPER_DETAIL', workpaperId, {
+          row,
+          onStatusChange: handleStatusChange,
+        });
+      } else {
+        const minimalRow: ControlRow = {
+          id: workpaperId,
+          control_id: workpaperId.slice(0, 8),
+          title: 'Çalışma Kağıdı',
+          description: '',
+          category: 'Unknown',
+          tod: 'NOT_STARTED',
+          toe: 'NOT_STARTED',
+          sample_size: 0,
+          auditor: { id: '', name: '-', initials: '-', color: 'bg-slate-400' },
+          risk_level: 'MEDIUM',
+          approval_status: 'in_progress',
+        };
+        openDrawer('WORKPAPER_DETAIL', workpaperId, {
+          row: minimalRow,
+          onStatusChange: handleStatusChange,
+        });
+      }
+    },
+    [controls, openDrawer, handleStatusChange]
+  );
+
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-canvas min-h-screen">
       <PageHeader
         title="Çalışma Kağıtları"
         description="Kontrol test matrisi ve denetim çalışma kağıtları yönetimi"
@@ -139,7 +149,7 @@ export default function WorkpapersPage() {
         action={
           <div className="flex items-center gap-3">
             {/* Görünüm değiştirici */}
-            <div className="flex items-center bg-white border border-slate-200 rounded-lg p-1 shadow-sm">
+            <div className="flex items-center bg-surface border border-slate-200 rounded-lg p-1 shadow-sm">
               <button
                 onClick={() => setViewMode('table')}
                 className={clsx(
@@ -173,7 +183,7 @@ export default function WorkpapersPage() {
         }
       />
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
         <div className="p-4 border-b border-slate-200">
           <div className="flex items-center gap-4">
             <div className="flex-1 relative">
@@ -183,7 +193,7 @@ export default function WorkpapersPage() {
                 placeholder="Search controls by ID, title, or category..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                className="w-full pl-10 pr-4 py-2.5 bg-canvas border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
             </div>
 
@@ -192,7 +202,7 @@ export default function WorkpapersPage() {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="px-3 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm font-medium"
+                className="px-3 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface text-sm font-medium"
               >
                 {CATEGORY_FILTERS.map((cat) => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -220,29 +230,29 @@ export default function WorkpapersPage() {
         </div>
 
         {viewMode === 'table' && (
-          <div className="p-4">
-            <WorkpaperGrid
-              data={filteredControls}
-              onUpdate={handleUpdate}
-              onOpenDrawer={handleOpenDrawer}
-            />
+          <div className="p-4 bg-surface">
+            {controlSetLoading ? (
+              <div className="flex items-center justify-center py-16 gap-3 text-slate-500">
+                <Loader2 size={24} className="animate-spin" />
+                <span className="font-medium">Kontrol seti yükleniyor…</span>
+              </div>
+            ) : (
+              <WorkpaperGrid
+                data={filteredControls}
+                onUpdate={handleUpdate}
+                onOpenDrawer={handleOpenDrawer}
+              />
+            )}
           </div>
         )}
       </div>
 
       {/* Liste görünümü */}
       {viewMode === 'list' && (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
-          <WorkpaperList onSelectWorkpaper={(id) => setActiveWorkpaperId(id)} />
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
+          <WorkpaperList onSelectWorkpaper={handleListSelect} />
         </div>
       )}
-
-      <WorkpaperSuperDrawer
-        row={drawerRow}
-        workpaperId={activeWorkpaperId}
-        onClose={() => setDrawerRow(null)}
-        onStatusChange={handleStatusChange}
-      />
 
       <WorkpaperWizard
         isOpen={showWizard}

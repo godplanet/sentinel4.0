@@ -47,7 +47,7 @@ export default function TalentOSPage() {
 
   if (loading) {
     return (
-      <div className="h-screen flex flex-col bg-slate-50">
+      <div className="h-screen flex flex-col bg-canvas">
         <PageHeader
           title="Sentinel Talent OS"
           description="Moneyball - Kaynak Yonetim Sistemi"
@@ -61,14 +61,14 @@ export default function TalentOSPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Sentinel Talent OS"
         description="Moneyball - Kaynak Yonetim Sistemi"
         icon={Cpu}
       />
 
-      <div className="border-b border-slate-200 bg-white px-6">
+      <div className="border-b border-slate-200 bg-surface px-6">
         <div className="flex gap-1">
           {TABS.map((tab) => (
             <button
@@ -78,7 +78,7 @@ export default function TalentOSPage() {
                 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                 activeTab === tab.key
                   ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
               )}
             >
               <tab.icon size={16} />
@@ -116,7 +116,7 @@ export default function TalentOSPage() {
             <div className="max-w-3xl mx-auto space-y-6">
               <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-xl p-6 text-white">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
                     <Target className="w-6 h-6" />
                   </div>
                   <div>

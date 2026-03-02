@@ -17,14 +17,14 @@ export default function ReportingPage() {
   const [activeTab, setActiveTab] = useState<TabKey>('reports');
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Raporlama"
         subtitle="Denetim Raporlari ve Aksiyon Planlari"
         icon={BarChart3}
       />
 
-      <div className="border-b border-slate-200 bg-white px-6">
+      <div className="border-b border-slate-200 bg-surface px-6">
         <div className="flex gap-1">
           {TABS.map((tab) => (
             <button
@@ -34,7 +34,7 @@ export default function ReportingPage() {
                 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                 activeTab === tab.key
                   ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
               )}
             >
               <tab.icon size={16} />
@@ -47,7 +47,7 @@ export default function ReportingPage() {
       <div className="flex-1 overflow-auto p-6">
         {activeTab === 'reports' && (
           <div className="space-y-6">
-            <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200/60 p-6">
+            <div className="bg-surface/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200/60 p-6">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -73,7 +73,7 @@ export default function ReportingPage() {
         {activeTab === 'qa' && <QualityAssuranceWidget />}
 
         {activeTab === 'actions' && (
-          <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200/60 p-8">
+          <div className="bg-surface/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200/60 p-8">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <ListChecks size={20} className="text-green-600" />
               Aksiyon Plani Takibi
@@ -101,7 +101,7 @@ function ReportCard({ title, status, date, findings }: { title: string; status: 
   }[status] || { bg: 'bg-slate-100', text: 'text-slate-600' };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-4 hover:shadow-md hover:border-slate-300 transition-all cursor-pointer">
+    <div className="bg-surface border border-slate-200 rounded-xl p-4 hover:shadow-md hover:border-slate-300 transition-all cursor-pointer">
       <div className="flex items-start justify-between mb-3">
         <FileText size={16} className="text-slate-400" />
         <span className={clsx('text-[10px] font-bold px-2 py-0.5 rounded', statusConfig.bg, statusConfig.text)}>

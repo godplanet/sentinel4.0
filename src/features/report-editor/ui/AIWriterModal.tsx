@@ -64,14 +64,14 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] flex flex-col">
+      <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-slate-200">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center">
               <Sparkles className="text-white" size={20} />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">AI Yazım Asistanı</h2>
+              <h2 className="text-2xl font-bold text-primary">AI Yazım Asistanı</h2>
               <p className="text-sm text-slate-600">
                 Sentinel AI ile profesyonel rapor bölümleri oluşturun
               </p>
@@ -90,7 +90,7 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
             <>
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-lg font-semibold text-slate-900">Hangi bölümü yazayım?</h3>
+                  <h3 className="text-lg font-semibold text-primary">Hangi bölümü yazayım?</h3>
                   {findingCount > 0 && (
                     <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded">
                       {findingCount} Bulgu Tespit Edildi
@@ -113,7 +113,7 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
                         'text-left border-2 rounded-xl p-5 transition-all group relative overflow-hidden',
                         selectedSection === section.id
                           ? 'border-blue-500 bg-blue-50'
-                          : 'border-slate-200 hover:border-blue-300 hover:bg-slate-50'
+                          : 'border-slate-200 hover:border-blue-300 hover:bg-canvas'
                       )}
                     >
                       <div
@@ -141,7 +141,7 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
                               size={20}
                             />
                           </div>
-                          <h4 className="font-semibold text-slate-900">{section.label}</h4>
+                          <h4 className="font-semibold text-primary">{section.label}</h4>
                         </div>
                         <p className="text-sm text-slate-600">{section.description}</p>
                       </div>
@@ -177,10 +177,10 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
             <div className="space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <CheckCircle2 className="text-emerald-500" size={24} />
-                <h3 className="text-lg font-semibold text-slate-900">İçerik Hazır!</h3>
+                <h3 className="text-lg font-semibold text-primary">İçerik Hazır!</h3>
               </div>
 
-              <div className="border border-slate-200 rounded-xl p-6 bg-slate-50 max-h-96 overflow-y-auto">
+              <div className="border border-slate-200 rounded-xl p-6 bg-canvas max-h-96 overflow-y-auto">
                 <div
                   className="prose prose-slate max-w-none"
                   dangerouslySetInnerHTML={{ __html: generatedContent }}

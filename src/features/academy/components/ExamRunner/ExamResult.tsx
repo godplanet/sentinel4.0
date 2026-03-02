@@ -80,7 +80,7 @@ export function ExamResult({ onRetry, onBack }: ExamResultProps) {
             )}
           </div>
 
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 md:p-8 mb-6">
+          <div className="rounded-2xl border border-white/[0.07] bg-surface/[0.03] p-6 md:p-8 mb-6">
             <div className="flex items-center justify-center gap-10 md:gap-16">
               <ScoreGauge
                 score={result.score}
@@ -126,7 +126,7 @@ export function ExamResult({ onRetry, onBack }: ExamResultProps) {
                 <button
                   onClick={handleDownloadCertificate}
                   className="flex items-center justify-center gap-2 rounded-xl border border-white/[0.08]
-                             text-slate-300 font-medium py-3 text-sm hover:bg-white/[0.05] hover:text-white
+                             text-slate-300 font-medium py-3 text-sm hover:bg-surface/[0.05] hover:text-white
                              transition-all duration-150"
                 >
                   <Download size={16} />
@@ -144,7 +144,7 @@ export function ExamResult({ onRetry, onBack }: ExamResultProps) {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-5">
+              <div className="rounded-xl border border-white/[0.07] bg-surface/[0.03] p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <BookOpen size={16} className="text-blue-400" />
                   <p className="text-sm font-semibold text-white">Çalışma Önerileri</p>
@@ -156,7 +156,7 @@ export function ExamResult({ onRetry, onBack }: ExamResultProps) {
                 <button
                   onClick={onBack ?? reset}
                   className="flex items-center justify-center gap-2 rounded-xl border border-white/[0.08]
-                             text-slate-400 font-medium py-3 text-sm hover:bg-white/[0.05] hover:text-white
+                             text-slate-400 font-medium py-3 text-sm hover:bg-surface/[0.05] hover:text-white
                              transition-all duration-150"
                 >
                   Materyallere Dön
@@ -271,7 +271,7 @@ function StudyRecommendations({
         if (!q) return null;
         const correctOption = q.options.find((o) => o.id === item.correct);
         return (
-          <div key={item.question_id} className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+          <div key={item.question_id} className="rounded-lg border border-white/[0.06] bg-surface/[0.02] p-3">
             <p className="text-slate-300 text-xs leading-relaxed mb-2 line-clamp-2">
               {q.question_text}
             </p>

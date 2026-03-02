@@ -1,29 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Search, Check, Loader2, Library, ChevronRight, Download,
   Monitor, CreditCard, ShieldAlert, TrendingUp, AlertTriangle, Calculator,
 } from 'lucide-react';
 import clsx from 'clsx';
-import { supabase } from '@/shared/api/supabase';
-
-interface LibraryCategory {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  sort_order: number;
-}
-
-interface LibraryRisk {
-  id: string;
-  category_id: string;
-  risk_title: string;
-  control_title: string;
-  standard_test_steps: string[];
-  risk_level: string;
-  framework_ref: string;
-}
+import { useQuery } from '@tanstack/react-query';
+import { fetchProcedureLibrary } from './api';
+import type { LibraryCategory, LibraryRisk } from './api';
 
 interface ProcedureLibraryPanelProps {
   open: boolean;
@@ -45,46 +29,29 @@ const CATEGORY_COLORS: Record<number, { bg: string; text: string; activeBg: stri
 };
 
 function getCatStyle(order: number) {
-  return CATEGORY_COLORS[order] || { bg: 'bg-slate-50', text: 'text-slate-700', activeBg: 'bg-slate-100' };
+  return CATEGORY_COLORS[order] || { bg: 'bg-canvas', text: 'text-slate-700', activeBg: 'bg-slate-100' };
 }
 
 export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLibraryPanelProps) {
-  const [categories, setCategories] = useState<LibraryCategory[]>([]);
-  const [risks, setRisks] = useState<LibraryRisk[]>([]);
-  const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [imported, setImported] = useState<Set<string>>(new Set());
 
-  const loadData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const [catRes, riskRes] = await Promise.all([
-        supabase.from('rkm_library_categories').select('*').order('sort_order'),
-        supabase.from('rkm_library_risks').select('*').order('sort_order'),
-      ]);
-      const cats = (catRes.data || []) as LibraryCategory[];
-      const rks = (riskRes.data || []) as LibraryRisk[];
-      setCategories(cats);
-      setRisks(rks);
-      if (cats.length > 0 && !activeCategory) {
-        setActiveCategory(cats[0].id);
+  const { data, isLoading } = useQuery({
+    queryKey: ['procedure-library'],
+    queryFn: fetchProcedureLibrary,
+    enabled: open,
+    select: (result) => {
+      if (!activeCategory && result.categories.length > 0) {
+        setActiveCategory(result.categories[0].id);
       }
-    } catch {
-      setCategories([]);
-      setRisks([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [activeCategory]);
+      return result;
+    },
+  });
 
-  useEffect(() => {
-    if (open) {
-      loadData();
-      setSelected(new Set());
-    }
-  }, [open, loadData]);
+  const categories: LibraryCategory[] = data?.categories ?? [];
+  const risks: LibraryRisk[] = data?.risks ?? [];
 
   const filteredRisks = risks.filter((r) => {
     if (activeCategory && r.category_id !== activeCategory) return false;
@@ -150,11 +117,11 @@ export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLib
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ type: 'spring', damping: 30, stiffness: 350 }}
-            className="fixed inset-y-8 inset-x-8 md:inset-y-12 md:inset-x-24 lg:inset-x-48 bg-white rounded-2xl shadow-2xl border border-slate-200 z-[110] flex flex-col overflow-hidden"
+            className="fixed inset-y-8 inset-x-8 md:inset-y-12 md:inset-x-24 lg:inset-x-48 bg-surface rounded-2xl shadow-2xl border border-slate-200 z-[110] flex flex-col overflow-hidden"
           >
             <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-700 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-white/10 rounded-xl">
+                <div className="p-2.5 bg-surface/10 rounded-xl">
                   <Library size={18} className="text-white" />
                 </div>
                 <div>
@@ -164,14 +131,14 @@ export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLib
                   </p>
                 </div>
               </div>
-              <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-xl transition-colors">
+              <button onClick={onClose} className="p-2 hover:bg-surface/10 rounded-xl transition-colors">
                 <X size={18} className="text-white/60" />
               </button>
             </div>
 
             <div className="flex flex-1 min-h-0">
-              <div className="w-56 shrink-0 border-r border-slate-200 bg-slate-50/50 overflow-y-auto py-3">
-                {loading ? (
+              <div className="w-56 shrink-0 border-r border-slate-200 bg-canvas/50 overflow-y-auto py-3">
+                {isLoading ? (
                   <div className="flex items-center justify-center py-12">
                     <Loader2 className="animate-spin text-blue-600" size={20} />
                   </div>
@@ -200,7 +167,7 @@ export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLib
                           </div>
                           <span className={clsx(
                             'text-[10px] font-bold px-1.5 py-0.5 rounded-full',
-                            isActive ? 'bg-white/60' : 'bg-slate-200 text-slate-500'
+                            isActive ? 'bg-surface/60' : 'bg-slate-200 text-slate-500'
                           )}>
                             {count}
                           </span>
@@ -213,7 +180,7 @@ export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLib
               </div>
 
               <div className="flex-1 flex flex-col min-w-0">
-                <div className="shrink-0 px-5 py-3 border-b border-slate-200 bg-white">
+                <div className="shrink-0 px-5 py-3 border-b border-slate-200 bg-surface">
                   <div className="relative">
                     <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
@@ -221,13 +188,13 @@ export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLib
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                       placeholder="Kontrol veya risk ara... (orn: sifre, kredi, MASAK)"
-                      className="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50"
+                      className="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-canvas"
                     />
                   </div>
                 </div>
 
                 <div className="flex-1 overflow-y-auto px-5 py-4">
-                  {loading ? (
+                  {isLoading ? (
                     <div className="flex items-center justify-center py-16">
                       <Loader2 className="animate-spin text-blue-600 mr-2" size={18} />
                       <span className="text-xs text-slate-500">Yukleniyor...</span>
@@ -254,7 +221,7 @@ export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLib
                                 ? 'bg-emerald-50/50 border-emerald-200 opacity-60 cursor-default'
                                 : isSelected
                                   ? 'bg-blue-50 border-blue-300 shadow-sm shadow-blue-100'
-                                  : 'bg-white border-slate-200 hover:border-blue-200 hover:shadow-sm'
+                                  : 'bg-surface border-slate-200 hover:border-blue-200 hover:shadow-sm'
                             )}
                           >
                             <div className="flex items-start gap-3">
@@ -313,7 +280,7 @@ export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLib
                 </div>
 
                 {selectedCount > 0 && (
-                  <div className="shrink-0 px-5 py-3 border-t border-slate-200 bg-white flex items-center justify-between">
+                  <div className="shrink-0 px-5 py-3 border-t border-slate-200 bg-surface flex items-center justify-between">
                     <div className="text-xs text-slate-600">
                       <span className="font-bold text-blue-700">{selectedCount}</span> kontrol secildi
                       {' / '}

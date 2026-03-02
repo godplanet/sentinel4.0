@@ -49,13 +49,13 @@ export function ChaosTestCard() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white border border-slate-200 rounded-xl p-5">
+      <div className="bg-surface border border-slate-200 rounded-xl p-5">
         <div className="flex items-start gap-3 mb-4">
           <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shrink-0">
             <Zap size={20} className="text-amber-400" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900">{SCENARIO_LABELS.SMURFING_TEST}</h3>
+            <h3 className="text-sm font-bold text-primary">{SCENARIO_LABELS.SMURFING_TEST}</h3>
             <p className="text-xs text-slate-500 mt-0.5">{SCENARIO_DESCRIPTIONS.SMURFING_TEST}</p>
           </div>
           <button
@@ -83,17 +83,17 @@ export function ChaosTestCard() {
         </div>
 
         <div className="grid grid-cols-3 gap-3 mb-4">
-          <div className="bg-slate-50 rounded-lg p-3 text-center">
+          <div className="bg-canvas rounded-lg p-3 text-center">
             <span className="text-[10px] text-slate-500 block">Islem Sayisi</span>
-            <span className="text-lg font-black text-slate-900">10</span>
+            <span className="text-lg font-black text-primary">10</span>
           </div>
-          <div className="bg-slate-50 rounded-lg p-3 text-center">
+          <div className="bg-canvas rounded-lg p-3 text-center">
             <span className="text-[10px] text-slate-500 block">Islem Basina</span>
-            <span className="text-lg font-black text-slate-900">&lt;5K TL</span>
+            <span className="text-lg font-black text-primary">&lt;5K TL</span>
           </div>
-          <div className="bg-slate-50 rounded-lg p-3 text-center">
+          <div className="bg-canvas rounded-lg p-3 text-center">
             <span className="text-[10px] text-slate-500 block">Toplam</span>
-            <span className="text-lg font-black text-slate-900">&gt;50K TL</span>
+            <span className="text-lg font-black text-primary">&gt;50K TL</span>
           </div>
         </div>
 
@@ -162,39 +162,39 @@ function ChaosResultCard({ result }: { result: ChaosTestResult }) {
       <div className="flex items-center gap-3 mb-4">
         <Icon size={24} className={cfg.color} />
         <div>
-          <h4 className="text-sm font-bold text-slate-900">Kaos Test Sonucu</h4>
+          <h4 className="text-sm font-bold text-primary">Kaos Test Sonucu</h4>
           <span className={clsx('text-xs font-bold', cfg.color)}>{cfg.label}</span>
         </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="bg-white/70 rounded-lg p-3">
+        <div className="bg-surface/70 rounded-lg p-3">
           <div className="flex items-center gap-1.5 mb-1">
             <Zap size={12} className="text-slate-400" />
             <span className="text-[10px] text-slate-500">Saldiri</span>
           </div>
-          <span className="text-xs font-bold text-slate-900">{SCENARIO_LABELS[result.scenario]}</span>
+          <span className="text-xs font-bold text-primary">{SCENARIO_LABELS[result.scenario]}</span>
         </div>
 
-        <div className="bg-white/70 rounded-lg p-3">
+        <div className="bg-surface/70 rounded-lg p-3">
           <div className="flex items-center gap-1.5 mb-1">
             <BarChart3 size={12} className="text-slate-400" />
             <span className="text-[10px] text-slate-500">Enjeksiyon</span>
           </div>
-          <span className="text-xs font-bold text-slate-900">
+          <span className="text-xs font-bold text-primary">
             {result.transactionsInjected} islem / {result.totalAmount.toLocaleString('tr-TR')} TL
           </span>
         </div>
 
-        <div className="bg-white/70 rounded-lg p-3">
+        <div className="bg-surface/70 rounded-lg p-3">
           <div className="flex items-center gap-1.5 mb-1">
             <Clock size={12} className="text-slate-400" />
             <span className="text-[10px] text-slate-500">Tespit Suresi</span>
           </div>
-          <span className="text-xs font-bold text-slate-900">{result.detectionTimeMs}ms</span>
+          <span className="text-xs font-bold text-primary">{result.detectionTimeMs}ms</span>
         </div>
 
-        <div className="bg-white/70 rounded-lg p-3">
+        <div className="bg-surface/70 rounded-lg p-3">
           <div className="flex items-center gap-1.5 mb-1">
             <AlertTriangle size={12} className="text-slate-400" />
             <span className="text-[10px] text-slate-500">Uyari</span>
@@ -205,7 +205,7 @@ function ChaosResultCard({ result }: { result: ChaosTestResult }) {
         </div>
       </div>
 
-      <div className="mt-3 p-2 bg-white/50 rounded-lg">
+      <div className="mt-3 p-2 bg-surface/50 rounded-lg">
         <span className="text-[10px] text-slate-500">Batch ID: {result.batchId}</span>
         <span className="text-[10px] text-slate-500 ml-3">Zaman: {new Date(result.timestamp).toLocaleString('tr-TR')}</span>
       </div>

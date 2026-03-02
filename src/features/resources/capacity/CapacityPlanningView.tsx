@@ -115,7 +115,7 @@ export function CapacityPlanningView() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Kapasite Planlama</h2>
+          <h2 className="text-2xl font-bold text-primary">Kapasite Planlama</h2>
           <p className="text-slate-600 mt-1">
             Gelecek dönem kaynak planlaması ve tahmin
           </p>
@@ -134,58 +134,58 @@ export function CapacityPlanningView() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
               <BarChart3 className="text-blue-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Toplam Kapasite</p>
-              <p className="text-2xl font-bold text-slate-900">{totalStats.capacity}h</p>
+              <p className="text-2xl font-bold text-primary">{totalStats.capacity}h</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
               <TrendingUp className="text-orange-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Tahsis Edilen</p>
-              <p className="text-2xl font-bold text-slate-900">{totalStats.allocated}h</p>
+              <p className="text-2xl font-bold text-primary">{totalStats.allocated}h</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
               <Calendar className="text-green-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Müsait</p>
-              <p className="text-2xl font-bold text-slate-900">{totalStats.available}h</p>
+              <p className="text-2xl font-bold text-primary">{totalStats.available}h</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
               <Users className="text-purple-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Ort. Kullanım</p>
-              <p className="text-2xl font-bold text-slate-900">{avgUtilization}%</p>
+              <p className="text-2xl font-bold text-primary">{avgUtilization}%</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200">
+      <div className="bg-surface rounded-lg border border-slate-200">
         <div className="px-6 py-4 border-b border-slate-200">
-          <h3 className="font-semibold text-slate-900 flex items-center gap-2">
+          <h3 className="font-semibold text-primary flex items-center gap-2">
             <Calendar size={18} className="text-blue-600" />
             Aylık Kapasite Dağılımı - {selectedYear}
           </h3>
@@ -225,7 +225,7 @@ export function CapacityPlanningView() {
                           <span className="text-xl font-bold">{index + 1}</span>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-slate-900">{month.month} {month.year}</h4>
+                          <h4 className="font-semibold text-primary">{month.month} {month.year}</h4>
                           <p className="text-sm text-slate-600">
                             {month.planned_engagements} planlı denetim
                           </p>
@@ -235,7 +235,7 @@ export function CapacityPlanningView() {
                         <div className={clsx(
                           'text-2xl font-bold mb-1',
                           isOverCapacity ? 'text-red-600' :
-                          isNearCapacity ? 'text-orange-600' : 'text-slate-900'
+                          isNearCapacity ? 'text-orange-600' : 'text-primary'
                         )}>
                           {utilizationPercent}%
                         </div>

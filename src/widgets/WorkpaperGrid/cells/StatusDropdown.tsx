@@ -67,14 +67,14 @@ export function StatusDropdown({ value, options, onChange }: StatusDropdownProps
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-lg shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute z-50 mt-1 w-full bg-surface border border-slate-200 rounded-lg shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
           {options.map((opt) => (
             <button
               key={opt.value}
               onClick={(e) => { e.stopPropagation(); handleSelect(opt.value); }}
               className={clsx(
                 'flex items-center justify-between w-full px-3 py-2 text-xs font-medium transition-colors',
-                opt.value === value ? `${opt.bg} ${opt.color}` : 'text-slate-700 hover:bg-slate-50'
+                opt.value === value ? `${opt.bg} ${opt.color}` : 'text-slate-700 hover:bg-canvas'
               )}
             >
               <span>{opt.label}</span>

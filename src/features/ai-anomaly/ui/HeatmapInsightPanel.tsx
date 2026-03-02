@@ -128,7 +128,7 @@ Lutfen su formatta yanit ver:
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 30 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 w-full max-w-2xl max-h-[80vh] overflow-hidden"
+              className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 w-full max-w-2xl max-h-[80vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-6 py-5 flex items-center justify-between">
@@ -145,7 +145,7 @@ Lutfen su formatta yanit ver:
                 </div>
                 <button
                   onClick={() => { setShowPanel(false); reset(); }}
-                  className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors"
+                  className="w-8 h-8 bg-surface/10 rounded-lg flex items-center justify-center hover:bg-surface/20 transition-colors"
                 >
                   <X size={16} className="text-white" />
                 </button>
@@ -210,7 +210,7 @@ Lutfen su formatta yanit ver:
                     </div>
 
                     {parsed.summary && (
-                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                      <div className="bg-canvas rounded-xl p-4 border border-slate-200">
                         <p className="text-sm text-slate-700 leading-relaxed">{parsed.summary}</p>
                       </div>
                     )}
@@ -294,9 +294,9 @@ Lutfen su formatta yanit ver:
 
 function MiniStat({ label, value, color }: { label: string; value: number; color: string }) {
   return (
-    <div className="bg-white rounded-lg border border-slate-200 p-3 text-center">
+    <div className="bg-surface rounded-lg border border-slate-200 p-3 text-center">
       <div className={`w-2 h-2 rounded-full ${color} mx-auto mb-1.5`} />
-      <p className="text-lg font-black text-slate-900">{value}</p>
+      <p className="text-lg font-black text-primary">{value}</p>
       <p className="text-[10px] text-slate-500 font-semibold">{label}</p>
     </div>
   );

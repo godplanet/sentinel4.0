@@ -17,7 +17,7 @@ export function ViewSwitcher({ findingId }: { findingId: string }) {
         onClick={() => navigate(`/execution/findings/${findingId}`)}
         className={clsx(
           "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all",
-          isForm ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+          isForm ? "bg-surface text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
         )}
         title="Form Görünümü (Varsayılan)"
       >
@@ -28,7 +28,7 @@ export function ViewSwitcher({ findingId }: { findingId: string }) {
         onClick={() => navigate(`/execution/findings/zen/${findingId}`)}
         className={clsx(
           "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all",
-          isZen ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+          isZen ? "bg-surface text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
         )}
         title="Zen Okuma Modu"
       >
@@ -39,7 +39,7 @@ export function ViewSwitcher({ findingId }: { findingId: string }) {
         onClick={() => navigate(`/execution/findings/${findingId}/studio`)}
         className={clsx(
           "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all",
-          isStudio ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+          isStudio ? "bg-surface text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
         )}
         title="Studio (Süreç Yönetimi)"
       >

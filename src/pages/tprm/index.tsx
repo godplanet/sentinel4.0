@@ -18,7 +18,7 @@ export default function TPRMPage() {
       {!selectedVendorId && (
         <div className="bg-gradient-to-r from-slate-700 to-slate-900 rounded-xl p-6 text-white">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
               <ShieldAlert className="w-6 h-6" />
             </div>
             <div>
@@ -28,15 +28,15 @@ export default function TPRMPage() {
                 durumlarini tek panelden yonetin. BDDK dis hizmet bildirim gereksinimleri dahil.
               </p>
               <div className="flex flex-wrap gap-3 text-sm">
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <FileSearch className="w-4 h-4" />
                   <span>AI Degerlendirme</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <Users className="w-4 h-4" />
                   <span>Tier Bazli Yonetim</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <ShieldAlert className="w-4 h-4" />
                   <span>Risk Skorlama</span>
                 </div>

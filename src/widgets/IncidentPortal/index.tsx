@@ -70,12 +70,12 @@ export function IncidentPortal() {
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl mx-auto text-center"
+        className="bg-surface rounded-2xl shadow-2xl p-8 max-w-2xl mx-auto text-center"
       >
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-12 h-12 text-green-600" />
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-3">
+        <h2 className="text-2xl font-bold text-primary mb-3">
           Bildiriminiz Alındı
         </h2>
         <p className="text-slate-600 mb-6">
@@ -97,11 +97,11 @@ export function IncidentPortal() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-2xl mx-auto"
+      className="bg-surface rounded-2xl shadow-2xl overflow-hidden max-w-2xl mx-auto"
     >
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+          <div className="w-16 h-16 bg-surface/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
             <Shield className="w-9 h-9 text-white" />
           </div>
           <div>
@@ -135,7 +135,7 @@ export function IncidentPortal() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Kısa ve öz bir başlık girin"
-            className="w-full px-4 py-3 bg-white border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-slate-900"
+            className="w-full px-4 py-3 bg-surface border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-primary"
             required
           />
         </div>
@@ -149,7 +149,7 @@ export function IncidentPortal() {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Olayı detaylı bir şekilde açıklayın. Ne gördünüz? Ne zaman gerçekleşti? Kim dahil?"
             rows={6}
-            className="w-full px-4 py-3 bg-white border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-slate-900"
+            className="w-full px-4 py-3 bg-surface border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-primary"
             required
           />
           <p className="text-xs text-slate-500 mt-2">
@@ -164,7 +164,7 @@ export function IncidentPortal() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as IncidentCategory)}
-            className="w-full px-4 py-3 bg-white border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-slate-900"
+            className="w-full px-4 py-3 bg-surface border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-primary"
           >
             {CATEGORIES.map((cat) => (
               <option key={cat.value} value={cat.value}>
@@ -174,7 +174,7 @@ export function IncidentPortal() {
           </select>
         </div>
 
-        <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+        <div className="bg-canvas border border-slate-200 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               {isAnonymous ? (
@@ -183,7 +183,7 @@ export function IncidentPortal() {
                 <Eye className="w-5 h-5 text-slate-600" />
               )}
               <div>
-                <p className="font-semibold text-slate-900">
+                <p className="font-semibold text-primary">
                   {isAnonymous ? 'Anonim Bildirim' : 'Kimliğimle Bildir'}
                 </p>
                 <p className="text-sm text-slate-600">
@@ -201,7 +201,7 @@ export function IncidentPortal() {
               }`}
             >
               <span
-                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                className={`inline-block h-6 w-6 transform rounded-full bg-surface transition-transform ${
                   isAnonymous ? 'translate-x-7' : 'translate-x-1'
                 }`}
               />

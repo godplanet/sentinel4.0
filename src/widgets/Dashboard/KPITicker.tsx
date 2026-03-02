@@ -59,7 +59,7 @@ export const KPITicker = ({ kpis }: KPITickerProps) => {
             <div
               key={kpi.id}
               className={clsx(
-                'bg-white rounded-xl border-2 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 overflow-hidden',
+                'bg-surface rounded-xl border-2 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 overflow-hidden',
                 config.borderColor
               )}
             >
@@ -70,7 +70,7 @@ export const KPITicker = ({ kpis }: KPITickerProps) => {
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-slate-600 leading-snug mb-2">{kpi.label}</p>
                     <div className="flex items-baseline gap-2">
-                      <p className="text-4xl font-bold text-slate-900 tracking-tight">{kpi.value}</p>
+                      <p className="text-4xl font-bold text-primary tracking-tight">{kpi.value}</p>
                       <span className={clsx('inline-flex items-center gap-1 text-xs font-bold', config.textColor)}>
                         <TrendIcon size={14} />
                       </span>

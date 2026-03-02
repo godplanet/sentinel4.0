@@ -28,7 +28,7 @@ function ListRow({ engagement, index, source }: RowProps) {
   const isCCM = engagement.isCCMTriggered === true;
 
   return (
-    <tr className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50/70'}>
+    <tr className={index % 2 === 0 ? 'bg-surface' : 'bg-canvas/70'}>
       <td className="px-5 py-3.5">
         <div className="flex items-center gap-2.5">
           {isCCM && <Zap size={13} className="text-red-500 shrink-0" />}
@@ -129,9 +129,9 @@ export function PlanListView() {
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <div className="px-6 py-4 bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center">
+        <div className="w-8 h-8 rounded-lg bg-surface border border-slate-200 shadow-sm flex items-center justify-center">
           <FileText size={14} className="text-slate-600" />
         </div>
         <div>
@@ -161,25 +161,25 @@ export function PlanListView() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-slate-200">
-                <th className="px-5 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-50">
+                <th className="px-5 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-canvas">
                   Görev Adı
                 </th>
-                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-50">
+                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-canvas">
                   Risk Skoru
                 </th>
-                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-50">
+                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-canvas">
                   Seviye
                 </th>
-                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-50">
+                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-canvas">
                   Velocity
                 </th>
-                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-50">
+                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-canvas">
                   Özel Kapsam
                 </th>
-                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-50">
+                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-canvas">
                   Havuz
                 </th>
-                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-50 text-right">
+                <th className="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wide bg-canvas text-right">
                   İşlem
                 </th>
               </tr>
@@ -191,7 +191,7 @@ export function PlanListView() {
             </tbody>
           </table>
 
-          <div className="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+          <div className="px-5 py-3 bg-canvas border-t border-slate-200 flex items-center justify-between">
             <p className="text-xs text-slate-500">
               Toplam <span className="font-semibold text-slate-700">{allItems.length}</span> denetim görevi
             </p>

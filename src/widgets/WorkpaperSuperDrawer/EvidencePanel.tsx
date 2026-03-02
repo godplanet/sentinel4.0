@@ -111,7 +111,7 @@ export function EvidencePanel({
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2 mb-1">
-                    <h4 className="text-sm font-bold text-slate-900">{req.title}</h4>
+                    <h4 className="text-sm font-bold text-primary">{req.title}</h4>
                     {overdue && (
                       <span className="shrink-0 flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded-full border border-red-300">
                         <AlertCircle size={10} />
@@ -187,7 +187,7 @@ export function EvidencePanel({
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="orn. Mart 2026 Genel Mizan"
-              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
               autoFocus
             />
           </div>
@@ -198,7 +198,7 @@ export function EvidencePanel({
               value={newDesc}
               onChange={(e) => setNewDesc(e.target.value)}
               placeholder="Talep edilen belgenin detaylari..."
-              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white"
+              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-surface"
             />
           </div>
           <div>
@@ -207,7 +207,7 @@ export function EvidencePanel({
               type="date"
               value={newDueDate}
               onChange={(e) => setNewDueDate(e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
             />
           </div>
           <div className="flex items-center gap-2 pt-1">

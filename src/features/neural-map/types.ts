@@ -10,7 +10,7 @@ export interface NeuralNode {
   baseRisk: number; // 0-100 inherent risk score
   effectiveRisk: number; // After contagion calculation
   contagionImpact: number; // Additional risk from neighbors
-  metadata?: {
+  metadata?: Record<string, unknown> & {
     headcount?: number;
     budget?: number;
     criticalSystems?: string[];
@@ -22,7 +22,7 @@ export interface NeuralEdge {
   source: string;
   target: string;
   dependencyWeight: number; // 0-1 (how much target depends on source)
-  type: 'operational' | 'data' | 'financial' | 'regulatory';
+  type: 'operational' | 'data' | 'financial' | 'regulatory' | 'hierarchical';
   bidirectional?: boolean;
 }
 

@@ -82,15 +82,15 @@ export default function ReportLibraryPage() {
   const handleEdit = (id: string) => navigate(`/reporting/zen-editor/${id}`);
 
   return (
-    <div className="flex flex-col h-full bg-slate-50">
-      <div className="flex-shrink-0 bg-white border-b border-slate-200 px-6 py-4 print:hidden">
+    <div className="flex flex-col h-full bg-canvas">
+      <div className="flex-shrink-0 bg-surface border-b border-slate-200 px-6 py-4 print:hidden">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-slate-100 rounded-lg">
               <FileText size={18} className="text-slate-600" />
             </div>
             <div>
-              <h1 className="font-sans font-bold text-slate-900 text-lg leading-tight">
+              <h1 className="font-sans font-bold text-primary text-lg leading-tight">
                 Rapor Kütüphanesi
               </h1>
               <p className="text-xs font-sans text-slate-500 mt-0.5">
@@ -118,7 +118,7 @@ export default function ReportLibraryPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rapor ara... (başlık, açıklama, denetçi)"
-            className="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm font-sans text-slate-700 placeholder-slate-400 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-colors"
+            className="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm font-sans text-slate-700 placeholder-slate-400 bg-surface focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-colors"
           />
         </div>
       </div>

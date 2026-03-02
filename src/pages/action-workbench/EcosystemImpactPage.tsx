@@ -22,7 +22,7 @@ const EcosystemImpactPage: React.FC = () => {
             </div>
             <span className="font-mono text-xs text-slate-500 uppercase tracking-widest">Module 7 — Phase 5</span>
           </div>
-          <h1 className="font-serif text-3xl text-slate-900">
+          <h1 className="font-serif text-3xl text-primary">
             Macro-Ecosystem Impact &amp; Autonomous Remediation
           </h1>
           <p className="text-sm text-slate-500 font-sans max-w-xl">
@@ -52,15 +52,15 @@ const EcosystemImpactPage: React.FC = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-6 space-y-4"
+            className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-6 space-y-4"
           >
             <div>
-              <h3 className="font-sans text-sm font-semibold text-slate-900">Autonomous Remediation Engine</h3>
+              <h3 className="font-sans text-sm font-semibold text-primary">Autonomous Remediation Engine</h3>
               <p className="text-xs text-slate-500 mt-0.5">
                 One-click edge function dispatch — closes action, generates evidence, seals with system hash.
               </p>
             </div>
-            <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2">
+            <div className="bg-canvas rounded-xl p-4 border border-slate-200 space-y-2">
               <div className="flex items-center justify-between text-[10px] font-mono text-slate-500">
                 <span>Target Action</span>
                 <span>ACT-2025-0334</span>

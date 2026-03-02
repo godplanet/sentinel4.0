@@ -1,15 +1,16 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 import {
   Building2, Building, Network, Box, Workflow,
   MapPin, Briefcase, Landmark, Server, Truck, Factory,
-  PlusCircle, CheckCircle2, Zap, Leaf, Star,
+  PlusCircle, CheckCircle2, Zap, Leaf, Star, Trash2,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import type { EntityType } from '@/entities/universe';
 import { useRiskConstitution } from '@/features/risk-constitution';
 import { getRiskColor, getRiskLabel } from '@/shared/lib/constitution-utils';
 import { usePlanningStore } from '@/entities/planning';
+import { ImpactAnalysisModal } from './ImpactAnalysisModal';
 
 export interface EntityNodeData {
   id: string;
@@ -58,14 +59,14 @@ const getTypeAccent = (type: EntityType): { border: string; icon: string; badge:
     case 'BANK':         return { border: 'border-l-blue-400',    icon: 'text-blue-500',   badge: 'bg-blue-50 text-blue-700' };
     case 'GROUP':        return { border: 'border-l-teal-400',    icon: 'text-teal-500',   badge: 'bg-teal-50 text-teal-700' };
     case 'UNIT':         return { border: 'border-l-amber-400',   icon: 'text-amber-500',  badge: 'bg-amber-50 text-amber-700' };
-    case 'PROCESS':      return { border: 'border-l-slate-300',   icon: 'text-slate-400',  badge: 'bg-slate-50 text-slate-500' };
+    case 'PROCESS':      return { border: 'border-l-slate-300',   icon: 'text-slate-400',  badge: 'bg-canvas text-slate-500' };
     case 'BRANCH':       return { border: 'border-l-sky-400',     icon: 'text-sky-500',    badge: 'bg-sky-50 text-sky-700' };
     case 'DEPARTMENT':   return { border: 'border-l-rose-400',    icon: 'text-rose-500',   badge: 'bg-rose-50 text-rose-700' };
     case 'HEADQUARTERS': return { border: 'border-l-slate-500',   icon: 'text-slate-600',  badge: 'bg-slate-100 text-slate-700' };
     case 'IT_ASSET':     return { border: 'border-l-violet-400',  icon: 'text-violet-500', badge: 'bg-violet-50 text-violet-700' };
     case 'VENDOR':       return { border: 'border-l-orange-400',  icon: 'text-orange-500', badge: 'bg-orange-50 text-orange-700' };
     case 'SUBSIDIARY':   return { border: 'border-l-indigo-400',  icon: 'text-indigo-500', badge: 'bg-indigo-50 text-indigo-700' };
-    default:             return { border: 'border-l-slate-300',   icon: 'text-slate-400',  badge: 'bg-slate-50 text-slate-600' };
+    default:             return { border: 'border-l-slate-300',   icon: 'text-slate-400',  badge: 'bg-canvas text-slate-600' };
   }
 };
 
@@ -102,6 +103,8 @@ export const CustomEntityNode = memo(({ data }: NodeProps) => {
   const { addNodeToPlan, draftEngagements } = usePlanningStore();
   const Icon = getTypeIcon(nodeData.type);
   const accent = getTypeAccent(nodeData.type);
+
+  const [showImpactModal, setShowImpactModal] = useState(false);
 
   const riskColor = constitution ? getRiskColor(nodeData.effective_risk, constitution.risk_ranges) : '#94a3b8';
   const riskLabel = constitution ? getRiskLabel(nodeData.effective_risk, constitution.risk_ranges) : 'N/A';
@@ -141,7 +144,7 @@ export const CustomEntityNode = memo(({ data }: NodeProps) => {
 
       <div
         className={`
-          bg-white/80 backdrop-blur-sm
+          bg-surface/80 backdrop-blur-sm
           border border-slate-200 border-l-4 ${accent.border}
           rounded-xl shadow-sm
           hover:shadow-md hover:-translate-y-0.5
@@ -152,7 +155,7 @@ export const CustomEntityNode = memo(({ data }: NodeProps) => {
       >
         <div className="p-4">
           <div className="flex items-start gap-3 mb-3">
-            <div className="p-2 rounded-lg bg-slate-50 border border-slate-100 flex-shrink-0">
+            <div className="p-2 rounded-lg bg-canvas border border-slate-100 flex-shrink-0">
               <Icon size={16} className={accent.icon} />
             </div>
             <div className="flex-1 min-w-0">
@@ -206,30 +209,44 @@ export const CustomEntityNode = memo(({ data }: NodeProps) => {
               <span>Cascade Risk</span>
               <span className="font-semibold text-slate-700 tabular-nums">{nodeData.risk_score.toFixed(1)}</span>
             </div>
-            <button
-              onClick={handleAddToPlan}
-              title={alreadyInPlan ? 'Zaten planda' : 'Plana ekle'}
-              className={`
-                w-full flex items-center justify-center gap-1.5
-                px-2 py-1.5 rounded-lg text-[10px] font-semibold
-                transition-all duration-150
-                ${alreadyInPlan
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default'
-                  : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.98] shadow-sm'}
-              `}
-            >
-              {alreadyInPlan ? (
-                <>
-                  <CheckCircle2 size={10} />
-                  Planda
-                </>
-              ) : (
-                <>
-                  <PlusCircle size={10} />
-                  Plana Ekle
-                </>
-              )}
-            </button>
+            <div className="flex gap-1.5">
+              <button
+                onClick={handleAddToPlan}
+                title={alreadyInPlan ? 'Zaten planda' : 'Plana ekle'}
+                className={`
+                  flex-1 flex items-center justify-center gap-1.5
+                  px-2 py-1.5 rounded-lg text-[10px] font-semibold
+                  transition-all duration-150
+                  ${alreadyInPlan
+                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default'
+                    : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.98] shadow-sm'}
+                `}
+              >
+                {alreadyInPlan ? (
+                  <>
+                    <CheckCircle2 size={10} />
+                    Planda
+                  </>
+                ) : (
+                  <>
+                    <PlusCircle size={10} />
+                    Plana Ekle
+                  </>
+                )}
+              </button>
+
+              {/* Kaskad Yıkım Kalkanı — Sil / Arşivle butonu */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowImpactModal(true);
+                }}
+                title="Kaskad etki analizi ile arşivle"
+                className="flex items-center justify-center w-8 h-7 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-red-600 text-slate-400 border border-slate-200 hover:border-red-200 transition-all duration-150"
+              >
+                <Trash2 size={11} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -239,6 +256,14 @@ export const CustomEntityNode = memo(({ data }: NodeProps) => {
         position={Position.Bottom}
         className="w-2.5 h-2.5 !bg-slate-300 border-2 !border-white"
       />
+
+      {showImpactModal && (
+        <ImpactAnalysisModal
+          entityId={nodeData.id}
+          entityName={nodeData.name}
+          onClose={() => setShowImpactModal(false)}
+        />
+      )}
     </div>
   );
 });

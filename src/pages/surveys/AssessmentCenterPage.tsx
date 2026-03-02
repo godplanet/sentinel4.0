@@ -214,7 +214,7 @@ export default function AssessmentCenterPage() {
         </motion.div>
       )}
 
-      <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-xl p-1 w-fit shadow-sm">
+      <div className="flex items-center gap-1 bg-surface border border-slate-200 rounded-xl p-1 w-fit shadow-sm">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -229,7 +229,7 @@ export default function AssessmentCenterPage() {
             {t.label}
             {t.count !== undefined && (
               <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center ${
-                tab === t.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                tab === t.id ? 'bg-surface/20 text-white' : 'bg-slate-100 text-slate-500'
               }`}>
                 {t.count}
               </span>

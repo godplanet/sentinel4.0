@@ -91,7 +91,7 @@ export default function AdvisoryHubPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-surface border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-blue-50 to-cyan-50">
               <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                 <Handshake size={16} className="text-blue-600" />
@@ -109,7 +109,7 @@ export default function AdvisoryHubPage() {
                   const cfg = STATUS_CONFIG[req.status] || STATUS_CONFIG.PENDING;
                   const Icon = cfg.icon;
                   return (
-                    <div key={req.id} className="px-6 py-4 hover:bg-slate-50 transition-colors group">
+                    <div key={req.id} className="px-6 py-4 hover:bg-canvas transition-colors group">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
                           <h3 className="text-sm font-bold text-slate-800 truncate">{req.title}</h3>
@@ -148,7 +148,7 @@ export default function AdvisoryHubPage() {
             )}
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-surface border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-cyan-50 to-teal-50">
               <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                 <Briefcase size={16} className="text-cyan-600" />
@@ -169,7 +169,7 @@ export default function AdvisoryHubPage() {
                     <div
                       key={eng.id}
                       onClick={() => navigate(`/advisory/${eng.id}`)}
-                      className="px-6 py-4 hover:bg-slate-50 transition-colors cursor-pointer group"
+                      className="px-6 py-4 hover:bg-canvas transition-colors cursor-pointer group"
                     >
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex-1 min-w-0">
@@ -213,7 +213,7 @@ function StatCard({ label, value, icon: Icon, color }: {
   color: string;
 }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+    <div className="bg-surface border border-slate-200 rounded-2xl p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">{label}</p>

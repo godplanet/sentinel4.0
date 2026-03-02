@@ -7,7 +7,43 @@ const TENANT = ACTIVE_TENANT_ID;
 const KEYS = {
   all: ['audit-entities'] as const,
   detail: (id: string) => ['audit-entities', id] as const,
+  entityFindingCounts: ['entity-finding-counts'] as const,
 };
+
+/** Birim karnesi için entity bazında bulgu sayıları (engagement → entity ilişkisi üzerinden). */
+export interface EntityFindingCounts {
+  critical: number;
+  high: number;
+  medium: number;
+  low: number;
+}
+
+export async function fetchEntityFindingCounts(): Promise<Record<string, EntityFindingCounts>> {
+  const { data, error } = await supabase
+    .from('audit_findings')
+    .select('severity, audit_engagements!inner(entity_id)');
+  if (error) return {};
+  const byEntity: Record<string, EntityFindingCounts> = {};
+  const normalize = (s: string) => (s || '').toUpperCase();
+  for (const row of data || []) {
+    const entityId = (row.audit_engagements as { entity_id: string } | null)?.entity_id;
+    if (!entityId) continue;
+    if (!byEntity[entityId]) byEntity[entityId] = { critical: 0, high: 0, medium: 0, low: 0 };
+    const sev = normalize(row.severity as string);
+    if (sev === 'CRITICAL') byEntity[entityId].critical += 1;
+    else if (sev === 'HIGH') byEntity[entityId].high += 1;
+    else if (sev === 'MEDIUM') byEntity[entityId].medium += 1;
+    else if (sev === 'LOW') byEntity[entityId].low += 1;
+  }
+  return byEntity;
+}
+
+export function useEntityFindingCounts() {
+  return useQuery({
+    queryKey: KEYS.entityFindingCounts,
+    queryFn: fetchEntityFindingCounts,
+  });
+}
 
 export function useAuditEntities() {
   return useQuery({

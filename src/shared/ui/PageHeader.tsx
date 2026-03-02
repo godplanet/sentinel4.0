@@ -26,7 +26,7 @@ export const PageHeader = ({
     <div
       className={clsx(
         'relative overflow-hidden rounded-2xl px-6 py-4 mb-6',
-        'bg-white/70 backdrop-blur-xl border border-slate-200/80 shadow-sm',
+        'bg-surface/70 backdrop-blur-xl border border-slate-200/80 shadow-sm',
         className
       )}
     >
@@ -49,7 +49,7 @@ export const PageHeader = ({
           )}
 
           <div>
-            <h1 className="text-lg font-bold tracking-tight text-slate-900">
+            <h1 className="text-lg font-bold tracking-tight text-primary">
               {title}
             </h1>
             {description && (

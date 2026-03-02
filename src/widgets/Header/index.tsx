@@ -30,7 +30,7 @@ export const Header = () => {
   void currentPersona;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-xl h-13 print:hidden">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-surface/95 backdrop-blur-xl h-13 print:hidden">
       <div className="flex h-full items-center px-3 gap-2">
 
         <button
@@ -43,7 +43,7 @@ export const Header = () => {
         <div className="flex-1 max-w-2xl mx-auto">
           <button
             onClick={toggleCmdBar}
-            className="w-full flex items-center bg-slate-50 border border-slate-200 rounded-xl hover:bg-white hover:border-slate-300 hover:shadow-sm transition-all"
+            className="w-full flex items-center bg-canvas border border-slate-200 rounded-xl hover:bg-surface hover:border-slate-300 hover:shadow-sm transition-all"
           >
             <div className="pl-3 pr-2 text-slate-400">
               {aiMode === 'reasoning' ? <Brain size={16} /> : <Calculator size={16} />}
@@ -55,11 +55,11 @@ export const Header = () => {
                 : "Finansal etki analizi veya formül gir..."}
             </span>
 
-            <kbd className="hidden lg:flex items-center text-[10px] font-mono text-slate-400 px-1.5 py-0.5 rounded border border-slate-200 bg-white mr-2">
+            <kbd className="hidden lg:flex items-center text-[10px] font-mono text-slate-400 px-1.5 py-0.5 rounded border border-slate-200 bg-surface mr-2">
               ⌘K
             </kbd>
 
-            <div className="flex items-center gap-0.5 bg-white border border-slate-200 rounded-lg p-0.5 mr-1.5 shrink-0">
+            <div className="flex items-center gap-0.5 bg-surface border border-slate-200 rounded-lg p-0.5 mr-1.5 shrink-0">
               <div
                 onClick={(e) => { e.stopPropagation(); setAiMode('reasoning'); }}
                 className={clsx(

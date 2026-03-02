@@ -125,10 +125,10 @@ export function DataSignalsPanel() {
         </button>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-canvas border-b border-slate-200">
               <tr>
                 <th className="px-5 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wide">Durum</th>
                 <th className="px-5 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wide">Kaynak</th>
@@ -142,7 +142,7 @@ export function DataSignalsPanel() {
             <tbody className="divide-y divide-slate-100">
               {configs.map(config => (
                 <tr key={config.id} className={clsx(
-                  'hover:bg-slate-50 transition-colors group',
+                  'hover:bg-canvas transition-colors group',
                   !config.is_active && 'opacity-50'
                 )}>
                   <td className="px-5 py-3">
@@ -230,7 +230,7 @@ export function DataSignalsPanel() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6"
+              className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-6"
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
@@ -238,7 +238,7 @@ export function DataSignalsPanel() {
                     <Radio size={18} className="text-blue-600" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-slate-900">
+                    <h2 className="text-lg font-bold text-primary">
                       {editingId ? 'Sinyal Duzenle' : 'Yeni KRI Sinyali'}
                     </h2>
                     <p className="text-xs text-slate-500">Dis kaynak tetikleyici yapilandirmasi</p>

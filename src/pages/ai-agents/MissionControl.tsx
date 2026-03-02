@@ -182,10 +182,10 @@ export default function MissionControlPage() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="bg-white border border-slate-200 rounded-xl p-4">
+            <div className="bg-surface border border-slate-200 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Rocket size={16} className="text-slate-500" />
-                <span className="text-sm font-bold text-slate-900">
+                <span className="text-sm font-bold text-primary">
                   {selectedAgent.name} - Gorev Ata
                 </span>
 
@@ -214,7 +214,7 @@ export default function MissionControlPage() {
                     onChange={(e) => setTarget(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleDeploy()}
                     placeholder="Hedef varlik girin..."
-                    className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-slate-300"
+                    className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-slate-300"
                   />
                   {!target && (
                     <div className="absolute right-2 top-1/2 -translate-y-1/2">
@@ -255,9 +255,9 @@ export default function MissionControlPage() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="bg-white border border-slate-200 rounded-xl p-4">
+            <div className="bg-surface border border-slate-200 rounded-xl p-4">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-bold text-slate-900">Gorev Gecmisi</span>
+                <span className="text-sm font-bold text-primary">Gorev Gecmisi</span>
                 <button onClick={() => setShowHistory(false)}>
                   <X size={16} className="text-slate-400 hover:text-slate-600" />
                 </button>
@@ -270,7 +270,7 @@ export default function MissionControlPage() {
                     <button
                       key={run.id}
                       onClick={() => handleViewRun(run)}
-                      className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 text-left transition-colors"
+                      className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-canvas text-left transition-colors"
                     >
                       <span className={clsx(
                         'text-[10px] font-bold px-1.5 py-0.5 rounded',

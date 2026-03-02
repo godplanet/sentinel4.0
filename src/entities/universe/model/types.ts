@@ -84,7 +84,7 @@ export interface AuditEntity {
   owner_id?: string;
   parent_id?: string | null;
   status?: string;
-  metadata: Record<string, any> & Partial<BranchMetadata & ITAssetMetadata & VendorMetadata & SubsidiaryMetadata>;
+  metadata: Record<string, unknown> & Partial<BranchMetadata & ITAssetMetadata & VendorMetadata & SubsidiaryMetadata>;
   created_at: string;
   updated_at: string;
   children?: AuditEntity[];

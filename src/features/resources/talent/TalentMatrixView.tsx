@@ -45,13 +45,13 @@ export function TalentMatrixView() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">Yetenek Matrisi</h2>
+        <h2 className="text-2xl font-bold text-primary">Yetenek Matrisi</h2>
         <p className="text-slate-600 mt-1">
           Ekip yetkinlikleri, sertifikalar ve eğitim takibi
         </p>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200">
+      <div className="bg-surface rounded-lg border border-slate-200">
         <div className="border-b border-slate-200 px-6">
           <div className="flex gap-1">
             <button
@@ -60,7 +60,7 @@ export function TalentMatrixView() {
                 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                 activeSubTab === 'matrix'
                   ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
               )}
             >
               <GraduationCap size={16} />
@@ -72,7 +72,7 @@ export function TalentMatrixView() {
                 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                 activeSubTab === 'cpe'
                   ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
               )}
             >
               <Award size={16} />
@@ -129,7 +129,7 @@ export function TalentMatrixView() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-slate-200 bg-slate-50">
+                      <tr className="border-b border-slate-200 bg-canvas">
                         <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Eğitim Adı</th>
                         <th className="text-center py-3 px-4 text-sm font-semibold text-slate-700">CPE Puanı</th>
                         <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Tamamlanma</th>
@@ -137,8 +137,8 @@ export function TalentMatrixView() {
                     </thead>
                     <tbody>
                       {cpeRecords.map((record) => (
-                        <tr key={record.id} className="border-b border-slate-100 hover:bg-slate-50">
-                          <td className="py-3 px-4 text-sm text-slate-900">{record.activity_name}</td>
+                        <tr key={record.id} className="border-b border-slate-100 hover:bg-canvas">
+                          <td className="py-3 px-4 text-sm text-primary">{record.activity_name}</td>
                           <td className="py-3 px-4 text-center">
                             <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
                               <Award size={12} />

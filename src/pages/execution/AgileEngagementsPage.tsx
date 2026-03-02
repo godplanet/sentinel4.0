@@ -39,7 +39,7 @@ export function AgileEngagementsPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-lg font-bold text-slate-900">Agile Denetimler</h2>
+          <h2 className="text-lg font-bold text-primary">Agile Denetimler</h2>
           <p className="text-sm text-slate-500">Sprint tabanli denetim gorevleriniz</p>
         </div>
         <button
@@ -74,8 +74,8 @@ export function AgileEngagementsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              onClick={() => navigate(`/execution/sprint-board/${eng.id}`)}
-              className="text-left bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all group overflow-hidden"
+              onClick={() => navigate(`/execution/agile/${eng.id}`)}
+              className="text-left bg-surface rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all group overflow-hidden"
             >
               <div className="p-5">
                 <div className="flex items-start justify-between mb-3">
@@ -90,7 +90,7 @@ export function AgileEngagementsPage() {
                   </span>
                 </div>
 
-                <h3 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-1">
+                <h3 className="font-bold text-primary group-hover:text-blue-600 transition-colors mb-1">
                   {eng.title}
                 </h3>
                 <p className="text-xs text-slate-500 line-clamp-2 mb-3">{eng.description}</p>
@@ -110,7 +110,7 @@ export function AgileEngagementsPage() {
                 </div>
               </div>
 
-              <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+              <div className="px-5 py-3 bg-canvas border-t border-slate-100 flex items-center justify-between">
                 <span className="text-xs text-blue-600 font-medium flex items-center gap-1">
                   <Zap size={12} /> Sprint Board
                 </span>

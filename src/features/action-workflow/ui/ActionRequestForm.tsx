@@ -121,7 +121,7 @@ export function ActionRequestForm({ action, onSuccess }: Props) {
                   'flex-1 py-2 px-3 rounded-lg text-xs font-bold border transition-all',
                   requestType === value
                     ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400',
+                    : 'bg-surface text-slate-600 border-slate-200 hover:border-blue-400',
                 )}
               >
                 {label}
@@ -136,7 +136,7 @@ export function ActionRequestForm({ action, onSuccess }: Props) {
           <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
             Talep Edilen Yeni Tarih
           </label>
-          <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
+          <div className="flex items-center gap-2 px-4 py-2.5 bg-surface border border-slate-200 rounded-xl focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
             <Calendar size={15} className="text-slate-400 shrink-0" />
             <input
               type="date"
@@ -179,7 +179,7 @@ export function ActionRequestForm({ action, onSuccess }: Props) {
               ? 'Yönetim Kurulu İstisnası için detaylı yasal ve operasyonel gerekçenizi açıklayın...'
               : 'Talebinizin gerekçesini açıklayın...'
           }
-          className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none"
+          className="w-full px-4 py-3 bg-surface border border-slate-200 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none"
         />
       </div>
 

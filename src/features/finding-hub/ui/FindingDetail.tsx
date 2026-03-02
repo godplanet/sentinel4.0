@@ -64,11 +64,11 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+    <div className="bg-surface rounded-lg border border-slate-200 overflow-hidden">
       <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-mono text-slate-600 bg-white px-3 py-1 rounded border border-slate-200">
+            <span className="text-sm font-mono text-slate-600 bg-surface px-3 py-1 rounded border border-slate-200">
               {finding.code}
             </span>
             <span
@@ -79,7 +79,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
               {severityLabels[finding.severity]}
             </span>
           </div>
-          <h2 className="text-xl font-semibold text-slate-900">{finding.title}</h2>
+          <h2 className="text-xl font-semibold text-primary">{finding.title}</h2>
         </div>
         {onClose && (
           <button
@@ -95,14 +95,14 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
             <div className="text-xs font-medium text-slate-500">Durum</div>
-            <div className="text-sm font-medium text-slate-900">
+            <div className="text-sm font-medium text-primary">
               {finding.main_status === 'ACIK' ? 'Açık' : 'Kapalı'}
             </div>
           </div>
 
           <div className="space-y-1">
             <div className="text-xs font-medium text-slate-500">Aşama</div>
-            <div className="text-sm font-medium text-slate-900">
+            <div className="text-sm font-medium text-primary">
               {finding.process_stage === 'DRAFT'
                 ? 'Taslak'
                 : finding.process_stage === 'NEGOTIATION'
@@ -113,7 +113,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
 
           <div className="space-y-1">
             <div className="text-xs font-medium text-slate-500">Denetim Tipi</div>
-            <div className="text-sm font-medium text-slate-900">
+            <div className="text-sm font-medium text-primary">
               {finding.audit_type === 'SUBE'
                 ? 'Şube'
                 : finding.audit_type === 'SUREC_BS'
@@ -125,7 +125,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
           {finding.financial_impact > 0 && (
             <div className="space-y-1">
               <div className="text-xs font-medium text-slate-500">Mali Etki</div>
-              <div className="flex items-center gap-2 text-sm font-medium text-slate-900">
+              <div className="flex items-center gap-2 text-sm font-medium text-primary">
                 <DollarSign className="w-4 h-4 text-green-600" />
                 {finding.financial_impact.toLocaleString('tr-TR')} TL
               </div>
@@ -219,7 +219,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
             {finding.assignment.auditee_opinion && (
               <div className="space-y-2">
                 <div className="text-xs font-medium text-slate-500">Denetlenen Görüşü</div>
-                <div className="text-sm text-slate-700 bg-slate-50 p-3 rounded border border-slate-200">
+                <div className="text-sm text-slate-700 bg-canvas p-3 rounded border border-slate-200">
                   {finding.assignment.auditee_opinion}
                 </div>
               </div>
@@ -243,7 +243,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
               {actionSteps.map((step) => (
                 <div
                   key={step.id}
-                  className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200"
+                  className="flex items-start gap-3 p-3 bg-canvas rounded-lg border border-slate-200"
                 >
                   <div
                     className={`mt-1 w-5 h-5 rounded-full flex items-center justify-center ${
@@ -262,7 +262,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
                     )}
                   </div>
                   <div className="flex-1 space-y-1">
-                    <div className="text-sm text-slate-900">{step.description}</div>
+                    <div className="text-sm text-primary">{step.description}</div>
                     <div className="flex items-center gap-4 text-xs text-slate-500">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />

@@ -97,7 +97,7 @@ export function TriageCockpit() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Takip kodu veya icerik ara..."
-            className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-surface border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400"
           />
         </div>
 
@@ -106,7 +106,7 @@ export function TriageCockpit() {
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value as FilterCategory)}
-            className="text-[11px] bg-white border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none"
+            className="text-[11px] bg-surface border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none"
           >
             <option value="ALL">Tum Kategoriler</option>
             {Object.entries(CATEGORY_LABELS).map(([k, v]) => (
@@ -116,7 +116,7 @@ export function TriageCockpit() {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
-            className="text-[11px] bg-white border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none"
+            className="text-[11px] bg-surface border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none"
           >
             <option value="ALL">Tum Durumlar</option>
             {Object.entries(STATUS_LABELS).map(([k, v]) => (
@@ -128,7 +128,7 @@ export function TriageCockpit() {
         <button
           onClick={loadData}
           disabled={loading}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium text-slate-600 bg-surface border border-slate-200 rounded-lg hover:bg-canvas transition-colors"
         >
           {loading ? <Loader2 size={12} className="animate-spin" /> : <RefreshCw size={12} />}
           Yenile
@@ -176,13 +176,13 @@ function StatCard({
   return (
     <div className={clsx(
       'rounded-xl border p-4',
-      variant ? colors[variant] : 'bg-white border-slate-200',
+      variant ? colors[variant] : 'bg-surface border-slate-200',
     )}>
       <div className="flex items-center gap-2 mb-2">
         <Icon size={14} className={variant ? undefined : 'text-slate-400'} />
         <span className={clsx('text-[10px] font-medium', variant ? undefined : 'text-slate-500')}>{label}</span>
       </div>
-      <span className={clsx('text-xl font-black', variant ? undefined : 'text-slate-900')}>{value}</span>
+      <span className={clsx('text-xl font-black', variant ? undefined : 'text-primary')}>{value}</span>
     </div>
   );
 }

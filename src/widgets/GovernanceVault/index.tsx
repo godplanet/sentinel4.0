@@ -82,15 +82,15 @@ export function GovernanceVault() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-600">Toplam Doküman</span>
             <FileText className="w-5 h-5 text-slate-500" />
           </div>
-          <p className="text-3xl font-bold text-slate-900">{stats.total_docs}</p>
+          <p className="text-3xl font-bold text-primary">{stats.total_docs}</p>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-600">Onaylı</span>
             <CheckCircle2 className="w-5 h-5 text-green-500" />
@@ -98,7 +98,7 @@ export function GovernanceVault() {
           <p className="text-3xl font-bold text-green-600">{stats.approved_docs}</p>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-600">Bağımsızlık Beyanı</span>
             <Shield className="w-5 h-5 text-indigo-500" />
@@ -106,7 +106,7 @@ export function GovernanceVault() {
           <p className="text-3xl font-bold text-indigo-600">{stats.declarations_this_year}</p>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-600">Uyum Oranı</span>
             <FileCheck className="w-5 h-5 text-purple-500" />
@@ -115,9 +115,9 @@ export function GovernanceVault() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200 p-6">
+      <div className="bg-surface rounded-lg border border-slate-200 p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-bold text-slate-900">Yönetişim Dokümanları</h3>
+          <h3 className="text-lg font-bold text-primary">Yönetişim Dokümanları</h3>
           <div className="flex items-center gap-3">
             <div className="flex gap-2">
               <button
@@ -177,7 +177,7 @@ export function GovernanceVault() {
               key={doc.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="border border-slate-200 rounded-lg p-4 hover:bg-slate-50 transition-colors"
+              className="border border-slate-200 rounded-lg p-4 hover:bg-canvas transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3 flex-1">
@@ -195,7 +195,7 @@ export function GovernanceVault() {
                   </div>
 
                   <div className="flex-1">
-                    <h4 className="font-semibold text-slate-900 mb-1">{doc.title}</h4>
+                    <h4 className="font-semibold text-primary mb-1">{doc.title}</h4>
                     <div className="flex items-center gap-3 text-xs text-slate-600">
                       <span className="px-2 py-0.5 bg-slate-100 rounded">
                         {docTypeLabels[doc.doc_type]}
@@ -236,18 +236,18 @@ export function GovernanceVault() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200 p-6">
-        <h3 className="text-lg font-bold text-slate-900 mb-4">2026 Bağımsızlık Beyanları</h3>
+      <div className="bg-surface rounded-lg border border-slate-200 p-6">
+        <h3 className="text-lg font-bold text-primary mb-4">2026 Bağımsızlık Beyanları</h3>
 
         <div className="space-y-3">
           {declarations.map((declaration) => (
             <div
               key={declaration.id}
-              className="border border-slate-200 rounded-lg p-4 hover:bg-slate-50 transition-colors"
+              className="border border-slate-200 rounded-lg p-4 hover:bg-canvas transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-slate-900">
+                  <p className="font-semibold text-primary">
                     {declaration.declaration_type === 'INDEPENDENCE' && 'Bağımsızlık Beyanı'}
                     {declaration.declaration_type === 'CONFLICT_OF_INTEREST' && 'Çıkar Çatışması Beyanı'}
                     {declaration.declaration_type === 'CODE_OF_CONDUCT' && 'Etik Kurallar Beyanı'}
@@ -279,7 +279,7 @@ export function GovernanceVault() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full"
+              className="bg-surface rounded-2xl shadow-2xl max-w-2xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
@@ -289,7 +289,7 @@ export function GovernanceVault() {
                 </div>
                 <button
                   onClick={() => !submitting && setShowUploadModal(false)}
-                  className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors"
+                  className="w-8 h-8 bg-surface/20 hover:bg-surface/30 rounded-lg flex items-center justify-center transition-colors"
                   disabled={submitting}
                 >
                   <X className="w-5 h-5 text-white" />
@@ -305,7 +305,7 @@ export function GovernanceVault() {
                     type="text"
                     value={newDoc.title}
                     onChange={(e) => setNewDoc(prev => ({ ...prev, title: e.target.value }))}
-                    className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                     placeholder="Örn: İç Denetim Yönetmeliği 2026"
                     disabled={submitting}
                   />
@@ -319,7 +319,7 @@ export function GovernanceVault() {
                     <select
                       value={newDoc.doc_type}
                       onChange={(e) => setNewDoc(prev => ({ ...prev, doc_type: e.target.value as any }))}
-                      className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                      className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                       disabled={submitting}
                     >
                       <option value="CHARTER">Yönetmelik</option>
@@ -338,7 +338,7 @@ export function GovernanceVault() {
                       type="text"
                       value={newDoc.version}
                       onChange={(e) => setNewDoc(prev => ({ ...prev, version: e.target.value }))}
-                      className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                      className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                       placeholder="v1.0"
                       disabled={submitting}
                     />
@@ -352,7 +352,7 @@ export function GovernanceVault() {
                   <select
                     value={newDoc.approval_status}
                     onChange={(e) => setNewDoc(prev => ({ ...prev, approval_status: e.target.value as any }))}
-                    className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                     disabled={submitting}
                   >
                     <option value="DRAFT">Taslak</option>
@@ -367,10 +367,10 @@ export function GovernanceVault() {
                 </div>
               </div>
 
-              <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-200 rounded-b-2xl">
+              <div className="bg-canvas px-6 py-4 flex items-center justify-between border-t border-slate-200 rounded-b-2xl">
                 <button
                   onClick={() => !submitting && setShowUploadModal(false)}
-                  className="px-6 py-2.5 bg-white border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium"
+                  className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
                   disabled={submitting}
                 >
                   İptal

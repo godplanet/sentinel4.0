@@ -98,7 +98,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
       <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={handleClose} />
 
       <div className="absolute inset-y-0 right-0 max-w-3xl w-full flex">
-        <div className="relative w-full bg-white/95 backdrop-blur-xl shadow-2xl">
+        <div className="relative w-full bg-surface/95 backdrop-blur-xl shadow-2xl">
           {/* Header */}
           <div
             className={`
@@ -125,7 +125,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
                     />
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-xl font-bold text-slate-900">{action.title}</h2>
+                    <h2 className="text-xl font-bold text-primary">{action.title}</h2>
                     <p className="text-sm text-slate-600 mt-0.5">
                       Action ID: {action.id.slice(0, 8).toUpperCase()}
                     </p>
@@ -180,7 +180,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
                       flex items-center gap-2 px-4 py-3 border-b-2 transition-colors font-medium text-sm
                       ${activeTab === tab.id
                         ? 'border-blue-600 text-blue-600'
-                        : 'border-transparent text-slate-600 hover:text-slate-900'}
+                        : 'border-transparent text-slate-600 hover:text-primary'}
                     `}
                   >
                     <Icon size={16} />
@@ -210,7 +210,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
           </div>
 
           {/* Footer Actions */}
-          <div className="absolute bottom-0 left-0 right-0 px-6 py-4 bg-slate-50 border-t border-slate-200">
+          <div className="absolute bottom-0 left-0 right-0 px-6 py-4 bg-canvas border-t border-slate-200">
             <div className="flex items-center justify-between gap-3">
               <AutoFixButton action={action} onSuccess={() => { loadAction(); onUpdate?.(); }} />
 
@@ -283,19 +283,19 @@ function DetailsTab({ action, aging, onStatusUpdate }: {
       {/* Aging Metrics */}
       {aging && (
         <div className="grid grid-cols-3 gap-4">
-          <div className="p-4 bg-white border border-slate-200 rounded-lg">
+          <div className="p-4 bg-surface border border-slate-200 rounded-lg">
             <div className="text-xs text-slate-500 mb-1">Age from Detection</div>
-            <div className="text-2xl font-bold text-slate-900">{aging.ageFromDetection}</div>
+            <div className="text-2xl font-bold text-primary">{aging.ageFromDetection}</div>
             <div className="text-xs text-slate-600">days</div>
           </div>
-          <div className="p-4 bg-white border border-slate-200 rounded-lg">
+          <div className="p-4 bg-surface border border-slate-200 rounded-lg">
             <div className="text-xs text-slate-500 mb-1">Performance Delay</div>
             <div className={`text-2xl font-bold ${aging.isPerformanceDelayed ? 'text-red-600' : 'text-green-600'}`}>
               {aging.performanceDelay}
             </div>
             <div className="text-xs text-slate-600">days</div>
           </div>
-          <div className="p-4 bg-white border border-slate-200 rounded-lg">
+          <div className="p-4 bg-surface border border-slate-200 rounded-lg">
             <div className="text-xs text-slate-500 mb-1">Operational Overdue</div>
             <div className={`text-2xl font-bold ${aging.isOperationallyOverdue ? 'text-red-600' : 'text-green-600'}`}>
               {aging.operationalOverdue}
@@ -320,7 +320,7 @@ function DetailsTab({ action, aging, onStatusUpdate }: {
           {action.assignee_unit_name && (
             <div>
               <span className="font-medium text-slate-600">Unit:</span>
-              <span className="ml-2 text-slate-900">{action.assignee_unit_name}</span>
+              <span className="ml-2 text-primary">{action.assignee_unit_name}</span>
             </div>
           )}
           <div>
@@ -341,14 +341,14 @@ function DetailsTab({ action, aging, onStatusUpdate }: {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <h3 className="text-sm font-semibold text-slate-700 mb-2">Original Due Date</h3>
-          <div className="text-sm font-medium text-slate-900">
+          <div className="text-sm font-medium text-primary">
             {new Date(action.original_due_date).toLocaleDateString()}
           </div>
           <div className="text-xs text-slate-500 mt-1">Used for performance measurement</div>
         </div>
         <div>
           <h3 className="text-sm font-semibold text-slate-700 mb-2">Current Due Date</h3>
-          <div className="text-sm font-medium text-slate-900">
+          <div className="text-sm font-medium text-primary">
             {new Date(action.current_due_date).toLocaleDateString()}
           </div>
           {aging && aging.extensionDays > 0 && (
@@ -364,14 +364,14 @@ function EvidenceTab({ action, onUpdate }: { action: ActionWithDetails; onUpdate
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-bold text-slate-900">Evidence Files</h3>
+        <h3 className="text-lg font-bold text-primary">Evidence Files</h3>
         <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
           Upload Evidence
         </button>
       </div>
 
       {!action.evidence || action.evidence.length === 0 ? (
-        <div className="text-center py-12 bg-slate-50 rounded-lg border border-slate-200">
+        <div className="text-center py-12 bg-canvas rounded-lg border border-slate-200">
           <Upload className="mx-auto mb-3 text-slate-400" size={48} />
           <p className="text-slate-600">No evidence uploaded yet</p>
           <p className="text-sm text-slate-500 mt-1">Upload files to document remediation</p>
@@ -381,11 +381,11 @@ function EvidenceTab({ action, onUpdate }: { action: ActionWithDetails; onUpdate
           {action.evidence.map((evidence) => (
             <div
               key={evidence.id}
-              className="p-4 bg-white border border-slate-200 rounded-lg hover:border-blue-300 transition-colors"
+              className="p-4 bg-surface border border-slate-200 rounded-lg hover:border-blue-300 transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="font-medium text-slate-900">{evidence.file_name}</div>
+                  <div className="font-medium text-primary">{evidence.file_name}</div>
                   {evidence.description && (
                     <p className="text-sm text-slate-600 mt-1">{evidence.description}</p>
                   )}
@@ -412,19 +412,19 @@ function EvidenceTab({ action, onUpdate }: { action: ActionWithDetails; onUpdate
 function HistoryTab({ logs }: { logs: ActionLog[] }) {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-bold text-slate-900">Action History</h3>
+      <h3 className="text-lg font-bold text-primary">Action History</h3>
 
       {logs.length === 0 ? (
-        <div className="text-center py-12 bg-slate-50 rounded-lg border border-slate-200">
+        <div className="text-center py-12 bg-canvas rounded-lg border border-slate-200">
           <History className="mx-auto mb-3 text-slate-400" size={48} />
           <p className="text-slate-600">No history yet</p>
         </div>
       ) : (
         <div className="space-y-3">
           {logs.map((log) => (
-            <div key={log.id} className="p-4 bg-white border border-slate-200 rounded-lg">
+            <div key={log.id} className="p-4 bg-surface border border-slate-200 rounded-lg">
               <div className="flex items-start justify-between mb-2">
-                <div className="font-medium text-slate-900">{log.event_type.replace(/_/g, ' ').toUpperCase()}</div>
+                <div className="font-medium text-primary">{log.event_type.replace(/_/g, ' ').toUpperCase()}</div>
                 <div className="text-xs text-slate-500">
                   {new Date(log.created_at).toLocaleString()}
                 </div>

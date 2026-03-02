@@ -90,7 +90,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
             <div
               key={col.status}
               className={clsx(
-                'bg-white border border-slate-200 rounded-xl border-t-4 flex flex-col',
+                'bg-surface border border-slate-200 rounded-xl border-t-4 flex flex-col',
                 col.color,
               )}
             >
@@ -121,7 +121,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
 
       {showForm && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl">
+          <div className="bg-surface rounded-2xl p-6 max-w-lg w-full shadow-2xl">
             <div className="flex items-center justify-between mb-5">
               <h3 className="text-base font-bold text-slate-800">Yeni Gozlem Ekle</h3>
               <button onClick={() => setShowForm(false)} className="p-1 rounded hover:bg-slate-100">
@@ -136,7 +136,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Gozlem basligi..."
-                  className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400"
+                  className="w-full px-4 py-3 bg-canvas border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400"
                 />
               </div>
 
@@ -147,7 +147,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
                   onChange={(e) => setObservation(e.target.value)}
                   placeholder="Gozlemledigimiz husus su sekildedir..."
                   rows={3}
-                  className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400 resize-none"
+                  className="w-full px-4 py-3 bg-canvas border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400 resize-none"
                 />
               </div>
 
@@ -158,7 +158,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
                   onChange={(e) => setRecommendation(e.target.value)}
                   placeholder="Degerlendirilmesini onerdigimiz..."
                   rows={3}
-                  className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400 resize-none"
+                  className="w-full px-4 py-3 bg-canvas border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400 resize-none"
                 />
               </div>
 
@@ -215,7 +215,7 @@ function InsightCard({ insight, onStatusChange, columns }: {
   const impact = IMPACT_CONFIG[insight.impact_level];
 
   return (
-    <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 hover:shadow-sm transition-all relative">
+    <div className="bg-canvas border border-slate-200 rounded-lg p-3 hover:shadow-sm transition-all relative">
       <div className="flex items-center gap-1.5 mb-2">
         <span className={clsx('text-[9px] font-bold px-1.5 py-0.5 rounded', impact.color)}>
           {impact.label}
@@ -234,7 +234,7 @@ function InsightCard({ insight, onStatusChange, columns }: {
       </button>
 
       {showMoveMenu && (
-        <div className="absolute top-full left-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-xl z-10 py-1 min-w-[120px]">
+        <div className="absolute top-full left-0 mt-1 bg-surface border border-slate-200 rounded-lg shadow-xl z-10 py-1 min-w-[120px]">
           {columns
             .filter((c) => c.status !== insight.status)
             .map((c) => (
@@ -244,7 +244,7 @@ function InsightCard({ insight, onStatusChange, columns }: {
                   onStatusChange(insight.id, c.status);
                   setShowMoveMenu(false);
                 }}
-                className="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                className="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-canvas transition-colors"
               >
                 {c.label}
               </button>

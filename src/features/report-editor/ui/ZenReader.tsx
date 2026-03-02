@@ -39,7 +39,7 @@ export function ZenReader({ content, title, onClose }: ZenReaderProps) {
   const themeStyles: Record<ReaderTheme, string> = {
     paper: 'bg-[#fdf6e3] text-[#3b3228]',
     dark: 'bg-[#1a1a2e] text-[#d4d4d8]',
-    light: 'bg-white text-slate-900',
+    light: 'bg-surface text-primary',
   };
 
   const fontClass = font === 'serif' ? 'font-[Merriweather]' : 'font-sans';
@@ -55,7 +55,7 @@ export function ZenReader({ content, title, onClose }: ZenReaderProps) {
           onClick={() => setShowSettings(!showSettings)}
           className={clsx(
             'p-2.5 rounded-xl transition-all',
-            theme === 'dark' ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-black/5 text-slate-500 hover:bg-black/10'
+            theme === 'dark' ? 'bg-surface/10 text-white/70 hover:bg-surface/20' : 'bg-black/5 text-slate-500 hover:bg-black/10'
           )}
         >
           <SlidersHorizontal size={18} />
@@ -64,7 +64,7 @@ export function ZenReader({ content, title, onClose }: ZenReaderProps) {
           onClick={onClose}
           className={clsx(
             'p-2.5 rounded-xl transition-all',
-            theme === 'dark' ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-black/5 text-slate-500 hover:bg-black/10'
+            theme === 'dark' ? 'bg-surface/10 text-white/70 hover:bg-surface/20' : 'bg-black/5 text-slate-500 hover:bg-black/10'
           )}
         >
           <X size={18} />
@@ -75,7 +75,7 @@ export function ZenReader({ content, title, onClose }: ZenReaderProps) {
         <div
           className={clsx(
             'absolute top-16 right-4 w-72 rounded-2xl shadow-2xl border p-5 z-10 space-y-5',
-            theme === 'dark' ? 'bg-[#252547] border-white/10' : 'bg-white border-slate-200'
+            theme === 'dark' ? 'bg-[#252547] border-white/10' : 'bg-surface border-slate-200'
           )}
         >
           <div>
@@ -85,7 +85,7 @@ export function ZenReader({ content, title, onClose }: ZenReaderProps) {
             <div className="flex gap-2">
               {([
                 { key: 'paper' as const, label: 'Kagit', icon: Sun, color: 'bg-[#fdf6e3] border-amber-300' },
-                { key: 'light' as const, label: 'Acik', icon: Sun, color: 'bg-white border-slate-300' },
+                { key: 'light' as const, label: 'Acik', icon: Sun, color: 'bg-surface border-slate-300' },
                 { key: 'dark' as const, label: 'Koyu', icon: Moon, color: 'bg-[#1a1a2e] border-slate-600' },
               ]).map((t) => (
                 <button

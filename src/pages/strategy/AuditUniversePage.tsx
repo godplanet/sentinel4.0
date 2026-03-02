@@ -3,71 +3,24 @@ import {
   Building2, Scale, Activity, Search, Filter, Plus, ChevronRight,
   BrainCircuit, Info, Download, Server, ShieldCheck, Flame, Lock,
   TrendingDown, CheckCircle2, AlertTriangle, Loader2, CalendarPlus,
-  ArrowRight, CheckSquare, Square, X, Zap,
+  ArrowRight, CheckSquare, Square, X, Zap, ListTree, Workflow, Radar,
 } from 'lucide-react';
+import { ProcessFlowEditor } from '@/features/process-canvas/ProcessFlowEditor';
+import { RiskContagionRadar } from '@/features/risk-contagion/ui/RiskContagionRadar';
 import { PageHeader } from '@/shared/ui/PageHeader';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { supabase } from '@/shared/api/supabase';
 
-import { calculateEntityGrade } from '@/features/grading-engine/calculator';
-
-interface AuditEntity {
-  id: string;
-  name: string;
-  type: string;
-  path: string;
-  weight: number;
-  findings: {
-    bordo: number;
-    kizil: number;
-    turuncu: number;
-    sari: number;
-    gozlem: number;
-    shariah_systemic: number;
-  };
-  lastAudit: string;
-}
-import { GRADING_THRESHOLDS } from '@/shared/config/constitution';
+// --- MİMARİ BAĞLANTILAR (FSD) ---
+import { calculateEntityGrade, type EntityGradeInput } from '@/features/grading-engine/calculator';
+import { GRADING_THRESHOLDS, SENTINEL_CONSTITUTION } from '@/shared/config/constitution';
 import { createEngagementsFromEntities, getDefaultPlanId } from '@/features/planning/linkage';
 import { useCreateEntity } from '@/entities/universe/api';
 import type { EntityType } from '@/entities/universe/model/types';
-
-const TENANT = '11111111-1111-1111-1111-111111111111';
-
-function useAuditUniverseLive() {
-  return useQuery<AuditEntity[]>({
-    queryKey: ['audit-universe-live'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('audit_entities')
-        .select('id, name, type, path, metadata, last_audit_date')
-        .eq('tenant_id', TENANT)
-        .order('path');
-      if (error) throw error;
-      return (data || []).map((row: any) => ({
-        id: row.id,
-        name: row.name,
-        type: row.type ?? 'UNIT',
-        path: row.path ?? '',
-        weight: Number(row.metadata?.weight ?? 1.0),
-        findings: {
-          bordo: Number(row.metadata?.findings_summary?.bordo ?? 0),
-          kizil: Number(row.metadata?.findings_summary?.kizil ?? 0),
-          turuncu: Number(row.metadata?.findings_summary?.turuncu ?? 0),
-          sari: Number(row.metadata?.findings_summary?.sari ?? 0),
-          gozlem: Number(row.metadata?.findings_summary?.gozlem ?? 0),
-          shariah_systemic: Number(row.metadata?.findings_summary?.shariah_systemic ?? 0),
-        },
-        lastAudit: row.metadata?.lastAudit ?? (row.last_audit_date ? String(row.last_audit_date).slice(0, 10) : 'N/A'),
-      }));
-    },
-    staleTime: 2 * 60 * 1000,
-  });
-}
+import { useAuditUniverseLive, type AuditEntityLive } from '@/entities/universe/api/universe-live-api';
 
 interface NewEntityForm {
   name: string;
@@ -80,13 +33,15 @@ export default function AuditUniversePage() {
   const queryClient = useQueryClient();
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedEntity, setSelectedEntity] = useState<AuditEntity | null>(null);
+  const [viewMode, setViewMode] = useState<'tree' | 'canvas' | 'neural'>('tree');
+  const [selectedEntity, setSelectedEntity] = useState<AuditEntityLive | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [showBulkModal, setShowBulkModal] = useState(false);
   const [isBulkCreating, setIsBulkCreating] = useState(false);
   const [showNewEntityModal, setShowNewEntityModal] = useState(false);
   const [newEntityForm, setNewEntityForm] = useState<NewEntityForm>({ name: '', type: 'UNIT', path: '' });
 
+  // API Çağrısı artık Entities katmanından geliyor!
   const { data: liveUniverse, isLoading } = useAuditUniverseLive();
   const universe = liveUniverse ?? [];
   const createEntity = useCreateEntity();
@@ -94,7 +49,7 @@ export default function AuditUniversePage() {
   const { rwaScore, rwaGrade, rwaOpinion, totalWeight, cappedCount } = useMemo(() => {
     let weightedSum = 0; let weightTotal = 0; let caps = 0;
     universe.forEach(e => {
-      const { finalScore, vetoReason } = calculateEntityGrade(e);
+      const { finalScore, vetoReason } = calculateEntityGrade(e as unknown as EntityGradeInput);
       weightedSum += (finalScore * e.weight);
       weightTotal += e.weight;
       if (vetoReason) caps++;
@@ -151,9 +106,9 @@ export default function AuditUniversePage() {
       } else {
         toast.error('Bazı görevler oluşturulamadı.');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.dismiss(toastId);
-      toast.error(`Hata: ${err?.message || 'Bilinmeyen hata'}`);
+      toast.error(`Hata: ${err instanceof Error ? err.message : 'Bilinmeyen hata'}`);
     } finally {
       setIsBulkCreating(false);
     }
@@ -174,14 +129,14 @@ export default function AuditUniversePage() {
       toast.success(`"${newEntityForm.name}" evrene eklendi.`);
       setShowNewEntityModal(false);
       setNewEntityForm({ name: '', type: 'UNIT', path: '' });
-    } catch (err: any) {
-      toast.error(`Hata: ${err?.message}`);
+    } catch (err: unknown) {
+      toast.error(`Hata: ${err instanceof Error ? err.message : 'Bilinmeyen hata'}`);
     }
   };
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex items-center justify-center h-64 bg-canvas">
         <Loader2 className="w-8 h-8 text-slate-400 animate-spin" />
       </div>
     );
@@ -190,7 +145,7 @@ export default function AuditUniversePage() {
   const selectedEntities = universe.filter(e => selectedIds.has(e.id));
 
   return (
-    <div className="w-full max-w-full px-6 py-8 space-y-6 bg-slate-50 min-h-screen font-sans">
+    <div className="w-full max-w-full px-6 py-8 space-y-6 bg-canvas min-h-screen font-sans">
 
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -202,12 +157,38 @@ export default function AuditUniversePage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/strategy/annual-plan')}
-            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium shadow-sm text-sm"
+            className="flex items-center gap-2 px-4 py-2.5 bg-surface border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium shadow-sm text-sm"
           >
             <CalendarPlus size={16} />
             Stratejik Plan
             <ArrowRight size={14} className="text-slate-400" />
           </button>
+
+          {/* Apple Glass 3-lü Görünüm Değiştirici */}
+          <div className="flex p-1 bg-surface border border-slate-200/60 rounded-xl shadow-sm">
+            {(
+              [
+                { mode: 'tree',   Icon: ListTree, label: 'Tablo Görünümü' },
+                { mode: 'canvas', Icon: Workflow,  label: 'Süreç Kanvası' },
+                { mode: 'neural', Icon: Radar,     label: 'Bulaşıcılık Radarı' },
+              ] as const
+            ).map(({ mode, Icon, label }) => (
+              <button
+                key={mode}
+                onClick={() => setViewMode(mode)}
+                className={clsx(
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150',
+                  viewMode === mode
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50',
+                )}
+              >
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                {label}
+              </button>
+            ))}
+          </div>
+
           <button
             onClick={() => setShowNewEntityModal(true)}
             className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium shadow-sm"
@@ -264,9 +245,25 @@ export default function AuditUniversePage() {
         <div className="text-sm text-blue-900 leading-relaxed"><strong>Kısıt Bazlı Kesinti Modeli (IIA Std 14.5):</strong> Doğrusal puanlama reddedilmiştir. Bir varlığın ham puanı yüksek olsa dahi, <em>Kritik Bulgu Varlığı</em> (Max D), <em>Yüksek Hacim</em> (Max C) veya <em>Şer'i İhlal</em> (Sıfırlama) gibi kurallar Nihai Notu ezer. Varlıkları seçip denetim görevine dönüştürebilirsiniz.</div>
       </div>
 
+      {/* CANVAS VIEW */}
+      {viewMode === 'canvas' && (
+        <div className="h-[700px] w-full animate-in fade-in zoom-in-95 duration-500 rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm">
+          <ProcessFlowEditor />
+        </div>
+      )}
+
+      {/* NEURAL / RADAR VIEW */}
+      {viewMode === 'neural' && (
+        <div className="h-[700px] w-full animate-in fade-in zoom-in-95 duration-500">
+          <RiskContagionRadar />
+        </div>
+      )}
+
       {/* TABLE */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-        <div className="p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white">
+      {viewMode === 'tree' && (
+      <>
+      <div className="bg-surface rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface">
           <div className="flex items-center gap-3">
             <div className="relative max-w-md w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
@@ -295,10 +292,10 @@ export default function AuditUniversePage() {
                 Denetim Planla ({selectedIds.size})
               </button>
             )}
-            <button className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-md text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
+            <button className="flex items-center gap-2 px-3 py-2 bg-surface border border-slate-200 text-slate-600 rounded-md text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
               <Filter size={16} /> Detaylı Filtre
             </button>
-            <button className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-md text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
+            <button className="flex items-center gap-2 px-3 py-2 bg-surface border border-slate-200 text-slate-600 rounded-md text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
               <Download size={16} /> Excel
             </button>
           </div>
@@ -328,7 +325,7 @@ export default function AuditUniversePage() {
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-800">
               {filteredUniverse.map((entity) => {
-                const { rawScore, finalScore, vetoReason, grade, opinion, color, freq } = calculateEntityGrade(entity);
+                const { rawScore, finalScore, vetoReason, grade, opinion, color, freq } = calculateEntityGrade(entity as unknown as EntityGradeInput);
                 const isCapped = rawScore !== finalScore;
                 const isSelected = selectedIds.has(entity.id);
 
@@ -336,7 +333,7 @@ export default function AuditUniversePage() {
                   <React.Fragment key={entity.id}>
                     <tr
                       className={clsx(
-                        "hover:bg-blue-50/50 transition-colors group cursor-pointer",
+                        "hover:bg-blue-50/50 transition-colors group cursor-pointer bg-surface",
                         isSelected ? "bg-blue-50 border-l-2 border-blue-500" : "",
                         selectedEntity?.id === entity.id ? "bg-blue-50/50" : ""
                       )}
@@ -419,8 +416,8 @@ export default function AuditUniversePage() {
                               exit={{ height: 0, opacity: 0 }}
                               className="overflow-hidden"
                             >
-                              <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 border-t border-slate-200 shadow-inner">
-                                <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+                              <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 border-t border-slate-200 shadow-inner">
+                                <div className="bg-surface border border-slate-200 rounded-lg p-5 shadow-sm">
                                   <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                                     <Activity size={14} className="text-blue-500"/> Kesinti Matematiği
                                   </h5>
@@ -430,7 +427,41 @@ export default function AuditUniversePage() {
                                     <div className="flex justify-between font-bold pt-1 text-slate-900"><span>Ham Puan:</span><span>{rawScore.toFixed(2)}</span></div>
                                   </div>
                                 </div>
-                                <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm flex flex-col justify-between">
+
+                                {/* Risk Profili Paneli */}
+                                <div className="bg-surface border border-slate-200 rounded-lg p-5 shadow-sm">
+                                  <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                    <Info size={14} className="text-violet-500"/> Risk Profili
+                                  </h5>
+                                  <div className="grid grid-cols-2 gap-2 mb-3">
+                                    <div className="bg-canvas rounded-lg p-2.5">
+                                      <div className="text-[10px] text-slate-500 mb-0.5">Risk Ağırlığı</div>
+                                      <div className="text-base font-bold text-slate-800">{entity.weight.toFixed(1)}x</div>
+                                    </div>
+                                    <div className="bg-canvas rounded-lg p-2.5">
+                                      <div className="text-[10px] text-slate-500 mb-0.5">Toplam Bulgu</div>
+                                      <div className="text-base font-bold text-slate-800">
+                                        {entity.findings.bordo + entity.findings.kizil + entity.findings.turuncu + entity.findings.sari}
+                                      </div>
+                                    </div>
+                                    <div className="bg-canvas rounded-lg p-2.5">
+                                      <div className="text-[10px] text-slate-500 mb-0.5">Son Denetim</div>
+                                      <div className="text-xs font-semibold text-slate-700">{entity.lastAudit}</div>
+                                    </div>
+                                    <div className="bg-canvas rounded-lg p-2.5">
+                                      <div className="text-[10px] text-slate-500 mb-0.5">Şeri İhlal</div>
+                                      <div className={clsx("text-base font-bold", entity.findings.shariah_systemic > 0 ? "text-fuchsia-700" : "text-slate-400")}>
+                                        {entity.findings.shariah_systemic > 0 ? `${entity.findings.shariah_systemic} Tespit` : 'Yok'}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="p-2.5 bg-violet-50 border border-violet-100 rounded-lg">
+                                    <div className="text-[9px] font-bold text-violet-700 uppercase tracking-widest mb-1">KERD-2026 Formülü</div>
+                                    <code className="text-[10px] text-violet-600 leading-relaxed block">{SENTINEL_CONSTITUTION.RISK.FORMULA}</code>
+                                  </div>
+                                </div>
+
+                                <div className="bg-surface border border-slate-200 rounded-lg p-5 shadow-sm flex flex-col justify-between">
                                   <div>
                                     <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                                       <Lock size={14} className="text-slate-500"/> Tavan & Veto Kararı
@@ -446,7 +477,6 @@ export default function AuditUniversePage() {
                                       </div>
                                     )}
                                   </div>
-                                  {/* CRITICAL FIX: e.stopPropagation() added here */}
                                   <button
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -472,6 +502,41 @@ export default function AuditUniversePage() {
           </table>
         </div>
       </div>
+
+      {/* RISK ZONE LEGEND */}
+      <div className="bg-surface rounded-xl shadow-sm border border-slate-200 p-5">
+        <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+          <ShieldCheck size={14} className="text-emerald-500" /> Risk Zon Eşiği (KERD-2026 Anayasa Referansı)
+        </h4>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {Object.entries(SENTINEL_CONSTITUTION.RISK.ZONES).map(([key, zone]) => (
+            <div
+              key={key}
+              className="flex items-center gap-3 p-3 rounded-lg border-l-4"
+              style={{ backgroundColor: `${zone.color}15`, borderLeftColor: zone.color }}
+            >
+              <div>
+                <div className="font-bold text-slate-800 text-sm">{zone.label}</div>
+                <div className="text-xs text-slate-500 mt-0.5 font-mono">
+                  Skor: {zone.min}–{zone.max}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 pt-3 border-t border-slate-100">
+          <p className="text-[10px] text-slate-400">
+            <span className="font-semibold text-slate-500">Notlandırma Skalası:</span>{' '}
+            {Object.entries(SENTINEL_CONSTITUTION.GRADING.GRADE_SCALE).map(([grade, def]) => (
+              <span key={grade} className="mr-3">
+                <span className="font-bold text-slate-600">{grade}</span>: {def.min}–{def.max} ({def.label})
+              </span>
+            ))}
+          </p>
+        </div>
+      </div>
+      </>
+      )}
 
       {/* FLOATING SELECTION BAR */}
       <AnimatePresence>
@@ -504,7 +569,7 @@ export default function AuditUniversePage() {
         )}
       </AnimatePresence>
 
-      {/* BULK CREATE MODAL - CRITICAL FIX: Changed absolute positioning to flex-center layout */}
+      {/* BULK CREATE MODAL */}
       <AnimatePresence>
         {showBulkModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
@@ -519,11 +584,11 @@ export default function AuditUniversePage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[90vh] overflow-hidden relative z-10"
+              className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[90vh] overflow-hidden relative z-10"
             >
               <div className="flex items-center justify-between p-6 border-b border-slate-100 shrink-0">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">Denetim Görevi Oluştur</h3>
+                  <h3 className="text-xl font-bold text-primary">Denetim Görevi Oluştur</h3>
                   <p className="text-sm text-slate-500 mt-1">Risk bazlı otomatik kapsam ve bütçe hesaplanır</p>
                 </div>
                 <button
@@ -534,20 +599,20 @@ export default function AuditUniversePage() {
                 </button>
               </div>
 
-              <div className="p-6 overflow-y-auto flex-1 bg-slate-50/50">
-                <div className="bg-white rounded-xl border border-slate-200 p-4 mb-5">
+              <div className="p-6 overflow-y-auto flex-1 bg-canvas">
+                <div className="bg-surface rounded-xl border border-slate-200 p-4 mb-5">
                   <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Seçili Varlıklar</div>
                   <div className="space-y-2">
                     {selectedEntities.map(e => {
-                      const { grade, color } = calculateEntityGrade(e);
+                      const { grade, color } = calculateEntityGrade(e as unknown as EntityGradeInput);
                       return (
                         <div key={e.id} className="flex items-center justify-between gap-3 bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
                           <div className="flex items-center gap-2">
                             <Building2 size={14} className="text-slate-400" />
-                            <span className="text-sm font-semibold text-slate-800">{e.name}</span>
+                            <span className="text-sm font-semibold text-primary">{e.name}</span>
                             <span className="text-[10px] text-slate-400 font-mono">{e.path}</span>
                           </div>
-                          <span className={clsx("inline-flex items-center justify-center w-7 h-7 rounded font-bold border text-xs bg-white", color)}>{grade}</span>
+                          <span className={clsx("inline-flex items-center justify-center w-7 h-7 rounded font-bold border text-xs bg-surface", color)}>{grade}</span>
                         </div>
                       );
                     })}
@@ -559,11 +624,11 @@ export default function AuditUniversePage() {
                 </div>
               </div>
 
-              <div className="flex gap-3 p-6 border-t border-slate-100 shrink-0 bg-white">
+              <div className="flex gap-3 p-6 border-t border-slate-100 shrink-0 bg-surface">
                 <button
                   onClick={() => !isBulkCreating && setShowBulkModal(false)}
                   disabled={isBulkCreating}
-                  className="flex-1 px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors font-medium disabled:opacity-50"
+                  className="flex-1 px-4 py-3 text-slate-700 bg-surface border border-slate-300 rounded-xl hover:bg-canvas transition-colors font-medium disabled:opacity-50"
                 >
                   İptal
                 </button>
@@ -584,7 +649,7 @@ export default function AuditUniversePage() {
         )}
       </AnimatePresence>
 
-      {/* NEW ENTITY MODAL - CRITICAL FIX: Changed absolute positioning to flex-center layout */}
+      {/* NEW ENTITY MODAL */}
       <AnimatePresence>
         {showNewEntityModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
@@ -599,16 +664,16 @@ export default function AuditUniversePage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[90vh] overflow-hidden relative z-10"
+              className="bg-surface rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[90vh] overflow-hidden relative z-10"
             >
               <div className="flex items-center justify-between p-6 border-b border-slate-100 shrink-0">
-                <h3 className="text-xl font-bold text-slate-900">Yeni Varlık Ekle</h3>
+                <h3 className="text-xl font-bold text-primary">Yeni Varlık Ekle</h3>
                 <button onClick={() => setShowNewEntityModal(false)} className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
                   <X size={18} />
                 </button>
               </div>
               <form onSubmit={handleCreateEntity} className="flex flex-col flex-1 overflow-hidden">
-                <div className="p-6 space-y-4 overflow-y-auto flex-1 bg-slate-50/50">
+                <div className="p-6 space-y-4 overflow-y-auto flex-1 bg-canvas">
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1.5">Varlık Adı *</label>
                     <input
@@ -616,7 +681,7 @@ export default function AuditUniversePage() {
                       value={newEntityForm.name}
                       onChange={e => setNewEntityForm(f => ({ ...f, name: e.target.value }))}
                       placeholder="örn. Kurumsal Bankacılık Direktörlüğü"
-                      className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition-all shadow-sm"
+                      className="w-full px-3 py-2.5 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition-all shadow-sm"
                       required
                     />
                   </div>
@@ -627,7 +692,7 @@ export default function AuditUniversePage() {
                       value={newEntityForm.path}
                       onChange={e => setNewEntityForm(f => ({ ...f, path: e.target.value }))}
                       placeholder="örn. bank.corporate_banking"
-                      className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm font-mono focus:outline-none focus:border-blue-500 transition-all shadow-sm"
+                      className="w-full px-3 py-2.5 bg-surface border border-slate-200 rounded-lg text-sm font-mono focus:outline-none focus:border-blue-500 transition-all shadow-sm"
                       required
                     />
                     <p className="text-xs text-slate-500 mt-1">Nokta ile ayrılmış hiyerarşik yol (ltree formatı)</p>
@@ -637,7 +702,7 @@ export default function AuditUniversePage() {
                     <select
                       value={newEntityForm.type}
                       onChange={e => setNewEntityForm(f => ({ ...f, type: e.target.value as EntityType }))}
-                      className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition-all shadow-sm"
+                      className="w-full px-3 py-2.5 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition-all shadow-sm"
                     >
                       <option value="HOLDING">HOLDING</option>
                       <option value="BANK">BANK</option>
@@ -648,8 +713,8 @@ export default function AuditUniversePage() {
                     </select>
                   </div>
                 </div>
-                <div className="flex gap-3 p-6 border-t border-slate-100 bg-white shrink-0">
-                  <button type="button" onClick={() => setShowNewEntityModal(false)} className="flex-1 px-4 py-2.5 text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors font-medium">
+                <div className="flex gap-3 p-6 border-t border-slate-100 bg-surface shrink-0">
+                  <button type="button" onClick={() => setShowNewEntityModal(false)} className="flex-1 px-4 py-2.5 text-slate-700 bg-surface border border-slate-300 rounded-xl hover:bg-canvas transition-colors font-medium">
                     İptal
                   </button>
                   <button

@@ -100,7 +100,7 @@ export function BudgetTrackerCard({
   const burnPerHour   = totalHours > 0 ? totalBurn / totalHours : 0;
 
   return (
-    <div className="bg-white shadow-sm border border-slate-200 rounded-xl overflow-hidden">
+    <div className="bg-surface shadow-sm border border-slate-200 rounded-xl overflow-hidden">
       {isOverBudget && (
         <motion.div
           initial={{ opacity: 0, y: -6 }}
@@ -136,7 +136,7 @@ export function BudgetTrackerCard({
                 Maliyet Motoru
               </span>
             </div>
-            <h3 className="text-sm font-bold text-slate-900 leading-tight">
+            <h3 className="text-sm font-bold text-primary leading-tight">
               Finansal Maliyet Motoru (Cost Engine)
             </h3>
           </div>
@@ -157,33 +157,33 @@ export function BudgetTrackerCard({
         </div>
 
         <div className="grid grid-cols-3 gap-2 mb-4">
-          <div className="rounded-lg bg-slate-50 border border-slate-200 p-3">
+          <div className="rounded-lg bg-canvas border border-slate-200 p-3">
             <p className="text-[9px] text-slate-400 uppercase tracking-widest font-mono mb-1">
               Ayrılan Bütçe
             </p>
-            <p className="text-base font-black text-slate-900 font-mono leading-none">
+            <p className="text-base font-black text-primary font-mono leading-none">
               <AnimatedNumber value={allocated} />
             </p>
           </div>
 
           <div className={`rounded-lg border p-3 ${
-            isOverBudget ? 'bg-red-50 border-red-200' : isWarning ? 'bg-amber-50 border-amber-200' : 'bg-slate-50 border-slate-200'
+            isOverBudget ? 'bg-red-50 border-red-200' : isWarning ? 'bg-amber-50 border-amber-200' : 'bg-canvas border-slate-200'
           }`}>
             <p className="text-[9px] text-slate-400 uppercase tracking-widest font-mono mb-1">
               Kullanılan
             </p>
             <p className={`text-base font-black font-mono leading-none ${
-              isOverBudget ? 'text-red-700' : isWarning ? 'text-amber-700' : 'text-slate-900'
+              isOverBudget ? 'text-red-700' : isWarning ? 'text-amber-700' : 'text-primary'
             }`}>
               <AnimatedNumber value={totalBurn} />
             </p>
           </div>
 
-          <div className="rounded-lg bg-slate-50 border border-slate-200 p-3">
+          <div className="rounded-lg bg-canvas border border-slate-200 p-3">
             <p className="text-[9px] text-slate-400 uppercase tracking-widest font-mono mb-1">
               Kalan
             </p>
-            <p className="text-base font-black text-slate-900 font-mono leading-none">
+            <p className="text-base font-black text-primary font-mono leading-none">
               <AnimatedNumber value={remaining} />
             </p>
           </div>
@@ -219,7 +219,7 @@ export function BudgetTrackerCard({
           </div>
         </div>
 
-        <div className="flex items-center justify-between rounded-lg bg-slate-50 border border-slate-200 px-3 py-2 mb-3">
+        <div className="flex items-center justify-between rounded-lg bg-canvas border border-slate-200 px-3 py-2 mb-3">
           <div className="flex items-center gap-2">
             <TrendingUp className={`w-3.5 h-3.5 ${isOverBudget ? 'text-red-500' : 'text-slate-400'}`} />
             <span className="text-[10px] text-slate-500 font-mono">Saatlik Harcama</span>
@@ -233,7 +233,7 @@ export function BudgetTrackerCard({
 
         <button
           onClick={() => setExpanded((v) => !v)}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors text-[10px] font-mono font-semibold text-slate-500 uppercase tracking-widest"
+          className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-canvas border border-slate-200 hover:bg-slate-100 transition-colors text-[10px] font-mono font-semibold text-slate-500 uppercase tracking-widest"
         >
           <div className="flex items-center gap-1.5">
             <User className="w-3 h-3" />
@@ -256,7 +256,7 @@ export function BudgetTrackerCard({
                   const cost  = a.hoursLogged * a.hourlyRate;
                   const share = totalBurn > 0 ? (cost / totalBurn) * 100 : 0;
                   return (
-                    <div key={a.id} className="rounded-lg bg-slate-50 border border-slate-100 px-3 py-2">
+                    <div key={a.id} className="rounded-lg bg-canvas border border-slate-100 px-3 py-2">
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
                           <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[8px] font-bold text-slate-600">

@@ -218,7 +218,7 @@ Kisa, kararlı ve aksiyon odakli yaz. Turkce yanit ver.`;
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-8">
+      <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-8">
         <div className="flex items-center justify-center">
           <Loader2 className="w-6 h-6 text-slate-400 animate-spin" />
           <span className="ml-2 text-sm text-slate-600">Risk verileri yükleniyor...</span>
@@ -229,7 +229,7 @@ Kisa, kararlı ve aksiyon odakli yaz. Turkce yanit ver.`;
 
   if (forecasts.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-8">
+      <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-8">
         <div className="text-center text-slate-600">
           <Radar className="w-12 h-12 text-slate-400 mx-auto mb-2" />
           <p className="text-sm">Risk verisi bulunamadı</p>
@@ -239,7 +239,7 @@ Kisa, kararlı ve aksiyon odakli yaz. Turkce yanit ver.`;
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-blue-500/20 rounded-xl flex items-center justify-center">
@@ -299,7 +299,7 @@ Kisa, kararlı ve aksiyon odakli yaz. Turkce yanit ver.`;
               const weatherCfg = WEATHER_LABELS[f.weather];
 
               return (
-                <div key={f.category} className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                <div key={f.category} className="flex items-center gap-3 p-2 rounded-lg hover:bg-canvas transition-colors">
                   <div className={clsx('w-7 h-7 rounded-lg flex items-center justify-center', weatherCfg.bg)}>
                     <WeatherIcon size={14} className={weatherCfg.color} />
                   </div>
@@ -337,7 +337,7 @@ Kisa, kararlı ve aksiyon odakli yaz. Turkce yanit ver.`;
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="bg-slate-50 border border-slate-200 rounded-xl p-4"
+              className="bg-canvas border border-slate-200 rounded-xl p-4"
             >
               <div className="flex items-center gap-2 mb-3">
                 <Brain size={14} className="text-slate-600" />

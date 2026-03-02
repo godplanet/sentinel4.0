@@ -51,7 +51,7 @@ export function RuleAlertFeed({ alerts, onStatusChange }: Props) {
 
   if (alerts.length === 0) {
     return (
-      <div className="bg-white border border-slate-200 rounded-xl p-8 text-center">
+      <div className="bg-surface border border-slate-200 rounded-xl p-8 text-center">
         <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-3">
           <AlertTriangle size={20} className="text-emerald-600" />
         </div>
@@ -75,7 +75,7 @@ export function RuleAlertFeed({ alerts, onStatusChange }: Props) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: idx * 0.04 }}
             className={clsx(
-              'bg-white border rounded-xl overflow-hidden transition-shadow',
+              'bg-surface border rounded-xl overflow-hidden transition-shadow',
               alert.status === 'INVESTIGATING'
                 ? 'border-amber-300 shadow-amber-100/60 shadow-sm'
                 : 'border-slate-200 hover:shadow-sm',
@@ -112,7 +112,7 @@ export function RuleAlertFeed({ alerts, onStatusChange }: Props) {
                     </span>
                   )}
                 </div>
-                <p className="text-sm font-semibold text-slate-900 truncate">{alert.title}</p>
+                <p className="text-sm font-semibold text-primary truncate">{alert.title}</p>
               </div>
 
               <div className="flex items-center gap-3 shrink-0">
@@ -143,7 +143,7 @@ export function RuleAlertFeed({ alerts, onStatusChange }: Props) {
                     <p className="text-xs text-slate-600 mb-3">{alert.description}</p>
 
                     {evidence && Object.keys(evidence).length > 0 && (
-                      <div className="bg-slate-50 rounded-lg p-3 mb-3">
+                      <div className="bg-canvas rounded-lg p-3 mb-3">
                         <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
                           Kanit Verisi
                         </div>

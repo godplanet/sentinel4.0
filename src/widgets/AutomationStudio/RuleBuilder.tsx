@@ -93,7 +93,7 @@ export const RuleBuilder = ({ onCreated, onCancel }: Props) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
       <div className="bg-gradient-to-r from-slate-700 to-slate-800 p-5 text-white">
         <h3 className="text-lg font-bold mb-1">Yeni Otomasyon Kurali</h3>
         <p className="text-sm text-slate-300">Adim adim kural olusturucu</p>
@@ -225,7 +225,7 @@ export const RuleBuilder = ({ onCreated, onCancel }: Props) => {
               <div className="space-y-4">
                 <p className="text-xs text-slate-500 mb-2">Kosullar saglandiginda hangi aksiyonlar calistirilsin?</p>
                 {actions.map((action, idx) => (
-                  <div key={idx} className="border border-slate-200 rounded-lg p-4 bg-slate-50/50 space-y-3">
+                  <div key={idx} className="border border-slate-200 rounded-lg p-4 bg-canvas/50 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-bold text-slate-400 uppercase">Aksiyon #{idx + 1}</span>
                       <button onClick={() => removeAction(idx)} className="text-slate-400 hover:text-red-500">
@@ -235,7 +235,7 @@ export const RuleBuilder = ({ onCreated, onCancel }: Props) => {
                     <select
                       value={action.type}
                       onChange={(e) => updateAction(idx, 'type', e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/30 bg-white"
+                      className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/30 bg-surface"
                     >
                       {ACTION_TYPES.map((at) => (
                         <option key={at.value} value={at.value}>{at.label}</option>
@@ -328,7 +328,7 @@ export const RuleBuilder = ({ onCreated, onCancel }: Props) => {
             {step === 'review' && (
               <div className="space-y-4">
                 <h4 className="text-sm font-bold text-slate-700">Kural Ozeti</h4>
-                <div className="bg-slate-50 rounded-lg p-4 space-y-3 text-sm">
+                <div className="bg-canvas rounded-lg p-4 space-y-3 text-sm">
                   <div><span className="font-bold text-slate-500">Baslik:</span> <span className="text-slate-800">{title}</span></div>
                   {description && <div><span className="font-bold text-slate-500">Aciklama:</span> <span className="text-slate-700">{description}</span></div>}
                   <div><span className="font-bold text-slate-500">Tetikleyici:</span> <span className="text-blue-600 font-semibold">{triggerLabel}</span></div>
@@ -357,7 +357,7 @@ export const RuleBuilder = ({ onCreated, onCancel }: Props) => {
         </AnimatePresence>
       </div>
 
-      <div className="flex items-center justify-between p-5 border-t border-slate-100 bg-slate-50/30">
+      <div className="flex items-center justify-between p-5 border-t border-slate-100 bg-canvas/30">
         <button onClick={stepIdx > 0 ? goPrev : onCancel} className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
           <ArrowLeft size={14} />
           {stepIdx > 0 ? 'Geri' : 'Iptal'}

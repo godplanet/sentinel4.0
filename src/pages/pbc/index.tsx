@@ -4,7 +4,7 @@ import { ClipboardList } from 'lucide-react';
 
 export default function PBCPage() {
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="PBC Talep Yonetimi"
         subtitle="Provided-by-Client belge talepleri ve takibi"

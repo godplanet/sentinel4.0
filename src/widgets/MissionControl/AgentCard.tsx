@@ -28,8 +28,8 @@ export function AgentCard({ agent, selected, onSelect }: AgentCardProps) {
       className={clsx(
         'relative w-full text-left rounded-xl border-2 p-4 transition-all',
         selected
-          ? 'border-slate-900 bg-slate-50 shadow-lg'
-          : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md',
+          ? 'border-slate-900 bg-canvas shadow-lg'
+          : 'border-slate-200 bg-surface hover:border-slate-300 hover:shadow-md',
       )}
     >
       {isBusy && (
@@ -49,7 +49,7 @@ export function AgentCard({ agent, selected, onSelect }: AgentCardProps) {
           <Icon size={20} />
         </div>
         <div>
-          <div className="text-sm font-black text-slate-900">{agent.name}</div>
+          <div className="text-sm font-black text-primary">{agent.name}</div>
           <div className="text-[10px] text-slate-500">{agent.codename}</div>
         </div>
       </div>

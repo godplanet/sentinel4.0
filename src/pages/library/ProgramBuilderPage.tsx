@@ -190,7 +190,7 @@ export default function ProgramBuilderPage() {
         <div className="lg:col-span-1">
           <GlassCard className="p-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              <h3 className="text-lg font-bold text-primary dark:text-white">
                 Test Steps ({steps.length})
               </h3>
               <button
@@ -237,7 +237,7 @@ export default function ProgramBuilderPage() {
                           />
                         )}
                       </div>
-                      <div className="text-sm font-medium text-slate-900 dark:text-white line-clamp-2">
+                      <div className="text-sm font-medium text-primary dark:text-white line-clamp-2">
                         {step.control_title}
                       </div>
                     </div>
@@ -286,7 +286,7 @@ export default function ProgramBuilderPage() {
                     onChange={(e) =>
                       setSelectedStep({ ...selectedStep, control_id: e.target.value })
                     }
-                    className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                    className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 text-primary dark:text-white"
                     placeholder="e.g., AC-01, CM-03"
                   />
                 </div>
@@ -301,7 +301,7 @@ export default function ProgramBuilderPage() {
                     onChange={(e) =>
                       setSelectedStep({ ...selectedStep, control_title: e.target.value })
                     }
-                    className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                    className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 text-primary dark:text-white"
                     placeholder="e.g., User Access Review"
                   />
                 </div>
@@ -315,7 +315,7 @@ export default function ProgramBuilderPage() {
                     onChange={(e) =>
                       setSelectedStep({ ...selectedStep, test_procedure: e.target.value })
                     }
-                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white min-h-[200px]"
+                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 text-primary dark:text-white min-h-[200px]"
                     placeholder="Describe the detailed test procedure..."
                   />
                 </div>
@@ -331,7 +331,7 @@ export default function ProgramBuilderPage() {
                       onChange={(e) =>
                         setSelectedStep({ ...selectedStep, expected_evidence: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                      className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 text-primary dark:text-white"
                       placeholder="List required evidence"
                     />
                   </div>
@@ -348,7 +348,7 @@ export default function ProgramBuilderPage() {
                           testing_method: e.target.value as any,
                         })
                       }
-                      className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                      className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 text-primary dark:text-white"
                     >
                       <option value="Inquiry">Inquiry</option>
                       <option value="Inspection">Inspection</option>
@@ -373,7 +373,7 @@ export default function ProgramBuilderPage() {
                           risk_id: e.target.value || undefined,
                         })
                       }
-                      className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                      className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 text-primary dark:text-white"
                     >
                       <option value="">-- No Risk Linked --</option>
                       <option value="mock-risk-1">Credit Risk - Loan Underwriting</option>
@@ -429,7 +429,7 @@ export default function ProgramBuilderPage() {
           ) : (
             <GlassCard className="p-12 text-center">
               <Shield className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+              <h3 className="text-xl font-bold text-primary dark:text-white mb-2">
                 No Step Selected
               </h3>
               <p className="text-slate-600 dark:text-slate-400">

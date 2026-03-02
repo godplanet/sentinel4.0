@@ -103,22 +103,10 @@ export default function MethodologyPage() {
   const isWeightValid = Math.abs(totalWeight - 1) < 0.01;
 
   const handleWeightChange = useCallback((key: WeightKey, pctValue: number) => {
-    setWeights(prev => {
-      const newVal = Math.min(1, Math.max(0, pctValue / 100));
-      const others = WEIGHT_META.filter(w => w.key !== key);
-      const otherSum = others.reduce((s, w) => s + prev[w.key], 0);
-      const remaining = Math.max(0, 1 - newVal);
-      const next = { ...prev, [key]: newVal };
-      if (otherSum > 0) {
-        others.forEach(w => {
-          next[w.key] = Number(((prev[w.key] / otherSum) * remaining).toFixed(4));
-        });
-      } else {
-        const share = remaining / others.length;
-        others.forEach(w => { next[w.key] = Number(share.toFixed(4)); });
-      }
-      return next;
-    });
+    setWeights(prev => ({
+      ...prev,
+      [key]: Math.min(1, Math.max(0, pctValue / 100)),
+    }));
     setSaveStatus('idle');
   }, []);
 
@@ -190,7 +178,7 @@ export default function MethodologyPage() {
               onClick={() => setActiveTab('engine')}
               className={clsx(
                   "px-6 py-3.5 text-sm font-bold flex items-center gap-2 border-b-2 transition-colors",
-                  activeTab === 'engine' ? "border-blue-600 text-blue-700 bg-blue-50/50" : "border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                  activeTab === 'engine' ? "border-blue-600 text-blue-700 bg-blue-50/50" : "border-transparent text-slate-500 hover:text-slate-800 hover:bg-canvas"
               )}
           >
               <Calculator size={18} /> Risk Motoru (WIF)
@@ -199,7 +187,7 @@ export default function MethodologyPage() {
               onClick={() => setActiveTab('parameters')}
               className={clsx(
                   "px-6 py-3.5 text-sm font-bold flex items-center gap-2 border-b-2 transition-colors",
-                  activeTab === 'parameters' ? "border-indigo-600 text-indigo-700 bg-indigo-50/50" : "border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                  activeTab === 'parameters' ? "border-indigo-600 text-indigo-700 bg-indigo-50/50" : "border-transparent text-slate-500 hover:text-slate-800 hover:bg-canvas"
               )}
           >
               <ListTree size={18} /> Sınıflandırma ve Parametreler
@@ -305,7 +293,7 @@ function ParameterListManager({ title, description, items, onAdd, onRemove, icon
         if (colorTheme === 'indigo') return 'bg-indigo-50/30 border-indigo-100';
         if (colorTheme === 'red') return 'bg-red-50/30 border-red-100';
         if (colorTheme === 'violet') return 'bg-violet-50/30 border-violet-100';
-        return 'bg-slate-50/30 border-slate-100';
+        return 'bg-canvas/30 border-slate-100';
     };
 
     const getIconBg = () => {
@@ -316,7 +304,7 @@ function ParameterListManager({ title, description, items, onAdd, onRemove, icon
     };
 
     return (
-        <div className={`bg-white border rounded-xl shadow-sm flex flex-col h-full ring-1 ring-inset overflow-hidden ${getBorderColor()}`}>
+        <div className={`bg-surface border rounded-xl shadow-sm flex flex-col h-full ring-1 ring-inset overflow-hidden ${getBorderColor()}`}>
             <div className={`p-5 border-b ${getBgColor()}`}>
                 <div className="flex items-center gap-3 mb-1">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getIconBg()}`}>
@@ -327,14 +315,14 @@ function ParameterListManager({ title, description, items, onAdd, onRemove, icon
                 <p className="text-xs text-slate-500 ml-11">{description}</p>
             </div>
 
-            <div className="p-4 border-b border-slate-100 bg-slate-50/50">
+            <div className="p-4 border-b border-slate-100 bg-canvas/50">
                 <form onSubmit={handleAdd} className="flex gap-2">
                     <input 
                         type="text" 
                         value={newItemLabel} 
                         onChange={(e) => setNewItemLabel(e.target.value)}
                         placeholder="Yeni kategori adı yazın..."
-                        className="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                        className="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-surface"
                     />
                     <button 
                         type="submit" 
@@ -346,13 +334,13 @@ function ParameterListManager({ title, description, items, onAdd, onRemove, icon
                 </form>
             </div>
 
-            <div className="flex-1 p-2 bg-white min-h-[200px] max-h-[300px] overflow-y-auto">
+            <div className="flex-1 p-2 bg-surface min-h-[200px] max-h-[300px] overflow-y-auto">
                 {items.length === 0 ? (
                     <div className="p-8 text-center text-slate-400 text-sm italic">Henüz bir kategori eklenmemiş.</div>
                 ) : (
                     <div className="space-y-1">
                         {items.map((item: any) => (
-                            <div key={item.id} className="group flex items-center gap-3 p-3 hover:bg-slate-50 rounded-lg border border-transparent hover:border-slate-100 transition-all">
+                            <div key={item.id} className="group flex items-center gap-3 p-3 hover:bg-canvas rounded-lg border border-transparent hover:border-slate-100 transition-all">
                                 <GripVertical className="text-slate-300 cursor-grab active:cursor-grabbing opacity-50 group-hover:opacity-100" size={16} />
                                 <span className="flex-1 text-sm font-semibold text-slate-700">{item.label}</span>
                                 <button 
@@ -368,7 +356,7 @@ function ParameterListManager({ title, description, items, onAdd, onRemove, icon
                 )}
             </div>
             
-            <div className="p-3 bg-slate-50 border-t border-slate-100 text-center">
+            <div className="p-3 bg-canvas border-t border-slate-100 text-center">
                 <p className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">Toplam {items.length} Kayıt</p>
             </div>
         </div>
@@ -387,18 +375,22 @@ function WeightsCard({
   isValid: boolean;
   onChange: (key: WeightKey, pct: number) => void;
 }) {
+  const totalPct = totalWeight * 100;
+  const diff = totalPct - 100;
+
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5">
+    <div className="bg-surface border border-slate-200 rounded-xl p-5">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <Sliders size={16} className="text-slate-500" />
           <h2 className="text-sm font-bold text-slate-800">Risk Agirliklari</h2>
         </div>
         <div className={clsx(
-          'text-sm font-bold px-3 py-1 rounded-full transition-colors',
+          'flex items-center gap-1.5 text-sm font-bold px-3 py-1 rounded-full transition-colors',
           isValid ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700',
         )}>
-          {(totalWeight * 100).toFixed(0)}%
+          {!isValid && <AlertTriangle size={13} />}
+          {totalPct.toFixed(0)}%
         </div>
       </div>
 
@@ -427,7 +419,46 @@ function WeightsCard({
         })}
       </div>
 
-      <div className="mt-4 bg-slate-50 rounded-lg p-3">
+      {/* Toplam uyarı bandı */}
+      <div className={clsx(
+        'mt-4 rounded-lg p-3 flex items-start gap-2.5 transition-all',
+        isValid
+          ? 'bg-emerald-50 border border-emerald-100'
+          : 'bg-red-50 border border-red-200'
+      )}>
+        {isValid ? (
+          <CheckCircle2 size={15} className="text-emerald-600 mt-0.5 shrink-0" />
+        ) : (
+          <AlertTriangle size={15} className="text-red-500 mt-0.5 shrink-0" />
+        )}
+        <div className="flex-1">
+          {isValid ? (
+            <p className="text-xs font-semibold text-emerald-700">
+              Agirliklar dogru sekilde dengelendi. Toplam: %100
+            </p>
+          ) : (
+            <>
+              <p className="text-xs font-bold text-red-700">
+                Toplam ağırlık %{totalPct.toFixed(0)} — %100 olmalıdır.
+              </p>
+              <p className="text-xs text-red-600 mt-0.5">
+                {diff > 0
+                  ? `%${diff.toFixed(0)} fazla. Bir veya birden fazla ağırlığı azaltın.`
+                  : `%${Math.abs(diff).toFixed(0)} eksik. Bir veya birden fazla ağırlığı artırın.`
+                }
+              </p>
+            </>
+          )}
+        </div>
+        <span className={clsx(
+          'text-xs font-black tabular-nums shrink-0',
+          isValid ? 'text-emerald-600' : 'text-red-600'
+        )}>
+          {totalPct.toFixed(0)} / 100
+        </span>
+      </div>
+
+      <div className="mt-3 bg-canvas rounded-lg p-3">
         <code className="text-[11px] text-slate-600 font-mono leading-relaxed block">
           Skor = (F*{(weights.financial * 100).toFixed(0)}% + I*{(weights.reputation * 100).toFixed(0)}% + O*{(weights.operational * 100).toFixed(0)}% + Y*{(weights.legal * 100).toFixed(0)}%)
           {' '}* Olasilik * Hiz Carpani
@@ -446,7 +477,7 @@ function VelocityCard({
   onMediumChange: (v: number) => void;
 }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5">
+    <div className="bg-surface border border-slate-200 rounded-xl p-5">
       <div className="flex items-center gap-2 mb-4">
         <Zap size={16} className="text-amber-500" />
         <h2 className="text-sm font-bold text-slate-800">Hiz Carpanlari</h2>
@@ -457,7 +488,7 @@ function VelocityCard({
           <input
             type="number" step={0.1} min={1} max={5} value={high}
             onChange={e => onHighChange(Number(e.target.value))}
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-mono bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
+            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-mono bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
           />
         </div>
         <div>
@@ -465,7 +496,7 @@ function VelocityCard({
           <input
             type="number" step={0.1} min={1} max={5} value={medium}
             onChange={e => onMediumChange(Number(e.target.value))}
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-mono bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
+            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-mono bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
           />
         </div>
       </div>
@@ -491,7 +522,7 @@ function ThresholdsCard({
   ];
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5">
+    <div className="bg-surface border border-slate-200 rounded-xl p-5">
       <div className="flex items-center gap-2 mb-4">
         <Palette size={16} className="text-slate-500" />
         <h2 className="text-sm font-bold text-slate-800">Renk Skalasi (Esik Degerleri)</h2>
@@ -505,7 +536,7 @@ function ThresholdsCard({
             <input
               type="number" step={1} min={0} max={100} value={value}
               onChange={e => onChange(Number(e.target.value))}
-              className="w-20 px-2 py-1.5 border border-slate-200 rounded-lg text-xs text-center font-mono bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
+              className="w-20 px-2 py-1.5 border border-slate-200 rounded-lg text-xs text-center font-mono bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
             />
             <div
               className="flex-1 h-2 rounded-full"
@@ -534,7 +565,7 @@ function SaveBar({
   onReset: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-4">
+    <div className="flex items-center justify-between bg-surface border border-slate-200 rounded-xl p-4">
       <div className="flex items-center gap-2">
         {status === 'saved' && <CheckCircle2 size={16} className="text-emerald-600" />}
         {status === 'error' && <XCircle size={16} className="text-red-600" />}
@@ -548,7 +579,7 @@ function SaveBar({
       <div className="flex items-center gap-3">
         <button
           onClick={onReset}
-          className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-surface border border-slate-200 text-slate-600 text-sm font-semibold rounded-lg hover:bg-canvas transition-colors"
         >
           <RotateCcw size={14} />
           Sifirla
@@ -596,7 +627,7 @@ function SimulatorPanel({
     simVelocity === 'medium' ? velocityMedium : 1.0;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
       <div className="px-5 py-4 bg-slate-800 text-white flex items-center gap-3">
         <Activity size={18} />
         <div>
@@ -673,7 +704,7 @@ function SimulatorPanel({
                   'text-xs font-semibold py-1.5 rounded-lg border transition-all',
                   simVelocity === value
                     ? 'bg-slate-800 text-white border-slate-800'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300',
+                    : 'bg-surface text-slate-600 border-slate-200 hover:border-slate-300',
                 )}
               >
                 {label}
@@ -684,7 +715,7 @@ function SimulatorPanel({
       </div>
 
       <div className="px-5 pb-4">
-        <div className="bg-slate-50 rounded-lg p-3 space-y-1.5">
+        <div className="bg-canvas rounded-lg p-3 space-y-1.5">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
             Hesaplama Detayi
           </span>

@@ -43,7 +43,7 @@ export function VersionHistory({ documentId, currentVersionId, onRestore }: Prop
               'flex items-start gap-3 px-3 py-2.5 rounded-lg border transition-colors',
               isCurrent
                 ? 'bg-blue-50 border-blue-200'
-                : 'bg-white border-slate-100 hover:border-slate-200',
+                : 'bg-surface border-slate-100 hover:border-slate-200',
             )}
           >
             <div className="flex flex-col items-center gap-1 pt-0.5">

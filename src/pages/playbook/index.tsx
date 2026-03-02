@@ -1,31 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BookOpen, Plus, Tag, Lock, Trash2, ChevronDown, ChevronUp, Search } from 'lucide-react';
-import { supabase } from '@/shared/api/supabase';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-type PlaybookCategory = 'BEST_PRACTICE' | 'LESSON_LEARNED' | 'RISK_INSIGHT' | 'METHODOLOGY' | 'OBSERVATION';
-
-interface PlaybookEntry {
-  id:         string;
-  author_id:  string;
-  title:      string;
-  content:    string;
-  domain:     string | null;
-  category:   PlaybookCategory;
-  tags:       string[];
-  is_approved: boolean;
-  created_at: string;
-}
-
-interface NewEntryForm {
-  title:    string;
-  content:  string;
-  category: PlaybookCategory;
-  tags:     string;
-  domain:   string;
-}
+import {
+  fetchPlaybookEntries,
+  createPlaybookEntry,
+  deletePlaybookEntry,
+} from '@/entities/playbook/api';
+import type { PlaybookEntry, PlaybookCategory, CreatePlaybookEntryInput } from '@/entities/playbook/api';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -36,6 +18,14 @@ const CATEGORY_META: Record<PlaybookCategory, { label: string; color: string; bg
   METHODOLOGY:    { label: 'Metodoloji',       color: 'text-amber-400',   bg: 'bg-amber-500/10 border-amber-500/25' },
   OBSERVATION:    { label: 'Gözlem',           color: 'text-slate-400',   bg: 'bg-slate-500/10 border-slate-500/25' },
 };
+
+interface NewEntryForm {
+  title:    string;
+  content:  string;
+  category: PlaybookCategory;
+  tags:     string;
+  domain:   string;
+}
 
 const EMPTY_FORM: NewEntryForm = {
   title: '', content: '', category: 'LESSON_LEARNED', tags: '', domain: '',
@@ -107,44 +97,33 @@ function EntryCard({ entry, onDelete }: { entry: PlaybookEntry; onDelete: (id: s
 
 // ─── New Entry Modal ──────────────────────────────────────────────────────────
 
-function NewEntryModal({ onClose, onSaved }: { onClose: () => void; onSaved: (e: PlaybookEntry) => void }) {
-  const [form, setForm]   = useState<NewEntryForm>(EMPTY_FORM);
-  const [saving, setSaving] = useState(false);
+function NewEntryModal({ onClose }: { onClose: () => void }) {
+  const queryClient = useQueryClient();
+  const [form, setForm] = useState<NewEntryForm>(EMPTY_FORM);
 
-  async function handleSubmit(e: React.FormEvent) {
+  const createMutation = useMutation({
+    mutationFn: (input: CreatePlaybookEntryInput) => createPlaybookEntry(input),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['playbook-entries'] });
+      toast.success('Playbook girdisi denetim veri tabanına kaydedildi.');
+      onClose();
+    },
+    onError: () => {
+      toast.error('Kayıt başarısız — regülatif veri bütünlüğü doğrulanamadı.');
+    },
+  });
+
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.title.trim() || !form.content.trim()) return;
-    setSaving(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      const userId = user?.id ?? localStorage.getItem('sentinel_user_id') ?? 'demo-user';
-
-      const tags = form.tags.split(',').map((t) => t.trim()).filter(Boolean);
-
-      const { data, error } = await supabase
-        .from('playbook_entries')
-        .insert({
-          author_id:  userId,
-          title:      form.title.trim(),
-          content:    form.content.trim(),
-          category:   form.category,
-          tags,
-          domain:     form.domain.trim() || null,
-          is_approved: true,
-        })
-        .select()
-        .single();
-
-      if (error) throw error;
-      toast.success('Playbook girdisi kaydedildi');
-      onSaved(data as PlaybookEntry);
-      onClose();
-    } catch (err) {
-      toast.error('Kaydetme başarısız');
-      console.error(err);
-    } finally {
-      setSaving(false);
-    }
+    const tags = form.tags.split(',').map((t) => t.trim()).filter(Boolean);
+    createMutation.mutate({
+      title: form.title,
+      content: form.content,
+      category: form.category,
+      tags,
+      domain: form.domain.trim() || null,
+    });
   }
 
   return (
@@ -222,16 +201,16 @@ function NewEntryModal({ onClose, onSaved }: { onClose: () => void; onSaved: (e:
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-2.5 rounded-xl border border-white/10 text-sm text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+              className="flex-1 py-2.5 rounded-xl border border-white/10 text-sm text-slate-400 hover:text-white hover:bg-surface/5 transition-colors"
             >
               İptal
             </button>
             <button
               type="submit"
-              disabled={saving || !form.title.trim() || !form.content.trim()}
+              disabled={createMutation.isPending || !form.title.trim() || !form.content.trim()}
               className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {saving ? 'Kaydediliyor...' : 'Kaydet'}
+              {createMutation.isPending ? 'Kaydediliyor...' : 'Kaydet'}
             </button>
           </div>
         </form>
@@ -243,52 +222,28 @@ function NewEntryModal({ onClose, onSaved }: { onClose: () => void; onSaved: (e:
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function PlaybookPage() {
-  const [entries, setEntries]     = useState<PlaybookEntry[]>([]);
-  const [loading, setLoading]     = useState(true);
+  const queryClient = useQueryClient();
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch]       = useState('');
   const [filterCat, setFilterCat] = useState<PlaybookCategory | 'ALL'>('ALL');
 
-  useEffect(() => {
-    fetchEntries();
-  }, []);
+  const { data: entries = [], isLoading } = useQuery({
+    queryKey: ['playbook-entries'],
+    queryFn: fetchPlaybookEntries,
+  });
 
-  async function fetchEntries() {
-    setLoading(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      const userId = user?.id ?? localStorage.getItem('sentinel_user_id');
+  const deleteMutation = useMutation({
+    mutationFn: deletePlaybookEntry,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['playbook-entries'] });
+      toast.success('Playbook girdisi denetim kayıtlarından kaldırıldı.');
+    },
+    onError: () => toast.error('Silme işlemi başarısız — lütfen yetkilerinizi kontrol edin.'),
+  });
 
-      let query = supabase
-        .from('playbook_entries')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (userId) {
-        query = query.eq('author_id', userId);
-      } else {
-        query = query.eq('is_approved', true);
-      }
-
-      const { data, error } = await query;
-      if (error) throw error;
-      setEntries((data ?? []) as PlaybookEntry[]);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleDelete(id: string) {
+  function handleDelete(id: string) {
     if (!confirm('Bu girdiyi silmek istediğinizden emin misiniz?')) return;
-    const { error } = await supabase.from('playbook_entries').delete().eq('id', id);
-    if (error) {
-      toast.error('Silme başarısız');
-    } else {
-      setEntries((prev) => prev.filter((e) => e.id !== id));
-      toast.success('Girdi silindi');
-    }
+    deleteMutation.mutate(id);
   }
 
   const filtered = entries.filter((e) => {
@@ -329,7 +284,7 @@ export default function PlaybookPage() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
         <button
           onClick={() => setFilterCat('ALL')}
-          className={`col-span-2 md:col-span-1 flex flex-col items-center justify-center px-4 py-3 rounded-xl border transition-all ${filterCat === 'ALL' ? 'bg-white/10 border-white/20' : 'bg-slate-900/40 border-white/6 hover:bg-white/5'}`}
+          className={`col-span-2 md:col-span-1 flex flex-col items-center justify-center px-4 py-3 rounded-xl border transition-all ${filterCat === 'ALL' ? 'bg-surface/10 border-white/20' : 'bg-slate-900/40 border-white/6 hover:bg-surface/5'}`}
         >
           <span className="text-2xl font-bold text-white">{entries.length}</span>
           <span className="text-[11px] text-slate-400 mt-0.5">Toplam</span>
@@ -340,7 +295,7 @@ export default function PlaybookPage() {
             <button
               key={cat}
               onClick={() => setFilterCat(filterCat === cat ? 'ALL' : cat)}
-              className={`flex flex-col items-center justify-center px-3 py-3 rounded-xl border transition-all ${filterCat === cat ? `${meta.bg} border-current` : 'bg-slate-900/40 border-white/6 hover:bg-white/5'}`}
+              className={`flex flex-col items-center justify-center px-3 py-3 rounded-xl border transition-all ${filterCat === cat ? `${meta.bg} border-current` : 'bg-slate-900/40 border-white/6 hover:bg-surface/5'}`}
             >
               <span className={`text-xl font-bold ${meta.color}`}>{categoryCounts[cat] ?? 0}</span>
               <span className="text-[10px] text-slate-500 mt-0.5 text-center leading-tight">{meta.label}</span>
@@ -361,7 +316,7 @@ export default function PlaybookPage() {
       </div>
 
       {/* Entries */}
-      {loading ? (
+      {isLoading ? (
         <div className="flex items-center justify-center h-40 text-slate-500 text-sm">Yükleniyor...</div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-52 text-center">
@@ -395,10 +350,7 @@ export default function PlaybookPage() {
       )}
 
       {showModal && (
-        <NewEntryModal
-          onClose={() => setShowModal(false)}
-          onSaved={(entry) => setEntries((prev) => [entry, ...prev])}
-        />
+        <NewEntryModal onClose={() => setShowModal(false)} />
       )}
     </div>
   );

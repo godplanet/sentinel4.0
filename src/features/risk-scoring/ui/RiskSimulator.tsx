@@ -88,7 +88,7 @@ export const RiskSimulator = () => {
                     "px-3 py-1 text-xs font-bold rounded border transition-all",
                     processWeight === w
                       ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
-                      : "bg-white text-slate-600 hover:bg-slate-50 border-slate-200"
+                      : "bg-surface text-slate-600 hover:bg-canvas border-slate-200"
                   )}
                 >
                   {w}x
@@ -114,7 +114,7 @@ export const RiskSimulator = () => {
 
             <div className="max-h-48 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
               {findings.map(f => (
-                <div key={f.id} className="flex justify-between items-center text-xs p-2 bg-white rounded border border-slate-100 shadow-sm hover:border-slate-300 transition-all">
+                <div key={f.id} className="flex justify-between items-center text-xs p-2 bg-surface rounded border border-slate-100 shadow-sm hover:border-slate-300 transition-all">
                    <div className="flex items-center gap-2">
                      <span className={cn(
                        "w-2 h-2 rounded-full",
@@ -152,10 +152,10 @@ export const RiskSimulator = () => {
           </div>
         </div>
 
-        <div className="bg-slate-50/50 rounded-xl p-6 flex flex-col items-center justify-center text-center relative overflow-hidden border border-slate-200">
+        <div className="bg-canvas/50 rounded-xl p-6 flex flex-col items-center justify-center text-center relative overflow-hidden border border-slate-200">
 
           <div className={cn(
-            "w-36 h-36 rounded-full flex flex-col items-center justify-center border-4 shadow-xl transition-all duration-500 mb-4 bg-white relative z-10",
+            "w-36 h-36 rounded-full flex flex-col items-center justify-center border-4 shadow-xl transition-all duration-500 mb-4 bg-surface relative z-10",
             auditResult.grade === 'A' ? "border-emerald-500 text-emerald-700" :
             auditResult.grade === 'B' ? "border-blue-500 text-blue-700" :
             auditResult.grade === 'C' ? "border-yellow-500 text-yellow-700" :
@@ -181,13 +181,13 @@ export const RiskSimulator = () => {
           )}
 
           <div className="w-full grid grid-cols-2 gap-3">
-             <div className="text-left bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+             <div className="text-left bg-surface p-3 rounded-lg border border-slate-200 shadow-sm">
                 <div className="text-[10px] uppercase text-slate-400 font-bold mb-1">Doğal Risk</div>
                 <div className="text-lg font-mono font-bold text-slate-700">
                   {riskResult.inherentRisk}
                 </div>
              </div>
-             <div className="text-left bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+             <div className="text-left bg-surface p-3 rounded-lg border border-slate-200 shadow-sm">
                 <div className="text-[10px] uppercase text-slate-400 font-bold mb-1">Tekerrür Cezası</div>
                 <div className="text-lg font-mono font-bold text-purple-600">
                   -{auditResult.deductions.repeatPenalty}p

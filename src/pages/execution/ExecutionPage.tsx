@@ -27,19 +27,19 @@ export default function ExecutionPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Denetim İcrası"
         subtitle="Çalışma kağıtları ve denetim adımlarını yönetin"
         actions={
           <div className="flex items-center gap-2">
-            <div className="flex items-center bg-white border border-slate-200 rounded-lg shadow-sm">
+            <div className="flex items-center bg-surface border border-slate-200 rounded-lg shadow-sm">
               <button
                 onClick={() => setViewMode('list')}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors rounded-l-lg ${
                   viewMode === 'list'
                     ? 'bg-blue-600 text-white'
-                    : 'text-slate-700 hover:bg-slate-50'
+                    : 'text-slate-700 hover:bg-canvas'
                 }`}
               >
                 <LayoutList className="w-4 h-4" />
@@ -50,7 +50,7 @@ export default function ExecutionPage() {
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors border-l ${
                   viewMode === 'kanban'
                     ? 'bg-blue-600 text-white border-blue-500'
-                    : 'text-slate-700 hover:bg-slate-50 border-slate-200'
+                    : 'text-slate-700 hover:bg-canvas border-slate-200'
                 }`}
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -61,7 +61,7 @@ export default function ExecutionPage() {
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors rounded-r-lg border-l ${
                   viewMode === 'grid'
                     ? 'bg-blue-600 text-white border-blue-500'
-                    : 'text-slate-700 hover:bg-slate-50 border-slate-200'
+                    : 'text-slate-700 hover:bg-canvas border-slate-200'
                 }`}
               >
                 <Table2 className="w-4 h-4" />

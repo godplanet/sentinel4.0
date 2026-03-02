@@ -1,58 +1,72 @@
 /**
- * Navigation Configuration - GIAS 2024 Aligned Structure
+ * Navigation Configuration – Sentinel GRC v3.0
+ * "11+1 Enterprise Lifecycle" mimarisi
  *
- * ARCHITECTURE:
- * - Type A: Direct L1 Link (no children) - Only Cockpit
- * - Type B: L1 Group with L2 Children - All other 7 pillars
+ * HIYERARŞI:
+ *   L1  → Ana Modül (sekme yok ise direkt link, varsa children ile grup)
+ *   L2  → Alt sekme / sayfa linki
  *
- * CRITICAL: All ~95 active pages MUST be mapped here or as tabs in parent pages.
- * No orphaned pages allowed.
+ * KURAL: Projedeki hiçbir sayfa bu config'in dışında kalmamalıdır.
+ * Eşleştirilemeyen sayfalar 11. maddenin "Sınıflandırılmamış" alt grubuna eklenir.
+ *
+ * isSentinelBrain: true  →  Bu özellik ile işaretlenen L1 öğe,
+ *   Sidebar render döngüsünün DIŞINA çıkarılarak en alta ayrı bir
+ *   "AI & CCM" bölümü olarak render edilir.
  */
 
 import {
   LayoutDashboard,
   Target,
-  Briefcase,
-  BrainCircuit,
-  ShieldAlert,
   Scale,
-  Users,
+  CalendarRange,
+  Briefcase,
+  Flag,
+  Archive,
+  Award,
+  ShieldAlert,
+  Library,
   Settings,
+  BrainCircuit,
+  // L2 ikon imports
   Map,
-  Sparkles,
   TrendingUp,
-  ClipboardList,
-  Rocket,
-  FileText,
-  Brain,
+  Network,
   FlaskConical,
-  AlertTriangle,
-  Lock,
-  CheckSquare,
   Leaf,
   Building2,
-  UserCheck,
-  FileSearch,
-  Plug,
-  Shield,
   BookOpen,
-  Network,
-  Smartphone,
+  CheckSquare,
+  FileSearch,
+  Shield,
+  ClipboardList,
+  FileText,
   Calendar,
+  Users,
+  UserCheck,
+  ClipboardCheck,
   Activity,
-  BarChart3,
   Megaphone,
-  Palette,
-  Zap,
-  GitBranch,
+  Lock,
+  AlertTriangle,
   Database,
   Sliders,
   GitMerge,
+  Palette,
+  Brain,
+  Zap,
+  BarChart3,
   PenLine,
-  ClipboardCheck,
-  ShieldCheck,
-  GraduationCap,
+  Rocket,
+  Smartphone,
+  GitBranch,
+  Package,
   KanbanSquare,
+  GraduationCap,
+  Sparkles,
+  Globe,
+  MonitorDot,
+  Swords,
+  ShieldCheck,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -64,29 +78,50 @@ export interface NavigationItem {
   children?: NavigationItem[];
   badge?: string;
   badgeColor?: string;
+  /** Bu flag true ise öğe standart nav döngüsünden çıkarılır,
+   *  Sidebar'ın en altında Cyberpunk/AI temasıyla ayrıca render edilir. */
+  isSentinelBrain?: boolean;
 }
 
 export const navigationConfig: NavigationItem[] = [
-  // ═══════════════════════════════════════════════════════════════
-  // TYPE A: DIRECT L1 LINK (No children)
-  // ═══════════════════════════════════════════════════════════════
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 1. YÖNETİM KOKPİTİ
+  //    Üst yönetim için genel bakış, stratejik analiz ve ekosistem haritası.
+  // ═══════════════════════════════════════════════════════════════════════════
   {
     id: 'cockpit',
-    label: 'KOKPİT',
-    path: '/dashboard',
+    label: 'YÖNETİM KOKPİTİ',
     icon: LayoutDashboard,
-    // NO children - makes it a direct clickable L1
-    // Dashboard page has 3 tabs: Genel Bakış, Stratejik Analiz, Ekosistem
+    children: [
+      {
+        id: 'executive-radar',
+        label: 'Üst Yönetim Radarı',
+        path: '/dashboard',
+        icon: LayoutDashboard,
+      },
+      {
+        id: 'audit-leadership',
+        label: 'Teftiş Liderliği Özeti',
+        path: '/dashboard/strategic',
+        icon: BarChart3,
+      },
+      {
+        id: 'ecosystem-view',
+        label: 'Ekosistem Haritası',
+        path: '/dashboard/ecosystem',
+        icon: Globe,
+      },
+    ],
   },
 
-  // ═══════════════════════════════════════════════════════════════
-  // TYPE B: L1 GROUPS WITH L2 CHILDREN
-  // ═══════════════════════════════════════════════════════════════
-
-  // PILLAR 1: STRATEGY & GOVERNANCE
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 2. STRATEJİ VE RİSK
+  //    Denetim evreni, risk değerlendirme, ESG ve tedarikçi riski.
+  // ═══════════════════════════════════════════════════════════════════════════
   {
-    id: 'strategy-governance',
-    label: 'STRATEJİ & YÖNETİŞİM',
+    id: 'strategy-risk',
+    label: 'STRATEJİ VE RİSK',
     icon: Target,
     children: [
       {
@@ -96,18 +131,16 @@ export const navigationConfig: NavigationItem[] = [
         icon: Map,
       },
       {
-        id: 'risk-heatmap',
-        label: 'Stratejik Isı Haritası',
-        path: '/strategy/risk-heatmap',
-        icon: TrendingUp,
+        id: 'strategic-goals',
+        label: 'Stratejik Hedefler',
+        path: '/strategy/objectives',
+        icon: Target,
       },
       {
-        id: 'neural-map',
-        label: 'Sinir Haritası',
-        path: '/strategy/neural-map',
-        icon: Network,
-        badge: 'CANLI',
-        badgeColor: 'emerald',
+        id: 'risk-heatmap',
+        label: 'Risk Isı Haritası',
+        path: '/strategy/risk-heatmap',
+        icon: TrendingUp,
       },
       {
         id: 'risk-simulator',
@@ -118,22 +151,266 @@ export const navigationConfig: NavigationItem[] = [
         badgeColor: 'green',
       },
       {
-        id: 'objectives',
-        label: 'Stratejik Hedefler',
-        path: '/strategy/objectives',
-        icon: Target,
+        id: 'neural-map',
+        label: 'Sinir Haritası',
+        path: '/strategy/neural-map',
+        icon: Network,
+        badge: 'CANLI',
+        badgeColor: 'emerald',
       },
       {
-        id: 'risk-assessment',
-        label: 'Risk Değerlendirme (RKM)',
-        path: '/strategy/risk-assessment',
+        id: 'esg',
+        label: 'Çevresel ve Sosyal (ESG)',
+        path: '/esg',
+        icon: Leaf,
+      },
+      {
+        id: 'tprm',
+        label: 'Dış Tedarikçiler (TPRM)',
+        path: '/tprm',
+        icon: Building2,
+      },
+      {
+        id: 'risk-lab',
+        label: 'Risk Laboratuvarı',
+        path: '/strategy/risk-lab',
+        icon: FlaskConical,
+      },
+      {
+        id: 'quant',
+        label: 'Kantitatif Analiz',
+        path: '/strategy/quant',
+        icon: BarChart3,
+        badge: 'BETA',
+        badgeColor: 'blue',
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 3. UYUM VE İÇ KONTROL
+  //    Mevzuat, SOX/ICFR, birleşik güvence ve Şer'i kontrol.
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    id: 'compliance-control',
+    label: 'UYUM VE İÇ KONTROL',
+    icon: Scale,
+    children: [
+      {
+        id: 'sox',
+        label: 'SOX ve Finansal Kontroller',
+        path: '/sox',
         icon: Shield,
       },
       {
-        id: 'governance-vault',
-        label: 'Yönetişim Kasası',
-        path: '/governance/vault',
+        id: 'unified-assurance',
+        label: 'Birleşik Güvence',
+        path: '/compliance',
+        icon: ShieldCheck,
+      },
+      {
+        id: 'gap-analysis',
+        label: 'Gap Analizi',
+        path: '/compliance/gap-analysis',
+        icon: FileSearch,
+      },
+      {
+        id: 'fatwa-gpt',
+        label: 'Şer\'i Kontrol (Fatwa-GPT)',
+        path: '/shariah/fatwa-gpt',
+        icon: BookOpen,
+        badge: 'BETA',
+        badgeColor: 'blue',
+      },
+      {
+        id: 'vendor-portal',
+        label: 'Tedarikçi Portalı',
+        path: '/vendor-portal',
+        icon: Package,
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 4. PLANLAMA VE KAYNAK
+  //    Bimodal planlama, Delphi anketleri, yetenek ve kaynak yönetimi.
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    id: 'planning-resource',
+    label: 'PLANLAMA VE KAYNAK',
+    icon: CalendarRange,
+    children: [
+      {
+        id: 'annual-plan',
+        label: 'Bimodal Planlama',
+        path: '/strategy/annual-plan',
+        icon: Calendar,
+      },
+      {
+        id: 'delphi',
+        label: 'Delphi Risk Anketleri',
+        path: '/oracle',
+        icon: Sparkles,
+        badge: 'AI',
+        badgeColor: 'purple',
+      },
+      {
+        id: 'talent-os',
+        label: 'Yetenek İşletim Sistemi',
+        path: '/resources/talent-os',
+        icon: UserCheck,
+        badge: 'RPG',
+        badgeColor: 'blue',
+      },
+      {
+        id: 'resources',
+        label: 'Kaynak Yönetimi',
+        path: '/resources',
+        icon: Users,
+      },
+      {
+        id: 'talent-main',
+        label: 'Talent OS (Kadro)',
+        path: '/talent',
+        icon: UserCheck,
+      },
+      {
+        id: 'surveys',
+        label: 'Değerlendirme Merkezi',
+        path: '/surveys',
+        icon: ClipboardCheck,
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 5. DENETİM İCRASI
+  //    Görev yönetimi, çalışma kağıtları, kanıt talepleri ve saha operasyonu.
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    id: 'field-execution',
+    label: 'DENETİM İCRASI',
+    icon: Briefcase,
+    children: [
+      {
+        id: 'new-engagement',
+        label: 'Yeni Görev Oluştur',
+        path: '/execution/start',
+        icon: Rocket,
+      },
+      {
+        id: 'my-engagements',
+        label: 'Görevlerim',
+        path: '/execution/my-engagements',
+        icon: Briefcase,
+      },
+      {
+        id: 'agile-tasks',
+        label: 'Çevik Görevler',
+        path: '/execution/agile',
+        icon: KanbanSquare,
+      },
+      {
+        id: 'workpapers',
+        label: 'Akıllı Çalışma Kağıtları',
+        path: '/execution/workpapers',
+        icon: FileText,
+      },
+      {
+        id: 'pbc-portal',
+        label: 'Kanıt Talep Portalı (PBC)',
+        path: '/execution/pbc',
+        icon: FileSearch,
+      },
+      {
+        id: 'field-agent',
+        label: 'Saha Ajanı',
+        path: '/execution/field-agent',
+        icon: Smartphone,
+        badge: 'MOBİL',
+        badgeColor: 'purple',
+      },
+      {
+        id: 'process-canvas',
+        label: 'Süreç Haritası',
+        path: '/process-canvas',
+        icon: GitBranch,
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 6. BULGU VE AKSİYON YÖNETİMİ
+  //    Bulgu stüdyosu, aksiyon takibi, risk kabulleri ve müzakere.
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    id: 'finding-action',
+    label: 'BULGU VE AKSİYON',
+    icon: Flag,
+    children: [
+      {
+        id: 'finding-studio',
+        label: 'Bulgu Stüdyosu',
+        path: '/execution/findings',
+        icon: AlertTriangle,
+        badge: 'M5',
+        badgeColor: 'red',
+      },
+      {
+        id: 'action-tracking',
+        label: 'Aksiyon Takibi',
+        path: '/actions',
+        icon: CheckSquare,
+        badge: 'M7',
+        badgeColor: 'amber',
+      },
+      {
+        id: 'risk-acceptance',
+        label: 'Risk Kabulleri (Buz Odası)',
+        path: '/auditor-workbench',
         icon: Lock,
+      },
+      {
+        id: 'governance-workbench',
+        label: 'Yönetişim Çalışma Ortamı',
+        path: '/governance-workbench',
+        icon: Shield,
+      },
+      {
+        id: 'ecosystem-impact',
+        label: 'Ekosistem Etki Analizi',
+        path: '/ecosystem-impact',
+        icon: Globe,
+      },
+      {
+        id: 'auditee-portal-link',
+        label: 'Denetlenen Portalı',
+        path: '/auditee-portal',
+        icon: Building2,
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 7. RAPORLAMA VE ARŞİV
+  //    Iron Vault raporları, yönetici özetleri, kurul brifingleri.
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    id: 'reporting-archive',
+    label: 'RAPORLAMA VE ARŞİV',
+    icon: Archive,
+    children: [
+      {
+        id: 'report-library',
+        label: 'Iron Vault Raporları',
+        path: '/reporting/library',
+        icon: Archive,
+      },
+      {
+        id: 'executive-summaries',
+        label: 'Yönetici Özetleri',
+        path: '/reporting/executive',
+        icon: LayoutDashboard,
       },
       {
         id: 'board-reporting',
@@ -142,82 +419,56 @@ export const navigationConfig: NavigationItem[] = [
         icon: Building2,
       },
       {
-        id: 'stakeholder-management',
-        label: 'Paydaş Yönetimi',
-        path: '/governance/stakeholders',
-        icon: Users,
+        id: 'zen-editor',
+        label: 'Rapor Düzenleyici (Zen)',
+        path: '/reporting/zen-editor',
+        icon: PenLine,
       },
       {
-        id: 'governance-charter',
-        label: 'Denetim Tüzüğü',
-        path: '/governance/charter',
-        icon: FileText,
-      },
-    ],
-  },
-
-  // PILLAR 2: PLANNING & RESOURCES
-  {
-    id: 'planning-resources',
-    label: 'PLANLAMA & KAYNAK',
-    icon: Calendar,
-    children: [
-      {
-        id: 'annual-plan',
-        label: 'Yıllık Plan',
-        path: '/strategy/annual-plan',
-        icon: Calendar,
+        id: 'trends',
+        label: 'Trend Analizi',
+        path: '/reporting/trends',
+        icon: TrendingUp,
       },
       {
-        id: 'resources',
-        label: 'Kaynak Yönetimi',
-        path: '/resources',
-        icon: Users,
-        // Note: This page has tabs: Profiles, Talent, Timesheets, Capacity
+        id: 'entity-scorecard',
+        label: 'Birim Karnesi',
+        path: '/reporting/entity-scorecard',
+        icon: BarChart3,
       },
       {
-        id: 'talent-os',
-        label: 'Denetçi Profilleri',
-        path: '/resources/talent-os',
-        icon: UserCheck,
+        id: 'activity-reports',
+        label: 'Faaliyet Raporları',
+        path: '/reporting/activity-reports',
+        icon: Activity,
       },
-      // NOT: "Risk Metodolojisi" buradan kaldırılıp Sistem Ayarlarına taşındı!
       {
-        id: 'quant-analysis',
-        label: 'Kantitatif Analiz',
-        path: '/strategy/quant',
-        icon: FlaskConical,
-        badge: 'BETA',
-        badgeColor: 'blue',
+        id: 'campaign-closure',
+        label: 'Toplu Kapanış Kampanyaları',
+        path: '/governance-workbench',
+        icon: ClipboardList,
       },
     ],
   },
 
-  // PILLAR 2b: TALENT & QUALITY
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 8. REHBERLİK VE KALİTE
+  //    Danışmanlık, QAIP, akademi ve denetim playbook'u.
+  // ═══════════════════════════════════════════════════════════════════════════
   {
-    id: 'talent-quality',
-    label: 'YETENEK & KALİTE',
-    icon: GraduationCap,
-    badge: 'YENİ',
-    badgeColor: 'emerald',
+    id: 'guidance-quality',
+    label: 'REHBERLİK VE KALİTE',
+    icon: Award,
     children: [
       {
-        id: 'talent-os-main',
-        label: 'Talent OS',
-        path: '/talent',
-        icon: UserCheck,
-        badge: 'RPG',
-        badgeColor: 'blue',
+        id: 'advisory',
+        label: 'Danışmanlık Projeleri',
+        path: '/advisory',
+        icon: Brain,
       },
       {
-        id: 'assessment-center',
-        label: 'Değerlendirme Merkezi',
-        path: '/surveys',
-        icon: ClipboardCheck,
-      },
-      {
-        id: 'qaip-cockpit',
-        label: 'QAIP / Kalite',
+        id: 'qaip',
+        label: 'Kalite Güvence (QAIP)',
         path: '/qaip',
         icon: ShieldCheck,
       },
@@ -238,69 +489,62 @@ export const navigationConfig: NavigationItem[] = [
     ],
   },
 
-  // PILLAR 3: AUDIT OPERATIONS
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 9. GİZLİ SORUŞTURMA
+  //    İhbar, adli bilişim ve soruşturma yönetimi. Kısıtlı erişim.
+  // ═══════════════════════════════════════════════════════════════════════════
   {
-    id: 'audit-operations',
-    label: 'DENETİM OPERASYONU',
-    icon: Briefcase,
+    id: 'secret-investigation',
+    label: 'GİZLİ SORUŞTURMA',
+    icon: ShieldAlert,
     children: [
       {
-        id: 'my-engagements',
-        label: 'Görevlerim',
-        path: '/execution/my-engagements',
-        icon: Briefcase,
-      },
-      // --- BULGU MERKEZİ (GÜNCELLENDİ) ---
-      {
-        id: 'findings-hub',
-        label: 'Bulgu Merkezi',
-        path: '/execution/findings', // <-- DOĞRU ROTA
-        icon: AlertTriangle,
-        badge: 'YENİ',
-        badgeColor: 'red',
-      },
-      // -----------------------------------
-      {
-        id: 'workpapers',
-        label: 'Çalışma Kağıtları',
-        path: '/execution/workpapers',
-        icon: FileText,
+        id: 'investigation-hub',
+        label: 'İhbar Masası',
+        path: '/investigation',
+        icon: ShieldAlert,
       },
       {
-        id: 'field-agent',
-        label: 'Saha Ajanı',
-        path: '/execution/field-agent',
-        icon: Smartphone,
-        badge: 'MOBİL',
-        badgeColor: 'purple',
+        id: 'triage-cockpit',
+        label: 'Triyaj Kokpiti',
+        path: '/triage-cockpit',
+        icon: Swords,
       },
       {
-        id: 'actions',
-        label: 'Aksiyon Takip',
-        path: '/actions',
-        icon: CheckSquare,
-        badge: 'M7',
-        badgeColor: 'amber',
+        id: 'investigation-vault',
+        label: 'Soruşturma Kasası',
+        path: '/investigation',
+        icon: Lock,
       },
       {
-        id: 'pbc-requests',
-        label: 'PBC Talepleri',
-        path: '/execution/pbc',
+        id: 'whistleblower-channel',
+        label: 'İhbar Kanalı',
+        path: '/governance/voice',
+        icon: Megaphone,
+      },
+      {
+        id: 'secure-report',
+        label: 'Güvenli İhbar Formu',
+        path: '/secure-report',
         icon: FileSearch,
       },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 10. KÜTÜPHANE
+  //     Risk & Kontrol Matrisi, Denetim Programları, Prosedürler, Politika, Tüzük.
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    id: 'library',
+    label: 'KÜTÜPHANE',
+    icon: Library,
+    children: [
       {
-        id: 'agile-engagements',
-        label: 'Agile Denetimler',
-        path: '/execution/agile',
-        icon: Rocket,
-      },
-      {
-        id: 'sprint-board',
-        label: 'Çevik Pano (Sprint)',
-        path: '/execution/sprint-board',
-        icon: KanbanSquare,
-        badge: 'YENİ',
-        badgeColor: 'blue',
+        id: 'risk-control-matrix',
+        label: 'Risk Kontrol Matrisi',
+        path: '/strategy/risk-assessment',
+        icon: Shield,
       },
       {
         id: 'audit-programs',
@@ -310,157 +554,15 @@ export const navigationConfig: NavigationItem[] = [
       },
       {
         id: 'procedures',
-        label: 'Prosedür Kütüphanesi',
+        label: 'Prosedürler',
         path: '/library/procedures',
         icon: FileSearch,
       },
       {
-        id: 'process-canvas',
-        label: 'Süreç Haritası',
-        path: '/process-canvas',
-        icon: GitBranch,
-      },
-    ],
-  },
-
-  // PILLAR 4: SENTINEL BRAIN (AI)
-  {
-    id: 'sentinel-brain',
-    label: 'SENTINEL BRAIN',
-    icon: BrainCircuit,
-    badge: 'AI',
-    badgeColor: 'blue',
-    children: [
-      {
-        id: 'predator',
-        label: 'Predator / CCM',
-        path: '/ccm/predator',
-        icon: Activity,
-        badge: 'LIVE',
-        badgeColor: 'green',
-      },
-      {
-        id: 'ai-agents',
-        label: 'Ajan Kontrol Merkezi',
-        path: '/ai-agents',
-        icon: Brain,
-      },
-      {
-        id: 'anomaly-cockpit',
-        label: 'Anomali Kokpiti',
-        path: '/ccm/anomalies',
-        icon: AlertTriangle,
-      },
-      {
-        id: 'oracle',
-        label: 'The Oracle',
-        path: '/oracle',
-        icon: Sparkles,
-      },
-      {
-        id: 'chaos-lab',
-        label: 'Kaos Laboratuvarı',
-        path: '/chaos-lab',
-        icon: FlaskConical,
-      },
-      {
-        id: 'automation',
-        label: 'Otomasyon Motoru',
-        path: '/automation',
-        icon: Zap,
-      },
-      {
-        id: 'watchtower',
-        label: 'Gözetim Kulesi',
-        path: '/monitoring/watchtower',
-        icon: TrendingUp,
-      },
-      {
-        id: 'credit-monitoring',
-        label: 'Kredi İzleme',
-        path: '/monitoring/credit',
-        icon: TrendingUp,
-        badge: 'LIVE',
-        badgeColor: 'emerald',
-      },
-      {
-        id: 'market-monitoring',
-        label: 'Piyasa İzleme',
-        path: '/monitoring/market',
-        icon: BarChart3,
-        badge: 'LIVE',
-        badgeColor: 'emerald',
-      },
-      {
-        id: 'risk-laboratory',
-        label: 'Risk Laboratuvarı',
-        path: '/strategy/risk-lab',
-        icon: FlaskConical,
-      },
-    ],
-  },
-
-  // PILLAR 5: COMPLIANCE & ADVISORY
-  {
-    id: 'compliance-advisory',
-    label: 'UYUM & DANIŞMANLIK',
-    icon: Scale,
-    children: [
-      {
-        id: 'fatwa-gpt',
-        label: 'Fatwa-GPT',
-        path: '/shariah/fatwa-gpt',
+        id: 'program-library',
+        label: 'Program Kütüphanesi',
+        path: '/library/programs',
         icon: BookOpen,
-        badge: 'BETA',
-        badgeColor: 'blue',
-      },
-      {
-        id: 'compliance-mapper',
-        label: 'Uyum Haritası',
-        path: '/compliance',
-        icon: CheckSquare,
-      },
-      {
-        id: 'gap-analysis',
-        label: 'Gap Analizi',
-        path: '/compliance/gap-analysis',
-        icon: FileSearch,
-      },
-      {
-        id: 'regulations',
-        label: 'Regülasyon Kütüphanesi',
-        path: '/compliance/regulations',
-        icon: FileText,
-      },
-      {
-        id: 'advisory',
-        label: 'Danışmanlık Hub',
-        path: '/advisory',
-        icon: Brain,
-      },
-      {
-        id: 'sox',
-        label: 'SOX / ICFR',
-        path: '/sox',
-        icon: Shield,
-      },
-      {
-        id: 'tprm',
-        label: 'Tedarikçi Riski (TPRM)',
-        path: '/tprm',
-        icon: Building2,
-      },
-      {
-        id: 'vendor-portal',
-        label: 'Tedarikçi Portalı',
-        path: '/vendor-portal',
-        icon: Building2,
-      },
-      {
-        id: 'esg',
-        label: 'ESG & Sürdürülebilirlik',
-        path: '/esg',
-        icon: Leaf,
       },
       {
         id: 'policy-library',
@@ -468,119 +570,39 @@ export const navigationConfig: NavigationItem[] = [
         path: '/governance/policies',
         icon: FileText,
       },
-    ],
-  },
-
-  // PILLAR 6: REPORTING & QUALITY
-  {
-    id: 'reporting-quality',
-    label: 'RAPORLAMA & KALİTE',
-    icon: FileText,
-    children: [
       {
-        id: 'report-library',
-        label: 'Rapor Kütüphanesi',
-        path: '/reporting/library',
+        id: 'audit-charter',
+        label: 'Denetim Tüzüğü',
+        path: '/governance/charter',
         icon: FileText,
       },
       {
-        id: 'zen-editor',
-        label: 'Zen Editör',
-        path: '/reporting/zen-editor',
-        icon: PenLine,
+        id: 'regulations',
+        label: 'Mevzuat Kütüphanesi',
+        path: '/compliance/regulations',
+        icon: BookOpen,
       },
       {
-        id: 'entity-scorecard',
-        label: 'Birim Karnesi',
-        path: '/reporting/entity-scorecard',
-        icon: BarChart3,
-      },
-      {
-        id: 'trends',
-        label: 'Trend Analizi',
-        path: '/reporting/trends',
-        icon: TrendingUp,
-      },
-      {
-        id: 'executive-dashboard',
-        label: 'Yönetici Özeti',
-        path: '/reporting/executive',
-        icon: LayoutDashboard,
-      },
-      {
-        id: 'activity-reports',
-        label: 'Faaliyet Raporları',
-        path: '/reporting/activity-reports',
-        icon: Activity,
-      },
-    ],
-  },
-
-  // PILLAR 7: INVESTIGATION & ETHICS
-  {
-    id: 'investigation',
-    label: 'SORUŞTURMA & ETİK',
-    icon: ShieldAlert,
-    children: [
-      {
-        id: 'investigation-hub',
-        label: 'İhbar Kokpiti',
-        path: '/investigation',
-        icon: ShieldAlert,
-      },
-      {
-        id: 'triage',
-        label: 'Triyaj Kokpiti',
-        path: '/triage-cockpit',
-        icon: AlertTriangle,
-      },
-      {
-        id: 'secure-report',
-        label: 'Güvenli İhbar Formu',
-        path: '/secure-report',
+        id: 'governance-vault',
+        label: 'Yönetişim Kasası',
+        path: '/governance/vault',
         icon: Lock,
       },
-      {
-        id: 'whistleblower',
-        label: 'İhbar Kanalı',
-        path: '/governance/voice',
-        icon: Megaphone,
-      },
     ],
   },
 
-  // PILLAR 8: SYSTEM & SETTINGS
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 11. SİSTEM VE AYARLAR
+  //     Metodoloji, şablonlar, kullanıcı yönetimi ve sınıflandırılmamış sayfalar.
+  // ═══════════════════════════════════════════════════════════════════════════
   {
     id: 'system-settings',
-    label: 'SİSTEM & AYARLAR',
+    label: 'SİSTEM VE AYARLAR',
     icon: Settings,
     children: [
       {
-        id: 'system-health',
-        label: 'Sistem Sağlığı',
-        path: '/settings/system-health',
-        icon: Database,
-        badge: 'DEV',
-        badgeColor: 'red',
-      },
-      {
-        id: 'diagnostics',
-        label: 'Test & Tanı',
-        path: '/dev/diagnostics',
-        icon: Activity,
-        badge: 'TEST',
-        badgeColor: 'blue',
-      },
-      {
-        id: 'risk-constitution',
-        label: 'Risk Anayasası',
-        path: '/settings/risk-constitution',
-        icon: FileText,
-      },
-      // YENİ DÜZENLEME: Metodoloji ve Şablonlar mantıklı bir sıra ile eklendi
-      {
         id: 'methodology',
-        label: 'Metodoloji & Parametreler',
+        label: 'Parametreler ve Metodoloji',
         path: '/settings/methodology',
         icon: Sliders,
       },
@@ -592,21 +614,29 @@ export const navigationConfig: NavigationItem[] = [
       },
       {
         id: 'templates',
-        label: 'Şablon Yöneticisi',
+        label: 'Şablon İnşacısı',
         path: '/settings/templates',
         icon: FileText,
       },
       {
         id: 'users',
-        label: 'Kullanıcılar',
+        label: 'Kullanıcı Yönetimi',
         path: '/settings/users',
         icon: Users,
       },
       {
-        id: 'integrations',
-        label: 'Entegrasyonlar',
-        path: '/settings/integrations',
-        icon: Plug,
+        id: 'risk-constitution',
+        label: 'Risk Anayasası',
+        path: '/settings/risk-constitution',
+        icon: FileText,
+      },
+      {
+        id: 'system-health',
+        label: 'Sistem Sağlığı',
+        path: '/settings/system-health',
+        icon: Database,
+        badge: 'DEV',
+        badgeColor: 'red',
       },
       {
         id: 'appearance',
@@ -614,6 +644,13 @@ export const navigationConfig: NavigationItem[] = [
         path: '/settings/appearance',
         icon: Palette,
       },
+      {
+        id: 'integrations',
+        label: 'Entegrasyonlar',
+        path: '/settings/integrations',
+        icon: MonitorDot,
+      },
+      // ── Sınıflandırılmamış (Öksüzler) ──────────────────────────────────
       {
         id: 'cognitive-engine',
         label: 'AI Motor Ayarları',
@@ -627,62 +664,117 @@ export const navigationConfig: NavigationItem[] = [
         icon: FileText,
       },
       {
-        id: 'dev-map',
-        label: 'Geliştirici Haritası',
-        path: '/dev-map',
-        icon: Map,
-        badge: 'DEV',
+        id: 'stakeholders',
+        label: 'Paydaş Yönetimi',
+        path: '/governance/stakeholders',
+        icon: Users,
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 12. SÜREKLİ DENETİM & AI  [isSentinelBrain: true]
+  //     Sidebar'ın standart döngüsünden çıkarılır ve en alta Cyberpunk
+  //     temasıyla özel bir bölüm olarak render edilir.
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    id: 'sentinel-brain',
+    label: 'SÜREKLİ DENETİM & AI',
+    icon: BrainCircuit,
+    isSentinelBrain: true,
+    badge: 'AI',
+    badgeColor: 'blue',
+    children: [
+      {
+        id: 'ccm-predator',
+        label: 'Canlı Tehdit Radarı (CCM)',
+        path: '/ccm/predator',
+        icon: Activity,
+        badge: 'LIVE',
+        badgeColor: 'green',
+      },
+      {
+        id: 'ccm-data-monitor',
+        label: 'CCM Veri Monitörü',
+        path: '/ccm/data-monitor',
+        icon: MonitorDot,
+      },
+      {
+        id: 'anomaly-cockpit',
+        label: 'Anomali Kokpiti',
+        path: '/ccm/anomalies',
+        icon: AlertTriangle,
+      },
+      {
+        id: 'ai-agents',
+        label: 'AI Asistanlar',
+        path: '/ai-agents',
+        icon: Brain,
+        badge: 'AI',
         badgeColor: 'purple',
       },
       {
-        id: 'page-audit',
-        label: 'Sayfa Denetim Aracı',
-        path: '/dev/page-audit',
-        icon: FileSearch,
-        badge: 'DEV',
-        badgeColor: 'red',
+        id: 'chaos-lab',
+        label: 'Gölge Defter (Kaos Lab)',
+        path: '/chaos-lab',
+        icon: FlaskConical,
+        badge: 'YENİ',
+        badgeColor: 'blue',
       },
       {
-        id: 'page-inventory',
-        label: 'Sayfa Envanteri',
-        path: '/dev/inventory',
-        icon: Database,
-        badge: 'DEV',
-        badgeColor: 'purple',
+        id: 'automation',
+        label: 'Otomasyon Motoru',
+        path: '/automation',
+        icon: Zap,
+      },
+      {
+        id: 'watchtower',
+        label: 'Gözetim Kulesi',
+        path: '/monitoring/watchtower',
+        icon: TrendingUp,
+        badge: 'LIVE',
+        badgeColor: 'emerald',
+      },
+      {
+        id: 'credit-monitoring',
+        label: 'Kredi İzleme',
+        path: '/monitoring/credit',
+        icon: BarChart3,
+        badge: 'LIVE',
+        badgeColor: 'emerald',
+      },
+      {
+        id: 'market-monitoring',
+        label: 'Piyasa İzleme',
+        path: '/monitoring/market',
+        icon: TrendingUp,
+        badge: 'LIVE',
+        badgeColor: 'emerald',
       },
     ],
   },
 ];
 
-/**
- * PAGE COVERAGE AUDIT (95+ Pages Mapped)
- * ...
- */
+// ─── Yardımcı Fonksiyonlar ────────────────────────────────────────────────────
 
+/** Tüm L2 path'lerini düz liste olarak döner. */
 export function getAllNavigationPaths(): string[] {
   const paths: string[] = [];
-
   function extractPaths(items: NavigationItem[]) {
     for (const item of items) {
-      if (item.path) {
-        paths.push(item.path);
-      }
-      if (item.children) {
-        extractPaths(item.children);
-      }
+      if (item.path) paths.push(item.path);
+      if (item.children) extractPaths(item.children);
     }
   }
-
   extractPaths(navigationConfig);
   return paths;
 }
 
+/** Verilen path ile eşleşen NavigationItem'ı döner. */
 export function findNavigationItem(path: string): NavigationItem | null {
   function search(items: NavigationItem[]): NavigationItem | null {
     for (const item of items) {
-      if (item.path === path) {
-        return item;
-      }
+      if (item.path === path) return item;
       if (item.children) {
         const found = search(item.children);
         if (found) return found;
@@ -690,6 +782,11 @@ export function findNavigationItem(path: string): NavigationItem | null {
     }
     return null;
   }
-
   return search(navigationConfig);
 }
+
+/** Standart nav öğeleri (isSentinelBrain olmayanlar). */
+export const standardNavItems = navigationConfig.filter((m) => !m.isSentinelBrain);
+
+/** Sentinel Brain/AI öğesi (isSentinelBrain: true olan tekil blok). */
+export const sentinelBrainItem = navigationConfig.find((m) => m.isSentinelBrain) ?? null;

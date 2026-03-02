@@ -107,7 +107,7 @@ export function EvidenceUploader({ actionId, onSuccess }: Props) {
                 'border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-all',
                 dragging
                   ? 'border-blue-500 bg-blue-50 scale-[1.01]'
-                  : 'border-slate-300 bg-slate-50 hover:border-blue-400 hover:bg-blue-50/50',
+                  : 'border-slate-300 bg-canvas hover:border-blue-400 hover:bg-blue-50/50',
               )}
             >
               <UploadCloud
@@ -163,7 +163,7 @@ export function EvidenceUploader({ actionId, onSuccess }: Props) {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm"
+            className="bg-surface border border-slate-200 rounded-xl p-5 shadow-sm"
           >
             <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-100">
               <div className="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0">
@@ -242,7 +242,7 @@ export function EvidenceUploader({ actionId, onSuccess }: Props) {
       </AnimatePresence>
 
       {fileHash && stage !== 'idle' && stage !== 'rejected' && (
-        <div className="flex items-start gap-2 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+        <div className="flex items-start gap-2 p-3 bg-canvas border border-slate-200 rounded-lg">
           <ShieldCheck size={14} className="text-slate-400 mt-0.5 shrink-0" />
           <div>
             <p className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-0.5">

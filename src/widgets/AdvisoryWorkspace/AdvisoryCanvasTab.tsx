@@ -11,7 +11,7 @@ interface CanvasBlock {
 const BLOCK_COLORS = {
   process: 'bg-blue-50 border-blue-200 text-blue-800',
   decision: 'bg-amber-50 border-amber-200 text-amber-800',
-  note: 'bg-slate-50 border-slate-200 text-slate-700',
+  note: 'bg-canvas border-slate-200 text-slate-700',
 };
 
 const BLOCK_LABELS = {
@@ -130,7 +130,7 @@ export function AdvisoryCanvasTab({ engagementId: _engagementId }: { engagementI
                   onChange={(e) => updateBlock(block.id, e.target.value)}
                   placeholder="Aciklama yazin..."
                   rows={2}
-                  className="w-full mt-2 px-3 py-2 bg-white/80 border border-inherit rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+                  className="w-full mt-2 px-3 py-2 bg-surface/80 border border-inherit rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
                 />
               </div>
 

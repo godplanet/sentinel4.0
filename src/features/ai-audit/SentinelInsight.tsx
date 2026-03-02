@@ -26,7 +26,7 @@ export const SentinelInsight = ({ contextText }: { contextText: string }) => {
           <button
             onClick={analyze}
             disabled={loading}
-            className="px-3 py-1.5 bg-white text-indigo-600 text-xs font-bold rounded-lg shadow-sm border border-indigo-100 hover:bg-indigo-50 transition-all flex items-center gap-2"
+            className="px-3 py-1.5 bg-surface text-indigo-600 text-xs font-bold rounded-lg shadow-sm border border-indigo-100 hover:bg-indigo-50 transition-all flex items-center gap-2"
           >
             {loading ? 'Analiz Ediliyor...' : 'Risk Analizi Yap'}
           </button>

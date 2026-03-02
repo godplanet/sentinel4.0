@@ -87,7 +87,7 @@ export function DocumentList({ workpaperId, onOpen }: Props) {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-3"
+          className="bg-canvas border border-slate-200 rounded-lg p-4 space-y-3"
         >
           <div className="flex items-center gap-2">
             {creating === 'SPREADSHEET' ? (
@@ -137,7 +137,7 @@ export function DocumentList({ workpaperId, onOpen }: Props) {
             <button
               key={doc.id}
               onClick={() => onOpen(doc)}
-              className="w-full flex items-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-lg hover:border-blue-300 hover:bg-blue-50/30 transition-all group text-left"
+              className="w-full flex items-center gap-3 px-4 py-3 bg-surface border border-slate-200 rounded-lg hover:border-blue-300 hover:bg-blue-50/30 transition-all group text-left"
             >
               <div className={clsx(
                 'w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0',

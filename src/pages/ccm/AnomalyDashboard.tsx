@@ -26,7 +26,7 @@ function ScoreCard({ icon: Icon, label, score, detail, color, bgColor }: ScoreCa
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="bg-white border border-slate-200 rounded-xl p-4 hover:shadow-sm transition-shadow"
+      className="bg-surface border border-slate-200 rounded-xl p-4 hover:shadow-sm transition-shadow"
     >
       <div className="flex items-center gap-3 mb-3">
         <div className={clsx('w-10 h-10 rounded-lg flex items-center justify-center', bgColor)}>
@@ -45,7 +45,7 @@ function ScoreCard({ icon: Icon, label, score, detail, color, bgColor }: ScoreCa
 function GhostEmployeeCards({ ghosts }: { ghosts: AnomalyScanResult['ghosts'] }) {
   if (ghosts.length === 0) {
     return (
-      <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
+      <div className="bg-surface border border-slate-200 rounded-xl p-6 text-center">
         <Ghost size={24} className="text-emerald-500 mx-auto mb-2" />
         <p className="text-sm text-slate-600">Hayalet calisan tespit edilmedi</p>
       </div>
@@ -59,13 +59,13 @@ function GhostEmployeeCards({ ghosts }: { ghosts: AnomalyScanResult['ghosts'] })
           key={g.employeeId}
           initial={{ opacity: 0, x: -8 }}
           animate={{ opacity: 1, x: 0 }}
-          className="bg-white border border-red-200 rounded-xl p-4 flex items-center gap-4"
+          className="bg-surface border border-red-200 rounded-xl p-4 flex items-center gap-4"
         >
           <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
             <Ghost size={20} className="text-red-600" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-bold text-slate-900">{g.fullName}</div>
+            <div className="text-sm font-bold text-primary">{g.fullName}</div>
             <div className="text-xs text-slate-500">{g.department} / {g.employeeId}</div>
           </div>
           <div className="text-right shrink-0">
@@ -86,7 +86,7 @@ function GhostEmployeeCards({ ghosts }: { ghosts: AnomalyScanResult['ghosts'] })
 function StructuringCards({ clusters }: { clusters: AnomalyScanResult['structuring'] }) {
   if (clusters.length === 0) {
     return (
-      <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
+      <div className="bg-surface border border-slate-200 rounded-xl p-6 text-center">
         <Layers size={24} className="text-emerald-500 mx-auto mb-2" />
         <p className="text-sm text-slate-600">Yapilandirma deseni tespit edilmedi</p>
       </div>
@@ -100,7 +100,7 @@ function StructuringCards({ clusters }: { clusters: AnomalyScanResult['structuri
           key={idx}
           initial={{ opacity: 0, x: 8 }}
           animate={{ opacity: 1, x: 0 }}
-          className="bg-white border border-orange-200 rounded-xl p-4"
+          className="bg-surface border border-orange-200 rounded-xl p-4"
         >
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
@@ -108,7 +108,7 @@ function StructuringCards({ clusters }: { clusters: AnomalyScanResult['structuri
                 <Layers size={16} className="text-orange-600" />
               </div>
               <div>
-                <div className="text-sm font-bold text-slate-900">{c.userId}</div>
+                <div className="text-sm font-bold text-primary">{c.userId}</div>
                 <div className="text-[10px] text-slate-400">
                   {new Date(c.windowStart).toLocaleDateString('tr-TR')}
                 </div>
@@ -121,11 +121,11 @@ function StructuringCards({ clusters }: { clusters: AnomalyScanResult['structuri
           <div className="grid grid-cols-3 gap-2 bg-orange-50 rounded-lg p-2 text-xs">
             <div>
               <div className="text-orange-500 text-[10px]">Islem</div>
-              <div className="font-bold text-slate-900">{c.count} adet</div>
+              <div className="font-bold text-primary">{c.count} adet</div>
             </div>
             <div>
               <div className="text-orange-500 text-[10px]">Toplam</div>
-              <div className="font-bold text-slate-900">{c.totalAmount.toLocaleString('tr-TR')} TL</div>
+              <div className="font-bold text-primary">{c.totalAmount.toLocaleString('tr-TR')} TL</div>
             </div>
             <div>
               <div className="text-orange-500 text-[10px]">Esik</div>
@@ -221,7 +221,7 @@ export default function AnomalyDashboard() {
           <button
             onClick={handlePersist}
             disabled={persisting || !scanResult}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-slate-200 text-slate-600 text-xs font-medium rounded-lg hover:bg-canvas transition-colors disabled:opacity-50"
           >
             <ShieldAlert size={13} />
             {persisting ? 'Kaydediliyor...' : 'Alarmlari Kaydet'}
@@ -285,7 +285,7 @@ export default function AnomalyDashboard() {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <Ghost size={16} className="text-red-600" />
-                <h3 className="text-sm font-bold text-slate-900">Hayalet Calisan Tespiti</h3>
+                <h3 className="text-sm font-bold text-primary">Hayalet Calisan Tespiti</h3>
                 {scanResult.ghosts.length > 0 && (
                   <span className="bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                     {scanResult.ghosts.length}
@@ -297,7 +297,7 @@ export default function AnomalyDashboard() {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <Layers size={16} className="text-orange-600" />
-                <h3 className="text-sm font-bold text-slate-900">Yapilandirma (Smurfing)</h3>
+                <h3 className="text-sm font-bold text-primary">Yapilandirma (Smurfing)</h3>
                 {scanResult.structuring.length > 0 && (
                   <span className="bg-orange-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                     {scanResult.structuring.length}
@@ -314,7 +314,7 @@ export default function AnomalyDashboard() {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <AlertTriangle size={16} className="text-slate-700" />
-            <h3 className="text-sm font-bold text-slate-900">Alarm Akisi</h3>
+            <h3 className="text-sm font-bold text-primary">Alarm Akisi</h3>
             {alerts.length > 0 && (
               <span className="bg-slate-800 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                 {alerts.length}

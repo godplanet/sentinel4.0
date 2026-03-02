@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   Shield, ArrowLeft, Loader2, Snowflake,
-  Lock, Network, Briefcase, KeyRound, Mic,
+  Lock, Network, Briefcase, KeyRound, Mic, ShieldAlert,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { PageHeader } from '@/shared/ui/PageHeader';
@@ -14,8 +14,9 @@ import { EvidenceVault } from '@/widgets/investigation/EvidenceVault';
 import { LinkAnalysis } from '@/widgets/investigation/LinkAnalysis';
 import { VaultAccessPanel } from '@/widgets/investigation/VaultAccessPanel';
 import { InterrogationRoom } from '@/widgets/investigation/InterrogationRoom';
+import { FourEyesClosurePanel } from '@/widgets/investigation/FourEyesClosurePanel';
 
-type Tab = 'freeze' | 'evidence' | 'graph' | 'vault' | 'interrogation';
+type Tab = 'freeze' | 'evidence' | 'graph' | 'vault' | 'interrogation' | 'closure';
 
 const TABS: Array<{ id: Tab; label: string; icon: typeof Snowflake }> = [
   { id: 'freeze', label: 'Dijital Dondurma', icon: Snowflake },
@@ -23,6 +24,7 @@ const TABS: Array<{ id: Tab; label: string; icon: typeof Snowflake }> = [
   { id: 'vault', label: 'Adli Kasa', icon: KeyRound },
   { id: 'interrogation', label: 'Gorusme Odasi', icon: Mic },
   { id: 'graph', label: 'Sherlock Grafigi', icon: Network },
+  { id: 'closure', label: 'Dort Goz Kapanisi', icon: ShieldAlert },
 ];
 
 const STATUS_COLORS: Record<string, string> = {
@@ -99,7 +101,7 @@ export default function CaseDetailPage() {
         }
       />
 
-      <div className="flex items-center gap-1 bg-white/70 backdrop-blur-sm border border-slate-200 rounded-xl p-1">
+      <div className="flex items-center gap-1 bg-surface/70 backdrop-blur-sm border border-slate-200 rounded-xl p-1">
         {TABS.map((t) => {
           const Icon = t.icon;
           return (
@@ -110,16 +112,16 @@ export default function CaseDetailPage() {
                 'flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-1 justify-center',
                 tab === t.id
                   ? 'bg-slate-900 text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50',
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-canvas',
               )}
             >
               <Icon size={13} />
               <span className="hidden sm:inline">{t.label}</span>
               {t.id === 'evidence' && evidence.length > 0 && (
-                <span className="text-[9px] ml-0.5 px-1.5 py-0.5 rounded-full bg-white/20">{evidence.length}</span>
+                <span className="text-[9px] ml-0.5 px-1.5 py-0.5 rounded-full bg-surface/20">{evidence.length}</span>
               )}
               {t.id === 'graph' && relationships.length > 0 && (
-                <span className="text-[9px] ml-0.5 px-1.5 py-0.5 rounded-full bg-white/20">{relationships.length}</span>
+                <span className="text-[9px] ml-0.5 px-1.5 py-0.5 rounded-full bg-surface/20">{relationships.length}</span>
               )}
             </button>
           );
@@ -147,13 +149,23 @@ export default function CaseDetailPage() {
       )}
 
       {tab === 'graph' && (
-        <div className="bg-white/70 backdrop-blur-sm border border-slate-200 rounded-xl p-4">
+        <div className="bg-surface/70 backdrop-blur-sm border border-slate-200 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-4">
             <Briefcase size={14} className="text-slate-400" />
             <span className="text-xs font-bold text-slate-700">Sherlock Link Analizi</span>
             <span className="text-[10px] text-slate-400">- {relationships.length} iliski tespit edildi</span>
           </div>
           <LinkAnalysis relationships={relationships} />
+        </div>
+      )}
+
+      {tab === 'closure' && (
+        <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 min-h-[400px]">
+          <FourEyesClosurePanel
+            caseId={caseData.id}
+            caseTitle={caseData.title}
+            casePayload={JSON.stringify({ ...caseData, evidence })}
+          />
         </div>
       )}
     </div>

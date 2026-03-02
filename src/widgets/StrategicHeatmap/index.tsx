@@ -68,7 +68,7 @@ export function StrategicHeatmap() {
   // Empty state
   if (assessments.length === 0 && comets.length === 0) {
     return (
-      <div className="bg-white rounded-xl border-2 border-dashed border-slate-200 p-12 shadow-sm">
+      <div className="bg-surface rounded-xl border-2 border-dashed border-slate-200 p-12 shadow-sm">
         <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto">
           <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
             <AlertTriangle className="text-slate-400" size={32} />
@@ -93,7 +93,7 @@ export function StrategicHeatmap() {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
-        <div className="flex bg-white border border-slate-200 p-0.5 rounded-lg shadow-sm">
+        <div className="flex bg-surface border border-slate-200 p-0.5 rounded-lg shadow-sm">
           <button
             onClick={() => setViewMode('classic')}
             className={clsx(
@@ -117,7 +117,7 @@ export function StrategicHeatmap() {
         </div>
 
         {viewMode === 'classic' && (
-          <div className="flex bg-white border border-slate-200 p-0.5 rounded-lg shadow-sm">
+          <div className="flex bg-surface border border-slate-200 p-0.5 rounded-lg shadow-sm">
             <button
               onClick={() => setMatrixMode('inherent')}
               className={clsx(
@@ -144,13 +144,13 @@ export function StrategicHeatmap() {
           <div className="flex items-center gap-3 ml-auto">
             <VelocityBadge icon={ArrowUpRight} label="Kotulesme" count={stats.worsening} color="text-red-600 bg-red-50 border-red-200" />
             <VelocityBadge icon={ArrowDownLeft} label="Iyilesme" count={stats.improving} color="text-green-600 bg-green-50 border-green-200" />
-            <VelocityBadge icon={Minus} label="Stabil" count={stats.stable} color="text-slate-600 bg-slate-50 border-slate-200" />
+            <VelocityBadge icon={Minus} label="Stabil" count={stats.stable} color="text-slate-600 bg-canvas border-slate-200" />
           </div>
         )}
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="xl:col-span-2 bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           {viewMode === 'classic' ? (
             <ClassicGrid
               assessments={assessments}
@@ -169,7 +169,7 @@ export function StrategicHeatmap() {
           )}
 
           {viewMode === 'radar' && (
-            <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
               <div className="bg-slate-800 px-5 py-3">
                 <h4 className="text-sm font-bold text-white">Hiz Tablosu</h4>
                 <p className="text-[10px] text-slate-400">Varlik bazli risk hareketi</p>
@@ -178,7 +178,7 @@ export function StrategicHeatmap() {
                 {comets
                   .sort((a, b) => b.velocity - a.velocity)
                   .map(c => (
-                    <div key={c.id} className="px-4 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors">
+                    <div key={c.id} className="px-4 py-3 flex items-center gap-3 hover:bg-canvas transition-colors">
                       <div className={clsx(
                         'w-2 h-2 rounded-full',
                         c.direction === 'worsening' ? 'bg-red-500' : c.direction === 'improving' ? 'bg-green-500' : 'bg-slate-400'
@@ -209,7 +209,7 @@ export function StrategicHeatmap() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
-                  className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden"
+                  className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden"
                 >
                   <div className="bg-slate-800 px-5 py-4 flex items-center justify-between">
                     <div>
@@ -222,7 +222,7 @@ export function StrategicHeatmap() {
                     </div>
                     <button
                       onClick={() => { setSelectedCell(null); setSelectedRisk(null); }}
-                      className="w-7 h-7 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30"
+                      className="w-7 h-7 bg-surface/20 rounded-lg flex items-center justify-center hover:bg-surface/30"
                     >
                       <X size={14} className="text-white" />
                     </button>
@@ -233,7 +233,7 @@ export function StrategicHeatmap() {
                         key={a.id}
                         onClick={() => setSelectedRisk(a)}
                         className={clsx(
-                          'w-full text-left p-4 hover:bg-slate-50 transition-colors',
+                          'w-full text-left p-4 hover:bg-canvas transition-colors',
                           selectedRisk?.id === a.id && 'bg-blue-50 border-l-4 border-blue-500'
                         )}
                       >
@@ -255,7 +255,7 @@ export function StrategicHeatmap() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="bg-white rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center py-16"
+                  className="bg-surface rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center py-16"
                 >
                   <AlertTriangle className="text-slate-300 mb-3" size={36} />
                   <p className="text-sm font-semibold text-slate-600">Hucre Secin</p>

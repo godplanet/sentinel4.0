@@ -62,7 +62,7 @@ export function RiskCardGrid({ risks, onEdit, onDelete }: RiskCardGridProps) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center glass-card">
         <Shield size={72} className="text-slate-300 mb-5" />
-        <h3 className="text-xl font-bold text-slate-900 mb-2">Risk Bulunamadı</h3>
+        <h3 className="text-xl font-bold text-primary mb-2">Risk Bulunamadı</h3>
         <p className="text-sm text-slate-600 max-w-md">
           Henüz risk eklenmedi veya arama kriterlerinizle eşleşen risk yok. AI Risk Sihirbazı ile
           yeni bir risk ekleyin.
@@ -94,7 +94,7 @@ export function RiskCardGrid({ risks, onEdit, onDelete }: RiskCardGridProps) {
                       {getCategoryLabel(risk.category)}
                     </span>
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 line-clamp-2 leading-tight">
+                  <h3 className="text-base font-bold text-primary line-clamp-2 leading-tight">
                     {risk.title}
                   </h3>
                   {risk.description && (
@@ -113,7 +113,7 @@ export function RiskCardGrid({ risks, onEdit, onDelete }: RiskCardGridProps) {
                     <TrendingUp size={14} className="text-red-600" />
                     <span className="text-xs font-bold text-slate-600">İçsel</span>
                   </div>
-                  <div className="text-2xl font-bold text-slate-900 mb-1.5 tabular-nums">
+                  <div className="text-2xl font-bold text-primary mb-1.5 tabular-nums">
                     {risk.inherent_score.toFixed(1)}
                   </div>
                   <div
@@ -130,7 +130,7 @@ export function RiskCardGrid({ risks, onEdit, onDelete }: RiskCardGridProps) {
                     <AlertTriangle size={14} className="text-amber-600" />
                     <span className="text-xs font-bold text-slate-600">Artık</span>
                   </div>
-                  <div className="text-2xl font-bold text-slate-900 mb-1.5 tabular-nums">
+                  <div className="text-2xl font-bold text-primary mb-1.5 tabular-nums">
                     {risk.residual_score.toFixed(1)}
                   </div>
                   <div

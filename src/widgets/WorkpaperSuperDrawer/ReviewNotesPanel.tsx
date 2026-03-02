@@ -133,8 +133,8 @@ export function ReviewNotesPanel({
                 className={clsx(
                   'rounded-xl border p-3.5 transition-all',
                   isResolved
-                    ? 'bg-slate-50 border-slate-200 opacity-60'
-                    : 'bg-white border-blue-200 shadow-sm'
+                    ? 'bg-canvas border-slate-200 opacity-60'
+                    : 'bg-surface border-blue-200 shadow-sm'
                 )}
               >
                 <div className="flex items-start gap-3">
@@ -146,7 +146,7 @@ export function ReviewNotesPanel({
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-bold text-slate-900">{note.author_name}</span>
+                      <span className="text-sm font-bold text-primary">{note.author_name}</span>
                       <span className={clsx(
                         'text-[10px] font-bold px-1.5 py-0.5 rounded-full',
                         isResolved
@@ -229,7 +229,7 @@ export function ReviewNotesPanel({
               placeholder="Gozden gecirme notu yazin..."
               rows={2}
               className={clsx(
-                'w-full px-3 py-2.5 text-sm border rounded-xl focus:outline-none focus:ring-2 resize-none bg-white transition-colors',
+                'w-full px-3 py-2.5 text-sm border rounded-xl focus:outline-none focus:ring-2 resize-none bg-surface transition-colors',
                 toneWarning
                   ? 'border-blue-300 focus:ring-blue-500'
                   : 'border-slate-200 focus:ring-blue-500'

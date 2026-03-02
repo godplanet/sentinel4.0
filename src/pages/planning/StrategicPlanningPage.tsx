@@ -112,7 +112,7 @@ export default function StrategicPlanningPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-canvas">
       <PageHeader
         title="Bimodal Stratejik Planlama"
         description="Risk evreninden Q-Sprint'e — dinamik 3+9 aylık denetim programı"
@@ -120,7 +120,7 @@ export default function StrategicPlanningPage() {
         action={
           <button
             onClick={() => setShowBDDKModal(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-xl border border-white/40 text-slate-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 rounded-xl text-sm font-semibold shadow-sm transition-all duration-150"
+            className="flex items-center gap-2 px-4 py-2 bg-surface/80 backdrop-blur-xl border border-white/20 text-slate-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 rounded-xl text-sm font-semibold shadow-sm transition-all duration-150"
             title="BDDK'ya sunulacak yıllık denetim paketi oluştur"
           >
             <Package size={15} />
@@ -131,7 +131,7 @@ export default function StrategicPlanningPage() {
 
       <div className="space-y-6">
         {/* Tab Navigation */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-slate-200 p-2 flex gap-2">
+        <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-slate-200 p-2 flex gap-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -154,7 +154,7 @@ export default function StrategicPlanningPage() {
                             : tab.color === 'amber'
                               ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/30'
                               : 'bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-lg shadow-teal-500/30'
-                      : 'bg-transparent text-slate-600 hover:bg-slate-50'
+                      : 'bg-transparent text-slate-600 hover:bg-canvas'
                   }
                 `}
               >
@@ -166,11 +166,11 @@ export default function StrategicPlanningPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-slate-200 overflow-hidden shadow-lg">
+        <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-slate-200 overflow-hidden shadow-lg">
           {activeTab === 'universe' && (
             <div className="p-6">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-slate-900 mb-2">Risk Evreni Skorlaması</h2>
+                <h2 className="text-2xl font-bold text-primary mb-2">Risk Evreni Skorlaması</h2>
                 <p className="text-slate-600">
                   Score audit universe entities based on impact and likelihood to drive risk-based planning
                 </p>
@@ -182,13 +182,13 @@ export default function StrategicPlanningPage() {
           {activeTab === 'rolling' && (
             <div className="flex flex-col">
               {/* Mode Toggle Action Bar */}
-              <div className="px-6 py-4 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between gap-4">
+              <div className="px-6 py-4 bg-gradient-to-r from-canvas to-surface border-b border-slate-200 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200">
                   <button
                     onClick={() => setPlanMode('mode1_core')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
                       planMode === 'mode1_core'
-                        ? 'bg-white text-slate-800 shadow-sm border border-slate-200'
+                        ? 'bg-surface text-slate-800 shadow-sm border border-slate-200'
                         : 'text-slate-500 hover:text-slate-700'
                     }`}
                   >
@@ -199,7 +199,7 @@ export default function StrategicPlanningPage() {
                     onClick={() => setPlanMode('mode2_agile')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
                       planMode === 'mode2_agile'
-                        ? 'bg-white text-indigo-700 shadow-sm border border-indigo-200'
+                        ? 'bg-surface text-indigo-700 shadow-sm border border-indigo-200'
                         : 'text-slate-500 hover:text-slate-700'
                     }`}
                   >
@@ -209,7 +209,7 @@ export default function StrategicPlanningPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5 text-xs text-slate-500 bg-white border border-slate-200 rounded-lg px-3 py-2">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500 bg-surface border border-slate-200 rounded-lg px-3 py-2">
                     <GitBranch size={12} className="text-slate-400" />
                     3+9 Model
                   </div>
@@ -244,7 +244,7 @@ export default function StrategicPlanningPage() {
           {activeTab === 'adherence' && (
             <div className="p-6">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-slate-900 mb-2">Plan Uyumu Takibi</h2>
+                <h2 className="text-2xl font-bold text-primary mb-2">Plan Uyumu Takibi</h2>
                 <p className="text-slate-600">
                   Yıllık denetim planının gerçekleşme oranı, sapma analizi ve performans izleme
                 </p>
@@ -257,7 +257,7 @@ export default function StrategicPlanningPage() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-slate-900 mb-2">Denetim Görevleri Listesi</h2>
+                  <h2 className="text-2xl font-bold text-primary mb-2">Denetim Görevleri Listesi</h2>
                   <p className="text-slate-600">
                     Comprehensive list view of all planned and active audit engagements
                   </p>
@@ -285,7 +285,7 @@ export default function StrategicPlanningPage() {
               ) : (
                 <div className="overflow-x-auto rounded-xl border border-slate-200">
                   <table className="w-full">
-                    <thead className="bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200">
+                    <thead className="bg-surface border-b border-slate-200">
                       <tr>
                         <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Title</th>
                         <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Type</th>
@@ -317,7 +317,7 @@ export default function StrategicPlanningPage() {
                         return (
                           <tr
                             key={engagement.id}
-                            className={`hover:bg-indigo-50/30 transition-colors cursor-pointer ${idx % 2 !== 0 ? 'bg-slate-50/50' : 'bg-white'}`}
+                            className={`hover:bg-indigo-50/30 transition-colors cursor-pointer ${idx % 2 !== 0 ? 'bg-canvas/50' : 'bg-surface'}`}
                             onClick={() => navigate(`/execution/my-engagements/${engagement.id}`)}
                           >
                             <td className="px-4 py-3">
@@ -377,7 +377,7 @@ export default function StrategicPlanningPage() {
                                 </button>
                                 <button
                                   onClick={(e) => e.stopPropagation()}
-                                  className="p-1.5 text-slate-600 hover:bg-slate-50 rounded transition-colors"
+                                  className="p-1.5 text-slate-600 hover:bg-canvas rounded transition-colors"
                                   title="Edit"
                                 >
                                   <Edit2 size={16} />
@@ -418,7 +418,7 @@ export default function StrategicPlanningPage() {
               {engagements.length > 0 && (
                 <div className="mt-4 flex items-center justify-between text-sm text-slate-600">
                   <div>
-                    Total: <span className="font-semibold text-slate-900">{engagements.length}</span> engagements
+                    Total: <span className="font-semibold text-primary">{engagements.length}</span> engagements
                   </div>
                   <div className="flex items-center gap-6">
                     <div className="flex items-center gap-2">
@@ -443,7 +443,7 @@ export default function StrategicPlanningPage() {
 
       {showAddEngagementModal && isLoadingPlan && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl p-6 max-w-md flex flex-col items-center gap-4">
+          <div className="bg-surface rounded-xl shadow-2xl p-6 max-w-md flex flex-col items-center gap-4">
             <Loader2 className="animate-spin text-blue-600" size={32} />
             <p className="text-slate-600 font-medium">Yıllık plan yükleniyor...</p>
           </div>
@@ -461,7 +461,7 @@ export default function StrategicPlanningPage() {
 
       {showAddEngagementModal && !isLoadingPlan && !activePlan && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl p-6 max-w-md">
+          <div className="bg-surface rounded-xl shadow-2xl p-6 max-w-md">
             <h3 className="text-lg font-bold text-red-600 mb-2">Onaylı Plan Bulunamadı</h3>
             <p className="text-slate-600">
               Denetim görevi oluşturmak için önce onaylanmış bir yıllık plan (APPROVED durumunda) oluşturulmalıdır.

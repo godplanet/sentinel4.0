@@ -34,7 +34,7 @@ export const MethodologySettings = () => {
                 "relative p-4 rounded-xl border-2 text-left transition-all hover:scale-[1.02]",
                 gradingScale === scale.id
                   ? "border-purple-600 bg-purple-50/50"
-                  : "border-slate-100 bg-white hover:border-purple-200"
+                  : "border-slate-100 bg-surface hover:border-purple-200"
               )}
             >
               {gradingScale === scale.id && (
@@ -42,7 +42,7 @@ export const MethodologySettings = () => {
                   <CheckCircle2 size={18} />
                 </div>
               )}
-              <div className="font-bold text-slate-900">{scale.label}</div>
+              <div className="font-bold text-primary">{scale.label}</div>
               <div className="text-xs text-slate-500 mt-1">{scale.desc}</div>
             </button>
           ))}
@@ -60,7 +60,7 @@ export const MethodologySettings = () => {
                 type="number" step="0.1"
                 value={gradeThresholds.A}
                 onChange={(e) => updateThreshold('A', parseFloat(e.target.value))}
-                className="w-full bg-white border-emerald-200 rounded px-2 py-1 text-emerald-900 font-mono font-bold"
+                className="w-full bg-surface border-emerald-200 rounded px-2 py-1 text-emerald-900 font-mono font-bold"
               />
             </div>
           </div>
@@ -73,7 +73,7 @@ export const MethodologySettings = () => {
                 type="number" step="0.1"
                 value={gradeThresholds.B}
                 onChange={(e) => updateThreshold('B', parseFloat(e.target.value))}
-                className="w-full bg-white border-blue-200 rounded px-2 py-1 text-blue-900 font-mono font-bold"
+                className="w-full bg-surface border-blue-200 rounded px-2 py-1 text-blue-900 font-mono font-bold"
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ export const MethodologySettings = () => {
                 type="number" step="0.1"
                 value={gradeThresholds.C}
                 onChange={(e) => updateThreshold('C', parseFloat(e.target.value))}
-                className="w-full bg-white border-yellow-200 rounded px-2 py-1 text-yellow-900 font-mono font-bold"
+                className="w-full bg-surface border-yellow-200 rounded px-2 py-1 text-yellow-900 font-mono font-bold"
               />
             </div>
           </div>

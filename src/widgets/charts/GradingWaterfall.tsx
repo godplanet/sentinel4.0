@@ -165,7 +165,7 @@ export function GradingWaterfall({ findingCounts, baseScore = 100 }: Props) {
         {waterfallData.map((step, idx) => (
           <div
             key={idx}
-            className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-3"
+            className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-lg p-3"
           >
             <div className="text-xs text-slate-400 mb-1">{step.label}</div>
             <div className="flex items-baseline gap-2">

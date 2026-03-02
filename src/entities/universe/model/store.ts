@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { AuditEntity, UniverseFilters, UniverseStats, UniverseTreeNode } from './types';
+import type { AuditEntity, EntityType, UniverseFilters, UniverseStats, UniverseTreeNode } from './types';
 
 interface UniverseStore {
   entities: AuditEntity[];
@@ -95,7 +95,7 @@ export const useUniverseStore = create<UniverseStore>((set, get) => ({
     set({
       stats: {
         total_entities: entities.length,
-        by_type: by_type as any,
+        by_type: by_type as Record<EntityType, number>,
         avg_risk,
         high_risk_count,
       },

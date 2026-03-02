@@ -100,14 +100,14 @@ const Module7HubPage: React.FC = () => {
             <span className="font-mono text-xs text-slate-500 tracking-widest uppercase">Sentinel v3.0 — Module 7</span>
           </div>
 
-          <h1 className="font-serif text-4xl md:text-5xl text-slate-900 leading-tight max-w-3xl">
+          <h1 className="font-serif text-4xl md:text-5xl text-primary leading-tight max-w-3xl">
             Action Tracking &amp; Governance
           </h1>
           <p className="text-base text-slate-500 font-sans max-w-2xl leading-relaxed">
             The Titanium Core is active. Select your operational zone.
           </p>
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-2 bg-white/70 backdrop-blur-md border border-slate-200 rounded-xl shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-2 bg-surface/70 backdrop-blur-md border border-slate-200 rounded-xl shadow-sm">
             <div className="flex items-center gap-1.5 text-xs text-slate-500 font-sans">
               <Command size={12} className="text-slate-400" />
               <kbd className="font-mono text-slate-600 text-xs">K</kbd>
@@ -125,11 +125,11 @@ const Module7HubPage: React.FC = () => {
               initial="hidden"
               animate="visible"
               onClick={() => navigate(zone.route)}
-              className={`group relative text-left bg-white/70 backdrop-blur-md border-2 ${zone.accent} shadow-sm rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5`}
+              className={`group relative text-left bg-surface/70 backdrop-blur-md border-2 ${zone.accent} shadow-sm rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5`}
             >
               <div className="space-y-4">
                 <div className="flex items-start justify-between">
-                  <div className={`w-11 h-11 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center ${zone.accentText}`}>
+                  <div className={`w-11 h-11 rounded-xl bg-canvas border border-slate-200 flex items-center justify-center ${zone.accentText}`}>
                     {zone.icon}
                   </div>
                   <span className="font-mono text-xs text-slate-300 font-bold">{zone.number}</span>
@@ -139,7 +139,7 @@ const Module7HubPage: React.FC = () => {
                   <p className={`text-xs font-semibold uppercase tracking-widest mb-1 font-sans ${zone.accentText}`}>
                     {zone.tagline}
                   </p>
-                  <h3 className="font-serif text-xl text-slate-900 leading-snug">{zone.label}</h3>
+                  <h3 className="font-serif text-xl text-primary leading-snug">{zone.label}</h3>
                 </div>
 
                 <p className="text-xs text-slate-500 font-sans leading-relaxed">
@@ -173,10 +173,10 @@ const Module7HubPage: React.FC = () => {
             <div>
               <ReportSealerSimulator />
             </div>
-            <div className="bg-white/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-6 flex flex-col justify-between">
+            <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-6 flex flex-col justify-between">
               <div className="space-y-3">
                 <p className="font-mono text-[10px] text-slate-400 uppercase tracking-widest">Legal Record</p>
-                <h3 className="font-serif text-xl text-slate-900">Official Remediation Dossier</h3>
+                <h3 className="font-serif text-xl text-primary">Official Remediation Dossier</h3>
                 <p className="text-xs text-slate-500 font-sans leading-relaxed">
                   A print-ready, cryptographically-attested A4 legal document chronicling the full remediation lifecycle —
                   finding genesis, aging record, evidence trail, BDDK breach declarations, and auditor sign-off.
@@ -193,8 +193,8 @@ const Module7HubPage: React.FC = () => {
               <button
                 onClick={() => navigate('/dossier-demo')}
                 className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium font-sans
-                  bg-white/70 backdrop-blur-md border border-slate-300 text-slate-700
-                  hover:bg-slate-50 hover:border-slate-400 hover:shadow-md transition-all shadow-sm"
+                  bg-surface/70 backdrop-blur-md border border-slate-300 text-slate-700
+                  hover:bg-canvas hover:border-slate-400 hover:shadow-md transition-all shadow-sm"
               >
                 Open Dossier Demo
                 <ChevronRight size={14} />

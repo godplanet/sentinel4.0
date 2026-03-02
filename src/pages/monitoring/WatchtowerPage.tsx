@@ -210,7 +210,7 @@ export default function WatchtowerPage() {
             <Radar size={24} className="text-emerald-400" />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Sentinel Watchtower</h1>
+            <h1 className="text-2xl font-black text-primary tracking-tight">Sentinel Watchtower</h1>
             <p className="text-sm text-slate-500">Surekli Denetim Savunma Sistemi</p>
           </div>
         </div>
@@ -219,7 +219,7 @@ export default function WatchtowerPage() {
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-600 text-sm font-medium rounded-xl hover:bg-slate-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 bg-surface border border-slate-200 text-slate-600 text-sm font-medium rounded-xl hover:bg-canvas transition-colors"
           >
             <RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} />
             Yenile
@@ -249,7 +249,7 @@ export default function WatchtowerPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm"
+              className="bg-surface rounded-2xl border border-slate-200 p-5 shadow-sm"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{kpi.label}</span>
@@ -257,7 +257,7 @@ export default function WatchtowerPage() {
                   <KIcon size={16} className={`text-${kpi.color}-600`} />
                 </div>
               </div>
-              <p className="text-3xl font-black text-slate-900 mb-0.5">{kpi.value}</p>
+              <p className="text-3xl font-black text-primary mb-0.5">{kpi.value}</p>
               <p className="text-[11px] text-slate-400">{kpi.desc}</p>
             </motion.div>
           );
@@ -279,7 +279,7 @@ export default function WatchtowerPage() {
               onClick={() => setViewMode(tab.key)}
               className={`flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-lg transition-all ${
                 viewMode === tab.key
-                  ? 'bg-white text-slate-900 shadow-sm'
+                  ? 'bg-surface text-primary shadow-sm'
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
@@ -298,7 +298,7 @@ export default function WatchtowerPage() {
 
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+              <h3 className="text-base font-bold text-primary mb-3 flex items-center gap-2">
                 <Radar size={18} className="text-blue-600" />
                 Aktif Problar
               </h3>
@@ -312,7 +312,7 @@ export default function WatchtowerPage() {
               />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+              <h3 className="text-base font-bold text-primary mb-3 flex items-center gap-2">
                 <AlertTriangle size={18} className="text-red-600" />
                 Son Istisnalar
               </h3>

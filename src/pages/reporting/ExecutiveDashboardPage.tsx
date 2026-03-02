@@ -87,7 +87,7 @@ export default function ExecutiveDashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gray-50">
+      <div className="flex h-screen items-center justify-center bg-canvas">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-pink-600 mx-auto mb-4" />
           <p className="text-gray-600 font-medium">Yönetim Kokpiti yükleniyor...</p>
@@ -97,7 +97,7 @@ export default function ExecutiveDashboardPage() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-canvas">
       <DashboardSidebar
         filters={filters}
         onFiltersChange={setFilters}

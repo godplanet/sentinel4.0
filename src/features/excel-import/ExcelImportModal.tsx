@@ -105,7 +105,7 @@ export function ExcelImportModal({
           initial={{ scale: 0.95, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.95, y: 20 }}
-          className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col"
+          className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col"
           onClick={e => e.stopPropagation()}
         >
           <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 px-6 py-4 rounded-t-2xl flex items-center justify-between">
@@ -116,12 +116,12 @@ export function ExcelImportModal({
                 <p className="text-xs text-emerald-200">Toplu veri yukleme sihirbazi</p>
               </div>
             </div>
-            <button onClick={onClose} className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30">
+            <button onClick={onClose} className="w-8 h-8 bg-surface/20 rounded-lg flex items-center justify-center hover:bg-surface/30">
               <X size={16} className="text-white" />
             </button>
           </div>
 
-          <div className="flex items-center gap-2 px-6 py-3 bg-slate-50 border-b border-slate-200">
+          <div className="flex items-center gap-2 px-6 py-3 bg-canvas border-b border-slate-200">
             {(['upload', 'preview', 'import'] as Step[]).map((s, i) => (
               <div key={s} className="flex items-center gap-2">
                 <div className={clsx(
@@ -213,7 +213,7 @@ export function ExcelImportModal({
 
                 <div className="overflow-x-auto border border-slate-200 rounded-lg">
                   <table className="w-full text-xs">
-                    <thead className="bg-slate-50">
+                    <thead className="bg-canvas">
                       <tr>
                         <th className="px-3 py-2 text-left font-semibold text-slate-500">#</th>
                         {parsedData.length > 0 && Object.keys(parsedData[0]).slice(0, 8).map(key => (
@@ -226,7 +226,7 @@ export function ExcelImportModal({
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {parsedData.slice(0, 10).map((row, idx) => (
-                        <tr key={idx} className="hover:bg-slate-50">
+                        <tr key={idx} className="hover:bg-canvas">
                           <td className="px-3 py-2 text-slate-400">{idx + 1}</td>
                           {Object.values(row).slice(0, 8).map((val, i) => (
                             <td key={i} className="px-3 py-2 text-slate-700 max-w-[120px] truncate">
@@ -267,7 +267,7 @@ export function ExcelImportModal({
                         <AlertTriangle size={32} className="text-amber-600" />
                       )}
                     </div>
-                    <p className="text-lg font-bold text-slate-900">Aktarim Tamamlandi</p>
+                    <p className="text-lg font-bold text-primary">Aktarim Tamamlandi</p>
                     <div className="flex items-center justify-center gap-6">
                       <div className="text-center">
                         <p className="text-2xl font-black text-green-600">{importResult.success}</p>
@@ -286,8 +286,8 @@ export function ExcelImportModal({
             )}
           </div>
 
-          <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
-            <button onClick={step === 'upload' ? onClose : handleReset} className="px-5 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">
+          <div className="bg-canvas px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+            <button onClick={step === 'upload' ? onClose : handleReset} className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">
               {step === 'upload' ? 'Kapat' : step === 'import' && !importing ? 'Kapat' : 'Geri'}
             </button>
             {step === 'preview' && (

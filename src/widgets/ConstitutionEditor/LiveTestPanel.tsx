@@ -104,7 +104,7 @@ export function LiveTestPanel({ dimensions, vetoRules, ranges, testInputs, onInp
                 max={5}
                 value={Number(testInputs.context?.shariah_sensitivity ?? 1)}
                 onChange={(e) => handleContextField('shariah_sensitivity', Number(e.target.value))}
-                className="w-14 text-xs text-center font-mono bg-slate-50 border border-slate-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                className="w-14 text-xs text-center font-mono bg-canvas border border-slate-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-400"
               />
             </div>
             <div className="flex items-center justify-between">
@@ -116,7 +116,7 @@ export function LiveTestPanel({ dimensions, vetoRules, ranges, testInputs, onInp
                 step={0.1}
                 value={Number(testInputs.context?.cvss ?? 0)}
                 onChange={(e) => handleContextField('cvss', Number(e.target.value))}
-                className="w-14 text-xs text-center font-mono bg-slate-50 border border-slate-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                className="w-14 text-xs text-center font-mono bg-canvas border border-slate-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-400"
               />
             </div>
             <div className="flex items-center justify-between">
@@ -124,7 +124,7 @@ export function LiveTestPanel({ dimensions, vetoRules, ranges, testInputs, onInp
               <select
                 value={String(testInputs.context?.asset_criticality ?? 'normal')}
                 onChange={(e) => handleContextField('asset_criticality', e.target.value)}
-                className="text-xs font-mono bg-slate-50 border border-slate-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                className="text-xs font-mono bg-canvas border border-slate-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-400"
               >
                 <option value="normal">Normal</option>
                 <option value="high">Yuksek</option>

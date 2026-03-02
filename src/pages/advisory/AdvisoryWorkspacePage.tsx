@@ -64,14 +64,14 @@ export default function AdvisoryWorkspacePage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate('/advisory')}
-            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
+            className="p-2 rounded-lg bg-surface/10 hover:bg-surface/20 text-white transition-colors"
           >
             <ArrowLeft size={16} />
           </button>
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-blue-200 bg-white/10 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-bold text-blue-200 bg-surface/10 px-2 py-0.5 rounded">
                 REHBERLIK
               </span>
               {engagement.methodology && (
@@ -113,10 +113,10 @@ export default function AdvisoryWorkspacePage() {
                 className={clsx(
                   'flex items-center gap-2 px-4 py-2.5 rounded-t-lg text-xs font-bold transition-all',
                   isActive
-                    ? 'bg-white text-blue-700 shadow-sm'
+                    ? 'bg-surface text-blue-700 shadow-sm'
                     : isDisabled
                       ? 'text-white/30 cursor-not-allowed'
-                      : 'text-white/70 hover:bg-white/10 hover:text-white',
+                      : 'text-white/70 hover:bg-surface/10 hover:text-white',
                 )}
               >
                 <Icon size={14} />
@@ -128,7 +128,7 @@ export default function AdvisoryWorkspacePage() {
         </div>
       </div>
 
-      <div className="flex-1 bg-slate-50 overflow-y-auto">
+      <div className="flex-1 bg-canvas overflow-y-auto">
         {activeTab === 'tor' && (
           <TermsOfReferenceTab
             engagement={engagement}

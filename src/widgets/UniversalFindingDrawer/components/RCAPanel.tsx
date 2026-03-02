@@ -2,20 +2,46 @@ import { useState } from 'react';
 import { 
   GitBranch, Target, Cpu, Users, Settings, Activity, 
   FileText, Share, ListOrdered, ShieldAlert, Info, 
-  AlertTriangle, Check
+  AlertTriangle, Check, BanIcon,
 } from 'lucide-react';
 import clsx from 'clsx';
+import { useQuery } from '@tanstack/react-query';
+import { getFindingById } from '@/entities/finding/api/crud';
+
+/** Katılım Bankacılığı prensipleri — bu etiketleri taşıyan bulgularda Risk Kabulü yasaktır. */
+const SHARIAH_KEYWORDS = [
+  'Şer\'i', 'Şer\'i Uyum', 'Haram Kazanç', 'Shariah', 'Sharia',
+  'Katılım', 'Faizsiz', 'Sukuk', 'Murabaha', 'Fıkhi',
+];
+
+function isShariah(category: string | undefined, tags: unknown[] | undefined): boolean {
+  const haystack = [
+    category ?? '',
+    ...(Array.isArray(tags) ? tags.map((t) => String(t)) : []),
+  ].join(' ').toLowerCase();
+
+  return SHARIAH_KEYWORDS.some((kw) => haystack.includes(kw.toLowerCase()));
+}
 
 interface RCAPanelProps {
   findingId: string | null;
-  // Analiz sonucunu ana forma (Finding) aktarmak için
-  onApplyAnalysis?: (htmlSummary: string, rawData: any) => void; 
+  onApplyAnalysis?: (htmlSummary: string, rawData: unknown) => void;
 }
 
 type RcaMethod = '5whys' | 'ishikawa' | 'bowtie';
 
 export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
   const [activeMethod, setActiveMethod] = useState<RcaMethod>('5whys');
+
+  /** Gerçek bulgu verisi — Şer'i Uyum kontrolü için zorunludur */
+  const { data: finding } = useQuery({
+    queryKey: ['finding', findingId],
+    queryFn: () => getFindingById(findingId!),
+    enabled: !!findingId,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const isShariahFinding = isShariah(finding?.category, finding?.criteria_json);
 
   // --- 1. METOT: 5-WHYS STATE ---
   const [whys, setWhys] = useState<string[]>(['', '', '', '', '']);
@@ -126,19 +152,19 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
       <div className="flex bg-slate-100 p-1 rounded-lg shrink-0">
         <button 
           onClick={() => setActiveMethod('5whys')} 
-          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-1.5", activeMethod === '5whys' ? "bg-white text-blue-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
+          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-1.5", activeMethod === '5whys' ? "bg-surface text-blue-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
         >
           <ListOrdered className="w-4 h-4" /> 5-Whys
         </button>
         <button 
           onClick={() => setActiveMethod('ishikawa')} 
-          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-1.5", activeMethod === 'ishikawa' ? "bg-white text-indigo-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
+          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-1.5", activeMethod === 'ishikawa' ? "bg-surface text-indigo-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
         >
           <GitBranch className="w-4 h-4" /> 6M Kılçık
         </button>
         <button 
           onClick={() => setActiveMethod('bowtie')} 
-          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-1.5", activeMethod === 'bowtie' ? "bg-white text-rose-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
+          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-1.5", activeMethod === 'bowtie' ? "bg-surface text-rose-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
         >
           <ShieldAlert className="w-4 h-4" /> Papyon
         </button>
@@ -161,11 +187,11 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
                 
                 {whys.map((why, idx) => (
                   <div key={idx} className="relative group">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-white text-blue-600 rounded-full flex items-center justify-center text-xs font-black border-2 border-blue-100 z-10 group-focus-within:border-blue-500 group-focus-within:text-blue-700 transition-colors">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-surface text-blue-600 rounded-full flex items-center justify-center text-xs font-black border-2 border-blue-100 z-10 group-focus-within:border-blue-500 group-focus-within:text-blue-700 transition-colors">
                       {idx + 1}
                     </div>
                     <input type="text" value={why} onChange={(e) => updateWhy(idx, e.target.value)} 
-                      className="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-sm font-medium text-slate-700 transition-all placeholder:text-slate-300" 
+                      className="w-full pl-12 pr-4 py-3 bg-surface border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-sm font-medium text-slate-700 transition-all placeholder:text-slate-300" 
                       placeholder={whyPlaceholders[idx]} 
                     />
                     {idx < 4 && <div className="absolute left-6 top-10 w-0.5 h-6 bg-slate-200 z-0 group-focus-within:bg-blue-200"></div>}
@@ -203,7 +229,7 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
                         </div>
                         <input type="text" value={ishikawa[item.id as keyof typeof ishikawa]} 
                           onChange={(e) => setIshikawa({ ...ishikawa, [item.id]: e.target.value })} 
-                          className="w-full pl-10 pr-24 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm text-slate-700 placeholder:text-slate-300" 
+                          className="w-full pl-10 pr-24 py-3 bg-surface border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm text-slate-700 placeholder:text-slate-300" 
                           placeholder={item.desc} 
                         />
                       </div>
@@ -226,7 +252,7 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
                 <div className="space-y-4">
                     <div className="relative">
                         <label className="block text-[10px] font-black text-slate-500 mb-1 uppercase tracking-wider ml-1">1. Önleyici Kontroller</label>
-                        <textarea rows={2} value={bowtie.preventive} onChange={e => setBowtie({...bowtie, preventive: e.target.value})} className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none shadow-sm" placeholder="Olayı ne engellemeliydi?" />
+                        <textarea rows={2} value={bowtie.preventive} onChange={e => setBowtie({...bowtie, preventive: e.target.value})} className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-surface focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none shadow-sm" placeholder="Olayı ne engellemeliydi?" />
                     </div>
                     
                     <div className="relative">
@@ -236,7 +262,7 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
 
                     <div className="relative">
                         <label className="block text-[10px] font-black text-slate-500 mb-1 uppercase tracking-wider ml-1">3. Düzeltici Kontroller</label>
-                        <textarea rows={2} value={bowtie.corrective} onChange={e => setBowtie({...bowtie, corrective: e.target.value})} className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none shadow-sm" placeholder="Olay sonrası zarar nasıl azaltıldı?" />
+                        <textarea rows={2} value={bowtie.corrective} onChange={e => setBowtie({...bowtie, corrective: e.target.value})} className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm bg-surface focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none shadow-sm" placeholder="Olay sonrası zarar nasıl azaltıldı?" />
                     </div>
 
                     <div className="relative">
@@ -248,10 +274,10 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
             )}
 
             {/* CANLI ÖNİZLEME KARTI */}
-            <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 mt-6">
+            <div className="bg-canvas rounded-xl p-4 border border-slate-200 mt-6">
                 <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-200 pb-2">Rapor Çıktısı (Önizleme)</h4>
                 <div 
-                    className="prose prose-sm prose-slate max-w-none bg-white p-4 rounded-lg border border-slate-200 shadow-sm text-sm"
+                    className="prose prose-sm prose-slate max-w-none bg-surface p-4 rounded-lg border border-slate-200 shadow-sm text-sm"
                     dangerouslySetInnerHTML={{ __html: generateHtmlPreview() }}
                 />
             </div>
@@ -263,6 +289,59 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
             >
               <Check className="w-4 h-4" /> Analizi Ana Forma Aktar
             </button>
+
+            {/* ŞER'İ UYUM — RİSK KABUL BLOĞU */}
+            <div className={clsx(
+              'rounded-xl border p-4 mt-2',
+              isShariahFinding
+                ? 'bg-amber-50 border-amber-300'
+                : 'bg-canvas border-slate-200',
+            )}>
+              <div className="flex items-center gap-2 mb-2">
+                {isShariahFinding ? (
+                  <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" />
+                ) : (
+                  <AlertTriangle className="w-4 h-4 text-slate-400 shrink-0" />
+                )}
+                <span className="text-xs font-black text-slate-700 uppercase tracking-wider">
+                  Risk Kabulü (Buz Odası) Talebi
+                </span>
+              </div>
+
+              {isShariahFinding ? (
+                /* Şer'i İhlal — Risk Kabulü YASAK */
+                <div className="space-y-2">
+                  <p className="text-xs leading-relaxed text-amber-900 font-medium">
+                    Bu bulgu <strong>Şer'i Uyum</strong> kapsamında sınıflandırılmıştır.
+                    Katılım Finans prensipleri gereği Şer'i uyum ihlalleri
+                    Risk Kabulü ile uyutulamaz.
+                  </p>
+                  <button
+                    disabled
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 border-dashed border-amber-400 bg-amber-100/50 text-amber-700 text-sm font-bold cursor-not-allowed opacity-75"
+                    title="Katılım Finans prensipleri gereği Şer'i uyum ihlalleri Risk Kabulü ile uyutulamaz."
+                  >
+                    <BanIcon className="w-4 h-4" />
+                    Risk Kabulü Yasaktır — Şer'i İhlal
+                  </button>
+                </div>
+              ) : (
+                /* Normal bulgu — Risk Kabulü talep edilebilir */
+                <div className="space-y-2">
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Bu bulgu için standart risk kabulü talebi başlatılabilir.
+                    Talep Denetim Komitesi onayına sunulacaktır.
+                  </p>
+                  <button
+                    disabled={!findingId}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 border-slate-300 bg-surface text-slate-600 text-sm font-bold hover:border-amber-400 hover:text-amber-700 hover:bg-amber-50 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <ShieldAlert className="w-4 h-4" />
+                    Risk Kabulü Talebi Başlat
+                  </button>
+                </div>
+              )}
+            </div>
 
         </div>
       </div>

@@ -30,9 +30,9 @@ export function PlanVsActualChart({ data, height = 400 }: PlanVsActualChartProps
   };
 
   return (
-    <div className="w-full bg-white/90 backdrop-blur-xl rounded-xl border border-slate-200 p-6 shadow-sm">
+    <div className="w-full bg-surface/90 backdrop-blur-xl rounded-xl border border-slate-200 p-6 shadow-sm">
       <div className="mb-4">
-        <h3 className="text-lg font-bold text-slate-900">Plan vs. Actual Progress</h3>
+        <h3 className="text-lg font-bold text-primary">Plan vs. Actual Progress</h3>
         <p className="text-sm text-slate-600 mt-1">
           Weekly resource consumption and cumulative progress tracking
         </p>

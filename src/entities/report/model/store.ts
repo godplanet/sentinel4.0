@@ -29,11 +29,11 @@ interface ReportState {
   fetchComments: (reportId: string) => Promise<void>;
   addComment: (data: { report_id: string; text: string; type?: string }) => Promise<void>;
   resolveComment: (id: string) => Promise<void>;
-  createReport: (data: any) => Promise<Report>;
-  updateReport: (id: string, data: any) => Promise<void>;
+  createReport: (data: Partial<Report>) => Promise<Report>;
+  updateReport: (id: string, data: Partial<Report>) => Promise<void>;
   deleteReport: (id: string) => Promise<void>;
-  addBlock: (data: any) => Promise<ReportBlock>;
-  updateBlock: (id: string, data: any) => Promise<void>;
+  addBlock: (data: Partial<ReportBlock>) => Promise<ReportBlock>;
+  updateBlock: (id: string, data: Partial<ReportBlock>) => Promise<void>;
   deleteBlock: (id: string) => Promise<void>;
   reorderBlocks: (blockIds: string[]) => Promise<void>;
   publishReport: (id: string) => Promise<void>;
@@ -54,8 +54,8 @@ export const useReportStore = create<ReportState>((set, get) => ({
     try {
       const reports = await reportApi.getReports();
       set({ reports, loading: false });
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 
@@ -64,8 +64,8 @@ export const useReportStore = create<ReportState>((set, get) => ({
     try {
       const report = await reportApi.getReport(id);
       set({ currentReport: report, loading: false });
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 
@@ -74,8 +74,8 @@ export const useReportStore = create<ReportState>((set, get) => ({
     try {
       const blocks = await reportApi.getBlocks(reportId);
       set({ blocks, loading: false });
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 
@@ -117,19 +117,19 @@ export const useReportStore = create<ReportState>((set, get) => ({
     }
   },
 
-  createReport: async (data: any) => {
+  createReport: async (data: Partial<Report>) => {
     set({ loading: true, error: null });
     try {
       const report = await reportApi.createReport(data);
       set((state) => ({ reports: [report, ...state.reports], loading: false }));
       return report;
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
 
-  updateReport: async (id: string, data: any) => {
+  updateReport: async (id: string, data: Partial<Report>) => {
     set({ loading: true, error: null });
     try {
       const updated = await reportApi.updateReport(id, data);
@@ -138,8 +138,8 @@ export const useReportStore = create<ReportState>((set, get) => ({
         currentReport: state.currentReport?.id === id ? updated : state.currentReport,
         loading: false,
       }));
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 
@@ -152,12 +152,12 @@ export const useReportStore = create<ReportState>((set, get) => ({
         currentReport: state.currentReport?.id === id ? null : state.currentReport,
         loading: false,
       }));
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 
-  addBlock: async (data: any) => {
+  addBlock: async (data: Partial<ReportBlock>) => {
     set({ loading: true, error: null });
     try {
       const block = await reportApi.createBlock(data);
@@ -166,13 +166,13 @@ export const useReportStore = create<ReportState>((set, get) => ({
         loading: false,
       }));
       return block;
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
 
-  updateBlock: async (id: string, data: any) => {
+  updateBlock: async (id: string, data: Partial<ReportBlock>) => {
     set({ loading: true, error: null });
     try {
       const updated = await reportApi.updateBlock(id, data);
@@ -180,8 +180,8 @@ export const useReportStore = create<ReportState>((set, get) => ({
         blocks: state.blocks.map((b) => (b.id === id ? updated : b)),
         loading: false,
       }));
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 
@@ -193,8 +193,8 @@ export const useReportStore = create<ReportState>((set, get) => ({
         blocks: state.blocks.filter((b) => b.id !== id),
         loading: false,
       }));
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 
@@ -213,8 +213,8 @@ export const useReportStore = create<ReportState>((set, get) => ({
 
     try {
       await reportApi.reorderBlocks(currentReport.id, blockIds);
-    } catch (error: any) {
-      set({ blocks, error: error.message });
+    } catch (error) {
+      set({ blocks, error: (error as Error).message });
     }
   },
 
@@ -228,8 +228,8 @@ export const useReportStore = create<ReportState>((set, get) => ({
         currentReport: state.currentReport?.id === id ? updated : state.currentReport,
         loading: false,
       }));
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 

@@ -65,7 +65,7 @@ export const CommandBar = () => {
           aiMode === 'IDLE' && "bg-slate-400/10"
         )} />
 
-        <div className="relative flex flex-col overflow-hidden rounded-2xl bg-white/80 backdrop-blur-xl">
+        <div className="relative flex flex-col overflow-hidden rounded-2xl bg-surface/80 backdrop-blur-xl">
           
           {/* Input Area */}
           <div className="flex items-center px-4 py-4 border-b border-slate-100/50">
@@ -93,7 +93,7 @@ export const CommandBar = () => {
           </div>
 
           {/* Mode Indicator Footer */}
-          <div className="px-4 py-2 bg-slate-50/50 border-t border-slate-100 flex justify-between items-center text-[10px] text-slate-500 uppercase tracking-wider font-medium">
+          <div className="px-4 py-2 bg-canvas/50 border-t border-slate-100 flex justify-between items-center text-[10px] text-slate-500 uppercase tracking-wider font-medium">
             <div className="flex items-center gap-2">
               <span className={cn(
                 "w-2 h-2 rounded-full",
@@ -103,7 +103,7 @@ export const CommandBar = () => {
               {aiMode} MODE ACTIVE
             </div>
             <div className="flex gap-2 font-sans normal-case">
-              <span className="bg-white border px-1 rounded">↵ Enter</span> to execute
+              <span className="bg-surface border px-1 rounded">↵ Enter</span> to execute
             </div>
           </div>
 

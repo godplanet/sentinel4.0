@@ -46,7 +46,7 @@ export function EditableNumber({ value, onChange }: EditableNumberProps) {
           if (e.key === 'Escape') { setDraft(String(value)); setEditing(false); }
         }}
         onClick={(e) => e.stopPropagation()}
-        className="w-16 px-2 py-1 text-xs font-semibold text-center border-2 border-blue-400 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-16 px-2 py-1 text-xs font-semibold text-center border-2 border-blue-400 rounded-md bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     );
   }
@@ -58,7 +58,7 @@ export function EditableNumber({ value, onChange }: EditableNumberProps) {
         'w-16 px-2 py-1 text-xs font-semibold text-center rounded-md border transition-colors',
         value > 0
           ? 'bg-blue-50 text-blue-800 border-blue-200 hover:border-blue-400'
-          : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-slate-400'
+          : 'bg-canvas text-slate-500 border-slate-200 hover:border-slate-400'
       )}
     >
       {value}

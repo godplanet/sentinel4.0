@@ -38,7 +38,7 @@ export function GradingScaleTable({ currentScore }: Props) {
         <h3 className="text-lg font-bold text-white">Not Cetveli (Grading Scale)</h3>
       </div>
 
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden">
+      <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden">
         <table className="w-full">
           <thead>
             <tr className="border-b border-white/10">
@@ -56,7 +56,7 @@ export function GradingScaleTable({ currentScore }: Props) {
                   border-b border-white/5 transition-all
                   ${row.isActive
                     ? 'bg-blue-500/20 ring-2 ring-blue-400/50'
-                    : 'hover:bg-white/5'
+                    : 'hover:bg-surface/5'
                   }
                 `}
               >

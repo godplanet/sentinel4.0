@@ -101,10 +101,10 @@ export function InvestigatorTerminal() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white border border-slate-200 rounded-xl p-4">
+      <div className="bg-surface border border-slate-200 rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <Shield size={16} className="text-teal-600" />
-          <span className="text-sm font-bold text-slate-900">Sherlock -- OSINT & Cikar Catismasi Tarayicisi</span>
+          <span className="text-sm font-bold text-primary">Sherlock -- OSINT & Cikar Catismasi Tarayicisi</span>
         </div>
 
         <div className="flex gap-2">
@@ -114,7 +114,7 @@ export function InvestigatorTerminal() {
             onKeyDown={(e) => e.key === 'Enter' && runScan()}
             placeholder="Vendor adi girin (ornek: Fraud_Corp Ltd.)..."
             disabled={scanning}
-            className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 disabled:opacity-60"
+            className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-teal-300 disabled:opacity-60"
           />
           <button
             onClick={runScan}
@@ -268,7 +268,7 @@ export function InvestigatorTerminal() {
             </div>
 
             <div className="space-y-3">
-              <div className="bg-white border border-slate-200 rounded-xl p-4">
+              <div className="bg-surface border border-slate-200 rounded-xl p-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-slate-700">Risk Skoru</span>
                   <span className={clsx(
@@ -295,7 +295,7 @@ export function InvestigatorTerminal() {
                 </div>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-4">
+              <div className="bg-surface border border-slate-200 rounded-xl p-4">
                 <div className="flex items-center gap-1.5 mb-2">
                   <AlertTriangle size={12} className="text-amber-500" />
                   <span className="text-xs font-bold text-slate-700">Analiz Ozeti</span>
@@ -303,7 +303,7 @@ export function InvestigatorTerminal() {
                 <p className="text-xs text-slate-600 leading-relaxed">{graphData.summary}</p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-4">
+              <div className="bg-surface border border-slate-200 rounded-xl p-4">
                 <span className="text-xs font-bold text-slate-700 mb-2 block">Lejant</span>
                 <div className="grid grid-cols-2 gap-1.5">
                   {(Object.keys(NODE_COLORS) as SuspicionNode['category'][]).map((cat) => {
@@ -325,14 +325,14 @@ export function InvestigatorTerminal() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
-                    className="bg-white border border-slate-200 rounded-xl p-4"
+                    className="bg-surface border border-slate-200 rounded-xl p-4"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       {(() => {
                         const Icon = CATEGORY_ICONS[selectedNode.category];
                         return <Icon size={14} style={{ color: NODE_COLORS[selectedNode.category] }} />;
                       })()}
-                      <span className="text-xs font-bold text-slate-900">{selectedNode.label}</span>
+                      <span className="text-xs font-bold text-primary">{selectedNode.label}</span>
                     </div>
                     <div className="space-y-1.5 text-[11px]">
                       <div className="flex justify-between">

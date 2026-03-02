@@ -81,7 +81,7 @@ export default function RiskLaboratoryPage() {
   const totalWeight = weights.impact + weights.likelihood + weights.volume + weights.controlEffectiveness;
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Risk Laboratuvari"
         subtitle="Agirlik geri-test ve tahmin analizi"
@@ -98,7 +98,7 @@ export default function RiskLaboratoryPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1 space-y-4">
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-5">
               <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
                 <Settings2 size={16} className="text-blue-600" />
                 Agirlik Konfigurasyonu
@@ -129,7 +129,7 @@ export default function RiskLaboratoryPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+          <div className="lg:col-span-2 bg-surface rounded-xl border border-slate-200 shadow-sm p-5">
             <h3 className="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
               <BarChart3 size={16} className="text-blue-600" />
               Tahmin vs Gerceklesen (Scatter)
@@ -155,7 +155,7 @@ export default function RiskLaboratoryPage() {
                     if (!active || !payload?.length) return null;
                     const d = payload[0].payload as BacktestPoint;
                     return (
-                      <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-lg text-xs">
+                      <div className="bg-surface border border-slate-200 rounded-lg p-3 shadow-lg text-xs">
                         <p className="font-bold text-slate-800">{d.name}</p>
                         <p className="text-slate-500">Tahmin: {d.predicted} | Gercek: {d.actual}</p>
                         <p className={clsx('font-semibold', Math.abs(d.deviation) > 10 ? 'text-red-600' : 'text-green-600')}>
@@ -204,7 +204,7 @@ function WeightSlider({ label, value, onChange }: { label: string; value: number
 function StatBox({ label, value, color }: { label: string; value: string; color: 'green' | 'red' }) {
   return (
     <div className={clsx(
-      'bg-white rounded-xl border p-4',
+      'bg-surface rounded-xl border p-4',
       color === 'green' ? 'border-green-200' : 'border-red-200'
     )}>
       <p className="text-xs text-slate-500 font-medium">{label}</p>

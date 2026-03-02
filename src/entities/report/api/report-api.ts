@@ -7,7 +7,70 @@ import type {
   ExecutiveSummary,
 } from '../model/types';
 
-function mapDbBlockToFrontend(dbBlock: any): M6ReportBlock {
+// ─── Supabase DB Row Interfaces ─────────────────────────────────────────────
+
+interface DbReportBlock {
+  id: string;
+  block_type: string;
+  order_index: number;
+  content?: Record<string, unknown>;
+  snapshot_data?: Record<string, unknown> | null;
+}
+
+interface DbReportSection {
+  id: string;
+  title: string;
+  order_index: number;
+  m6_report_blocks?: DbReportBlock[];
+}
+
+interface DbReviewNote {
+  id: string;
+  block_id?: string;
+  selected_text?: string;
+  comment: string;
+  status: string;
+  created_by?: string;
+  created_at: string;
+  resolved_at?: string;
+}
+
+interface DbExecutiveSummary {
+  score?: number;
+  grade?: string;
+  assuranceLevel?: string;
+  assurance_level?: string;
+  trend?: number;
+  trendDelta?: number;
+  previousGrade?: string;
+  previous_grade?: string;
+  findingCounts?: { critical: number; high: number; medium: number; low: number; observation: number };
+  keyMetrics?: { criticalFindings?: number; highFindings?: number; mediumFindings?: number; lowFindings?: number };
+  briefingNote?: string;
+  boardNote?: string;
+  aiNarrative?: string;
+  sections?: { auditOpinion?: string; criticalRisks?: string; strategicRecommendations?: string; managementAction?: string };
+  managementResponse?: string;
+  layoutType?: string;
+  dynamicMetrics?: unknown;
+  dynamicSections?: unknown;
+}
+
+interface DbReport {
+  id: string;
+  engagement_id?: string;
+  title: string;
+  status: string;
+  theme_config?: Record<string, unknown>;
+  executive_summary?: DbExecutiveSummary;
+  m6_report_sections?: DbReportSection[];
+  m6_review_notes?: DbReviewNote[];
+  [key: string]: unknown;
+}
+
+// ─── Mapping Functions ────────────────────────────────────────────────────────
+
+function mapDbBlockToFrontend(dbBlock: DbReportBlock): M6ReportBlock {
   return {
     id: dbBlock.id,
     type: dbBlock.block_type,
@@ -17,10 +80,10 @@ function mapDbBlockToFrontend(dbBlock: any): M6ReportBlock {
   } as M6ReportBlock;
 }
 
-function mapDbSectionToFrontend(dbSection: any): ReportSection {
+function mapDbSectionToFrontend(dbSection: DbReportSection): ReportSection {
   const blocks: M6ReportBlock[] = (dbSection.m6_report_blocks ?? [])
     .slice()
-    .sort((a: any, b: any) => a.order_index - b.order_index)
+    .sort((a, b) => a.order_index - b.order_index)
     .map(mapDbBlockToFrontend);
   return {
     id: dbSection.id,
@@ -30,7 +93,7 @@ function mapDbSectionToFrontend(dbSection: any): ReportSection {
   };
 }
 
-function mapDbExecutiveSummary(dbSummary: any): ExecutiveSummary {
+function mapDbExecutiveSummary(dbSummary: DbExecutiveSummary | null): ExecutiveSummary {
   if (!dbSummary) {
     return {
       score: 0,
@@ -81,7 +144,7 @@ function mapDbExecutiveSummary(dbSummary: any): ExecutiveSummary {
   };
 }
 
-function mapDbReviewNote(dbNote: any): M6ReviewNote {
+function mapDbReviewNote(dbNote: DbReviewNote): M6ReviewNote {
   return {
     id: dbNote.id,
     blockId: dbNote.block_id ?? '',
@@ -94,10 +157,10 @@ function mapDbReviewNote(dbNote: any): M6ReviewNote {
   };
 }
 
-export function mapDbReportToFrontend(dbReport: any): M6Report {
+export function mapDbReportToFrontend(dbReport: DbReport): M6Report {
   const sections: ReportSection[] = (dbReport.m6_report_sections ?? [])
     .slice()
-    .sort((a: any, b: any) => a.order_index - b.order_index)
+    .sort((a, b) => a.order_index - b.order_index)
     .map(mapDbSectionToFrontend);
   const reviewNotes: M6ReviewNote[] = (dbReport.m6_review_notes ?? []).map(mapDbReviewNote);
   return {

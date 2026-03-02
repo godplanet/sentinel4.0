@@ -12,6 +12,8 @@ import type {
   ActionStep,
   FindingWithAssignment,
   DraftFinding,
+  FindingSeverity,
+  FindingState,
 } from './types';
 
 interface FindingStore {
@@ -201,18 +203,18 @@ export const useFindingStore = create<FindingStore>((set, get) => ({
   updateFindingScore: (id, newScore, newSeverity) =>
     set((state) => ({
       findings: state.findings.map((f) =>
-        f.id === id ? { ...f, impact_score: newScore, severity: newSeverity as any } : f
+        f.id === id ? { ...f, impact_score: newScore, severity: newSeverity as FindingSeverity } : f
       ),
       selectedFinding:
         state.selectedFinding?.id === id
-          ? { ...state.selectedFinding, impact_score: newScore, severity: newSeverity as any }
+          ? { ...state.selectedFinding, impact_score: newScore, severity: newSeverity as FindingSeverity }
           : state.selectedFinding,
     })),
 
   changeState: (id, newState) =>
     set((state) => ({
       findings: state.findings.map((f) =>
-        f.id === id ? { ...f, state: newState as any } : f
+        f.id === id ? { ...f, state: newState as FindingState } : f
       ),
     })),
 

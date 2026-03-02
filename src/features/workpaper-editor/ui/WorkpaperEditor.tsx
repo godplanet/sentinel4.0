@@ -26,7 +26,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
 
   if (!workpaper || !step) {
     return (
-      <div className="p-6 bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200">
+      <div className="p-6 bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200">
         <p className="text-gray-600">Workpaper not found</p>
       </div>
     );
@@ -94,11 +94,11 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
 
   return (
     <div className="space-y-6">
-      <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+      <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
         <div className="flex items-start justify-between mb-6">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h2 className="text-2xl font-semibold text-gray-900">{step.title}</h2>
+              <h2 className="text-2xl font-semibold text-primary">{step.title}</h2>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(workpaper.status)}`}>
                 {workpaper.status}
               </span>
@@ -146,7 +146,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
 
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold text-gray-900">Test Results</h3>
+            <h3 className="text-lg font-semibold text-primary">Test Results</h3>
             <button
               onClick={addTestItem}
               className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
@@ -156,7 +156,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
           </div>
           <div className="space-y-2">
             {Object.entries(testResults).map(([testName, result]) => (
-              <div key={testName} className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
+              <div key={testName} className="flex items-center gap-3 bg-canvas p-3 rounded-lg">
                 <span className="flex-1 text-sm font-medium text-gray-700">{testName}</span>
                 <div className="flex gap-2">
                   <button
@@ -207,7 +207,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white resize-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-surface resize-none"
             rows={6}
             placeholder="Enter audit notes, observations, or additional details..."
           />
@@ -217,7 +217,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
           {onClose && (
             <button
               onClick={onClose}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-canvas transition-colors"
             >
               Cancel
             </button>

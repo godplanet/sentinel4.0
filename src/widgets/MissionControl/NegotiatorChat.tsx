@@ -127,13 +127,13 @@ export function NegotiatorChat() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div className="lg:col-span-2 flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden" style={{ height: 520 }}>
-        <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 border-b border-slate-200">
+      <div className="lg:col-span-2 flex flex-col bg-surface border border-slate-200 rounded-xl overflow-hidden" style={{ height: 520 }}>
+        <div className="flex items-center gap-3 px-4 py-3 bg-canvas border-b border-slate-200">
           <div className="w-8 h-8 rounded-lg bg-amber-600 flex items-center justify-center">
             <Zap size={16} className="text-white" />
           </div>
           <div>
-            <div className="text-sm font-bold text-slate-900">Hermes -- Denetim Muzakeresi</div>
+            <div className="text-sm font-bold text-primary">Hermes -- Denetim Muzakeresi</div>
             <div className="text-[10px] text-slate-500">#sentinel-audit-negotiation</div>
           </div>
           <div className="ml-auto flex items-center gap-1.5">
@@ -145,7 +145,7 @@ export function NegotiatorChat() {
           </div>
         </div>
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50/50">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-canvas/50">
           {messages.map((msg) => {
             if (msg.sender === 'system') {
               return (
@@ -186,7 +186,7 @@ export function NegotiatorChat() {
                 <div className={clsx(
                   'max-w-[75%] rounded-xl px-3 py-2',
                   isBot
-                    ? 'bg-white border border-slate-200 text-slate-800'
+                    ? 'bg-surface border border-slate-200 text-slate-800'
                     : 'bg-slate-800 text-white',
                 )}>
                   <p className="text-xs leading-relaxed">{msg.text}</p>
@@ -215,7 +215,7 @@ export function NegotiatorChat() {
               <div className="w-7 h-7 rounded-lg bg-amber-600 flex items-center justify-center shrink-0">
                 <Bot size={14} className="text-white" />
               </div>
-              <div className="bg-white border border-slate-200 rounded-xl px-4 py-3">
+              <div className="bg-surface border border-slate-200 rounded-xl px-4 py-3">
                 <div className="flex gap-1">
                   {[0, 1, 2].map((i) => (
                     <motion.div
@@ -231,7 +231,7 @@ export function NegotiatorChat() {
           )}
         </div>
 
-        <div className="p-3 bg-white border-t border-slate-200">
+        <div className="p-3 bg-surface border-t border-slate-200">
           <div className="flex gap-2">
             <input
               value={input}
@@ -239,7 +239,7 @@ export function NegotiatorChat() {
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Yanit yazin..."
               disabled={typing}
-              className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-amber-200 disabled:opacity-50"
+              className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-amber-200 disabled:opacity-50"
             />
             <button
               onClick={handleSend}
@@ -264,7 +264,7 @@ export function NegotiatorChat() {
       </div>
 
       <div className="space-y-3">
-        <div className="bg-white border border-slate-200 rounded-xl p-4">
+        <div className="bg-surface border border-slate-200 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
             <BarChart3 size={14} className="text-slate-500" />
             <span className="text-xs font-bold text-slate-700">Canli Risk Skoru</span>
@@ -299,7 +299,7 @@ export function NegotiatorChat() {
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white border border-slate-200 rounded-xl p-4"
+              className="bg-surface border border-slate-200 rounded-xl p-4"
             >
               <div className="flex items-center gap-2 mb-2">
                 {latestSentiment.riskDelta > 0 ? (
@@ -335,7 +335,7 @@ export function NegotiatorChat() {
         </AnimatePresence>
 
         {sentimentHistory.length > 0 && (
-          <div className="bg-white border border-slate-200 rounded-xl p-4">
+          <div className="bg-surface border border-slate-200 rounded-xl p-4">
             <span className="text-xs font-bold text-slate-700 mb-2 block">Yanit Gecmisi</span>
             <div className="space-y-1.5">
               {sentimentHistory.map((s, i) => (
@@ -360,14 +360,14 @@ export function NegotiatorChat() {
           </div>
         )}
 
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-3">
+        <div className="bg-canvas border border-slate-200 rounded-xl p-3">
           <span className="text-[10px] text-slate-500 block mb-1.5">Hizli Yanitlar:</span>
           <div className="space-y-1">
             {['Tamam, hemen gonderiyorum', 'Bu sacmalik, kabul etmiyorum!', 'Zaman lazim, kaynaklarimiz yetersiz', 'Anladim, haklisınız'].map((q) => (
               <button
                 key={q}
                 onClick={() => { setInput(q); }}
-                className="w-full text-left text-[10px] px-2 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
+                className="w-full text-left text-[10px] px-2 py-1.5 bg-surface border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
               >
                 {q}
               </button>

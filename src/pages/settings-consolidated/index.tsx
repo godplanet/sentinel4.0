@@ -87,14 +87,14 @@ export default function SettingsConsolidatedPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Sistem Ayarları"
         subtitle="Parametre Yönetimi, Kullanıcılar ve Sistem Logları"
         icon={Settings}
       />
 
-      <div className="border-b border-slate-200 bg-white px-6">
+      <div className="border-b border-slate-200 bg-surface px-6">
         <div className="flex gap-1">
           {TABS.map((tab) => (
             <button
@@ -104,7 +104,7 @@ export default function SettingsConsolidatedPage() {
                 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                 activeTab === tab.key
                   ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
               )}
             >
               <tab.icon size={16} />
@@ -116,7 +116,7 @@ export default function SettingsConsolidatedPage() {
 
       <div className="flex-1 overflow-auto p-6">
         {activeTab === 'parameters' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <Database size={20} className="text-blue-600" />
               Sistem Parametreleri
@@ -144,18 +144,18 @@ export default function SettingsConsolidatedPage() {
 
                   return (
                     <div key={category} className="border border-slate-200 rounded-lg p-4">
-                      <h4 className="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                      <h4 className="font-semibold text-primary mb-3 flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-blue-600"></div>
                         {categoryLabels[category] || category}
                       </h4>
                       <div className="space-y-3">
                         {categoryParams.map((param) => (
-                          <div key={param.key} className="flex items-start justify-between p-3 bg-slate-50 rounded">
+                          <div key={param.key} className="flex items-start justify-between p-3 bg-canvas rounded">
                             <div className="flex-1">
-                              <p className="font-medium text-slate-900 text-sm mb-1">{param.key}</p>
+                              <p className="font-medium text-primary text-sm mb-1">{param.key}</p>
                               <p className="text-xs text-slate-600">{param.description}</p>
                             </div>
-                            <div className="ml-4 px-3 py-1 bg-white border border-slate-200 rounded font-mono text-xs text-slate-700">
+                            <div className="ml-4 px-3 py-1 bg-surface border border-slate-200 rounded font-mono text-xs text-slate-700">
                               {typeof param.value === 'object'
                                 ? JSON.stringify(param.value).substring(0, 50) + '...'
                                 : String(param.value)}
@@ -178,10 +178,10 @@ export default function SettingsConsolidatedPage() {
                     </div>
                   </div>
 
-                  <div className="bg-white border border-red-200 rounded-lg p-4">
+                  <div className="bg-surface border border-red-200 rounded-lg p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h5 className="font-semibold text-slate-900 mb-2">Fabrika Ayarlarına Dön</h5>
+                        <h5 className="font-semibold text-primary mb-2">Fabrika Ayarlarına Dön</h5>
                         <p className="text-sm text-slate-600 mb-3">
                           Tüm verileri sil ve temiz demo verilerini yeniden yükle.
                         </p>
@@ -235,7 +235,7 @@ export default function SettingsConsolidatedPage() {
         )}
 
         {activeTab === 'signals' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
             <DataSignalsPanel />
           </div>
         )}
@@ -250,7 +250,7 @@ export default function SettingsConsolidatedPage() {
         )}
 
         {activeTab === 'appearance' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <Palette size={20} className="text-purple-600" />
               Görünüm Ayarları
@@ -265,7 +265,7 @@ export default function SettingsConsolidatedPage() {
         )}
 
         {activeTab === 'users' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <UsersIcon size={20} className="text-green-600" />
               Kullanıcı ve Rol Yönetimi
@@ -282,7 +282,7 @@ export default function SettingsConsolidatedPage() {
         )}
 
         {activeTab === 'logs' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <FileText size={20} className="text-purple-600" />
               Sistem İşlem Logları

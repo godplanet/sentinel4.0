@@ -81,9 +81,9 @@ export function useHeatmapData() {
         .eq('tenant_id', TENANT);
       if (eErr) throw eErr;
 
-      const entityMap = new Map((entities || []).map((e: any) => [e.id, e]));
+      const entityMap = new Map((entities || []).map((e: { id: string; name: string; type: string }) => [e.id, e]));
 
-      const enriched: AssessmentWithDetails[] = (assessments || []).map((a: any) => {
+      const enriched: AssessmentWithDetails[] = (assessments || []).map((a: RiskAssessment & { entity_id: string; risk_definition_id: string }) => {
         const entity = entityMap.get(a.entity_id);
         const impact = a.inherent_impact ?? 1;
         const likelihood = a.inherent_likelihood ?? 1;

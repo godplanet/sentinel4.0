@@ -1,19 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useDelphiStore } from '../store';
 import type { Vote } from '../types';
 import { ZenSlider } from './ZenSlider';
 
+const DEFAULT_VOTE: Vote = { likelihood: 3, impact: 3, velocity: 3 };
+
 export function OracleBoard() {
   const { risks, currentRiskIndex, round, submitVote } = useDelphiStore();
   const currentRisk = risks[currentRiskIndex];
 
-  const [vote, setVote] = useState<Vote>({ likelihood: 3, impact: 3, velocity: 3 });
+  const [vote, setVote] = useState<Vote>(DEFAULT_VOTE);
+
+  useEffect(() => {
+    if (currentRisk?.currentVote) {
+      setVote(currentRisk.currentVote);
+    } else {
+      setVote(DEFAULT_VOTE);
+    }
+  }, [currentRisk?.id]);
 
   const handleSubmit = () => {
     submitVote(currentRisk.id, vote);
-    setVote({ likelihood: 3, impact: 3, velocity: 3 });
+    setVote(DEFAULT_VOTE);
   };
+
+  if (!currentRisk) {
+    return (
+      <div className="text-center py-12 text-slate-500 text-sm">
+        Oylanacak risk yok. RKM’de en az bir aktif risk tanımlı olmalıdır.
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-xl mx-auto">
@@ -41,7 +59,7 @@ export function OracleBoard() {
         <span className="inline-block text-[11px] font-semibold tracking-widest text-slate-400 uppercase mb-3">
           Tur {round} &mdash; {currentRisk.category}
         </span>
-        <h1 className="text-3xl font-light tracking-tight text-slate-900 mb-3 leading-snug">
+        <h1 className="text-3xl font-light tracking-tight text-primary mb-3 leading-snug">
           {currentRisk.title}
         </h1>
         <p className="text-sm text-slate-500 leading-relaxed max-w-lg">
@@ -49,7 +67,7 @@ export function OracleBoard() {
         </p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-7 space-y-7 mb-8">
+      <div className="bg-surface rounded-2xl border border-slate-100 shadow-sm p-7 space-y-7 mb-8">
         <ZenSlider
           label="Etki"
           subLabel="Impact"

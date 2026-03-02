@@ -80,7 +80,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-xl border-2 border-white/20 rounded-2xl p-8 shadow-2xl">
+          <div className="bg-surface/10 backdrop-blur-xl border-2 border-white/20 rounded-2xl p-8 shadow-2xl">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-white mb-1">Hoş Geldiniz</h2>
               <p className="text-slate-300 text-sm">Devam etmek için giriş yapın</p>
@@ -118,7 +118,7 @@ export default function LoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="ornek@banka.com"
-                    className="w-full pl-11 pr-4 py-3 bg-white/90 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    className="w-full pl-11 pr-4 py-3 bg-surface/90 border border-slate-200 rounded-xl text-primary placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     required
                     disabled={loading || success}
                   />
@@ -136,7 +136,7 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full pl-11 pr-4 py-3 bg-white/90 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    className="w-full pl-11 pr-4 py-3 bg-surface/90 border border-slate-200 rounded-xl text-primary placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     required
                     disabled={loading || success}
                   />

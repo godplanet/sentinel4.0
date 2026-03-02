@@ -35,7 +35,7 @@ export const ReviewNotePin = ({ note, onResolve, canResolve = false }: ReviewNot
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute left-0 top-8 z-50 w-80 bg-white border border-gray-200 rounded-lg shadow-2xl">
+          <div className="absolute left-0 top-8 z-50 w-80 bg-surface border border-gray-200 rounded-lg shadow-2xl">
             <div
               className={clsx(
                 'flex items-center justify-between p-3 border-b',
@@ -57,7 +57,7 @@ export const ReviewNotePin = ({ note, onResolve, canResolve = false }: ReviewNot
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-white/50 rounded transition-colors"
+                className="p-1 hover:bg-surface/50 rounded transition-colors"
               >
                 <X className="w-4 h-4 text-gray-600" />
               </button>
@@ -73,7 +73,7 @@ export const ReviewNotePin = ({ note, onResolve, canResolve = false }: ReviewNot
 
               <div className="mb-3">
                 <div className="text-xs font-medium text-gray-500 mb-1">Not:</div>
-                <div className="text-sm text-gray-900 leading-relaxed">{note.note_text}</div>
+                <div className="text-sm text-primary leading-relaxed">{note.note_text}</div>
               </div>
 
               <div className="flex items-center justify-between text-xs text-gray-600 mb-3">

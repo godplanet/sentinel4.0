@@ -85,7 +85,7 @@ export function ActivityStream({ events, maxItems, compact = false }: ActivitySt
 
               <div className={clsx('flex-1 min-w-0', compact ? 'py-1' : 'py-2')}>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className={clsx('font-semibold text-slate-900', compact ? 'text-[11px]' : 'text-xs')}>
+                  <span className={clsx('font-semibold text-primary', compact ? 'text-[11px]' : 'text-xs')}>
                     {event.actor}
                   </span>
                   <span className={clsx('text-slate-500', compact ? 'text-[10px]' : 'text-xs')}>

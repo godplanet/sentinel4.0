@@ -86,7 +86,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-6 max-h-[90vh] overflow-y-auto"
+        className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl p-6 max-h-[90vh] overflow-y-auto"
       >
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -94,7 +94,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
               <RefreshCw size={18} className="text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Entegrasyon Hub'ı</h2>
+              <h2 className="text-lg font-bold text-primary">Entegrasyon Hub'ı</h2>
               <p className="text-xs text-slate-500">Dış sistemlerden otomatik varlık keşfi</p>
             </div>
           </div>
@@ -176,7 +176,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
               </p>
               <div className="grid grid-cols-3 gap-3 mt-4">
                 {results.map((result, idx) => (
-                  <div key={idx} className="p-3 bg-white rounded-lg border border-green-200">
+                  <div key={idx} className="p-3 bg-surface rounded-lg border border-green-200">
                     <div className="text-xs text-slate-600 mb-1">{result.source}</div>
                     <div className="text-xl font-bold text-green-600">{result.entities.length}</div>
                   </div>
@@ -192,7 +192,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
           )}
         </div>
 
-        <div className="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-lg">
+        <div className="mt-6 p-4 bg-canvas border border-slate-200 rounded-lg">
           <div className="text-xs text-slate-600">
             <p className="font-semibold mb-2">Desteklenen Sistemler:</p>
             <ul className="space-y-1">

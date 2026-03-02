@@ -65,7 +65,7 @@ export function WorkflowActionBar() {
         />
       )}
 
-      <div className="no-print report-workflow-bar fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-slate-200 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
+      <div className="no-print report-workflow-bar fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-sm border-t border-slate-200 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-sans font-semibold ${STATUS_COLORS[status]}`}>
@@ -117,7 +117,7 @@ export function WorkflowActionBar() {
               <>
                 <button
                   onClick={handleRevision}
-                  className="flex items-center gap-2 px-4 py-2.5 border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 rounded-xl text-sm font-sans font-semibold transition-colors"
+                  className="flex items-center gap-2 px-4 py-2.5 border border-slate-300 bg-surface hover:bg-canvas text-slate-700 rounded-xl text-sm font-sans font-semibold transition-colors"
                 >
                   <RotateCcw size={15} />
                   Revizyon İste

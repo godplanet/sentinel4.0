@@ -67,7 +67,7 @@ export function Risk360Card({ risk, onClick, compact = false }: Risk360CardProps
       whileHover={{ y: -2 }}
       onClick={onClick}
       className={clsx(
-        'bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition-all',
+        'bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden transition-all',
         onClick && 'cursor-pointer hover:border-blue-300 hover:shadow-md'
       )}
     >
@@ -78,7 +78,7 @@ export function Risk360Card({ risk, onClick, compact = false }: Risk360CardProps
               <Shield size={18} className={inherentColor.text} />
             </div>
             <div className="min-w-0">
-              <h3 className="text-sm font-bold text-slate-900 truncate">{risk.title}</h3>
+              <h3 className="text-sm font-bold text-primary truncate">{risk.title}</h3>
               <div className="flex items-center gap-2 mt-0.5">
                 <span className="text-[10px] px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded font-medium">{risk.category}</span>
                 <span className="text-[10px] text-slate-400">{risk.owner}</span>
@@ -117,28 +117,28 @@ export function Risk360Card({ risk, onClick, compact = false }: Risk360CardProps
 
         {!compact && (
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-slate-50 rounded-lg p-2 flex items-center gap-2">
+            <div className="bg-canvas rounded-lg p-2 flex items-center gap-2">
               <Activity size={12} className="text-slate-500 flex-shrink-0" />
               <div>
                 <p className="text-[9px] text-slate-500">Hiz</p>
                 <span className={clsx('text-[10px] font-bold', velocity.color.split(' ')[0])}>{velocity.label}</span>
               </div>
             </div>
-            <div className="bg-slate-50 rounded-lg p-2 flex items-center gap-2">
+            <div className="bg-canvas rounded-lg p-2 flex items-center gap-2">
               <TrendingDown size={12} className="text-slate-500 flex-shrink-0" />
               <div>
                 <p className="text-[9px] text-slate-500">Trend</p>
                 <span className={clsx('text-[10px] font-bold', trend.color)}>{trend.icon} {trend.label}</span>
               </div>
             </div>
-            <div className="bg-slate-50 rounded-lg p-2 flex items-center gap-2">
+            <div className="bg-canvas rounded-lg p-2 flex items-center gap-2">
               <AlertTriangle size={12} className="text-slate-500 flex-shrink-0" />
               <div>
                 <p className="text-[9px] text-slate-500">Bulgular</p>
                 <span className="text-[10px] font-bold text-slate-700">{risk.findingCount}</span>
               </div>
             </div>
-            <div className="bg-slate-50 rounded-lg p-2 flex items-center gap-2">
+            <div className="bg-canvas rounded-lg p-2 flex items-center gap-2">
               <Target size={12} className="text-slate-500 flex-shrink-0" />
               <div>
                 <p className="text-[9px] text-slate-500">Acik Aksiyon</p>
@@ -149,7 +149,7 @@ export function Risk360Card({ risk, onClick, compact = false }: Risk360CardProps
         )}
       </div>
 
-      <div className="px-5 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+      <div className="px-5 py-2.5 bg-canvas border-t border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <div className={clsx('w-2 h-2 rounded-full', appetite.color)} />
           <span className="text-[10px] font-semibold text-slate-500">{appetite.label}</span>

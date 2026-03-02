@@ -81,7 +81,7 @@ export function RiskNetworkLoader() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full bg-white rounded-xl border border-slate-200">
+      <div className="flex items-center justify-center h-full bg-surface rounded-xl border border-slate-200">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
           <p className="text-sm text-slate-600">Risk ağı yükleniyor...</p>
@@ -92,10 +92,10 @@ export function RiskNetworkLoader() {
 
   if (error || !graphData) {
     return (
-      <div className="flex items-center justify-center h-full bg-white rounded-xl border border-slate-200">
+      <div className="flex items-center justify-center h-full bg-surface rounded-xl border border-slate-200">
         <div className="flex flex-col items-center gap-3 text-center max-w-md p-8">
           <AlertTriangle className="w-12 h-12 text-amber-500" />
-          <h3 className="text-lg font-bold text-slate-900">Veri Yüklenemedi</h3>
+          <h3 className="text-lg font-bold text-primary">Veri Yüklenemedi</h3>
           <p className="text-sm text-slate-600">
             {error || 'Risk ağı verisi yüklenirken bir hata oluştu.'}
           </p>
@@ -112,10 +112,10 @@ export function RiskNetworkLoader() {
 
   if (graphData.nodes.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full bg-white rounded-xl border border-slate-200">
+      <div className="flex items-center justify-center h-full bg-surface rounded-xl border border-slate-200">
         <div className="flex flex-col items-center gap-3 text-center max-w-md p-8">
           <AlertTriangle className="w-12 h-12 text-slate-400" />
-          <h3 className="text-lg font-bold text-slate-900">Veri Bulunamadı</h3>
+          <h3 className="text-lg font-bold text-primary">Veri Bulunamadı</h3>
           <p className="text-sm text-slate-600">
             Risk ağını görüntülemek için önce risk tanımları eklemeniz gerekiyor.
           </p>

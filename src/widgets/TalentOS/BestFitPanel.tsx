@@ -23,7 +23,7 @@ export function BestFitPanel({ profiles, templates }: BestFitPanelProps) {
   }, [profiles, template]);
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+    <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between p-5 text-left"
@@ -33,7 +33,7 @@ export function BestFitPanel({ profiles, templates }: BestFitPanelProps) {
             <Target size={18} className="text-teal-600" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900">En Uygun Eslestirme</h3>
+            <h3 className="text-sm font-bold text-primary">En Uygun Eslestirme</h3>
             <p className="text-xs text-slate-500">Denetim tipi secin, en uygun denetcileri gorun</p>
           </div>
         </div>
@@ -56,7 +56,7 @@ export function BestFitPanel({ profiles, templates }: BestFitPanelProps) {
               <select
                 value={selectedTemplate}
                 onChange={(e) => setSelectedTemplate(e.target.value)}
-                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
+                className="w-full px-3 py-2.5 bg-canvas border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
               >
                 <option value="">Denetim tipi secin...</option>
                 {templates.map((t) => (
@@ -109,12 +109,12 @@ function FitResultRow({ result, rank }: { result: FitResult; rank: number }) {
       className={clsx(
         'flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-colors',
         blocked
-          ? 'bg-slate-50 border-slate-200 opacity-60'
+          ? 'bg-canvas border-slate-200 opacity-60'
           : fitScore >= 70
           ? 'bg-emerald-50 border-emerald-200'
           : fitScore >= 40
           ? 'bg-amber-50 border-amber-200'
-          : 'bg-slate-50 border-slate-200'
+          : 'bg-canvas border-slate-200'
       )}
     >
       <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-600 text-xs font-bold flex items-center justify-center flex-shrink-0">
@@ -123,7 +123,7 @@ function FitResultRow({ result, rank }: { result: FitResult; rank: number }) {
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-slate-900 truncate">{auditor.full_name}</span>
+          <span className="text-sm font-semibold text-primary truncate">{auditor.full_name}</span>
           {blocked && <AlertTriangle size={13} className="text-red-500 flex-shrink-0" />}
         </div>
         <div className="flex flex-wrap gap-1 mt-1">

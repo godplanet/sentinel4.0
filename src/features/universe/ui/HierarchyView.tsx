@@ -72,7 +72,7 @@ function HierarchyNode({ entity, children, level, onEdit }: HierarchyNodeProps) 
       className="select-none"
     >
       <div
-        className="relative group flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-slate-200 hover:shadow-md transition-all duration-300"
+        className="relative group flex items-center gap-3 px-4 py-3 rounded-xl bg-surface border border-slate-200 hover:shadow-md transition-all duration-300"
         style={{ marginLeft: `${paddingLeft}px` }}
       >
         {hasChildren ? (
@@ -175,7 +175,7 @@ export function HierarchyView() {
 
   if (entities.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 bg-slate-50 rounded-xl border-2 border-dashed border-slate-300">
+      <div className="flex flex-col items-center justify-center h-64 bg-canvas rounded-xl border-2 border-dashed border-slate-300">
         <Building2 className="w-16 h-16 mb-4 text-slate-300" />
         <p className="text-slate-600 font-medium">Denetim evreni boş</p>
         <p className="text-sm text-slate-500 mt-2">Başlamak için "Varlık Ekle" butonunu kullanın</p>

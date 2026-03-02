@@ -84,7 +84,7 @@ export const PlanetPulse = () => {
 
         <div className="relative">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-white/10 backdrop-blur-xl rounded-xl flex items-center justify-center border border-white/10">
+            <div className="w-12 h-12 bg-surface/10 backdrop-blur-xl rounded-xl flex items-center justify-center border border-white/10">
               <Globe className="w-6 h-6" />
             </div>
             <div>
@@ -96,7 +96,7 @@ export const PlanetPulse = () => {
           {pillars && (
             <div className="grid grid-cols-3 gap-4 mt-6">
               {pillars.map((p) => (
-                <div key={p.pillar} className="bg-white/5 backdrop-blur-xl rounded-xl p-4 border border-white/10">
+                <div key={p.pillar} className="bg-surface/5 backdrop-blur-xl rounded-xl p-4 border border-white/10">
                   <div className="flex items-center gap-2 mb-2">
                     {p.pillar === 'E' && <Leaf size={16} className="text-emerald-400" />}
                     {p.pillar === 'S' && <Users size={16} className="text-cyan-400" />}
@@ -125,7 +125,7 @@ export const PlanetPulse = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+          className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
         >
           <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
             <Zap size={14} className="text-emerald-600" />
@@ -161,7 +161,7 @@ export const PlanetPulse = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+          className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
         >
           <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
             <Leaf size={14} className="text-teal-600" />
@@ -200,7 +200,7 @@ export const PlanetPulse = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+          className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
         >
           <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
             <Users size={14} className="text-cyan-600" />
@@ -227,7 +227,7 @@ export const PlanetPulse = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+          className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
         >
           <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
             <TrendingDown size={14} className="text-blue-600" />
@@ -264,7 +264,7 @@ export const PlanetPulse = () => {
           </h3>
           <div className="space-y-3">
             {flagged.map((dp) => (
-              <div key={dp.id} className="bg-white rounded-lg border border-red-100 p-4">
+              <div key={dp.id} className="bg-surface rounded-lg border border-red-100 p-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-slate-700">{dp.metric.code}</span>
@@ -290,7 +290,7 @@ export const PlanetPulse = () => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+        className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
       >
         <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
           <Lock size={14} className="text-slate-400" />
@@ -318,7 +318,7 @@ export const PlanetPulse = () => {
                   : null;
 
                 return (
-                  <tr key={dp.id} className="border-b border-slate-100 hover:bg-slate-50/50">
+                  <tr key={dp.id} className="border-b border-slate-100 hover:bg-canvas/50">
                     <td className="px-3 py-2.5">
                       <span className={clsx('text-[10px] font-bold px-1.5 py-0.5 rounded',
                         dp.metric.pillar === 'E' ? 'bg-emerald-50 text-emerald-700' :

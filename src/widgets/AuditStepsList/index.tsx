@@ -138,7 +138,7 @@ export function AuditStepsList({ engagementId }: AuditStepsListProps) {
 
   if (steps.length === 0) {
     return (
-      <div className="bg-white rounded-lg border border-slate-200 p-12">
+      <div className="bg-surface rounded-lg border border-slate-200 p-12">
         <div className="text-center">
           <FileText className="w-16 h-16 mx-auto text-slate-300 mb-4" />
           <h3 className="text-lg font-semibold text-slate-700 mb-2">Henüz Denetim Adımı Yok</h3>
@@ -156,7 +156,7 @@ export function AuditStepsList({ engagementId }: AuditStepsListProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.05 }}
-          className={`bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-all cursor-pointer ${
+          className={`bg-surface rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-all cursor-pointer ${
             selectedStep === step.id ? 'ring-2 ring-blue-500 border-blue-500' : ''
           }`}
           onClick={() => setSelectedStep(step.id === selectedStep ? null : step.id)}
@@ -172,7 +172,7 @@ export function AuditStepsList({ engagementId }: AuditStepsListProps) {
                   {getStatusBadge(step.workpaper_status || step.status)}
                 </div>
 
-                <h3 className="text-base font-semibold text-slate-900 mb-2">{step.step_title}</h3>
+                <h3 className="text-base font-semibold text-primary mb-2">{step.step_title}</h3>
 
                 {step.description && selectedStep === step.id && (
                   <motion.p

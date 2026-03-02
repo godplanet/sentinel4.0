@@ -102,32 +102,32 @@ export function CharterViewer() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-medium text-slate-600">Aktif Yonetmelik</span>
             <CheckCircle2 className="w-5 h-5 text-green-500" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">{activeCharter ? 1 : 0}</p>
+          <p className="text-2xl font-bold text-primary">{activeCharter ? 1 : 0}</p>
           <p className="text-xs text-slate-500 mt-1">
             {activeCharter ? activeCharter.version || 'v1.0' : 'Henuz onaylanmadi'}
           </p>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-medium text-slate-600">Taslak Surum</span>
             <Clock className="w-5 h-5 text-amber-500" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">{draftCharters.length}</p>
+          <p className="text-2xl font-bold text-primary">{draftCharters.length}</p>
           <p className="text-xs text-slate-500 mt-1">Onay bekliyor</p>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-medium text-slate-600">Arsiv</span>
             <Archive className="w-5 h-5 text-slate-400" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">{archivedCharters.length}</p>
+          <p className="text-2xl font-bold text-primary">{archivedCharters.length}</p>
           <p className="text-xs text-slate-500 mt-1">Onceki surumler</p>
         </div>
       </div>
@@ -173,7 +173,7 @@ export function CharterViewer() {
                   className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                     isSelected
                       ? 'border-blue-500 bg-blue-50'
-                      : 'border-slate-200 bg-white hover:border-slate-300'
+                      : 'border-slate-200 bg-surface hover:border-slate-300'
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -184,7 +184,7 @@ export function CharterViewer() {
                       <StatusIcon size={16} className={status.text} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-slate-900 text-sm truncate">{charter.title}</p>
+                      <p className="font-semibold text-primary text-sm truncate">{charter.title}</p>
                       <div className="flex items-center gap-2 mt-1">
                         {charter.version && (
                           <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">
@@ -209,18 +209,18 @@ export function CharterViewer() {
 
         <div className="lg:col-span-2">
           {selected ? (
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden">
               <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 text-white">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-surface/20 rounded-lg flex items-center justify-center">
                       <ScrollText size={20} />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold">{selected.title}</h3>
                       <div className="flex items-center gap-2 mt-1">
                         {selected.version && (
-                          <span className="px-2 py-0.5 bg-white/20 text-xs font-medium rounded">
+                          <span className="px-2 py-0.5 bg-surface/20 text-xs font-medium rounded">
                             {selected.version}
                           </span>
                         )}
@@ -244,7 +244,7 @@ export function CharterViewer() {
                     {selected.approval_status === 'APPROVED' && (
                       <button
                         onClick={() => handleArchive(selected)}
-                        className="flex items-center gap-1.5 px-4 py-2 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 px-4 py-2 bg-surface/20 hover:bg-surface/30 text-white text-sm font-semibold rounded-lg transition-colors"
                       >
                         <Archive size={16} />
                         Arsivle
@@ -256,7 +256,7 @@ export function CharterViewer() {
 
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="bg-slate-50 rounded-lg p-3">
+                  <div className="bg-canvas rounded-lg p-3">
                     <p className="text-xs text-slate-500 font-medium">Durum</p>
                     <div className="flex items-center gap-1.5 mt-1">
                       {(() => {
@@ -271,19 +271,19 @@ export function CharterViewer() {
                       })()}
                     </div>
                   </div>
-                  <div className="bg-slate-50 rounded-lg p-3">
+                  <div className="bg-canvas rounded-lg p-3">
                     <p className="text-xs text-slate-500 font-medium">Surum</p>
-                    <p className="text-sm font-semibold text-slate-900 mt-1">{selected.version || 'v1.0'}</p>
+                    <p className="text-sm font-semibold text-primary mt-1">{selected.version || 'v1.0'}</p>
                   </div>
-                  <div className="bg-slate-50 rounded-lg p-3">
+                  <div className="bg-canvas rounded-lg p-3">
                     <p className="text-xs text-slate-500 font-medium">Olusturulma</p>
-                    <p className="text-sm font-semibold text-slate-900 mt-1">
+                    <p className="text-sm font-semibold text-primary mt-1">
                       {new Date(selected.created_at).toLocaleDateString('tr-TR')}
                     </p>
                   </div>
-                  <div className="bg-slate-50 rounded-lg p-3">
+                  <div className="bg-canvas rounded-lg p-3">
                     <p className="text-xs text-slate-500 font-medium">Onay Tarihi</p>
-                    <p className="text-sm font-semibold text-slate-900 mt-1">
+                    <p className="text-sm font-semibold text-primary mt-1">
                       {selected.approved_at
                         ? new Date(selected.approved_at).toLocaleDateString('tr-TR')
                         : '-'}
@@ -296,7 +296,7 @@ export function CharterViewer() {
                     <Eye size={16} />
                     Belge Onizleme
                   </h4>
-                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-8 min-h-[300px]">
+                  <div className="bg-canvas border border-slate-200 rounded-lg p-8 min-h-[300px]">
                     {selected.content_url ? (
                       <div className="flex flex-col items-center justify-center gap-4">
                         <FileText size={48} className="text-blue-500" />
@@ -350,7 +350,7 @@ export function CharterViewer() {
                       {archivedCharters.map((old) => (
                         <div
                           key={old.id}
-                          className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200"
+                          className="flex items-center justify-between p-3 bg-canvas rounded-lg border border-slate-200"
                         >
                           <div className="flex items-center gap-3">
                             <Archive size={16} className="text-slate-400" />
@@ -375,7 +375,7 @@ export function CharterViewer() {
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center py-20">
+            <div className="bg-surface rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center py-20">
               <ScrollText className="text-slate-300 mb-4" size={56} />
               <p className="text-slate-600 font-semibold mb-1">Yonetmelik Secilmedi</p>
               <p className="text-sm text-slate-500">Sol panelden bir surum secin veya yeni ekleyin</p>
@@ -397,7 +397,7 @@ export function CharterViewer() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-lg w-full"
+              className="bg-surface rounded-2xl shadow-2xl max-w-lg w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 flex items-center justify-between rounded-t-2xl">
@@ -407,7 +407,7 @@ export function CharterViewer() {
                 </div>
                 <button
                   onClick={() => !submitting && setShowNewModal(false)}
-                  className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors"
+                  className="w-8 h-8 bg-surface/20 hover:bg-surface/30 rounded-lg flex items-center justify-center transition-colors"
                   disabled={submitting}
                 >
                   <X className="w-4 h-4 text-white" />
@@ -423,7 +423,7 @@ export function CharterViewer() {
                     type="text"
                     value={newForm.title}
                     onChange={(e) => setNewForm(prev => ({ ...prev, title: e.target.value }))}
-                    className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     placeholder="Ic Denetim Yonetmeligi 2026"
                     disabled={submitting}
                   />
@@ -437,17 +437,17 @@ export function CharterViewer() {
                     type="text"
                     value={newForm.version}
                     onChange={(e) => setNewForm(prev => ({ ...prev, version: e.target.value }))}
-                    className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     placeholder="v2.0"
                     disabled={submitting}
                   />
                 </div>
               </div>
 
-              <div className="bg-slate-50 px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
+              <div className="bg-canvas px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
                 <button
                   onClick={() => !submitting && setShowNewModal(false)}
-                  className="px-5 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium text-sm"
+                  className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium text-sm"
                   disabled={submitting}
                 >
                   Iptal

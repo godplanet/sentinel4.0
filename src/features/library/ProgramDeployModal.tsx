@@ -90,9 +90,9 @@ export function ProgramDeployModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+      <div className="bg-surface dark:bg-slate-800 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-surface dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-6 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-primary dark:text-white">
             Deploy Audit Program
           </h2>
           <button
@@ -112,7 +112,7 @@ export function ProgramDeployModal({
             <>
               {template && (
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                  <h3 className="text-lg font-bold text-primary dark:text-white mb-2">
                     {template.title}
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
@@ -141,14 +141,14 @@ export function ProgramDeployModal({
                     {preview.steps.map((step: any, idx: number) => (
                       <div
                         key={idx}
-                        className="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700"
+                        className="p-3 bg-canvas dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700"
                       >
                         <div className="flex items-start gap-3">
                           <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">
                             {step.order}
                           </span>
                           <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-slate-900 dark:text-white mb-1">
+                            <div className="text-sm font-medium text-primary dark:text-white mb-1">
                               {step.title}
                             </div>
                             <div className="text-xs text-slate-500">{step.description}</div>
@@ -209,11 +209,11 @@ export function ProgramDeployModal({
           )}
         </div>
 
-        <div className="sticky bottom-0 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 p-6 flex items-center justify-end gap-3">
+        <div className="sticky bottom-0 bg-canvas dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 p-6 flex items-center justify-end gap-3">
           <button
             onClick={onClose}
             disabled={deploying}
-            className="px-6 py-2 bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors disabled:opacity-50"
+            className="px-6 py-2 bg-slate-200 dark:bg-slate-700 text-primary dark:text-white rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors disabled:opacity-50"
           >
             Cancel
           </button>

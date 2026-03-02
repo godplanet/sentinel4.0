@@ -109,7 +109,7 @@ function MetricCard({
   color: string;
 }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 p-4 shadow-sm flex items-center gap-3">
+    <div className="bg-surface rounded-xl border border-slate-200/80 p-4 shadow-sm flex items-center gap-3">
       <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color} shadow-sm`}>
         <Icon size={18} className="text-white" />
       </div>

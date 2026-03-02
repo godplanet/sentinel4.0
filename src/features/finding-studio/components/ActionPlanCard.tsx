@@ -64,7 +64,7 @@ export function ActionPlanCard({
   return (
     <div
       className={clsx(
-        'bg-white rounded-lg p-5 border-2 transition-all',
+        'bg-surface rounded-lg p-5 border-2 transition-all',
         isDisagreed ? 'border-red-500 bg-red-50/50' : 'border-gray-200',
         !isValid && !isPending && 'ring-2 ring-amber-400 ring-offset-2'
       )}
@@ -88,7 +88,7 @@ export function ActionPlanCard({
               'flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm transition-all border-2',
               isAgreed
                 ? 'bg-green-600 text-white border-green-600'
-                : 'bg-white text-gray-700 border-gray-300 hover:border-green-500'
+                : 'bg-surface text-gray-700 border-gray-300 hover:border-green-500'
             )}
           >
             <CheckCircle className="inline w-4 h-4 mr-1.5" />
@@ -100,7 +100,7 @@ export function ActionPlanCard({
               'flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm transition-all border-2',
               isDisagreed
                 ? 'bg-red-600 text-white border-red-600'
-                : 'bg-white text-gray-700 border-gray-300 hover:border-red-500'
+                : 'bg-surface text-gray-700 border-gray-300 hover:border-red-500'
             )}
           >
             <XCircle className="inline w-4 h-4 mr-1.5" />
@@ -200,7 +200,7 @@ export function ActionPlanCard({
             <textarea
               value={actionPlan.disagreement_reason || ''}
               onChange={(e) => onUpdate({ disagreement_reason: e.target.value })}
-              className="w-full border border-red-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white"
+              className="w-full border border-red-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-surface"
               rows={4}
               placeholder="Neden bu aksiyon planına katılmıyorsunuz? Detaylı açıklayın..."
             />
@@ -236,7 +236,7 @@ export function ActionPlanCard({
             <label className="text-xs font-semibold text-red-900 uppercase mb-2 block">
               Kanıt / Belge (Opsiyonel)
             </label>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-red-300 rounded-lg text-sm text-red-700 hover:bg-red-100 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 bg-surface border border-red-300 rounded-lg text-sm text-red-700 hover:bg-red-100 transition-colors">
               <Upload className="w-4 h-4" />
               Dosya Yükle
             </button>

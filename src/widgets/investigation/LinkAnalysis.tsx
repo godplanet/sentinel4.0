@@ -211,7 +211,7 @@ export function LinkAnalysis({ relationships }: LinkAnalysisProps) {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-        <div ref={containerRef} className="xl:col-span-2 bg-slate-50 rounded-xl border border-slate-200 overflow-hidden relative" style={{ minHeight: 450 }}>
+        <div ref={containerRef} className="xl:col-span-2 bg-canvas rounded-xl border border-slate-200 overflow-hidden relative" style={{ minHeight: 450 }}>
           <ForceGraph2D
             width={dimensions.width}
             height={dimensions.height}
@@ -238,7 +238,7 @@ export function LinkAnalysis({ relationships }: LinkAnalysisProps) {
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 10 }}
-                className="bg-white border border-slate-200 rounded-xl p-4 space-y-3"
+                className="bg-surface border border-slate-200 rounded-xl p-4 space-y-3"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -246,7 +246,7 @@ export function LinkAnalysis({ relationships }: LinkAnalysisProps) {
                       const Icon = NODE_ICONS[selectedNode.type];
                       return <Icon size={14} style={{ color: NODE_COLORS[selectedNode.type] }} />;
                     })()}
-                    <span className="text-sm font-bold text-slate-900">{selectedNode.label}</span>
+                    <span className="text-sm font-bold text-primary">{selectedNode.label}</span>
                   </div>
                   <button onClick={() => setSelectedNode(null)} className="text-slate-400 hover:text-slate-600">
                     <X size={14} />
@@ -269,7 +269,7 @@ export function LinkAnalysis({ relationships }: LinkAnalysisProps) {
                   {nodeRelations.map((r) => {
                     const otherNode = r.source_node === selectedNode.id ? r.target_node : r.source_node;
                     return (
-                      <div key={r.id} className="p-2 bg-slate-50 rounded-lg">
+                      <div key={r.id} className="p-2 bg-canvas rounded-lg">
                         <div className="flex items-center gap-1.5">
                           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: RELATION_COLORS[r.relation_type] }} />
                           <span className="text-[10px] font-medium text-slate-700">{otherNode}</span>
@@ -294,10 +294,10 @@ export function LinkAnalysis({ relationships }: LinkAnalysisProps) {
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 10 }}
-                className="bg-white border border-slate-200 rounded-xl p-4 space-y-3"
+                className="bg-surface border border-slate-200 rounded-xl p-4 space-y-3"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-slate-900">Baglanti Detayi</span>
+                  <span className="text-sm font-bold text-primary">Baglanti Detayi</span>
                   <button onClick={() => setSelectedLink(null)} className="text-slate-400 hover:text-slate-600">
                     <X size={14} />
                   </button>
@@ -317,7 +317,7 @@ export function LinkAnalysis({ relationships }: LinkAnalysisProps) {
                 key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-white border border-slate-200 rounded-xl p-4"
+                className="bg-surface border border-slate-200 rounded-xl p-4"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <Info size={14} className="text-slate-400" />

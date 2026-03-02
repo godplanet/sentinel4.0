@@ -94,7 +94,7 @@ export function MethodologySimulator({ config }: Props) {
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
       <div className="px-5 py-4 bg-slate-800 text-white flex items-center gap-3">
         <Activity size={18} />
         <div>
@@ -167,7 +167,7 @@ export function MethodologySimulator({ config }: Props) {
                       ? 'bg-red-700 text-white border-red-700 shadow-sm shadow-red-200'
                       : isActive
                         ? 'bg-slate-800 text-white border-slate-800'
-                        : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+                        : 'bg-surface text-slate-600 border-slate-200 hover:border-slate-300'
                   )}
                 >
                   <span className="block">{label}</span>
@@ -194,7 +194,7 @@ export function MethodologySimulator({ config }: Props) {
                   'text-xs font-semibold py-1.5 rounded-lg border transition-colors',
                   finding.asset_criticality === level
                     ? 'bg-slate-800 text-white border-slate-800'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+                    : 'bg-surface text-slate-600 border-slate-200 hover:border-slate-300'
                 )}
               >
                 {ASSET_LABELS[level]}
@@ -205,7 +205,7 @@ export function MethodologySimulator({ config }: Props) {
       </div>
 
       <div className="px-5 pb-4">
-        <div className="bg-slate-50 rounded-lg p-3 space-y-1">
+        <div className="bg-canvas rounded-lg p-3 space-y-1">
           <div className="flex items-center gap-1.5 mb-2">
             <Shield size={12} className="text-slate-500" />
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Motor Detayi</span>

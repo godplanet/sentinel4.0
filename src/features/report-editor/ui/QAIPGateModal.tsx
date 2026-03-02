@@ -60,11 +60,11 @@ export function QAIPGateModal({
         onClick={handleClose}
       />
 
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-slate-200 overflow-hidden">
+      <div className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-lg border border-slate-200 overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <div className="flex items-center gap-2.5">
             <ShieldAlert size={18} className="text-blue-600" />
-            <h2 className="font-sans font-semibold text-slate-900 text-base">
+            <h2 className="font-sans font-semibold text-primary text-base">
               QAIP Kalite Kontrol Kapısı
             </h2>
           </div>
@@ -117,10 +117,10 @@ export function QAIPGateModal({
                 onClick={() => toggleCheck(index)}
                 className={`w-full flex items-start gap-3 p-3 rounded-xl border text-left transition-all ${
                   hasBlocker
-                    ? 'border-slate-100 bg-slate-50 cursor-not-allowed opacity-50'
+                    ? 'border-slate-100 bg-canvas cursor-not-allowed opacity-50'
                     : checks[index]
                     ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
-                    : 'border-slate-200 bg-white hover:bg-slate-50'
+                    : 'border-slate-200 bg-surface hover:bg-canvas'
                 }`}
               >
                 <span className={`flex-shrink-0 mt-0.5 ${checks[index] ? 'text-emerald-600' : 'text-slate-300'}`}>
@@ -138,7 +138,7 @@ export function QAIPGateModal({
           </div>
         </div>
 
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/60 flex justify-end gap-2">
+        <div className="px-6 py-4 border-t border-slate-100 bg-canvas/60 flex justify-end gap-2">
           <button
             onClick={handleClose}
             className="px-4 py-2 rounded-xl text-sm font-sans font-medium text-slate-600 hover:bg-slate-200 transition-colors"

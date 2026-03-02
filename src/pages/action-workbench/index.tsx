@@ -181,7 +181,7 @@ export default function ActionWorkbenchPage() {
         </div>
 
         {/* Quick Filters Bar */}
-        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-semibold text-slate-700 mr-2">Quick Filters:</span>
             <QuickFilterButton
@@ -220,7 +220,7 @@ export default function ActionWorkbenchPage() {
         </div>
 
         {/* Main Control Panel */}
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 shadow-sm">
           {/* Dual Tab Header */}
           <div className="flex items-center border-b border-slate-200">
             <button
@@ -229,7 +229,7 @@ export default function ActionWorkbenchPage() {
                 flex items-center gap-2 px-6 py-4 border-b-2 font-semibold transition-colors
                 ${viewMode === 'operational'
                   ? 'border-blue-600 text-blue-600 bg-blue-50'
-                  : 'border-transparent text-slate-600 hover:text-slate-900'}
+                  : 'border-transparent text-slate-600 hover:text-primary'}
               `}
             >
               <Target size={20} />
@@ -242,7 +242,7 @@ export default function ActionWorkbenchPage() {
                 flex items-center gap-2 px-6 py-4 border-b-2 font-semibold transition-colors
                 ${viewMode === 'governance'
                   ? 'border-purple-600 text-purple-600 bg-purple-50'
-                  : 'border-transparent text-slate-600 hover:text-slate-900'}
+                  : 'border-transparent text-slate-600 hover:text-primary'}
               `}
             >
               <TrendingUp size={20} />
@@ -261,7 +261,7 @@ export default function ActionWorkbenchPage() {
           </div>
 
           {/* Description */}
-          <div className="px-6 py-3 bg-slate-50 border-b border-slate-200">
+          <div className="px-6 py-3 bg-canvas border-b border-slate-200">
             <p className="text-sm text-slate-600">
               {viewMode === 'operational' ? (
                 <>
@@ -318,21 +318,21 @@ export default function ActionWorkbenchPage() {
               <span className="text-sm font-semibold text-blue-900">Bulk Actions:</span>
               <button
                 onClick={() => handleBulkAction('remind')}
-                className="px-3 py-1.5 text-sm bg-white border border-blue-300 text-blue-700 rounded hover:bg-blue-100 font-medium"
+                className="px-3 py-1.5 text-sm bg-surface border border-blue-300 text-blue-700 rounded hover:bg-blue-100 font-medium"
               >
                 <Mail size={14} className="inline mr-1" />
                 Send Reminder
               </button>
               <button
                 onClick={() => handleBulkAction('comment')}
-                className="px-3 py-1.5 text-sm bg-white border border-blue-300 text-blue-700 rounded hover:bg-blue-100 font-medium"
+                className="px-3 py-1.5 text-sm bg-surface border border-blue-300 text-blue-700 rounded hover:bg-blue-100 font-medium"
               >
                 <MessageSquare size={14} className="inline mr-1" />
                 Add Comment
               </button>
               <button
                 onClick={() => handleBulkAction('export')}
-                className="px-3 py-1.5 text-sm bg-white border border-blue-300 text-blue-700 rounded hover:bg-blue-100 font-medium"
+                className="px-3 py-1.5 text-sm bg-surface border border-blue-300 text-blue-700 rounded hover:bg-blue-100 font-medium"
               >
                 <Download size={14} className="inline mr-1" />
                 Export Selected
@@ -357,7 +357,7 @@ export default function ActionWorkbenchPage() {
             <span className="ml-3 text-slate-600 font-medium">Loading actions...</span>
           </div>
         ) : filteredActions.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-lg border border-slate-200">
+          <div className="text-center py-16 bg-surface rounded-lg border border-slate-200">
             <ListTodo className="mx-auto mb-4 text-slate-400" size={48} />
             <p className="text-lg font-semibold text-slate-700">No actions found</p>
             <p className="text-sm text-slate-500 mt-1">Try adjusting your filters</p>
@@ -366,7 +366,7 @@ export default function ActionWorkbenchPage() {
           <>
             {/* Select All Bar */}
             {filteredActions.length > 0 && (
-              <div className="flex items-center justify-between px-4 py-2 bg-white rounded-lg border border-slate-200">
+              <div className="flex items-center justify-between px-4 py-2 bg-surface rounded-lg border border-slate-200">
                 <label className="flex items-center gap-2 text-sm font-medium text-slate-700 cursor-pointer">
                   <input
                     type="checkbox"
@@ -427,13 +427,13 @@ function StatsCard({ title, value, icon: Icon, color, highlight }: {
 
   return (
     <div
-      className={`bg-white rounded-lg border p-4 shadow-sm transition-all ${
+      className={`bg-surface rounded-lg border p-4 shadow-sm transition-all ${
         highlight ? 'border-red-300 shadow-red-200 ring-2 ring-red-100' : 'border-slate-200'
       }`}
     >
       <div className="flex items-center justify-between mb-2">
         <Icon size={18} className={colorClasses[color as keyof typeof colorClasses].split(' ')[0]} />
-        <span className="text-3xl font-bold text-slate-900">{value}</span>
+        <span className="text-3xl font-bold text-primary">{value}</span>
       </div>
       <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">{title}</div>
     </div>
@@ -466,12 +466,12 @@ function QuickFilterButton({
         px-3 py-1.5 rounded-lg text-sm font-medium transition-all border
         ${active
           ? `${colors[color as keyof typeof colors]} shadow-sm`
-          : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'}
+          : 'bg-canvas text-slate-600 border-slate-200 hover:bg-slate-100'}
       `}
     >
       {label}
       {badge !== undefined && badge > 0 && (
-        <span className="ml-1.5 px-1.5 py-0.5 bg-white/60 rounded text-xs font-bold">{badge}</span>
+        <span className="ml-1.5 px-1.5 py-0.5 bg-surface/60 rounded text-xs font-bold">{badge}</span>
       )}
     </button>
   );
@@ -506,7 +506,7 @@ function ActionCard({
     <div
       onClick={handleCardClick}
       className={`
-        w-full p-5 bg-white/90 backdrop-blur-sm rounded-lg border-2 transition-all cursor-pointer
+        w-full p-5 bg-surface/90 backdrop-blur-sm rounded-lg border-2 transition-all cursor-pointer
         hover:shadow-lg hover:scale-[1.01]
         ${isSelected ? 'ring-2 ring-blue-500 border-blue-400' : aging.glowClass || 'border-slate-200'}
       `}
@@ -541,7 +541,7 @@ function ActionCard({
                 />
               </div>
               <div className="flex-1">
-                <h3 className="font-bold text-slate-900 text-base leading-tight">{action.title}</h3>
+                <h3 className="font-bold text-primary text-base leading-tight">{action.title}</h3>
                 <p className="text-sm text-slate-600 mt-0.5">
                   {action.finding_snapshot.title}
                 </p>
@@ -550,7 +550,7 @@ function ActionCard({
 
             <div className="text-right">
               <div className="text-xs text-slate-500 mb-1">Age</div>
-              <div className="text-2xl font-bold text-slate-900">{aging.ageFromDetection}</div>
+              <div className="text-2xl font-bold text-primary">{aging.ageFromDetection}</div>
               <div className="text-xs text-slate-600">days</div>
             </div>
           </div>

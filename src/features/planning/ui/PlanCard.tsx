@@ -48,7 +48,7 @@ export function PlanCard({ engagement, isBacklog = false }: PlanCardProps) {
       : 'border border-indigo-200/70';
 
   return (
-    <div className={`bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden flex flex-col ${containerClass}`}>
+    <div className={`bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden flex flex-col ${containerClass}`}>
       <div className={`px-4 pt-3.5 pb-3 flex items-start justify-between gap-2 ${headerClass}`}>
         <div className="flex-1 min-w-0">
           {isCCM && (
@@ -68,7 +68,7 @@ export function PlanCard({ engagement, isBacklog = false }: PlanCardProps) {
         </span>
       </div>
 
-      <div className="px-4 py-3 flex flex-col gap-3 bg-white">
+      <div className="px-4 py-3 flex flex-col gap-3 bg-surface">
         <div className="flex flex-wrap gap-1.5">
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${risk.className}`}>
             Risk: {risk.label}
@@ -97,7 +97,7 @@ export function PlanCard({ engagement, isBacklog = false }: PlanCardProps) {
         {engagement.requiredSkills.length > 0 && (
           <div className="flex flex-wrap gap-1">
             {engagement.requiredSkills.slice(0, 3).map((skill) => (
-              <span key={skill} className="text-xs text-slate-500 bg-slate-50 border border-slate-100 rounded px-1.5 py-0.5">
+              <span key={skill} className="text-xs text-slate-500 bg-canvas border border-slate-100 rounded px-1.5 py-0.5">
                 {skill}
               </span>
             ))}
@@ -119,7 +119,7 @@ export function PlanCard({ engagement, isBacklog = false }: PlanCardProps) {
 
         {!isBacklog && (
           <button
-            onClick={() => navigate('/execution/sprint-board')}
+            onClick={() => navigate('/execution/agile')}
             className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white text-xs font-semibold shadow-sm hover:shadow-md hover:from-blue-700 hover:to-blue-600 transition-all duration-150"
           >
             <Rocket size={13} />

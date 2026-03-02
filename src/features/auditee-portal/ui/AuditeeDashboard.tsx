@@ -187,11 +187,11 @@ export const AuditeeDashboard = () => {
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+        <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-gray-600 mb-1">Toplam Atanma</div>
-              <div className="text-3xl font-bold text-gray-900">{statsByStatus.total}</div>
+              <div className="text-3xl font-bold text-primary">{statsByStatus.total}</div>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
               <FileText className="w-6 h-6 text-blue-600" />
@@ -199,7 +199,7 @@ export const AuditeeDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+        <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-gray-600 mb-1">Bekleyen</div>
@@ -211,7 +211,7 @@ export const AuditeeDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+        <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-gray-600 mb-1">Kabul Edildi</div>
@@ -223,7 +223,7 @@ export const AuditeeDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+        <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-gray-600 mb-1">Reddedildi</div>
@@ -237,7 +237,7 @@ export const AuditeeDashboard = () => {
       </div>
 
       {/* Toolbar */}
-      <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4">
+      <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 flex-1">
             <div className="relative flex-1 max-w-md">
@@ -315,10 +315,10 @@ export const AuditeeDashboard = () => {
 
       {/* List View */}
       {viewMode === 'list' && (
-        <div className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 overflow-hidden">
+        <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-canvas border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                     Kod
@@ -348,7 +348,7 @@ export const AuditeeDashboard = () => {
                       <span className="text-sm font-mono text-gray-600">{finding.code}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">{finding.title}</div>
+                      <div className="text-sm font-medium text-primary">{finding.title}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
@@ -394,7 +394,7 @@ export const AuditeeDashboard = () => {
             <div
               key={finding.id}
               onClick={() => handleFindingClick(finding)}
-              className="bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer"
+              className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer"
             >
               <div className="flex items-start justify-between mb-3">
                 <span className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
@@ -410,7 +410,7 @@ export const AuditeeDashboard = () => {
                 </span>
               </div>
 
-              <h3 className="text-base font-semibold text-gray-900 mb-3 line-clamp-2">
+              <h3 className="text-base font-semibold text-primary mb-3 line-clamp-2">
                 {finding.title}
               </h3>
 
@@ -432,7 +432,7 @@ export const AuditeeDashboard = () => {
           ))}
 
           {filteredFindings.length === 0 && (
-            <div className="col-span-3 text-center py-12 bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200">
+            <div className="col-span-3 text-center py-12 bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200">
               <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-600">Size atanmış bulgu bulunmamaktadır</p>
             </div>
@@ -446,8 +446,8 @@ export const AuditeeDashboard = () => {
           {kanbanColumns.map((column) => (
             <div key={column.id} className="bg-gray-100 rounded-lg p-4">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-gray-900">{column.title}</h3>
-                <span className="text-xs font-medium text-gray-600 bg-white px-2 py-1 rounded">
+                <h3 className="text-sm font-semibold text-primary">{column.title}</h3>
+                <span className="text-xs font-medium text-gray-600 bg-surface px-2 py-1 rounded">
                   {column.findings.length}
                 </span>
               </div>
@@ -457,7 +457,7 @@ export const AuditeeDashboard = () => {
                   <div
                     key={finding.id}
                     onClick={() => handleFindingClick(finding)}
-                    className="bg-white rounded-lg border border-gray-200 p-4 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer"
+                    className="bg-surface rounded-lg border border-gray-200 p-4 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <span className="text-xs font-mono text-gray-600">{finding.code}</span>
@@ -471,7 +471,7 @@ export const AuditeeDashboard = () => {
                       </span>
                     </div>
 
-                    <p className="text-sm text-gray-900 font-medium mb-3 line-clamp-2">
+                    <p className="text-sm text-primary font-medium mb-3 line-clamp-2">
                       {finding.title}
                     </p>
 

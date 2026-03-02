@@ -156,7 +156,7 @@ export const SentinelOmnibar: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: -8 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-2xl mx-4 bg-white/80 backdrop-blur-xl border border-slate-200 shadow-2xl rounded-2xl overflow-hidden"
+            className="w-full max-w-2xl mx-4 bg-surface/80 backdrop-blur-xl border border-slate-200 shadow-2xl rounded-2xl overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-200">
@@ -167,7 +167,7 @@ export const SentinelOmnibar: React.FC = () => {
                 onChange={e => { setQuery(e.target.value); setHighlighted(0); }}
                 onKeyDown={handleArrowKey}
                 placeholder="Search portals, actions, modules..."
-                className="flex-1 bg-transparent text-slate-900 text-base placeholder-slate-400 outline-none font-sans"
+                className="flex-1 bg-transparent text-primary text-base placeholder-slate-400 outline-none font-sans"
               />
               <kbd className="hidden sm:flex items-center gap-1 px-2 py-1 bg-slate-100 border border-slate-200 rounded text-[10px] font-mono text-slate-500">
                 ESC
@@ -196,7 +196,7 @@ export const SentinelOmnibar: React.FC = () => {
                             onClick={() => handleSelect(result)}
                             onMouseEnter={() => setHighlighted(idx)}
                             className={`w-full flex items-center gap-4 px-5 py-3 text-left transition-colors ${
-                              isHigh ? 'bg-slate-100' : 'hover:bg-slate-50'
+                              isHigh ? 'bg-slate-100' : 'hover:bg-canvas'
                             }`}
                           >
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
@@ -208,7 +208,7 @@ export const SentinelOmnibar: React.FC = () => {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <span className="text-sm font-medium text-slate-900 font-sans">
+                                <span className="text-sm font-medium text-primary font-sans">
                                   {result.label}
                                 </span>
                                 {result.badge && (

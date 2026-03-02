@@ -59,7 +59,7 @@ export function FindingPool({ onInsertFinding }: FindingPoolProps) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Bulgu ara..."
-            className="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white"
+            className="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 rounded-lg bg-canvas focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-surface"
           />
         </div>
       </div>
@@ -85,7 +85,7 @@ export function FindingPool({ onInsertFinding }: FindingPoolProps) {
               onClick={() => onInsertFinding(f)}
               className={clsx(
                 'flex items-start gap-2 p-2.5 rounded-lg border cursor-grab active:cursor-grabbing',
-                'hover:shadow-sm hover:border-blue-300 transition-all group bg-white',
+                'hover:shadow-sm hover:border-blue-300 transition-all group bg-surface',
                 SEVERITY_COLORS[f.severity] || 'border-slate-200'
               )}
             >

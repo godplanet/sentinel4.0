@@ -48,7 +48,7 @@ export function AuditeeCard() {
 
   if (loading) {
     return (
-      <div className="bg-white border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
+      <div className="bg-surface border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
         <Loader2 size={20} className="animate-spin text-slate-400" />
       </div>
     );
@@ -108,14 +108,14 @@ export function AuditeeCard() {
         </div>
 
         <div className="grid grid-cols-3 gap-2 mb-4">
-          <div className="bg-white/70 border border-rose-100 rounded-xl p-2.5 text-center">
+          <div className="bg-surface/70 border border-rose-100 rounded-xl p-2.5 text-center">
             <div className="flex justify-center mb-1">
               <AlertCircle size={12} className="text-rose-500" />
             </div>
             <p className="text-lg font-bold text-slate-800">{total}</p>
             <p className="text-[9px] text-slate-500">Toplam</p>
           </div>
-          <div className="bg-white/70 border border-rose-100 rounded-xl p-2.5 text-center">
+          <div className="bg-surface/70 border border-rose-100 rounded-xl p-2.5 text-center">
             <div className="flex justify-center mb-1">
               <Clock size={12} className="text-amber-500" />
             </div>
@@ -124,7 +124,7 @@ export function AuditeeCard() {
             </p>
             <p className="text-[9px] text-slate-500">Aksiyonda</p>
           </div>
-          <div className="bg-white/70 border border-rose-100 rounded-xl p-2.5 text-center">
+          <div className="bg-surface/70 border border-rose-100 rounded-xl p-2.5 text-center">
             <div className="flex justify-center mb-1">
               <CheckCircle2 size={12} className="text-emerald-500" />
             </div>

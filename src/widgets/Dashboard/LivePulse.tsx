@@ -63,11 +63,11 @@ export const LivePulse = ({ activities }: LivePulseProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white rounded-xl border-2 border-slate-200 shadow-lg">
+      <div className="bg-surface rounded-xl border-2 border-slate-200 shadow-lg">
         <div className="border-b-2 border-slate-200 p-6 bg-gradient-to-r from-slate-50 to-white">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-1">Canlı Sistem Akışı</h3>
+              <h3 className="text-2xl font-bold text-primary mb-1">Canlı Sistem Akışı</h3>
               <p className="text-sm text-slate-600">Ekip aktiviteleri</p>
             </div>
             <div className="relative">
@@ -91,13 +91,13 @@ export const LivePulse = ({ activities }: LivePulseProps) => {
 
                 <div className="flex-1 min-w-0 pb-3">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-sm text-slate-900">{activity.userName}</span>
+                    <span className="font-bold text-sm text-primary">{activity.userName}</span>
                     <span className="text-xs text-slate-400">{activity.timestamp}</span>
                   </div>
 
                   <p className="text-sm text-slate-600 leading-snug">
                     {activity.action}{' '}
-                    <span className="font-semibold text-slate-900">"{activity.target}"</span>
+                    <span className="font-semibold text-primary">"{activity.target}"</span>
                   </p>
                 </div>
               </div>
@@ -105,8 +105,8 @@ export const LivePulse = ({ activities }: LivePulseProps) => {
           ))}
         </div>
 
-        <div className="border-t-2 border-slate-200 p-4 bg-slate-50">
-          <button className="w-full text-center text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-white py-2.5 rounded-lg transition-all border-2 border-transparent hover:border-slate-300">
+        <div className="border-t-2 border-slate-200 p-4 bg-canvas">
+          <button className="w-full text-center text-sm font-bold text-slate-600 hover:text-primary hover:bg-surface py-2.5 rounded-lg transition-all border-2 border-transparent hover:border-slate-300">
             Tüm Aktiviteleri Görüntüle →
           </button>
         </div>
@@ -127,7 +127,7 @@ export const LivePulse = ({ activities }: LivePulseProps) => {
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
 
               <div className="relative flex flex-col items-center gap-3">
-                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 group-hover:scale-110 transition-transform">
+                <div className="bg-surface/20 backdrop-blur-sm rounded-lg p-3 group-hover:scale-110 transition-transform">
                   <Icon className="text-white" size={28} />
                 </div>
                 <span className="text-sm font-bold text-white">{action.label}</span>

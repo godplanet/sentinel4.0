@@ -63,12 +63,12 @@ export function TipRow({ tip, analysis, onStatusChange }: TipRowProps) {
 
   return (
     <div className={clsx(
-      'bg-white border rounded-xl overflow-hidden transition-all',
+      'bg-surface border rounded-xl overflow-hidden transition-all',
       isCritical ? 'border-red-200 shadow-sm shadow-red-100' : 'border-slate-200',
     )}>
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-3 p-4 text-left hover:bg-slate-50/50 transition-colors"
+        className="w-full flex items-center gap-3 p-4 text-left hover:bg-canvas/50 transition-colors"
       >
         <div className={clsx(
           'relative w-11 h-11 rounded-xl flex items-center justify-center shrink-0 font-black text-sm',
@@ -122,7 +122,7 @@ export function TipRow({ tip, analysis, onStatusChange }: TipRowProps) {
             className="overflow-hidden"
           >
             <div className="px-4 pb-4 space-y-4 border-t border-slate-100 pt-4">
-              <div className="bg-slate-50 rounded-lg p-3">
+              <div className="bg-canvas rounded-lg p-3">
                 <span className="text-[10px] font-bold text-slate-500 block mb-1.5">Bildirim Icerigi</span>
                 <p className="text-xs text-slate-700 leading-relaxed whitespace-pre-wrap">{tip.content}</p>
               </div>
@@ -136,7 +136,7 @@ export function TipRow({ tip, analysis, onStatusChange }: TipRowProps) {
                     <ScoreBar label="Duygusal Kararsizlik (Emotion)" value={analysis.emotional_score} color="text-red-500" />
                     <div className="p-2 bg-slate-100 rounded-lg">
                       <span className="text-[10px] text-slate-500">Formul: (0.5 x Ozgulluk) + (0.3 x Kanit) - (0.2 x Duygu)</span>
-                      <span className="text-xs font-bold text-slate-900 block mt-0.5">
+                      <span className="text-xs font-bold text-primary block mt-0.5">
                         = ({(0.5 * analysis.specificity_index).toFixed(1)}) + ({(0.3 * analysis.evidence_density).toFixed(1)}) - ({(0.2 * analysis.emotional_score).toFixed(1)}) = {tip.ai_credibility_score.toFixed(1)}
                       </span>
                     </div>
@@ -164,7 +164,7 @@ export function TipRow({ tip, analysis, onStatusChange }: TipRowProps) {
                       'text-[10px] font-bold px-2 py-1 rounded transition-all',
                       tip.status === s
                         ? STATUS_COLORS[s] + ' ring-1 ring-offset-1 ring-current'
-                        : 'bg-slate-50 text-slate-400 hover:bg-slate-100',
+                        : 'bg-canvas text-slate-400 hover:bg-slate-100',
                     )}
                   >
                     {STATUS_LABELS[s]}

@@ -163,8 +163,8 @@ export function SentinelDocs({
   if (!editor) return null;
 
   return (
-    <div className={clsx('flex flex-col bg-white', isFullScreen ? 'fixed inset-0 z-[200]' : 'h-full')}>
-      <div className="shrink-0 bg-white border-b border-slate-200 px-4 py-2 flex items-center justify-between gap-3">
+    <div className={clsx('flex flex-col bg-surface', isFullScreen ? 'fixed inset-0 z-[200]' : 'h-full')}>
+      <div className="shrink-0 bg-surface border-b border-slate-200 px-4 py-2 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <FileText size={16} className="text-blue-600" />
           <span className="text-sm font-bold text-slate-800">Sentinel Docs</span>
@@ -195,7 +195,7 @@ export function SentinelDocs({
             onClick={handlePreviewToggle}
             className={clsx(
               'px-2 py-1 rounded-lg text-[10px] font-bold transition-colors border',
-              previewMode ? 'bg-amber-50 border-amber-200 text-amber-700' : 'border-slate-200 text-slate-500 hover:bg-slate-50'
+              previewMode ? 'bg-amber-50 border-amber-200 text-amber-700' : 'border-slate-200 text-slate-500 hover:bg-canvas'
             )}
           >
             {previewMode ? 'Duzenle' : 'Onizleme'}
@@ -205,7 +205,7 @@ export function SentinelDocs({
             onClick={() => setShowVariables(!showVariables)}
             className={clsx(
               'flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold transition-colors border',
-              showVariables ? 'bg-blue-50 border-blue-200 text-blue-700' : 'border-slate-200 text-slate-500 hover:bg-slate-50'
+              showVariables ? 'bg-blue-50 border-blue-200 text-blue-700' : 'border-slate-200 text-slate-500 hover:bg-canvas'
             )}
           >
             <Variable size={12} />
@@ -236,7 +236,7 @@ export function SentinelDocs({
       </div>
 
       {editable && !previewMode && (
-        <div className="shrink-0 bg-white border-b border-slate-100 px-4 py-1.5 flex items-center gap-1 flex-wrap">
+        <div className="shrink-0 bg-surface border-b border-slate-100 px-4 py-1.5 flex items-center gap-1 flex-wrap">
           <ToolBtn active={editor.isActive('heading', { level: 1 })} onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
             <Heading1 size={15} />
           </ToolBtn>
@@ -287,9 +287,9 @@ export function SentinelDocs({
       )}
 
       <div className="flex-1 flex overflow-hidden">
-        <div className="flex-1 overflow-auto bg-slate-50" onDragOver={handleDragOver}>
+        <div className="flex-1 overflow-auto bg-canvas" onDragOver={handleDragOver}>
           <div className={clsx(
-            'mx-auto bg-white shadow-sm border border-slate-200 min-h-[600px]',
+            'mx-auto bg-surface shadow-sm border border-slate-200 min-h-[600px]',
             isFullScreen ? 'max-w-[900px] my-8 rounded-xl' : 'my-4 rounded-lg max-w-full'
           )}>
             {editable && !previewMode && (
@@ -321,7 +321,7 @@ export function SentinelDocs({
               animate={{ width: 240, opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="shrink-0 border-l border-slate-200 bg-white overflow-hidden"
+              className="shrink-0 border-l border-slate-200 bg-surface overflow-hidden"
             >
               <div className="w-[240px] h-full flex flex-col">
                 <div className="px-3 py-3 border-b border-slate-100">
@@ -343,7 +343,7 @@ export function SentinelDocs({
                       <div key={cat.key}>
                         <button
                           onClick={() => toggleCategory(cat.key)}
-                          className="w-full flex items-center gap-1.5 px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-lg transition-colors"
+                          className="w-full flex items-center gap-1.5 px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-canvas rounded-lg transition-colors"
                         >
                           {isExpanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
                           <span>{cat.label}</span>
@@ -406,7 +406,7 @@ function BubbleBtn({ active, onClick, children }: { active?: boolean; onClick: (
   return (
     <button
       onClick={onClick}
-      className={clsx('p-1.5 rounded-lg transition-colors', active ? 'bg-white/20 text-white' : 'text-slate-400 hover:text-white hover:bg-white/10')}
+      className={clsx('p-1.5 rounded-lg transition-colors', active ? 'bg-surface/20 text-white' : 'text-slate-400 hover:text-white hover:bg-surface/10')}
     >
       {children}
     </button>

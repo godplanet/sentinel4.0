@@ -63,16 +63,16 @@ export function DeclarationsPanel() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-medium text-slate-600">Toplam Beyan</span>
             <FileSignature className="w-5 h-5 text-slate-500" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">{stats.total}</p>
+          <p className="text-2xl font-bold text-primary">{stats.total}</p>
           <p className="text-xs text-slate-500 mt-1">{filterYear} donemi</p>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-medium text-slate-600">Bagimsizlik</span>
             <Shield className="w-5 h-5 text-blue-500" />
@@ -80,7 +80,7 @@ export function DeclarationsPanel() {
           <p className="text-2xl font-bold text-blue-600">{stats.independence}</p>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-medium text-slate-600">Cikar Catismasi</span>
             <AlertCircle className="w-5 h-5 text-orange-500" />
@@ -88,7 +88,7 @@ export function DeclarationsPanel() {
           <p className="text-2xl font-bold text-orange-600">{stats.conflict}</p>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-medium text-slate-600">Etik Kurallar</span>
             <FileSignature className="w-5 h-5 text-green-500" />
@@ -97,13 +97,13 @@ export function DeclarationsPanel() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-1 inline-flex shadow-sm">
+      <div className="bg-surface rounded-xl border border-slate-200 p-1 inline-flex shadow-sm">
         <button
           onClick={() => setView('form')}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
             view === 'form'
               ? 'bg-blue-600 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              : 'text-slate-600 hover:text-primary hover:bg-canvas'
           }`}
         >
           <FileSignature size={16} />
@@ -114,7 +114,7 @@ export function DeclarationsPanel() {
           className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
             view === 'history'
               ? 'bg-blue-600 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              : 'text-slate-600 hover:text-primary hover:bg-canvas'
           }`}
         >
           <Clock size={16} />
@@ -127,16 +127,16 @@ export function DeclarationsPanel() {
       )}
 
       {view === 'history' && (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
           <div className="px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <h3 className="text-lg font-bold text-slate-900">Imzalanan Beyanlar</h3>
+            <h3 className="text-lg font-bold text-primary">Imzalanan Beyanlar</h3>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <Calendar size={14} className="text-slate-500" />
                 <select
                   value={filterYear}
                   onChange={(e) => setFilterYear(Number(e.target.value))}
-                  className="px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-medium"
+                  className="px-3 py-1.5 bg-canvas border border-slate-300 rounded-lg text-sm font-medium"
                 >
                   {yearOptions.map(y => (
                     <option key={y} value={y}>{y}</option>
@@ -148,7 +148,7 @@ export function DeclarationsPanel() {
                 <select
                   value={filterType}
                   onChange={(e) => setFilterType(e.target.value)}
-                  className="px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-medium"
+                  className="px-3 py-1.5 bg-canvas border border-slate-300 rounded-lg text-sm font-medium"
                 >
                   <option value="ALL">Tumu</option>
                   <option value="INDEPENDENCE">Bagimsizlik</option>
@@ -188,7 +188,7 @@ export function DeclarationsPanel() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
-                      className="border border-slate-200 rounded-lg p-4 hover:bg-slate-50 transition-colors"
+                      className="border border-slate-200 rounded-lg p-4 hover:bg-canvas transition-colors"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
@@ -196,7 +196,7 @@ export function DeclarationsPanel() {
                             <Icon size={18} className={colorCls.split(' ')[1]} />
                           </div>
                           <div>
-                            <p className="font-semibold text-slate-900 text-sm">{config.label}</p>
+                            <p className="font-semibold text-primary text-sm">{config.label}</p>
                             <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">
                               <span className="flex items-center gap-1">
                                 <Calendar size={12} />

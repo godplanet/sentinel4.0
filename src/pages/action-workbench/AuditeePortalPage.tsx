@@ -40,13 +40,13 @@ function MagicLinkHeader() {
       animate={{ opacity: 1, y: 0 }}
       className="max-w-6xl mx-auto w-full"
     >
-      <div className="bg-white/70 backdrop-blur-md border border-slate-200 rounded-2xl px-6 py-4 shadow-sm flex items-center justify-between">
+      <div className="bg-surface/70 backdrop-blur-md border border-slate-200 rounded-2xl px-6 py-4 shadow-sm flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shadow-sm">
             <Shield size={20} className="text-white" />
           </div>
           <div>
-            <p className="text-sm font-black text-slate-900 tracking-tight">
+            <p className="text-sm font-black text-primary tracking-tight">
               SENTINEL GRC
             </p>
             <p className="text-[10px] text-slate-500 font-medium tracking-widest uppercase">
@@ -68,7 +68,7 @@ function MagicLinkHeader() {
       </div>
 
       <div className="mt-4 px-2">
-        <h1 className="text-2xl font-black text-slate-900">
+        <h1 className="text-2xl font-black text-primary">
           Denetim Aksiyonlarım
         </h1>
         <p className="text-sm text-slate-500 mt-1">

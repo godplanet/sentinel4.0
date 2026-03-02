@@ -64,7 +64,7 @@ function buildThread(action: ActionAgingMetrics): ThreadNode[] {
         ? `Birim ID: ${action.assignee_unit_id.slice(0, 8)}...`
         : 'Atanmış Birim',
       color: 'text-slate-700',
-      bg: 'bg-slate-50',
+      bg: 'bg-canvas',
       ring: 'ring-slate-200',
     },
   ];
@@ -95,7 +95,7 @@ export function TraceabilityGoldenThread({ action }: Props) {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.07 }}
                 className={clsx(
-                  'flex items-center gap-4 p-4 rounded-xl border bg-white',
+                  'flex items-center gap-4 p-4 rounded-xl border bg-surface',
                   'border-slate-200 hover:border-slate-300 transition-colors',
                 )}
               >

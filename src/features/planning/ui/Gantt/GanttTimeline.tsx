@@ -77,7 +77,7 @@ export function GanttTimeline({ planId, year, onEngagementClick }: GanttTimeline
 
   if (entityRows.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 border border-white/5 rounded-lg bg-white/5 backdrop-blur-sm">
+      <div className="flex items-center justify-center h-64 border border-white/5 rounded-lg bg-surface/5 backdrop-blur-sm">
         <div className="text-center space-y-2">
           <div className="text-slate-400 text-sm">Planlı denetim bulunmuyor</div>
           <div className="text-slate-500 text-xs">
@@ -131,7 +131,7 @@ export function GanttTimeline({ planId, year, onEngagementClick }: GanttTimeline
             {entityRows.map((row) => (
               <div
                 key={row.entityId}
-                className="grid grid-cols-[200px_1fr] hover:bg-white/5 transition-colors"
+                className="grid grid-cols-[200px_1fr] hover:bg-surface/5 transition-colors"
               >
                 <div className="border-r border-white/10 px-4 py-4">
                   <div className="text-sm font-medium text-slate-200 truncate">

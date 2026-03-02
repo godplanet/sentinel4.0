@@ -142,7 +142,7 @@ export function VaultAccessPanel({ caseId, onUnlocked }: VaultAccessPanelProps) 
                   isApproved
                     ? `${colors.bg} ${colors.border} shadow-lg ${colors.glow}`
                     : isUnlocked
-                      ? 'bg-white/60 border-slate-200'
+                      ? 'bg-surface/60 border-slate-200'
                       : 'bg-slate-900 border-slate-700',
                 )}
               >
@@ -253,7 +253,7 @@ export function VaultAccessPanel({ caseId, onUnlocked }: VaultAccessPanelProps) 
         {vaultRequest && (
           <div className={clsx(
             'mt-3 px-3 py-2 rounded-lg',
-            isUnlocked ? 'bg-white/60' : 'bg-slate-900',
+            isUnlocked ? 'bg-surface/60' : 'bg-slate-900',
           )}>
             <div className="flex items-center gap-1.5 mb-1.5">
               <User size={10} className={isUnlocked ? 'text-slate-500' : 'text-slate-500'} />

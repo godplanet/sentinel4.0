@@ -83,7 +83,7 @@ export const MissionControlHero = ({ welcome, aiBrief }: MissionControlHeroProps
             <p className="text-white/70 text-sm mt-0.5">{welcome.role}</p>
           </div>
 
-          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-5 py-3">
+          <div className="flex items-center gap-3 bg-surface/10 backdrop-blur-md border border-white/20 rounded-xl px-5 py-3">
             <Activity className="text-emerald-400" size={22} />
             <div>
               <p className="text-[10px] text-white/60 font-medium mb-0.5">Sistem Sagligi</p>
@@ -112,7 +112,7 @@ export const MissionControlHero = ({ welcome, aiBrief }: MissionControlHeroProps
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 bg-white/80 px-2 py-1 rounded-md border border-slate-200">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 bg-surface/80 px-2 py-1 rounded-md border border-slate-200">
                 {aiBrief.context}
               </span>
               <span className={clsx('flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-md border', config.badgeColor)}>

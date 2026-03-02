@@ -109,8 +109,8 @@ export function KanbanBoard({ engagements }: KanbanBoardProps) {
             {/* Column Header */}
             <div className={`glass-card p-3 mb-3 border-2 ${column.color}`}>
               <div className="flex items-center justify-between">
-                <h3 className="font-bold text-slate-900">{column.title}</h3>
-                <span className="px-2 py-1 bg-white/60 rounded-full text-xs font-medium text-slate-700">
+                <h3 className="font-bold text-primary">{column.title}</h3>
+                <span className="px-2 py-1 bg-surface/60 rounded-full text-xs font-medium text-slate-700">
                   {columnEngagements.length}
                 </span>
               </div>
@@ -134,7 +134,7 @@ export function KanbanBoard({ engagements }: KanbanBoardProps) {
                         <Briefcase className="text-white" size={16} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors truncate">
+                        <h4 className="text-sm font-bold text-primary group-hover:text-blue-600 transition-colors truncate">
                           {engagement.title}
                         </h4>
                         <p className="text-xs text-slate-600 truncate">{engagement.client}</p>
@@ -171,7 +171,7 @@ export function KanbanBoard({ engagements }: KanbanBoardProps) {
                   <div className="mb-3">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs text-slate-600">İlerleme</span>
-                      <span className="text-xs font-medium text-slate-900">{engagement.progress}%</span>
+                      <span className="text-xs font-medium text-primary">{engagement.progress}%</span>
                     </div>
                     <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                       <div

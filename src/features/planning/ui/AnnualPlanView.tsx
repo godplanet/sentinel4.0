@@ -15,24 +15,10 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
-import { supabase } from '@/shared/api/supabase';
+import { fetchAnnualEngagements, type EngagementRow } from '@/entities/planning/api/queries';
 import { AnnualPlanner } from '@/widgets/AnnualPlanner';
 
 type ViewTab = 'gantt' | 'timeline' | 'calendar' | 'summary';
-
-interface EngagementRow {
-  id: string;
-  title: string;
-  audit_type: 'COMPREHENSIVE' | 'TARGETED' | 'FOLLOW_UP';
-  start_date: string;
-  end_date: string;
-  status: string;
-  estimated_hours: number;
-  actual_hours: number;
-  risk_snapshot_score: number;
-  entity_id: string;
-  audit_entities?: { entity_name: string } | null;
-}
 
 const MONTHS_TR = [
   'Ocak','Şubat','Mart','Nisan','Mayıs','Haziran',
@@ -115,7 +101,7 @@ function LightTimeline({ engagements, year }: { engagements: EngagementRow[]; ye
   return (
     <div className="overflow-x-auto">
       <div className="min-w-[900px]">
-        <div className="grid grid-cols-[220px_1fr] text-xs font-bold text-slate-500 uppercase tracking-wide border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
+        <div className="grid grid-cols-[220px_1fr] text-xs font-bold text-slate-500 uppercase tracking-wide border-b border-slate-200 bg-gradient-to-r from-canvas to-surface">
           <div className="px-4 py-2.5 border-r border-slate-200">Denetim Birimi</div>
           <div className="grid grid-cols-12">
             {MONTHS_TR.map((m, i) => (
@@ -128,7 +114,7 @@ function LightTimeline({ engagements, year }: { engagements: EngagementRow[]; ye
 
         <div className="divide-y divide-slate-100">
           {rows.map(({ entityName, items }) => (
-            <div key={entityName} className="grid grid-cols-[220px_1fr] group hover:bg-slate-50/60 transition-colors">
+            <div key={entityName} className="grid grid-cols-[220px_1fr] group hover:bg-canvas/60 transition-colors">
               <div className="border-r border-slate-100 px-4 py-4 flex flex-col justify-center">
                 <p className="text-sm font-semibold text-slate-700 truncate">{entityName}</p>
                 <p className="text-xs text-slate-400 mt-0.5">{items.length} denetim</p>
@@ -136,7 +122,7 @@ function LightTimeline({ engagements, year }: { engagements: EngagementRow[]; ye
               <div className="relative h-16">
                 <div className="absolute inset-0 grid grid-cols-12 pointer-events-none">
                   {MONTHS_TR.map((_, i) => (
-                    <div key={i} className={`h-full ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/40'} ${i < 11 ? 'border-r border-slate-100' : ''}`} />
+                    <div key={i} className={`h-full ${i % 2 === 0 ? 'bg-surface' : 'bg-canvas/40'} ${i < 11 ? 'border-r border-slate-100' : ''}`} />
                   ))}
                 </div>
 
@@ -222,18 +208,18 @@ function CalendarView({ engagements, year }: { engagements: EngagementRow[]; yea
             key={name}
             className={`rounded-xl border overflow-hidden ${isCurrentMonth ? 'border-indigo-200 ring-2 ring-indigo-100' : 'border-slate-200'}`}
           >
-            <div className={`px-4 py-2.5 flex items-center justify-between ${isCurrentMonth ? 'bg-indigo-50 border-b border-indigo-100' : 'bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200'}`}>
+            <div className={`px-4 py-2.5 flex items-center justify-between ${isCurrentMonth ? 'bg-indigo-50 border-b border-indigo-100' : 'bg-surface border-b border-slate-200'}`}>
               <span className={`text-sm font-bold ${isCurrentMonth ? 'text-indigo-800' : 'text-slate-700'}`}>
                 {name}
               </span>
               <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                isCurrentMonth ? 'bg-indigo-100 text-indigo-700' : 'bg-white text-slate-500 border border-slate-200'
+                isCurrentMonth ? 'bg-indigo-100 text-indigo-700' : 'bg-surface text-slate-500 border border-slate-200'
               }`}>
                 {items.length}
               </span>
             </div>
 
-            <div className="p-2 bg-white min-h-[100px] flex flex-col gap-1">
+            <div className="p-2 bg-surface min-h-[100px] flex flex-col gap-1">
               {items.length === 0 ? (
                 <p className="text-xs text-slate-300 text-center py-4">Denetim yok</p>
               ) : (
@@ -300,7 +286,7 @@ function SummaryView({ engagements, year }: { engagements: EngagementRow[]; year
           { label: 'Tahmini Saat', value: `${totalEst.toLocaleString('tr-TR')}s`, sub: `Fiili: ${totalActual.toLocaleString('tr-TR')}s`, icon: Clock, iconClass: 'bg-blue-100', iconColor: 'text-blue-600' },
           { label: 'Ort. Risk Skoru', value: avgRisk, sub: 'Tüm denetimler', icon: BarChart2, iconClass: 'bg-amber-100', iconColor: 'text-amber-600' },
         ].map(({ label, value, sub, icon: Icon, iconClass, iconColor }) => (
-          <div key={label} className="bg-white rounded-xl border border-slate-200 p-4 flex items-start gap-3">
+          <div key={label} className="bg-surface rounded-xl border border-slate-200 p-4 flex items-start gap-3">
             <div className={`w-10 h-10 rounded-xl ${iconClass} flex items-center justify-center shrink-0`}>
               <Icon size={18} className={iconColor} />
             </div>
@@ -314,8 +300,8 @@ function SummaryView({ engagements, year }: { engagements: EngagementRow[]; year
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-          <div className="px-5 py-3.5 bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200">
+        <div className="bg-surface rounded-xl border border-slate-200 overflow-hidden">
+          <div className="px-5 py-3.5 bg-surface border-b border-slate-200">
             <h3 className="text-sm font-bold text-slate-700">Statüye Göre Dağılım</h3>
           </div>
           <div className="p-5 flex flex-col gap-3">
@@ -335,8 +321,8 @@ function SummaryView({ engagements, year }: { engagements: EngagementRow[]; year
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-          <div className="px-5 py-3.5 bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200">
+        <div className="bg-surface rounded-xl border border-slate-200 overflow-hidden">
+          <div className="px-5 py-3.5 bg-surface border-b border-slate-200">
             <h3 className="text-sm font-bold text-slate-700">Denetim Türüne Göre</h3>
           </div>
           <div className="p-5 flex flex-col gap-3">
@@ -355,7 +341,7 @@ function SummaryView({ engagements, year }: { engagements: EngagementRow[]; year
             ))}
           </div>
 
-          <div className="px-5 py-4 bg-slate-50/60 border-t border-slate-100">
+          <div className="px-5 py-4 bg-canvas/60 border-t border-slate-100">
             <div className="flex items-center justify-between text-xs text-slate-500">
               <span>Toplam Tahmini Bütçe</span>
               <span className="font-bold text-slate-700">{totalEst.toLocaleString('tr-TR')} adam-saat</span>
@@ -374,8 +360,8 @@ function SummaryView({ engagements, year }: { engagements: EngagementRow[]; year
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <div className="px-5 py-3.5 bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200 flex items-center justify-between">
+      <div className="bg-surface rounded-xl border border-slate-200 overflow-hidden">
+        <div className="px-5 py-3.5 bg-surface border-b border-slate-200 flex items-center justify-between">
           <h3 className="text-sm font-bold text-slate-700">Aylık Denetim Dağılımı</h3>
           <span className="text-xs text-slate-400">{year}</span>
         </div>
@@ -413,17 +399,9 @@ export function AnnualPlanView() {
   const [viewTab, setViewTab] = useState<ViewTab>('gantt');
   const [year, setYear] = useState(new Date().getFullYear());
 
-  const { data: engagements = [], isLoading } = useQuery({
+  const { data: engagements = [], isLoading } = useQuery<EngagementRow[]>({
     queryKey: ['audit-engagements-annual-view', year],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from('audit_engagements')
-        .select('*, audit_entities!inner(entity_name)')
-        .lte('start_date', `${year}-12-31`)
-        .gte('end_date', `${year}-01-01`)
-        .order('start_date');
-      return (data || []) as EngagementRow[];
-    },
+    queryFn: () => fetchAnnualEngagements(year),
   });
 
   const viewTabs: { id: ViewTab; label: string; icon: typeof BarChart2 }[] = [
@@ -436,7 +414,7 @@ export function AnnualPlanView() {
   return (
     <div className="flex flex-col gap-0">
       <div className="px-6 py-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-indigo-100 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-1 p-1 bg-surface rounded-xl border border-slate-200 shadow-sm">
           {viewTabs.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -444,7 +422,7 @@ export function AnnualPlanView() {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
                 viewTab === id
                   ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-canvas'
               }`}
             >
               <Icon size={14} />
@@ -456,14 +434,14 @@ export function AnnualPlanView() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setYear((y) => y - 1)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-surface hover:bg-canvas text-slate-600 transition-colors"
           >
             <ChevronLeft size={14} />
           </button>
           <span className="text-sm font-bold text-indigo-900 min-w-[44px] text-center">{year}</span>
           <button
             onClick={() => setYear((y) => y + 1)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-surface hover:bg-canvas text-slate-600 transition-colors"
           >
             <ChevronRight size={14} />
           </button>

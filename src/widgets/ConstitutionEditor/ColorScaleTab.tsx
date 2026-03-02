@@ -68,7 +68,7 @@ export function ColorScaleTab({ ranges, onChange }: Props) {
         {ranges.map((range, idx) => (
           <div
             key={idx}
-            className="flex items-center gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-slate-300 transition-colors"
+            className="flex items-center gap-4 p-4 bg-surface border border-slate-200 rounded-xl hover:border-slate-300 transition-colors"
           >
             <div className="relative">
               <input
@@ -97,7 +97,7 @@ export function ColorScaleTab({ ranges, onChange }: Props) {
                   max={100}
                   value={range.min}
                   onChange={(e) => handleFieldChange(idx, 'min', Number(e.target.value))}
-                  className="w-16 text-sm text-center font-mono text-slate-700 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                  className="w-16 text-sm text-center font-mono text-slate-700 bg-canvas border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400"
                 />
               </div>
               <span className="text-slate-300 mt-5">-</span>
@@ -109,7 +109,7 @@ export function ColorScaleTab({ ranges, onChange }: Props) {
                   max={100}
                   value={range.max}
                   onChange={(e) => handleFieldChange(idx, 'max', Number(e.target.value))}
-                  className="w-16 text-sm text-center font-mono text-slate-700 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                  className="w-16 text-sm text-center font-mono text-slate-700 bg-canvas border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400"
                 />
               </div>
             </div>

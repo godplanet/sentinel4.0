@@ -107,7 +107,7 @@ export default function ProgramLibraryPage() {
       ) : filteredTemplates.length === 0 ? (
         <GlassCard className="p-12 text-center">
           <BookOpen className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+          <h3 className="text-xl font-bold text-primary dark:text-white mb-2">
             No Programs Found
           </h3>
           <p className="text-slate-600 dark:text-slate-400">
@@ -134,7 +134,7 @@ export default function ProgramLibraryPage() {
                 </div>
 
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 line-clamp-2">
+                  <h3 className="text-lg font-bold text-primary dark:text-white mb-2 line-clamp-2">
                     {template.title}
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2">
@@ -192,7 +192,7 @@ export default function ProgramLibraryPage() {
           <div className="flex items-start gap-3">
             <BookOpen className="text-blue-500 shrink-0 mt-0.5" size={20} />
             <div className="text-sm text-slate-600 dark:text-slate-400">
-              <strong className="text-slate-900 dark:text-white">Program Templates:</strong> These are pre-built audit programs that you can deploy directly to any engagement. Each program contains a complete set of test steps with procedures, evidence requirements, and GIAS 2024 risk linkage.
+              <strong className="text-primary dark:text-white">Program Templates:</strong> These are pre-built audit programs that you can deploy directly to any engagement. Each program contains a complete set of test steps with procedures, evidence requirements, and GIAS 2024 risk linkage.
             </div>
           </div>
         </GlassCard>

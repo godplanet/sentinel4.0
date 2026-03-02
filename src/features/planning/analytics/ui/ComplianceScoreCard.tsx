@@ -36,14 +36,14 @@ export function ComplianceScoreCard({
 
   return (
     <div className={`
-      bg-white/90 backdrop-blur-xl rounded-xl border-2 p-8 transition-all
+      bg-surface/90 backdrop-blur-xl rounded-xl border-2 p-8 transition-all
       ${getGlowClass()}
     `}>
       <div className="text-center mb-6">
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 mb-4">
           <Target size={40} className="text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Plan Compliance Score</h2>
+        <h2 className="text-2xl font-bold text-primary mb-2">Plan Compliance Score</h2>
         <p className="text-sm text-slate-600">Overall audit plan realization metric</p>
       </div>
 
@@ -117,16 +117,16 @@ function MetricRow({
   description: string;
 }) {
   return (
-    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+    <div className="flex items-center justify-between p-3 bg-canvas rounded-lg">
       <div className="flex items-center gap-3 flex-1">
         <div className="flex-shrink-0">{icon}</div>
         <div className="flex-1">
-          <div className="font-medium text-slate-900 text-sm">{label}</div>
+          <div className="font-medium text-primary text-sm">{label}</div>
           <div className="text-xs text-slate-500">{description}</div>
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <div className="text-lg font-bold text-slate-900">{format(value)}</div>
+        <div className="text-lg font-bold text-primary">{format(value)}</div>
         {trend}
       </div>
     </div>

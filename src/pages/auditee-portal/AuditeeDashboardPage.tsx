@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ClipboardList, AlertTriangle, CheckCircle2, Clock,
@@ -6,114 +6,51 @@ import {
   Handshake,
 } from 'lucide-react';
 import clsx from 'clsx';
-import { supabase } from '@/shared/api/supabase';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { fetchAuditeeTasks, uploadEvidenceFile, requestExtension } from '@/features/auditee-portal/api';
 import { AdvisoryRequestModal } from '@/widgets/AdvisoryWorkspace/AdvisoryRequestModal';
-
-interface AuditeeTask {
-  id: string;
-  finding_code: string | null;
-  title: string;
-  severity: string;
-  status: string;
-  due_date: string | null;
-  description: string | null;
-}
-
-const SEVERITY_CONFIG: Record<string, { bg: string; text: string; label: string }> = {
-  CRITICAL: { bg: 'bg-red-100 border-red-300', text: 'text-red-700', label: 'Kritik' },
-  HIGH: { bg: 'bg-orange-100 border-orange-300', text: 'text-orange-700', label: 'Yuksek' },
-  MEDIUM: { bg: 'bg-amber-100 border-amber-300', text: 'text-amber-700', label: 'Orta' },
-  LOW: { bg: 'bg-blue-100 border-blue-300', text: 'text-blue-700', label: 'Dusuk' },
-};
 
 export function AuditeeDashboardPage() {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState<AuditeeTask[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
+  const queryClient = useQueryClient();
   const [extensionId, setExtensionId] = useState<string | null>(null);
   const [extensionReason, setExtensionReason] = useState('');
-  const [extensionSubmitting, setExtensionSubmitting] = useState(false);
   const [showAdvisoryModal, setShowAdvisoryModal] = useState(false);
 
-  const loadTasks = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from('audit_findings')
-        .select('id, finding_code, title, severity, status, due_date, description')
-        .in('status', [
-          'DRAFT', 'PENDING_REVIEW', 'SENT_TO_AUDITEE',
-          'AUDITEE_REVIEWING', 'PENDING_APPROVAL', 'DISPUTING',
-          'REMEDIATION_STARTED', 'AUDITEE_ACCEPTED',
-        ])
-        .order('severity', { ascending: true })
-        .order('due_date', { ascending: true });
+  const { data: tasks = [], isLoading } = useQuery({
+    queryKey: ['auditee-tasks'],
+    queryFn: fetchAuditeeTasks,
+  });
 
-      if (error) throw error;
-      setTasks(data || []);
-    } catch (err) {
-      console.error('Failed to load tasks:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const uploadMutation = useMutation({
+    mutationFn: ({ findingId, file }: { findingId: string; file: File }) =>
+      uploadEvidenceFile(findingId, file),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['auditee-tasks'] });
+    },
+  });
 
-  useEffect(() => { loadTasks(); }, [loadTasks]);
-
-  const handleEvidenceUpload = useCallback(async (findingId: string, file: File) => {
-    setUploading(true);
-    try {
-      const path = `evidence/${findingId}/${Date.now()}_${file.name}`;
-      const { error: uploadErr } = await supabase.storage.from('evidence').upload(path, file);
-
-      if (uploadErr) {
-        await supabase.from('finding_comments').insert({
-          finding_id: findingId,
-          comment_text: `Kanit yuklendi: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`,
-          comment_type: 'EVIDENCE',
-          author_role: 'AUDITEE',
-        });
-      }
-
-      await loadTasks();
-    } catch (err) {
-      console.error('Upload failed:', err);
-    } finally {
-      setUploading(false);
-    }
-  }, [loadTasks]);
-
-  const handleExtensionRequest = useCallback(async () => {
-    if (!extensionId || !extensionReason.trim()) return;
-    setExtensionSubmitting(true);
-    try {
+  const extensionMutation = useMutation({
+    mutationFn: () => {
+      if (!extensionId || !extensionReason.trim()) throw new Error('Missing data');
       const finding = tasks.find((t) => t.id === extensionId);
-      const currentDue = finding?.due_date ? new Date(finding.due_date) : new Date();
-      const newDue = new Date(currentDue);
-      newDue.setDate(newDue.getDate() + 7);
-
-      await supabase.from('finding_comments').insert({
-        finding_id: extensionId,
-        comment_text: `Sure uzatimi talebi (+7 gun): ${extensionReason}. Yeni tarih: ${newDue.toLocaleDateString('tr-TR')}`,
-        comment_type: 'EXTENSION_REQUEST',
-        author_role: 'AUDITEE',
+      return requestExtension({
+        findingId: extensionId,
+        reason: extensionReason,
+        currentDueDate: finding?.due_date ?? null,
       });
-
+    },
+    onSuccess: () => {
       setExtensionId(null);
       setExtensionReason('');
-    } catch (err) {
-      console.error('Extension request failed:', err);
-    } finally {
-      setExtensionSubmitting(false);
-    }
-  }, [extensionId, extensionReason, tasks]);
+    },
+  });
 
   const pending = tasks.filter((t) => ['SENT_TO_AUDITEE', 'AUDITEE_REVIEWING'].includes(t.status));
   const inProgress = tasks.filter((t) => ['REMEDIATION_STARTED', 'AUDITEE_ACCEPTED', 'PENDING_APPROVAL'].includes(t.status));
   const overdue = tasks.filter((t) => t.due_date && new Date(t.due_date) < new Date());
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center py-24">
         <Loader2 size={28} className="animate-spin text-slate-400" />
@@ -144,8 +81,8 @@ export function AuditeeDashboardPage() {
         <StatCard label="Suresi Gecen" value={overdue.length} icon={AlertTriangle} color="bg-red-100 text-red-600" />
       </div>
 
-      <div className="bg-white border-2 border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b-2 border-slate-200 bg-slate-50">
+      <div className="bg-surface border-2 border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b-2 border-slate-200 bg-canvas">
           <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <ClipboardList size={18} />
             Yapilacaklar Listem
@@ -160,13 +97,19 @@ export function AuditeeDashboardPage() {
         ) : (
           <div className="divide-y divide-slate-100">
             {tasks.map((task) => {
+              const SEVERITY_CONFIG: Record<string, { bg: string; text: string; label: string }> = {
+                CRITICAL: { bg: 'bg-red-100 border-red-300', text: 'text-red-700', label: 'Kritik' },
+                HIGH: { bg: 'bg-orange-100 border-orange-300', text: 'text-orange-700', label: 'Yuksek' },
+                MEDIUM: { bg: 'bg-amber-100 border-amber-300', text: 'text-amber-700', label: 'Orta' },
+                LOW: { bg: 'bg-blue-100 border-blue-300', text: 'text-blue-700', label: 'Dusuk' },
+              };
               const sev = SEVERITY_CONFIG[task.severity] || SEVERITY_CONFIG.LOW;
               const isOverdue = task.due_date && new Date(task.due_date) < new Date();
 
               return (
                 <div
                   key={task.id}
-                  className="px-6 py-4 hover:bg-slate-50 transition-colors group"
+                  className="px-6 py-4 hover:bg-canvas transition-colors group"
                 >
                   <div className="flex items-start gap-4">
                     <div className={clsx('mt-0.5 w-3 h-3 rounded-full shrink-0 border-2', sev.bg)} />
@@ -207,7 +150,7 @@ export function AuditeeDashboardPage() {
                           className="hidden"
                           onChange={(e) => {
                             const file = e.target.files?.[0];
-                            if (file) handleEvidenceUpload(task.id, file);
+                            if (file) uploadMutation.mutate({ findingId: task.id, file });
                           }}
                         />
                       </label>
@@ -236,9 +179,9 @@ export function AuditeeDashboardPage() {
         )}
       </div>
 
-      {uploading && (
+      {uploadMutation.isPending && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-8 shadow-2xl flex items-center gap-4">
+          <div className="bg-surface rounded-2xl p-8 shadow-2xl flex items-center gap-4">
             <Loader2 size={24} className="animate-spin text-blue-600" />
             <span className="text-sm font-bold text-slate-700">Kanit yukleniyor...</span>
           </div>
@@ -251,7 +194,7 @@ export function AuditeeDashboardPage() {
 
       {extensionId && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
+          <div className="bg-surface rounded-2xl p-6 max-w-md w-full shadow-2xl">
             <h3 className="text-lg font-bold text-slate-800 mb-1">Sure Uzatimi Talebi</h3>
             <p className="text-sm text-slate-500 mb-4">Mevcut son tarihe +7 gun eklenecektir.</p>
 
@@ -260,7 +203,7 @@ export function AuditeeDashboardPage() {
               onChange={(e) => setExtensionReason(e.target.value)}
               placeholder="Uzatim gerekce aciklamasi..."
               rows={3}
-              className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 resize-none"
+              className="w-full px-4 py-3 bg-canvas border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 resize-none"
             />
 
             <div className="flex items-center gap-3 mt-4">
@@ -271,11 +214,11 @@ export function AuditeeDashboardPage() {
                 Iptal
               </button>
               <button
-                onClick={handleExtensionRequest}
-                disabled={extensionSubmitting || !extensionReason.trim()}
+                onClick={() => extensionMutation.mutate()}
+                disabled={extensionMutation.isPending || !extensionReason.trim()}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-700 transition-colors disabled:opacity-50"
               >
-                {extensionSubmitting ? <Loader2 size={14} className="animate-spin" /> : <CalendarPlus size={14} />}
+                {extensionMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : <CalendarPlus size={14} />}
                 Talep Gonder
               </button>
             </div>
@@ -293,7 +236,7 @@ function StatCard({ label, value, icon: Icon, color }: {
   color: string;
 }) {
   return (
-    <div className="bg-white border-2 border-slate-200 rounded-2xl p-5 shadow-sm">
+    <div className="bg-surface border-2 border-slate-200 rounded-2xl p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</p>

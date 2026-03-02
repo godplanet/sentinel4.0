@@ -68,7 +68,7 @@ export function TeamPulseWidget() {
     : null;
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
         <div className="flex items-center gap-2.5">
@@ -192,7 +192,7 @@ export function TeamPulseWidget() {
                 {blockers.map((r) => (
                   <div
                     key={r.id}
-                    className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-100"
+                    className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-canvas border border-slate-100"
                   >
                     <span className="text-base flex-shrink-0 mt-0.5">{ENERGY_META[r.energy_level]?.emoji}</span>
                     <div className="min-w-0">

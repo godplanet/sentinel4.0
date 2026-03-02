@@ -96,7 +96,13 @@ export const PRIORITY_LABELS: Record<TaskPriority, string> = {
 };
 
 export const SPRINT_STATUS_LABELS: Record<SprintStatus, string> = {
-  PLANNED: 'Planli',
+  PLANNED: 'Planlı',
   ACTIVE: 'Aktif',
-  COMPLETED: 'Tamamlandi',
+  COMPLETED: 'Tamamlandı',
+};
+
+export const ENGAGEMENT_STATUS_LABELS: Record<EngagementStatus, string> = {
+  PLANNED: 'Planlı',
+  ACTIVE: 'Aktif',
+  COMPLETED: 'Tamamlandı',
 };

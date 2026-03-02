@@ -132,7 +132,7 @@ export const ManagerView = () => {
         <div className="border border-slate-200 rounded-lg overflow-hidden">
           <table className="w-full text-left">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200">
+              <tr className="bg-canvas border-b border-slate-200">
                 <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Kod</th>
                 <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Kontrol</th>
                 <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Kategori</th>
@@ -144,7 +144,7 @@ export const ManagerView = () => {
             </thead>
             <tbody>
               {pending.map((ctrl) => (
-                <tr key={ctrl.id} className="border-b border-slate-100 hover:bg-slate-50/50">
+                <tr key={ctrl.id} className="border-b border-slate-100 hover:bg-canvas/50">
                   <td className="px-3 py-2.5">
                     <span className="text-xs font-bold text-slate-700">{ctrl.code}</span>
                     {ctrl.is_key_control && (
@@ -194,7 +194,7 @@ export const ManagerView = () => {
         <div className="border border-slate-200 rounded-lg overflow-hidden">
           <table className="w-full text-left">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200">
+              <tr className="bg-canvas border-b border-slate-200">
                 <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Kod</th>
                 <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Durum</th>
                 <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Imzalayan</th>
@@ -244,7 +244,7 @@ export const ManagerView = () => {
       {signingControl && !challenge && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={closeSignForm} />
-          <div className="relative w-full max-w-lg bg-white rounded-xl shadow-xl overflow-hidden">
+          <div className="relative w-full max-w-lg bg-surface rounded-xl shadow-xl overflow-hidden">
             <div className="bg-slate-800 text-white p-4 flex items-center gap-3">
               <FileText size={18} />
               <div>
@@ -253,7 +253,7 @@ export const ManagerView = () => {
               </div>
             </div>
             <div className="p-5 space-y-4">
-              <div className="bg-slate-50 rounded-lg p-3 text-xs text-slate-700">{signingControl.description}</div>
+              <div className="bg-canvas rounded-lg p-3 text-xs text-slate-700">{signingControl.description}</div>
 
               {signingControl.incidents.length > 0 && (
                 <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
@@ -281,7 +281,7 @@ export const ManagerView = () => {
                         status === s
                           ? s === 'Effective' ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
                             : s === 'Ineffective' ? 'border-red-500 bg-red-50 text-red-700'
-                            : 'border-slate-500 bg-slate-50 text-slate-700'
+                            : 'border-slate-500 bg-canvas text-slate-700'
                           : 'border-slate-200 text-slate-500 hover:border-slate-300',
                       )}
                     >
@@ -302,13 +302,13 @@ export const ManagerView = () => {
                 />
               </div>
 
-              <div className="bg-slate-50 rounded-lg p-3 text-[10px] text-slate-500 flex items-center gap-2">
+              <div className="bg-canvas rounded-lg p-3 text-[10px] text-slate-500 flex items-center gap-2">
                 <Lock size={12} className="text-slate-400" />
                 Bu kayit SHA-256 ile hash'lenecek ve degistirilemez olarak saklanacaktir.
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 p-4 border-t border-slate-100 bg-slate-50/50">
+            <div className="flex justify-end gap-3 p-4 border-t border-slate-100 bg-canvas/50">
               <button onClick={closeSignForm} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">
                 Vazgec
               </button>

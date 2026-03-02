@@ -88,7 +88,7 @@ export function UniverseListView() {
   const SortButton = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
     <button
       onClick={() => handleSort(field)}
-      className="flex items-center gap-1 hover:text-slate-900 transition-colors group"
+      className="flex items-center gap-1 hover:text-primary transition-colors group"
     >
       {children}
       <ArrowUpDown
@@ -101,10 +101,10 @@ export function UniverseListView() {
   );
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-slate-50 border-b border-slate-200">
+          <thead className="bg-canvas border-b border-slate-200">
             <tr>
               <th className="px-6 py-3 text-left">
                 <SortButton field="name">
@@ -169,14 +169,14 @@ export function UniverseListView() {
               return (
                 <tr
                   key={entity.id}
-                  className="hover:bg-slate-50 transition-colors group"
+                  className="hover:bg-canvas transition-colors group"
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2" style={{ paddingLeft: `${indentation}px` }}>
                       {level > 0 && (
                         <ChevronRight size={14} className="text-slate-400 flex-shrink-0" />
                       )}
-                      <span className="text-sm font-medium text-slate-900">
+                      <span className="text-sm font-medium text-primary">
                         {entity.name}
                       </span>
                       {isSynced && (

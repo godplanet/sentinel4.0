@@ -72,12 +72,12 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in">
-      <div className="relative w-full max-w-xl rounded-2xl bg-white shadow-2xl animate-in slide-in-from-bottom-4">
+      <div className="relative w-full max-w-xl rounded-2xl bg-surface shadow-2xl animate-in slide-in-from-bottom-4">
         {/* Header */}
         <div className="relative overflow-hidden rounded-t-2xl bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-5">
           <div className="relative flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface/20 backdrop-blur-sm">
                 <Package className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -88,7 +88,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
             <button
               onClick={handleClose}
               disabled={status === 'generating'}
-              className="rounded-full bg-white/20 p-2 text-white backdrop-blur-sm transition-all hover:bg-white/30 disabled:opacity-50"
+              className="rounded-full bg-surface/20 p-2 text-white backdrop-blur-sm transition-all hover:bg-surface/30 disabled:opacity-50"
             >
               <X className="h-5 w-5" />
             </button>
@@ -100,7 +100,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
           {status === 'idle' && (
             <div className="space-y-6">
               <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-4">
-                <h3 className="mb-2 font-semibold text-gray-900">Paket İçeriği</h3>
+                <h3 className="mb-2 font-semibold text-primary">Paket İçeriği</h3>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 text-green-600" />
@@ -147,7 +147,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
                 {steps.map((step, idx) => (
                   <div
                     key={step.id}
-                    className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3"
+                    className="flex items-center gap-3 rounded-lg border border-gray-200 bg-canvas p-3"
                   >
                     {step.status === 'completed' ? (
                       <CheckCircle2 className="h-5 w-5 text-green-600" />
@@ -159,7 +159,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
                     <span
                       className={`text-sm ${
                         step.status === 'completed'
-                          ? 'text-gray-900 font-medium'
+                          ? 'text-primary font-medium'
                           : step.status === 'active'
                           ? 'text-blue-600 font-medium'
                           : 'text-gray-500'
@@ -186,13 +186,13 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Paket Hazır!</h3>
+                <h3 className="text-lg font-bold text-primary">Paket Hazır!</h3>
                 <p className="mt-1 text-sm text-gray-600">
                   BDDK uyumluluk paketi başarıyla oluşturuldu.
                 </p>
               </div>
 
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <div className="rounded-lg border border-gray-200 bg-canvas p-4">
                 <div className="flex items-center gap-2 text-sm text-gray-700">
                   <FileText className="h-5 w-5 text-blue-600" />
                   <span className="font-mono text-xs">Sentinel_BDDK_Paketi_2026.zip</span>

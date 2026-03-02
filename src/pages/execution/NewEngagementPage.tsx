@@ -4,7 +4,7 @@ import { EngagementWizard } from '@/features/audit-creation/EngagementWizard';
 
 export default function NewEngagementPage() {
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Yeni Denetim Olustur"
         description="Hizmet katalogundan denetim urunu secin, sprint plani ve ekip olusturun"

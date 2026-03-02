@@ -75,7 +75,7 @@ export default function NewEngagementModal({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[90vh] overflow-hidden">
+      <div className="bg-surface rounded-xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[90vh] overflow-hidden">
         
         {/* HEADER */}
         <div className="shrink-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 flex items-center justify-between">
@@ -85,7 +85,7 @@ export default function NewEngagementModal({
           </div>
           <button
             onClick={onClose}
-            className="hover:bg-white/20 p-2 rounded-lg transition-colors"
+            className="hover:bg-surface/20 p-2 rounded-lg transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -95,7 +95,7 @@ export default function NewEngagementModal({
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           
           {/* SCROLLABLE CONTENT */}
-          <div className="p-6 space-y-6 overflow-y-auto flex-1 bg-slate-50/30">
+          <div className="p-6 space-y-6 overflow-y-auto flex-1 bg-canvas/30">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Denetlenecek Birim *
@@ -198,11 +198,11 @@ export default function NewEngagementModal({
           </div>
 
           {/* FIXED FOOTER */}
-          <div className="flex gap-3 p-6 border-t shrink-0 bg-white">
+          <div className="flex gap-3 p-6 border-t shrink-0 bg-surface">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-canvas font-medium transition-colors"
             >
               İptal
             </button>

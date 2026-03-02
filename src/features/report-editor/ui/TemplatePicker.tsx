@@ -34,11 +34,11 @@ export function TemplatePicker({ templates, onSelect, onBlank, onClose }: Templa
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden"
+          className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden"
         >
           <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Sablon Galerisi</h2>
+              <h2 className="text-lg font-bold text-primary">Sablon Galerisi</h2>
               <p className="text-xs text-slate-500 mt-0.5">Rapor sablonu secin veya sifirdan baslayin</p>
             </div>
             <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
@@ -79,7 +79,7 @@ export function TemplatePicker({ templates, onSelect, onBlank, onClose }: Templa
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => onSelect(tmpl)}
-                      className="text-left p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all group bg-white"
+                      className="text-left p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all group bg-surface"
                     >
                       <div className="flex items-start gap-3">
                         <div className={clsx(

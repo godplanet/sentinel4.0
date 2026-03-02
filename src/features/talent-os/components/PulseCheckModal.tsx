@@ -275,7 +275,7 @@ export function PulseCheckModal({ userId, onClose }: PulseCheckModalProps) {
                       placeholder="Ne tıkandı? (isteğe bağlı)"
                       maxLength={280}
                       rows={2}
-                      className="w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-300 transition-all"
+                      className="w-full resize-none rounded-xl border border-slate-200 bg-surface px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-300 transition-all"
                     />
                   </motion.div>
                 )}

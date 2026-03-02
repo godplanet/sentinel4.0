@@ -56,17 +56,17 @@ export function MyAssignments({ onSelectFinding }: MyAssignmentsProps) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white border border-slate-200 rounded-lg p-4">
+        <div className="bg-surface border border-slate-200 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-slate-900">{stats.total}</div>
+              <div className="text-2xl font-bold text-primary">{stats.total}</div>
               <div className="text-sm text-slate-500">Toplam Atama</div>
             </div>
             <AlertCircle className="w-8 h-8 text-slate-400" />
           </div>
         </div>
 
-        <div className="bg-white border border-yellow-200 rounded-lg p-4">
+        <div className="bg-surface border border-yellow-200 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-yellow-800">{stats.pending}</div>
@@ -76,7 +76,7 @@ export function MyAssignments({ onSelectFinding }: MyAssignmentsProps) {
           </div>
         </div>
 
-        <div className="bg-white border border-green-200 rounded-lg p-4">
+        <div className="bg-surface border border-green-200 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-green-800">{stats.agreed}</div>
@@ -86,7 +86,7 @@ export function MyAssignments({ onSelectFinding }: MyAssignmentsProps) {
           </div>
         </div>
 
-        <div className="bg-white border border-red-200 rounded-lg p-4">
+        <div className="bg-surface border border-red-200 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-red-800">{stats.disagreed}</div>
@@ -98,11 +98,11 @@ export function MyAssignments({ onSelectFinding }: MyAssignmentsProps) {
       </div>
 
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-900">Atanan Bulgular</h2>
+        <h2 className="text-lg font-semibold text-primary">Atanan Bulgular</h2>
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="ALL">Tüm Durumlar</option>
           <option value="PENDING">Bekleyen</option>
@@ -123,7 +123,7 @@ export function MyAssignments({ onSelectFinding }: MyAssignmentsProps) {
             <div
               key={finding.id}
               onClick={() => onSelectFinding?.(finding)}
-              className="bg-white border border-slate-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+              className="bg-surface border border-slate-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 space-y-3">
@@ -153,7 +153,7 @@ export function MyAssignments({ onSelectFinding }: MyAssignmentsProps) {
                     )}
                   </div>
 
-                  <h3 className="font-medium text-slate-900">{finding.title}</h3>
+                  <h3 className="font-medium text-primary">{finding.title}</h3>
 
                   {finding.detection_html && (
                     <div

@@ -60,7 +60,7 @@ export const TemplateBuilder = () => {
               'px-4 py-2 rounded-lg text-sm font-medium transition-all',
               activeModule === module
                 ? getModuleColor(module)
-                : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                : 'bg-canvas text-gray-600 hover:bg-gray-100'
             )}
           >
             {getModuleLabel(module)}
@@ -94,7 +94,7 @@ export const TemplateBuilder = () => {
           </div>
         </div>
       ) : templates.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+        <div className="text-center py-12 bg-canvas rounded-lg border-2 border-dashed border-gray-300">
           <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
           <p className="text-sm text-gray-600">Henüz şablon tanımlanmamış.</p>
           <p className="text-xs text-gray-500 mt-1">Yeni bir şablon eklemek için yukarıdaki butonu kullanın.</p>

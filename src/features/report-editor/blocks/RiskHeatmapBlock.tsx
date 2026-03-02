@@ -64,7 +64,7 @@ export function RiskHeatmapBlock({
   if (isLoading) {
     return (
       <div
-        className="flex items-center justify-center bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg"
+        className="flex items-center justify-center bg-canvas border-2 border-dashed border-slate-300 rounded-lg"
         style={{ width, height }}
       >
         <div className="text-center">
@@ -114,7 +114,7 @@ export function RiskHeatmapBlock({
   const yScale = (score: number) => chartHeight - (score / 100) * chartHeight;
 
   return (
-    <div className="border border-slate-200 rounded-lg overflow-hidden bg-white">
+    <div className="border border-slate-200 rounded-lg overflow-hidden bg-surface">
       {showTitle && (
         <div className="px-4 py-3 bg-gradient-to-r from-slate-800 to-slate-900 text-white">
           <h3 className="font-bold text-sm">Strategic Risk Heatmap</h3>
@@ -265,15 +265,15 @@ export function RiskHeatmapBlock({
         </g>
       </svg>
 
-      <div className="px-4 py-3 bg-slate-50 border-t border-slate-200">
+      <div className="px-4 py-3 bg-canvas border-t border-slate-200">
         <div className="grid grid-cols-3 gap-4 text-xs">
           <div>
             <div className="text-slate-500">Total Entities</div>
-            <div className="font-bold text-slate-900">{entities.length}</div>
+            <div className="font-bold text-primary">{entities.length}</div>
           </div>
           <div>
             <div className="text-slate-500">Avg Risk Score</div>
-            <div className="font-bold text-slate-900">
+            <div className="font-bold text-primary">
               {(entities.reduce((sum, e) => sum + e.risk_score, 0) / entities.length).toFixed(1)}
             </div>
           </div>
@@ -341,14 +341,14 @@ export function LiveChartBlockView({ block }: { block: LiveChartBlock }) {
 
   if (total === 0) {
     return (
-      <div className="border border-dashed border-slate-300 bg-slate-50 rounded-xl p-8 flex items-center justify-center mb-4">
+      <div className="border border-dashed border-slate-300 bg-canvas rounded-xl p-8 flex items-center justify-center mb-4">
         <p className="text-sm font-sans text-slate-400">Görüntülenecek bulgu verisi yok</p>
       </div>
     );
   }
 
   return (
-    <div className="border border-slate-200 rounded-xl bg-white shadow-sm mb-4 overflow-hidden">
+    <div className="border border-slate-200 rounded-xl bg-surface shadow-sm mb-4 overflow-hidden">
       <div className="px-5 py-3 border-b border-slate-100">
         <h4 className="font-sans text-sm font-semibold text-slate-700">
           {CHART_TITLE[block.content.chartType] ?? 'Grafik'}

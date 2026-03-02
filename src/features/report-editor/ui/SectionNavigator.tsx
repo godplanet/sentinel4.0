@@ -16,7 +16,7 @@ export function SectionNavigator() {
   };
 
   return (
-    <aside className="no-print report-section-navigator w-64 flex-shrink-0 bg-white border-r border-slate-200 overflow-y-auto flex flex-col">
+    <aside className="no-print report-section-navigator w-64 flex-shrink-0 bg-surface border-r border-slate-200 overflow-y-auto flex flex-col">
       <div className="px-4 py-3 border-b border-slate-100">
         <div className="flex items-center gap-2 text-xs font-sans font-semibold uppercase tracking-wider text-slate-400">
           <BookOpen size={13} />
@@ -38,8 +38,8 @@ export function SectionNavigator() {
                   className={clsx(
                     'w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-colors group',
                     activeSectionId === section.id
-                      ? 'bg-slate-100 text-slate-900'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
+                      ? 'bg-slate-100 text-primary'
+                      : 'text-slate-600 hover:bg-canvas hover:text-primary',
                   )}
                 >
                   <span

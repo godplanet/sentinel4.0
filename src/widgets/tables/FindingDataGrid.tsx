@@ -90,7 +90,7 @@ export function FindingDataGrid({ findings, onRowClick }: FindingDataGridProps) 
 
   if (constitutionLoading) {
     return (
-      <div className="bg-white/80 backdrop-blur-xl rounded-xl border border-slate-200 p-8 text-center">
+      <div className="bg-surface/80 backdrop-blur-xl rounded-xl border border-slate-200 p-8 text-center">
         <div className="animate-spin w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-2" />
         <span className="text-sm text-slate-600">Anayasa yukleniyor...</span>
       </div>
@@ -98,7 +98,7 @@ export function FindingDataGrid({ findings, onRowClick }: FindingDataGridProps) 
   }
 
   return (
-    <div className="bg-white/80 backdrop-blur-xl rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+    <div className="bg-surface/80 backdrop-blur-xl rounded-xl border border-slate-200 overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-200 sticky top-0">
@@ -166,7 +166,7 @@ export function FindingDataGrid({ findings, onRowClick }: FindingDataGridProps) 
                     <td className="px-4 py-3">
                       <div className="flex items-start gap-2">
                         <div className="flex-1">
-                          <div className="text-sm font-semibold text-slate-900 line-clamp-1">
+                          <div className="text-sm font-semibold text-primary line-clamp-1">
                             {finding.title}
                           </div>
                           {finding.auditee_department && (
@@ -242,10 +242,10 @@ export function FindingDataGrid({ findings, onRowClick }: FindingDataGridProps) 
       </div>
 
       {findings.length > 0 && (
-        <div className="bg-slate-50 border-t border-slate-200 px-4 py-3">
+        <div className="bg-canvas border-t border-slate-200 px-4 py-3">
           <div className="flex items-center justify-between text-[11px] text-slate-600">
             <div>
-              <span className="font-bold text-slate-900">{findings.length}</span> bulgu gosteriliyor
+              <span className="font-bold text-primary">{findings.length}</span> bulgu gosteriliyor
             </div>
             {dynamicColumns.length > 0 && (
               <div className="flex items-center gap-2">

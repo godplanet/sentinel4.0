@@ -112,10 +112,10 @@ export const AssessmentPanel = ({ assessment }: Props) => {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-slate-50/50 transition-colors"
+        className="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-canvas/50 transition-colors"
       >
         <div className="flex items-center gap-3">
           {expanded ? <ChevronDown size={16} className="text-slate-400" /> : <ChevronRight size={16} className="text-slate-400" />}
@@ -215,7 +215,7 @@ function AnswerRow({ answer, isGrading, onGrade }: { answer: TPRMAnswer; isGradi
   return (
     <div className={clsx(
       'rounded-lg border p-4 transition-all',
-      hasResponse ? 'border-slate-200 bg-white' : 'border-dashed border-slate-200 bg-slate-50/50',
+      hasResponse ? 'border-slate-200 bg-surface' : 'border-dashed border-slate-200 bg-canvas/50',
     )}>
       <div className="flex items-start justify-between gap-3 mb-2">
         <div className="flex-1">
@@ -237,7 +237,7 @@ function AnswerRow({ answer, isGrading, onGrade }: { answer: TPRMAnswer; isGradi
       </div>
 
       {hasResponse ? (
-        <div className="bg-slate-50 rounded-lg p-3 mb-2">
+        <div className="bg-canvas rounded-lg p-3 mb-2">
           <div className="flex items-center gap-1.5 mb-1">
             <MessageSquare size={11} className="text-slate-400" />
             <span className="text-[10px] font-bold text-slate-400 uppercase">Tedarikcier Yaniti</span>

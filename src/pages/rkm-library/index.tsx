@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { PageHeader } from '@/shared/ui';
-import { fetchRkmCategories, fetchRkmRisksByProcess, fetchRkmTotalRiskCount } from '@/entities/rkm/api';
+import { fetchRkmCategoriesWithStats, fetchRkmTotalRiskCount, fetchRkmRisksForGrid, importRisksFromExcel } from '@/entities/rkm/api';
+import { exportRKMToExcel } from '@/shared/lib/excel-utils';
 import { RKMLibrary } from '@/widgets/RKMLibrary';
 import { RKMMasterGrid } from '@/widgets/RKMMasterGrid';
 import { RiskNetworkLoader } from '@/widgets/RiskNetwork/RiskNetworkLoader';
@@ -21,6 +24,7 @@ import {
   LayoutGrid,
   Table2,
   Upload,
+  Download,
   CreditCard,
 } from 'lucide-react';
 import clsx from 'clsx';
@@ -50,51 +54,22 @@ const categoryIcons: Record<string, any> = {
 };
 
 export default function RkmLibraryPage() {
-  const [categories, setCategories] = useState<ProcessCategory[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [totalRisks, setTotalRisks] = useState(0);
+  const queryClient = useQueryClient();
   const [viewMode, setViewMode] = useState<ViewMode>('overview');
   const [showAdHocWizard, setShowAdHocWizard] = useState(false);
   const [showExcelImport, setShowExcelImport] = useState(false);
   const [showRkmWizard, setShowRkmWizard] = useState(false);
   const { risks, deleteRisk } = useRiskLibraryStore();
 
-  useEffect(() => {
-    loadCategories();
-    loadStats();
-  }, []);
+  const { data: totalRisks = 0 } = useQuery({
+    queryKey: ['rkm-total-risk-count'],
+    queryFn: fetchRkmTotalRiskCount,
+  });
 
-  const loadCategories = async () => {
-    try {
-      setLoading(true);
-      const data = await fetchRkmCategories();
-      const categoriesWithStats = await Promise.all(
-        data.map(async (cat) => {
-          const risks = await fetchRkmRisksByProcess(cat.process_name);
-          return {
-            ...cat,
-            risk_count: risks.length,
-            critical_risks: risks.filter((r) => r.residual_rating === 'KRITIK').length,
-            high_risks: risks.filter((r) => r.residual_rating === 'YUKSEK').length,
-          };
-        })
-      );
-      setCategories(categoriesWithStats);
-    } catch (error) {
-      console.error('Error loading categories:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadStats = async () => {
-    try {
-      const count = await fetchRkmTotalRiskCount();
-      setTotalRisks(count);
-    } catch (error) {
-      console.error('Error loading stats:', error);
-    }
-  };
+  const { data: categories = [], isLoading: loading } = useQuery({
+    queryKey: ['rkm-categories-with-stats'],
+    queryFn: () => fetchRkmCategoriesWithStats(),
+  });
 
   const viewTabs = [
     { id: 'overview' as const, label: 'Genel Bakış', icon: LayoutGrid },
@@ -113,8 +88,23 @@ export default function RkmLibraryPage() {
         action={
           <div className="flex items-center gap-3">
             <button
+              onClick={async () => {
+                try {
+                  const data = await fetchRkmRisksForGrid();
+                  exportRKMToExcel(data);
+                  toast.success(data.length ? `${data.length} risk Excel olarak indirildi.` : 'Şablon indirildi. Doldurup Excel Import ile yükleyebilirsiniz.');
+                } catch (e) {
+                  toast.error((e as Error).message || 'İndirme başarısız.');
+                }
+              }}
+              className="flex items-center gap-2 px-3 py-2 bg-green-600 text-white rounded-lg text-xs font-bold hover:bg-green-700 transition-colors"
+            >
+              <Download size={14} />
+              Excel İndir
+            </button>
+            <button
               onClick={() => setShowExcelImport(true)}
-              className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 bg-surface border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-canvas transition-colors"
             >
               <Upload size={14} />
               Excel Import
@@ -128,12 +118,12 @@ export default function RkmLibraryPage() {
             </button>
             <button
               onClick={() => setShowAdHocWizard(true)}
-              className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 bg-surface border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-canvas transition-colors"
             >
               <Plus size={14} />
               Ad-Hoc Risk
             </button>
-            <div className="flex items-center bg-white border border-slate-200 rounded-lg p-1">
+            <div className="flex items-center bg-surface border border-slate-200 rounded-lg p-1">
               {viewTabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -160,23 +150,23 @@ export default function RkmLibraryPage() {
       {viewMode === 'overview' && (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
                 <div className="text-xs uppercase text-slate-600 font-bold tracking-wider">Toplam Risk</div>
                 <Shield size={20} className="text-slate-400" />
               </div>
-              <div className="text-4xl font-bold text-slate-900">{totalRisks}</div>
+              <div className="text-4xl font-bold text-primary">{totalRisks}</div>
               <p className="text-xs text-slate-500 mt-1">Tum surecler</p>
             </div>
-            <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
                 <div className="text-xs uppercase text-slate-600 font-bold tracking-wider">Surec Kategorisi</div>
                 <Layers size={20} className="text-slate-400" />
               </div>
-              <div className="text-4xl font-bold text-slate-900">{categories.length}</div>
+              <div className="text-4xl font-bold text-primary">{categories.length}</div>
               <p className="text-xs text-slate-500 mt-1">Ana kategori</p>
             </div>
-            <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
                 <div className="text-xs uppercase text-red-600 font-bold tracking-wider">Kritik Riskler</div>
                 <AlertTriangle size={20} className="text-red-500" />
@@ -189,7 +179,7 @@ export default function RkmLibraryPage() {
           </div>
 
           <div>
-            <h2 className="text-lg font-bold text-slate-900 mb-4">Ana Surec Kategorileri</h2>
+            <h2 className="text-lg font-bold text-primary mb-4">Ana Surec Kategorileri</h2>
             {loading ? (
               <div className="text-center py-12 text-slate-500">Yukleniyor...</div>
             ) : (
@@ -201,17 +191,17 @@ export default function RkmLibraryPage() {
                     <button
                       key={category.id}
                       onClick={() => setViewMode('library')}
-                      className="group relative overflow-hidden bg-white border border-slate-200 rounded-2xl p-6 text-left hover:shadow-xl transition-all hover:-translate-y-1"
+                      className="group relative overflow-hidden bg-surface border border-slate-200 rounded-2xl p-6 text-left hover:shadow-xl transition-all hover:-translate-y-1"
                     >
                       <div className={`w-14 h-14 bg-gradient-to-br ${iconConfig.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                         <Icon className="text-white" size={28} />
                       </div>
-                      <h3 className="text-base font-bold text-slate-900 mb-2 line-clamp-2">{category.process_name}</h3>
+                      <h3 className="text-base font-bold text-primary mb-2 line-clamp-2">{category.process_name}</h3>
                       <p className="text-xs text-slate-600 mb-4 line-clamp-2">{category.description}</p>
                       <div className="flex items-center gap-4">
                         <div>
                           <div className="text-xs text-slate-500">Riskler</div>
-                          <div className="text-lg font-bold text-slate-900">{category.risk_count || 0}</div>
+                          <div className="text-lg font-bold text-primary">{category.risk_count || 0}</div>
                         </div>
                         {(category.critical_risks || 0) > 0 && (
                           <div>
@@ -270,9 +260,25 @@ export default function RkmLibraryPage() {
         <ExcelImportModal
           isOpen={showExcelImport}
           onClose={() => setShowExcelImport(false)}
-          onImport={async (data) => {
-            console.log('Imported data:', data);
-            setShowExcelImport(false);
+          onImport={async (data, target) => {
+            if (target !== 'RISK') {
+              toast.error('Sadece Risk (RKM) hedefi destekleniyor.');
+              return;
+            }
+            try {
+              const { inserted, errors } = await importRisksFromExcel(data);
+              queryClient.invalidateQueries({ queryKey: ['rkm-risks'] });
+              queryClient.invalidateQueries({ queryKey: ['rkm-total-risk-count'] });
+              queryClient.invalidateQueries({ queryKey: ['rkm-categories-with-stats'] });
+              setShowExcelImport(false);
+              if (errors.length) {
+                toast.error(`${inserted} kayıt eklendi. ${errors.length} hata: ${errors.slice(0, 2).join('; ')}`);
+              } else {
+                toast.success(`${inserted} risk kaydı başarıyla yüklendi. Excel indir ile tekrar dışa aktarabilirsiniz.`);
+              }
+            } catch (e) {
+              toast.error((e as Error).message || 'Excel yükleme başarısız.');
+            }
           }}
           defaultTarget="RISK"
         />

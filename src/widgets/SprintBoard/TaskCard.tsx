@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { User, Paperclip, Star, AlertTriangle } from 'lucide-react';
+import { User, Paperclip, Star, AlertTriangle, Pencil, Trash2 } from 'lucide-react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import type { AuditTask } from '@/features/audit-creation/types';
@@ -9,6 +8,8 @@ import { useFindingStore } from '@/entities/finding/model/store';
 interface TaskCardProps {
   task: AuditTask;
   isDragging?: boolean;
+  onEdit?: (task: AuditTask) => void;
+  onDelete?: (task: AuditTask) => void;
 }
 
 const PRIORITY_COLORS: Record<string, string> = {
@@ -31,7 +32,7 @@ const VALIDATION_BADGE: Record<string, { label: string; color: string }> = {
   VALIDATED: { label: 'Dogrulandi', color: 'bg-emerald-100 text-emerald-700' },
 };
 
-export function TaskCard({ task, isDragging }: TaskCardProps) {
+export function TaskCard({ task, isDragging, onEdit, onDelete }: TaskCardProps) {
   const draftFindingFromWorkpaper = useFindingStore((s) => s.draftFindingFromWorkpaper);
 
   const handleDraftFinding = (e: React.MouseEvent) => {
@@ -50,7 +51,7 @@ export function TaskCard({ task, isDragging }: TaskCardProps) {
   return (
     <div
       className={clsx(
-        'bg-white rounded-lg border border-slate-200 border-l-4 p-3 transition-all',
+        'bg-surface rounded-lg border border-slate-200 border-l-4 p-3 transition-all',
         PRIORITY_BORDER[task.priority],
         isDragging ? 'shadow-xl rotate-2 scale-105' : 'shadow-sm hover:shadow-md'
       )}
@@ -59,12 +60,34 @@ export function TaskCard({ task, isDragging }: TaskCardProps) {
         <span className={clsx('text-[10px] font-semibold px-1.5 py-0.5 rounded', PRIORITY_COLORS[task.priority])}>
           {PRIORITY_LABELS[task.priority]}
         </span>
-        {task.xp_awarded && (
-          <Star size={12} className="text-amber-500 fill-amber-500 flex-shrink-0" />
-        )}
+        <div className="flex items-center gap-0.5 flex-shrink-0">
+          {task.xp_awarded && (
+            <Star size={12} className="text-amber-500 fill-amber-500" />
+          )}
+          {onEdit && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onEdit(task); }}
+              className="p-1 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50"
+              title="Düzenle"
+            >
+              <Pencil size={12} />
+            </button>
+          )}
+          {onDelete && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onDelete(task); }}
+              className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"
+              title="Sil"
+            >
+              <Trash2 size={12} />
+            </button>
+          )}
+        </div>
       </div>
 
-      <h4 className="text-sm font-semibold text-slate-900 mb-1.5 line-clamp-2">{task.title}</h4>
+      <h4 className="text-sm font-semibold text-primary mb-1.5 line-clamp-2">{task.title}</h4>
 
       {task.description && (
         <p className="text-xs text-slate-500 mb-2 line-clamp-2">{task.description}</p>

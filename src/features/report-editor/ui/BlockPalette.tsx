@@ -32,7 +32,7 @@ interface PaletteItem {
 
 const PALETTE_ITEMS: PaletteItem[] = [
   { type: 'heading', label: 'Başlık', description: 'H1, H2 veya H3 başlık bloğu', icon: Heading1, iconColor: 'text-slate-700', bgColor: 'bg-slate-100' },
-  { type: 'paragraph', label: 'Paragraf', description: 'Zengin metin ve açıklama', icon: AlignLeft, iconColor: 'text-slate-600', bgColor: 'bg-slate-50' },
+  { type: 'paragraph', label: 'Paragraf', description: 'Zengin metin ve açıklama', icon: AlignLeft, iconColor: 'text-slate-600', bgColor: 'bg-canvas' },
   { type: 'live_chart', label: 'Risk Isı Haritası', description: 'Canlı risk dağılım grafiği', icon: BarChart2, iconColor: 'text-blue-700', bgColor: 'bg-blue-50' },
   { type: 'ai_summary', label: 'AI Özeti', description: 'Sentinel Prime otomatik özet', icon: Sparkles, iconColor: 'text-blue-600', bgColor: 'bg-blue-50' },
   { type: 'financial_grid', label: 'Finansal Tablo', description: 'Excel tarzı düzenlenebilir tablo', icon: TableProperties, iconColor: 'text-emerald-700', bgColor: 'bg-emerald-50' },
@@ -73,7 +73,7 @@ function FindingRow({ finding, alreadyAdded, onAdd }: { finding: ComprehensiveFi
   const severityClass = SEVERITY_COLORS[severityKey] ?? SEVERITY_COLORS.LOW;
   const code = finding.finding_code ?? finding.code ?? '';
   return (
-    <div className="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 transition-all group">
+    <div className="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-surface hover:border-slate-300 hover:bg-canvas transition-all group">
       <div className="flex-1 min-w-0">
         {code && <span className="text-[10px] font-sans font-semibold text-slate-400 tracking-wide">{code}</span>}
         <p className="text-xs font-sans font-medium text-slate-800 leading-snug line-clamp-2 mt-0.5">{finding.title}</p>
@@ -145,7 +145,7 @@ export function BlockPalette() {
   };
 
   return (
-    <aside className="no-print report-block-palette w-full flex-shrink-0 bg-white border-l border-slate-200 overflow-y-auto flex flex-col">
+    <aside className="no-print report-block-palette w-full flex-shrink-0 bg-surface border-l border-slate-200 overflow-y-auto flex flex-col">
       <div className="p-4 pb-3 border-b border-slate-100">
         <h3 className="text-xs font-sans font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Blok Paleti</h3>
         <p className="text-xs font-sans text-slate-400">Tıklayarak rapora blok ekleyin.</p>
@@ -178,7 +178,7 @@ export function BlockPalette() {
         )}
 
         {!hasSections ? (
-          <div className="p-3 rounded-xl border border-dashed border-slate-300 bg-slate-50/80 text-center">
+          <div className="p-3 rounded-xl border border-dashed border-slate-300 bg-canvas/80 text-center">
             <p className="text-xs font-sans text-slate-500 mb-2 leading-relaxed">Henüz bölüm yok. Blok eklemek için önce bir bölüm oluşturun.</p>
             <button onClick={() => setAddingSectionMode(true)} className="text-xs font-sans font-semibold text-blue-600 hover:text-blue-700 hover:underline">
               + Bölüm Oluştur
@@ -186,14 +186,14 @@ export function BlockPalette() {
           </div>
         ) : (
           <div className="relative">
-            <button onClick={() => setSectionDropOpen((v) => !v)} className="w-full flex items-center justify-between px-3 py-2 text-xs font-sans rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-colors gap-2">
+            <button onClick={() => setSectionDropOpen((v) => !v)} className="w-full flex items-center justify-between px-3 py-2 text-xs font-sans rounded-lg border border-slate-200 bg-surface hover:bg-canvas transition-colors gap-2">
               <span className="truncate text-slate-800 font-medium">{selectedSection?.title ?? sections[0]?.title}</span>
               <ChevronDown size={12} className="text-slate-400 flex-shrink-0" />
             </button>
             {sectionDropOpen && (
               <>
                 <div className="fixed inset-0 z-30" onClick={() => setSectionDropOpen(false)} />
-                <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-40 max-h-40 overflow-y-auto">
+                <div className="absolute left-0 right-0 top-full mt-1 bg-surface border border-slate-200 rounded-xl shadow-lg z-40 max-h-40 overflow-y-auto">
                   {sections.map((s) => (
                     <button key={s.id} onClick={() => { setSelectedSectionId(s.id); setSectionDropOpen(false); }}
                       className={`w-full text-left px-3 py-2 text-xs font-sans hover:bg-blue-50 transition-colors ${s.id === effectiveSectionId ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-slate-700'}`}>
@@ -211,12 +211,12 @@ export function BlockPalette() {
       <div className="p-3 space-y-1.5">
         {PALETTE_ITEMS.map((item) => (
           <button key={item.type} onClick={() => handleAddBlock(item.type)} disabled={!effectiveSectionId}
-            className="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all group text-left">
+            className="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-200 bg-surface hover:border-blue-300 hover:bg-blue-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all group text-left">
             <span className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center ${item.bgColor}`}>
               <item.icon size={16} className={item.iconColor} />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block text-sm font-sans font-medium text-slate-800 group-hover:text-slate-900">{item.label}</span>
+              <span className="block text-sm font-sans font-medium text-slate-800 group-hover:text-primary">{item.label}</span>
               <span className="block text-xs font-sans text-slate-400 truncate">{item.description}</span>
             </span>
             <Plus size={14} className="flex-shrink-0 text-slate-300 group-hover:text-blue-500 transition-colors" />
@@ -226,7 +226,7 @@ export function BlockPalette() {
 
       {/* Findings pool */}
       <div className="border-t border-slate-100">
-        <button onClick={() => setFindingsOpen((v) => !v)} className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors">
+        <button onClick={() => setFindingsOpen((v) => !v)} className="w-full flex items-center justify-between px-4 py-3 hover:bg-canvas transition-colors">
           <div className="flex items-center gap-2">
             <FileText size={13} className="text-amber-600" />
             <span className="text-xs font-sans font-semibold text-slate-700">Bulgu Havuzu</span>
@@ -240,7 +240,7 @@ export function BlockPalette() {
             <div className="relative mb-2">
               <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Bulgu ara..."
-                className="w-full pl-7 pr-3 py-1.5 text-xs font-sans border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-300 bg-white" />
+                className="w-full pl-7 pr-3 py-1.5 text-xs font-sans border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-300 bg-surface" />
             </div>
 
             {!effectiveSectionId ? (

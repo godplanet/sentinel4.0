@@ -98,10 +98,10 @@ export function CPEUploadModal({ userId, onClose, onCreated }: CPEUploadModalPro
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
          style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      <div className="w-full max-w-lg bg-surface rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <div>
-            <h2 className="text-slate-900 font-semibold text-base">Log External CPE</h2>
+            <h2 className="text-primary font-semibold text-base">Log External CPE</h2>
             <p className="text-slate-500 text-xs mt-0.5">
               Record external training hours with evidence
             </p>
@@ -183,7 +183,7 @@ export function CPEUploadModal({ userId, onClose, onCreated }: CPEUploadModalPro
               onClick={() => fileRef.current?.click()}
               className={`relative border-2 border-dashed rounded-xl p-4 cursor-pointer
                 transition-colors text-center
-                ${isDragging ? 'border-blue-400 bg-blue-50' : 'border-slate-200 hover:border-blue-300 hover:bg-slate-50'}`}
+                ${isDragging ? 'border-blue-400 bg-blue-50' : 'border-slate-200 hover:border-blue-300 hover:bg-canvas'}`}
             >
               <input
                 ref={fileRef}
@@ -229,7 +229,7 @@ export function CPEUploadModal({ userId, onClose, onCreated }: CPEUploadModalPro
           <div className="flex items-center justify-end gap-3 pt-2">
             <button type="button" onClick={onClose}
                     className="px-4 py-2 text-sm font-medium text-slate-600 rounded-xl border border-slate-200
-                               hover:bg-slate-50 transition-colors">
+                               hover:bg-canvas transition-colors">
               Cancel
             </button>
             <button type="submit" disabled={isSubmitting}
@@ -270,7 +270,7 @@ function Field({
 }
 
 function inputClass(hasError: boolean) {
-  return `w-full rounded-xl border px-3 py-2 text-sm text-slate-900 bg-white
+  return `w-full rounded-xl border px-3 py-2 text-sm text-primary bg-surface
     placeholder:text-slate-400 outline-none transition-colors
     focus:ring-2 focus:ring-blue-500 focus:border-transparent
     ${hasError ? 'border-rose-400' : 'border-slate-200 hover:border-slate-300'}`;

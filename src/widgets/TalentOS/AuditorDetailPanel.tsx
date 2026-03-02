@@ -49,7 +49,7 @@ export function AuditorDetailPanel({ profile, onClose }: AuditorDetailPanelProps
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
-      className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden"
+      className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden"
     >
       <div className={clsx(
         'p-5 flex items-start gap-4',
@@ -65,7 +65,7 @@ export function AuditorDetailPanel({ profile, onClose }: AuditorDetailPanelProps
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold text-slate-900">{profile.full_name}</h2>
+            <h2 className="text-lg font-bold text-primary">{profile.full_name}</h2>
             {profile.burnout_zone === 'RED' && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 text-xs font-bold rounded-full">
                 <AlertTriangle size={11} /> DURDUR
@@ -223,7 +223,7 @@ function MiniStat({
   value: string;
 }) {
   return (
-    <div className="bg-slate-50 rounded-lg p-2.5 text-center">
+    <div className="bg-canvas rounded-lg p-2.5 text-center">
       <Icon size={14} className="text-slate-400 mx-auto mb-1" />
       <p className="text-sm font-bold text-slate-800">{value}</p>
       <p className="text-[10px] text-slate-500">{label}</p>

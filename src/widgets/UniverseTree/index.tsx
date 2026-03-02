@@ -52,7 +52,7 @@ function TreeNode({ entity, level, onSelect, isSelected }: TreeNodeProps) {
         className={`
           flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer
           transition-all duration-200
-          ${isSelected ? 'bg-blue-100 border-2 border-blue-500' : 'hover:bg-slate-50 border border-transparent'}
+          ${isSelected ? 'bg-blue-100 border-2 border-blue-500' : 'hover:bg-canvas border border-transparent'}
         `}
         style={{ marginLeft: `${paddingLeft}px` }}
         onClick={() => onSelect?.(entity)}
@@ -155,14 +155,14 @@ export function EntityStats({ entity }: EntityStatsProps) {
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div className="bg-white rounded-lg p-4 border border-slate-200">
+      <div className="bg-surface rounded-lg p-4 border border-slate-200">
         <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">
           Entity Type
         </div>
         <div className="text-lg font-bold text-slate-800">{entity.type}</div>
       </div>
 
-      <div className="bg-white rounded-lg p-4 border border-slate-200">
+      <div className="bg-surface rounded-lg p-4 border border-slate-200">
         <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">
           Depth Level
         </div>
@@ -192,7 +192,7 @@ export function EntityStats({ entity }: EntityStatsProps) {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-4 border border-slate-200">
+          <div className="bg-surface rounded-lg p-4 border border-slate-200">
             <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">
               Risk Formula
             </div>

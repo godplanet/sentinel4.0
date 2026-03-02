@@ -13,7 +13,7 @@ export default function CompliancePage() {
 
       <div className="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-xl p-6 text-white">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
             <Scale className="w-6 h-6" />
           </div>
           <div>
@@ -23,15 +23,15 @@ export default function CompliancePage() {
               Gap analizleri yapin, kontrolleri esleyin ve uyum durumunu anlik takip edin.
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+              <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                 <FileCheck className="w-4 h-4" />
                 <span>Gap Analizi</span>
               </div>
-              <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+              <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                 <Globe className="w-4 h-4" />
                 <span>Coklu Cerceve</span>
               </div>
-              <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+              <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                 <Shield className="w-4 h-4" />
                 <span>AI Esleme</span>
               </div>

@@ -111,7 +111,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+        className="bg-surface rounded-xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col"
       >
         <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -144,7 +144,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Örn: Haftasonu EFT Kontrolü"
-                className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full px-4 py-2.5 bg-surface border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               />
             </div>
 
@@ -157,7 +157,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Bu probe'un ne yaptığını açıklayın..."
                 rows={2}
-                className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                className="w-full px-4 py-2.5 bg-surface border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
               />
             </div>
 
@@ -176,7 +176,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
                         className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border-2 font-medium transition-all ${
                           queryType === type
                             ? 'bg-blue-50 border-blue-500 text-blue-700'
-                            : 'bg-white border-slate-300 text-slate-700 hover:border-slate-400'
+                            : 'bg-surface border-slate-300 text-slate-700 hover:border-slate-400'
                         }`}
                       >
                         <Icon className="w-4 h-4" />
@@ -196,7 +196,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
                   value={riskThreshold}
                   onChange={(e) => setRiskThreshold(Number(e.target.value))}
                   placeholder="0"
-                  className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full px-4 py-2.5 bg-surface border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 />
                 <p className="text-xs text-slate-500 mt-1">Sonuç {'>'} eşik ise anomali olarak işaretle</p>
               </div>
@@ -227,7 +227,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
                   value={scheduleCron}
                   onChange={(e) => setScheduleCron(e.target.value)}
                   placeholder="0 0 * * *"
-                  className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors font-mono text-sm"
+                  className="w-full px-4 py-2.5 bg-surface border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors font-mono text-sm"
                 />
                 <p className="text-xs text-slate-500 mt-1">Her gün gece yarısı: 0 0 * * *</p>
               </div>
@@ -242,7 +242,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 font-medium transition-all ${
                       isActive
                         ? 'bg-green-50 border-green-500 text-green-700'
-                        : 'bg-slate-50 border-slate-300 text-slate-700'
+                        : 'bg-canvas border-slate-300 text-slate-700'
                     }`}
                   >
                     <div className={`w-3 h-3 rounded-full ${isActive ? 'bg-green-500' : 'bg-slate-400'}`} />
@@ -291,7 +291,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
           </div>
         </div>
 
-        <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-200">
+        <div className="bg-canvas px-6 py-4 flex items-center justify-between border-t border-slate-200">
           <button
             onClick={handleTestRun}
             disabled={isTesting}
@@ -304,7 +304,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-2.5 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium"
+              className="px-6 py-2.5 bg-surface border border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
             >
               İptal
             </button>

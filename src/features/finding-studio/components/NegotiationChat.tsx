@@ -85,7 +85,7 @@ export function NegotiationChat({
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-canvas">
         {messages.length === 0 ? (
           <div className="text-center text-gray-400 py-8">
             <FileText className="w-12 h-12 mx-auto mb-2 opacity-50" />
@@ -120,7 +120,7 @@ export function NegotiationChat({
                   className={`max-w-[80%] ${
                     isAuditor
                       ? 'bg-blue-600 text-white'
-                      : 'bg-white text-gray-800 border border-gray-200'
+                      : 'bg-surface text-gray-800 border border-gray-200'
                   } rounded-lg px-4 py-2.5 shadow-sm`}
                 >
                   {/* Author Info */}
@@ -160,7 +160,7 @@ export function NegotiationChat({
       </div>
 
       {/* Input Area */}
-      <div className="border-t border-gray-200 p-3 bg-white">
+      <div className="border-t border-gray-200 p-3 bg-surface">
         <div className="flex gap-2">
           <textarea
             value={inputText}

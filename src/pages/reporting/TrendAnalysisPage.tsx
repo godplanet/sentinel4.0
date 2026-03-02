@@ -50,7 +50,7 @@ export default function TrendAnalysisPage() {
           { label: 'Çözüm Oranı', value: '82%', change: '+12%', icon: TrendingUp, color: 'purple' },
           { label: 'Aksiyon Süresi', value: '18gün', change: '-5 gün', icon: Activity, color: 'amber' },
         ].map((stat, i) => (
-          <div key={i} className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <div className={`w-10 h-10 rounded-lg bg-${stat.color}-100 flex items-center justify-center`}>
                 <stat.icon size={20} className={`text-${stat.color}-600`} />
@@ -64,7 +64,7 @@ export default function TrendAnalysisPage() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
             <Activity size={20} className="text-blue-600" />
             Aylık Bulgu Trendi
@@ -83,7 +83,7 @@ export default function TrendAnalysisPage() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
             <BarChart3 size={20} className="text-purple-600" />
             Çeyreklik Şiddet Dağılımı
@@ -104,7 +104,7 @@ export default function TrendAnalysisPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
         <h3 className="text-lg font-bold text-slate-800 mb-4">Monte Carlo Simülasyon Sonuçları</h3>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="text-center p-6 bg-red-50 rounded-lg border border-red-200">

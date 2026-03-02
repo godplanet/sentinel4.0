@@ -166,7 +166,7 @@ export function SignOffPanel({
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border border-slate-200 p-6 flex items-center justify-center">
+      <div className="bg-surface rounded-xl border border-slate-200 p-6 flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
       </div>
     );
@@ -200,7 +200,7 @@ export function SignOffPanel({
 
   return (
     <>
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div className="bg-surface rounded-xl border border-slate-200 overflow-hidden">
         <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 text-white">
@@ -224,7 +224,7 @@ export function SignOffPanel({
                 <User className={`w-5 h-5 ${approvalStatus !== 'in_progress' ? 'text-green-600' : 'text-slate-400'}`} />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-slate-900 mb-1">
+                <div className="font-semibold text-primary mb-1">
                   1. Preparer Sign-Off
                 </div>
                 {history?.prepared_at ? (
@@ -281,7 +281,7 @@ export function SignOffPanel({
                 <Shield className={`w-5 h-5 ${approvalStatus === 'reviewed' ? 'text-green-600' : 'text-slate-400'}`} />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-slate-900 mb-1">
+                <div className="font-semibold text-primary mb-1">
                   2. Reviewer Sign-Off
                 </div>
                 {history?.reviewed_at ? (
@@ -340,7 +340,7 @@ export function SignOffPanel({
                 <Crown className="w-5 h-5 text-slate-400" />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-slate-900 mb-1">
+                <div className="font-semibold text-primary mb-1">
                   3. Manager Sign-Off
                 </div>
                 <div className="text-sm text-slate-500">
@@ -369,9 +369,9 @@ export function SignOffPanel({
 
       {showRejectModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
+          <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg">
             <div className="p-6 border-b border-slate-200">
-              <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-primary flex items-center gap-2">
                 <XCircle className="w-6 h-6 text-red-600" />
                 Reject Workpaper
               </h3>

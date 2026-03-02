@@ -109,7 +109,7 @@ export const FindingWorkflowProgress = ({
   };
 
   return (
-    <div className={clsx('bg-white/80 backdrop-blur-xl rounded-lg border border-gray-200', className)}>
+    <div className={clsx('bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200', className)}>
       {/* Current Status Header */}
       <div className="px-6 py-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
@@ -119,7 +119,7 @@ export const FindingWorkflowProgress = ({
             </div>
             <div>
               <div className="text-sm text-gray-600 font-medium">Bulgu Durumu</div>
-              <div className="text-lg font-semibold text-gray-900">{getCurrentStageLabel()}</div>
+              <div className="text-lg font-semibold text-primary">{getCurrentStageLabel()}</div>
             </div>
           </div>
           {dueDate && (
@@ -161,7 +161,7 @@ export const FindingWorkflowProgress = ({
                         ? 'bg-green-500 border-green-500 text-white'
                         : status === 'current'
                           ? 'bg-blue-500 border-blue-500 text-white animate-pulse'
-                          : 'bg-white border-gray-300 text-gray-400'
+                          : 'bg-surface border-gray-300 text-gray-400'
                     )}
                   >
                     {status === 'completed' ? (

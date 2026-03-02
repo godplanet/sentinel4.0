@@ -20,12 +20,12 @@ export function DelayRiskTable({ delayRisks }: DelayRiskTableProps) {
 
   if (delayRisks.length === 0) {
     return (
-      <div className="bg-white/90 backdrop-blur-xl rounded-xl border border-slate-200 p-8 shadow-sm">
+      <div className="bg-surface/90 backdrop-blur-xl rounded-xl border border-slate-200 p-8 shadow-sm">
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
             <Clock size={32} className="text-green-600" />
           </div>
-          <h3 className="text-lg font-bold text-slate-900 mb-2">No Delays Detected</h3>
+          <h3 className="text-lg font-bold text-primary mb-2">No Delays Detected</h3>
           <p className="text-sm text-slate-600">All engagements are on track or ahead of schedule</p>
         </div>
       </div>
@@ -33,14 +33,14 @@ export function DelayRiskTable({ delayRisks }: DelayRiskTableProps) {
   }
 
   return (
-    <div className="bg-white/90 backdrop-blur-xl rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+    <div className="bg-surface/90 backdrop-blur-xl rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="px-6 py-4 border-b border-slate-200 bg-canvas">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-rose-100">
             <AlertTriangle size={20} className="text-rose-600" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-slate-900">Delay Risk Analysis</h3>
+            <h3 className="text-lg font-bold text-primary">Delay Risk Analysis</h3>
             <p className="text-sm text-slate-600">
               Engagements with significant schedule slippage ({'>'}10% variance)
             </p>
@@ -79,10 +79,10 @@ export function DelayRiskTable({ delayRisks }: DelayRiskTableProps) {
             {delayRisks.map((risk) => (
               <tr
                 key={risk.engagement.id}
-                className="hover:bg-slate-50 transition-colors"
+                className="hover:bg-canvas transition-colors"
               >
                 <td className="px-6 py-4">
-                  <div className="font-medium text-slate-900">{risk.engagement.title}</div>
+                  <div className="font-medium text-primary">{risk.engagement.title}</div>
                   <div className="text-xs text-slate-500 mt-1">
                     {risk.engagement.audit_type}
                   </div>
@@ -100,13 +100,13 @@ export function DelayRiskTable({ delayRisks }: DelayRiskTableProps) {
                 </td>
 
                 <td className="px-6 py-4 text-center">
-                  <div className="text-sm font-medium text-slate-900">
+                  <div className="text-sm font-medium text-primary">
                     {risk.plannedProgress.toFixed(0)}%
                   </div>
                 </td>
 
                 <td className="px-6 py-4 text-center">
-                  <div className="text-sm font-medium text-slate-900">
+                  <div className="text-sm font-medium text-primary">
                     {risk.actualProgress.toFixed(0)}%
                   </div>
                 </td>
@@ -130,7 +130,7 @@ export function DelayRiskTable({ delayRisks }: DelayRiskTableProps) {
                 </td>
 
                 <td className="px-6 py-4 text-center">
-                  <div className="text-sm font-medium text-slate-900">
+                  <div className="text-sm font-medium text-primary">
                     {risk.daysDelay > 0 ? (
                       <span className="text-rose-600 font-bold">{risk.daysDelay} days</span>
                     ) : (
@@ -144,7 +144,7 @@ export function DelayRiskTable({ delayRisks }: DelayRiskTableProps) {
         </table>
       </div>
 
-      <div className="px-6 py-4 bg-slate-50 border-t border-slate-200">
+      <div className="px-6 py-4 bg-canvas border-t border-slate-200">
         <div className="flex items-center gap-4 text-xs text-slate-600">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded bg-red-100"></div>

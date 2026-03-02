@@ -21,7 +21,7 @@ interface ExceptionQueueProps {
 const STATUS_CONFIG: Record<ExceptionStatus, { label: string; color: string; bg: string; border: string; icon: typeof AlertTriangle }> = {
   OPEN: { label: 'Acik', color: 'text-red-700', bg: 'bg-red-50', border: 'border-red-200', icon: AlertTriangle },
   REMEDIED: { label: 'Giderildi', color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200', icon: CheckCircle2 },
-  FALSE_POSITIVE: { label: 'Yanlis Alarm', color: 'text-slate-600', bg: 'bg-slate-50', border: 'border-slate-200', icon: XCircle },
+  FALSE_POSITIVE: { label: 'Yanlis Alarm', color: 'text-slate-600', bg: 'bg-canvas', border: 'border-slate-200', icon: XCircle },
   ESCALATED: { label: 'Eskalasyon', color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-200', icon: ArrowUpRight },
 };
 
@@ -89,7 +89,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200 p-12 flex items-center justify-center">
+      <div className="bg-surface rounded-2xl border border-slate-200 p-12 flex items-center justify-center">
         <Loader2 className="animate-spin text-blue-500 mr-2" size={20} />
         <span className="text-sm text-slate-500">Istisnalar yukleniyor...</span>
       </div>
@@ -97,14 +97,14 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-slate-200 overflow-hidden">
       <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-red-100 rounded-xl">
             <AlertTriangle size={18} className="text-red-600" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900">Istisna Kuyrugu</h3>
+            <h3 className="text-base font-bold text-primary">Istisna Kuyrugu</h3>
             <p className="text-xs text-slate-500">
               {openCount} acik istisna inceleme bekliyor
             </p>
@@ -121,7 +121,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
                 className={clsx(
                   'px-2.5 py-1 text-[10px] font-bold rounded-md transition-all',
                   filterStatus === opt
-                    ? 'bg-white text-slate-900 shadow-sm'
+                    ? 'bg-surface text-primary shadow-sm'
                     : 'text-slate-500 hover:text-slate-700'
                 )}
               >
@@ -159,7 +159,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
               >
                 <div
                   onClick={() => setExpandedId(isExpanded ? null : exc.id)}
-                  className="px-6 py-3.5 flex items-center gap-4 cursor-pointer hover:bg-slate-50/80 transition-colors"
+                  className="px-6 py-3.5 flex items-center gap-4 cursor-pointer hover:bg-canvas/80 transition-colors"
                 >
                   <div className={clsx('p-1.5 rounded-lg', cfg.bg)}>
                     <StatusIcon size={14} className={cfg.color} />
@@ -167,7 +167,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <p className="text-sm font-bold text-slate-900 truncate">
+                      <p className="text-sm font-bold text-primary truncate">
                         {payload.description || 'Istisna tespit edildi'}
                       </p>
                     </div>
@@ -215,7 +215,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-4 pt-1 space-y-3 bg-slate-50/50">
+                      <div className="px-6 pb-4 pt-1 space-y-3 bg-canvas/50">
                         <div className="bg-slate-900 text-slate-300 font-mono text-xs p-3 rounded-lg overflow-x-auto">
                           <pre>{JSON.stringify(payload, null, 2)}</pre>
                         </div>
@@ -275,7 +275,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
                               onChange={(e) => setNoteText(e.target.value)}
                               placeholder="Inceleme notu ekle (opsiyonel)..."
                               rows={2}
-                              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white"
+                              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-surface"
                             />
                             <div className="flex items-center gap-2">
                               <button

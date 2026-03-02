@@ -56,11 +56,11 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
   };
 
   return (
-    <div className="bg-white rounded-xl border-2 border-slate-200 shadow-lg">
+    <div className="bg-surface rounded-xl border-2 border-slate-200 shadow-lg">
       <div className="border-b-2 border-slate-200 p-6 bg-gradient-to-r from-slate-50 to-white">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-1">Günün Ajandası & Bekleyen İşler</h3>
+            <h3 className="text-2xl font-bold text-primary mb-1">Günün Ajandası & Bekleyen İşler</h3>
             <div className="flex items-center gap-4 text-sm text-slate-600">
               <span className="flex items-center gap-1.5">
                 <AlertCircle size={16} className="text-red-500" />
@@ -86,7 +86,7 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
                 'group flex items-start gap-4 p-5 rounded-xl border-2 transition-all cursor-pointer',
                 task.status === 'in-progress'
                   ? 'border-blue-200 bg-blue-50/50 hover:border-blue-300 hover:shadow-md'
-                  : 'border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/50 hover:shadow-md'
+                  : 'border-slate-200 bg-surface hover:border-blue-300 hover:bg-blue-50/50 hover:shadow-md'
               )}
             >
               <div className="shrink-0 mt-0.5">{getTaskIcon(task.type)}</div>
@@ -107,7 +107,7 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
                   )}
                 </div>
 
-                <p className="text-base font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors leading-snug">
+                <p className="text-base font-bold text-primary mb-2 group-hover:text-blue-600 transition-colors leading-snug">
                   {task.title}
                 </p>
 
@@ -130,8 +130,8 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
         })}
       </div>
 
-      <div className="border-t-2 border-slate-200 p-5 bg-slate-50">
-        <button className="w-full text-center text-sm font-bold text-blue-600 hover:text-white bg-white hover:bg-blue-600 py-3 rounded-lg transition-all border-2 border-blue-600 shadow-sm hover:shadow-md">
+      <div className="border-t-2 border-slate-200 p-5 bg-canvas">
+        <button className="w-full text-center text-sm font-bold text-blue-600 hover:text-white bg-surface hover:bg-blue-600 py-3 rounded-lg transition-all border-2 border-blue-600 shadow-sm hover:shadow-md">
           Tüm Görevleri Görüntüle →
         </button>
       </div>

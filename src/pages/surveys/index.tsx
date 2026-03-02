@@ -17,7 +17,7 @@ export default function SurveysPage() {
       <div className="space-y-6">
         <div className="mb-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
               <ClipboardList className="w-6 h-6" />
             </div>
             <div>
@@ -27,15 +27,15 @@ export default function SurveysPage() {
                 Her denetim sonrası paydaşlardan geri bildirim alarak sürekli iyileşme sağlanır.
               </p>
               <div className="flex flex-wrap gap-4 text-sm">
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <Users className="w-4 h-4" />
                   <span>Çok Paydaşlı</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <BarChart3 className="w-4 h-4" />
                   <span>Otomatik Skorlama</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <MessageSquare className="w-4 h-4" />
                   <span>Açık Uçlu Sorular</span>
                 </div>
@@ -44,7 +44,7 @@ export default function SurveysPage() {
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-xl p-1 inline-flex shadow-sm">
+        <div className="bg-surface border border-slate-200 rounded-xl p-1 inline-flex shadow-sm">
           <button
             onClick={() => setActiveTab('assessments')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${

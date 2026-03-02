@@ -152,7 +152,7 @@ export function VirtualActionGrid({ actions }: Props) {
       </div>
 
       <div className="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto bg-slate-50 border-b border-slate-200">
+        <div className="overflow-x-auto bg-canvas border-b border-slate-200">
           <table className="w-full min-w-[1080px] border-collapse">
             <thead>
               <tr>
@@ -195,7 +195,7 @@ export function VirtualActionGrid({ actions }: Props) {
                       style={{ height: ROW_H }}
                       className={clsx(
                         'border-b border-slate-100 transition-colors',
-                        breach ? 'bg-red-50/50 hover:bg-red-50' : 'hover:bg-slate-50',
+                        breach ? 'bg-red-50/50 hover:bg-red-50' : 'hover:bg-canvas',
                       )}
                     >
                       {row.getVisibleCells().map((cell) => (
@@ -217,7 +217,7 @@ export function VirtualActionGrid({ actions }: Props) {
           </div>
         </div>
 
-        <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-[11px] text-slate-500">
+        <div className="px-4 py-2.5 border-t border-slate-100 bg-canvas flex items-center justify-between text-[11px] text-slate-500">
           <span>
             {actions.filter((a) => a.is_bddk_breach).length} BDDK ihlali kırmızıyla vurgulandı
           </span>

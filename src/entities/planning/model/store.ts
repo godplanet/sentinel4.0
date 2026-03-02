@@ -115,6 +115,15 @@ interface PlanningStore {
   getPlanById: (planId: string) => AuditPlan | undefined;
   getEngagementById: (engagementId: string) => AuditEngagement | undefined;
 
+  /** Gantt Sandbox (What-If): Taslak modu — sürükle-bırak canlıya yansımaz */
+  isDraftMode: boolean;
+  ganttDraftOverrides: Record<string, { start_date: string; end_date: string }>;
+  setDraftMode: (on: boolean) => void;
+  setGanttDraftDates: (engagementId: string, start_date: string, end_date: string) => void;
+  commitGanttDraft: (persist: (updates: UpdateEngagementDatesInput[]) => Promise<void>) => Promise<void>;
+  discardGanttDraft: () => void;
+  getEngagementsWithDraftOverrides: (planId?: string) => AuditEngagement[];
+
   closeAuditEngagement: (
     engagementId: string,
     auditeeId?: string | null,
@@ -370,5 +379,41 @@ export const usePlanningStore = create<PlanningStore>((set, get) => ({
 
   getEngagementById: (engagementId) => {
     return get().engagements.find((eng) => eng.id === engagementId);
+  },
+
+  isDraftMode: false,
+  ganttDraftOverrides: {},
+
+  setDraftMode: (on) => set({ isDraftMode: on, ...(on ? {} : { ganttDraftOverrides: {} }) }),
+
+  setGanttDraftDates: (engagementId, start_date, end_date) =>
+    set((state) => ({
+      ganttDraftOverrides: {
+        ...state.ganttDraftOverrides,
+        [engagementId]: { start_date, end_date },
+      },
+    })),
+
+  commitGanttDraft: async (persist) => {
+    const { ganttDraftOverrides } = get();
+    const updates = Object.entries(ganttDraftOverrides).map(([engagement_id, { start_date, end_date }]) => ({
+      engagement_id,
+      start_date,
+      end_date,
+    }));
+    if (updates.length > 0) await persist(updates);
+    set({ ganttDraftOverrides: {}, isDraftMode: false });
+  },
+
+  discardGanttDraft: () => set({ ganttDraftOverrides: {}, isDraftMode: false }),
+
+  getEngagementsWithDraftOverrides: (planId) => {
+    const { engagements, ganttDraftOverrides } = get();
+    const base = planId ? engagements.filter((e) => e.plan_id === planId) : engagements;
+    return base.map((eng) => {
+      const override = ganttDraftOverrides[eng.id];
+      if (!override) return eng;
+      return { ...eng, start_date: override.start_date, end_date: override.end_date };
+    });
   },
 }));

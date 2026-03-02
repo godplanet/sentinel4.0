@@ -1,10 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Gantt, Task, ViewMode } from 'gantt-task-react';
 import 'gantt-task-react/dist/index.css';
-import { Calendar, AlertTriangle, Plus, Edit2, Users, Save } from 'lucide-react';
+import { Calendar, AlertTriangle, Plus, Users, Save, X, FlaskConical } from 'lucide-react';
 import { supabase } from '@/shared/api/supabase';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { usePlanningStore } from '@/entities/planning/model/store';
+import { updateEngagementDatesBatch } from '@/entities/planning/api/queries';
+import {
+  useAuditorAbsences,
+  getAbsenceLabel,
+  type AuditorAbsence,
+} from '@/features/planning/api/absences-api';
 
 interface AuditEngagement {
   id: string;
@@ -32,6 +39,22 @@ export function AnnualPlanner() {
   const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.Month);
   const [conflicts, setConflicts] = useState<Conflict[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
+
+  const isDraftMode = usePlanningStore((s) => s.isDraftMode);
+  const setDraftMode = usePlanningStore((s) => s.setDraftMode);
+  const ganttDraftOverrides = usePlanningStore((s) => s.ganttDraftOverrides);
+  const setGanttDraftDates = usePlanningStore((s) => s.setGanttDraftDates);
+  const discardGanttDraft = usePlanningStore((s) => s.discardGanttDraft);
+  const draftOverrideCount = Object.keys(ganttDraftOverrides).length;
+
+  /** Sürükle-bırak sonrası tıklama ile yönlendirmeyi engellemek için */
+  const justPerformedDragRef = useRef(false);
+
+  const year = new Date().getFullYear();
+  const { data: absences = [] } = useAuditorAbsences(
+    `${year}-01-01`,
+    `${year}-12-31`
+  );
 
   // Helper functions - must be defined before usage
   const getTypeColor = (type?: string) => {
@@ -105,12 +128,20 @@ export function AnnualPlanner() {
     return data || [];
   };
 
-  const tasks: Task[] = engagements.map((eng) => ({
+  const effectiveEngagements = useMemo(() => {
+    if (draftOverrideCount === 0) return engagements;
+    return engagements.map((eng) => {
+      const o = ganttDraftOverrides[eng.id];
+      return o ? { ...eng, start_date: o.start_date, end_date: o.end_date } : eng;
+    });
+  }, [engagements, ganttDraftOverrides, draftOverrideCount]);
+
+  const engagementTasks: Task[] = effectiveEngagements.map((eng) => ({
     id: eng.id,
     name: eng.title,
     start: new Date(eng.start_date),
     end: new Date(eng.end_date),
-    progress: Math.round((eng.actual_hours || 0) / eng.estimated_hours * 100) || 0,
+    progress: Math.round((eng.actual_hours || 0) / (eng.estimated_hours || 1) * 100) || 0,
     type: 'task',
     styles: {
       backgroundColor: getTypeColor(eng.audit_type),
@@ -120,12 +151,65 @@ export function AnnualPlanner() {
     },
   }));
 
+  const absenceTasks: Task[] = absences.map((a: AuditorAbsence) => ({
+    id: `absence-${a.id}`,
+    name: `${getAbsenceLabel(a.absence_type)} (${a.start_date} – ${a.end_date})`,
+    start: new Date(a.start_date),
+    end: new Date(a.end_date),
+    progress: 0,
+    type: 'task',
+    styles: {
+      backgroundColor: '#94a3b8',
+      backgroundSelectedColor: '#94a3b8',
+      progressColor: '#64748b',
+      progressSelectedColor: '#64748b',
+    },
+  }));
+
+  const tasks: Task[] = [...engagementTasks, ...absenceTasks];
+
   const handleTaskChange = async (task: Task) => {
-    const engagement = engagements.find(e => e.id === task.id);
+    const taskId = String(task.id);
+    if (taskId.startsWith('absence-')) return;
+
+    justPerformedDragRef.current = true;
+    setTimeout(() => {
+      justPerformedDragRef.current = false;
+    }, 350);
+
+    const engagement = engagements.find((e) => e.id === task.id);
     if (!engagement) return;
 
     const startDate = task.start.toISOString().split('T')[0];
     const endDate = task.end.toISOString().split('T')[0];
+
+    if (isDraftMode) {
+      setGanttDraftDates(engagement.id, startDate, endDate);
+      return;
+    }
+
+    const assignedId = engagement.assigned_auditor_id;
+    if (assignedId) {
+      const overlapsAbsence = absences.some(
+        (a) =>
+          a.user_id === assignedId &&
+          a.start_date <= endDate &&
+          a.end_date >= startDate
+      );
+      if (overlapsAbsence) {
+        setConflicts([
+          {
+            conflict_engagement_id: engagement.id,
+            conflict_engagement_name: 'Yokluk / eğitim çakışması',
+            conflict_auditor_id: assignedId,
+          },
+        ]);
+        const proceed = window.confirm(
+          'Seçili denetçi bu tarih aralığında izinli veya eğitimde. Atamayı yine de kaydetmek istiyor musunuz?'
+        );
+        if (!proceed) return;
+      }
+    }
 
     const auditorIds = engagement.assigned_auditor_id ? [engagement.assigned_auditor_id] : [];
 
@@ -134,7 +218,7 @@ export function AnnualPlanner() {
 
       if (foundConflicts.length > 0) {
         setConflicts(foundConflicts);
-        const confirmUpdate = confirm(
+        const confirmUpdate = window.confirm(
           `WARNING: Scheduling conflict detected!\n\n` +
           `${foundConflicts.length} conflict(s) found with other engagements.\n` +
           `Do you want to proceed anyway?`
@@ -174,6 +258,12 @@ export function AnnualPlanner() {
   };
 
   const handleTaskClick = (task: Task) => {
+    const taskId = String(task.id);
+    if (taskId.startsWith('absence-')) return;
+    if (justPerformedDragRef.current) {
+      justPerformedDragRef.current = false;
+      return;
+    }
     navigate(`/execution/my-engagements/${task.id}`);
   };
 
@@ -185,12 +275,55 @@ export function AnnualPlanner() {
     );
   }
 
+  const handleCommitDraft = async () => {
+    const overrides = ganttDraftOverrides;
+    const updates = Object.entries(overrides).map(([engagement_id, { start_date, end_date }]) => ({
+      engagement_id,
+      start_date,
+      end_date,
+    }));
+    if (updates.length === 0) return;
+    await updateEngagementDatesBatch(updates);
+    queryClient.invalidateQueries({ queryKey: ['audit-engagements'] });
+    discardGanttDraft();
+  };
+
   return (
     <div className="space-y-4">
+      {isDraftMode && (
+        <div className="rounded-xl border-2 border-indigo-300 bg-indigo-50/80 backdrop-blur-sm px-4 py-3 flex items-center justify-between shadow-sm">
+          <div className="flex items-center gap-2 text-indigo-900">
+            <FlaskConical size={20} className="text-indigo-600" />
+            <span className="font-semibold">Taslak Modundasınız.</span>
+            <span className="text-sm text-indigo-700">Değişiklikler canlıya etki etmez.</span>
+          </div>
+          {draftOverrideCount > 0 && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={discardGanttDraft}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-surface text-slate-700 text-sm font-medium hover:bg-canvas"
+              >
+                <X size={14} />
+                İptal Et (Discard)
+              </button>
+              <button
+                type="button"
+                onClick={handleCommitDraft}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700"
+              >
+                <Save size={14} />
+                Değişiklikleri Canlıya Al (Commit)
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* HEADER */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-primary flex items-center gap-2">
             <Calendar className="w-6 h-6 text-blue-600" />
             Annual Audit Plan
           </h2>
@@ -199,6 +332,25 @@ export function AnnualPlanner() {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 rounded-lg border border-indigo-200/60 bg-indigo-50/30 px-3 py-2">
+            <FlaskConical size={16} className="text-indigo-600" />
+            <span className="text-xs font-medium text-indigo-900">Simülasyon</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={isDraftMode}
+              onClick={() => setDraftMode(!isDraftMode)}
+              className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 ${
+                isDraftMode ? 'bg-indigo-600' : 'bg-slate-200'
+              }`}
+            >
+              <span
+                className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition ${
+                  isDraftMode ? 'translate-x-4' : 'translate-x-0.5'
+                }`}
+              />
+            </button>
+          </div>
           <select
             value={viewMode}
             onChange={(e) => setViewMode(e.target.value as ViewMode)}
@@ -240,7 +392,7 @@ export function AnnualPlanner() {
       )}
 
       {/* GANTT CHART */}
-      <div className="bg-white rounded-lg border border-slate-200 p-4">
+      <div className="bg-surface rounded-lg border border-slate-200 p-4">
         {tasks.length === 0 ? (
           <div className="text-center py-12 text-slate-500">
             <Calendar className="w-12 h-12 mx-auto mb-3 text-slate-300" />
@@ -273,9 +425,9 @@ export function AnnualPlanner() {
       </div>
 
       {/* ENGAGEMENT LIST */}
-      <div className="bg-white rounded-lg border border-slate-200">
-        <div className="p-4 border-b border-slate-200 bg-slate-50">
-          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+      <div className="bg-surface rounded-lg border border-slate-200">
+        <div className="p-4 border-b border-slate-200 bg-canvas">
+          <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
             <Users className="w-5 h-5 text-slate-600" />
             All Engagements ({engagements.length})
           </h3>
@@ -283,7 +435,7 @@ export function AnnualPlanner() {
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-canvas border-b border-slate-200">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Engagement</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Type</th>
@@ -302,11 +454,11 @@ export function AnnualPlanner() {
                 return (
                   <tr
                     key={eng.id}
-                    className="hover:bg-slate-50 transition-colors cursor-pointer"
+                    className="hover:bg-canvas transition-colors cursor-pointer"
                     onClick={() => navigate(`/execution/my-engagements/${eng.id}`)}
                   >
                     <td className="px-4 py-3">
-                      <div className="font-semibold text-slate-900">{eng.title}</div>
+                      <div className="font-semibold text-primary">{eng.title}</div>
                     </td>
                     <td className="px-4 py-3">
                       <span
@@ -439,9 +591,9 @@ function AddEngagementModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div className="bg-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-slate-200">
-          <h3 className="text-lg font-semibold text-slate-900">Add Audit Engagement</h3>
+          <h3 className="text-lg font-semibold text-primary">Add Audit Engagement</h3>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>

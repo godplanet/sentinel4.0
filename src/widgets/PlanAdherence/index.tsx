@@ -108,7 +108,7 @@ export function PlanAdherence({ data = DEMO_DATA }: { data?: AdherenceData }) {
         />
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-5">
         <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
           <BarChart3 size={16} className="text-blue-600" />
           Takvim Sapma Grafigi (Gun)
@@ -134,13 +134,13 @@ export function PlanAdherence({ data = DEMO_DATA }: { data?: AdherenceData }) {
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
           <h3 className="text-sm font-bold text-slate-800">Gorev Bazli Sapma Tablosu</h3>
           <select
             value={sortBy}
             onChange={e => setSortBy(e.target.value as 'variance' | 'name')}
-            className="text-xs border border-slate-300 rounded-lg px-3 py-1.5 bg-white"
+            className="text-xs border border-slate-300 rounded-lg px-3 py-1.5 bg-surface"
           >
             <option value="variance">Sapmaya Gore</option>
             <option value="name">Isme Gore</option>
@@ -149,7 +149,7 @@ export function PlanAdherence({ data = DEMO_DATA }: { data?: AdherenceData }) {
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-slate-50 text-xs text-slate-500 uppercase">
+            <thead className="bg-canvas text-xs text-slate-500 uppercase">
               <tr>
                 <th className="px-5 py-3 text-left font-semibold">Denetim Gorevi</th>
                 <th className="px-5 py-3 text-center font-semibold">Durum</th>
@@ -170,7 +170,7 @@ export function PlanAdherence({ data = DEMO_DATA }: { data?: AdherenceData }) {
                 }[eng.status];
 
                 return (
-                  <tr key={eng.id} className="hover:bg-slate-50">
+                  <tr key={eng.id} className="hover:bg-canvas">
                     <td className="px-5 py-3 font-medium text-slate-800">{eng.name}</td>
                     <td className="px-5 py-3 text-center">
                       <span className={clsx('text-[10px] font-bold px-2.5 py-1 rounded-lg', statusCfg.cls)}>

@@ -58,11 +58,11 @@ export default function BoardBriefingPage() {
 
   return (
     <div className="bg-[#FDFBF7] min-h-screen">
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-sm border-b border-slate-200 shadow-sm">
+      <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-sm border-b border-slate-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-1.5 text-sm font-sans font-medium text-slate-500 hover:text-slate-900 transition-colors px-2 py-1.5 rounded-lg hover:bg-slate-100"
+            className="flex items-center gap-1.5 text-sm font-sans font-medium text-slate-500 hover:text-primary transition-colors px-2 py-1.5 rounded-lg hover:bg-slate-100"
           >
             <ArrowLeft size={16} />
             Geri

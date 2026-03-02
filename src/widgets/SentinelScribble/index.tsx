@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import { useScribbleStore } from './store';
 import { extractFromScribble } from './scribble-ai';
 import type { ExtractedFinding, ScribbleExtractionResult } from './scribble-ai';
-import { supabase } from '@/shared/api/supabase';
+import { saveScribbleMagic, saveScribbleNote } from './api';
 
 const MIN_WIDTH = 380;
 const MIN_HEIGHT = 400;
@@ -50,12 +50,7 @@ export function SentinelScribble() {
     try {
       const result = await extractFromScribble(content);
       setExtractionResult(result);
-      await supabase.from('scribbles').insert({
-        content,
-        is_processed: true,
-        linked_context: linkedContext,
-        extracted_data: result,
-      });
+      await saveScribbleMagic({ content, linkedContext, result });
     } finally {
       setProcessing(false);
     }
@@ -63,11 +58,7 @@ export function SentinelScribble() {
 
   const handleSaveNote = async () => {
     if (!content.trim()) return;
-    await supabase.from('scribbles').insert({
-      content,
-      is_processed: false,
-      linked_context: linkedContext,
-    });
+    await saveScribbleNote({ content, linkedContext });
     setSavedNotif(true);
     setTimeout(() => setSavedNotif(false), 2000);
   };
@@ -204,7 +195,7 @@ export function SentinelScribble() {
             exit={{ scale: 0, opacity: 0 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={(e) => {
+            onClick={() => {
               if (!buttonWasDragged) {
                 toggle();
               }
@@ -232,7 +223,7 @@ export function SentinelScribble() {
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={clsx(
-              'fixed z-[90] bg-white/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-200/80 flex flex-col overflow-hidden',
+              'fixed z-[90] bg-surface/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-200/80 flex flex-col overflow-hidden',
               isMaximized && 'inset-4'
             )}
             style={isMaximized ? undefined : {
@@ -251,11 +242,11 @@ export function SentinelScribble() {
                   <PenLine size={14} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-slate-900 leading-tight">Sentinel Scribble</h3>
+                  <h3 className="text-sm font-bold text-primary leading-tight">Sentinel Scribble</h3>
                   {linkedContext && (
                     <div className="flex items-center gap-1 mt-0.5">
-                      <Link2 size={8} className="text-blue-500" />
-                      <span className="text-[9px] font-medium text-blue-600 truncate max-w-[200px]">{linkedContext}</span>
+                      <Link2 size={10} className="text-blue-500" />
+                      <span className="text-xs font-medium text-blue-600 truncate max-w-[200px]">{linkedContext}</span>
                     </div>
                   )}
                 </div>
@@ -332,20 +323,20 @@ const NotepadView = ({ ref, ...props }: NotepadViewProps & { ref: React.Ref<HTML
   } = props;
 
   return (
-    <div className="flex flex-col flex-1 min-h-0">
-      <div className="flex-1 p-3 min-h-0">
+      <div className="flex flex-col flex-1 min-h-0">
+      <div className="flex-1 p-4 min-h-0">
         <textarea
           ref={ref}
           value={content}
           onChange={(e) => onContentChange(e.target.value)}
           placeholder={"Saha notlarinizi buraya yazin...\n\nOrnek: 'Ahmet backup'larin alinmadigini soyledi. IT odasinda fiziksel guvenlik yetersiz.'\n\nSentinel Magic ile yapilandirilmis bulgulara donusturun."}
-          className="w-full h-full resize-none bg-transparent text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none leading-relaxed font-[system-ui]"
+          className="w-full h-full resize-none bg-transparent text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none leading-loose font-[system-ui]"
           style={{ fontVariantLigatures: 'none' }}
         />
       </div>
 
-      <div className="px-3 pb-2">
-        <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-2">
+      <div className="px-4 pb-2">
+        <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
           <span>{content.length} karakter</span>
           <span>-</span>
           <span>{content.split(/\s+/).filter(Boolean).length} kelime</span>
@@ -354,16 +345,16 @@ const NotepadView = ({ ref, ...props }: NotepadViewProps & { ref: React.Ref<HTML
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0 }}
-              className="text-emerald-600 font-semibold flex items-center gap-0.5 ml-auto"
+              className="text-emerald-600 font-semibold flex items-center gap-1 ml-auto"
             >
-              <CheckCircle2 size={10} />
+              <CheckCircle2 size={12} />
               Kaydedildi
             </motion.span>
           )}
         </div>
       </div>
 
-      <div className="px-3 pb-3 border-t border-slate-100 pt-2.5 flex items-center gap-2 shrink-0">
+      <div className="px-4 pb-4 border-t border-slate-100 pt-3 flex items-center gap-2 shrink-0">
         <button
           onClick={onMagic}
           disabled={!content.trim() || isProcessing}
@@ -388,7 +379,7 @@ const NotepadView = ({ ref, ...props }: NotepadViewProps & { ref: React.Ref<HTML
             'p-2.5 rounded-xl border transition-all',
             voiceActive
               ? 'bg-red-50 border-red-200 text-red-600 animate-pulse'
-              : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
+              : 'bg-canvas border-slate-200 text-slate-500 hover:bg-slate-100'
           )}
           title="Sesli Not (Demo)"
         >
@@ -398,7 +389,7 @@ const NotepadView = ({ ref, ...props }: NotepadViewProps & { ref: React.Ref<HTML
         <button
           onClick={onSave}
           disabled={!content.trim()}
-          className="p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 disabled:opacity-40 transition-all"
+          className="p-2.5 rounded-xl border border-slate-200 bg-canvas text-slate-500 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 disabled:opacity-40 transition-all"
           title="Notu Kaydet"
         >
           <Copy size={14} />
@@ -407,7 +398,7 @@ const NotepadView = ({ ref, ...props }: NotepadViewProps & { ref: React.Ref<HTML
         <button
           onClick={onClear}
           disabled={!content.trim()}
-          className="p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500 disabled:opacity-40 transition-all"
+          className="p-2.5 rounded-xl border border-slate-200 bg-canvas text-slate-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500 disabled:opacity-40 transition-all"
           title="Temizle"
         >
           <Trash2 size={14} />
@@ -424,11 +415,11 @@ function ResultsView({ result, onOpenFinding, onBack }: {
 }) {
   return (
     <div className="flex-1 overflow-y-auto min-h-0">
-      <div className="p-3 space-y-3">
-        <div className="bg-gradient-to-r from-slate-50 to-blue-50 border border-slate-200 rounded-xl p-3">
-          <div className="flex items-start gap-2">
-            <Sparkles size={14} className="text-slate-700 mt-0.5 shrink-0" />
-            <p className="text-[11px] text-slate-700 leading-relaxed font-medium">
+      <div className="p-4 space-y-4">
+        <div className="bg-gradient-to-r from-slate-50 to-blue-50 border border-slate-200 rounded-xl p-4">
+          <div className="flex items-start gap-2.5">
+            <Sparkles size={15} className="text-slate-700 mt-0.5 shrink-0" />
+            <p className="text-sm text-slate-700 leading-relaxed font-medium">
               {result.summary}
             </p>
           </div>
@@ -436,11 +427,11 @@ function ResultsView({ result, onOpenFinding, onBack }: {
 
         {result.findings.length > 0 && (
           <div>
-            <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <AlertTriangle size={10} />
+            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <AlertTriangle size={12} />
               Tespit Edilen Bulgular ({result.findings.length})
             </h4>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {result.findings.map((f, i) => (
                 <FindingCard key={i} finding={f} onOpen={() => onOpenFinding(f)} />
               ))}
@@ -450,25 +441,25 @@ function ResultsView({ result, onOpenFinding, onBack }: {
 
         {result.risks.length > 0 && (
           <div>
-            <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Shield size={10} />
+            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <Shield size={12} />
               Risk Gostergeleri ({result.risks.length})
             </h4>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {result.risks.map((r, i) => {
                 const colors = {
                   CRITICAL: 'border-red-200 bg-red-50/50 text-red-800',
                   HIGH: 'border-orange-200 bg-orange-50/50 text-orange-800',
                   MEDIUM: 'border-amber-200 bg-amber-50/50 text-amber-800',
-                  LOW: 'border-slate-200 bg-slate-50/50 text-slate-700',
+                  LOW: 'border-slate-200 bg-canvas/50 text-slate-700',
                 };
                 return (
-                  <div key={i} className={clsx('border rounded-xl p-3', colors[r.risk_level])}>
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-[11px] font-bold">{r.title}</span>
-                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-white/60">{r.risk_level}</span>
+                  <div key={i} className={clsx('border rounded-xl p-4', colors[r.risk_level])}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold">{r.title}</span>
+                      <span className="text-xs font-bold px-2 py-1 rounded-md bg-surface/60">{r.risk_level}</span>
                     </div>
-                    <p className="text-[10px] leading-relaxed opacity-80">{r.description.slice(0, 150)}</p>
+                    <p className="text-xs leading-relaxed text-current">{r.description.slice(0, 150)}</p>
                   </div>
                 );
               })}
@@ -478,22 +469,22 @@ function ResultsView({ result, onOpenFinding, onBack }: {
 
         {result.evidence_requests.length > 0 && (
           <div>
-            <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <FileSearch size={10} />
+            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <FileSearch size={12} />
               Belge Talepleri ({result.evidence_requests.length})
             </h4>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {result.evidence_requests.map((e, i) => (
-                <div key={i} className="border border-blue-200 bg-blue-50/30 rounded-xl p-3">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[11px] font-bold text-blue-900">{e.title}</span>
+                <div key={i} className="border border-blue-200 bg-blue-50/30 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-semibold text-blue-900">{e.title}</span>
                     <span className={clsx(
-                      'text-[9px] font-bold px-1.5 py-0.5 rounded-full',
+                      'text-xs font-bold px-2 py-1 rounded-md',
                       e.priority === 'HIGH' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
                     )}>{e.priority}</span>
                   </div>
-                  <p className="text-[10px] text-blue-800 leading-relaxed">{e.description.slice(0, 120)}</p>
-                  <p className="text-[9px] text-blue-600 font-semibold mt-1">Talep: {e.requested_from}</p>
+                  <p className="text-xs text-blue-800 leading-relaxed">{e.description.slice(0, 120)}</p>
+                  <p className="text-xs text-blue-600 font-semibold mt-2">Talep: {e.requested_from}</p>
                 </div>
               ))}
             </div>
@@ -501,7 +492,7 @@ function ResultsView({ result, onOpenFinding, onBack }: {
         )}
       </div>
 
-      <div className="sticky bottom-0 px-3 py-2.5 border-t border-slate-200 bg-white/90 backdrop-blur-sm">
+      <div className="sticky bottom-0 px-3 py-2.5 border-t border-slate-200 bg-surface/90 backdrop-blur-sm">
         <button
           onClick={onBack}
           className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 text-xs font-semibold rounded-xl hover:bg-slate-200 transition-colors"
@@ -518,7 +509,7 @@ const SEVERITY_COLORS: Record<string, { bg: string; text: string; badge: string 
   CRITICAL: { bg: 'bg-red-50', text: 'text-red-900', badge: 'bg-red-600 text-white' },
   HIGH: { bg: 'bg-orange-50', text: 'text-orange-900', badge: 'bg-orange-500 text-white' },
   MEDIUM: { bg: 'bg-amber-50', text: 'text-amber-900', badge: 'bg-amber-500 text-white' },
-  LOW: { bg: 'bg-slate-50', text: 'text-slate-800', badge: 'bg-slate-400 text-white' },
+  LOW: { bg: 'bg-canvas', text: 'text-slate-800', badge: 'bg-slate-400 text-white' },
 };
 
 function FindingCard({ finding, onOpen }: { finding: ExtractedFinding; onOpen: () => void }) {
@@ -528,24 +519,24 @@ function FindingCard({ finding, onOpen }: { finding: ExtractedFinding; onOpen: (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className={clsx('border rounded-xl p-3 cursor-pointer hover:shadow-md transition-all group', colors.bg, 'border-slate-200')}
+      className={clsx('border rounded-xl p-4 cursor-pointer hover:shadow-md transition-all group', colors.bg, 'border-slate-200')}
       onClick={onOpen}
     >
-      <div className="flex items-start justify-between gap-2 mb-1.5">
-        <span className={clsx('text-[11px] font-bold leading-tight', colors.text)}>{finding.title}</span>
-        <span className={clsx('text-[8px] font-bold px-1.5 py-0.5 rounded-full shrink-0', colors.badge)}>
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <span className={clsx('text-sm font-semibold leading-tight', colors.text)}>{finding.title}</span>
+        <span className={clsx('text-xs font-bold px-2 py-1 rounded-md shrink-0', colors.badge)}>
           {finding.severity}
         </span>
       </div>
-      <p className={clsx('text-[10px] leading-relaxed mb-2 opacity-80', colors.text)}>
+      <p className={clsx('text-xs leading-relaxed mb-3 text-slate-600', colors.text)}>
         {finding.description.slice(0, 120)}...
       </p>
       <div className="flex items-center justify-between">
-        <span className="text-[9px] font-medium text-slate-500">
-          Kok Neden: {finding.root_cause}
+        <span className="text-xs font-medium text-slate-500">
+          Kök Neden: {finding.root_cause}
         </span>
-        <span className="text-[9px] font-bold text-blue-600 group-hover:text-blue-700 flex items-center gap-0.5">
-          Bulgu Olustur <ChevronRight size={10} />
+        <span className="text-xs font-bold text-blue-600 group-hover:text-blue-700 flex items-center gap-0.5">
+          Bulgu Olustur <ChevronRight size={12} />
         </span>
       </div>
     </motion.div>

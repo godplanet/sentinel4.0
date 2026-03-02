@@ -55,7 +55,7 @@ function GlassTooltip({ active, payload, label }: CustomTipProps) {
   const masked = perf && op ? Math.max(0, perf.value - op.value) : 0;
 
   return (
-    <div className="bg-white/95 backdrop-blur-xl border border-slate-200 rounded-xl p-4 shadow-xl min-w-[220px]">
+    <div className="bg-surface/95 backdrop-blur-xl border border-slate-200 rounded-xl p-4 shadow-xl min-w-[220px]">
       <p className="text-[11px] font-black text-slate-700 pb-2 mb-2 border-b border-slate-100 truncate">
         {label}
       </p>

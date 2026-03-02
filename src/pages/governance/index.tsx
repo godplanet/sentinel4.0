@@ -20,14 +20,14 @@ export default function GovernancePage() {
   const [activeTab, setActiveTab] = useState<TabKey>('charter');
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Yonetisim Kasasi"
         subtitle="Denetim Yonetmeligi, Politikalar ve Beyanlar"
         icon={Shield}
       />
 
-      <div className="border-b border-slate-200 bg-white px-6">
+      <div className="border-b border-slate-200 bg-surface px-6">
         <div className="flex gap-1">
           {TABS.map((tab) => (
             <button
@@ -37,7 +37,7 @@ export default function GovernancePage() {
                 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                 activeTab === tab.key
                   ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
               )}
             >
               <tab.icon size={16} />
@@ -55,7 +55,7 @@ export default function GovernancePage() {
         {activeTab === 'committee' && <GovernanceVault />}
 
         {activeTab === 'policies' && (
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+          <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
             <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <BookOpen size={20} className="text-orange-600" />
               Kurumsal Politika Kutuphanesi

@@ -79,14 +79,14 @@ export default function ResourceManagementPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Kaynak Yönetimi"
         subtitle="Denetçi Yönetimi, Yetkinlikler, Atama ve Kapasite Planlama"
         icon={Users}
       />
 
-      <div className="border-b border-slate-200 bg-white px-6">
+      <div className="border-b border-slate-200 bg-surface px-6">
         <div className="flex gap-1">
           {RESOURCE_TABS.map((tab) => {
             const Icon = tab.icon;
@@ -100,7 +100,7 @@ export default function ResourceManagementPage() {
                   'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                   isActive
                     ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    : 'text-slate-600 hover:text-primary hover:bg-canvas'
                 )}
               >
                 <Icon size={16} />

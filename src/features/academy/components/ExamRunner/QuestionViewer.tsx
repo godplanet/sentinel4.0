@@ -40,7 +40,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
     ? 'border-rose-500/40 bg-rose-500/10'
     : isWarning
     ? 'border-amber-500/40 bg-amber-500/10'
-    : 'border-white/[0.08] bg-white/[0.04]';
+    : 'border-white/[0.08] bg-surface/[0.04]';
 
   const handleSubmit = () => {
     if (window.confirm('Sınavı teslim etmek istediğinizden emin misiniz?')) {
@@ -70,7 +70,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex-1 h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+            <div className="flex-1 h-1.5 rounded-full bg-surface/[0.06] overflow-hidden">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
                 style={{ width: `${progress}%` }}
@@ -86,7 +86,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
       <main className="flex-1 flex flex-col items-center px-4 py-8">
         <div className="w-full max-w-3xl flex flex-col lg:flex-row gap-6">
           <div className="flex-1 min-w-0">
-            <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 md:p-8 mb-6">
+            <div className="rounded-2xl border border-white/[0.07] bg-surface/[0.03] p-6 md:p-8 mb-6">
               <div className="flex items-start justify-between gap-4 mb-6">
                 <div className="flex items-center gap-3">
                   <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600/20 border border-blue-500/30
@@ -126,7 +126,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
                         transition-all duration-150 group
                         ${isSelected
                           ? 'border-blue-500/60 bg-blue-500/10 shadow-md shadow-blue-500/10'
-                          : 'border-white/[0.07] bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.05]'
+                          : 'border-white/[0.07] bg-surface/[0.02] hover:border-white/20 hover:bg-surface/[0.05]'
                         }`}
                     >
                       <span className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center
@@ -136,7 +136,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
                           : 'border-slate-600 group-hover:border-slate-400'
                         }`}>
                         {isSelected && (
-                          <span className="w-2 h-2 rounded-full bg-white" />
+                          <span className="w-2 h-2 rounded-full bg-surface" />
                         )}
                       </span>
                       <span className={`text-sm leading-relaxed transition-colors duration-150
@@ -192,7 +192,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
           </div>
 
           <aside className="lg:w-52 flex-shrink-0">
-            <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 sticky top-24">
+            <div className="rounded-xl border border-white/[0.07] bg-surface/[0.02] p-4 sticky top-24">
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">
                 Soru Listesi
               </p>
@@ -211,7 +211,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
                           ? 'bg-blue-600 text-white ring-2 ring-blue-400/50'
                           : answered
                           ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-600/30 hover:bg-emerald-600/30'
-                          : 'bg-white/[0.04] text-slate-500 border border-white/[0.06] hover:bg-white/[0.08] hover:text-white'
+                          : 'bg-surface/[0.04] text-slate-500 border border-white/[0.06] hover:bg-surface/[0.08] hover:text-white'
                         }`}
                     >
                       {i + 1}
@@ -225,7 +225,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
 
               <div className="mt-4 space-y-1.5">
                 <LegendItem color="bg-emerald-600/20 border-emerald-600/30 text-emerald-400" label="Yanıtlandı" />
-                <LegendItem color="bg-white/[0.04] border-white/[0.06] text-slate-500" label="Yanıtlanmadı" />
+                <LegendItem color="bg-surface/[0.04] border-white/[0.06] text-slate-500" label="Yanıtlanmadı" />
                 <div className="flex items-center gap-2 mt-1">
                   <span className="w-2 h-2 rounded-full bg-amber-400" />
                   <span className="text-slate-500 text-xs">İşaretli</span>

@@ -40,6 +40,8 @@ ADD COLUMN IF NOT EXISTS finding_code TEXT;
 
 -- 2. UPDATE STATUS CONSTRAINT (PRESERVE LEGACY + ADD NEW STATES)
 ALTER TABLE public.audit_findings
+DROP CONSTRAINT IF EXISTS valid_finding_status;
+ALTER TABLE public.audit_findings
 DROP CONSTRAINT IF EXISTS audit_findings_status_check;
 
 ALTER TABLE public.audit_findings
@@ -54,8 +56,7 @@ CREATE OR REPLACE FUNCTION handle_new_action_plan()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE public.audit_findings
-    SET status = 'PENDING_APPROVAL',
-        updated_at = NOW()
+    SET status = 'PENDING_APPROVAL'
     WHERE id = NEW.finding_id;
     RETURN NEW;
 END;

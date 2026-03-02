@@ -403,8 +403,8 @@ export function WorkpaperSuperDrawer({ row, workpaperId, onClose, onStatusChange
 
   return (
     <>
-          <div className="flex flex-col h-full bg-white border-l border-slate-200 overflow-hidden">
-            <div className="shrink-0 bg-white border-b border-slate-200">
+          <div className="flex flex-col h-full bg-surface border-l border-slate-200 overflow-hidden">
+            <div className="shrink-0 bg-surface border-b border-slate-200">
               <div className="px-6 pt-5 pb-4">
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex-1 min-w-0">
@@ -420,7 +420,7 @@ export function WorkpaperSuperDrawer({ row, workpaperId, onClose, onStatusChange
                         {risk.label}
                       </span>
                     </div>
-                    <h2 className="text-lg font-bold text-slate-900 leading-tight">{row.title}</h2>
+                    <h2 className="text-lg font-bold text-primary leading-tight">{row.title}</h2>
                     <p className="text-xs text-slate-500 mt-1 line-clamp-2">{row.description}</p>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
@@ -494,7 +494,7 @@ export function WorkpaperSuperDrawer({ row, workpaperId, onClose, onStatusChange
                         className={clsx(
                           'flex-1 flex items-center justify-center gap-1.5 px-2 py-2.5 text-xs font-semibold rounded-lg transition-all',
                           isActive
-                            ? 'bg-white text-slate-900 shadow-sm'
+                            ? 'bg-surface text-primary shadow-sm'
                             : 'text-slate-500 hover:text-slate-700'
                         )}
                       >

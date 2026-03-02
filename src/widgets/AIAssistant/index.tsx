@@ -115,13 +115,13 @@ export const AIAssistantModal = ({ isOpen, onClose }: AIAssistantProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in">
-      <div className="relative w-full max-w-2xl rounded-2xl bg-white shadow-2xl animate-in slide-in-from-bottom-4">
+      <div className="relative w-full max-w-2xl rounded-2xl bg-surface shadow-2xl animate-in slide-in-from-bottom-4">
         {/* Header */}
         <div className="relative overflow-hidden rounded-t-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 px-6 py-5">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30" />
           <div className="relative flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface/20 backdrop-blur-sm">
                 <Bot className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -131,7 +131,7 @@ export const AIAssistantModal = ({ isOpen, onClose }: AIAssistantProps) => {
             </div>
             <button
               onClick={onClose}
-              className="rounded-full bg-white/20 p-2 text-white backdrop-blur-sm transition-all hover:bg-white/30"
+              className="rounded-full bg-surface/20 p-2 text-white backdrop-blur-sm transition-all hover:bg-surface/30"
             >
               <X className="h-5 w-5" />
             </button>
@@ -151,7 +151,7 @@ export const AIAssistantModal = ({ isOpen, onClose }: AIAssistantProps) => {
                     <button
                       key={sq.id}
                       onClick={() => handleQuerySubmit(sq.text)}
-                      className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-all hover:border-blue-300 hover:bg-blue-50"
+                      className="flex items-center gap-2 rounded-lg border border-gray-200 bg-canvas px-3 py-2 text-sm text-gray-700 transition-all hover:border-blue-300 hover:bg-blue-50"
                     >
                       <Icon className="h-4 w-4" />
                       {sq.shortLabel}
@@ -183,7 +183,7 @@ export const AIAssistantModal = ({ isOpen, onClose }: AIAssistantProps) => {
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600">
                   <Sparkles className="h-4 w-4 text-white" />
                 </div>
-                <h3 className="font-semibold text-gray-900">{result.title}</h3>
+                <h3 className="font-semibold text-primary">{result.title}</h3>
               </div>
               <ul className="space-y-2">
                 {result.items.map((item, idx) => (

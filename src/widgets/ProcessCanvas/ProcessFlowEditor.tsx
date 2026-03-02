@@ -39,7 +39,7 @@ const RISK_SEVERITY_COLORS: Record<string, string> = {
 
 const NODE_PALETTE = [
   { type: 'input', label: 'Baslangic', icon: CheckCircle2, color: 'text-emerald-500 bg-emerald-50 border-emerald-200' },
-  { type: 'default', label: 'Islem Adimi', icon: GripVertical, color: 'text-slate-500 bg-slate-50 border-slate-200' },
+  { type: 'default', label: 'Islem Adimi', icon: GripVertical, color: 'text-slate-500 bg-canvas border-slate-200' },
   { type: 'decision', label: 'Karar', icon: Diamond, color: 'text-violet-500 bg-violet-50 border-violet-200' },
   { type: 'control', label: 'Kontrol Noktasi', icon: ShieldCheck, color: 'text-amber-500 bg-amber-50 border-amber-200' },
   { type: 'output', label: 'Sonuc', icon: CircleDot, color: 'text-sky-500 bg-sky-50 border-sky-200' },
@@ -57,7 +57,7 @@ function ProcessStepNode({ data }: { data: { label: string; risk?: RiskMapping }
   const risk = data.risk;
   return (
     <div className={clsx(
-      'px-4 py-3 bg-white rounded-xl border-2 shadow-sm min-w-[160px] text-center transition-all',
+      'px-4 py-3 bg-surface rounded-xl border-2 shadow-sm min-w-[160px] text-center transition-all',
       risk
         ? risk.severity === 'CRITICAL' ? 'border-red-400 shadow-red-100'
           : risk.severity === 'HIGH' ? 'border-amber-400 shadow-amber-100'
@@ -249,7 +249,7 @@ export function ProcessFlowEditor({ processMap, onSave, saving }: ProcessFlowEdi
   }, [setNodes]);
 
   return (
-    <div ref={wrapperRef} className="h-[600px] bg-white border border-slate-200 rounded-xl overflow-hidden relative">
+    <div ref={wrapperRef} className="h-[600px] bg-surface border border-slate-200 rounded-xl overflow-hidden relative">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -260,20 +260,20 @@ export function ProcessFlowEditor({ processMap, onSave, saving }: ProcessFlowEdi
         onPaneClick={() => setContextMenu(null)}
         nodeTypes={nodeTypes}
         fitView
-        className="bg-slate-50/50"
+        className="bg-canvas/50"
         defaultEdgeOptions={{ type: 'smoothstep', style: { stroke: '#94a3b8', strokeWidth: 2 } }}
       >
         <Background gap={20} size={1} color="#e2e8f0" />
-        <Controls className="!bg-white !border-slate-200 !rounded-lg !shadow-sm" />
+        <Controls className="!bg-surface !border-slate-200 !rounded-lg !shadow-sm" />
         <MiniMap
-          className="!bg-white !border-slate-200 !rounded-lg"
+          className="!bg-surface !border-slate-200 !rounded-lg"
           nodeColor="#cbd5e1"
           maskColor="rgba(0,0,0,0.05)"
         />
       </ReactFlow>
 
       {showPalette && (
-        <div className="absolute top-3 left-3 z-10 bg-white border border-slate-200 rounded-xl shadow-lg p-3 w-44">
+        <div className="absolute top-3 left-3 z-10 bg-surface border border-slate-200 rounded-xl shadow-lg p-3 w-44">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Dugum Paleti</span>
             <button onClick={() => setShowPalette(false)} className="p-0.5 hover:bg-slate-100 rounded">
@@ -305,7 +305,7 @@ export function ProcessFlowEditor({ processMap, onSave, saving }: ProcessFlowEdi
         {!showPalette && (
           <button
             onClick={() => setShowPalette(true)}
-            className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-[10px] font-bold text-slate-600 hover:bg-slate-50 transition-colors shadow-sm"
+            className="px-3 py-1.5 bg-surface border border-slate-200 rounded-lg text-[10px] font-bold text-slate-600 hover:bg-canvas transition-colors shadow-sm"
           >
             + Palet
           </button>
@@ -321,7 +321,7 @@ export function ProcessFlowEditor({ processMap, onSave, saving }: ProcessFlowEdi
 
       {contextMenu && (
         <div
-          className="absolute z-20 bg-white border border-slate-200 rounded-lg shadow-xl py-1 min-w-[180px]"
+          className="absolute z-20 bg-surface border border-slate-200 rounded-lg shadow-xl py-1 min-w-[180px]"
           style={{ top: contextMenu.y, left: contextMenu.x }}
         >
           <div className="px-3 py-1.5 border-b border-slate-100">

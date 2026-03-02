@@ -70,7 +70,7 @@ export function RiskPinModal({ nodeId, nodeLabel, onPin, onClose }: RiskPinModal
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
       <div
-        className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[80vh] flex flex-col"
+        className="bg-surface rounded-2xl shadow-2xl max-w-lg w-full max-h-[80vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between shrink-0">
@@ -95,7 +95,7 @@ export function RiskPinModal({ nodeId, nodeLabel, onPin, onClose }: RiskPinModal
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Risk ara..."
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-slate-400 transition-colors"
+              className="w-full pl-9 pr-4 py-2 bg-canvas border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-slate-400 transition-colors"
             />
           </div>
         </div>
@@ -117,7 +117,7 @@ export function RiskPinModal({ nodeId, nodeLabel, onPin, onClose }: RiskPinModal
                     'w-full text-left px-3 py-2.5 rounded-lg border transition-all text-xs',
                     selectedRisk?.id === risk.id
                       ? 'bg-slate-100 border-slate-400 ring-1 ring-slate-300'
-                      : 'border-transparent hover:bg-slate-50'
+                      : 'border-transparent hover:bg-canvas'
                   )}
                 >
                   <span className="font-bold text-slate-700 block">{risk.risk_name}</span>
@@ -150,7 +150,7 @@ export function RiskPinModal({ nodeId, nodeLabel, onPin, onClose }: RiskPinModal
                       'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition-all',
                       severity === opt.value
                         ? 'bg-slate-800 text-white border-slate-800'
-                        : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
+                        : 'bg-surface text-slate-600 border-slate-200 hover:border-slate-400'
                     )}
                   >
                     <span className={clsx('w-2 h-2 rounded-full', opt.color)} />

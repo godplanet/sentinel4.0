@@ -94,8 +94,8 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6">
-        <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+      <div className="bg-surface rounded-lg border border-slate-200 shadow-sm p-6">
+        <h3 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
           <FileSignature className="w-5 h-5 text-slate-700" />
           Beyan Türü Seçimi
         </h3>
@@ -110,7 +110,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
             }`}
           >
             <Shield className={`w-8 h-8 mx-auto mb-2 ${selectedType === 'INDEPENDENCE' ? 'text-blue-600' : 'text-slate-400'}`} />
-            <p className="font-semibold text-slate-900 text-sm">Bağımsızlık Beyanı</p>
+            <p className="font-semibold text-primary text-sm">Bağımsızlık Beyanı</p>
             <p className="text-xs text-slate-600 mt-1">IIA Standartları</p>
           </button>
 
@@ -123,7 +123,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
             }`}
           >
             <AlertCircle className={`w-8 h-8 mx-auto mb-2 ${selectedType === 'CONFLICT_OF_INTEREST' ? 'text-orange-600' : 'text-slate-400'}`} />
-            <p className="font-semibold text-slate-900 text-sm">Çıkar Çatışması</p>
+            <p className="font-semibold text-primary text-sm">Çıkar Çatışması</p>
             <p className="text-xs text-slate-600 mt-1">Etik Kurallar</p>
           </button>
 
@@ -136,7 +136,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
             }`}
           >
             <FileSignature className={`w-8 h-8 mx-auto mb-2 ${selectedType === 'CODE_OF_CONDUCT' ? 'text-green-600' : 'text-slate-400'}`} />
-            <p className="font-semibold text-slate-900 text-sm">Etik Kurallar</p>
+            <p className="font-semibold text-primary text-sm">Etik Kurallar</p>
             <p className="text-xs text-slate-600 mt-1">Davranış Kodu</p>
           </button>
         </div>
@@ -148,11 +148,11 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-white rounded-lg border-2 border-slate-200 shadow-lg overflow-hidden"
+          className="bg-surface rounded-lg border-2 border-slate-200 shadow-lg overflow-hidden"
         >
           <div className={`bg-gradient-to-r ${colors.split(' ')[0]} ${colors.split(' ')[1]} p-6 text-white`}>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
                 <currentDeclaration.icon className="w-6 h-6" />
               </div>
               <div>
@@ -163,7 +163,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
           </div>
 
           <div className="p-8">
-            <div className="bg-slate-50 rounded-lg p-6 mb-6 border border-slate-200">
+            <div className="bg-canvas rounded-lg p-6 mb-6 border border-slate-200">
               <pre className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap font-sans">
                 {currentDeclaration.content}
               </pre>
@@ -190,7 +190,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
                 className="mt-1 w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500"
               />
               <div>
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-sm font-semibold text-primary">
                   Yukarıdaki beyanı okudum ve anladım
                 </p>
                 <p className="text-xs text-slate-600 mt-1">
@@ -233,16 +233,16 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
             <motion.div
               initial={{ y: 50 }}
               animate={{ y: 0 }}
-              className="bg-white rounded-xl p-8 max-w-md w-full text-center shadow-2xl"
+              className="bg-surface rounded-xl p-8 max-w-md w-full text-center shadow-2xl"
             >
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Beyan Başarıyla İmzalandı!</h3>
+              <h3 className="text-xl font-bold text-primary mb-2">Beyan Başarıyla İmzalandı!</h3>
               <p className="text-sm text-slate-600">
                 {currentDeclaration.title} dijital olarak imzalanmış ve sisteme kaydedilmiştir.
               </p>
-              <div className="mt-4 p-3 bg-slate-50 rounded-lg">
+              <div className="mt-4 p-3 bg-canvas rounded-lg">
                 <p className="text-xs text-slate-600">
                   İmzalama Zamanı: {new Date().toLocaleString('tr-TR')}
                 </p>

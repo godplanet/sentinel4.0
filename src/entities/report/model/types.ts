@@ -29,7 +29,7 @@ export interface Report {
   status: ReportStatus;
   theme_config: ThemeConfig;
   layout_type: ReportLayoutType;
-  tiptap_content?: any;
+  tiptap_content?: Record<string, unknown> | null;
   snapshot_data?: ReportSnapshot;
   created_by?: string;
   created_at: string;
@@ -63,7 +63,7 @@ export interface FindingRefContent {
 export interface LiveChartContent {
   chart_type: 'risk_distribution' | 'finding_trends' | 'severity_breakdown' | 'timeline';
   data_source: 'findings' | 'risks' | 'engagements';
-  filter?: Record<string, any>;
+  filter?: Record<string, unknown>;
   config?: {
     width?: number;
     height?: number;
@@ -93,7 +93,7 @@ export type BlockContent =
   | LiveChartContent
   | DynamicMetricContent
   | SignatureContent
-  | Record<string, any>;
+  | Record<string, unknown>;
 
 export interface ReportBlock {
   id: string;
@@ -142,7 +142,7 @@ export interface ReportTemplate {
 
 export interface TemplateBlock {
   block_type: BlockType;
-  content: Record<string, any>;
+  content: Record<string, unknown>;
 }
 
 export interface ReportComment {
@@ -269,7 +269,7 @@ export interface BaseBlock {
   id: string;
   type: M6BlockType;
   orderIndex: number;
-  snapshotData?: any | null;
+  snapshotData?: Record<string, unknown> | null;
 }
 
 export interface TextBlock extends BaseBlock {
@@ -290,7 +290,7 @@ export interface LiveChartBlock extends BaseBlock {
   type: 'live_chart';
   content: {
     chartType: 'risk_heatmap' | 'severity_distribution' | 'wif_trend';
-    dataSourceFilter: Record<string, any>;
+    dataSourceFilter: Record<string, unknown>;
   };
 }
 
@@ -371,7 +371,7 @@ export interface SignatureStep {
 export interface ReportSnapshot {
   report: Report;
   blocks: ReportBlock[];
-  findings: Record<string, any>[];
+  findings: Record<string, unknown>[];
   metadata: {
     snapshot_version: string;
     created_at: string;

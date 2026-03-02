@@ -62,7 +62,7 @@ export default function AuditStartPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Yeni Denetim Baslat"
         subtitle="Denetim baslatma yolu secin"
@@ -75,7 +75,7 @@ export default function AuditStartPage() {
             <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Rocket size={28} className="text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900">Denetim Gorevini Nasil Baslatmak Istersiniz?</h2>
+            <h2 className="text-2xl font-bold text-primary">Denetim Gorevini Nasil Baslatmak Istersiniz?</h2>
             <p className="text-sm text-slate-500 mt-2 max-w-lg mx-auto">
               Asagidaki uc yoldan birini secerek denetim gorevini baslatin.
               Her yol farkli ihtiyaclara yonelik tasarlanmistir.
@@ -95,7 +95,7 @@ export default function AuditStartPage() {
                   transition={{ delay: idx * 0.1 }}
                   onClick={() => setSelected(path.key)}
                   className={clsx(
-                    'relative bg-white rounded-2xl border-2 overflow-hidden cursor-pointer transition-all hover:shadow-lg group',
+                    'relative bg-surface rounded-2xl border-2 overflow-hidden cursor-pointer transition-all hover:shadow-lg group',
                     isSelected ? 'border-blue-500 shadow-lg' : 'border-slate-200 hover:border-slate-300'
                   )}
                 >
@@ -106,7 +106,7 @@ export default function AuditStartPage() {
                   )}
 
                   <div className={clsx('bg-gradient-to-br p-6 text-white', path.color)}>
-                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4">
+                    <div className="w-14 h-14 bg-surface/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4">
                       <Icon size={28} />
                     </div>
                     <h3 className="text-lg font-bold">{path.title}</h3>

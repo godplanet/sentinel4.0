@@ -32,6 +32,20 @@ export async function fetchAlerts(): Promise<CCMAlert[]> {
   return data || [];
 }
 
+/**
+ * PredatorCockpit için son 20 uyarıyı tarih sırasıyla getirir.
+ */
+export async function fetchCCMAlerts(): Promise<CCMAlert[]> {
+  const { data, error } = await supabase
+    .from('ccm_alerts')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(20);
+
+  if (error) throw error;
+  return data || [];
+}
+
 export async function fetchInvoices(limit = 100): Promise<CCMInvoice[]> {
   const { data, error } = await supabase
     .from('ccm_invoices')

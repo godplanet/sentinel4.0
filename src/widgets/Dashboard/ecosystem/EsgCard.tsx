@@ -54,7 +54,7 @@ export function EsgCard() {
 
   if (loading) {
     return (
-      <div className="bg-white border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
+      <div className="bg-surface border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
         <Loader2 size={20} className="animate-spin text-slate-400" />
       </div>
     );
@@ -113,7 +113,7 @@ export function EsgCard() {
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="bg-white/70 border border-emerald-100 rounded-xl p-3">
+          <div className="bg-surface/70 border border-emerald-100 rounded-xl p-3">
             <p className="text-[10px] text-slate-500 font-medium mb-1">Hedef Tutturma</p>
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold text-emerald-700">{onTargetPct}%</span>
@@ -122,7 +122,7 @@ export function EsgCard() {
             <p className="text-[9px] text-slate-400 mt-0.5">{onTarget}/{data.length} metrik hedefte</p>
           </div>
 
-          <div className="bg-white/70 border border-emerald-100 rounded-xl p-3">
+          <div className="bg-surface/70 border border-emerald-100 rounded-xl p-3">
             <p className="text-[10px] text-slate-500 font-medium mb-1">Kapsam 1 Emisyon</p>
             <div className="flex items-center gap-2">
               {scope1Change !== null && scope1Change < 0 ? (

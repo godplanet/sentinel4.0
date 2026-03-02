@@ -57,8 +57,8 @@ export const RuleCard = ({ rule, onSelect }: Props) => {
       'group relative rounded-xl border transition-all duration-200',
       'hover:shadow-md hover:-translate-y-0.5',
       rule.is_active
-        ? 'bg-white border-slate-200/80 shadow-sm'
-        : 'bg-slate-50/50 border-dashed border-slate-200',
+        ? 'bg-surface border-slate-200/80 shadow-sm'
+        : 'bg-canvas/50 border-dashed border-slate-200',
     )}>
       <div className="p-5">
         <div className="flex items-start justify-between mb-3">
@@ -83,7 +83,7 @@ export const RuleCard = ({ rule, onSelect }: Props) => {
               )}
             >
               <span className={clsx(
-                'absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200',
+                'absolute top-0.5 w-5 h-5 rounded-full bg-surface shadow transition-transform duration-200',
                 rule.is_active ? 'translate-x-[22px]' : 'translate-x-0.5',
               )} />
             </button>

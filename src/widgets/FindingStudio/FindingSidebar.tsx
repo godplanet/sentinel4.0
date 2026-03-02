@@ -31,8 +31,8 @@ export function FindingSidebar({
 }: FindingSidebarProps) {
   return (
     <div className="sticky top-32">
-      <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-        <div className="border-b border-slate-200 bg-white/50">
+      <div className="bg-surface/90 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+        <div className="border-b border-slate-200 bg-surface/50">
           <div className="flex">
             {TABS.map((tab) => (
               <button
@@ -42,7 +42,7 @@ export function FindingSidebar({
                   'flex-1 flex flex-col items-center gap-1 py-3 px-2 text-xs font-semibold uppercase tracking-wide transition-all relative',
                   activeTab === tab.key
                     ? 'text-blue-600'
-                    : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                    : 'text-slate-500 hover:text-slate-700 hover:bg-canvas'
                 )}
               >
                 <tab.icon size={18} />
@@ -81,12 +81,12 @@ function DetayTab({ finding }: { finding: any }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div className="text-2xl font-bold text-slate-900">AA</div>
+        <div className="text-2xl font-bold text-primary">AA</div>
         <div className="w-1 h-1 rounded-full bg-green-500"></div>
       </div>
 
       <div>
-        <h3 className="text-lg font-bold text-slate-900 mb-1">{finding.auditor.name}</h3>
+        <h3 className="text-lg font-bold text-primary mb-1">{finding.auditor.name}</h3>
         <p className="text-sm text-slate-600 mb-3">{finding.auditor.role}</p>
         <p className="text-xs text-slate-500">📧 İç Denetim Bşk.</p>
       </div>
@@ -129,8 +129,8 @@ function DetayTab({ finding }: { finding: any }) {
         <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
           Referans No
         </div>
-        <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
-          <div className="font-mono text-sm text-slate-900">{finding.id}</div>
+        <div className="bg-canvas rounded-lg p-3 border border-slate-200">
+          <div className="font-mono text-sm text-primary">{finding.id}</div>
           <button className="text-xs text-slate-500 hover:text-slate-700 mt-1">
             📋
           </button>
@@ -155,7 +155,7 @@ function DetayTab({ finding }: { finding: any }) {
         </div>
         <div className="flex items-center gap-2 text-sm">
           <FileText size={14} className="text-blue-600" />
-          <span className="text-slate-900">{finding.engagement.name}</span>
+          <span className="text-primary">{finding.engagement.name}</span>
         </div>
       </div>
     </div>
@@ -165,7 +165,7 @@ function DetayTab({ finding }: { finding: any }) {
 function TarihceTab({ finding }: { finding: any }) {
   return (
     <div className="space-y-4">
-      <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wide mb-4">
+      <h3 className="font-bold text-primary text-sm uppercase tracking-wide mb-4">
         Bulgu Tarihe Olaylarında
       </h3>
 
@@ -180,7 +180,7 @@ function TarihceTab({ finding }: { finding: any }) {
             </div>
             <div className="flex-1 pb-4">
               <div className="flex items-start justify-between mb-1">
-                <div className="text-sm font-semibold text-slate-900">{event.event}</div>
+                <div className="text-sm font-semibold text-primary">{event.event}</div>
                 <div className="text-xs text-slate-500">{event.time}</div>
               </div>
               <div className="text-xs text-slate-600 mb-1">{event.date}</div>
@@ -214,10 +214,10 @@ function AITab({ finding }: { finding: any }) {
           {finding.ai_similarity.description}
         </p>
         <div className="flex gap-2">
-          <button className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-semibold transition-colors">
+          <button className="px-3 py-1.5 bg-surface/20 hover:bg-surface/30 rounded-lg text-xs font-semibold transition-colors">
             Benzerlik Harita
           </button>
-          <button className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-semibold transition-colors">
+          <button className="px-3 py-1.5 bg-surface/20 hover:bg-surface/30 rounded-lg text-xs font-semibold transition-colors">
             Öneryanır
           </button>
         </div>
@@ -229,9 +229,9 @@ function AITab({ finding }: { finding: any }) {
         </h4>
         <div className="space-y-2">
           {finding.ai_similarity.similar_findings.map((sf: any) => (
-            <div key={sf.id} className="bg-slate-50 rounded-lg p-3 border border-slate-200 hover:border-blue-300 transition-colors cursor-pointer">
+            <div key={sf.id} className="bg-canvas rounded-lg p-3 border border-slate-200 hover:border-blue-300 transition-colors cursor-pointer">
               <div className="flex items-start justify-between mb-2">
-                <div className="text-sm font-semibold text-slate-900">{sf.title}</div>
+                <div className="text-sm font-semibold text-primary">{sf.title}</div>
                 <div className="text-xs font-mono text-slate-500">{Math.round(sf.similarity * 100)}%</div>
               </div>
               <div className="text-xs text-slate-600">{sf.id} • {sf.branch}</div>

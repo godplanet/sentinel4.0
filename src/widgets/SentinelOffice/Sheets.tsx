@@ -229,8 +229,8 @@ export function SentinelSheets({ workpaperId, documentId, initialData, onFullScr
   }, [activeCell, state.cells]);
 
   return (
-    <div className={clsx('flex flex-col bg-white', isFullScreen ? 'fixed inset-0 z-[200]' : 'h-full')}>
-      <div className="shrink-0 bg-white border-b border-slate-200 px-4 py-2 flex items-center justify-between gap-3">
+    <div className={clsx('flex flex-col bg-surface', isFullScreen ? 'fixed inset-0 z-[200]' : 'h-full')}>
+      <div className="shrink-0 bg-surface border-b border-slate-200 px-4 py-2 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Table2 size={16} className="text-emerald-600" />
           <span className="text-sm font-bold text-slate-800">Sentinel Sheets</span>
@@ -289,8 +289,8 @@ export function SentinelSheets({ workpaperId, documentId, initialData, onFullScr
         </div>
       </div>
 
-      <div className="shrink-0 bg-slate-50 border-b border-slate-200 px-4 py-1.5 flex items-center gap-2">
-        <div className="flex items-center gap-1 px-2 py-1 bg-white border border-slate-200 rounded text-xs font-mono font-bold text-slate-700 min-w-[48px] justify-center">
+      <div className="shrink-0 bg-canvas border-b border-slate-200 px-4 py-1.5 flex items-center gap-2">
+        <div className="flex items-center gap-1 px-2 py-1 bg-surface border border-slate-200 rounded text-xs font-mono font-bold text-slate-700 min-w-[48px] justify-center">
           {activeCell || '--'}
         </div>
         <Calculator size={12} className="text-slate-400" />
@@ -309,7 +309,7 @@ export function SentinelSheets({ workpaperId, documentId, initialData, onFullScr
             }
           }}
           placeholder="Hucre degeri veya formul (=SUM, =AVG, =IF...)"
-          className="flex-1 text-xs px-2 py-1 border border-slate-200 rounded bg-white focus:outline-none focus:ring-1 focus:ring-blue-400 font-mono"
+          className="flex-1 text-xs px-2 py-1 border border-slate-200 rounded bg-surface focus:outline-none focus:ring-1 focus:ring-blue-400 font-mono"
         />
       </div>
 
@@ -337,7 +337,7 @@ export function SentinelSheets({ workpaperId, documentId, initialData, onFullScr
           <tbody>
             {Array.from({ length: state.config.rows }, (_, rowIdx) => (
               <tr key={rowIdx} className="group">
-                <td className="bg-slate-50 border border-slate-200 text-[10px] text-slate-500 font-medium text-center px-1 py-0.5 select-none sticky left-0 z-[5]">
+                <td className="bg-canvas border border-slate-200 text-[10px] text-slate-500 font-medium text-center px-1 py-0.5 select-none sticky left-0 z-[5]">
                   {rowIdx + 1}
                 </td>
                 {Array.from({ length: state.config.columns }, (_, colIdx) => {
@@ -356,7 +356,7 @@ export function SentinelSheets({ workpaperId, documentId, initialData, onFullScr
                         'border border-slate-200 px-1.5 py-0 text-xs relative h-7',
                         isActive && !isEditing && 'ring-2 ring-blue-500 ring-inset bg-blue-50/30',
                         isSelected && !isActive && 'bg-blue-50/20',
-                        !isActive && !isSelected && 'hover:bg-slate-50',
+                        !isActive && !isSelected && 'hover:bg-canvas',
                         cell?.formula && 'text-blue-700',
                       )}
                     >
@@ -387,7 +387,7 @@ export function SentinelSheets({ workpaperId, documentId, initialData, onFullScr
                               setSelectedRange(new Set([nextKey]));
                             }
                           }}
-                          className="absolute inset-0 w-full h-full px-1.5 text-xs font-mono bg-white border-none outline-none ring-2 ring-blue-500 z-20"
+                          className="absolute inset-0 w-full h-full px-1.5 text-xs font-mono bg-surface border-none outline-none ring-2 ring-blue-500 z-20"
                         />
                       ) : (
                         <span className="block truncate font-mono text-[11px] leading-7">
@@ -403,7 +403,7 @@ export function SentinelSheets({ workpaperId, documentId, initialData, onFullScr
         </table>
       </div>
 
-      <div className="shrink-0 bg-slate-50 border-t border-slate-200 px-4 py-1.5 flex items-center justify-between">
+      <div className="shrink-0 bg-canvas border-t border-slate-200 px-4 py-1.5 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <button
             onClick={handleAddRow}

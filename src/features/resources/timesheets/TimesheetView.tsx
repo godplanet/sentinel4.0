@@ -114,13 +114,13 @@ export function TimesheetView() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Zaman Çizelgeleri</h2>
+          <h2 className="text-2xl font-bold text-primary">Zaman Çizelgeleri</h2>
           <p className="text-slate-600 mt-1">
             Haftalık zaman takibi ve onay süreci
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 text-slate-700 rounded-lg text-sm font-medium hover:bg-canvas transition-colors">
             <Download size={16} />
             Excel İndir
           </button>
@@ -132,58 +132,58 @@ export function TimesheetView() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
               <Clock className="text-blue-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Bu Hafta</p>
-              <p className="text-2xl font-bold text-slate-900">{weekTotal}h</p>
+              <p className="text-2xl font-bold text-primary">{weekTotal}h</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
               <FileText className="text-green-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Kayıtlı Giriş</p>
-              <p className="text-2xl font-bold text-slate-900">{timeEntries.length}</p>
+              <p className="text-2xl font-bold text-primary">{timeEntries.length}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
               <Calendar className="text-amber-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Günlük Ort.</p>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-2xl font-bold text-primary">
                 {timeEntries.length > 0 ? (weekTotal / 7).toFixed(1) : 0}h
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
               <Clock className="text-purple-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Hedef</p>
-              <p className="text-2xl font-bold text-slate-900">40h</p>
+              <p className="text-2xl font-bold text-primary">40h</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200">
+      <div className="bg-surface rounded-lg border border-slate-200">
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
@@ -194,7 +194,7 @@ export function TimesheetView() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h3 className="font-semibold text-slate-900 flex items-center gap-2">
+            <h3 className="font-semibold text-primary flex items-center gap-2">
               <Calendar size={18} className="text-blue-600" />
               {weekStart.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })} -{' '}
               {weekDays[6].toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -210,7 +210,7 @@ export function TimesheetView() {
           </div>
           <div className="text-sm">
             <span className="text-slate-600">Toplam: </span>
-            <span className="font-bold text-slate-900">{weekTotal}h</span>
+            <span className="font-bold text-primary">{weekTotal}h</span>
           </div>
         </div>
 
@@ -234,7 +234,7 @@ export function TimesheetView() {
                       isToday(day)
                         ? 'border-blue-500 bg-blue-50 shadow-sm'
                         : isWeekend
-                        ? 'border-slate-100 bg-slate-50'
+                        ? 'border-slate-100 bg-canvas'
                         : 'border-slate-200 hover:border-blue-300'
                     )}
                   >
@@ -252,7 +252,7 @@ export function TimesheetView() {
                           <span className="text-lg font-bold">{day.getDate()}</span>
                         </div>
                         <div>
-                          <h4 className="font-medium text-slate-900 capitalize">{dayName}</h4>
+                          <h4 className="font-medium text-primary capitalize">{dayName}</h4>
                           <p className="text-sm text-slate-500">
                             {day.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })}
                           </p>
@@ -281,7 +281,7 @@ export function TimesheetView() {
                             className="flex items-start justify-between text-sm"
                           >
                             <div className="flex-1">
-                              <p className="font-medium text-slate-900">
+                              <p className="font-medium text-primary">
                                 {entry.workpaper?.engagement?.title || 'Denetim'}
                               </p>
                               <p className="text-xs text-slate-500">

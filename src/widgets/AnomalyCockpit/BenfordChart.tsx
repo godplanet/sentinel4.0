@@ -59,7 +59,7 @@ export function BenfordChart({ digits, chiSquared, isAnomaly, totalInvoices }: P
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-white border border-slate-200 rounded-xl p-5"
+      className="bg-surface border border-slate-200 rounded-xl p-5"
     >
       <div className="flex items-start justify-between mb-5">
         <div className="flex items-center gap-3">
@@ -67,7 +67,7 @@ export function BenfordChart({ digits, chiSquared, isAnomaly, totalInvoices }: P
             <BarChart3 size={20} className="text-white" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900">Benford Yasasi Analizi</h3>
+            <h3 className="text-sm font-bold text-primary">Benford Yasasi Analizi</h3>
             <p className="text-xs text-slate-500">
               {totalInvoices} faturanin ilk basamak dagilimi
             </p>

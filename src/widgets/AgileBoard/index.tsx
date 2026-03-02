@@ -214,9 +214,9 @@ export function AgileBoard({ engagementId }: AgileBoardProps) {
               <div className={`${column.color} border rounded-t-lg p-3 flex items-center justify-between`}>
                 <div className="flex items-center gap-2">
                   <Icon className="w-5 h-5 text-slate-700" />
-                  <h3 className="font-semibold text-slate-900">{column.title}</h3>
+                  <h3 className="font-semibold text-primary">{column.title}</h3>
                 </div>
-                <span className="text-sm font-bold text-slate-600 bg-white px-2 py-1 rounded">
+                <span className="text-sm font-bold text-slate-600 bg-surface px-2 py-1 rounded">
                   {columnSteps.length}
                 </span>
               </div>
@@ -226,7 +226,7 @@ export function AgileBoard({ engagementId }: AgileBoardProps) {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`flex-1 p-2 space-y-2 bg-slate-50 border-x border-b rounded-b-lg overflow-y-auto ${
+                    className={`flex-1 p-2 space-y-2 bg-canvas border-x border-b rounded-b-lg overflow-y-auto ${
                       snapshot.isDraggingOver ? 'bg-blue-50' : ''
                     }`}
                   >
@@ -240,7 +240,7 @@ export function AgileBoard({ engagementId }: AgileBoardProps) {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
-                            className={`bg-white rounded-lg shadow-sm border border-slate-200 p-3 ${getRiskColor(
+                            className={`bg-surface rounded-lg shadow-sm border border-slate-200 p-3 ${getRiskColor(
                               step.risk_rating
                             )} ${
                               snapshot.isDragging ? 'shadow-xl rotate-2' : 'hover:shadow-md'
@@ -267,7 +267,7 @@ export function AgileBoard({ engagementId }: AgileBoardProps) {
                               )}
                             </div>
 
-                            <h4 className="text-sm font-semibold text-slate-900 mb-3 line-clamp-2">
+                            <h4 className="text-sm font-semibold text-primary mb-3 line-clamp-2">
                               {step.step_title}
                             </h4>
 

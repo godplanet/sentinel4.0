@@ -2,30 +2,32 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, Sparkles, PieChart, Radar } from 'lucide-react';
 import { PageHeader } from '@/shared/ui/PageHeader';
-import { MissionControlHero } from '@/widgets/dashboard/MissionControlHero';
-import { KPITicker } from '@/widgets/dashboard/KPITicker';
-import { TaskWorkbench } from '@/widgets/dashboard/TaskWorkbench';
-import { LivePulse } from '@/widgets/dashboard/LivePulse';
+import { MissionControlHero } from '@/widgets/Dashboard/MissionControlHero';
+import { KPITicker } from '@/widgets/Dashboard/KPITicker';
+import { TaskWorkbench } from '@/widgets/Dashboard/TaskWorkbench';
+import { LivePulse } from '@/widgets/Dashboard/LivePulse';
 import { SystemHealthWidget } from '@/widgets/SystemHealth';
-import { StrategicAnalyticsView } from '@/widgets/dashboard/StrategicAnalyticsView';
-import { EcosystemView } from '@/widgets/dashboard/EcosystemView';
-import { RiskHeatMap } from '@/widgets/dashboard/RiskHeatMap';
+import { StrategicAnalyticsView } from '@/widgets/Dashboard/StrategicAnalyticsView';
+import { EcosystemView } from '@/widgets/Dashboard/EcosystemView';
+import { RiskHeatMap } from '@/widgets/Dashboard/RiskHeatMap';
 import { PredictiveRadar } from '@/widgets/PredictiveRadar';
-import { TeamPulseWidget } from '@/widgets/dashboard/TeamPulseWidget';
+import { TeamPulseWidget } from '@/widgets/Dashboard/TeamPulseWidget';
 import { PulseCheckModal, usePulseCheck } from '@/features/talent-os/components/PulseCheckModal';
 import { supabase } from '@/shared/api/supabase';
-import { useDashboardStats, buildKPICards } from './useDashboardStats';
-import { useDashboardLiveData } from './useDashboardLiveData';
 import clsx from 'clsx';
+
+// FSD Kuralı: Veri çekme mantığı entities katmanından import edilir
+import { useDashboardStats, buildKPICards } from '@/entities/dashboard/api/useDashboardStats';
+import { useDashboardLiveData } from '@/entities/finding/useDashboardLiveData';
 
 const DEMO_USER_ID = '00000000-0000-0000-0000-000000000001';
 
 type TabKey = 'mission-control' | 'strategic-analysis' | 'ecosystem';
 
 const TABS = [
-  { key: 'mission-control' as TabKey, label: 'Genel Bakis', icon: LayoutDashboard },
+  { key: 'mission-control' as TabKey, label: 'Genel Bakış', icon: LayoutDashboard },
   { key: 'strategic-analysis' as TabKey, label: 'Stratejik Analiz', icon: PieChart },
-  { key: 'ecosystem' as TabKey, label: 'Ekosistem & Gozetim', icon: Radar },
+  { key: 'ecosystem' as TabKey, label: 'Ekosistem & Gözetim', icon: Radar },
 ];
 
 export default function DashboardPage() {
@@ -43,8 +45,8 @@ export default function DashboardPage() {
     });
   }, []);
 
-  const welcome    = liveData?.welcome    ?? { userName: 'Kullanici', role: 'Denetci', welcomeMessage: 'Hos geldiniz.', systemHealth: 0, lastLogin: '-' };
-  const aiBrief    = liveData?.aiBrief    ?? { headline: 'Veriler yukleniyor...', summary: '', context: 'Sentinel Brain', sentiment: 'positive' as const };
+  const welcome    = liveData?.welcome    ?? { userName: 'Kullanıcı', role: 'Denetçi', welcomeMessage: 'Hoş geldiniz.', systemHealth: 0, lastLogin: '-' };
+  const aiBrief    = liveData?.aiBrief    ?? { headline: 'Veriler yükleniyor...', summary: '', context: 'Sentinel Brain', sentiment: 'positive' as const };
   const tasks      = liveData?.tasks      ?? [];
   const activities = liveData?.activities ?? [];
 
@@ -58,12 +60,12 @@ export default function DashboardPage() {
           action={
             <button className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 transition-all shadow-sm">
               <Sparkles size={16} />
-              AI Asistani
+              AI Asistanı
             </button>
           }
         />
 
-        <div className="border-b border-slate-200 bg-white rounded-xl shadow-sm">
+        <div className="border-b border-slate-200 bg-surface rounded-xl shadow-sm">
           <div className="flex gap-1 px-6">
             {TABS.map((tab) => (
               <button
@@ -73,7 +75,7 @@ export default function DashboardPage() {
                   'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
                   activeTab === tab.key
                     ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    : 'text-slate-600 hover:text-primary hover:bg-canvas'
                 )}
               >
                 <tab.icon size={16} />
@@ -112,7 +114,7 @@ export default function DashboardPage() {
         {activeTab === 'ecosystem' && <EcosystemView />}
       </div>
 
-      {/* Pulse Check Modal — rendered outside main layout to escape stacking contexts */}
+      {/* Pulse Check Modal */}
       <AnimatePresence>
         {show && (
           <PulseCheckModal key="pulse-modal" userId={userId} onClose={dismiss} />

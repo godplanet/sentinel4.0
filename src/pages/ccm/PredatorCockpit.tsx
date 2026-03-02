@@ -1,16 +1,17 @@
 /**
  * CCM PREDATOR COCKPIT
  *
- * Advanced Continuous Control Monitoring dashboard
- * Features:
- * - Live transaction scanner with Matrix-style terminal
- * - Alert-to-Finding conversion (one-click)
- * - Constitution-linked risk thresholds
- * - Real-time anomaly detection
+ * Gelişmiş Sürekli Kontrol İzleme (CCM) dashboard'u — SOC Karanlık Tema
+ * Özellikler:
+ * - Canlı işlem tarayıcı (Matrix terminali)
+ * - Uyarıdan Bulgaya tek tıkla dönüştürme
+ * - Anayasa bağlantılı risk eşikleri
+ * - Gerçek zamanlı anomali tespiti
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   Shield,
   AlertTriangle,
@@ -21,50 +22,31 @@ import {
   Clock,
   TrendingUp,
   Activity,
+  RefreshCw,
 } from 'lucide-react';
 import { PageHeader } from '@/shared/ui';
 import { LiveScanner } from '@/features/ccm/components/LiveScanner';
 import { useAlertAction, useConstitutionRules } from '@/features/ccm/hooks';
-import { supabase } from '@/shared/api/supabase';
+import { fetchCCMAlerts } from '@/entities/ccm/api';
+import type { CCMAlert } from '@/entities/ccm/types';
 import { motion } from 'framer-motion';
 
-interface CCMAlert {
-  id: string;
-  rule_triggered: string;
-  risk_score: number;
-  severity: string;
-  evidence_data: any;
-  related_entity_id: string;
-  status: string;
-  created_at: string;
-}
-
 export default function PredatorCockpit() {
-  const [alerts, setAlerts] = useState<CCMAlert[]>([]);
   const [scanResults, setScanResults] = useState<{ total: number; anomalies: number } | null>(
     null
   );
   const [selectedAlert, setSelectedAlert] = useState<string | null>(null);
 
+  const queryClient = useQueryClient();
   const { convertAlertToFinding, isConverting } = useAlertAction();
   const { getConstitutionSummary, getRiskThresholds } = useConstitutionRules();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    loadAlerts();
-  }, []);
-
-  const loadAlerts = async () => {
-    const { data } = await supabase
-      .from('ccm_alerts')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(20);
-
-    if (data) {
-      setAlerts(data);
-    }
-  };
+  const { data: alerts = [], isLoading } = useQuery<CCMAlert[]>({
+    queryKey: ['ccm-alerts'],
+    queryFn: fetchCCMAlerts,
+    refetchInterval: 60_000,
+  });
 
   const handleConvertToFinding = async (alertId: string) => {
     setSelectedAlert(alertId);
@@ -74,11 +56,11 @@ export default function PredatorCockpit() {
     if (result.success && result.findingId) {
       navigate(`/execution/findings?id=${result.findingId}`);
     } else {
-      alert(`Failed to create finding: ${result.error || 'Unknown error'}`);
+      alert(`Bulgu oluşturulamadı: ${result.error || 'Bilinmeyen hata'}`);
     }
 
     setSelectedAlert(null);
-    loadAlerts();
+    queryClient.invalidateQueries({ queryKey: ['ccm-alerts'] });
   };
 
   const constitutionSummary = getConstitutionSummary();
@@ -87,30 +69,30 @@ export default function PredatorCockpit() {
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'CRITICAL':
-        return 'bg-red-100 text-red-700 border-red-300';
+        return 'bg-red-500/10 text-red-400 border-red-500/20';
       case 'HIGH':
-        return 'bg-orange-100 text-orange-700 border-orange-300';
+        return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
       case 'MEDIUM':
-        return 'bg-amber-100 text-amber-700 border-amber-300';
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
       case 'LOW':
-        return 'bg-green-100 text-green-700 border-green-300';
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       default:
-        return 'bg-slate-100 text-slate-700 border-slate-300';
+        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'OPEN':
-        return <AlertTriangle className="w-4 h-4 text-amber-500" />;
+        return <AlertTriangle className="w-4 h-4 text-amber-400" />;
       case 'INVESTIGATING':
-        return <Activity className="w-4 h-4 text-blue-500 animate-pulse" />;
+        return <Activity className="w-4 h-4 text-blue-400 animate-pulse" />;
       case 'CONFIRMED':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        return <CheckCircle className="w-4 h-4 text-emerald-400" />;
       case 'DISMISSED':
-        return <CheckCircle className="w-4 h-4 text-slate-400" />;
+        return <CheckCircle className="w-4 h-4 text-slate-600" />;
       default:
-        return <AlertTriangle className="w-4 h-4 text-slate-400" />;
+        return <AlertTriangle className="w-4 h-4 text-slate-500" />;
     }
   };
 
@@ -131,7 +113,7 @@ export default function PredatorCockpit() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-950">
       <PageHeader
         title="Predator Cockpit"
         description="Continuous Control Monitoring with AI-Powered Anomaly Detection"
@@ -139,159 +121,175 @@ export default function PredatorCockpit() {
       />
 
       <div className="max-w-[1800px] mx-auto p-6 space-y-6">
+        {/* İstatistik Kartları */}
         <div className="grid grid-cols-4 gap-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white border border-slate-200 rounded-lg p-4"
+            className="bg-slate-900 border border-slate-800/60 rounded-lg p-4"
           >
             <div className="flex items-center justify-between mb-2">
-              <Shield className="w-8 h-8 text-blue-600" />
-              <span className="text-xs text-slate-500">TOTAL</span>
+              <Shield className="w-8 h-8 text-blue-400" />
+              <span className="text-xs text-slate-500 font-mono tracking-widest">TOTAL</span>
             </div>
-            <div className="text-3xl font-bold text-slate-900">{stats.totalAlerts}</div>
-            <div className="text-xs text-slate-600">Total Alerts</div>
+            <div className="text-3xl font-bold text-white tabular-nums">{stats.totalAlerts}</div>
+            <div className="text-xs text-slate-400 mt-1">Toplam Uyarı</div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white border border-amber-200 rounded-lg p-4"
+            className="bg-slate-900 border border-amber-500/20 rounded-lg p-4"
           >
             <div className="flex items-center justify-between mb-2">
-              <AlertTriangle className="w-8 h-8 text-amber-600" />
-              <span className="text-xs text-amber-600 font-semibold">OPEN</span>
+              <AlertTriangle className="w-8 h-8 text-amber-400" />
+              <span className="text-xs text-amber-400 font-mono font-semibold tracking-widest">OPEN</span>
             </div>
-            <div className="text-3xl font-bold text-amber-700">{stats.openAlerts}</div>
-            <div className="text-xs text-amber-600">Open Alerts</div>
+            <div className="text-3xl font-bold text-amber-400 tabular-nums">{stats.openAlerts}</div>
+            <div className="text-xs text-amber-500/70 mt-1">Açık Uyarı</div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white border border-red-200 rounded-lg p-4"
+            className="bg-slate-900 border border-red-500/20 rounded-lg p-4"
           >
             <div className="flex items-center justify-between mb-2">
-              <AlertTriangle className="w-8 h-8 text-red-600" />
-              <span className="text-xs text-red-600 font-semibold">CRITICAL</span>
+              <AlertTriangle className="w-8 h-8 text-red-400" />
+              <span className="text-xs text-red-400 font-mono font-semibold tracking-widest">CRITICAL</span>
             </div>
-            <div className="text-3xl font-bold text-red-700">{stats.criticalAlerts}</div>
-            <div className="text-xs text-red-600">Critical Issues</div>
+            <div className="text-3xl font-bold text-red-400 tabular-nums">{stats.criticalAlerts}</div>
+            <div className="text-xs text-red-500/70 mt-1">Kritik Sorun</div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white border border-slate-200 rounded-lg p-4"
+            className="bg-slate-900 border border-slate-800/60 rounded-lg p-4"
           >
             <div className="flex items-center justify-between mb-2">
-              <TrendingUp className="w-8 h-8 text-purple-600" />
-              <span className="text-xs text-slate-500">AVG</span>
+              <TrendingUp className="w-8 h-8 text-purple-400" />
+              <span className="text-xs text-slate-500 font-mono tracking-widest">AVG</span>
             </div>
-            <div className="text-3xl font-bold text-purple-700">{stats.avgRiskScore}</div>
-            <div className="text-xs text-slate-600">Avg Risk Score</div>
+            <div className="text-3xl font-bold text-purple-400 tabular-nums">{stats.avgRiskScore}</div>
+            <div className="text-xs text-slate-400 mt-1">Ort. Risk Skoru</div>
           </motion.div>
         </div>
 
+        {/* Canlı Tarayıcı */}
         <LiveScanner
           onAnomalyDetected={(log) => {
-            console.log('Anomaly detected:', log);
+            console.log('Anomali tespit edildi:', log);
           }}
           onScanComplete={(results) => {
             setScanResults(results);
-            loadAlerts();
+            queryClient.invalidateQueries({ queryKey: ['ccm-alerts'] });
           }}
         />
 
+        {/* Tarama Sonucu Bildirimi */}
         {scanResults && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-4"
+            className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4"
           >
             <div className="flex items-center gap-3">
-              <CheckCircle className="w-6 h-6 text-green-600" />
+              <CheckCircle className="w-6 h-6 text-emerald-400" />
               <div>
-                <h3 className="font-semibold text-slate-900">Scan Complete</h3>
-                <p className="text-sm text-slate-600">
-                  Scanned {scanResults.total} transactions. Detected {scanResults.anomalies}{' '}
-                  anomalies.
+                <h3 className="font-semibold text-white">Tarama Tamamlandı</h3>
+                <p className="text-sm text-slate-400">
+                  {scanResults.total} işlem tarandı. {scanResults.anomalies} anomali tespit edildi.
                 </p>
               </div>
             </div>
           </motion.div>
         )}
 
-        <div className="bg-white rounded-lg border border-slate-200">
-          <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+        {/* Aktif Uyarılar Tablosu */}
+        <div className="bg-slate-900 rounded-lg border border-slate-800/60">
+          <div className="px-6 py-4 border-b border-slate-800/60 flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Active Alerts</h2>
-              <p className="text-sm text-slate-600">
-                Constitutional thresholds: Structuring Limit = {constitutionSummary.structuringLimit}
-                , High Value = {constitutionSummary.highValueThreshold}
+              <h2 className="text-lg font-bold text-white">Aktif Uyarılar</h2>
+              <p className="text-sm text-slate-400 mt-0.5">
+                Anayasa eşikleri: Yapılandırma Limiti = {constitutionSummary.structuringLimit}
+                , Yüksek Değer = {constitutionSummary.highValueThreshold}
               </p>
             </div>
             <button
-              onClick={loadAlerts}
-              className="px-3 py-1.5 text-sm border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+              onClick={() => queryClient.invalidateQueries({ queryKey: ['ccm-alerts'] })}
+              disabled={isLoading}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm border border-slate-700 rounded-lg
+                         text-slate-400 hover:bg-slate-800/50 hover:text-white transition-colors disabled:opacity-50"
             >
-              Refresh
+              <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+              Yenile
             </button>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Status
+                <tr className="bg-slate-900 border-b border-slate-800/60">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Durum
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Rule
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Kural
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Entity
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Varlık
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Severity
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Önem
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Risk Score
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Risk Skoru
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Created
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Oluşturulma
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Actions
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    İşlemler
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {alerts.length === 0 ? (
+                {isLoading ? (
                   <tr>
                     <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
-                      No alerts found. Run a scan to detect anomalies.
+                      <Activity className="w-5 h-5 animate-pulse mx-auto mb-2 text-blue-400" />
+                      Uyarılar yükleniyor...
+                    </td>
+                  </tr>
+                ) : alerts.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
+                      Uyarı bulunamadı. Anomali tespit etmek için tarama başlatın.
                     </td>
                   </tr>
                 ) : (
                   alerts.map((alert) => (
-                    <tr key={alert.id} className="border-b border-slate-100 hover:bg-slate-50">
+                    <tr
+                      key={alert.id}
+                      className="border-b border-slate-800/40 hover:bg-slate-800/50 transition-colors"
+                    >
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
                           {getStatusIcon(alert.status)}
-                          <span className="text-sm text-slate-700">{alert.status}</span>
+                          <span className="text-sm text-slate-300">{alert.status}</span>
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="text-sm font-medium text-slate-900">
+                        <span className="text-sm font-medium text-white">
                           {formatRuleName(alert.rule_triggered)}
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="text-sm text-slate-700 font-mono">
+                        <span className="text-sm text-slate-400 font-mono">
                           {alert.related_entity_id}
                         </span>
                       </td>
@@ -306,27 +304,27 @@ export default function PredatorCockpit() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <div className="flex-1 bg-slate-200 rounded-full h-2 w-20">
+                          <div className="flex-1 bg-slate-800 rounded-full h-2 w-20">
                             <div
                               className={`h-2 rounded-full ${
                                 alert.risk_score >= 70
                                   ? 'bg-red-500'
                                   : alert.risk_score >= 40
                                   ? 'bg-amber-500'
-                                  : 'bg-green-500'
+                                  : 'bg-emerald-500'
                               }`}
                               style={{ width: `${alert.risk_score}%` }}
                             />
                           </div>
-                          <span className="text-sm font-semibold text-slate-900">
+                          <span className="text-sm font-semibold text-white tabular-nums">
                             {alert.risk_score}
                           </span>
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <div className="flex items-center gap-1 text-xs text-slate-600">
+                        <div className="flex items-center gap-1 text-xs text-slate-500">
                           <Clock className="w-3 h-3" />
-                          {new Date(alert.created_at).toLocaleDateString()}
+                          {new Date(alert.created_at).toLocaleDateString('tr-TR')}
                         </div>
                       </td>
                       <td className="px-4 py-3">
@@ -335,18 +333,20 @@ export default function PredatorCockpit() {
                             <button
                               onClick={() => handleConvertToFinding(alert.id)}
                               disabled={isConverting && selectedAlert === alert.id}
-                              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-white
+                                         bg-blue-600/80 border border-blue-500/40 rounded hover:bg-blue-600
+                                         transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                               <FileText className="w-3 h-3" />
                               {isConverting && selectedAlert === alert.id
-                                ? 'Creating...'
-                                : 'Create Finding'}
+                                ? 'Oluşturuluyor...'
+                                : 'Bulgu Oluştur'}
                             </button>
                           )}
                           {alert.status === 'CONFIRMED' && (
-                            <span className="flex items-center gap-1 text-xs text-green-600">
+                            <span className="flex items-center gap-1 text-xs text-emerald-400">
                               <CheckCircle className="w-3 h-3" />
-                              Converted to Finding
+                              Bulgya Dönüştürüldü
                             </span>
                           )}
                         </div>
@@ -359,43 +359,44 @@ export default function PredatorCockpit() {
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        {/* Risk Anayasası Paneli */}
+        <div className="bg-blue-500/5 border border-blue-500/15 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <Settings className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <Settings className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <h3 className="font-semibold text-slate-900 mb-2">Risk Constitution Active</h3>
+              <h3 className="font-semibold text-white mb-2">Risk Anayasası Aktif</h3>
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <span className="text-slate-600">Structuring Limit:</span>
-                  <span className="ml-2 font-semibold text-slate-900">
+                  <span className="text-slate-400">Yapılandırma Limiti:</span>
+                  <span className="ml-2 font-semibold text-white">
                     {constitutionSummary.structuringLimit}
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-600">High Value Threshold:</span>
-                  <span className="ml-2 font-semibold text-slate-900">
+                  <span className="text-slate-400">Yüksek Değer Eşiği:</span>
+                  <span className="ml-2 font-semibold text-white">
                     {constitutionSummary.highValueThreshold}
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-600">Benford Chi-Squared:</span>
-                  <span className="ml-2 font-semibold text-slate-900">
+                  <span className="text-slate-400">Benford Ki-Kare:</span>
+                  <span className="ml-2 font-semibold text-white">
                     {thresholds.benford.chiSquaredCritical}
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-600">Configuration Source:</span>
-                  <span className="ml-2 font-semibold text-slate-900">
+                  <span className="text-slate-400">Yapılandırma Kaynağı:</span>
+                  <span className="ml-2 font-semibold text-white">
                     {constitutionSummary.source}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => navigate('/settings/risk-constitution')}
-                className="mt-3 flex items-center gap-2 text-sm text-blue-700 hover:text-blue-800 font-medium"
+                className="mt-3 flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
-                Edit Risk Constitution
+                Risk Anayasasını Düzenle
               </button>
             </div>
           </div>

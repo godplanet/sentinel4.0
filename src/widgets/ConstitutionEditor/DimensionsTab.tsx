@@ -76,7 +76,7 @@ export function DimensionsTab({ dimensions, onChange }: Props) {
         {dimensions.map((dim, idx) => (
           <div
             key={dim.id}
-            className="flex items-center gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-slate-300 transition-colors"
+            className="flex items-center gap-4 p-4 bg-surface border border-slate-200 rounded-xl hover:border-slate-300 transition-colors"
           >
             <div className={`w-1 h-10 rounded-full ${barColors[idx % barColors.length]}`} />
             <div className="flex-1 min-w-0">

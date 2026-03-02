@@ -142,7 +142,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+            className="p-2 hover:bg-surface/20 rounded-lg transition-colors"
           >
             <X size={24} />
           </button>
@@ -167,7 +167,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
                   <div className="text-center mt-2">
                     <div
                       className={`text-xs font-semibold ${
-                        currentStep >= step.id ? 'text-slate-900' : 'text-slate-400'
+                        currentStep >= step.id ? 'text-primary' : 'text-slate-400'
                       }`}
                     >
                       {step.title}
@@ -188,7 +188,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
 
           {currentStep === 1 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-bold text-slate-900 mb-4">Risk Tanımlama</h3>
+              <h3 className="text-lg font-bold text-primary mb-4">Risk Tanımlama</h3>
 
               <div className="grid grid-cols-2 gap-6">
                 <div>
@@ -264,20 +264,20 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
 
           {currentStep === 5 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-bold text-slate-900 mb-4">Özet ve Onay</h3>
+              <h3 className="text-lg font-bold text-primary mb-4">Özet ve Onay</h3>
 
-              <div className="bg-slate-50 p-6 rounded-xl space-y-4">
+              <div className="bg-canvas p-6 rounded-xl space-y-4">
                 <div>
                   <div className="text-xs text-slate-600 mb-1">Risk Kodu</div>
-                  <div className="font-bold text-slate-900">{formData.risk_code}</div>
+                  <div className="font-bold text-primary">{formData.risk_code}</div>
                 </div>
                 <div>
                   <div className="text-xs text-slate-600 mb-1">Risk Başlığı</div>
-                  <div className="font-bold text-slate-900">{formData.title}</div>
+                  <div className="font-bold text-primary">{formData.title}</div>
                 </div>
                 <div>
                   <div className="text-xs text-slate-600 mb-1">Kategori</div>
-                  <div className="font-medium text-slate-900">
+                  <div className="font-medium text-primary">
                     {RISK_CATEGORIES.find((c) => c.value === formData.category)?.label}
                   </div>
                 </div>
@@ -312,11 +312,11 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-between p-6 bg-slate-50 border-t border-slate-200">
+        <div className="flex items-center justify-between p-6 bg-canvas border-t border-slate-200">
           <button
             onClick={handlePrevious}
             disabled={currentStep === 1}
-            className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronLeft size={20} />
             Geri

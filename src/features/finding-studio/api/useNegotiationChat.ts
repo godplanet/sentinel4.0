@@ -1,5 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
+/**
+ * Bulgu müzakere sohbeti — finding_negotiation_messages tablosuna React Query ile bağlanır.
+ * Denetçi ve iş birimi ekranları bu hook'u kullanır; mock veri yok.
+ */
+
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/shared/api/supabase';
+import { ACTIVE_TENANT_ID } from '@/shared/lib/constants';
+
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export interface NegotiationMessage {
   id: string;
@@ -8,7 +16,7 @@ export interface NegotiationMessage {
   role: 'AUDITOR' | 'AUDITEE';
   author_user_id: string;
   author_name: string;
-  author_title?: string;
+  author_title: string | null;
   created_at: string;
   is_system_message: boolean;
 }
@@ -19,142 +27,106 @@ export interface SendMessageInput {
   role: 'AUDITOR' | 'AUDITEE';
   author_user_id: string;
   author_name: string;
-  author_title?: string;
+  author_title?: string | null;
   tenant_id: string;
 }
 
+const QUERY_KEY_PREFIX = 'negotiation-chat';
+
+function getCurrentUserForNegotiation(): {
+  author_user_id: string;
+  author_name: string;
+  author_title: string | null;
+} {
+  try {
+    const raw = localStorage.getItem('sentinel_user');
+    if (raw) {
+      const parsed = JSON.parse(raw) as { id?: string; name?: string; title?: string };
+      const id = parsed?.id ?? '';
+      const name = parsed?.name ?? 'Kullanıcı';
+      const title = parsed?.title ?? null;
+      if (id && UUID_REGEX.test(String(id))) {
+        return { author_user_id: id, author_name: name, author_title: title };
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  return {
+    author_user_id: '00000000-0000-0000-0000-000000000001',
+    author_name: 'Sistem Kullanıcısı',
+    author_title: null,
+  };
+}
+
+async function fetchNegotiationMessages(findingId: string): Promise<NegotiationMessage[]> {
+  const { data, error } = await supabase
+    .from('finding_negotiation_messages')
+    .select('id, finding_id, message_text, role, author_user_id, author_name, author_title, created_at, is_system_message')
+    .eq('finding_id', findingId)
+    .order('created_at', { ascending: true });
+
+  if (error) throw error;
+  return (data ?? []) as NegotiationMessage[];
+}
+
+async function insertNegotiationMessage(input: SendMessageInput): Promise<NegotiationMessage> {
+  const { data, error } = await supabase
+    .from('finding_negotiation_messages')
+    .insert({
+      finding_id: input.finding_id,
+      message_text: input.message_text,
+      role: input.role,
+      author_user_id: input.author_user_id,
+      author_name: input.author_name,
+      author_title: input.author_title ?? null,
+      tenant_id: input.tenant_id,
+      is_system_message: false,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data as NegotiationMessage;
+}
+
 export function useNegotiationChat(findingId: string | undefined) {
-  const [messages, setMessages] = useState<NegotiationMessage[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
+  const queryClient = useQueryClient();
 
-  // Fetch messages
-  const fetchMessages = useCallback(async () => {
-    if (!findingId) {
-      setMessages([]);
-      setLoading(false);
-      return;
-    }
+  const { data: messages = [], isLoading } = useQuery({
+    queryKey: [QUERY_KEY_PREFIX, findingId ?? ''],
+    queryFn: () => fetchNegotiationMessages(findingId!),
+    enabled: Boolean(findingId),
+  });
 
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from('finding_negotiation_messages')
-        .select('*')
-        .eq('finding_id', findingId)
-        .order('created_at', { ascending: true });
+  const sendMessageMutation = useMutation({
+    mutationFn: insertNegotiationMessage,
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PREFIX, variables.finding_id] });
+    },
+  });
 
-      if (error) throw error;
-      setMessages(data || []);
-    } catch (error) {
-      console.error('Error fetching negotiation messages:', error);
-      setMessages([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [findingId]);
+  const currentUser = getCurrentUserForNegotiation();
 
-  // Send message
-  const sendMessage = useCallback(async (input: SendMessageInput) => {
-    setSending(true);
-    try {
-      const { data, error } = await supabase
-        .from('finding_negotiation_messages')
-        .insert({
-          finding_id: input.finding_id,
-          message_text: input.message_text,
-          role: input.role,
-          author_user_id: input.author_user_id,
-          author_name: input.author_name,
-          author_title: input.author_title,
-          tenant_id: input.tenant_id,
-          is_system_message: false,
-        })
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      // Add to local state for optimistic UI
-      setMessages((prev) => [...prev, data]);
-      return { success: true, message: data };
-    } catch (error) {
-      console.error('Error sending negotiation message:', error);
-      return { success: false, error };
-    } finally {
-      setSending(false);
-    }
-  }, []);
-
-  // Send system message (auto-generated)
-  const sendSystemMessage = useCallback(async (
-    findingId: string,
-    messageText: string,
-    tenantId: string
-  ) => {
-    try {
-      const { data, error } = await supabase
-        .from('finding_negotiation_messages')
-        .insert({
-          finding_id: findingId,
-          message_text: messageText,
-          role: 'AUDITOR',
-          author_user_id: 'SYSTEM',
-          author_name: 'Sistem',
-          tenant_id: tenantId,
-          is_system_message: true,
-        })
-        .select()
-        .single();
-
-      if (error) throw error;
-      setMessages((prev) => [...prev, data]);
-      return { success: true, message: data };
-    } catch (error) {
-      console.error('Error sending system message:', error);
-      return { success: false, error };
-    }
-  }, []);
-
-  // Real-time subscription
-  useEffect(() => {
-    if (!findingId) return;
-
-    fetchMessages();
-
-    // Subscribe to new messages
-    const channel = supabase
-      .channel(`negotiation:${findingId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'finding_negotiation_messages',
-          filter: `finding_id=eq.${findingId}`,
-        },
-        (payload) => {
-          const newMessage = payload.new as NegotiationMessage;
-          setMessages((prev) => {
-            // Avoid duplicates
-            if (prev.some((m) => m.id === newMessage.id)) return prev;
-            return [...prev, newMessage];
-          });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [findingId, fetchMessages]);
+  function sendMessage(content: string, role: 'AUDITOR' | 'AUDITEE') {
+    if (!findingId?.trim() || !content.trim()) return Promise.reject(new Error('findingId and content required'));
+    return sendMessageMutation.mutateAsync({
+      finding_id: findingId,
+      message_text: content.trim(),
+      role,
+      author_user_id: currentUser.author_user_id,
+      author_name: currentUser.author_name,
+      author_title: currentUser.author_title,
+      tenant_id: ACTIVE_TENANT_ID,
+    });
+  }
 
   return {
     messages,
-    loading,
-    sending,
+    isLoading,
     sendMessage,
-    sendSystemMessage,
-    refetch: fetchMessages,
+    sendMessageMutation,
+    isSending: sendMessageMutation.isPending,
+    currentUser,
   };
 }

@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Briefcase, ArrowLeft, Calendar, Users, Target, Timer, ShieldAlert } from 'lucide-react';
 import { PageHeader } from '@/shared/ui';
 import { fetchAgileEngagement } from '@/features/audit-creation/api';
-import type { AgileEngagement } from '@/features/audit-creation/types';
 import { SprintBoard } from '@/widgets/SprintBoard';
 import { BudgetTrackerCard } from '@/features/execution/ui/BudgetTrackerCard';
 
@@ -44,7 +43,7 @@ function SprintMissionHeader() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-blue-200 shadow-sm">
+        <div className="flex items-center gap-2 px-3 py-2 bg-surface rounded-lg border border-blue-200 shadow-sm">
           <Timer size={14} className="text-blue-500" />
           <span className="text-xs font-bold text-blue-800">Kalan Süre: 12 Gün</span>
         </div>
@@ -56,28 +55,16 @@ function SprintMissionHeader() {
 export default function SprintBoardPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [engagement, setEngagement] = useState<AgileEngagement | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (id) loadEngagement(id);
-  }, [id]);
+  const { data: engagement, isLoading } = useQuery({
+    queryKey: ['agile-engagement', id],
+    queryFn: () => fetchAgileEngagement(id!),
+    enabled: !!id,
+  });
 
-  const loadEngagement = async (engId: string) => {
-    try {
-      setLoading(true);
-      const data = await fetchAgileEngagement(engId);
-      setEngagement(data);
-    } catch (err) {
-      console.error('Failed to load engagement:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="h-screen flex flex-col bg-slate-50">
+      <div className="h-screen flex flex-col bg-canvas">
         <PageHeader title="Sprint Board" icon={Target} />
         <div className="flex-1 flex items-center justify-center">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600" />
@@ -88,7 +75,7 @@ export default function SprintBoardPage() {
 
   if (!engagement) {
     return (
-      <div className="h-screen flex flex-col bg-slate-50">
+      <div className="h-screen flex flex-col bg-canvas">
         <PageHeader title="Sprint Board" icon={Target} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
@@ -107,7 +94,7 @@ export default function SprintBoardPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title={engagement.title}
         description={`${engagement.total_sprints} Sprint - ${engagement.status}`}
@@ -115,14 +102,14 @@ export default function SprintBoardPage() {
         action={
           <button
             onClick={() => navigate('/execution/my-engagements')}
-            className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50"
+            className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 bg-surface border border-slate-200 rounded-lg hover:bg-canvas"
           >
             <ArrowLeft size={14} /> Geri
           </button>
         }
       />
 
-      <div className="bg-white border-b border-slate-200 px-6 py-3">
+      <div className="bg-surface border-b border-slate-200 px-6 py-3">
         <div className="flex items-center gap-6 text-sm text-slate-600">
           <span className="flex items-center gap-1.5">
             <Calendar size={14} className="text-slate-400" />
@@ -146,7 +133,7 @@ export default function SprintBoardPage() {
           <SprintMissionHeader />
           <SprintBoard engagementId={engagement.id} />
         </div>
-        <div className="w-72 flex-shrink-0 border-l border-slate-200 bg-slate-50 overflow-y-auto p-4">
+        <div className="w-72 flex-shrink-0 border-l border-slate-200 bg-canvas overflow-y-auto p-4">
           <BudgetTrackerCard />
         </div>
       </div>

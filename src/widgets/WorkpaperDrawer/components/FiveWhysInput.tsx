@@ -29,7 +29,7 @@ export const FiveWhysInput = ({ whys: externalWhys, setWhys: externalSetWhys, on
     <div className="space-y-1">
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-200">
         <Target className="w-5 h-5 text-rose-600" />
-        <h3 className="text-sm font-semibold text-gray-900">
+        <h3 className="text-sm font-semibold text-primary">
           5 Whys Root Cause Analysis
         </h3>
       </div>
@@ -52,7 +52,7 @@ export const FiveWhysInput = ({ whys: externalWhys, setWhys: externalSetWhys, on
               rows={2}
               className={`
                 w-full px-3 py-2 border rounded-lg text-sm
-                bg-white focus:outline-none focus:ring-2 transition-all
+                bg-surface focus:outline-none focus:ring-2 transition-all
                 ${index === 4
                   ? 'border-rose-300 focus:ring-rose-500 focus:border-rose-500 bg-rose-50/50'
                   : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'

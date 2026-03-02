@@ -110,11 +110,11 @@ export const ZenReaderWidget: React.FC<ZenReaderWidgetProps> = ({
               REF: {data.id?.toUpperCase()}
             </span>
           </div>
-          <Bookmark size={20} className="opacity-10 text-slate-900" />
+          <Bookmark size={20} className="opacity-10 text-primary" />
         </div>
         
         {/* Font küçültüldü: text-3xl */}
-        <h1 className="font-serif text-3xl md:text-4xl font-bold leading-tight mb-4 text-slate-900">
+        <h1 className="font-serif text-3xl md:text-4xl font-bold leading-tight mb-4 text-primary">
           {data.title || 'Başlıksız Bulgu'}
         </h1>
         

@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import {
   BookOpen, FlaskConical, Wallet, Plus, Award, Clock, Star,
-  Trash2, CheckCircle2, XCircle, Clock3, RefreshCw, Trophy,
+  Trash2, CheckCircle2, XCircle, Clock3, Trophy,
   BarChart2, Zap, BarChart3,
 } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ManagerDashboard } from '@/features/academy/components/ManagerDashboard';
-import { supabase } from '@/shared/api/supabase';
 import { PageHeader } from '@/shared/ui/PageHeader';
 import { CPEProgressBar } from '@/features/academy/components/CPETracker/CPEProgressBar';
 import { CPEUploadModal } from '@/features/academy/components/CPETracker/CPEUploadModal';
@@ -18,6 +18,8 @@ import {
   deleteCpeRecord,
   fetchPassedAttempts,
 } from '@/features/academy/api/cpeApi';
+import { fetchAcademyCourses, fetchAcademyExams } from '@/features/academy/api/academyApi';
+import type { CourseRow, ExamRow } from '@/features/academy/api/academyApi';
 import type { UserCpeRecord } from '@/features/academy/types';
 
 const DEMO_USER_ID = '00000000-0000-0000-0000-000000000001';
@@ -45,88 +47,70 @@ interface PassedAttempt {
   };
 }
 
-interface CourseRow {
-  id: string;
-  title: string;
-  category: string;
-  difficulty: string;
-  xp_reward: number;
-  estimated_duration: number;
-  tags: string[];
-}
-
 export default function AcademyPage() {
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<Tab>('learning');
   const [activeExamId, setActiveExamId] = useState<string | null>(null);
-
-  const [courses, setCourses]       = useState<CourseRow[]>([]);
-  const [exams, setExams]           = useState<{ id: string; title: string; course_id: string; course_title: string; time_limit_minutes: number; passing_score: number }[]>([]);
-  const [cpeRecords, setCpeRecords] = useState<UserCpeRecord[]>([]);
-  const [cpeGoal, setCpeGoal]       = useState(40);
-  const [attempts, setAttempts]     = useState<PassedAttempt[]>([]);
-  const [loading, setLoading]       = useState(true);
-
-  const [showCpeModal, setShowCpeModal]     = useState(false);
-  const [certificate, setCertificate]       = useState<CertificateData | null>(null);
+  const [showCpeModal, setShowCpeModal] = useState(false);
+  const [certificate, setCertificate] = useState<CertificateData | null>(null);
 
   const currentYear = new Date().getFullYear();
 
-  const loadData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [
-        coursesRes, examsRes, cpeRes, goalRes, attemptsRes
-      ] = await Promise.allSettled([
-        supabase.from('academy_courses').select('id,title,category,difficulty,xp_reward,estimated_duration,tags').eq('is_active', true).limit(20),
-        supabase.from('academy_exams').select('id,title,course_id,time_limit_minutes,passing_score,academy_courses(title)').eq('is_active', true).limit(20),
-        fetchCpeRecords(DEMO_USER_ID, currentYear),
-        fetchCpeGoal(DEMO_USER_ID, currentYear),
-        fetchPassedAttempts(DEMO_USER_ID),
-      ]);
+  const { data: courses = [], isLoading: loadingCourses } = useQuery({
+    queryKey: ['academy-courses'],
+    queryFn: fetchAcademyCourses,
+  });
 
-      if (coursesRes.status === 'fulfilled' && coursesRes.value.data) {
-        setCourses(coursesRes.value.data as CourseRow[]);
-      }
-      if (examsRes.status === 'fulfilled' && examsRes.value.data) {
-        setExams(
-          (examsRes.value.data as unknown as Array<{
-            id: string; title: string; course_id: string;
-            time_limit_minutes: number; passing_score: number;
-            academy_courses: { title: string } | null;
-          }>).map((e) => ({
-            id: e.id, title: e.title, course_id: e.course_id,
-            course_title: e.academy_courses?.title ?? '',
-            time_limit_minutes: e.time_limit_minutes,
-            passing_score: e.passing_score,
-          }))
-        );
-      }
-      if (cpeRes.status === 'fulfilled')  setCpeRecords(cpeRes.value);
-      if (goalRes.status === 'fulfilled' && goalRes.value) setCpeGoal(goalRes.value.goal_hours);
-      if (attemptsRes.status === 'fulfilled') setAttempts(attemptsRes.value as PassedAttempt[]);
-    } finally {
-      setLoading(false);
-    }
-  }, [currentYear]);
+  const { data: exams = [], isLoading: loadingExams } = useQuery({
+    queryKey: ['academy-exams'],
+    queryFn: fetchAcademyExams,
+  });
 
-  useEffect(() => { loadData(); }, [loadData]);
+  const { data: cpeRecords = [], isLoading: loadingCpe } = useQuery({
+    queryKey: ['cpe-records', DEMO_USER_ID, currentYear],
+    queryFn: () => fetchCpeRecords(DEMO_USER_ID, currentYear),
+  });
 
-  const earnedHours   = cpeRecords.filter((r) => r.status === 'approved').reduce((s, r) => s + r.credit_hours, 0);
-  const pendingHours  = cpeRecords.filter((r) => r.status === 'pending').reduce((s, r) => s + r.credit_hours, 0);
-  const totalXP       = attempts.reduce((s, a) => s + a.xp_awarded, 0);
+  const { data: cpeGoalData } = useQuery({
+    queryKey: ['cpe-goal', DEMO_USER_ID, currentYear],
+    queryFn: () => fetchCpeGoal(DEMO_USER_ID, currentYear),
+  });
+
+  const { data: attempts = [], isLoading: loadingAttempts } = useQuery({
+    queryKey: ['passed-attempts', DEMO_USER_ID],
+    queryFn: () => fetchPassedAttempts(DEMO_USER_ID),
+  });
+
+  const deleteCpeMutation = useMutation({
+    mutationFn: deleteCpeRecord,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cpe-records', DEMO_USER_ID, currentYear] });
+    },
+  });
+
+  const cpeGoal = cpeGoalData?.goal_hours ?? 40;
+  const earnedHours = (cpeRecords as UserCpeRecord[]).filter((r) => r.status === 'approved').reduce((s, r) => s + r.credit_hours, 0);
+  const pendingHours = (cpeRecords as UserCpeRecord[]).filter((r) => r.status === 'pending').reduce((s, r) => s + r.credit_hours, 0);
+  const totalXP = (attempts as PassedAttempt[]).reduce((s, a) => s + a.xp_awarded, 0);
+
+  const loading = loadingCourses || loadingExams || loadingCpe || loadingAttempts;
 
   if (activeExamId) {
     return (
       <ExamRunner
         examId={activeExamId}
         userId={DEMO_USER_ID}
-        onBack={() => { setActiveExamId(null); loadData(); }}
+        onBack={() => {
+          setActiveExamId(null);
+          queryClient.invalidateQueries({ queryKey: ['passed-attempts', DEMO_USER_ID] });
+          queryClient.invalidateQueries({ queryKey: ['cpe-records', DEMO_USER_ID, currentYear] });
+        }}
       />
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-canvas">
       <PageHeader
         title="Academy & Competency"
         description="Professional development, exams, and CPE tracking"
@@ -136,11 +120,11 @@ export default function AcademyPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
         <div className="grid grid-cols-3 gap-4 mb-6">
           <StatCard icon={<Trophy size={18} className="text-amber-500" />} label="Total XP Earned" value={totalXP.toLocaleString()} sub="from passed exams" color="amber" />
-          <StatCard icon={<Award size={18} className="text-emerald-500" />} label="Certificates" value={String(attempts.length)} sub="exams passed" color="emerald" />
+          <StatCard icon={<Award size={18} className="text-emerald-500" />} label="Certificates" value={String((attempts as PassedAttempt[]).length)} sub="exams passed" color="emerald" />
           <StatCard icon={<Zap size={18} className="text-blue-500" />} label="CPE Hours" value={`${earnedHours.toFixed(1)} / ${cpeGoal}`} sub={`${currentYear} approved`} color="blue" />
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="border-b border-slate-100 px-2 pt-2">
             <nav className="flex gap-1">
               {TABS.map(({ id, label, icon: Icon }) => (
@@ -151,7 +135,7 @@ export default function AcademyPage() {
                     transition-colors duration-150 mb-1
                     ${activeTab === id
                       ? 'bg-blue-50 text-blue-700 shadow-sm'
-                      : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                      : 'text-slate-500 hover:text-slate-800 hover:bg-canvas'
                     }`}
                 >
                   <Icon size={15} />
@@ -163,13 +147,13 @@ export default function AcademyPage() {
 
           <div className="p-6">
             {activeTab === 'learning' && (
-              <LearningTab courses={courses} loading={loading} />
+              <LearningTab courses={courses} loading={loadingCourses} />
             )}
             {activeTab === 'exams' && (
               <ExamCenterTab
                 exams={exams}
-                attempts={attempts}
-                loading={loading}
+                attempts={attempts as PassedAttempt[]}
+                loading={loadingExams || loadingAttempts}
                 onStartExam={setActiveExamId}
                 onViewCertificate={(a) =>
                   setCertificate({
@@ -187,17 +171,14 @@ export default function AcademyPage() {
             {activeTab === 'manager' && <ManagerDashboard />}
             {activeTab === 'cpe' && (
               <CPEWalletTab
-                records={cpeRecords}
+                records={cpeRecords as UserCpeRecord[]}
                 earnedHours={earnedHours}
                 pendingHours={pendingHours}
                 goalHours={cpeGoal}
                 year={currentYear}
-                loading={loading}
+                loading={loadingCpe}
                 onAddRecord={() => setShowCpeModal(true)}
-                onDeleteRecord={async (id) => {
-                  await deleteCpeRecord(id);
-                  setCpeRecords((r) => r.filter((x) => x.id !== id));
-                }}
+                onDeleteRecord={(id) => deleteCpeMutation.mutate(id)}
               />
             )}
           </div>
@@ -208,8 +189,8 @@ export default function AcademyPage() {
         <CPEUploadModal
           userId={DEMO_USER_ID}
           onClose={() => setShowCpeModal(false)}
-          onCreated={(record) => {
-            setCpeRecords((prev) => [record, ...prev]);
+          onCreated={() => {
+            queryClient.invalidateQueries({ queryKey: ['cpe-records', DEMO_USER_ID, currentYear] });
             setShowCpeModal(false);
           }}
         />
@@ -254,7 +235,7 @@ function LearningTab({ courses, loading }: { courses: CourseRow[]; loading: bool
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {courses.map((course) => (
           <div key={course.id}
-               className="rounded-xl border border-slate-200 bg-white hover:border-blue-300 hover:shadow-sm
+               className="rounded-xl border border-slate-200 bg-surface hover:border-blue-300 hover:shadow-sm
                           transition-all duration-150 p-4 flex flex-col gap-3">
             <div className="flex items-start justify-between">
               <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center">
@@ -266,7 +247,7 @@ function LearningTab({ courses, loading }: { courses: CourseRow[]; loading: bool
               </span>
             </div>
             <div>
-              <p className="text-slate-900 font-semibold text-sm leading-snug">{course.title}</p>
+              <p className="text-primary font-semibold text-sm leading-snug">{course.title}</p>
               <p className="text-slate-500 text-xs mt-0.5">{course.category}</p>
             </div>
             <div className="flex items-center gap-4 text-xs text-slate-400 mt-auto pt-2 border-t border-slate-50">
@@ -289,7 +270,7 @@ function LearningTab({ courses, loading }: { courses: CourseRow[]; loading: bool
 function ExamCenterTab({
   exams, attempts, loading, onStartExam, onViewCertificate,
 }: {
-  exams: { id: string; title: string; course_id: string; course_title: string; time_limit_minutes: number; passing_score: number }[];
+  exams: ExamRow[];
   attempts: PassedAttempt[];
   loading: boolean;
   onStartExam: (examId: string) => void;
@@ -308,7 +289,7 @@ function ExamCenterTab({
           <div className="rounded-xl border border-slate-200 overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
+                <tr className="bg-canvas border-b border-slate-100">
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-slate-500">Exam</th>
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-slate-500">Course</th>
                   <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-500">Time</th>
@@ -318,7 +299,7 @@ function ExamCenterTab({
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {exams.map((exam) => (
-                  <tr key={exam.id} className="hover:bg-slate-50/50 transition-colors">
+                  <tr key={exam.id} className="hover:bg-canvas/50 transition-colors">
                     <td className="px-4 py-3 text-slate-800 font-medium">{exam.title}</td>
                     <td className="px-4 py-3 text-slate-500 text-xs">{exam.course_title}</td>
                     <td className="px-4 py-3 text-center">
@@ -358,7 +339,7 @@ function ExamCenterTab({
           <div className="rounded-xl border border-slate-200 overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
+                <tr className="bg-canvas border-b border-slate-100">
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-slate-500">Course</th>
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-slate-500">Exam</th>
                   <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-500">Score</th>
@@ -369,7 +350,7 @@ function ExamCenterTab({
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {attempts.map((a) => (
-                  <tr key={a.id} className="hover:bg-slate-50/50 transition-colors">
+                  <tr key={a.id} className="hover:bg-canvas/50 transition-colors">
                     <td className="px-4 py-3">
                       <p className="text-slate-800 font-medium text-xs">{a.exam.course.title}</p>
                       <p className="text-slate-400 text-xs">{a.exam.course.category}</p>
@@ -470,7 +451,7 @@ function CPEWalletTab({
           <div className="rounded-xl border border-slate-200 overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
+                <tr className="bg-canvas border-b border-slate-100">
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-slate-500">Course / Training</th>
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-slate-500">Provider</th>
                   <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-500">Hours</th>
@@ -484,7 +465,7 @@ function CPEWalletTab({
                   const cfg = STATUS_CONFIG[r.status] ?? STATUS_CONFIG.pending;
                   const StatusIcon = cfg.icon;
                   return (
-                    <tr key={r.id} className="hover:bg-slate-50/50 transition-colors group">
+                    <tr key={r.id} className="hover:bg-canvas/50 transition-colors group">
                       <td className="px-4 py-3">
                         <p className="text-slate-800 font-medium">{r.title}</p>
                         {r.notes && <p className="text-slate-400 text-xs mt-0.5 truncate max-w-xs">{r.notes}</p>}
@@ -548,7 +529,7 @@ function StatCard({
         <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{label}</span>
         {icon}
       </div>
-      <p className="text-2xl font-bold text-slate-900 tabular-nums">{value}</p>
+      <p className="text-2xl font-bold text-primary tabular-nums">{value}</p>
       <p className="text-xs text-slate-400 mt-0.5">{sub}</p>
     </div>
   );
@@ -559,7 +540,7 @@ function EmptyState({ icon, title, description, action }: {
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-12 text-center gap-3">
-      <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center">
+      <div className="w-14 h-14 rounded-2xl bg-canvas border border-slate-100 flex items-center justify-center">
         {icon}
       </div>
       <p className="text-slate-700 font-semibold">{title}</p>

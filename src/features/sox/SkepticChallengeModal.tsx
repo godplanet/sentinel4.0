@@ -28,7 +28,7 @@ export const SkepticChallengeModal = ({
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl overflow-hidden"
+        className="relative w-full max-w-xl bg-surface rounded-2xl shadow-2xl overflow-hidden"
       >
         <div className={clsx(
           'p-5 flex items-start gap-4',
@@ -36,7 +36,7 @@ export const SkepticChallengeModal = ({
             ? 'bg-gradient-to-r from-red-600 to-red-700'
             : 'bg-gradient-to-r from-amber-500 to-orange-500',
         )}>
-          <div className="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+          <div className="w-11 h-11 bg-surface/20 rounded-xl flex items-center justify-center flex-shrink-0">
             {isCritical ? <ShieldAlert className="w-6 h-6 text-white" /> : <AlertTriangle className="w-6 h-6 text-white" />}
           </div>
           <div className="flex-1 text-white">
@@ -97,7 +97,7 @@ export const SkepticChallengeModal = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 p-5 border-t border-slate-100 bg-slate-50/50">
+        <div className="flex items-center justify-end gap-3 p-5 border-t border-slate-100 bg-canvas/50">
           <button
             onClick={onCancel}
             className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"

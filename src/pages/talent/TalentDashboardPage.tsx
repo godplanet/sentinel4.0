@@ -241,7 +241,7 @@ function HourlyRateRow({ profile, onSaved }: { profile: TalentProfileEnriched; o
   };
 
   return (
-    <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5 hover:bg-white/3 transition-colors">
+    <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5 hover:bg-surface/3 transition-colors">
       <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">
         {profile.full_name.charAt(0)}
       </div>

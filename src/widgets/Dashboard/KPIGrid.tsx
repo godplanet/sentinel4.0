@@ -25,7 +25,7 @@ export const KPIGrid = ({ kpis }: KPIGridProps) => {
       case 'green':
         return 'text-green-600 bg-green-50';
       case 'gray':
-        return 'text-slate-600 bg-slate-50';
+        return 'text-slate-600 bg-canvas';
     }
   };
 
@@ -34,7 +34,7 @@ export const KPIGrid = ({ kpis }: KPIGridProps) => {
       {kpis.map((kpi) => (
         <div
           key={kpi.id}
-          className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+          className="bg-surface rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
         >
           <div className="flex items-start justify-between mb-4">
             <p className="text-sm font-medium text-slate-600 leading-snug">{kpi.label}</p>
@@ -48,7 +48,7 @@ export const KPIGrid = ({ kpis }: KPIGridProps) => {
             </span>
           </div>
 
-          <p className="text-4xl font-bold text-slate-900 tracking-tight">{kpi.value}</p>
+          <p className="text-4xl font-bold text-primary tracking-tight">{kpi.value}</p>
         </div>
       ))}
     </div>

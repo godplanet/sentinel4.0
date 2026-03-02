@@ -31,7 +31,7 @@ export default function ChaosLabPage() {
               className={clsx(
                 'flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-md transition-all',
                 tab === t.id
-                  ? 'bg-white text-slate-900 shadow-sm'
+                  ? 'bg-surface text-slate-900 shadow-sm'
                   : 'text-slate-500 hover:text-slate-700',
               )}
             >

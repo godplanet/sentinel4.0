@@ -113,7 +113,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 30 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 w-full max-w-3xl max-h-[85vh] flex flex-col"
+              className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 w-full max-w-3xl max-h-[85vh] flex flex-col"
               onClick={e => e.stopPropagation()}
             >
               <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-6 py-5 rounded-t-2xl flex items-center justify-between">
@@ -132,7 +132,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
                   {summary && (
                     <button
                       onClick={handleCopy}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-white rounded-lg text-xs font-bold hover:bg-white/20 transition-colors"
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-surface/10 text-white rounded-lg text-xs font-bold hover:bg-surface/20 transition-colors"
                     >
                       {copied ? <CheckCircle2 size={12} /> : <Copy size={12} />}
                       {copied ? 'Kopyalandi' : 'Kopyala'}
@@ -140,7 +140,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
                   )}
                   <button
                     onClick={() => setShowModal(false)}
-                    className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors"
+                    className="w-8 h-8 bg-surface/10 rounded-lg flex items-center justify-center hover:bg-surface/20 transition-colors"
                   >
                     <X size={16} className="text-white" />
                   </button>
@@ -157,7 +157,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
 
                 <button
                   onClick={() => setShowFindings(!showFindings)}
-                  className="flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
+                  className="flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-primary transition-colors"
                 >
                   {showFindings ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                   Kaynak Bulgulari {showFindings ? 'Gizle' : 'Goster'} ({MOCK_FINDINGS.length})
@@ -175,7 +175,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
                         {MOCK_FINDINGS.map(f => {
                           const cfg = SEVERITY_CONFIG[f.severity];
                           return (
-                            <div key={f.code} className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg">
+                            <div key={f.code} className="flex items-center gap-2 p-2 bg-canvas rounded-lg">
                               <div className={clsx('w-2 h-2 rounded-full flex-shrink-0', cfg.dot)} />
                               <span className="text-[10px] font-mono text-slate-500 w-24 flex-shrink-0">{f.code}</span>
                               <span className="text-xs text-slate-700 flex-1 truncate">{f.title}</span>
@@ -227,7 +227,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
                 )}
 
                 {summary && !loading && (
-                  <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                  <div className="bg-surface border border-slate-200 rounded-xl p-6 shadow-sm">
                     <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-200">
                       <FileText size={16} className="text-slate-600" />
                       <h3 className="text-sm font-bold text-slate-800">Yonetim Kuruluna Sunulacak Ozet</h3>
@@ -237,7 +237,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
                         const trimmed = line.trim();
                         if (!trimmed) return <br key={i} />;
                         if (trimmed.match(/^\d+\.\s/) || trimmed.match(/^[A-Z\u00C0-\u017F\s]{4,}:/)) {
-                          return <h4 key={i} className="text-sm font-bold text-slate-900 mt-4 mb-2">{trimmed}</h4>;
+                          return <h4 key={i} className="text-sm font-bold text-primary mt-4 mb-2">{trimmed}</h4>;
                         }
                         if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
                           return (
@@ -275,9 +275,9 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
 
 function SummaryStatCard({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200/60 p-3 text-center">
+    <div className="bg-surface/80 backdrop-blur-sm rounded-xl border border-slate-200/60 p-3 text-center">
       <div className={`w-2 h-2 rounded-full ${color} mx-auto mb-1.5`} />
-      <p className="text-lg font-black text-slate-900">{value}</p>
+      <p className="text-lg font-black text-primary">{value}</p>
       <p className="text-[10px] text-slate-500 font-semibold">{label}</p>
     </div>
   );

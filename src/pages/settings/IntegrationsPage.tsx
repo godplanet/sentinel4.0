@@ -128,7 +128,7 @@ export default function IntegrationsPage() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
           <div className="p-6 border-b border-slate-200">
             <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
               <Database size={20} className="text-blue-600" />
@@ -183,7 +183,7 @@ export default function IntegrationsPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
           <div className="p-6 border-b border-slate-200">
             <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
               <Settings size={20} className="text-purple-600" />
@@ -203,7 +203,7 @@ export default function IntegrationsPage() {
                   </div>
                 </div>
 
-                <div className="bg-slate-50 rounded-lg p-4 space-y-3">
+                <div className="bg-canvas rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-semibold text-slate-600">Durum</span>
                     {selectedIntegration.status === 'active' ? (
@@ -313,7 +313,7 @@ export default function IntegrationsPage() {
                 </div>
 
                 <div className="flex gap-3">
-                  <button className="flex-1 px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-semibold">
+                  <button className="flex-1 px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-semibold">
                     Bağlantıyı Test Et
                   </button>
                   <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
@@ -342,7 +342,7 @@ export default function IntegrationsPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
         <div className="p-6 border-b border-slate-200 flex items-center justify-between">
           <div>
             <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">

@@ -10,7 +10,7 @@ export default function AccessDeniedPage() {
         <div className="mb-8">
           <div className="relative inline-block">
             <div className="absolute inset-0 bg-red-200 rounded-full blur-3xl opacity-50 animate-pulse" />
-            <div className="relative bg-white/60 backdrop-blur-xl border-2 border-red-200/60 rounded-full p-8 shadow-2xl">
+            <div className="relative bg-surface/60 backdrop-blur-xl border-2 border-red-200/60 rounded-full p-8 shadow-2xl">
               <ShieldX className="text-red-500" size={80} />
             </div>
           </div>
@@ -39,7 +39,7 @@ export default function AccessDeniedPage() {
         <div className="flex items-center justify-center gap-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-slate-300 hover:shadow-lg transition-all hover:scale-105"
+            className="flex items-center gap-2 px-6 py-3 bg-surface border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-slate-300 hover:shadow-lg transition-all hover:scale-105"
           >
             <ArrowLeft size={20} />
             <span>Geri Dön</span>

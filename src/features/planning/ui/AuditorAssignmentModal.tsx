@@ -2,26 +2,20 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, AlertTriangle, CheckCircle2,
-  Search, Users, Brain, Sparkles, Loader2
+  Search, Users, Brain, Sparkles, Loader2, ShieldAlert,
 } from 'lucide-react';
 import clsx from 'clsx';
+import { useQuery } from '@tanstack/react-query';
 import { useSentinelAI } from '@/shared/hooks/useSentinelAI';
-
-interface Auditor {
-  id: string;
-  name: string;
-  title: string;
-  department: string;
-  skills: string[];
-  currentLoad: number;
-  maxCapacity: number;
-  relations: string[];
-  bio: string;
-}
+import {
+  fetchAuditorProfiles,
+  fetchAdvisoryConflicts,
+} from '../api/auditor-assignment-api';
+import type { AuditorProfileRow } from '../api/auditor-assignment-api';
 
 interface ConflictWarning {
   auditorId: string;
-  type: 'DIRECT_RELATION' | 'DEPARTMENT_MATCH' | 'RECENT_ROLE' | 'FAMILY_TIE' | 'AI_DETECTED';
+  type: 'DIRECT_RELATION' | 'DEPARTMENT_MATCH' | 'OVERLOADED' | 'GIAS_22_ADVISORY' | 'AI_DETECTED';
   severity: 'HIGH' | 'MEDIUM' | 'LOW';
   description: string;
 }
@@ -33,50 +27,18 @@ interface AuditorAssignmentModalProps {
   engagementTitle: string;
   targetDepartment: string;
   targetEntities?: string[];
+  /** audit_entities.id listesi — GIAS 2.2 bağımsızlık kontrolü için zorunlu */
+  targetEntityIds?: string[];
 }
 
-const DEMO_AUDITORS: Auditor[] = [
-  { id: '1', name: 'Ahmet Yilmaz', title: 'Kidemli Denetci', department: 'Ic Denetim', skills: ['Kredi', 'Operasyon'], currentLoad: 3, maxCapacity: 5, relations: ['Kredi Operasyonlari'], bio: '2018-2021 yillari arasinda Kredi Tahsis Mudurlugunde Uzman olarak calismistir. Esi Ayse Yilmaz, Hazine Biriminde Portfoy Yoneticisi olarak gorev yapmaktadir. CIA ve CISA sertifikalarina sahiptir.' },
-  { id: '2', name: 'Zeynep Kara', title: 'Bas Denetci', department: 'Ic Denetim', skills: ['BT', 'Siber Guvenlik'], currentLoad: 2, maxCapacity: 4, relations: [], bio: 'COBIT 5 ve ISO 27001 sertifikalarina sahiptir. 2020 oncesinde dis denetim firmasinda BT denetcisi olarak calismistir. Hicbir birimde operasyonel gorev almamistir.' },
-  { id: '3', name: 'Mehmet Oz', title: 'Denetci', department: 'Ic Denetim', skills: ['Uyumluluk', 'MASAK'], currentLoad: 4, maxCapacity: 5, relations: ['Uyumluluk Birimi'], bio: '2019-2022 arasinda Uyumluluk Biriminde MASAK Raporlama Sorumlusu olarak gorev yapmistir. Kardesi Omer Oz, ayni bankada Operasyon Mudurlugunde Sef pozisyonunda calismaktadir.' },
-  { id: '4', name: 'Fatma Celik', title: 'Kidemli Denetci', department: 'Ic Denetim', skills: ['Finans', 'Hazine'], currentLoad: 1, maxCapacity: 5, relations: [], bio: 'CFA ve FRM sertifikalarina sahiptir. Bankaya 2017 yilinda dis kaynaktan katilmistir. Daha once yatirim bankasinda risk analizcisi olarak calismistir. Bankanin hicbir biriminde operasyonel gorev almamistir.' },
-  { id: '5', name: 'Ali Demir', title: 'Denetci', department: 'Ic Denetim', skills: ['Operasyon', 'Surec'], currentLoad: 3, maxCapacity: 4, relations: ['Insan Kaynaklari'], bio: 'Bankaya 2016 yilinda Insan Kaynaklari Biriminde Uzman olarak baslamistir. 2020 yilinda Ic Denetim Grubuna gecis yapmistir. Daha once IK sureclerinde aktif rol almistir.' },
-  { id: '6', name: 'Can Yildirim', title: 'Uzman Denetci', department: 'Ic Denetim', skills: ['BT', 'Veri Analizi'], currentLoad: 2, maxCapacity: 5, relations: [], bio: 'Python ve SQL konusunda ileri seviye yetkinlige sahiptir. 2021 yilinda Data Analytics Biriminde 6 aylik rotasyon programina katilmistir. Hicbir aile baglantiSi bankada calismamaktadir.' },
-];
-
-function detectConflicts(auditor: Auditor, targetDepartment: string, targetEntities: string[]): ConflictWarning[] {
-  const warnings: ConflictWarning[] = [];
-
-  for (const relation of auditor.relations) {
-    if (targetEntities.some(e => e.toLowerCase().includes(relation.toLowerCase()) || relation.toLowerCase().includes(e.toLowerCase()))) {
-      warnings.push({
-        auditorId: auditor.id,
-        type: 'DIRECT_RELATION',
-        severity: 'HIGH',
-        description: `${auditor.name} ile denetlenen birim "${relation}" arasinda ilgisel baglanti tespit edildi.`,
-      });
-    }
-  }
-
-  if (auditor.department.toLowerCase() === targetDepartment.toLowerCase()) {
-    warnings.push({
-      auditorId: auditor.id,
-      type: 'DEPARTMENT_MATCH',
-      severity: 'MEDIUM',
-      description: `${auditor.name} denetlenen departmanda calisma gecmisine sahip.`,
-    });
-  }
-
-  if (auditor.currentLoad >= auditor.maxCapacity) {
-    warnings.push({
-      auditorId: auditor.id,
-      type: 'RECENT_ROLE',
-      severity: 'LOW',
-      description: `${auditor.name} mevcut kapasitesinin tamamini kullaniyor (${auditor.currentLoad}/${auditor.maxCapacity}).`,
-    });
-  }
-
-  return warnings;
+/** GIAS 2.2 uyarısını denetçi üzerinde gösterir. */
+function Gias22Badge() {
+  return (
+    <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-1 bg-red-100 text-red-700 rounded-lg border border-red-200">
+      <ShieldAlert size={11} />
+      GIAS 2.2
+    </span>
+  );
 }
 
 export function AuditorAssignmentModal({
@@ -86,6 +48,7 @@ export function AuditorAssignmentModal({
   engagementTitle,
   targetDepartment,
   targetEntities = [],
+  targetEntityIds = [],
 }: AuditorAssignmentModalProps) {
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -93,55 +56,123 @@ export function AuditorAssignmentModal({
   const [aiConflicts, setAiConflicts] = useState<ConflictWarning[]>([]);
   const { loading: aiLoading, generate, configured: aiConfigured } = useSentinelAI();
 
-  const auditorConflicts = useMemo(() => {
-    const map = new Map<string, ConflictWarning[]>();
-    for (const a of DEMO_AUDITORS) {
-      map.set(a.id, detectConflicts(a, targetDepartment, targetEntities));
+  /* ------------------------------------------------------------------ */
+  /* Gerçek denetçi listesi — auditor_profiles + user_profiles           */
+  /* ------------------------------------------------------------------ */
+  const { data: auditors = [], isLoading: auditorsLoading } = useQuery({
+    queryKey: ['auditor-profiles'],
+    queryFn: fetchAuditorProfiles,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* GIAS 2.2 — Seçilen denetçi için bağımsızlık çakışması sorgusu      */
+  /* ------------------------------------------------------------------ */
+  const { data: advisoryConflicts = [] } = useQuery({
+    queryKey: ['advisory-conflicts', selectedId, targetEntityIds],
+    queryFn: () => fetchAdvisoryConflicts(selectedId!, targetEntityIds),
+    enabled: !!selectedId && targetEntityIds.length > 0,
+    staleTime: 60 * 1000,
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* Kural tabanlı çakışma tespiti                                        */
+  /* ------------------------------------------------------------------ */
+  const ruleConflictsForSelected = useMemo((): ConflictWarning[] => {
+    if (!selectedId) return [];
+    const auditor = auditors.find((a) => a.user_id === selectedId);
+    if (!auditor) return [];
+
+    const warnings: ConflictWarning[] = [];
+    const skills = Object.keys(auditor.skills_matrix ?? {});
+
+    if (auditor.department?.toLowerCase() === targetDepartment.toLowerCase()) {
+      warnings.push({
+        auditorId: auditor.user_id,
+        type: 'DEPARTMENT_MATCH',
+        severity: 'MEDIUM',
+        description: `${auditor.full_name} denetlenen departmanda çalışma geçmişine sahip olabilir.`,
+      });
     }
-    return map;
-  }, [targetDepartment, targetEntities]);
 
-  const filtered = useMemo(() => {
-    if (!search) return DEMO_AUDITORS;
-    const q = search.toLowerCase();
-    return DEMO_AUDITORS.filter(a =>
-      a.name.toLowerCase().includes(q) ||
-      a.skills.some(s => s.toLowerCase().includes(q))
+    const hasRelation = targetEntities.some((entity) =>
+      skills.some(
+        (s) =>
+          s.toLowerCase().includes(entity.toLowerCase()) ||
+          entity.toLowerCase().includes(s.toLowerCase()),
+      ),
     );
-  }, [search]);
+    if (hasRelation) {
+      warnings.push({
+        auditorId: auditor.user_id,
+        type: 'DIRECT_RELATION',
+        severity: 'HIGH',
+        description: `${auditor.full_name} ile denetlenen birim arasında yetkinlik tabanlı ilgisel bağlantı tespit edildi.`,
+      });
+    }
 
-  const selectedAuditor = DEMO_AUDITORS.find(a => a.id === selectedId);
-  const allConflicts = [
-    ...(selectedId ? (auditorConflicts.get(selectedId) || []) : []),
-    ...aiConflicts.filter(c => c.auditorId === selectedId),
+    return warnings;
+  }, [selectedId, auditors, targetDepartment, targetEntities]);
+
+  /* GIAS 2.2 danışmanlık çakışmasını ConflictWarning formatına çevir */
+  const gias22Warnings = useMemo((): ConflictWarning[] => {
+    if (!selectedId || advisoryConflicts.length === 0) return [];
+    return advisoryConflicts.map((c) => ({
+      auditorId: selectedId,
+      type: 'GIAS_22_ADVISORY' as const,
+      severity: 'HIGH' as const,
+      description:
+        `GIAS 2.2 İhlali: Bu denetçi ilgili süreç/departmana ` +
+        `${new Date(c.engagement_end_date).toLocaleDateString('tr-TR')} tarihine kadar ` +
+        `danışmanlık vermiştir. Soğuma süresi ${new Date(c.cooling_off_expires_at).toLocaleDateString('tr-TR')} tarihine dek devam etmektedir.`,
+    }));
+  }, [selectedId, advisoryConflicts]);
+
+  const allConflicts: ConflictWarning[] = [
+    ...ruleConflictsForSelected,
+    ...gias22Warnings,
+    ...aiConflicts.filter((c) => c.auditorId === selectedId),
   ];
-  const hasHighConflict = allConflicts.some(c => c.severity === 'HIGH');
+  const hasHighConflict = allConflicts.some((c) => c.severity === 'HIGH');
+  const hasGias22Conflict = gias22Warnings.length > 0;
 
+  /* ------------------------------------------------------------------ */
+  /* Filtreleme                                                           */
+  /* ------------------------------------------------------------------ */
+  const filtered = useMemo(() => {
+    if (!search) return auditors;
+    const q = search.toLowerCase();
+    return auditors.filter(
+      (a) =>
+        a.full_name.toLowerCase().includes(q) ||
+        Object.keys(a.skills_matrix ?? {}).some((s) => s.toLowerCase().includes(q)),
+    );
+  }, [search, auditors]);
+
+  const selectedAuditor = auditors.find((a) => a.user_id === selectedId);
+
+  /* ------------------------------------------------------------------ */
+  /* AI Derin Tarama                                                      */
+  /* ------------------------------------------------------------------ */
   const handleDeepScan = async () => {
     if (!selectedAuditor) return;
 
-    const prompt = `Bir ic denetim atama surecinde cikar catismasi analizi yapiyorsun.
+    const prompt = `Bir iç denetim atama sürecinde çıkar çatışması analizi yapıyorsun.
 
-DENETCI BILGILERI:
-- Isim: ${selectedAuditor.name}
-- Unvan: ${selectedAuditor.title}
-- Ozgecmis: ${selectedAuditor.bio}
-- Yetkinlikler: ${selectedAuditor.skills.join(', ')}
+DENETÇİ BİLGİLERİ:
+- İsim: ${selectedAuditor.full_name}
+- Ünvan: ${selectedAuditor.title ?? 'Belirtilmemiş'}
+- Departman: ${selectedAuditor.department ?? 'Belirtilmemiş'}
+- Yetkinlikler: ${Object.keys(selectedAuditor.skills_matrix ?? {}).join(', ') || 'Belirtilmemiş'}
 
-DENETIM GOREVI:
-- Baslik: ${engagementTitle}
+DENETİM GÖREVİ:
+- Başlık: ${engagementTitle}
 - Hedef Departman: ${targetDepartment}
-- Hedef Birimler: ${targetEntities.join(', ') || 'Belirtilmemis'}
+- Hedef Birimler: ${targetEntities.join(', ') || 'Belirtilmemiş'}
 
-Ozgecmis bilgilerine dayanarak gizli cikar catismalarini tespit et. Ozellikle su konulara bak:
-1. Daha once denetlenecek birimde calismis mi?
-2. Aile baglantiSi denetlenecek birimle iliskili mi?
-3. Yakin zamanda rotasyon veya gecici gorevlendirme var mi?
-4. Dolaysiz cikarlari var mi?
-
-Her tespit icin ciddiyet seviyesi (HIGH/MEDIUM/LOW) belirle.
-Format: Her satira "[SEVERITY] Aciklama" yaz. Sadece tespitleri listele.
-Tespit yoksa "TEMIZ: Gizli cikar catismasi tespit edilmedi." yaz.`;
+Bilgilere dayanarak gizli çıkar çatışmalarını tespit et. Her tespit için ciddiyet seviyesi (HIGH/MEDIUM/LOW) belirle.
+Format: Her satıra "[SEVERITY] Açıklama" yaz. Sadece tespitleri listele.
+Tespit yoksa "TEMIZ: Gizli çıkar çatışması tespit edilmedi." yaz.`;
 
     const result = await generate(prompt);
     if (!result) return;
@@ -156,20 +187,13 @@ Tespit yoksa "TEMIZ: Gizli cikar catismasi tespit edilmedi." yaz.`;
       let severity: 'HIGH' | 'MEDIUM' | 'LOW' = 'MEDIUM';
       let desc = trimmed;
 
-      if (trimmed.startsWith('[HIGH]') || trimmed.toLowerCase().startsWith('high')) {
-        severity = 'HIGH';
-        desc = trimmed.replace(/^\[?HIGH\]?\s*:?\s*/i, '');
-      } else if (trimmed.startsWith('[LOW]') || trimmed.toLowerCase().startsWith('low')) {
-        severity = 'LOW';
-        desc = trimmed.replace(/^\[?LOW\]?\s*:?\s*/i, '');
-      } else if (trimmed.startsWith('[MEDIUM]') || trimmed.toLowerCase().startsWith('medium')) {
-        severity = 'MEDIUM';
-        desc = trimmed.replace(/^\[?MEDIUM\]?\s*:?\s*/i, '');
-      }
+      if (/^\[?HIGH\]?/i.test(trimmed)) { severity = 'HIGH'; desc = trimmed.replace(/^\[?HIGH\]?\s*:?\s*/i, ''); }
+      else if (/^\[?LOW\]?/i.test(trimmed)) { severity = 'LOW'; desc = trimmed.replace(/^\[?LOW\]?\s*:?\s*/i, ''); }
+      else if (/^\[?MEDIUM\]?/i.test(trimmed)) { severity = 'MEDIUM'; desc = trimmed.replace(/^\[?MEDIUM\]?\s*:?\s*/i, ''); }
 
       if (desc.length > 5) {
         newConflicts.push({
-          auditorId: selectedAuditor.id,
+          auditorId: selectedAuditor.user_id,
           type: 'AI_DETECTED',
           severity,
           description: desc,
@@ -177,8 +201,8 @@ Tespit yoksa "TEMIZ: Gizli cikar catismasi tespit edilmedi." yaz.`;
       }
     }
 
-    setAiConflicts(prev => [
-      ...prev.filter(c => c.auditorId !== selectedAuditor.id),
+    setAiConflicts((prev) => [
+      ...prev.filter((c) => c.auditorId !== selectedAuditor.user_id),
       ...newConflicts,
     ]);
   };
@@ -205,18 +229,18 @@ Tespit yoksa "TEMIZ: Gizli cikar catismasi tespit edilmedi." yaz.`;
           initial={{ scale: 0.95, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.95, y: 20 }}
-          className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col"
-          onClick={e => e.stopPropagation()}
+          className="bg-surface rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col"
+          onClick={(e) => e.stopPropagation()}
         >
           <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 rounded-t-2xl flex items-center justify-between">
             <div>
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <Users size={20} />
-                Denetci Atama
+                Denetçi Atama
               </h2>
               <p className="text-xs text-slate-300 mt-0.5">{engagementTitle}</p>
             </div>
-            <button onClick={onClose} className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30">
+            <button onClick={onClose} className="w-8 h-8 bg-surface/20 rounded-lg flex items-center justify-center hover:bg-surface/30">
               <X size={16} className="text-white" />
             </button>
           </div>
@@ -227,134 +251,148 @@ Tespit yoksa "TEMIZ: Gizli cikar catismasi tespit edilmedi." yaz.`;
               <input
                 type="text"
                 value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Denetci ara (isim veya yetkinlik)..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm"
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Denetçi ara (isim veya yetkinlik)..."
+                className="w-full pl-10 pr-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg text-sm"
               />
             </div>
 
-            <div className="space-y-2">
-              {filtered.map(auditor => {
-                const ruleConflicts = auditorConflicts.get(auditor.id) || [];
-                const aiAuditorConflicts = aiConflicts.filter(c => c.auditorId === auditor.id);
-                const totalConflicts = ruleConflicts.length + aiAuditorConflicts.length;
-                const hasConflict = totalConflicts > 0;
-                const isSelected = selectedId === auditor.id;
-                const loadPct = (auditor.currentLoad / auditor.maxCapacity) * 100;
+            {auditorsLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 size={24} className="animate-spin text-slate-400" />
+                <span className="ml-2 text-sm text-slate-500">Denetçiler yükleniyor...</span>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {filtered.map((auditor) => {
+                  const hasConflict =
+                    (selectedId === auditor.user_id && allConflicts.length > 0) ||
+                    (selectedId !== auditor.user_id && false);
+                  const isSelected = selectedId === auditor.user_id;
+                  const skills = Object.keys(auditor.skills_matrix ?? {});
 
-                return (
-                  <button
-                    key={auditor.id}
-                    onClick={() => {
-                      setSelectedId(isSelected ? null : auditor.id);
-                      setAcknowledgedConflicts(false);
-                    }}
-                    className={clsx(
-                      'w-full text-left p-4 rounded-lg border-2 transition-all',
-                      isSelected
-                        ? hasConflict ? 'border-amber-500 bg-amber-50' : 'border-blue-500 bg-blue-50'
-                        : 'border-slate-200 bg-white hover:border-slate-300'
-                    )}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={clsx(
-                          'w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm',
-                          hasConflict ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'
-                        )}>
-                          {auditor.name.split(' ').map(n => n[0]).join('')}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-slate-900 text-sm">{auditor.name}</p>
-                          <p className="text-xs text-slate-500">{auditor.title}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {hasConflict && (
-                          <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-1 bg-amber-100 text-amber-700 rounded-lg">
-                            <AlertTriangle size={12} />
-                            {totalConflicts} uyari
-                          </span>
-                        )}
-                        {aiAuditorConflicts.length > 0 && (
-                          <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-1 bg-blue-100 text-blue-700 rounded-lg">
-                            <Brain size={10} />
-                            AI
-                          </span>
-                        )}
-                        <div className="text-right">
-                          <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                            <div
-                              className={clsx(
-                                'h-full rounded-full',
-                                loadPct >= 80 ? 'bg-red-500' : loadPct >= 60 ? 'bg-amber-500' : 'bg-green-500'
-                              )}
-                              style={{ width: `${loadPct}%` }}
-                            />
+                  return (
+                    <button
+                      key={auditor.user_id}
+                      onClick={() => {
+                        setSelectedId(isSelected ? null : auditor.user_id);
+                        setAcknowledgedConflicts(false);
+                      }}
+                      className={clsx(
+                        'w-full text-left p-4 rounded-lg border-2 transition-all',
+                        isSelected
+                          ? hasConflict ? 'border-amber-500 bg-amber-50' : 'border-blue-500 bg-blue-50'
+                          : 'border-slate-200 bg-surface hover:border-slate-300',
+                      )}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className={clsx(
+                            'w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0',
+                            isSelected && hasConflict ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700',
+                          )}>
+                            {auditor.full_name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                           </div>
-                          <p className="text-[10px] text-slate-400 mt-0.5">
-                            {auditor.currentLoad}/{auditor.maxCapacity} gorev
-                          </p>
+                          <div>
+                            <p className="font-semibold text-primary text-sm">{auditor.full_name}</p>
+                            <p className="text-xs text-slate-500">{auditor.title ?? auditor.department ?? '—'}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          {isSelected && hasGias22Conflict && <Gias22Badge />}
+                          {isSelected && allConflicts.filter((c) => c.type !== 'GIAS_22_ADVISORY').length > 0 && (
+                            <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-1 bg-amber-100 text-amber-700 rounded-lg">
+                              <AlertTriangle size={12} />
+                              {allConflicts.filter((c) => c.type !== 'GIAS_22_ADVISORY').length} uyarı
+                            </span>
+                          )}
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {auditor.skills.map(s => (
-                        <span key={s} className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded font-medium">{s}</span>
-                      ))}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+                      {skills.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {skills.slice(0, 5).map((s) => (
+                            <span key={s} className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded font-medium">{s}</span>
+                          ))}
+                          {skills.length > 5 && (
+                            <span className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-400 rounded">+{skills.length - 5}</span>
+                          )}
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+
+                {filtered.length === 0 && !auditorsLoading && (
+                  <div className="py-10 text-center text-slate-400 text-sm">
+                    Arama kriterine uygun denetçi bulunamadı.
+                  </div>
+                )}
+              </div>
+            )}
 
             {selectedId && selectedAuditor && (
               <div className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <Brain size={16} className="text-blue-400" />
-                    <h4 className="text-sm font-bold text-white">AI Derin Catisma Analizi</h4>
+                    <h4 className="text-sm font-bold text-white">AI Derin Çatışma Analizi</h4>
                   </div>
                   <button
                     onClick={handleDeepScan}
                     disabled={aiLoading || !aiConfigured}
                     className="flex items-center gap-2 px-3 py-1.5 bg-blue-500 text-white rounded-lg text-xs font-bold hover:bg-blue-600 disabled:bg-slate-600 disabled:text-slate-400 transition-colors"
                   >
-                    {aiLoading ? (
-                      <Loader2 size={12} className="animate-spin" />
-                    ) : (
-                      <Sparkles size={12} />
-                    )}
+                    {aiLoading ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
                     {aiLoading ? 'Tarama...' : 'Derin Tarama'}
                   </button>
                 </div>
                 <p className="text-xs text-slate-400">
-                  Denetcinin ozgecmis, aile baglantilari ve gecmis gorevleri AI ile analiz edilerek gizli cikar catismalari tespit edilir.
+                  Denetçinin özgeçmiş, aile bağlantıları ve geçmiş görevleri AI ile analiz edilerek gizli çıkar çatışmaları tespit edilir.
                 </p>
                 {!aiConfigured && (
-                  <p className="text-[10px] text-amber-400 mt-2">
-                    AI motoru yapilandirilmamis. Ayarlar &gt; Cognitive Engine
-                  </p>
+                  <p className="text-[10px] text-amber-400 mt-2">AI motoru yapılandırılmamış. Ayarlar &gt; Cognitive Engine</p>
                 )}
               </div>
             )}
 
-            {allConflicts.length > 0 && selectedId && (
+            {/* GIAS 2.2 UYARISI — danışmanlık geçmişi tespit edildiğinde */}
+            {hasGias22Conflict && selectedId && (
+              <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 space-y-2">
+                <div className="flex items-center gap-2">
+                  <ShieldAlert size={18} className="text-red-600" />
+                  <h4 className="text-sm font-bold text-red-800">GIAS 2.2 — Bağımsızlık Duvarı İhlali</h4>
+                </div>
+                {gias22Warnings.map((c, i) => (
+                  <div key={i} className="flex items-start gap-2 p-2 rounded bg-red-100">
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-200 text-red-800 shrink-0">
+                      GIAS 2.2
+                    </span>
+                    <p className="text-xs text-red-700">{c.description}</p>
+                  </div>
+                ))}
+                <p className="text-xs text-red-700 font-semibold">
+                  Atamaya devam etmek için CAE yazılı gerekçesi zorunludur.
+                </p>
+              </div>
+            )}
+
+            {/* Diğer çakışma uyarıları */}
+            {allConflicts.filter((c) => c.type !== 'GIAS_22_ADVISORY').length > 0 && selectedId && (
               <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-4 space-y-3">
                 <div className="flex items-center gap-2">
                   <AlertTriangle size={18} className="text-amber-600" />
-                  <h4 className="text-sm font-bold text-amber-800">Cikar Catismasi Uyarisi</h4>
+                  <h4 className="text-sm font-bold text-amber-800">Çıkar Çatışması Uyarısı</h4>
                 </div>
-                {allConflicts.map((c, i) => (
+                {allConflicts.filter((c) => c.type !== 'GIAS_22_ADVISORY').map((c, i) => (
                   <div key={i} className={clsx(
                     'flex items-start gap-2 p-2 rounded',
                     c.severity === 'HIGH' && 'bg-red-50',
                     c.severity === 'MEDIUM' && 'bg-amber-50',
                     c.severity === 'LOW' && 'bg-yellow-50',
                   )}>
-                    <div className="flex items-center gap-1 flex-shrink-0">
+                    <div className="flex items-center gap-1 shrink-0">
                       <span className={clsx(
                         'text-[10px] font-bold px-1.5 py-0.5 rounded',
                         c.severity === 'HIGH' && 'bg-red-100 text-red-700',
@@ -376,11 +414,11 @@ Tespit yoksa "TEMIZ: Gizli cikar catismasi tespit edilmedi." yaz.`;
                     <input
                       type="checkbox"
                       checked={acknowledgedConflicts}
-                      onChange={e => setAcknowledgedConflicts(e.target.checked)}
+                      onChange={(e) => setAcknowledgedConflicts(e.target.checked)}
                       className="mt-0.5 w-4 h-4 text-amber-600 border-amber-300 rounded"
                     />
                     <span className="text-xs text-amber-800 font-medium">
-                      Cikar catismasi riskini kabul ediyorum ve atama islemini onayliyorum.
+                      Çıkar çatışması riskini kabul ediyorum ve atama işlemini onaylıyorum.
                     </span>
                   </label>
                 )}
@@ -388,13 +426,13 @@ Tespit yoksa "TEMIZ: Gizli cikar catismasi tespit edilmedi." yaz.`;
             )}
           </div>
 
-          <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+          <div className="bg-canvas px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
             <p className="text-xs text-slate-500">
-              {selectedAuditor ? `Secilen: ${selectedAuditor.name}` : 'Denetci secin'}
+              {selectedAuditor ? `Seçilen: ${selectedAuditor.full_name}` : 'Denetçi seçin'}
             </p>
             <div className="flex items-center gap-3">
-              <button onClick={onClose} className="px-5 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">
-                Iptal
+              <button onClick={onClose} className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">
+                İptal
               </button>
               <button
                 onClick={handleAssign}

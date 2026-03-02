@@ -33,7 +33,7 @@ export default function WhistleblowerPage() {
           { label: 'Kapalı', value: '14', icon: Shield, color: 'green' },
           { label: 'Anonim', value: '18', icon: Lock, color: 'purple' },
         ].map((stat, i) => (
-          <div key={i} className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <div className={`w-10 h-10 rounded-lg bg-${stat.color}-100 flex items-center justify-center`}>
                 <stat.icon size={20} className={`text-${stat.color}-600`} />
@@ -45,7 +45,7 @@ export default function WhistleblowerPage() {
         ))}
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
         <div className="p-6 border-b border-slate-200">
           <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <Shield size={20} className="text-red-600" />
@@ -61,7 +61,7 @@ export default function WhistleblowerPage() {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
               <Lock size={20} className="text-purple-600" />
@@ -87,7 +87,7 @@ export default function WhistleblowerPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
               <AlertTriangle size={20} className="text-blue-600" />
@@ -103,14 +103,14 @@ export default function WhistleblowerPage() {
               'Çıkar Çatışması',
               'Bilgi Güvenliği İhlali',
             ].map((category, i) => (
-              <div key={i} className="p-2 bg-slate-50 rounded-lg text-slate-700">
+              <div key={i} className="p-2 bg-canvas rounded-lg text-slate-700">
                 {category}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
               <Phone size={20} className="text-green-600" />

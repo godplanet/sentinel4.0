@@ -1,47 +1,38 @@
 import { useState, useMemo } from 'react';
 import { Award, Building2, TrendingUp, AlertCircle, RefreshCw } from 'lucide-react';
-import { useRiskConstitution } from '@/features/risk-constitution';
+import { useRiskConstitution, DEFAULT_RISK_CONSTITUTION } from '@/features/risk-constitution';
 import { GradingWaterfall } from '@/widgets/charts/GradingWaterfall';
 import { GradingScaleTable } from '@/widgets/tables/GradingScaleTable';
 import { VetoStatusCards } from '@/widgets/indicators/VetoStatusCards';
+import { useAuditEntities, useEntityFindingCounts, type EntityFindingCounts } from '@/entities/universe';
 
-const MOCK_ENTITIES = [
-  {
-    id: '1',
-    name: 'Bilgi Teknolojileri Departmanı',
-    type: 'DEPARTMENT',
-    findings: { critical: 1, high: 2, medium: 3, low: 1 },
-  },
-  {
-    id: '2',
-    name: 'Kredi Riski Yönetimi',
-    type: 'UNIT',
-    findings: { critical: 0, high: 3, medium: 5, low: 2 },
-  },
-  {
-    id: '3',
-    name: 'Hazine İşlemleri',
-    type: 'UNIT',
-    findings: { critical: 2, high: 1, medium: 2, low: 0 },
-  },
-  {
-    id: '4',
-    name: 'Operasyon Merkezi',
-    type: 'UNIT',
-    findings: { critical: 0, high: 0, medium: 2, low: 3 },
-  },
-];
+const DEFAULT_FINDINGS: EntityFindingCounts = { critical: 0, high: 0, medium: 0, low: 0 };
 
 export default function EntityScorecardPage() {
   const { constitution, loading } = useRiskConstitution();
-  const [selectedEntityId, setSelectedEntityId] = useState(MOCK_ENTITIES[0].id);
+  const { data: entities = [], isLoading: entitiesLoading } = useAuditEntities();
+  const { data: findingCountsByEntity = {}, isLoading: countsLoading } = useEntityFindingCounts();
+
+  const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
+
+  const effectiveConstitution = constitution ?? DEFAULT_RISK_CONSTITUTION;
 
   const selectedEntity = useMemo(() => {
-    return MOCK_ENTITIES.find(e => e.id === selectedEntityId) || MOCK_ENTITIES[0];
-  }, [selectedEntityId]);
+    const id = selectedEntityId || entities[0]?.id;
+    if (!id) return null;
+    const entity = entities.find((e) => e.id === id);
+    if (!entity) return null;
+    const findings = findingCountsByEntity[entity.id] ?? DEFAULT_FINDINGS;
+    return {
+      id: entity.id,
+      name: entity.name,
+      type: entity.type,
+      findings,
+    };
+  }, [entities, selectedEntityId, findingCountsByEntity]);
 
   const finalScore = useMemo(() => {
-    if (!constitution) return 0;
+    if (!selectedEntity) return 0;
 
     const baseScore = 100;
     let score = baseScore;
@@ -53,32 +44,43 @@ export default function EntityScorecardPage() {
 
     score = Math.max(0, score);
 
-    const activeVeto = constitution.veto_rules.find(v => v.enabled);
+    const activeVeto = effectiveConstitution.veto_rules.find((v) => v.enabled);
     if (activeVeto && selectedEntity.findings.critical > 0) {
       score = Math.min(score, activeVeto.override_score);
     }
 
     return score;
-  }, [constitution, selectedEntity]);
+  }, [effectiveConstitution, selectedEntity]);
 
   const currentGrade = useMemo(() => {
-    if (!constitution) return { label: 'N/A', color: '#64748b' };
-
-    const sorted = [...constitution.risk_ranges].sort((a, b) => b.min - a.min);
-    const zone = sorted.find(r => finalScore >= r.min && finalScore <= r.max) || constitution.risk_ranges[0];
-
+    const sorted = [...effectiveConstitution.risk_ranges].sort((a, b) => b.min - a.min);
+    const zone = sorted.find((r) => finalScore >= r.min && finalScore <= r.max) || effectiveConstitution.risk_ranges[0];
     return {
-      label: zone?.label || 'Tanımsız',
-      color: zone?.color || '#64748b',
+      label: zone?.label ?? 'N/A',
+      color: zone?.color ?? '#64748b',
     };
-  }, [constitution, finalScore]);
+  }, [effectiveConstitution, finalScore]);
 
-  if (loading || !constitution) {
+  const pageLoading = loading || entitiesLoading || countsLoading;
+
+  if (pageLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-center">
           <RefreshCw className="w-12 h-12 text-blue-400 animate-spin mx-auto mb-4" />
-          <div className="text-white font-bold">Anayasa yükleniyor...</div>
+          <div className="text-white font-bold">Birim karnesi yükleniyor...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!selectedEntity || entities.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+        <div className="text-center text-white">
+          <Building2 className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+          <p className="font-bold">Birim bulunamadı</p>
+          <p className="text-sm text-slate-400 mt-1">Denetim evreninde (audit_entities) kayıt yok.</p>
         </div>
       </div>
     );
@@ -101,11 +103,11 @@ export default function EntityScorecardPage() {
               </div>
 
               <select
-                value={selectedEntityId}
+                value={selectedEntityId ?? selectedEntity.id}
                 onChange={(e) => setSelectedEntityId(e.target.value)}
-                className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg font-medium"
+                className="bg-surface/10 backdrop-blur-md border border-white/20 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg font-medium"
               >
-                {MOCK_ENTITIES.map(entity => (
+                {entities.map((entity) => (
                   <option key={entity.id} value={entity.id} className="bg-slate-800">
                     {entity.name}
                   </option>
@@ -127,7 +129,7 @@ export default function EntityScorecardPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+          <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <Building2 className="w-5 h-5 text-slate-400" />
               <h3 className="text-sm font-bold text-slate-400 uppercase">Birim Bilgisi</h3>
@@ -144,7 +146,7 @@ export default function EntityScorecardPage() {
             </div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+          <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <AlertCircle className="w-5 h-5 text-orange-400" />
               <h3 className="text-sm font-bold text-slate-400 uppercase">Bulgu Özeti</h3>
@@ -169,7 +171,7 @@ export default function EntityScorecardPage() {
             </div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+          <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <TrendingUp className="w-5 h-5 text-green-400" />
               <h3 className="text-sm font-bold text-slate-400 uppercase">Performans</h3>
@@ -189,15 +191,15 @@ export default function EntityScorecardPage() {
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+        <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
           <GradingWaterfall findingCounts={selectedEntity.findings} />
         </div>
 
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+        <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
           <VetoStatusCards findingCounts={selectedEntity.findings} />
         </div>
 
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+        <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
           <GradingScaleTable currentScore={finalScore} />
         </div>
 

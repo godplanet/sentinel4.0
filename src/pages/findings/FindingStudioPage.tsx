@@ -25,7 +25,8 @@ import {
   Trash2,
   FileText as FileIcon,
   Printer,    // YENİ: Yazıcı İkonu
-  Download    // YENİ: İndirme İkonu (Opsiyonel)
+  Download,   // YENİ: İndirme İkonu (Opsiyonel)
+  X           // MİMARİ DÜZELTME: Reddet butonu için eksik X ikonu eklendi (Çökmeyi engeller)
 } from 'lucide-react';
 
 // --- Utils & Hooks ---
@@ -103,7 +104,7 @@ export const FindingStudioPage: React.FC = () => {
 
   if (isLoading || !finding) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-canvas">
         <Loader2 className={cn("animate-spin mb-4", theme.text)} size={40} />
         <p className="text-sm font-medium text-slate-500 animate-pulse">Stüdyo Yükleniyor...</p>
       </div>
@@ -114,7 +115,7 @@ export const FindingStudioPage: React.FC = () => {
     <div 
       className={cn(
         "flex flex-col h-[calc(100vh-1rem)] w-full overflow-hidden transition-colors duration-500 ease-in-out",
-        mode === 'zen' ? "bg-slate-50" : "bg-slate-50 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white via-slate-50 to-slate-100"
+        mode === 'zen' ? "bg-canvas" : "bg-canvas bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-surface via-canvas to-slate-100/50"
       )}
     >
 
@@ -123,7 +124,7 @@ export const FindingStudioPage: React.FC = () => {
         "shrink-0 h-16 flex items-center justify-between px-6 z-30 transition-all",
         mode === 'zen' 
           ? "bg-transparent border-b border-transparent" 
-          : "bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-sm"
+          : "bg-surface/70 backdrop-blur-xl border-b border-surface/20 shadow-sm"
       )}>
         
         {/* LEFT */}
@@ -160,7 +161,7 @@ export const FindingStudioPage: React.FC = () => {
               className={cn(
                 "px-4 py-1.5 text-xs font-semibold rounded-md capitalize transition-all flex items-center gap-2",
                 mode === m 
-                  ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" 
+                  ? "bg-surface text-primary shadow-sm ring-1 ring-black/5" 
                   : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
               )}
             >
@@ -177,7 +178,7 @@ export const FindingStudioPage: React.FC = () => {
           
           {/* Zen Controls */}
           {mode === 'zen' && (
-            <div className="flex items-center gap-1 bg-white/80 p-1 rounded-full border border-slate-200 backdrop-blur-sm shadow-sm">
+            <div className="flex items-center gap-1 bg-surface/80 p-1 rounded-full border border-slate-200 backdrop-blur-sm shadow-sm">
               
               <button 
                 onClick={() => setZenLayout('flow')} 
@@ -216,7 +217,7 @@ export const FindingStudioPage: React.FC = () => {
                 </button>
                 
                 {isWarmthOpen && (
-                  <div className="absolute top-full right-0 mt-3 p-4 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 w-64 z-50 animate-in slide-in-from-top-2 fade-in duration-200 ring-1 ring-black/5">
+                  <div className="absolute top-full right-0 mt-3 p-4 bg-surface/95 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-200/40 w-64 z-50 animate-in slide-in-from-top-2 fade-in duration-200 ring-1 ring-black/5">
                     <div className="flex items-center gap-3">
                       <Sun size={14} className="text-amber-500" />
                       <input 
@@ -264,14 +265,14 @@ export const FindingStudioPage: React.FC = () => {
           <main className="flex-1 flex gap-6 p-6 h-full overflow-hidden">
             
             {/* LEFT: Tabbed Editor */}
-            <div className="flex-1 bg-white/60 backdrop-blur-lg rounded-2xl border border-white/40 shadow-sm flex flex-col overflow-hidden relative group">
+            <div className="flex-1 bg-surface/60 backdrop-blur-lg rounded-2xl border border-slate-200/40 shadow-sm flex flex-col overflow-hidden relative group">
               <div className="absolute -top-20 -left-20 w-64 h-64 bg-slate-200/30 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-100/30 transition-colors duration-1000" />
               
               {/* Tabs */}
               <div className="flex items-center px-4 pt-3 border-b border-slate-200/50 gap-2 overflow-x-auto no-scrollbar z-10">
                 {EDITOR_TABS.map((tab) => {
                   const isActive = activeTab === tab.id;
-                  const hasContent = finding[tab.id] && finding[tab.id].length > 10;
+                  const hasContent = finding[tab.id as keyof typeof finding] && String(finding[tab.id as keyof typeof finding]).length > 10;
                   
                   return (
                     <button
@@ -280,8 +281,8 @@ export const FindingStudioPage: React.FC = () => {
                       className={cn(
                         "flex items-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-wide rounded-t-lg transition-all min-w-max border-b-2",
                         isActive 
-                          ? cn("bg-white/80 text-slate-800 shadow-sm", `border-${sidebarColor}-600`) 
-                          : "text-slate-500 border-transparent hover:bg-white/40 hover:text-slate-700"
+                          ? cn("bg-surface/80 text-slate-800 shadow-sm", `border-${sidebarColor}-600`) 
+                          : "text-slate-500 border-transparent hover:bg-surface/40 hover:text-slate-700"
                       )}
                       style={isActive ? { borderColor: `var(--color-${sidebarColor}-600)` } : {}}
                     >
@@ -294,21 +295,21 @@ export const FindingStudioPage: React.FC = () => {
               </div>
 
               {/* Editor Canvas */}
-              <div className="flex-1 overflow-y-auto p-8 bg-white/40 z-10 custom-scrollbar">
+              <div className="flex-1 overflow-y-auto p-8 bg-surface/40 z-10 custom-scrollbar">
                  <div className="max-w-4xl mx-auto min-h-full space-y-8">
                     
                     {/* 1. Rich Text Editor Card */}
-                    <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-8 min-h-[400px]">
+                    <div className="bg-surface rounded-xl shadow-sm border border-slate-100 p-8 min-h-[400px]">
                       {EDITOR_TABS.map((tab) => (
                         <div key={tab.id} className={cn(activeTab === tab.id ? "block" : "hidden", "animate-in fade-in slide-in-from-bottom-2 duration-300")}>
-                          <div className="mb-4 flex items-center gap-2 text-slate-400 text-xs bg-slate-50 p-2 rounded-lg border border-slate-100">
+                          <div className="mb-4 flex items-center gap-2 text-slate-400 text-xs bg-canvas p-2 rounded-lg border border-slate-100">
                             <tab.icon size={14} />
                             <span>{tab.placeholder}</span>
                           </div>
                           
                           <RichTextEditor
-                            value={finding[tab.id] || ''}
-                            onChange={(val) => updateField(tab.id, val)}
+                            value={String(finding[tab.id as keyof typeof finding] || '')}
+                            onChange={(val) => updateField(tab.id as any, val)}
                             placeholder="Buraya yazmaya başlayın..."
                             className="prose-lg min-h-[300px] outline-none"
                           />
@@ -317,7 +318,7 @@ export const FindingStudioPage: React.FC = () => {
                     </div>
 
                     {/* 2. Evidence Uploader Card */}
-                    <div className="bg-slate-50/50 rounded-xl border border-slate-200 border-dashed p-6">
+                    <div className="bg-canvas/50 rounded-xl border border-slate-200 border-dashed p-6">
                        <div className="flex items-center gap-2 mb-4 text-slate-500 font-bold text-xs uppercase tracking-wide">
                          <Paperclip size={16} /> Kanıt Dokümanları & Ekler
                        </div>
@@ -333,7 +334,7 @@ export const FindingStudioPage: React.FC = () => {
                        {evidenceFiles.length > 0 && (
                          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2">
                             {evidenceFiles.map((file, idx) => (
-                              <div key={idx} className="flex items-center justify-between p-2 bg-white border border-slate-200 rounded text-xs shadow-sm animate-in fade-in slide-in-from-top-1">
+                              <div key={idx} className="flex items-center justify-between p-2 bg-surface border border-slate-200 rounded text-xs shadow-sm animate-in fade-in slide-in-from-top-1">
                                 <div className="flex items-center gap-2 truncate">
                                   <div className={cn("p-1.5 rounded text-white", theme.bg)}>
                                     <FileIcon size={14} />
@@ -361,11 +362,11 @@ export const FindingStudioPage: React.FC = () => {
 
             {/* RIGHT: Control Center */}
             <div className="w-[340px] shrink-0 flex flex-col gap-6 h-full overflow-hidden">
-              <div className="flex-1 bg-white/70 backdrop-blur-xl rounded-2xl border border-white/50 shadow-sm overflow-hidden flex flex-col">
+              <div className="flex-1 bg-surface/70 backdrop-blur-xl rounded-2xl border border-slate-200/50 shadow-sm overflow-hidden flex flex-col">
                 {/* GÖREV 4: Conditional Rendering - Review Mode vs Edit Mode */}
                 {finding?.status === 'review' ? (
                   // REVIEW MODE - Gözden Geçirme Paneli
-                  <div className="w-full bg-slate-50 flex flex-col h-full">
+                  <div className="w-full bg-canvas flex flex-col h-full">
                     <div className="p-6 border-b border-slate-200 bg-amber-50">
                       <div className="flex items-center gap-2 mb-2">
                         <AlertTriangle size={18} className="text-amber-600" />
@@ -417,7 +418,7 @@ export const FindingStudioPage: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="p-4 border-t border-slate-200 bg-white">
+                    <div className="p-4 border-t border-slate-200 bg-surface">
                       <p className="text-xs text-slate-500 italic">
                         <strong>Not:</strong> Onay işlemi geri alınamaz. Lütfen tüm alanları dikkatlice inceleyin.
                       </p>
@@ -426,7 +427,7 @@ export const FindingStudioPage: React.FC = () => {
                 ) : (
                   <FindingFormWidget
                     finding={finding}
-                    onUpdate={updateField}
+                    onUpdate={updateField as any}
                     onAdvanceWorkflow={() => {
                       // GÖREV 1: Workflow advanced after QAIP check
                       saveFinding();
@@ -443,7 +444,7 @@ export const FindingStudioPage: React.FC = () => {
           <main className="flex-1 overflow-y-auto relative h-full">
              <div className="max-w-full h-full p-8 flex justify-center">
                 <ZenReaderWidget 
-                  data={finding} 
+                  data={finding as any} 
                   layout={zenLayout} 
                   warmth={warmth} 
                 />
@@ -453,26 +454,26 @@ export const FindingStudioPage: React.FC = () => {
 
         {/* --- MOD C: NEGOTIATION --- */}
         {mode === 'negotiation' && (
-           <main className="flex-1 flex gap-6 p-6 h-full overflow-hidden bg-slate-50/50">
-             <div className="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-y-auto p-8">
-                <ZenReaderWidget data={finding} layout="flow" warmth={0} />
+           <main className="flex-1 flex gap-6 p-6 h-full overflow-hidden bg-canvas/50">
+             <div className="flex-1 bg-surface rounded-xl shadow-sm border border-slate-200 overflow-y-auto p-8">
+                <ZenReaderWidget data={finding as any} layout="flow" warmth={0} />
              </div>
              
-             <div className="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+             <div className="flex-1 bg-surface rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                 <NegotiationBoardWidget id={finding.id} />
              </div>
            </main>
         )}
 
         {/* --- UNIVERSAL RIGHT RAIL (Drawer Triggers & Tools) --- */}
-        <div className="w-16 border-l border-white/20 bg-white/40 backdrop-blur-md z-20 flex flex-col items-center py-4 gap-4 shrink-0 shadow-[-4px_0_15px_rgba(0,0,0,0.01)]">
+        <div className="w-16 border-l border-slate-200 bg-surface/40 backdrop-blur-md z-20 flex flex-col items-center py-4 gap-4 shrink-0 shadow-[-4px_0_15px_rgba(0,0,0,0.01)]">
           
           {/* 1. Chat (Drawer Trigger) */}
           <button 
             onClick={() => toggleDrawer('chat')}
             className={cn(
               "w-10 h-10 rounded-xl flex items-center justify-center transition-all",
-              drawerTab === 'chat' && isDrawerOpen ? `${theme.bg} text-white shadow-lg` : "text-slate-400 hover:bg-white/60"
+              drawerTab === 'chat' && isDrawerOpen ? `${theme.bg} text-white shadow-lg` : "text-slate-400 hover:bg-surface/60"
             )}
             title="Mesajlar / Yorumlar"
           >
@@ -484,7 +485,7 @@ export const FindingStudioPage: React.FC = () => {
           {/* 2. Print */}
           <button 
             onClick={() => window.print()}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all text-slate-400 hover:text-slate-700 hover:bg-white/60"
+            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all text-slate-400 hover:text-slate-700 hover:bg-surface/60"
             title="Yazdır"
           >
             <Printer size={20} />
@@ -493,7 +494,7 @@ export const FindingStudioPage: React.FC = () => {
           {/* 3. Export PDF */}
           <button 
             onClick={() => console.log('Export PDF')}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all text-rose-500/80 hover:text-rose-600 hover:bg-white/60"
+            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all text-rose-500/80 hover:text-rose-600 hover:bg-surface/60"
             title="PDF'e Aktar"
           >
             <FileText size={20} />
@@ -502,7 +503,7 @@ export const FindingStudioPage: React.FC = () => {
            {/* 4. Export Word */}
            <button 
             onClick={() => console.log('Export Word')}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all text-blue-600/80 hover:text-blue-700 hover:bg-white/60"
+            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all text-blue-600/80 hover:text-blue-700 hover:bg-surface/60"
             title="Word'e Aktar"
           >
             <FileIcon size={20} /> 
@@ -520,7 +521,7 @@ export const FindingStudioPage: React.FC = () => {
         currentViewMode="zen"
         onApplyContent={(section, content) => {
           // GÖREV 2: Drawer'dan gelen içeriği editöre aktar
-          updateField(section, content);
+          updateField(section as any, content);
         }}
       />
 

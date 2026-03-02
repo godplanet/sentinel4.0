@@ -132,7 +132,7 @@ export function TextBlockRenderer({ block, sectionId = '', readOnly = false, col
   if (block.type === 'heading') {
     const level = block.content.level ?? 2;
     const text = (block.content.html ?? '').replace(/<[^>]+>/g, '');
-    if (level === 1) return <h1 className="font-serif text-3xl font-bold mb-6 text-slate-900">{text}</h1>;
+    if (level === 1) return <h1 className="font-serif text-3xl font-bold mb-6 text-primary">{text}</h1>;
     if (level === 2) return <h2 className="font-serif text-2xl font-bold mb-4 text-slate-800">{text}</h2>;
     return <h3 className="font-serif text-xl font-semibold mb-3 text-slate-700">{text}</h3>;
   }
@@ -172,7 +172,7 @@ export function TextBlockRenderer({ block, sectionId = '', readOnly = false, col
       </div>
 
       {showCommentBar && (
-        <div className="mt-1.5 rounded-xl border border-slate-200 bg-white shadow-md overflow-hidden">
+        <div className="mt-1.5 rounded-xl border border-slate-200 bg-surface shadow-md overflow-hidden">
           {!commentState.active ? (
             <button
               onMouseDown={(e) => {

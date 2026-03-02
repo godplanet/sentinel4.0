@@ -15,7 +15,7 @@ const STATUS_CONFIG: Record<M6ReportStatus, { label: string; className: string }
   in_review:  { label: 'İncelemede',     className: 'bg-amber-50 text-amber-700 border-amber-200' },
   cae_review: { label: 'CAE İncelemesi', className: 'bg-blue-50 text-blue-700 border-blue-200' },
   published:  { label: 'Yayında',        className: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  archived:   { label: 'Arşivlendi',     className: 'bg-slate-50 text-slate-400 border-slate-200' },
+  archived:   { label: 'Arşivlendi',     className: 'bg-canvas text-slate-400 border-slate-200' },
 };
 
 const SIMULATION_STATES = [
@@ -100,12 +100,12 @@ export function LiquidGlassToolbar({ collabCtx, traceabilityOpen, onTraceability
   return (
     <>
     <SearchPalette open={searchOpen} onClose={() => setSearchOpen(false)} />
-    <header className="no-print report-editor-toolbar sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <header className="no-print report-editor-toolbar sticky top-0 z-50 bg-surface/70 backdrop-blur-md border-b border-slate-200 shadow-sm">
       <div className="flex items-center justify-between h-14 px-4 gap-4">
         <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={() => navigate(-1)}
-            className="flex-shrink-0 flex items-center gap-1.5 text-sm font-sans font-medium text-slate-500 hover:text-slate-900 transition-colors px-2 py-1.5 rounded-lg hover:bg-slate-100"
+            className="flex-shrink-0 flex items-center gap-1.5 text-sm font-sans font-medium text-slate-500 hover:text-primary transition-colors px-2 py-1.5 rounded-lg hover:bg-slate-100"
           >
             <ArrowLeft size={16} />
             <span className="hidden sm:inline">Geri</span>
@@ -114,7 +114,7 @@ export function LiquidGlassToolbar({ collabCtx, traceabilityOpen, onTraceability
           <div className="w-px h-5 bg-slate-200" />
 
           <div className="flex items-center gap-2.5 min-w-0">
-            <h1 className="font-sans font-semibold text-slate-900 text-sm truncate max-w-xs lg:max-w-md">
+            <h1 className="font-sans font-semibold text-primary text-sm truncate max-w-xs lg:max-w-md">
               {activeReport?.title ?? 'Rapor Yükleniyor...'}
             </h1>
             <span
@@ -138,7 +138,7 @@ export function LiquidGlassToolbar({ collabCtx, traceabilityOpen, onTraceability
 
           <button
             onClick={() => setSearchOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-sans font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors border border-transparent hover:border-slate-200"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-sans font-medium text-slate-600 hover:bg-slate-100 hover:text-primary transition-colors border border-transparent hover:border-slate-200"
             title="Raporda ara (Cmd+K)"
           >
             <Search size={15} className="text-slate-500" />
@@ -173,7 +173,7 @@ export function LiquidGlassToolbar({ collabCtx, traceabilityOpen, onTraceability
             <span className="hidden md:inline">Altın İplik</span>
           </button>
 
-          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-sans font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
+          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-sans font-medium text-slate-600 hover:bg-slate-100 hover:text-primary transition-colors">
             <Sparkles size={15} className="text-blue-500" />
             <span className="hidden md:inline">AI ile Özetle</span>
           </button>
@@ -181,7 +181,7 @@ export function LiquidGlassToolbar({ collabCtx, traceabilityOpen, onTraceability
           <button
             onClick={handlePdfExport}
             disabled={pdfLoading}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-sans font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-sans font-medium text-slate-600 hover:bg-slate-100 hover:text-primary transition-colors disabled:opacity-50"
           >
             {pdfLoading ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
             <span className="hidden md:inline">PDF İndir</span>

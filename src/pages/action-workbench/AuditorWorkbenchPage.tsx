@@ -101,7 +101,7 @@ export default function AuditorWorkbenchPage() {
               <ShieldAlert size={20} className="text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-black text-slate-900">Denetçi Komuta Merkezi</h1>
+              <h1 className="text-2xl font-black text-primary">Denetçi Komuta Merkezi</h1>
               <p className="text-sm text-slate-500">Action Super Drawer — Faz 3 Test Görünümü</p>
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function AuditorWorkbenchPage() {
           />
         </div>
 
-        <div className="mt-8 p-5 bg-white border border-slate-200 rounded-xl shadow-sm">
+        <div className="mt-8 p-5 bg-surface border border-slate-200 rounded-xl shadow-sm">
           <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">
             Bileşen Referans Rehberi
           </p>
@@ -146,7 +146,7 @@ export default function AuditorWorkbenchPage() {
               { label: 'ActionSuperDrawer', path: 'widgets/action-super-drawer/ui/ActionSuperDrawer' },
               { label: 'ActionStatusBadge', path: 'entities/action/ui/ActionStatusBadge' },
             ].map(({ label, path }) => (
-              <div key={label} className="font-mono bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+              <div key={label} className="font-mono bg-canvas border border-slate-200 rounded-lg px-3 py-2">
                 <p className="font-bold text-slate-700">{label}</p>
                 <p className="text-slate-400 text-[10px] mt-0.5 truncate">src/{path}</p>
               </div>
@@ -158,7 +158,6 @@ export default function AuditorWorkbenchPage() {
       {openAction && (
         <ActionSuperDrawer
           action={openAction}
-          evidence={openAction.id === MOCK_ACTION.id ? MOCK_EVIDENCE : undefined}
           isOpen={!!openAction}
           onClose={() => setOpenAction(null)}
           onDecision={(v) => {
@@ -193,7 +192,7 @@ function ActionTestCard({
     <motion.div
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
+      className="bg-surface border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
     >
       <div className="flex items-start justify-between gap-4 mb-4">
         <div className="flex-1 min-w-0">

@@ -7,8 +7,8 @@ export const FindingForm = () => {
   const [activeTab, setActiveTab] = useState<'DETAILS' | 'RCA' | 'ACTION'>('DETAILS');
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-full animate-in fade-in slide-in-from-bottom-4">
-      <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+    <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-full animate-in fade-in slide-in-from-bottom-4">
+      <div className="px-6 py-4 border-b border-slate-100 bg-canvas/50 flex justify-between items-center">
         <h3 className="font-bold text-slate-800 flex items-center gap-2">
            <AlertTriangle className="text-rose-500" size={18} />
            Yeni Bulgu Girişi
@@ -20,7 +20,7 @@ export const FindingForm = () => {
                 onClick={() => setActiveTab(tab as any)}
                 className={cn(
                   "px-3 py-1 text-xs font-bold rounded-md transition-all",
-                  activeTab === tab ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                  activeTab === tab ? "bg-surface text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
                 )}
               >
                 {tab === 'DETAILS' ? 'Detay' : tab === 'RCA' ? 'Kök Neden' : 'Aksiyon'}
@@ -41,7 +41,7 @@ export const FindingForm = () => {
                   <label className="text-xs font-bold text-slate-500 uppercase">Önem Derecesi</label>
                   <div className="flex gap-1 mt-1">
                     {['CRITICAL', 'HIGH', 'MEDIUM'].map(lvl => (
-                      <button key={lvl} onClick={() => setSeverity(lvl)} className={cn("flex-1 py-2 text-[10px] font-bold rounded border", severity === lvl ? "bg-slate-800 text-white border-slate-800" : "bg-white text-slate-500")}>{lvl}</button>
+                      <button key={lvl} onClick={() => setSeverity(lvl)} className={cn("flex-1 py-2 text-[10px] font-bold rounded border", severity === lvl ? "bg-slate-800 text-white border-slate-800" : "bg-surface text-slate-500")}>{lvl}</button>
                     ))}
                   </div>
                </div>
@@ -74,7 +74,7 @@ export const FindingForm = () => {
         )}
       </div>
 
-      <div className="p-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
+      <div className="p-4 border-t border-slate-100 bg-canvas flex justify-end gap-2">
          <button className="px-4 py-2 text-sm font-bold text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700">Kaydet</button>
       </div>
     </div>

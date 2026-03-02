@@ -75,7 +75,7 @@ export function TimeTravelSlider({ onProgressChange }: TimeTravelSliderProps) {
   );
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+    <div className="bg-surface border border-slate-200 rounded-xl p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <Clock size={16} className="text-blue-600" />
         <h4 className="text-sm font-bold text-slate-800">Zaman Yolculugu</h4>

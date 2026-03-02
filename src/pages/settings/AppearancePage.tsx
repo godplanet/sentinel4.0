@@ -10,7 +10,7 @@ const ENV_META = {
     label: 'PROD',
     desc: 'Canlı Ortam',
     ringColor: 'ring-slate-700',
-    activeClass: 'border-slate-700 bg-slate-50',
+    activeClass: 'border-slate-700 bg-canvas',
     dot: 'bg-emerald-500',
     textColor: 'text-slate-800',
   },
@@ -43,7 +43,7 @@ export default function AppearancePage() {
       />
 
       {/* ── TEMA MOTORU: Dinamik Arka Plan Seçimi ──────────────────────── */}
-      <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-surface/70 backdrop-blur-xl border border-white/40 rounded-2xl shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-sm">
             <Layers className="w-4 h-4 text-white" />
@@ -76,7 +76,7 @@ export default function AppearancePage() {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm">
+        <div className="lg:col-span-2 bg-surface rounded-xl border border-slate-200 shadow-sm">
           <div className="p-6 border-b border-slate-200">
             <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
               <Paintbrush size={20} className="text-purple-600" />
@@ -92,7 +92,7 @@ export default function AppearancePage() {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+          <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
             <div className="p-6 border-b border-slate-200">
               <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                 <Server size={20} className="text-slate-600" />
@@ -140,7 +140,7 @@ export default function AppearancePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+          <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
             <div className="p-6 border-b border-slate-200">
               <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                 <Monitor size={20} className="text-blue-600" />
@@ -194,7 +194,7 @@ export default function AppearancePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+          <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
             <div className="p-6 border-b border-slate-200">
               <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                 <Palette size={20} className="text-green-600" />
@@ -217,7 +217,7 @@ export default function AppearancePage() {
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-purple-800"></div>
                 <span className="text-sm font-medium text-slate-800">Innovation Purple</span>
               </button>
-              <button className="w-full flex items-center gap-3 p-3 border border-slate-200 rounded-lg hover:border-slate-500 hover:bg-slate-50 transition-all">
+              <button className="w-full flex items-center gap-3 p-3 border border-slate-200 rounded-lg hover:border-slate-500 hover:bg-canvas transition-all">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-700 to-slate-900"></div>
                 <span className="text-sm font-medium text-slate-800">Professional Dark</span>
               </button>

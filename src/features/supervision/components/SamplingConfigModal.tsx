@@ -79,14 +79,14 @@ export const SamplingConfigModal = ({
         onClick={onClose}
       />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="bg-surface rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
           <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-lg">
                 <Calculator className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-lg font-semibold text-primary">
                   Örneklem Metodolojisi
                 </h2>
                 <p className="text-xs text-gray-600">GIAS 14.1 - Sampling Documentation</p>
@@ -94,7 +94,7 @@ export const SamplingConfigModal = ({
             </div>
             <button
               onClick={onClose}
-              className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white/50 transition-colors"
+              className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-surface/50 transition-colors"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
@@ -117,7 +117,7 @@ export const SamplingConfigModal = ({
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-3">
+              <label className="block text-sm font-semibold text-primary mb-3">
                 Örnekleme Yöntemi
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -128,11 +128,11 @@ export const SamplingConfigModal = ({
                     className={`p-3 border-2 rounded-lg text-left transition-all ${
                       method === m.value
                         ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 bg-white hover:border-blue-300'
+                        : 'border-gray-200 bg-surface hover:border-blue-300'
                     }`}
                   >
                     <div className="flex items-start justify-between mb-1">
-                      <span className="text-sm font-medium text-gray-900">{m.label}</span>
+                      <span className="text-sm font-medium text-primary">{m.label}</span>
                       {method === m.value && (
                         <CheckCircle className="w-4 h-4 text-blue-600" />
                       )}
@@ -145,7 +145,7 @@ export const SamplingConfigModal = ({
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">
+                <label className="block text-sm font-medium text-primary mb-2">
                   Popülasyon Büyüklüğü
                 </label>
                 <input
@@ -159,7 +159,7 @@ export const SamplingConfigModal = ({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">
+                <label className="block text-sm font-medium text-primary mb-2">
                   Örnek Büyüklüğü
                 </label>
                 <input
@@ -175,9 +175,9 @@ export const SamplingConfigModal = ({
             </div>
 
             {populationSize > 0 && (
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+              <div className="bg-canvas border border-slate-200 rounded-lg p-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-900">Örnekleme Oranı:</span>
+                  <span className="text-sm font-medium text-primary">Örnekleme Oranı:</span>
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold text-blue-600">{samplePercentage}%</span>
                     <span className="text-xs text-slate-600">
@@ -189,7 +189,7 @@ export const SamplingConfigModal = ({
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">
+              <label className="block text-sm font-medium text-primary mb-2">
                 Metodoloji Gerekçesi *
               </label>
               <textarea
@@ -203,10 +203,10 @@ export const SamplingConfigModal = ({
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50">
+          <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-canvas">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-surface border border-gray-300 rounded-lg hover:bg-canvas transition-colors"
             >
               İptal
             </button>

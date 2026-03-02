@@ -9,10 +9,10 @@ export function RollingPlanBoard() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* 9-Month Dynamic Backlog */}
-      <div className="bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60 flex flex-col gap-4">
+      <div className="bg-canvas/50 p-6 rounded-2xl border border-slate-200/60 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-surface border border-slate-200 shadow-sm flex items-center justify-center">
               <Database size={15} className="text-slate-500" />
             </div>
             <div>
@@ -20,14 +20,14 @@ export function RollingPlanBoard() {
               <p className="text-xs text-slate-500 font-medium">Tentative Backlog</p>
             </div>
           </div>
-          <span className="text-xs font-semibold text-slate-600 bg-white border border-slate-200 rounded-full px-2.5 py-1 shadow-sm">
+          <span className="text-xs font-semibold text-slate-600 bg-surface border border-slate-200 rounded-full px-2.5 py-1 shadow-sm">
             {backlog.length} görev
           </span>
         </div>
 
         <div className="flex flex-col gap-3 min-h-[320px]">
           {backlog.length === 0 ? (
-            <div className="flex flex-col items-center justify-center flex-1 py-14 gap-2.5 text-center bg-white rounded-xl border border-dashed border-slate-200">
+            <div className="flex flex-col items-center justify-center flex-1 py-14 gap-2.5 text-center bg-surface rounded-xl border border-dashed border-slate-200">
               <Info size={28} className="text-slate-300" />
               <p className="text-sm text-slate-400 font-medium">Havuz boş</p>
               <p className="text-xs text-slate-400 max-w-[180px]">Risk evreninden düğüm ekleyerek havuzu doldurun.</p>
@@ -59,7 +59,7 @@ export function RollingPlanBoard() {
 
         <div className="flex flex-col gap-3 min-h-[320px]">
           {qSprint.length === 0 ? (
-            <div className="flex flex-col items-center justify-center flex-1 py-14 gap-2.5 text-center bg-white/60 rounded-xl border border-dashed border-indigo-200">
+            <div className="flex flex-col items-center justify-center flex-1 py-14 gap-2.5 text-center bg-surface/60 rounded-xl border border-dashed border-indigo-200">
               <Lock size={28} className="text-indigo-200" />
               <p className="text-sm text-indigo-400 font-medium">Sprint boş</p>
               <p className="text-xs text-indigo-400 max-w-[180px]">Havuzdan görev çekerek sprint'i doldurun.</p>

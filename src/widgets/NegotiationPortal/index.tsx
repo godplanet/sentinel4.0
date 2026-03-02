@@ -127,10 +127,10 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
     <div className="grid grid-cols-12 h-screen overflow-hidden">
       <div className="col-span-7 bg-gradient-to-br from-white to-slate-50 overflow-auto">
         <div className="p-8 max-w-4xl mx-auto">
-          <div className="backdrop-blur-xl bg-white/95 rounded-2xl border border-gray-200/50 shadow-xl p-8 space-y-8">
+          <div className="backdrop-blur-xl bg-surface/95 rounded-2xl border border-gray-200/50 shadow-xl p-8 space-y-8">
             <div className="text-center pb-6 border-b border-gray-200">
               <div className="flex justify-center mb-4">{getRiskIcon(finding.risk_rating)}</div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{finding.title}</h1>
+              <h1 className="text-3xl font-bold text-primary mb-2">{finding.title}</h1>
               <div className="flex items-center justify-center gap-3 text-sm text-gray-600">
                 <span className="font-mono">{finding.finding_code || finding.code}</span>
                 <span>•</span>
@@ -151,7 +151,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="h-5 w-5 text-blue-600" />
-                <h2 className="text-xl font-semibold text-gray-900">Finding Description</h2>
+                <h2 className="text-xl font-semibold text-primary">Finding Description</h2>
               </div>
               <div className="bg-blue-50/50 rounded-lg p-6 border border-blue-100">
                 <p className="text-gray-700 leading-relaxed">
@@ -164,7 +164,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <AlertTriangle className="h-5 w-5 text-orange-600" />
-                  <h2 className="text-xl font-semibold text-gray-900">Impact</h2>
+                  <h2 className="text-xl font-semibold text-primary">Impact</h2>
                 </div>
                 <div className="bg-orange-50/50 rounded-lg p-6 border border-orange-100">
                   <div
@@ -179,7 +179,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <h2 className="text-xl font-semibold text-gray-900">Recommendations</h2>
+                  <h2 className="text-xl font-semibold text-primary">Recommendations</h2>
                 </div>
                 <div className="bg-green-50/50 rounded-lg p-6 border border-green-100">
                   <div
@@ -196,7 +196,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
                   <Clock className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="text-xs text-gray-500">Published</p>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-primary">
                       {finding.published_at
                         ? new Date(finding.published_at).toLocaleDateString()
                         : 'Not published'}
@@ -207,7 +207,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
                   <Shield className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="text-xs text-gray-500">Status</p>
-                    <p className="text-sm font-medium text-gray-900">{finding.status}</p>
+                    <p className="text-sm font-medium text-primary">{finding.status}</p>
                   </div>
                 </div>
               </div>
@@ -216,10 +216,10 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
         </div>
       </div>
 
-      <div className="col-span-5 bg-slate-50 border-l border-slate-200 overflow-auto">
+      <div className="col-span-5 bg-canvas border-l border-slate-200 overflow-auto">
         <div className="p-8">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Your Response</h2>
+            <h2 className="text-2xl font-bold text-primary mb-4">Your Response</h2>
             <WorkflowStepper currentStage={workflowStage} />
           </div>
 
@@ -247,8 +247,8 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
 
           {workflowStage === 'RESPONDING' && isAccepting && (
             <div className="space-y-6">
-              <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-primary mb-4">
                   Action Plan Details
                 </h3>
 
@@ -262,7 +262,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
                       value={planTitle}
                       onChange={(e) => setPlanTitle(e.target.value)}
                       placeholder="Brief title for your action plan"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
                     />
                   </div>
 
@@ -275,7 +275,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
                       onChange={(e) => setPlanDescription(e.target.value)}
                       placeholder="Describe the actions you will take to address this finding"
                       rows={4}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
                     />
                   </div>
 
@@ -290,7 +290,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
                         value={responsiblePerson}
                         onChange={(e) => setResponsiblePerson(e.target.value)}
                         placeholder="Name and title of responsible person"
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
                       />
                     </div>
                   </div>
@@ -305,7 +305,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
                         type="date"
                         value={targetDate}
                         onChange={(e) => setTargetDate(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
                       />
                     </div>
                   </div>
@@ -345,8 +345,8 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
 
           {workflowStage === 'RESPONDING' && isDisputing && (
             <div className="space-y-6">
-              <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Dispute Reason</h3>
+              <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-primary mb-4">Dispute Reason</h3>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -357,7 +357,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
                     onChange={(e) => setDisputeReason(e.target.value)}
                     placeholder="Provide detailed explanation for your dispute"
                     rows={6}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-surface"
                   />
                 </div>
               </div>
@@ -394,9 +394,9 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
           )}
 
           {workflowStage === 'SUBMITTED' && (
-            <div className="bg-white rounded-lg border border-slate-200 p-8 shadow-sm text-center">
+            <div className="bg-surface rounded-lg border border-slate-200 p-8 shadow-sm text-center">
               <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Response Submitted</h3>
+              <h3 className="text-2xl font-bold text-primary mb-2">Response Submitted</h3>
               <p className="text-gray-600 mb-6">
                 Your response has been successfully submitted to the audit team.
               </p>

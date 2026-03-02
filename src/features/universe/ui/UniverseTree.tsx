@@ -65,7 +65,7 @@ export const UniverseTree = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full h-[700px] bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center">
+      <div className="w-full h-[700px] bg-surface rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-slate-200 border-t-blue-500 rounded-full animate-spin" />
           <p className="text-sm text-slate-400 font-medium tracking-wide">Denetim evreni yükleniyor...</p>
@@ -92,7 +92,7 @@ export const UniverseTree = () => {
 
   if (!flatEntities.length) {
     return (
-      <div className="w-full h-[700px] bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 flex items-center justify-center">
+      <div className="w-full h-[700px] bg-canvas rounded-2xl border-2 border-dashed border-slate-200 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-slate-300 text-2xl">🏛</span>
@@ -127,11 +127,11 @@ export const UniverseTree = () => {
           variant={BackgroundVariant.Dots}
         />
         <Controls
-          className="bg-white/90 backdrop-blur-sm border border-slate-200 shadow-sm rounded-xl"
+          className="bg-surface/90 backdrop-blur-sm border border-slate-200 shadow-sm rounded-xl"
           showInteractive={false}
         />
         <MiniMap
-          className="bg-white/90 backdrop-blur-sm border border-slate-200 shadow-sm rounded-xl"
+          className="bg-surface/90 backdrop-blur-sm border border-slate-200 shadow-sm rounded-xl"
           nodeColor={(node) => {
             const type = node.data?.type as string;
             const typeColorMap: Record<string, string> = {

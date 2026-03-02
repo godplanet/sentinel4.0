@@ -134,7 +134,7 @@ export const AlignmentMap = () => {
                    className={clsx(
                      "transition-all duration-500 ease-out relative",
                      isConnected 
-                       ? "scale-105 shadow-[0_0_30px_rgba(99,102,241,0.2)] ring-1 ring-indigo-500 rounded-xl z-20 bg-white" 
+                       ? "scale-105 shadow-[0_0_30px_rgba(99,102,241,0.2)] ring-1 ring-indigo-500 rounded-xl z-20 bg-surface" 
                        : activeGoalId ? "opacity-30 translate-x-4 blur-[1px]" : ""
                    )}
                  >
@@ -162,7 +162,7 @@ export const AlignmentMap = () => {
               <div 
                 key={idx}
                 className={clsx(
-                  "p-4 rounded-xl border bg-white/80 backdrop-blur-md flex items-center gap-3 shadow-sm transition-all duration-500",
+                  "p-4 rounded-xl border bg-surface/80 backdrop-blur-md flex items-center gap-3 shadow-sm transition-all duration-500",
                   activeGoalId ? "border-emerald-200 shadow-emerald-100 translate-x-[-5px]" : "border-slate-200"
                 )}
               >

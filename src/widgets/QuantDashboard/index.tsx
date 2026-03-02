@@ -76,7 +76,7 @@ export function QuantDashboard() {
 
   if (scenarios.length === 0) {
     return (
-      <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+      <div className="bg-surface rounded-lg border border-slate-200 p-12 text-center">
         <BarChart3 className="w-16 h-16 mx-auto text-slate-300 mb-4" />
         <h3 className="text-xl font-semibold text-slate-700 mb-2">
           Senaryo Bulunamadı
@@ -88,14 +88,14 @@ export function QuantDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+      <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
         <label className="block text-sm font-semibold text-slate-700 mb-3">
           Risk Senaryosu Seçin
         </label>
         <select
           value={selectedScenarioId}
           onChange={(e) => setSelectedScenarioId(e.target.value)}
-          className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-slate-900 font-medium"
+          className="w-full px-4 py-3 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-primary font-medium"
         >
           {scenarios.map((scenario) => (
             <option key={scenario.id} value={scenario.id}>
@@ -180,10 +180,10 @@ export function QuantDashboard() {
             </motion.div>
           </div>
 
-          <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+          <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="text-lg font-bold text-slate-900 mb-1">
+                <h3 className="text-lg font-bold text-primary mb-1">
                   Zarar Olasılık Dağılımı
                 </h3>
                 <p className="text-sm text-slate-600">
@@ -289,33 +289,33 @@ export function QuantDashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
-            <h3 className="text-lg font-bold text-slate-900 mb-4">Senaryo Detayları</h3>
+          <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+            <h3 className="text-lg font-bold text-primary mb-4">Senaryo Detayları</h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <h4 className="text-sm font-semibold text-slate-700 mb-3">Girdiler</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center py-2 border-b border-slate-200">
                     <span className="text-sm text-slate-600">Minimum Zarar:</span>
-                    <span className="text-sm font-semibold text-slate-900">
+                    <span className="text-sm font-semibold text-primary">
                       {formatCurrency(selectedScenario.min_loss)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-slate-200">
                     <span className="text-sm text-slate-600">Olası Zarar:</span>
-                    <span className="text-sm font-semibold text-slate-900">
+                    <span className="text-sm font-semibold text-primary">
                       {formatCurrency(selectedScenario.likely_loss)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-slate-200">
                     <span className="text-sm text-slate-600">Maksimum Zarar:</span>
-                    <span className="text-sm font-semibold text-slate-900">
+                    <span className="text-sm font-semibold text-primary">
                       {formatCurrency(selectedScenario.max_loss)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2">
                     <span className="text-sm text-slate-600">Gerçekleşme Olasılığı:</span>
-                    <span className="text-sm font-semibold text-slate-900">
+                    <span className="text-sm font-semibold text-primary">
                       {formatPercentage(selectedScenario.probability)}
                     </span>
                   </div>

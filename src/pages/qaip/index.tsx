@@ -75,10 +75,10 @@ export default function QAIPPage() {
   const [activeTab, setActiveTab] = useState<TabId>('internal');
 
   return (
-    <div className="bg-slate-50 min-h-screen p-8">
+    <div className="bg-canvas min-h-screen p-8">
       <div className="max-w-7xl mx-auto space-y-6">
 
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className="bg-surface border border-slate-200 rounded-xl p-6 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center flex-shrink-0">
               <ShieldCheck className="w-6 h-6 text-emerald-600" />
@@ -100,7 +100,7 @@ export default function QAIPPage() {
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
           <div className="border-b border-slate-200 px-6">
             <div className="flex gap-1">
               {TABS.map((tab) => (
@@ -111,7 +111,7 @@ export default function QAIPPage() {
                     'flex items-center gap-2 px-5 py-3.5 font-medium text-sm transition-all relative',
                     activeTab === tab.id
                       ? 'text-emerald-700 border-b-2 border-emerald-600'
-                      : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                      : 'text-slate-500 hover:text-slate-800 hover:bg-canvas'
                   )}
                 >
                   <tab.icon size={15} />
@@ -142,7 +142,7 @@ export default function QAIPPage() {
               <div className="space-y-6">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {STAT_CARDS.map((stat) => (
-                    <div key={stat.label} className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+                    <div key={stat.label} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-5">
                       <div className={`w-10 h-10 rounded-lg bg-${stat.color}-100 flex items-center justify-center mb-3`}>
                         <stat.icon size={20} className={`text-${stat.color}-600`} />
                       </div>
@@ -153,21 +153,21 @@ export default function QAIPPage() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 text-center">
+                  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6 text-center">
                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Eğitim Tamamlama Oranı</p>
                     <p className="text-4xl font-bold text-emerald-600">%92</p>
                   </div>
-                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 text-center">
+                  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6 text-center">
                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Rapor Gecikme Oranı</p>
                     <p className="text-4xl font-bold text-amber-600">%4</p>
                   </div>
-                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 text-center">
+                  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6 text-center">
                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Saha Bulgu Kabul Oranı</p>
                     <p className="text-4xl font-bold text-blue-600">%88</p>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+                <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
                   <div className="px-6 py-4 border-b border-slate-200">
                     <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                       <Activity size={16} className="text-blue-600" />
@@ -181,7 +181,7 @@ export default function QAIPPage() {
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-6">
-                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
                     <h3 className="text-sm font-bold text-slate-800 mb-4">Sektör Karşılaştırması</h3>
                     <div className="space-y-4">
                       {BENCHMARK_ITEMS.map((item, i) => (
@@ -205,7 +205,7 @@ export default function QAIPPage() {
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
                     <h3 className="text-sm font-bold text-slate-800 mb-4">IIA Uyum Skoru</h3>
                     <div className="text-center mb-5">
                       <div className="text-5xl font-bold text-emerald-600">8.4/10</div>
@@ -243,7 +243,7 @@ export default function QAIPPage() {
                     { label: 'Planlanan Değerlendirme', value: '1', icon: Calendar, color: 'blue' },
                     { label: 'Takip Edilen Bulgu', value: '4', icon: AlertCircle, color: 'amber' },
                   ].map((stat, i) => (
-                    <div key={i} className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
+                    <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-lg bg-${stat.color}-100 flex items-center justify-center flex-shrink-0`}>
                         <stat.icon size={20} className={`text-${stat.color}-600`} />
                       </div>
@@ -255,7 +255,7 @@ export default function QAIPPage() {
                   ))}
                 </div>
 
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                   <div className="px-6 py-4 border-b border-slate-200">
                     <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                       <FileCheck size={16} className="text-blue-600" />
@@ -264,7 +264,7 @@ export default function QAIPPage() {
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full">
-                      <thead className="bg-slate-50 border-b border-slate-200">
+                      <thead className="bg-canvas border-b border-slate-200">
                         <tr>
                           {['Değerlendirici', 'Tip', 'Tarih', 'Durum', 'Sonuç', 'Bulgular'].map((h) => (
                             <th key={h} className="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wide">
@@ -275,7 +275,7 @@ export default function QAIPPage() {
                       </thead>
                       <tbody className="divide-y divide-slate-100">
                         {EXTERNAL_REVIEWS.map((review) => (
-                          <tr key={review.id} className="hover:bg-slate-50 transition-colors">
+                          <tr key={review.id} className="hover:bg-canvas transition-colors">
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
@@ -313,7 +313,7 @@ export default function QAIPPage() {
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-6">
-                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
                     <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
                       <Award size={16} className="text-amber-600" />
                       IIA Uyum Seviyeleri
@@ -334,7 +334,7 @@ export default function QAIPPage() {
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
                     <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
                       <Users size={16} className="text-blue-600" />
                       Sonraki EQA Planı

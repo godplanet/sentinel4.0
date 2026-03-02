@@ -77,7 +77,7 @@ export default function DashboardSidebar({ filters, onFiltersChange, engagementO
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center">
               <span className="font-bold text-xl" style={{ color: '#1e3a8a' }}>S</span>
             </div>
             <span className="text-white font-bold text-xl">SENTINEL</span>

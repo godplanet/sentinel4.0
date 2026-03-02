@@ -70,7 +70,7 @@ export function FindingKanbanBoard({ findings, onFindingUpdate }: FindingKanbanB
   };
 
   return (
-    <div className="bg-white/80 backdrop-blur-xl rounded-xl border border-slate-200 p-4">
+    <div className="bg-surface/80 backdrop-blur-xl rounded-xl border border-slate-200 p-4">
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex gap-4 overflow-x-auto pb-2">
           {COLUMNS.map(column => {
@@ -81,7 +81,7 @@ export function FindingKanbanBoard({ findings, onFindingUpdate }: FindingKanbanB
               <div key={column.id} className="flex-shrink-0 w-80">
                 <div className={clsx(
                   'rounded-lg border-2 border-dashed',
-                  column.color === 'slate' && 'border-slate-200 bg-slate-50/50',
+                  column.color === 'slate' && 'border-slate-200 bg-canvas/50',
                   column.color === 'amber' && 'border-amber-200 bg-amber-50/50',
                   column.color === 'purple' && 'border-purple-200 bg-purple-50/50',
                   column.color === 'emerald' && 'border-emerald-200 bg-emerald-50/50',
@@ -139,7 +139,7 @@ export function FindingKanbanBoard({ findings, onFindingUpdate }: FindingKanbanB
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 className={clsx(
-                                  'bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:shadow-md transition-all cursor-move',
+                                  'bg-surface rounded-lg border border-slate-200 p-3 shadow-sm hover:shadow-md transition-all cursor-move',
                                   snapshot.isDragging && 'shadow-xl ring-2 ring-blue-500'
                                 )}
                               >
@@ -160,7 +160,7 @@ export function FindingKanbanBoard({ findings, onFindingUpdate }: FindingKanbanB
                                         {SEVERITY_CONFIG[finding.severity].label}
                                       </span>
                                     </div>
-                                    <h4 className="text-sm font-semibold text-slate-900 line-clamp-2 mb-2">
+                                    <h4 className="text-sm font-semibold text-primary line-clamp-2 mb-2">
                                       {finding.title}
                                     </h4>
                                     {finding.auditee_department && (

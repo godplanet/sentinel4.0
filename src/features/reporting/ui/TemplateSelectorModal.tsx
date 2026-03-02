@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   X,
@@ -14,19 +13,10 @@ import {
   BarChart2,
 } from 'lucide-react';
 import clsx from 'clsx';
-import { supabase } from '@/shared/api/supabase';
-
-interface DBTemplate {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  layout_type: string;
-  default_sections: { title: string; orderIndex: number }[];
-  tags: string[];
-  estimated_pages: string;
-  is_active: boolean;
-}
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { fetchReportTemplates, createReportFromTemplate } from '@/features/reporting/api';
+import type { DBTemplate } from '@/features/reporting/api';
+import { useState } from 'react';
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Building2, AlertTriangle, Info, Plus, Scale, BarChart2, FileText,
@@ -41,87 +31,30 @@ interface TemplateSelectorModalProps {
   onClose: () => void;
 }
 
-async function createReportFromTemplate(template: DBTemplate): Promise<string | null> {
-  const { data: reportData, error: reportError } = await supabase
-    .from('m6_reports')
-    .insert({
-      title:
-        template.layout_type === 'blank'
-          ? 'Yeni Denetim Raporu'
-          : `${template.name} — ${new Date().toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}`,
-      status: 'draft',
-      layout_type: template.layout_type,
-      report_type: template.layout_type,
-      risk_level: 'medium',
-      auditor_name: 'Denetçi',
-      finding_count: 0,
-      theme_config: { paperStyle: 'zen_paper', typography: 'merriweather_inter' },
-      executive_summary: {
-        score: 0,
-        grade: 'N/A',
-        assuranceLevel: '',
-        trend: 0,
-        previousGrade: '',
-        layoutType: template.layout_type,
-        findingCounts: { critical: 0, high: 0, medium: 0, low: 0, observation: 0 },
-        briefingNote: '',
-        sections: {
-          auditOpinion: '',
-          criticalRisks: '',
-          strategicRecommendations: '',
-          managementAction: '',
-        },
-        dynamicSections: template.default_sections.map((s, idx) => ({
-          id: `ds-${idx}`,
-          title: s.title,
-          content: '',
-        })),
-        dynamicMetrics:
-          template.layout_type === 'investigation'
-            ? { maliBoyu: '', olayTarihi: '', ilgiliBirim: '' }
-            : undefined,
-      },
-      workflow: {},
-    })
-    .select('id')
-    .maybeSingle();
-
-  if (reportError) throw reportError;
-  const reportId = reportData?.id;
-  if (!reportId) return null;
-
-  for (const section of template.default_sections) {
-    await supabase.from('m6_report_sections').insert({
-      report_id: reportId,
-      title: section.title,
-      order_index: section.orderIndex,
-    });
-  }
-
-  return reportId;
-}
-
 export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalProps) {
   const navigate = useNavigate();
-  const [templates, setTemplates] = useState<DBTemplate[]>([]);
-  const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [creating, setCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!open) return;
-    setLoadingTemplates(true);
-    supabase
-      .from('m6_report_templates')
-      .select('*')
-      .eq('is_active', true)
-      .order('created_at', { ascending: true })
-      .then(({ data, error: err }) => {
-        if (!err && data) setTemplates(data as DBTemplate[]);
-        setLoadingTemplates(false);
-      });
-  }, [open]);
+  const { data: templates = [], isLoading: loadingTemplates } = useQuery({
+    queryKey: ['report-templates'],
+    queryFn: fetchReportTemplates,
+    enabled: open,
+  });
+
+  const createMutation = useMutation({
+    mutationFn: (template: DBTemplate) => createReportFromTemplate(template),
+    onSuccess: (id) => {
+      if (id) {
+        onClose();
+        navigate(`/reporting/zen-editor/${id}`);
+      }
+    },
+    onError: (err: unknown) => {
+      setError(err instanceof Error ? err.message : 'Rapor oluşturulamadı.');
+      setSelectedId(null);
+    },
+  });
 
   if (!open) return null;
 
@@ -138,23 +71,12 @@ export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalPr
   };
 
   const allTemplates = [BLANK_TEMPLATE, ...templates];
+  const creating = createMutation.isPending;
 
-  const handleSelect = async (template: DBTemplate) => {
+  const handleSelect = (template: DBTemplate) => {
     setSelectedId(template.id);
-    setCreating(true);
     setError(null);
-    try {
-      const id = await createReportFromTemplate(template);
-      if (id) {
-        onClose();
-        navigate(`/reporting/zen-editor/${id}`);
-      }
-    } catch (err: any) {
-      setError(err?.message ?? 'Rapor oluşturulamadı.');
-      setSelectedId(null);
-    } finally {
-      setCreating(false);
-    }
+    createMutation.mutate(template);
   };
 
   return (
@@ -163,7 +85,7 @@ export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalPr
       style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)' }}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden"
+        className="bg-surface rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
@@ -172,7 +94,7 @@ export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalPr
               <BookOpen size={18} className="text-blue-600" />
             </div>
             <div>
-              <h2 className="font-sans font-semibold text-slate-900 text-base">Rapor Şablonu Seçin</h2>
+              <h2 className="font-sans font-semibold text-primary text-base">Rapor Şablonu Seçin</h2>
               <p className="text-xs font-sans text-slate-500 mt-0.5">
                 Standart şablonlardan biri ile başlayın veya boş sayfa ile devam edin
               </p>
@@ -215,10 +137,10 @@ export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalPr
                       'w-full text-left rounded-xl border p-4 transition-all duration-150 group',
                       'focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1',
                       isDisabled
-                        ? 'opacity-50 cursor-not-allowed border-slate-200 bg-white'
+                        ? 'opacity-50 cursor-not-allowed border-slate-200 bg-surface'
                         : selectedId === template.id && creating
                           ? 'border-blue-500 shadow-md bg-blue-50/30'
-                          : 'border-slate-200 bg-white hover:border-blue-400 hover:shadow-md cursor-pointer',
+                          : 'border-slate-200 bg-surface hover:border-blue-400 hover:shadow-md cursor-pointer',
                     )}
                   >
                     <div className="flex items-start gap-4">
@@ -229,7 +151,7 @@ export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalPr
                             ? 'bg-red-50 group-hover:bg-red-100'
                             : template.layout_type === 'info_note'
                               ? 'bg-blue-50 group-hover:bg-blue-100'
-                              : 'bg-slate-50 group-hover:bg-slate-100',
+                              : 'bg-canvas group-hover:bg-slate-100',
                         )}
                       >
                         {isLoading ? (
@@ -258,7 +180,7 @@ export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalPr
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="font-sans font-semibold text-slate-900 text-sm">
+                          <span className="font-sans font-semibold text-primary text-sm">
                             {template.name}
                           </span>
                           {template.estimated_pages !== 'Sınırsız' && (
@@ -290,14 +212,14 @@ export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalPr
                             {template.default_sections.slice(0, 4).map((s, idx) => (
                               <span
                                 key={idx}
-                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-50 border border-slate-200 text-[10px] font-sans text-slate-500"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-canvas border border-slate-200 text-[10px] font-sans text-slate-500"
                               >
                                 <FileText size={9} />
                                 {s.title}
                               </span>
                             ))}
                             {template.default_sections.length > 4 && (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded bg-slate-50 border border-slate-200 text-[10px] font-sans text-slate-400">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded bg-canvas border border-slate-200 text-[10px] font-sans text-slate-400">
                                 +{template.default_sections.length - 4} daha
                               </span>
                             )}
@@ -316,7 +238,7 @@ export function TemplateSelectorModal({ open, onClose }: TemplateSelectorModalPr
           )}
         </div>
 
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50">
+        <div className="px-6 py-4 border-t border-slate-100 bg-canvas/50">
           <p className="text-[11px] font-sans text-slate-400 text-center">
             Şablon seçildikten sonra tüm bölümler düzenlenebilir durumda açılacaktır.
           </p>

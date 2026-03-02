@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Building2, X, Loader2, Calendar, AlertTriangle } from 'lucide-react';
+import { Building2, X, Loader2, Calendar, AlertTriangle, Zap } from 'lucide-react';
 import { useCreateEntity, useUpdateEntity, useAuditEntities } from '@/entities/universe';
 import type { AuditEntity, EntityType, AuditFrequency } from '@/entities/universe/model/types';
 import { calculateNextAuditDue } from '../lib/audit-health';
@@ -39,6 +39,9 @@ export function EntityFormModal({ entity, onClose }: EntityFormModalProps) {
   // Audit cycle fields
   const [auditFrequency, setAuditFrequency] = useState<string>(entity?.audit_frequency ?? '');
   const [lastAuditDate, setLastAuditDate] = useState<string>(entity?.last_audit_date ?? '');
+
+  // Basel IV & Velocity
+  const [velocityMultiplier, setVelocityMultiplier] = useState<number>(entity?.velocity_multiplier ?? 1.0);
 
   // Risk components
   const [riskOperational, setRiskOperational] = useState<number>(entity?.risk_operational ?? 0);
@@ -94,12 +97,13 @@ export function EntityFormModal({ entity, onClose }: EntityFormModalProps) {
       await updateEntity.mutateAsync({
         id: entity.id,
         ...payload,
+        velocity_multiplier: velocityMultiplier,
       });
     } else {
       await createEntity.mutateAsync({
         ...payload,
         path: generatePath(),
-        velocity_multiplier: 1.0,
+        velocity_multiplier: velocityMultiplier,
       });
     }
     onClose();
@@ -110,16 +114,16 @@ export function EntityFormModal({ entity, onClose }: EntityFormModalProps) {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[90vh] overflow-hidden"
+        className="bg-surface rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[90vh] overflow-hidden"
       >
         {/* HEADER */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-100 shrink-0 bg-white z-10">
+        <div className="flex items-center justify-between p-6 border-b border-slate-100 shrink-0 bg-surface z-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
               <Building2 size={18} className="text-blue-600" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg font-bold text-primary">
                 {isEdit ? 'Varlık Düzenle' : 'Yeni Varlık Ekle'}
               </h2>
               <p className="text-xs text-slate-500">Denetim evrenine varlık ekleyin</p>
@@ -131,7 +135,7 @@ export function EntityFormModal({ entity, onClose }: EntityFormModalProps) {
         </div>
 
         {/* BODY - SCROLLABLE */}
-        <div className="p-6 overflow-y-auto flex-1 space-y-5 bg-slate-50/30">
+        <div className="p-6 overflow-y-auto flex-1 space-y-5 bg-canvas/30">
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1.5">Varlık Adı</label>
             <input
@@ -428,6 +432,45 @@ export function EntityFormModal({ entity, onClose }: EntityFormModalProps) {
             </div>
           </div>
 
+          {/* BASEL IV & VELOCITY SECTION */}
+          <div className="border border-violet-200 bg-violet-50 rounded-lg p-4 space-y-3">
+            <div className="flex items-center gap-2 text-xs font-bold text-violet-700 mb-2">
+              <Zap size={14} />
+              Basel IV &amp; Risk Hızı Parametreleri
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-slate-700 mb-1">Risk Hızı (Velocity) Katsayısı</label>
+                <select
+                  value={velocityMultiplier}
+                  onChange={e => setVelocityMultiplier(parseFloat(e.target.value))}
+                  className="w-full px-2 py-1.5 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                >
+                  <option value={1.0}>Düşük - Standart (1.0x)</option>
+                  <option value={1.2}>Orta - Hızlı Gelişen (1.2x)</option>
+                  <option value={1.5}>Yüksek - Ani Etki (1.5x)</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-slate-700 mb-1">Gerçekleşmiş Tarihsel Kayıp (Basel IV - TL)</label>
+                <input
+                  type="number"
+                  min={0}
+                  value={metadata.historical_loss ?? ''}
+                  onChange={e => setMetadata({ ...metadata, historical_loss: +e.target.value })}
+                  className="w-full px-2 py-1.5 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                  placeholder="örn: 500000"
+                />
+              </div>
+            </div>
+            <div className="text-xs text-violet-700 bg-violet-100 rounded px-2 py-1.5">
+              ⚡ Seçili katsayı: <span className="font-bold">{velocityMultiplier}x</span>
+              {metadata.historical_loss ? (
+                <span className="ml-2">— Basel IV Kayıp: <span className="font-bold">{Number(metadata.historical_loss).toLocaleString('tr-TR')} TL</span></span>
+              ) : null}
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-3 pb-2">
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1.5">Risk Skoru (0-100)</label>
@@ -456,7 +499,7 @@ export function EntityFormModal({ entity, onClose }: EntityFormModalProps) {
         </div>
 
         {/* FOOTER */}
-        <div className="flex gap-3 p-6 border-t border-slate-100 shrink-0 bg-white z-10">
+        <div className="flex gap-3 p-6 border-t border-slate-100 shrink-0 bg-surface z-10">
           <button onClick={onClose} className="flex-1 py-2.5 bg-slate-100 text-slate-600 rounded-lg font-semibold text-sm hover:bg-slate-200 transition-colors">
             İptal
           </button>

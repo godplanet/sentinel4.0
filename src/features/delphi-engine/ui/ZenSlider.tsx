@@ -84,7 +84,7 @@ export function ZenSlider({ label, subLabel, value, onChange }: ZenSliderProps) 
           style={{ width: `${fillPct}%` }}
         />
         <div
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-white shadow-md border border-slate-200 transition-all duration-200 group-hover:scale-110 group-hover:shadow-lg"
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-surface shadow-md border border-slate-200 transition-all duration-200 group-hover:scale-110 group-hover:shadow-lg"
           style={{ left: `${fillPct}%` }}
         />
       </div>

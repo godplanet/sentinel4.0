@@ -47,7 +47,7 @@ export function RootCauseEngine({ data, onChange }: RootCauseEngineProps) {
             'px-4 py-2 font-medium text-sm transition-all border-b-2',
             activeTab === 'five_whys'
               ? 'border-blue-600 text-blue-600'
-              : 'border-transparent text-slate-600 hover:text-slate-900'
+              : 'border-transparent text-slate-600 hover:text-primary'
           )}
         >
           5 Neden (5 Whys)
@@ -58,7 +58,7 @@ export function RootCauseEngine({ data, onChange }: RootCauseEngineProps) {
             'px-4 py-2 font-medium text-sm transition-all border-b-2',
             activeTab === 'fishbone'
               ? 'border-blue-600 text-blue-600'
-              : 'border-transparent text-slate-600 hover:text-slate-900'
+              : 'border-transparent text-slate-600 hover:text-primary'
           )}
         >
           Balık Kılçığı (Ishikawa)
@@ -69,14 +69,14 @@ export function RootCauseEngine({ data, onChange }: RootCauseEngineProps) {
             'px-4 py-2 font-medium text-sm transition-all border-b-2',
             activeTab === 'bowtie'
               ? 'border-blue-600 text-blue-600'
-              : 'border-transparent text-slate-600 hover:text-slate-900'
+              : 'border-transparent text-slate-600 hover:text-primary'
           )}
         >
           Papyon (Bowtie)
         </button>
       </div>
 
-      <div className="p-4 bg-white rounded-lg border border-slate-200">
+      <div className="p-4 bg-surface rounded-lg border border-slate-200">
         {activeTab === 'five_whys' && <FiveWhysTab data={data} onChange={onChange} />}
         {activeTab === 'fishbone' && <FishboneTab data={data} onChange={onChange} />}
         {activeTab === 'bowtie' && <BowtieTab data={data} onChange={onChange} />}
@@ -208,11 +208,11 @@ function FishboneTab({ data, onChange }: RootCauseEngineProps) {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">{cat.icon}</span>
-                <h4 className="font-semibold text-slate-900">{cat.label}</h4>
+                <h4 className="font-semibold text-primary">{cat.label}</h4>
               </div>
               <button
                 onClick={() => addItem(cat.key)}
-                className="p-1 hover:bg-white rounded transition-colors"
+                className="p-1 hover:bg-surface rounded transition-colors"
               >
                 <Plus size={16} className="text-slate-600" />
               </button>
@@ -226,11 +226,11 @@ function FishboneTab({ data, onChange }: RootCauseEngineProps) {
                     value={item}
                     onChange={(e) => updateItem(cat.key, index, e.target.value)}
                     placeholder="Neden ekleyin..."
-                    className="flex-1 px-2 py-1.5 text-sm border border-slate-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 px-2 py-1.5 text-sm border border-slate-300 rounded bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <button
                     onClick={() => removeItem(cat.key, index)}
-                    className="p-1 hover:bg-white rounded transition-colors"
+                    className="p-1 hover:bg-surface rounded transition-colors"
                   >
                     <X size={14} className="text-slate-500" />
                   </button>
@@ -303,11 +303,11 @@ function BowtieTab({ data, onChange }: RootCauseEngineProps) {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <AlertCircle size={20} className="text-red-600" />
-              <h4 className="font-semibold text-slate-900">Tehditler</h4>
+              <h4 className="font-semibold text-primary">Tehditler</h4>
             </div>
             <button
               onClick={addThreat}
-              className="p-1 hover:bg-white rounded transition-colors"
+              className="p-1 hover:bg-surface rounded transition-colors"
             >
               <Plus size={16} className="text-slate-600" />
             </button>
@@ -321,11 +321,11 @@ function BowtieTab({ data, onChange }: RootCauseEngineProps) {
                   value={threat}
                   onChange={(e) => updateThreat(index, e.target.value)}
                   placeholder="Tehdit ekleyin..."
-                  className="flex-1 px-2 py-1.5 text-sm border border-slate-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="flex-1 px-2 py-1.5 text-sm border border-slate-300 rounded bg-surface focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
                 <button
                   onClick={() => removeThreat(index)}
-                  className="p-1 hover:bg-white rounded transition-colors"
+                  className="p-1 hover:bg-surface rounded transition-colors"
                 >
                   <X size={14} className="text-slate-500" />
                 </button>
@@ -340,13 +340,13 @@ function BowtieTab({ data, onChange }: RootCauseEngineProps) {
         <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-4">
           <div className="flex items-center gap-2 mb-3">
             <Zap size={20} className="text-amber-600" />
-            <h4 className="font-semibold text-slate-900">Tepe Olay</h4>
+            <h4 className="font-semibold text-primary">Tepe Olay</h4>
           </div>
           <textarea
             value={bowtie.top_event}
             onChange={(e) => updateTopEvent(e.target.value)}
             placeholder="Ana bulgunuzu buraya yazın (merkez olay)..."
-            className="w-full px-3 py-2 text-sm border border-slate-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
+            className="w-full px-3 py-2 text-sm border border-slate-300 rounded bg-surface focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
             rows={6}
           />
         </div>
@@ -355,11 +355,11 @@ function BowtieTab({ data, onChange }: RootCauseEngineProps) {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Target size={20} className="text-orange-600" />
-              <h4 className="font-semibold text-slate-900">Sonuçlar</h4>
+              <h4 className="font-semibold text-primary">Sonuçlar</h4>
             </div>
             <button
               onClick={addConsequence}
-              className="p-1 hover:bg-white rounded transition-colors"
+              className="p-1 hover:bg-surface rounded transition-colors"
             >
               <Plus size={16} className="text-slate-600" />
             </button>
@@ -373,11 +373,11 @@ function BowtieTab({ data, onChange }: RootCauseEngineProps) {
                   value={consequence}
                   onChange={(e) => updateConsequence(index, e.target.value)}
                   placeholder="Sonuç ekleyin..."
-                  className="flex-1 px-2 py-1.5 text-sm border border-slate-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="flex-1 px-2 py-1.5 text-sm border border-slate-300 rounded bg-surface focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 <button
                   onClick={() => removeConsequence(index)}
-                  className="p-1 hover:bg-white rounded transition-colors"
+                  className="p-1 hover:bg-surface rounded transition-colors"
                 >
                   <X size={14} className="text-slate-500" />
                 </button>

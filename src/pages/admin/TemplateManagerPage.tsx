@@ -4,7 +4,7 @@ import { TemplateBuilder } from '@/features/admin/template-manager/ui/TemplateBu
 
 export default function TemplateManagerPage() {
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Sablon Yoneticisi"
         subtitle="RKM, Bulgu ve Aksiyon sablonlarini yonet"

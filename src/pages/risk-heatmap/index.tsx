@@ -33,14 +33,14 @@ export default function RiskHeatmapPage() {
 
   if (isLoading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-slate-50">
+      <div className="h-screen flex items-center justify-center bg-canvas">
         <Loader2 className="animate-spin text-slate-400" size={32} />
       </div>
     );
   }
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-canvas">
       <PageHeader
         title="Risk Isi Haritasi"
         subtitle={`Stratejik Radar & 5x5 Matris - ${assessments.length} canli degerlendirme`}
@@ -51,7 +51,7 @@ export default function RiskHeatmapPage() {
         <div className="flex flex-wrap items-center gap-4 mb-6">
           <div className="flex items-center gap-2">
             <Filter size={14} className="text-slate-500" />
-            <div className="flex bg-white border border-slate-200 p-0.5 rounded-lg shadow-sm flex-wrap">
+            <div className="flex bg-surface border border-slate-200 p-0.5 rounded-lg shadow-sm flex-wrap">
               {categories.map(cat => (
                 <button
                   key={cat}
@@ -60,7 +60,7 @@ export default function RiskHeatmapPage() {
                     'px-3 py-1.5 text-xs font-semibold rounded-md transition-all',
                     selectedCategory === cat
                       ? 'bg-blue-600 text-white'
-                      : 'text-slate-600 hover:bg-slate-50'
+                      : 'text-slate-600 hover:bg-canvas'
                   )}
                 >
                   {cat}
@@ -122,7 +122,7 @@ function NewAssessmentModal({
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6"
+        className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-6"
       >
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -130,7 +130,7 @@ function NewAssessmentModal({
               <Shield size={18} className="text-blue-600" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Yeni Risk Degerlendirmesi</h2>
+              <h2 className="text-lg font-bold text-primary">Yeni Risk Degerlendirmesi</h2>
               <p className="text-xs text-slate-500">Varliga risk atayarak heatmap'i guncelleyin</p>
             </div>
           </div>
@@ -204,7 +204,7 @@ function NewAssessmentModal({
             </div>
           </div>
 
-          <div className="bg-slate-50 rounded-lg p-3 flex items-center justify-between">
+          <div className="bg-canvas rounded-lg p-3 flex items-center justify-between">
             <span className="text-xs font-medium text-slate-600">Dogal Risk Skoru</span>
             <span className={clsx(
               'text-lg font-black',

@@ -64,7 +64,7 @@ export const reportApi = {
     return data || [];
   },
 
-  async saveTiptapContent(id: string, content: any): Promise<void> {
+  async saveTiptapContent(id: string, content: Record<string, unknown>): Promise<void> {
     const { error } = await supabase
       .from('reports')
       .update({ tiptap_content: content, updated_at: new Date().toISOString() })

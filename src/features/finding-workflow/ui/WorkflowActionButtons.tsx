@@ -170,7 +170,7 @@ function ValidationModal({ errors, warnings, onClose }: ValidationModalProps) {
             </div>
             <button
               onClick={onClose}
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 hover:text-white hover:bg-white/8 transition-colors"
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 hover:text-white hover:bg-surface/8 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>

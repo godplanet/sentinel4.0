@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import { Clock, Trash2 } from 'lucide-react';
-import { supabase } from '@/shared/api/supabase';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-
-interface TimeLog {
-  id: string;
-  user_id: string;
-  hours_spent: number;
-  activity_date: string;
-  created_at: string;
-}
+import {
+  fetchTimeLogsRecent,
+  fetchWorkpaperTotalHours,
+  logTimeEntry,
+  deleteTimeLog,
+} from '@/entities/workpaper/api/timeLogApi';
 
 interface TimeLogEntryProps {
   workpaperId: string;
@@ -21,47 +18,16 @@ export function TimeLogEntry({ workpaperId }: TimeLogEntryProps) {
 
   const { data: timeLogs = [], isLoading } = useQuery({
     queryKey: ['time-logs', workpaperId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('time_logs')
-        .select('*')
-        .eq('workpaper_id', workpaperId)
-        .order('created_at', { ascending: false })
-        .limit(10);
-
-      if (error) throw error;
-      return data as TimeLog[];
-    },
+    queryFn: () => fetchTimeLogsRecent(workpaperId),
   });
 
   const { data: totalHours } = useQuery({
     queryKey: ['workpaper-total-hours', workpaperId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('workpapers')
-        .select('total_hours_spent')
-        .eq('id', workpaperId)
-        .single();
-
-      if (error) throw error;
-      return data?.total_hours_spent || 0;
-    },
+    queryFn: () => fetchWorkpaperTotalHours(workpaperId),
   });
 
-  const logTime = useMutation({
-    mutationFn: async (hoursSpent: number) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
-
-      const { error } = await supabase.from('time_logs').insert([{
-        workpaper_id: workpaperId,
-        user_id: user.id,
-        hours_spent: hoursSpent,
-        activity_date: new Date().toISOString().split('T')[0],
-      }]);
-
-      if (error) throw error;
-    },
+  const logMutation = useMutation({
+    mutationFn: (hoursSpent: number) => logTimeEntry({ workpaperId, hours_spent: hoursSpent }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['time-logs', workpaperId] });
       queryClient.invalidateQueries({ queryKey: ['workpaper-total-hours', workpaperId] });
@@ -69,11 +35,8 @@ export function TimeLogEntry({ workpaperId }: TimeLogEntryProps) {
     },
   });
 
-  const deleteLog = useMutation({
-    mutationFn: async (logId: string) => {
-      const { error } = await supabase.from('time_logs').delete().eq('id', logId);
-      if (error) throw error;
-    },
+  const deleteMutation = useMutation({
+    mutationFn: (logId: string) => deleteTimeLog(logId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['time-logs', workpaperId] });
       queryClient.invalidateQueries({ queryKey: ['workpaper-total-hours', workpaperId] });
@@ -86,7 +49,7 @@ export function TimeLogEntry({ workpaperId }: TimeLogEntryProps) {
       alert('Lütfen 0 ile 24 arasında geçerli bir saat değeri girin');
       return;
     }
-    logTime.mutate(hoursNum);
+    logMutation.mutate(hoursNum);
   };
 
   return (
@@ -110,15 +73,15 @@ export function TimeLogEntry({ workpaperId }: TimeLogEntryProps) {
           value={hours}
           onChange={(e) => setHours(e.target.value)}
           placeholder="Saat (ör: 1.5)"
-          className="flex-1 px-3 py-2 text-sm border border-cyan-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 bg-white"
+          className="flex-1 px-3 py-2 text-sm border border-cyan-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 bg-surface"
           onKeyPress={(e) => e.key === 'Enter' && handleLogTime()}
         />
         <button
           onClick={handleLogTime}
-          disabled={logTime.isPending || !hours}
+          disabled={logMutation.isPending || !hours}
           className="px-4 py-2 bg-cyan-600 text-white text-sm font-medium rounded-lg hover:bg-cyan-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {logTime.isPending ? 'Kaydediliyor...' : 'Log Time'}
+          {logMutation.isPending ? 'Kaydediliyor...' : 'Log Time'}
         </button>
       </div>
 
@@ -130,7 +93,7 @@ export function TimeLogEntry({ workpaperId }: TimeLogEntryProps) {
           {timeLogs.slice(0, 5).map((log) => (
             <div
               key={log.id}
-              className="flex items-center justify-between text-xs bg-white/80 rounded px-2.5 py-1.5 border border-cyan-100"
+              className="flex items-center justify-between text-xs bg-surface/80 rounded px-2.5 py-1.5 border border-cyan-100"
             >
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-cyan-700">{log.hours_spent}h</span>
@@ -147,7 +110,7 @@ export function TimeLogEntry({ workpaperId }: TimeLogEntryProps) {
               <button
                 onClick={() => {
                   if (confirm('Bu kayıt silinsin mi?')) {
-                    deleteLog.mutate(log.id);
+                    deleteMutation.mutate(log.id);
                   }
                 }}
                 className="p-1 text-cyan-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"

@@ -55,13 +55,13 @@ export const ReviewNotesPanel = ({
   };
 
   return (
-    <div className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-lg shadow-xl h-full flex flex-col">
+    <div className="bg-surface/80 backdrop-blur-xl border border-gray-200 rounded-lg shadow-xl h-full flex flex-col">
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MessageSquare className="w-5 h-5 text-blue-600" />
-            <h3 className="font-semibold text-gray-900">İnceleme Notları</h3>
+            <h3 className="font-semibold text-primary">İnceleme Notları</h3>
           </div>
           <div className="flex items-center gap-2">
             {openNotes.length > 0 && (
@@ -124,7 +124,7 @@ export const ReviewNotesPanel = ({
                   setNewNoteField('');
                   setNewNoteText('');
                 }}
-                className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+                className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-canvas transition-colors text-sm"
               >
                 İptal
               </button>

@@ -75,7 +75,7 @@ export default function StakeholderManagementPage() {
           { label: 'Düzenleyiciler', value: stakeholders.filter(s => s.type === 'REGULATOR').length.toString(), icon: Building, color: 'red' },
           { label: 'Yüksek Etkileşim', value: stakeholders.filter(s => s.influence_level === 'HIGH').length.toString(), icon: MessageCircle, color: 'green' },
         ].map((stat, i) => (
-          <div key={i} className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <div className={`w-10 h-10 rounded-lg bg-${stat.color}-100 flex items-center justify-center`}>
                 <stat.icon size={20} className={`text-${stat.color}-600`} />
@@ -87,7 +87,7 @@ export default function StakeholderManagementPage() {
         ))}
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
         <div className="p-6 border-b border-slate-200">
           <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <Users size={20} className="text-blue-600" />
@@ -96,7 +96,7 @@ export default function StakeholderManagementPage() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-canvas border-b border-slate-200">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase">
                   Paydaş
@@ -138,7 +138,7 @@ export default function StakeholderManagementPage() {
                   const TypeIcon = typeInfo.icon;
 
                   return (
-                    <tr key={stakeholder.id} className="hover:bg-slate-50 transition-colors">
+                    <tr key={stakeholder.id} className="hover:bg-canvas transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
@@ -191,7 +191,7 @@ export default function StakeholderManagementPage() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Etkileşim Haritası</h3>
           <div className="space-y-4">
             {Object.entries(STAKEHOLDER_TYPES).map(([key, type]) => {
@@ -212,7 +212,7 @@ export default function StakeholderManagementPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Yaklaşan Toplantılar</h3>
           <div className="space-y-3">
             {[

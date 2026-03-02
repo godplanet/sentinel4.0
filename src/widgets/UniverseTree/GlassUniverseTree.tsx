@@ -126,7 +126,7 @@ function TreeNode({ entity, level, onSelect, isSelected, selectionMode, isChecke
           ${
             isSelected || isChecked
               ? `backdrop-blur-xl bg-gradient-to-r ${colors.bg} border-2 ${colors.border} ${colors.glow}`
-              : `backdrop-blur-md bg-white/40 border border-white/20 hover:bg-white/60 hover:backdrop-blur-lg hover:shadow-lg`
+              : `backdrop-blur-md bg-surface/40 border border-white/20 hover:bg-surface/60 hover:backdrop-blur-lg hover:shadow-lg`
           }
         `}
         style={{ marginLeft: `${paddingLeft}px` }}
@@ -149,7 +149,7 @@ function TreeNode({ entity, level, onSelect, isSelected, selectionMode, isChecke
           </div>
         ) : hasChildren ? (
           <button
-            className="p-1 hover:bg-white/50 rounded-lg transition-all"
+            className="p-1 hover:bg-surface/50 rounded-lg transition-all"
             onClick={(e) => {
               e.stopPropagation();
               setIsExpanded(!isExpanded);
@@ -204,7 +204,7 @@ function TreeNode({ entity, level, onSelect, isSelected, selectionMode, isChecke
 
         {/* Edit Button (on hover) */}
         <button
-          className="opacity-0 group-hover:opacity-100 p-2 hover:bg-white/80 rounded-lg transition-all"
+          className="opacity-0 group-hover:opacity-100 p-2 hover:bg-surface/80 rounded-lg transition-all"
           onClick={(e) => {
             e.stopPropagation();
             onSelect?.(entity);
@@ -248,7 +248,7 @@ function TreeNode({ entity, level, onSelect, isSelected, selectionMode, isChecke
 export function GlassUniverseTree({ entities, onSelectEntity, selectedId, selectionMode, selectedIds }: GlassUniverseTreeProps) {
   if (entities.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 backdrop-blur-xl bg-white/40 rounded-2xl border border-white/30">
+      <div className="flex flex-col items-center justify-center h-64 backdrop-blur-xl bg-surface/40 rounded-2xl border border-white/30">
         <Building2 className="w-16 h-16 mb-4 text-slate-300" />
         <p className="text-slate-600 font-medium">Denetim evreni boş</p>
         <p className="text-sm text-slate-500 mt-2">Başlamak için varlık ekleyin</p>

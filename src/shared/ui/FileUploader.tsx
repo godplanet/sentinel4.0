@@ -16,7 +16,7 @@ export function FileUploader({ label = "Dosya Yükle" }: { label?: string }) {
         <span className="text-xs font-bold text-slate-500 uppercase">{label}</span>
         <button 
           onClick={handleUpload}
-          className="flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:text-indigo-600 hover:border-indigo-200 transition-all"
+          className="flex items-center gap-2 px-3 py-1.5 bg-surface border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:text-indigo-600 hover:border-indigo-200 transition-all"
         >
           <Upload size={12} /> Seç
         </button>
@@ -25,7 +25,7 @@ export function FileUploader({ label = "Dosya Yükle" }: { label?: string }) {
       {files.length > 0 && (
         <div className="space-y-2">
           {files.map((file, idx) => (
-            <div key={idx} className="flex items-center justify-between p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+            <div key={idx} className="flex items-center justify-between p-2 bg-canvas border border-slate-200 rounded-lg text-xs">
               <div className="flex items-center gap-2">
                 <FileText size={14} className="text-indigo-500"/>
                 <span className="font-medium text-slate-700">{file}</span>

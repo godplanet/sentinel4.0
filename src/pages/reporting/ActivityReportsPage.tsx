@@ -178,7 +178,7 @@ export default function ActivityReportsPage() {
           action={
           <div className="flex items-center gap-3">
             {/* Görünüm değiştirici */}
-            <div className="flex items-center bg-white/80 backdrop-blur-sm border border-white/60 rounded-lg p-1 shadow-sm">
+            <div className="flex items-center bg-surface/80 backdrop-blur-sm border border-white/60 rounded-lg p-1 shadow-sm">
               <button
                 onClick={() => setViewMode('grid')}
                 className={clsx(
@@ -223,7 +223,7 @@ export default function ActivityReportsPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-xl p-4 shadow-sm flex flex-wrap items-center gap-3">
+      <div className="bg-surface/70 backdrop-blur-xl border border-white/40 rounded-xl p-4 shadow-sm flex flex-wrap items-center gap-3">
         <div className="flex-1 min-w-[200px] relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           <input
@@ -231,7 +231,7 @@ export default function ActivityReportsPage() {
             placeholder="Rapor adı, dönem veya hazırlayan..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full pl-9 pr-4 py-2 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
@@ -240,7 +240,7 @@ export default function ActivityReportsPage() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="px-3 py-2 bg-surface border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             <option value="ALL">Tüm Türler</option>
             <option value="FAAALİYET">Faaliyet</option>
@@ -251,7 +251,7 @@ export default function ActivityReportsPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="px-3 py-2 bg-surface border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             <option value="ALL">Tüm Durumlar</option>
             <option value="ONAYLANDI">Onaylanan</option>
@@ -273,10 +273,10 @@ export default function ActivityReportsPage() {
           ))}
         </div>
       ) : (
-        <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-surface/70 backdrop-blur-xl border border-white/40 rounded-xl shadow-sm overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-50/60">
+              <tr className="border-b border-slate-200 bg-canvas/60">
                 <th className="text-left px-4 py-3 text-xs font-bold text-slate-600 uppercase tracking-wide">Rapor Başlığı</th>
                 <th className="text-left px-4 py-3 text-xs font-bold text-slate-600 uppercase tracking-wide">Tür</th>
                 <th className="text-left px-4 py-3 text-xs font-bold text-slate-600 uppercase tracking-wide">Dönem</th>
@@ -291,7 +291,7 @@ export default function ActivityReportsPage() {
                 const StatusIcon = statusCfg.icon;
                 const typeCfg = TYPE_LABELS[report.type];
                 return (
-                  <tr key={report.id} className="hover:bg-slate-50/60 transition-colors">
+                  <tr key={report.id} className="hover:bg-canvas/60 transition-colors">
                     <td className="px-4 py-3">
                       <div className="font-semibold text-slate-800 text-sm">{report.title}</div>
                       <div className="text-xs text-slate-500 mt-0.5">{report.preparedBy}</div>
@@ -339,7 +339,7 @@ function ReportCard({ report }: { report: ActivityReport }) {
   const typeCfg = TYPE_LABELS[report.type];
 
   return (
-    <div className="group bg-white/70 backdrop-blur-xl border border-white/40 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+    <div className="group bg-surface/70 backdrop-blur-xl border border-white/40 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold ${typeCfg.color}`}>
@@ -381,17 +381,17 @@ function ReportCard({ report }: { report: ActivityReport }) {
 
       {/* Actions */}
       <div className="flex items-center gap-2 mt-3">
-        <button className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-200 rounded-lg text-xs font-semibold text-slate-600 hover:text-blue-600 transition-all">
+        <button className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-canvas hover:bg-blue-50 border border-slate-200 hover:border-blue-200 rounded-lg text-xs font-semibold text-slate-600 hover:text-blue-600 transition-all">
           <Eye size={13} />
           Görüntüle
         </button>
         {report.status === 'ONAYLANDI' && (
-          <button className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-200 rounded-lg text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-all">
+          <button className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-canvas hover:bg-emerald-50 border border-slate-200 hover:border-emerald-200 rounded-lg text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-all">
             <Download size={13} />
             İndir
           </button>
         )}
-        <button className="p-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-slate-400 hover:text-slate-600 transition-colors">
+        <button className="p-2 bg-canvas hover:bg-slate-100 border border-slate-200 rounded-lg text-slate-400 hover:text-slate-600 transition-colors">
           <ChevronRight size={13} />
         </button>
       </div>

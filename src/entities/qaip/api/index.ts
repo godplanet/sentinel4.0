@@ -119,7 +119,13 @@ export async function updateQAIPReview(id: string, updates: Partial<QAIPReview>)
   return data;
 }
 
-function calculateQAIPScore(results: Record<string, string>, criteria: any[]): number {
+interface QAIPCriterion {
+  id: string;
+  weight: number;
+  [key: string]: unknown;
+}
+
+function calculateQAIPScore(results: Record<string, string>, criteria: QAIPCriterion[]): number {
   let totalScore = 0;
   let totalWeight = 0;
 

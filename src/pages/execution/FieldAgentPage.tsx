@@ -172,7 +172,7 @@ export default function FieldAgentPage() {
         <div className="flex-1 flex flex-col items-center justify-center w-full mb-8">
           {/* Status Text */}
           <div className="mb-6 text-center">
-            <p className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <p className="text-2xl font-bold text-primary dark:text-white mb-2">
               {status === 'idle' && 'Hazır'}
               {status === 'listening' && 'Dinliyorum...'}
               {status === 'processing' && 'İşleniyor...'}
@@ -228,15 +228,15 @@ export default function FieldAgentPage() {
           {/* Transcript Display */}
           {transcript && (
             <div className="mt-8 w-full max-w-lg">
-              <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-800 shadow-lg">
+              <div className="bg-surface dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-800 shadow-lg">
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Transkript:</p>
-                <p className="text-gray-900 dark:text-white italic">"{transcript}"</p>
+                <p className="text-primary dark:text-white italic">"{transcript}"</p>
 
                 {currentDraft && status === 'processing' || status === 'success' && (
                   <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Kategori:</span>
-                      <span className="text-sm font-semibold text-gray-900 dark:text-white">{currentDraft.category}</span>
+                      <span className="text-sm font-semibold text-primary dark:text-white">{currentDraft.category}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Önem:</span>
@@ -252,7 +252,7 @@ export default function FieldAgentPage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Lokasyon:</span>
-                      <span className="text-sm text-gray-900 dark:text-white">{currentDraft.location}</span>
+                      <span className="text-sm text-primary dark:text-white">{currentDraft.location}</span>
                     </div>
                   </div>
                 )}
@@ -264,7 +264,7 @@ export default function FieldAgentPage() {
         {/* Recent Drafts */}
         <div className="w-full max-w-2xl">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+            <h3 className="text-lg font-bold text-primary dark:text-white">
               Son Taslaklar ({recentDrafts.length})
             </h3>
             {recentDrafts.length > 0 && (
@@ -289,10 +289,10 @@ export default function FieldAgentPage() {
               recentDrafts.map(draft => (
                 <div
                   key={draft.id}
-                  className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow"
+                  className="bg-surface dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <h4 className="font-semibold text-gray-900 dark:text-white flex-1 pr-4">
+                    <h4 className="font-semibold text-primary dark:text-white flex-1 pr-4">
                       {draft.title}
                     </h4>
                     <span

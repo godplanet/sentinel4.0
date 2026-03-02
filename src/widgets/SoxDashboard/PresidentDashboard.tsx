@@ -48,7 +48,7 @@ export const PresidentDashboard = () => {
         <div className="relative flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-10 h-10 bg-white/10 backdrop-blur-xl rounded-lg flex items-center justify-center border border-white/10">
+              <div className="w-10 h-10 bg-surface/10 backdrop-blur-xl rounded-lg flex items-center justify-center border border-white/10">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
@@ -78,7 +78,7 @@ export const PresidentDashboard = () => {
 
         {stats && (
           <div className="relative mt-6">
-            <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+            <div className="w-full h-2.5 bg-surface/10 rounded-full overflow-hidden backdrop-blur-sm">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${stats.completionPercent}%` }}
@@ -105,7 +105,7 @@ export const PresidentDashboard = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+          className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
         >
           <h3 className="text-sm font-bold text-slate-700 mb-4">Kategori Bazli Durum</h3>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -113,7 +113,7 @@ export const PresidentDashboard = () => {
               const pct = data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0;
               const effPct = data.total > 0 ? Math.round((data.effective / data.total) * 100) : 0;
               return (
-                <div key={cat} className="bg-white/80 backdrop-blur rounded-xl border border-slate-200/50 p-4">
+                <div key={cat} className="bg-surface/80 backdrop-blur rounded-xl border border-slate-200/50 p-4">
                   <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">{cat}</div>
                   <div className="flex items-baseline gap-1.5 mb-2">
                     <span className="text-2xl font-black text-slate-800">{data.completed}</span>
@@ -137,12 +137,12 @@ export const PresidentDashboard = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+          className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
         >
           <h3 className="text-sm font-bold text-slate-700 mb-4">Son Beyanlar (Cryo-Chamber)</h3>
           <div className="space-y-2">
             {(controls || []).filter((c) => c.attestation).map((c) => (
-              <div key={c.id} className="flex items-center gap-3 p-3 bg-white/80 rounded-lg border border-slate-100/50">
+              <div key={c.id} className="flex items-center gap-3 p-3 bg-surface/80 rounded-lg border border-slate-100/50">
                 <div className={clsx(
                   'w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0',
                   c.attestation?.status === 'Effective' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600',
@@ -172,7 +172,7 @@ export const PresidentDashboard = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+          className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
         >
           <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
             <Zap size={14} className="text-amber-500" />
@@ -183,7 +183,7 @@ export const PresidentDashboard = () => {
           </h3>
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {(outbox || []).map((evt) => (
-              <div key={evt.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-white/70 border border-slate-100/50">
+              <div key={evt.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-surface/70 border border-slate-100/50">
                 <span className={clsx(
                   'text-[9px] font-bold px-1.5 py-0.5 rounded',
                   evt.status === 'Processed' ? 'bg-emerald-100 text-emerald-700' :
@@ -206,7 +206,7 @@ export const PresidentDashboard = () => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+        className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
       >
         <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
           <AlertTriangle size={14} className="text-red-500" />
@@ -214,7 +214,7 @@ export const PresidentDashboard = () => {
         </h3>
         <div className="space-y-2">
           {(controls || []).filter((c) => !c.attestation).map((c) => (
-            <div key={c.id} className="flex items-center gap-3 p-3 bg-white/80 rounded-lg border border-slate-100/50 hover:border-slate-200 transition-colors">
+            <div key={c.id} className="flex items-center gap-3 p-3 bg-surface/80 rounded-lg border border-slate-100/50 hover:border-slate-200 transition-colors">
               <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 flex-shrink-0">
                 <Clock size={16} />
               </div>
@@ -252,7 +252,7 @@ function GlassCard({ icon: Icon, label, value, color, iconColor }: {
       transition={{ duration: 0.3 }}
       className={clsx(
         'relative overflow-hidden rounded-xl p-4',
-        'bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-slate-200/20',
+        'bg-surface/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-slate-200/20',
       )}
     >
       <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-60`} />

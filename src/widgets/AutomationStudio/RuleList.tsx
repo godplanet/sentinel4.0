@@ -67,7 +67,7 @@ export const RuleList = ({ onSelectRule }: Props) => {
       </div>
 
       {!rules?.length && (
-        <div className="bg-white rounded-xl border border-dashed border-slate-200 p-12 text-center">
+        <div className="bg-surface rounded-xl border border-dashed border-slate-200 p-12 text-center">
           <AlertTriangle className="w-8 h-8 mx-auto mb-3 text-slate-300" />
           <p className="text-sm text-slate-500">Henuz otomasyon kurali tanimlanmamis</p>
         </div>
@@ -78,7 +78,7 @@ export const RuleList = ({ onSelectRule }: Props) => {
 
 function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType; label: string; value: string; color: string }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 p-4 shadow-sm flex items-center gap-3">
+    <div className="bg-surface rounded-xl border border-slate-200/80 p-4 shadow-sm flex items-center gap-3">
       <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color} shadow-sm`}>
         <Icon size={18} className="text-white" />
       </div>

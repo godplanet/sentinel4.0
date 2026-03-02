@@ -54,14 +54,14 @@ export default function GovernanceWorkbenchPage() {
 
   return (
     <div className="min-h-screen bg-[#FDFBF7]">
-      <div className="bg-white/70 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
+      <div className="bg-surface/70 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
         <div className="max-w-[1440px] mx-auto px-6 py-4 flex items-start justify-between gap-6 flex-wrap">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shadow-sm">
               <ShieldCheck size={19} className="text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-serif font-black text-slate-900 leading-tight">
+              <h1 className="text-lg font-serif font-black text-primary leading-tight">
                 Yönetim Kurulu Gözetim Merkezi
               </h1>
               <p className="text-xs text-slate-500">
@@ -80,7 +80,7 @@ export default function GovernanceWorkbenchPage() {
             <div className="h-6 w-px bg-slate-200" />
             <button
               onClick={handleReset}
-              className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold text-slate-600 border border-slate-200 rounded-lg hover:bg-canvas transition-colors"
             >
               <RefreshCw size={11} />
               Sıfırla
@@ -153,7 +153,7 @@ function FilterBar({
             'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all',
             mode === m
               ? 'bg-slate-900 text-white border-slate-900'
-              : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300',
+              : 'bg-surface text-slate-600 border-slate-200 hover:border-slate-300',
           )}
         >
           {dot && badge !== undefined && badge > 0 && (
@@ -163,7 +163,7 @@ function FilterBar({
           {badge !== undefined && (
             <span className={clsx(
               'px-1.5 rounded text-[10px]',
-              mode === m ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600',
+              mode === m ? 'bg-surface/20 text-white' : 'bg-slate-100 text-slate-600',
             )}>
               {badge}
             </span>
@@ -175,7 +175,7 @@ function FilterBar({
 }
 
 const KPI_COLORS = {
-  slate:  { bg: 'bg-slate-100',    icon: 'text-slate-600',    val: 'text-slate-900'   },
+  slate:  { bg: 'bg-slate-100',    icon: 'text-slate-600',    val: 'text-primary'   },
   maroon: { bg: 'bg-[#700000]/10', icon: 'text-[#700000]',   val: 'text-[#700000]'   },
   red:    { bg: 'bg-rose-100',     icon: 'text-rose-600',     val: 'text-rose-700'    },
   green:  { bg: 'bg-emerald-100',  icon: 'text-emerald-600',  val: 'text-emerald-700' },
@@ -198,7 +198,7 @@ function KpiCard({
 }) {
   const cfg = KPI_COLORS[color];
   return (
-    <div className="bg-white/70 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-sm">
+    <div className="bg-surface/70 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-sm">
       <div className={clsx('w-8 h-8 rounded-lg flex items-center justify-center mb-3', cfg.bg)}>
         <Icon size={14} className={clsx(cfg.icon, pulse && 'animate-pulse')} />
       </div>

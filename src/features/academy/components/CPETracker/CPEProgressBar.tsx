@@ -41,7 +41,7 @@ export function CPEProgressBar({
   const StatusIcon = statusConfig.icon;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-5">
+    <div className="bg-surface rounded-xl border border-slate-200 p-5">
       <div className="flex items-start justify-between mb-4">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
@@ -51,7 +51,7 @@ export function CPEProgressBar({
             </span>
           </div>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-3xl font-bold text-slate-900 tabular-nums">
+            <span className="text-3xl font-bold text-primary tabular-nums">
               {earnedHours.toFixed(1)}
             </span>
             <span className="text-slate-400 text-sm font-medium">
@@ -128,7 +128,7 @@ export function CPEProgressBar({
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="px-3 py-1">
-      <p className="text-slate-900 font-semibold text-sm">{value}</p>
+      <p className="text-primary font-semibold text-sm">{value}</p>
       <p className="text-slate-400 text-xs mt-0.5">{label}</p>
     </div>
   );

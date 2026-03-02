@@ -52,7 +52,7 @@ export default function FatwaGPTPage() {
         <div className="flex items-center gap-3 mb-2">
           <BookOpen className="w-8 h-8 text-emerald-600" />
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Fetva-GPT</h1>
+            <h1 className="text-3xl font-bold text-primary dark:text-white">Fetva-GPT</h1>
             <p className="text-gray-600 dark:text-gray-400">Yapay Zeka Destekli Fıkhi Danışman</p>
           </div>
           <span className="ml-auto px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
@@ -101,7 +101,7 @@ export default function FatwaGPTPage() {
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Şer'i / Fıkhi Soru Sor</h3>
+                  <h3 className="font-semibold text-primary dark:text-white">Şer'i / Fıkhi Soru Sor</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">AAOIFI standartlarına dayalı hükümler alın</p>
                 </div>
               </div>
@@ -118,7 +118,7 @@ export default function FatwaGPTPage() {
                     }
                   }}
                   placeholder="Örnek: Arabayı galeriden satın almadan müşteriye satabilir miyiz?"
-                  className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none text-gray-900 dark:text-white placeholder-gray-500"
+                  className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-surface dark:bg-gray-800 focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none text-primary dark:text-white placeholder-gray-500"
                   rows={3}
                   disabled={loading}
                 />
@@ -191,7 +191,7 @@ export default function FatwaGPTPage() {
                         {response.riskLevel === 'critical' ? 'KRİTİK' : response.riskLevel === 'high' ? 'YÜKSEK' : response.riskLevel === 'medium' ? 'ORTA' : 'DÜŞÜK'} RİSK
                       </span>
                     </div>
-                    <p className="text-gray-900 dark:text-white leading-relaxed">{response.answer}</p>
+                    <p className="text-primary dark:text-white leading-relaxed">{response.answer}</p>
                   </div>
                 </div>
 
@@ -208,7 +208,7 @@ export default function FatwaGPTPage() {
 
                 {/* Reasoning */}
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-gray-900 dark:text-white text-sm">Gerekçe:</h4>
+                  <h4 className="font-semibold text-primary dark:text-white text-sm">Gerekçe:</h4>
                   <ul className="space-y-1">
                     {response.reasoning.map((reason, idx) => (
                       <li key={idx} className="text-sm text-gray-700 dark:text-gray-300 flex items-start gap-2">
@@ -221,7 +221,7 @@ export default function FatwaGPTPage() {
 
                 {/* Citations */}
                 <div className="space-y-3">
-                  <h4 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                  <h4 className="font-semibold text-primary dark:text-white flex items-center gap-2">
                     <BookOpen className="w-4 h-4" />
                     Alıntılanan Kaynaklar:
                   </h4>
@@ -239,7 +239,7 @@ export default function FatwaGPTPage() {
           <div className="space-y-6">
             {/* Quick Stats */}
             <GlassCard className="p-4">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Bilgi Bankası</h3>
+              <h3 className="font-semibold text-primary dark:text-white mb-4">Bilgi Bankası</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">Standartlar</span>
@@ -259,7 +259,7 @@ export default function FatwaGPTPage() {
             {/* Recent Queries */}
             {history.length > 0 && (
               <GlassCard className="p-4">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Son Sorgular</h3>
+                <h3 className="font-semibold text-primary dark:text-white mb-4">Son Sorgular</h3>
                 <div className="space-y-2">
                   {history.slice(0, 5).map((item, idx) => (
                     <button

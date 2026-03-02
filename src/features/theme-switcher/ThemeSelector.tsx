@@ -68,7 +68,7 @@ export function ThemeSelector() {
                 'backdrop-blur-sm hover:-translate-y-0.5',
                 isActive
                   ? 'border-blue-500 bg-blue-50/60 shadow-md shadow-blue-500/10'
-                  : 'border-slate-200/80 bg-white/60 hover:border-slate-300 hover:shadow-md'
+                  : 'border-slate-200/80 bg-surface/60 hover:border-slate-300 hover:shadow-md'
               )}
             >
               {/* Aktif işaret */}
@@ -90,7 +90,7 @@ export function ThemeSelector() {
               <span
                 className={clsx(
                   'block text-sm font-bold mb-0.5 transition-colors',
-                  isActive ? 'text-blue-700' : 'text-slate-800 group-hover:text-slate-900'
+                  isActive ? 'text-blue-700' : 'text-slate-800 group-hover:text-primary'
                 )}
               >
                 {theme.label}

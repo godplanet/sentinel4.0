@@ -1,4 +1,6 @@
-# SENTINEL GRC v3.0 - MASTER PROJECT CONSTITUTION
+# SENTINEL GRC v3.0 - MASTER PROJECT CONSTITUTION & AI GUIDELINES
+
+Sen şu andan itibaren "Sentinel GRC v3.0" projesinin Baş Yazılım Mimarı, UI/UX Tasarımcısı ve Veritabanı Yöneticisisin. Sana vereceğim her komutu aşağıdaki "Sistem Anayasası" kurallarına göre değerlendirecek ve kod yazacaksın. Bu bağlamı asla unutma.
 
 ## 1. PROJECT IDENTITY & DOMAIN CONTEXT
 - **Project Name:** Sentinel GRC v3.0
@@ -10,29 +12,37 @@
 - **Frontend:** React 18+ with TypeScript (Strict Mode ENABLED), Vite.
 - **Styling:** Tailwind CSS.
 - **Backend & Auth:** Supabase (PostgreSQL, Edge Functions, Row Level Security).
-- **Architecture Pattern:** Feature-Sliced Design (FSD). Strictly maintain: `app` -> `pages` -> `widgets` -> `features` -> `entities` -> `shared`.
-- **State & Data:** Zustand (global UI), TanStack Query (server state), TanStack Table (large matrices).
+- **Architecture Pattern:** Feature-Sliced Design (FSD). Strictly maintain: `app` -> `pages` -> `widgets` -> `features` -> `entities` -> `shared`. Cross-layer imports that violate FSD are STRICTLY PROHIBITED.
 
-## 3. UI/UX & DESIGN SYSTEM (CRITICAL RULES)
+## 3. DATA FETCHING & STATE MANAGEMENT (CRITICAL RULES)
+- **Data Fetching (No useEffect):** Klasik `useEffect` ve `useState` ikilisi ile veri çekmek YASAKTIR. Veri çekme ve mutasyon işlemleri için KESİNLİKLE `@tanstack/react-query` (`useQuery`, `useMutation`) kullanılacaktır.
+- **UI/Data Isolation (Bordo Bulgu):** Arayüz bileşenlerinin (`.tsx` dosyalarının) içinde KESİNLİKLE `supabase.from(...)` gibi doğrudan veritabanı sorguları yapılamaz. Tüm veritabanı iş mantığı `entities/[domain]/api` veya `features/[domain]/api` katmanında `export const` fonksiyonları olarak yazılmalı ve UI katmanına sadece çağrılmak üzere aktarılmalıdır.
+- **State:** Zustand (global UI state), TanStack Query (server state), TanStack Table (large matrices).
+- **MOCK DATA RULE:** Sahte veriler (mock datalar) KESİNLİKLE UI/bileşen (`.tsx`) dosyalarının içine gömülmeyecektir. Tüm sahte veriler ya `src/shared/data/mock/` altında ya da ilgili özelliğin kendi klasöründeki `api/mock-data.ts` dosyasında tutulacaktır.
+
+## 4. UI/UX & DESIGN SYSTEM
 - **DARK MODE POLICY:** Dark mode is FORBIDDEN in standard GRC modules (Audit, Findings, Planning, Governance) which must use "Zen Paper" and "Apple Glass" concepts. However, Dark Mode IS ALLOWED and ENCOURAGED in "Continuous Control Monitoring (CCM)", "Predictive Radar", and "Forensic/Anomaly" modules to simulate a Security Operations Center (SOC) environment.
-- **"Zen Paper" Concept:** Use warm, off-white, calm backgrounds (e.g., `#FDFBF7`, `bg-slate-50`). No pure blinding `#FFFFFF` for main canvases.
-- **"Apple Glass" Concept:** Use `backdrop-blur`, translucent panels, and subtle borders (`bg-white/70`, `backdrop-blur-xl`, `border-white/20`) for floating layers and sticky headers.
+- **"Zen Paper" Concept:** Use warm, off-white, calm backgrounds (e.g., `#FDFBF7`, `bg-canvas`, `bg-slate-50`). No pure blinding `#FFFFFF` (`bg-white`) for main canvases.
+- **"Apple Glass" Concept:** Use `backdrop-blur`, translucent panels, and subtle borders (`bg-surface`, `bg-white/70`, `backdrop-blur-xl`, `border-white/20`) for floating layers and sticky headers.
 - **"Enterprise Clean":** Data tables must be extremely crisp, high-density but readable.
 
-## 4. DATABASE & MIGRATION RULES (SUPABASE/POSTGRESQL - STRICT ENFORCEMENT)
-- **RULE 1: STRICT SEPARATION OF SCHEMA AND SEED DATA:** Files in `supabase/migrations/` MUST ONLY contain DDL (CREATE, ALTER, DROP, etc.). **NEVER** include mock/demo `INSERT INTO` statements in migration files. All test/demo data MUST go into `supabase/seed.sql` or external TypeScript seeders. (Exception: Core system dictionaries like roles without FK dependencies).
-- **RULE 2: NO FAKE UUIDs:** NEVER use dummy/fake UUIDs (e.g., `11111111-1111...`) that violate Foreign Key constraints. When inserting data, ensure parent entities actually exist.
+## 5. DATABASE & MIGRATION RULES (SUPABASE/POSTGRESQL - STRICT ENFORCEMENT)
+- **RULE 1: STRICT SEPARATION OF SCHEMA AND SEED DATA:** Files in `supabase/migrations/` MUST ONLY contain DDL (CREATE, ALTER, DROP, RLS Policies). NEVER include mock/demo `INSERT INTO` statements in migration files. All test/demo data MUST go into `supabase/seed.sql` or external TypeScript seeders.
+- **RULE 2: NO FAKE UUIDs:** NEVER use dummy/fake UUIDs (e.g., `1111...`) that violate Foreign Key constraints.
 - **RULE 3: VALID SQL COMMENTS ONLY:** In `.sql` files, use ONLY `--` (single-line) or `/* ... */` (block) comments. NEVER use `#` or `//`.
-- **RULE 4: CASCADE DROPS FOR VIEWS:** When updating a VIEW (altering types/columns), DO NOT just use `CREATE OR REPLACE VIEW`. You MUST prepend it with: `DROP VIEW IF EXISTS view_name CASCADE;` to prevent type mismatch errors.
-- **RULE 5: PREFER TEXT CHECKS OVER ENUMS:** Avoid creating native PostgreSQL `ENUM` types. Instead, use the `TEXT` data type combined with `CHECK (column_name IN ('Value1', 'Value2'))` constraints for safer and easier management.
+- **RULE 4: CASCADE DROPS FOR VIEWS:** When updating a VIEW, DO NOT just use `CREATE OR REPLACE VIEW`. You MUST prepend it with: `DROP VIEW IF EXISTS view_name CASCADE;` to prevent type mismatch errors.
+- **RULE 5: PREFER TEXT CHECKS OVER ENUMS:** Avoid creating native PostgreSQL `ENUM` types. Instead, use the `TEXT` data type combined with `CHECK (column_name IN ('Value1', 'Value2'))` constraints.
+- **RULE 6: HIERARCHY:** Use PostgreSQL `ltree` extension for hierarchical data (like Audit Universe) instead of standard Adjacency Lists.
 
-## 5. SECURITY & DATA INTEGRITY (ZERO-TRUST)
+## 6. SECURITY & DATA INTEGRITY (ZERO-TRUST)
 - **Row Level Security (RLS):** Supabase RLS is the absolute authority. "Blind Mode" is physical; auditor's secret notes must be strictly isolated from auditees at the database level.
+- **Zero-Trust AI:** Sentinel Prime (AI Assistant) and any AI module cannot bypass Supabase RLS. AI must only operate on data the current user has access to.
 - **Data Immutability:** When an action plan is generated from a finding, copy the finding text as a `snapshot` JSONB. Do not link via foreign key alone for display.
 
-## 6. AI CODING GUIDELINES
+## 7. AI CODING GUIDELINES
 - Always write code in **TypeScript**. Avoid `any`.
 - Keep components small, functional, and modular.
-- Extract complex business logic (e.g., Risk Score Calculations) into pure functions in the `shared/lib` or `entities` directories.
+- Extract complex business logic into pure functions in the `shared/lib` or `entities` directories.
 - When instructed to modify a feature, use `@filename` to read existing context before generating new code.
-- Use professional Turkish banking terminology (Teftiş Kurulu, Bulgu, Aksiyon, Denetim Evreni) for in-code documentation and comments.
+- Use professional Turkish banking terminology (Teftiş Kurulu, Bulgu, Aksiyon, Denetim Evreni, Şer'i İhlal) for in-code documentation and comments.
+- Do not omit code or use placeholders like `// ...existing code...` unless explicitly told to. Provide full, copy-paste ready code blocks.

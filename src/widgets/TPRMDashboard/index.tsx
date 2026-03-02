@@ -63,7 +63,7 @@ export const TPRMDashboard = ({ onVendorClick }: Props) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+        <div className="bg-surface rounded-2xl border border-slate-200/80 p-6 shadow-sm">
           <h3 className="text-sm font-bold text-slate-700 mb-1">Risk Tier Dagilimi</h3>
           <p className="text-xs text-slate-400 mb-4">Tedarikciler seviyeye gore</p>
           <div className="relative w-36 h-36 mx-auto">
@@ -138,7 +138,7 @@ function MetricCard({
   color: string;
 }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 p-4 shadow-sm flex items-center gap-3">
+    <div className="bg-surface rounded-xl border border-slate-200/80 p-4 shadow-sm flex items-center gap-3">
       <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color} shadow-sm`}>
         <Icon size={18} className="text-white" />
       </div>

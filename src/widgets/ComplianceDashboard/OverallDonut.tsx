@@ -32,7 +32,7 @@ export const OverallDonut = ({ stats }: Props) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+    <div className="bg-surface rounded-2xl border border-slate-200/80 p-6 shadow-sm">
       <h3 className="text-sm font-bold text-slate-700 mb-1">Genel Uyum Skoru</h3>
       <p className="text-xs text-slate-400 mb-4">Tum cerceveler genelinde</p>
 
@@ -68,7 +68,7 @@ export const OverallDonut = ({ stats }: Props) => {
           <div className="text-lg font-black text-emerald-700">{coveredReqs}</div>
           <div className="text-[10px] text-emerald-600 font-medium">Kapsanan</div>
         </div>
-        <div className="bg-slate-50 rounded-lg p-2">
+        <div className="bg-canvas rounded-lg p-2">
           <div className="text-lg font-black text-slate-500">{gapReqs}</div>
           <div className="text-[10px] text-slate-400 font-medium">Acik Gap</div>
         </div>

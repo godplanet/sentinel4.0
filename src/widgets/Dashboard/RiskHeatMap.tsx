@@ -33,7 +33,7 @@ function getCellColor(score: number): string {
   for (let i = keys.length - 1; i >= 0; i--) {
     if (score >= keys[i]) return CELL_COLORS[keys[i]];
   }
-  return 'bg-slate-50';
+  return 'bg-canvas';
 }
 
 function getTalentBorderClass(band: TalentAdjustment['band'] | null): string {
@@ -117,14 +117,14 @@ export function RiskHeatMap() {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-12 flex items-center justify-center">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-12 flex items-center justify-center">
         <Loader2 className="animate-spin text-slate-400" size={24} />
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden">
       {/* Header */}
       <div className="px-5 py-4 border-b border-slate-100">
         <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -146,7 +146,7 @@ export function RiskHeatMap() {
                 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition-all',
                 talentContext
                   ? 'bg-sky-600 text-white border-sky-600 shadow-sm shadow-sky-200'
-                  : 'bg-white text-slate-600 border-slate-200 hover:border-sky-300 hover:text-sky-600'
+                  : 'bg-surface text-slate-600 border-slate-200 hover:border-sky-300 hover:text-sky-600'
               )}
               title="GIAS Strategic Nexus: Ekip yetkinlik skorunu risk hesabına dahil et"
             >
@@ -157,7 +157,7 @@ export function RiskHeatMap() {
                 talentContext ? 'bg-sky-300' : 'bg-slate-200'
               )}>
                 <span className={clsx(
-                  'absolute top-0.5 w-3 h-3 rounded-full bg-white shadow-sm transition-all',
+                  'absolute top-0.5 w-3 h-3 rounded-full bg-surface shadow-sm transition-all',
                   talentContext ? 'left-3.5' : 'left-0.5'
                 )} />
               </span>
@@ -170,7 +170,7 @@ export function RiskHeatMap() {
                 className={clsx(
                   'px-3 py-1.5 text-xs font-bold rounded-md transition-all',
                   mode === 'inherent'
-                    ? 'bg-white text-slate-800 shadow-sm'
+                    ? 'bg-surface text-slate-800 shadow-sm'
                     : 'text-slate-500 hover:text-slate-700'
                 )}
               >
@@ -181,7 +181,7 @@ export function RiskHeatMap() {
                 className={clsx(
                   'px-3 py-1.5 text-xs font-bold rounded-md transition-all flex items-center gap-1',
                   mode === 'residual'
-                    ? 'bg-white text-slate-800 shadow-sm'
+                    ? 'bg-surface text-slate-800 shadow-sm'
                     : 'text-slate-500 hover:text-slate-700'
                 )}
               >
@@ -231,16 +231,16 @@ export function RiskHeatMap() {
 
           <div className="flex-1">
             <div className="grid grid-cols-6 gap-px bg-slate-200 rounded-lg overflow-hidden">
-              <div className="bg-slate-50" />
+              <div className="bg-canvas" />
               {[1, 2, 3, 4, 5].map(x => (
-                <div key={x} className="bg-slate-50 p-1.5 text-center">
+                <div key={x} className="bg-canvas p-1.5 text-center">
                   <span className="text-[9px] font-bold text-slate-500">{x}</span>
                 </div>
               ))}
 
               {[5, 4, 3, 2, 1].map(y => (
                 <div key={`row-${y}`} className="contents">
-                  <div className="bg-slate-50 p-1.5 flex items-center justify-center">
+                  <div className="bg-canvas p-1.5 flex items-center justify-center">
                     <span className="text-[9px] font-bold text-slate-500">{y}</span>
                   </div>
                   {[1, 2, 3, 4, 5].map(x => {
@@ -370,7 +370,7 @@ export function RiskHeatMap() {
 
 function StatBadge({ label, count, color }: { label: string; count: number; color: string }) {
   return (
-    <div className="flex items-center gap-2 bg-slate-50 rounded-lg px-3 py-2">
+    <div className="flex items-center gap-2 bg-canvas rounded-lg px-3 py-2">
       <div className={clsx('w-2.5 h-2.5 rounded-full', color)} />
       <span className="text-[10px] font-bold text-slate-600">{label}</span>
       <span className="text-sm font-black text-slate-800 ml-auto tabular-nums">{count}</span>

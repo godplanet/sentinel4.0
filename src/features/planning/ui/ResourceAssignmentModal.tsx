@@ -46,7 +46,7 @@ function CostBadge({ cost, currency }: { cost: number; currency: string }) {
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-bold ${
       highCost
         ? 'text-rose-600 bg-rose-50 border-rose-200'
-        : 'text-slate-600 bg-slate-50 border-slate-200'
+        : 'text-slate-600 bg-canvas border-slate-200'
     }`}>
       {highCost && <AlertTriangle size={9} />}
       {cost === 0 ? '—' : formatCost(cost, currency)}
@@ -62,10 +62,10 @@ function SuggestionCard({ result, rank }: { result: AllocationResult; rank: numb
   return (
     <div className={`rounded-xl border p-3 transition-all ${
       blocked
-        ? 'bg-slate-50 border-slate-200 opacity-60'
+        ? 'bg-canvas border-slate-200 opacity-60'
         : isBestMatch
           ? 'bg-emerald-50 border-emerald-200 ring-1 ring-emerald-300/50'
-          : 'bg-white border-slate-200'
+          : 'bg-surface border-slate-200'
     }`}>
       <div className="flex items-start gap-3">
         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">
@@ -74,7 +74,7 @@ function SuggestionCard({ result, rank }: { result: AllocationResult; rank: numb
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap mb-1">
-            <span className="font-semibold text-slate-900 text-sm truncate">{auditor.full_name}</span>
+            <span className="font-semibold text-primary text-sm truncate">{auditor.full_name}</span>
             {isBestMatch && (
               <span className="text-[9px] bg-emerald-600 text-white px-1.5 py-0.5 rounded-full font-bold tracking-wide">
                 EN İYİ EŞLEŞME
@@ -129,7 +129,7 @@ function SortToggle({ mode, onChange }: { mode: SortMode; onChange: (m: SortMode
         onClick={() => onChange('best_match')}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
           mode === 'best_match'
-            ? 'bg-white text-slate-900 shadow-sm'
+            ? 'bg-surface text-primary shadow-sm'
             : 'text-slate-500 hover:text-slate-700'
         }`}
       >
@@ -140,7 +140,7 @@ function SortToggle({ mode, onChange }: { mode: SortMode; onChange: (m: SortMode
         onClick={() => onChange('best_value')}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
           mode === 'best_value'
-            ? 'bg-white text-slate-900 shadow-sm'
+            ? 'bg-surface text-primary shadow-sm'
             : 'text-slate-500 hover:text-slate-700'
         }`}
       >
@@ -214,10 +214,10 @@ export function ResourceAssignmentModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl max-h-[92vh] overflow-y-auto border border-slate-200">
-        <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex items-center justify-between z-10 rounded-t-2xl">
+      <div className="relative w-full max-w-lg bg-surface rounded-2xl shadow-2xl max-h-[92vh] overflow-y-auto border border-slate-200">
+        <div className="sticky top-0 bg-surface/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex items-center justify-between z-10 rounded-t-2xl">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">Denetçi Ata</h2>
+            <h2 className="text-lg font-bold text-primary">Denetçi Ata</h2>
             <p className="text-xs text-slate-500 mt-0.5">Maliyet & Yetkinlik Analizi</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
@@ -226,8 +226,8 @@ export function ResourceAssignmentModal({
         </div>
 
         <div className="p-6 space-y-4">
-          <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-            <div className="text-sm font-semibold text-slate-900 mb-1 truncate">{engagement.title}</div>
+          <div className="p-4 bg-canvas border border-slate-200 rounded-xl">
+            <div className="text-sm font-semibold text-primary mb-1 truncate">{engagement.title}</div>
             <div className="flex items-center gap-3 text-[11px] text-slate-500">
               <span>{formatDate(engagement.start_date)}</span>
               <span>→</span>
@@ -247,7 +247,7 @@ export function ResourceAssignmentModal({
                   max={5000}
                   value={estimatedHours}
                   onChange={(e) => setEstimatedHours(Math.max(1, parseInt(e.target.value, 10) || 1))}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono font-semibold text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono font-semibold text-primary bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-slate-400 pointer-events-none">
                   saat
@@ -294,7 +294,7 @@ export function ResourceAssignmentModal({
           {showSuggestions && suggestions.length > 0 && (
             <div className="rounded-xl border border-slate-200 overflow-hidden">
               <button
-                className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200 text-sm font-semibold text-slate-700"
+                className="w-full flex items-center justify-between px-4 py-3 bg-canvas border-b border-slate-200 text-sm font-semibold text-slate-700"
                 onClick={() => setShowSuggestions((v) => !v)}
               >
                 <span className="flex items-center gap-2">
@@ -309,7 +309,7 @@ export function ResourceAssignmentModal({
                 {showSuggestions ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
               </button>
 
-              <div className="p-3 space-y-2 bg-white">
+              <div className="p-3 space-y-2 bg-surface">
                 {suggestions.map((result, i) => (
                   <SuggestionCard key={result.auditor.id} result={result} rank={i} />
                 ))}
@@ -347,7 +347,7 @@ export function ResourceAssignmentModal({
                           ? 'bg-emerald-50 border-emerald-200 ring-2 ring-emerald-400/20'
                           : isTopAI
                             ? 'bg-blue-50 border-blue-200'
-                            : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                            : 'bg-surface border-slate-200 hover:border-slate-300 hover:bg-canvas'
                       }`}
                     >
                       {profile.avatar_url ? (
@@ -364,7 +364,7 @@ export function ResourceAssignmentModal({
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className="font-semibold text-slate-900 text-sm truncate">{profile.full_name}</span>
+                          <span className="font-semibold text-primary text-sm truncate">{profile.full_name}</span>
                           {isAssigned && <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0" />}
                           {isTopAI && !isAssigned && (
                             <span className="text-[9px] bg-blue-600 text-white px-1.5 py-0.5 rounded-full font-bold">

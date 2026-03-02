@@ -88,7 +88,7 @@ export const QAIPChecklistModal: React.FC<QAIPChecklistModalProps> = ({
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-[201] p-4 pointer-events-none">
         <div
-          className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl max-h-[80vh] flex flex-col pointer-events-auto animate-in zoom-in-95 slide-in-from-bottom-4 duration-300"
+          className="bg-surface rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl max-h-[80vh] flex flex-col pointer-events-auto animate-in zoom-in-95 slide-in-from-bottom-4 duration-300"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -152,7 +152,7 @@ export const QAIPChecklistModal: React.FC<QAIPChecklistModalProps> = ({
                     "w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 transition-all",
                     check.passed
                       ? "bg-emerald-500 text-white"
-                      : "bg-white border-2 border-slate-300"
+                      : "bg-surface border-2 border-slate-300"
                   )}>
                     {check.passed && <CheckCircle2 size={16} />}
                   </div>
@@ -183,10 +183,10 @@ export const QAIPChecklistModal: React.FC<QAIPChecklistModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between gap-3 p-6 border-t border-slate-200 bg-slate-50 rounded-b-2xl">
+          <div className="flex items-center justify-between gap-3 p-6 border-t border-slate-200 bg-canvas rounded-b-2xl">
             <button
               onClick={onClose}
-              className="px-4 py-2.5 text-sm font-semibold text-slate-600 hover:text-slate-800 hover:bg-white rounded-lg transition-colors border border-slate-200"
+              className="px-4 py-2.5 text-sm font-semibold text-slate-600 hover:text-slate-800 hover:bg-surface rounded-lg transition-colors border border-slate-200"
             >
               İptal
             </button>

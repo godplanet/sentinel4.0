@@ -42,7 +42,7 @@ export function MatrixTab({ dimensions, matrix, onChange }: Props) {
       <div className="overflow-x-auto rounded-xl border border-slate-200">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-slate-50">
+            <tr className="bg-canvas">
               <th className="px-3 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider w-16 border-b border-slate-200">
                 Svy
               </th>
@@ -61,9 +61,9 @@ export function MatrixTab({ dimensions, matrix, onChange }: Props) {
           </thead>
           <tbody>
             {sorted.map((row, rowIdx) => (
-              <tr key={row.level} className={`${LEVEL_COLORS[rowIdx] || 'bg-white'} border-b border-slate-100 last:border-b-0`}>
+              <tr key={row.level} className={`${LEVEL_COLORS[rowIdx] || 'bg-surface'} border-b border-slate-100 last:border-b-0`}>
                 <td className="px-3 py-3">
-                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white text-sm font-bold text-slate-700 shadow-sm border border-slate-200">
+                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-surface text-sm font-bold text-slate-700 shadow-sm border border-slate-200">
                     {row.level}
                   </span>
                 </td>
@@ -72,7 +72,7 @@ export function MatrixTab({ dimensions, matrix, onChange }: Props) {
                     type="text"
                     value={row.label}
                     onChange={(e) => handleLabelChange(row.level, e.target.value)}
-                    className="w-full text-sm font-medium text-slate-700 bg-white/80 border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                    className="w-full text-sm font-medium text-slate-700 bg-surface/80 border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400"
                   />
                 </td>
                 {dimensions.map(dim => {
@@ -83,7 +83,7 @@ export function MatrixTab({ dimensions, matrix, onChange }: Props) {
                         value={String(row[descKey] ?? '')}
                         onChange={(e) => handleCellChange(row.level, descKey, e.target.value)}
                         rows={2}
-                        className="w-full text-sm text-slate-600 bg-white/80 border border-slate-200 rounded-lg px-2 py-1.5 resize-none focus:outline-none focus:ring-1 focus:ring-slate-400"
+                        className="w-full text-sm text-slate-600 bg-surface/80 border border-slate-200 rounded-lg px-2 py-1.5 resize-none focus:outline-none focus:ring-1 focus:ring-slate-400"
                         placeholder={`${dim.label} - Seviye ${row.level}`}
                       />
                     </td>

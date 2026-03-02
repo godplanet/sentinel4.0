@@ -135,7 +135,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden"
+        className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden"
       >
         <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -152,7 +152,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
           </button>
         </div>
 
-        <div className="px-6 py-3 bg-slate-50 border-b border-slate-200">
+        <div className="px-6 py-3 bg-canvas border-b border-slate-200">
           <div className="flex items-center gap-2">
             {STEPS.map((s, i) => {
               const SIcon = s.icon;
@@ -164,7 +164,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
                     'flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all flex-1',
                     isActive ? 'bg-blue-100 text-blue-700' :
                     isDone ? 'bg-emerald-50 text-emerald-700' :
-                    'bg-white text-slate-400 border border-slate-200'
+                    'bg-surface text-slate-400 border border-slate-200'
                   )}>
                     {isDone ? <CheckCircle2 size={14} /> : <SIcon size={14} />}
                     <span className="hidden sm:inline">{s.label}</span>
@@ -221,7 +221,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
                         onClick={() => setCategory(c.id)}
                         className={clsx(
                           'flex items-center gap-2 px-3 py-2.5 rounded-lg border-2 text-xs font-bold transition-all',
-                          category === c.id ? `${c.bg} ${c.color} border-current` : 'bg-white border-slate-200 text-slate-500'
+                          category === c.id ? `${c.bg} ${c.color} border-current` : 'bg-surface border-slate-200 text-slate-500'
                         )}
                       >
                         <CIcon size={14} />
@@ -240,7 +240,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
                         onClick={() => setSeverity(s.id)}
                         className={clsx(
                           'flex items-center gap-2 px-3 py-2.5 rounded-lg border-2 text-xs font-bold transition-all',
-                          severity === s.id ? `${s.bg} ${s.color} border-current` : 'bg-white border-slate-200 text-slate-500'
+                          severity === s.id ? `${s.bg} ${s.color} border-current` : 'bg-surface border-slate-200 text-slate-500'
                         )}
                       >
                         <SIcon size={14} />
@@ -263,7 +263,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
                             'flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
                             selectedSource === src.id
                               ? 'bg-blue-50 border-blue-400 shadow-sm'
-                              : 'bg-white border-slate-200 hover:border-slate-300'
+                              : 'bg-surface border-slate-200 hover:border-slate-300'
                           )}
                         >
                           <div className={clsx(
@@ -311,7 +311,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
                       <select
                         value={cond.field}
                         onChange={(e) => updateCondition(i, 'field', e.target.value)}
-                        className="flex-1 px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="flex-1 px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
                       >
                         <option value="">Alan sec...</option>
                         {fields.map(f => <option key={f} value={f}>{f}</option>)}
@@ -319,7 +319,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
                       <select
                         value={cond.operator}
                         onChange={(e) => updateCondition(i, 'operator', e.target.value)}
-                        className="w-24 px-2 py-2.5 border border-slate-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-24 px-2 py-2.5 border border-slate-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
                       >
                         {OPERATORS.map(op => <option key={op} value={op}>{op}</option>)}
                       </select>
@@ -386,12 +386,12 @@ WHERE ${conditions.map((c, i) =>
                         'flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
                         action === 'ALERT'
                           ? 'bg-amber-50 border-amber-400'
-                          : 'bg-white border-slate-200 hover:border-slate-300'
+                          : 'bg-surface border-slate-200 hover:border-slate-300'
                       )}
                     >
                       <AlertTriangle size={24} className={action === 'ALERT' ? 'text-amber-600' : 'text-slate-400'} />
                       <div>
-                        <p className="text-sm font-bold text-slate-900">Alert Olustur</p>
+                        <p className="text-sm font-bold text-primary">Alert Olustur</p>
                         <p className="text-[11px] text-slate-500">Istisna kuyrugunaekle</p>
                       </div>
                     </button>
@@ -401,12 +401,12 @@ WHERE ${conditions.map((c, i) =>
                         'flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
                         action === 'FINDING'
                           ? 'bg-red-50 border-red-400'
-                          : 'bg-white border-slate-200 hover:border-slate-300'
+                          : 'bg-surface border-slate-200 hover:border-slate-300'
                       )}
                     >
                       <ShieldAlert size={24} className={action === 'FINDING' ? 'text-red-600' : 'text-slate-400'} />
                       <div>
-                        <p className="text-sm font-bold text-slate-900">Bulgu Olustur</p>
+                        <p className="text-sm font-bold text-primary">Bulgu Olustur</p>
                         <p className="text-[11px] text-slate-500">Otomatik bulgu kaydialus</p>
                       </div>
                     </button>
@@ -424,7 +424,7 @@ WHERE ${conditions.map((c, i) =>
                           'px-3 py-2.5 rounded-lg border-2 text-xs font-bold transition-all',
                           schedule === s.value
                             ? 'bg-blue-50 border-blue-400 text-blue-700'
-                            : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
+                            : 'bg-surface border-slate-200 text-slate-500 hover:border-slate-300'
                         )}
                       >
                         {s.label}
@@ -452,7 +452,7 @@ WHERE ${conditions.map((c, i) =>
           </AnimatePresence>
         </div>
 
-        <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+        <div className="px-6 py-4 bg-canvas border-t border-slate-200 flex items-center justify-between">
           <button
             onClick={() => step > 0 ? setStep(step - 1) : onClose()}
             className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors"

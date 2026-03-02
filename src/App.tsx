@@ -25,7 +25,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <DebugBar />
-        {isInitializing && (
+        {!isComplete && (
           <SystemInitOverlay progress={progress} error={error} />
         )}
         {isComplete && (

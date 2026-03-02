@@ -106,7 +106,7 @@ export function SurveyPortal() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl border-2 border-slate-200 shadow-lg overflow-hidden"
+          className="bg-surface rounded-xl border-2 border-slate-200 shadow-lg overflow-hidden"
         >
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
             <div className="flex items-center gap-3 mb-2">
@@ -135,7 +135,7 @@ export function SurveyPortal() {
                         className={`w-12 h-12 rounded-lg border-2 font-bold transition-all ${
                           answers[question.id] === value
                             ? 'bg-blue-600 text-white border-blue-600 scale-110'
-                            : 'bg-white text-slate-700 border-slate-300 hover:border-blue-400'
+                            : 'bg-surface text-slate-700 border-slate-300 hover:border-blue-400'
                         }`}
                       >
                         {value}
@@ -149,7 +149,7 @@ export function SurveyPortal() {
                     value={answers[question.id] || ''}
                     onChange={(e) => handleAnswerChange(question.id, e.target.value)}
                     rows={4}
-                    className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-3 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     placeholder="Yanıtınızı buraya yazın..."
                   />
                 )}
@@ -163,7 +163,7 @@ export function SurveyPortal() {
                         className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
                           answers[question.id] === option
                             ? 'bg-blue-50 border-blue-600 text-blue-900 font-medium'
-                            : 'bg-white border-slate-300 hover:border-blue-400'
+                            : 'bg-surface border-slate-300 hover:border-blue-400'
                         }`}
                       >
                         {option}
@@ -175,10 +175,10 @@ export function SurveyPortal() {
             ))}
           </div>
 
-          <div className="bg-slate-50 px-8 py-5 flex items-center justify-between border-t border-slate-200">
+          <div className="bg-canvas px-8 py-5 flex items-center justify-between border-t border-slate-200">
             <button
               onClick={() => setSelectedSurvey(null)}
-              className="px-6 py-2.5 bg-white border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium"
+              className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
               disabled={submitting}
             >
               İptal
@@ -216,7 +216,7 @@ export function SurveyPortal() {
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <CheckCircle2 className="w-12 h-12 text-green-600" />
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Teşekkür Ederiz!</h2>
+        <h2 className="text-2xl font-bold text-primary mb-2">Teşekkür Ederiz!</h2>
         <p className="text-slate-600">Anket yanıtınız başarıyla kaydedildi.</p>
       </motion.div>
     );
@@ -226,7 +226,7 @@ export function SurveyPortal() {
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Aktif Anketler</h2>
+          <h2 className="text-2xl font-bold text-primary">Aktif Anketler</h2>
           <p className="text-sm text-slate-600 mt-1">Geri bildirim toplama ve değerlendirme sistemi</p>
         </div>
         <button
@@ -248,7 +248,7 @@ export function SurveyPortal() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
-              className="bg-white rounded-lg border-2 border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all overflow-hidden cursor-pointer"
+              className="bg-surface rounded-lg border-2 border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all overflow-hidden cursor-pointer"
               onClick={() => setSelectedSurvey(survey)}
             >
               <div className="p-6">
@@ -256,7 +256,7 @@ export function SurveyPortal() {
                   <ClipboardList className="w-6 h-6 text-blue-600" />
                 </div>
 
-                <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-2">
+                <h3 className="text-lg font-bold text-primary mb-2 line-clamp-2">
                   {survey.title}
                 </h3>
 
@@ -303,7 +303,7 @@ export function SurveyPortal() {
       </div>
 
       {surveys.length === 0 && (
-        <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+        <div className="bg-surface rounded-lg border border-slate-200 p-12 text-center">
           <ClipboardList className="w-16 h-16 mx-auto text-slate-300 mb-4" />
           <h3 className="text-xl font-semibold text-slate-700 mb-2">
             Aktif Anket Bulunamadı
@@ -325,14 +325,14 @@ export function SurveyPortal() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full"
+              className="bg-surface rounded-2xl shadow-2xl max-w-2xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
                 <h2 className="text-xl font-bold text-white">Yeni Anket Oluştur</h2>
                 <button
                   onClick={() => !submitting && setShowCreateModal(false)}
-                  className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors"
+                  className="w-8 h-8 bg-surface/20 hover:bg-surface/30 rounded-lg flex items-center justify-center transition-colors"
                   disabled={submitting}
                 >
                   <X className="w-5 h-5 text-white" />
@@ -348,7 +348,7 @@ export function SurveyPortal() {
                     type="text"
                     value={newSurvey.title}
                     onChange={(e) => setNewSurvey(prev => ({ ...prev, title: e.target.value }))}
-                    className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     placeholder="Örn: Denetim Memnuniyet Anketi"
                     disabled={submitting}
                   />
@@ -362,7 +362,7 @@ export function SurveyPortal() {
                     value={newSurvey.description}
                     onChange={(e) => setNewSurvey(prev => ({ ...prev, description: e.target.value }))}
                     rows={3}
-                    className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     placeholder="Anketin amacını kısaca açıklayın..."
                     disabled={submitting}
                   />
@@ -375,7 +375,7 @@ export function SurveyPortal() {
                   <select
                     value={newSurvey.target_audience}
                     onChange={(e) => setNewSurvey(prev => ({ ...prev, target_audience: e.target.value as any }))}
-                    className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     disabled={submitting}
                   >
                     <option value="INTERNAL">İç Denetim Ekibi</option>
@@ -392,10 +392,10 @@ export function SurveyPortal() {
                 </div>
               </div>
 
-              <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-200 rounded-b-2xl">
+              <div className="bg-canvas px-6 py-4 flex items-center justify-between border-t border-slate-200 rounded-b-2xl">
                 <button
                   onClick={() => !submitting && setShowCreateModal(false)}
-                  className="px-6 py-2.5 bg-white border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium"
+                  className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
                   disabled={submitting}
                 >
                   İptal

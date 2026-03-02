@@ -108,31 +108,31 @@ export function RiskNetwork({
   return (
     <div className="relative w-full h-screen bg-slate-900 overflow-hidden">
       <div className="absolute top-4 left-4 z-10 flex gap-3">
-        <div className="backdrop-blur-xl bg-white/10 rounded-lg border border-white/20 shadow-2xl p-3 flex gap-2">
+        <div className="backdrop-blur-xl bg-surface/10 rounded-lg border border-white/20 shadow-2xl p-3 flex gap-2">
           <button
             onClick={handleZoomIn}
-            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-white"
+            className="p-2 rounded-lg bg-surface/10 hover:bg-surface/20 transition-colors text-white"
             title="Zoom In"
           >
             <ZoomIn className="h-5 w-5" />
           </button>
           <button
             onClick={handleZoomOut}
-            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-white"
+            className="p-2 rounded-lg bg-surface/10 hover:bg-surface/20 transition-colors text-white"
             title="Zoom Out"
           >
             <ZoomOut className="h-5 w-5" />
           </button>
           <button
             onClick={handleCenterGraph}
-            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-white"
+            className="p-2 rounded-lg bg-surface/10 hover:bg-surface/20 transition-colors text-white"
             title="Center Graph"
           >
             <Maximize2 className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="backdrop-blur-xl bg-white/10 rounded-lg border border-white/20 shadow-2xl p-3">
+        <div className="backdrop-blur-xl bg-surface/10 rounded-lg border border-white/20 shadow-2xl p-3">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/60" />
             <input
@@ -140,13 +140,13 @@ export function RiskNetwork({
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               placeholder="Search nodes..."
-              className="pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 w-64"
+              className="pl-10 pr-4 py-2 bg-surface/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 w-64"
             />
           </div>
         </div>
       </div>
 
-      <div className="absolute top-4 right-4 z-10 backdrop-blur-xl bg-white/10 rounded-lg border border-white/20 shadow-2xl p-4">
+      <div className="absolute top-4 right-4 z-10 backdrop-blur-xl bg-surface/10 rounded-lg border border-white/20 shadow-2xl p-4">
         <h3 className="text-white font-semibold mb-3 text-sm">Legend</h3>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
@@ -231,7 +231,7 @@ export function RiskNetwork({
       />
 
       {selectedNode && (
-        <div className="absolute top-0 right-0 w-96 h-full backdrop-blur-xl bg-white/10 border-l border-white/20 shadow-2xl overflow-y-auto">
+        <div className="absolute top-0 right-0 w-96 h-full backdrop-blur-xl bg-surface/10 border-l border-white/20 shadow-2xl overflow-y-auto">
           <div className="p-6 space-y-6">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
@@ -246,14 +246,14 @@ export function RiskNetwork({
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-white"
+                className="p-2 rounded-lg bg-surface/10 hover:bg-surface/20 transition-colors text-white"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             <div className="space-y-4">
-              <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <div className="bg-surface/5 rounded-lg p-4 border border-white/10">
                 <h3 className="text-sm font-semibold text-white/80 mb-2">Type</h3>
                 <div className="flex items-center gap-2">
                   <div
@@ -265,7 +265,7 @@ export function RiskNetwork({
               </div>
 
               {selectedNode.data?.description && (
-                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <div className="bg-surface/5 rounded-lg p-4 border border-white/10">
                   <h3 className="text-sm font-semibold text-white/80 mb-2">Description</h3>
                   <p className="text-white/90 text-sm leading-relaxed">
                     {selectedNode.data.description}
@@ -274,7 +274,7 @@ export function RiskNetwork({
               )}
 
               {selectedNode.data?.risk_rating && (
-                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <div className="bg-surface/5 rounded-lg p-4 border border-white/10">
                   <h3 className="text-sm font-semibold text-white/80 mb-2">Risk Rating</h3>
                   <span
                     className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
@@ -291,7 +291,7 @@ export function RiskNetwork({
               )}
 
               {selectedNode.data?.inherent_score && (
-                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <div className="bg-surface/5 rounded-lg p-4 border border-white/10">
                   <h3 className="text-sm font-semibold text-white/80 mb-2">Risk Scores</h3>
                   <div className="space-y-2">
                     <div className="flex justify-between">
@@ -312,7 +312,7 @@ export function RiskNetwork({
                 </div>
               )}
 
-              <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <div className="bg-surface/5 rounded-lg p-4 border border-white/10">
                 <h3 className="text-sm font-semibold text-white/80 mb-2">Node Path</h3>
                 <div className="flex flex-wrap gap-1">
                   {selectedNode.path.split('.').map((segment, idx) => (
@@ -327,7 +327,7 @@ export function RiskNetwork({
               </div>
 
               {selectedNode.data && (
-                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                <div className="bg-surface/5 rounded-lg p-4 border border-white/10">
                   <h3 className="text-sm font-semibold text-white/80 mb-2">Raw Data</h3>
                   <pre className="text-xs text-white/70 font-mono overflow-x-auto">
                     {JSON.stringify(selectedNode.data, null, 2)}
@@ -339,7 +339,7 @@ export function RiskNetwork({
         </div>
       )}
 
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 backdrop-blur-xl bg-white/10 rounded-lg border border-white/20 shadow-2xl px-4 py-2">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 backdrop-blur-xl bg-surface/10 rounded-lg border border-white/20 shadow-2xl px-4 py-2">
         <p className="text-white/80 text-sm">
           <span className="font-semibold">{graphData.nodes.length}</span> nodes •{' '}
           <span className="font-semibold">{graphData.links.length}</span> links

@@ -69,7 +69,7 @@ export function CCMSignalSimulator() {
   };
 
   return (
-    <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-6">
+    <div className="bg-surface border border-slate-200 shadow-sm rounded-xl p-6">
       <div className="flex items-center gap-3 mb-5">
         <div className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center">
           <Radio size={16} className="text-white" />
@@ -99,10 +99,10 @@ export function CCMSignalSimulator() {
                 isRed
                   ? fired
                     ? 'bg-red-50 border-red-200 opacity-60 cursor-not-allowed'
-                    : 'bg-white border-slate-200 hover:bg-red-50 hover:border-red-300 hover:shadow-sm'
+                    : 'bg-surface border-slate-200 hover:bg-red-50 hover:border-red-300 hover:shadow-sm'
                   : fired
                     ? 'bg-amber-50 border-amber-200 opacity-60 cursor-not-allowed'
-                    : 'bg-white border-slate-200 hover:bg-amber-50 hover:border-amber-300 hover:shadow-sm',
+                    : 'bg-surface border-slate-200 hover:bg-amber-50 hover:border-amber-300 hover:shadow-sm',
               ].join(' ')}
             >
               <div className={[

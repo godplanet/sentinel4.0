@@ -25,7 +25,7 @@ export const StrategyDashboard = () => {
       
       {/* 1. ÜST BİLGİ KARTLARI (Sentinel v2 Tarzı Özet) */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm flex items-center gap-4">
+        <div className="bg-surface/60 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm flex items-center gap-4">
           <div className="p-3 bg-indigo-100 text-indigo-600 rounded-xl">
             <Target size={24} />
           </div>
@@ -35,7 +35,7 @@ export const StrategyDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm flex items-center gap-4">
+        <div className="bg-surface/60 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm flex items-center gap-4">
           <div className="p-3 bg-emerald-100 text-emerald-600 rounded-xl">
             <Shield size={24} />
           </div>
@@ -45,7 +45,7 @@ export const StrategyDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm flex items-center gap-4">
+        <div className="bg-surface/60 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm flex items-center gap-4">
           <div className="p-3 bg-blue-100 text-blue-600 rounded-xl">
             <Activity size={24} />
           </div>
@@ -55,7 +55,7 @@ export const StrategyDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm flex items-center gap-4">
+        <div className="bg-surface/60 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm flex items-center gap-4">
           <div className="p-3 bg-amber-100 text-amber-600 rounded-xl">
             <PieChart size={24} />
           </div>
@@ -71,7 +71,7 @@ export const StrategyDashboard = () => {
       </div>
 
       {/* 2. KONTROL PANELİ (View Switcher & Actions) */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white/40 p-2 rounded-2xl border border-white/60 backdrop-blur-sm">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-surface/40 p-2 rounded-2xl border border-white/60 backdrop-blur-sm">
         
         {/* View Switcher */}
         <div className="flex bg-slate-100/80 p-1 rounded-xl w-full sm:w-auto">
@@ -79,7 +79,7 @@ export const StrategyDashboard = () => {
             onClick={() => setViewMode('map')}
             className={clsx(
               "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all flex-1 sm:flex-none justify-center",
-              viewMode === 'map' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+              viewMode === 'map' ? "bg-surface text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
             )}
           >
             <LayoutGrid size={16} />
@@ -89,7 +89,7 @@ export const StrategyDashboard = () => {
             onClick={() => setViewMode('list')}
             className={clsx(
               "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all flex-1 sm:flex-none justify-center",
-              viewMode === 'list' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+              viewMode === 'list' ? "bg-surface text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
             )}
           >
             <List size={16} />
@@ -101,7 +101,7 @@ export const StrategyDashboard = () => {
         <div className="flex gap-3 w-full sm:w-auto">
           <button 
             onClick={() => setModalType('goal')}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-white border border-slate-200 shadow-sm rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:border-indigo-200 hover:text-indigo-600 transition-all active:scale-95"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-surface border border-slate-200 shadow-sm rounded-xl text-sm font-bold text-slate-700 hover:bg-canvas hover:border-indigo-200 hover:text-indigo-600 transition-all active:scale-95"
           >
             <Target size={18} className="text-indigo-500" />
             <span className="hidden sm:inline">Yeni</span> Banka Hedefi
@@ -121,7 +121,7 @@ export const StrategyDashboard = () => {
       {/* 3. ANA İÇERİK ALANI */}
       <div className="min-h-[600px] transition-all duration-500">
          {viewMode === 'map' ? (
-           <div className="bg-white/40 backdrop-blur-xl border border-white/50 p-8 rounded-3xl shadow-sm overflow-x-auto">
+           <div className="bg-surface/40 backdrop-blur-xl border border-white/50 p-8 rounded-3xl shadow-sm overflow-x-auto">
              <AlignmentMap />
            </div>
          ) : (

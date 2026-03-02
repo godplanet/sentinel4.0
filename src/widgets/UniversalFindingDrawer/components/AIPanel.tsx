@@ -52,13 +52,13 @@ export function AIPanel({ findingId, onApplyDraft }: AIPanelProps) {
       <div className="flex items-center gap-2 bg-slate-200/50 p-1 rounded-lg shrink-0">
         <button 
           onClick={() => setActiveTab('notes')}
-          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-2", activeTab === 'notes' ? "bg-white text-blue-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
+          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-2", activeTab === 'notes' ? "bg-surface text-blue-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
         >
           <FileText size={14} /> Notlar & Üretim
         </button>
         <button 
           onClick={() => setActiveTab('analysis')}
-          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-2", activeTab === 'analysis' ? "bg-white text-purple-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
+          className={clsx("flex-1 py-2 text-xs font-bold rounded-md transition-all flex items-center justify-center gap-2", activeTab === 'analysis' ? "bg-surface text-purple-700 shadow-sm" : "text-slate-500 hover:text-slate-700")}
         >
           <Sparkles size={14} /> Akıllı Analiz
         </button>
@@ -75,7 +75,7 @@ export function AIPanel({ findingId, onApplyDraft }: AIPanelProps) {
             {/* AI Prompt Alanı */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <h3 className="text-sm font-bold text-primary flex items-center gap-2">
                   <BrainCircuit className="text-blue-600" size={16} /> Müfettiş Notları
                 </h3>
                 <span className="text-[10px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100">AI Destekli</span>
@@ -89,7 +89,7 @@ export function AIPanel({ findingId, onApplyDraft }: AIPanelProps) {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Örn: Şubeye gittim, Ahmet beyle görüştüm. Kasada çift anahtar kullanılmıyor. Bu durum BDDK madde 7'ye aykırı olabilir..."
-                  className="w-full h-40 px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white text-sm shadow-inner placeholder:text-slate-300 transition-all"
+                  className="w-full h-40 px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-surface text-sm shadow-inner placeholder:text-slate-300 transition-all"
                 />
                 <div className="absolute bottom-3 right-3 text-[10px] text-slate-400 font-medium">
                   {notes.length} karakter
@@ -110,7 +110,7 @@ export function AIPanel({ findingId, onApplyDraft }: AIPanelProps) {
 
             {/* AI ÜRETİM SONUCU (ÖNİZLEME) */}
             {generatedDraft && (
-              <div className="bg-white rounded-xl border border-indigo-100 shadow-lg overflow-hidden animate-in slide-in-from-top-4 ring-1 ring-indigo-50">
+              <div className="bg-surface rounded-xl border border-indigo-100 shadow-lg overflow-hidden animate-in slide-in-from-top-4 ring-1 ring-indigo-50">
                 <div className="bg-gradient-to-r from-indigo-50 to-blue-50 px-4 py-3 border-b border-indigo-100 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Bot className="text-indigo-600 w-5 h-5" />
@@ -133,7 +133,7 @@ export function AIPanel({ findingId, onApplyDraft }: AIPanelProps) {
                   
                   <div>
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Tespit & Detay</span>
-                    <div className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100 whitespace-pre-wrap leading-relaxed">
+                    <div className="text-sm text-slate-600 bg-canvas p-3 rounded-lg border border-slate-100 whitespace-pre-wrap leading-relaxed">
                       {generatedDraft.description}
                     </div>
                   </div>
@@ -199,7 +199,7 @@ export function AIPanel({ findingId, onApplyDraft }: AIPanelProps) {
               </div>
               
               <div className="flex items-center gap-3 mb-4 relative z-10">
-                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm border border-purple-100">
+                <div className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center shadow-sm border border-purple-100">
                   <Sparkles className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
@@ -219,7 +219,7 @@ export function AIPanel({ findingId, onApplyDraft }: AIPanelProps) {
                 <button className="flex-1 px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-xs font-bold shadow-sm">
                   Kök Nedeni Eşleştir
                 </button>
-                <button className="flex-1 px-3 py-2 bg-white text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-xs font-bold">
+                <button className="flex-1 px-3 py-2 bg-surface text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-xs font-bold">
                   Geçmiş Öneriler
                 </button>
               </div>
@@ -233,7 +233,7 @@ export function AIPanel({ findingId, onApplyDraft }: AIPanelProps) {
                   { id: 1, title: 'Kasa İşlemlerinde Çift Onay Eksikliği', branch: 'Kadıköy Şubesi', date: '14 Ocak 2025', match: '%92' },
                   { id: 2, title: 'Vezne Şifre Paylaşımı Tespiti', branch: 'Beşiktaş Şubesi', date: '14 Kasım 2024', match: '%78' },
                 ].map((item) => (
-                  <div key={item.id} className="flex items-start gap-3 p-3 bg-white border border-slate-200 rounded-xl hover:border-purple-300 transition-colors cursor-pointer group shadow-sm">
+                  <div key={item.id} className="flex items-start gap-3 p-3 bg-surface border border-slate-200 rounded-xl hover:border-purple-300 transition-colors cursor-pointer group shadow-sm">
                     <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-purple-100 transition-colors">
                       <History className="w-4 h-4 text-purple-600" />
                     </div>

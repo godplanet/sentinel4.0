@@ -51,13 +51,13 @@ export function UniversalFindingDrawer({
         "flex flex-col h-full border-l",
         currentViewMode === 'glass'
             ? "bg-slate-900/95 backdrop-blur-xl border-white/20"
-            : "bg-white border-slate-200"
+            : "bg-surface border-slate-200"
       )}>
         
         {/* HEADER */}
         <div className={clsx(
             "h-16 px-4 border-b flex items-center justify-between shrink-0 rounded-tl-2xl z-10",
-            currentViewMode === 'glass' ? "bg-white/5 border-white/10" : "bg-slate-50 border-slate-200"
+            currentViewMode === 'glass' ? "bg-surface/5 border-white/10" : "bg-canvas border-slate-200"
         )}>
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
                 <TabButton 
@@ -98,20 +98,20 @@ export function UniversalFindingDrawer({
                 />
             </div>
             
-            <button onClick={onClose} className={clsx("p-2 rounded-full transition-colors ml-2 shrink-0", currentViewMode === 'glass' ? "text-white/60 hover:text-white hover:bg-white/10" : "text-slate-400 hover:text-red-500 hover:bg-red-50")}>
+            <button onClick={onClose} className={clsx("p-2 rounded-full transition-colors ml-2 shrink-0", currentViewMode === 'glass' ? "text-white/60 hover:text-white hover:bg-surface/10" : "text-slate-400 hover:text-red-500 hover:bg-red-50")}>
                 <X size={20} />
             </button>
         </div>
 
         {/* OPSİYONEL: GÖRÜNÜM DEĞİŞTİRİCİ (VIEW SWITCHER) */}
         {onViewModeChange && currentViewMode && (
-          <div className={clsx("px-6 py-2 flex items-center justify-between border-b", currentViewMode === 'glass' ? "bg-white/5 border-white/10" : "bg-blue-50/50 border-blue-100")}>
+          <div className={clsx("px-6 py-2 flex items-center justify-between border-b", currentViewMode === 'glass' ? "bg-surface/5 border-white/10" : "bg-blue-50/50 border-blue-100")}>
              <span className={clsx("text-xs font-bold flex items-center gap-1", currentViewMode === 'glass' ? "text-blue-300" : "text-blue-800")}>
                <SlidersHorizontal size={14} /> Okuma Modu Değiştir
              </span>
              <div className="flex gap-2">
-                <button onClick={() => onViewModeChange('zen')} className={clsx("text-xs font-bold px-2 py-1 rounded", currentViewMode === 'zen' ? "bg-blue-600 text-white" : "text-blue-600 hover:bg-blue-100 bg-white")}>Zen</button>
-                <button onClick={() => onViewModeChange('glass')} className={clsx("text-xs font-bold px-2 py-1 rounded", currentViewMode === 'glass' ? "bg-blue-500 text-white" : "text-blue-600 hover:bg-blue-100 bg-white")}>Glass</button>
+                <button onClick={() => onViewModeChange('zen')} className={clsx("text-xs font-bold px-2 py-1 rounded", currentViewMode === 'zen' ? "bg-blue-600 text-white" : "text-blue-600 hover:bg-blue-100 bg-surface")}>Zen</button>
+                <button onClick={() => onViewModeChange('glass')} className={clsx("text-xs font-bold px-2 py-1 rounded", currentViewMode === 'glass' ? "bg-blue-500 text-white" : "text-blue-600 hover:bg-blue-100 bg-surface")}>Glass</button>
              </div>
           </div>
         )}
@@ -119,7 +119,7 @@ export function UniversalFindingDrawer({
         {/* İÇERİK ALANI */}
         <div className={clsx(
             "flex-1 overflow-y-auto custom-scrollbar relative",
-            currentViewMode === 'glass' ? "bg-transparent text-slate-200" : "bg-white text-slate-800"
+            currentViewMode === 'glass' ? "bg-transparent text-slate-200" : "bg-surface text-slate-800"
         )}>
             <div className="p-6 h-full">
               
@@ -188,10 +188,10 @@ function TabButton({ active, onClick, icon, label, isGlass }: { active: boolean;
         "flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-all shrink-0",
         active 
           ? isGlass 
-            ? "bg-white/15 text-white shadow-sm ring-1 ring-white/20" 
-            : "bg-white text-slate-800 shadow-sm ring-1 ring-slate-200" 
+            ? "bg-surface/15 text-white shadow-sm ring-1 ring-white/20" 
+            : "bg-surface text-slate-800 shadow-sm ring-1 ring-slate-200" 
           : isGlass
-            ? "text-white/60 hover:text-white hover:bg-white/5"
+            ? "text-white/60 hover:text-white hover:bg-surface/5"
             : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"
       )}
     >

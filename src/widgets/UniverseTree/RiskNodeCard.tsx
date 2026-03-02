@@ -65,10 +65,10 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 100 }}
-      className="fixed right-0 top-0 h-full w-[480px] backdrop-blur-2xl bg-white/80 border-l border-white/30 shadow-2xl z-50 overflow-y-auto"
+      className="fixed right-0 top-0 h-full w-[480px] backdrop-blur-2xl bg-surface/80 border-l border-white/30 shadow-2xl z-50 overflow-y-auto"
     >
       {/* Header */}
-      <div className="sticky top-0 backdrop-blur-xl bg-white/90 border-b border-white/30 p-6 z-10">
+      <div className="sticky top-0 backdrop-blur-xl bg-surface/90 border-b border-white/30 p-6 z-10">
         <div className="flex items-start justify-between">
           <div>
             <h3 className="text-xl font-bold text-slate-800">{entity.name}</h3>
@@ -76,7 +76,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/80 rounded-lg transition-all"
+            className="p-2 hover:bg-surface/80 rounded-lg transition-all"
           >
             <X className="w-5 h-5 text-slate-600" />
           </button>
@@ -118,7 +118,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
           </div>
 
           {/* Formula Breakdown */}
-          <div className="mt-4 p-3 bg-white/50 rounded-lg">
+          <div className="mt-4 p-3 bg-surface/50 rounded-lg">
             <div className="text-xs text-slate-600 font-semibold mb-1">Formula:</div>
             <code className="text-xs text-slate-700">{riskResult.formula_breakdown}</code>
           </div>
@@ -128,7 +128,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
       {/* Parameters */}
       <div className="p-6 space-y-6">
         {/* Impact Slider */}
-        <div className="backdrop-blur-lg bg-white/60 rounded-xl p-4 border border-white/30">
+        <div className="backdrop-blur-lg bg-surface/60 rounded-xl p-4 border border-white/30">
           <div className="flex items-center gap-2 mb-3">
             <TrendingUp className="w-5 h-5 text-red-600" />
             <label className="font-semibold text-slate-800">Impact</label>
@@ -147,7 +147,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
               [&::-webkit-slider-thumb]:w-6
               [&::-webkit-slider-thumb]:h-6
               [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:bg-white
+              [&::-webkit-slider-thumb]:bg-surface
               [&::-webkit-slider-thumb]:shadow-lg
               [&::-webkit-slider-thumb]:border-2
               [&::-webkit-slider-thumb]:border-red-600
@@ -161,7 +161,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
         </div>
 
         {/* Likelihood Slider */}
-        <div className="backdrop-blur-lg bg-white/60 rounded-xl p-4 border border-white/30">
+        <div className="backdrop-blur-lg bg-surface/60 rounded-xl p-4 border border-white/30">
           <div className="flex items-center gap-2 mb-3">
             <BarChart3 className="w-5 h-5 text-blue-600" />
             <label className="font-semibold text-slate-800">Likelihood</label>
@@ -180,7 +180,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
               [&::-webkit-slider-thumb]:w-6
               [&::-webkit-slider-thumb]:h-6
               [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:bg-white
+              [&::-webkit-slider-thumb]:bg-surface
               [&::-webkit-slider-thumb]:shadow-lg
               [&::-webkit-slider-thumb]:border-2
               [&::-webkit-slider-thumb]:border-blue-600
@@ -194,7 +194,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
         </div>
 
         {/* Velocity Slider */}
-        <div className="backdrop-blur-lg bg-white/60 rounded-xl p-4 border border-white/30">
+        <div className="backdrop-blur-lg bg-surface/60 rounded-xl p-4 border border-white/30">
           <div className="flex items-center gap-2 mb-3">
             <Zap className="w-5 h-5 text-yellow-600" />
             <label className="font-semibold text-slate-800">Velocity Multiplier</label>
@@ -213,7 +213,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
               [&::-webkit-slider-thumb]:w-6
               [&::-webkit-slider-thumb]:h-6
               [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:bg-white
+              [&::-webkit-slider-thumb]:bg-surface
               [&::-webkit-slider-thumb]:shadow-lg
               [&::-webkit-slider-thumb]:border-2
               [&::-webkit-slider-thumb]:border-yellow-600
@@ -227,7 +227,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
         </div>
 
         {/* Control Effectiveness Slider */}
-        <div className="backdrop-blur-lg bg-white/60 rounded-xl p-4 border border-white/30">
+        <div className="backdrop-blur-lg bg-surface/60 rounded-xl p-4 border border-white/30">
           <div className="flex items-center gap-2 mb-3">
             <Shield className="w-5 h-5 text-green-600" />
             <label className="font-semibold text-slate-800">Control Effectiveness</label>
@@ -246,7 +246,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
               [&::-webkit-slider-thumb]:w-6
               [&::-webkit-slider-thumb]:h-6
               [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:bg-white
+              [&::-webkit-slider-thumb]:bg-surface
               [&::-webkit-slider-thumb]:shadow-lg
               [&::-webkit-slider-thumb]:border-2
               [&::-webkit-slider-thumb]:border-green-600
@@ -295,11 +295,11 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
       </div>
 
       {/* Action Buttons */}
-      <div className="sticky bottom-0 backdrop-blur-xl bg-white/90 border-t border-white/30 p-6">
+      <div className="sticky bottom-0 backdrop-blur-xl bg-surface/90 border-t border-white/30 p-6">
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-3 bg-white border border-slate-300 rounded-lg text-slate-700 font-semibold hover:bg-slate-50 transition-all"
+            className="flex-1 px-4 py-3 bg-surface border border-slate-300 rounded-lg text-slate-700 font-semibold hover:bg-canvas transition-all"
           >
             Cancel
           </button>

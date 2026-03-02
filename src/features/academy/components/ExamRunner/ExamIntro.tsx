@@ -82,7 +82,7 @@ export function ExamIntro({ attemptCount }: ExamIntroProps) {
           />
         </div>
 
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-5 mb-6 space-y-3">
+        <div className="rounded-xl border border-white/[0.07] bg-surface/[0.03] p-5 mb-6 space-y-3">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">
             Sınav Kuralları
           </p>
@@ -150,7 +150,7 @@ function StatCard({
     <div className={`rounded-xl border p-4 text-center transition-colors
       ${highlight
         ? 'border-amber-500/30 bg-amber-500/5'
-        : 'border-white/[0.07] bg-white/[0.03]'
+        : 'border-white/[0.07] bg-surface/[0.03]'
       }`}>
       <div className="flex justify-center mb-2">{icon}</div>
       <p className={`text-xl font-bold mb-0.5 ${highlight ? 'text-amber-400' : 'text-white'}`}>

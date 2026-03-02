@@ -23,11 +23,11 @@ export const ExecutionLog = () => {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-slate-100 bg-slate-50/50">
+            <tr className="border-b border-slate-100 bg-canvas/50">
               <th className="px-4 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Durum</th>
               <th className="px-4 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Kural</th>
               <th className="px-4 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Tetikleyici</th>
@@ -41,7 +41,7 @@ export const ExecutionLog = () => {
               const cfg = STATUS_CFG[log.status] || STATUS_CFG.Success;
               const Icon = cfg.icon;
               return (
-                <tr key={log.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                <tr key={log.id} className="border-b border-slate-50 hover:bg-canvas/50 transition-colors">
                   <td className="px-4 py-3">
                     <span className={clsx('inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded', cfg.bg, cfg.text)}>
                       <Icon size={10} />

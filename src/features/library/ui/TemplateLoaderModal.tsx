@@ -120,10 +120,10 @@ export function TemplateLoaderModal({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-slate-200">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-primary flex items-center gap-3">
               <FileText className="w-7 h-7 text-blue-600" />
               Load Standard Program
             </h2>
@@ -151,7 +151,7 @@ export function TemplateLoaderModal({
                       placeholder="Search categories..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full pl-10 pr-4 py-2 bg-canvas border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -166,12 +166,12 @@ export function TemplateLoaderModal({
                       <button
                         key={category.name}
                         onClick={() => setSelectedCategory(category.name)}
-                        className={`w-full p-4 text-left hover:bg-slate-50 transition-colors flex items-center justify-between group ${
+                        className={`w-full p-4 text-left hover:bg-canvas transition-colors flex items-center justify-between group ${
                           selectedCategory === category.name ? 'bg-blue-50' : ''
                         }`}
                       >
                         <div className="flex-1">
-                          <div className="font-semibold text-slate-900 mb-1 flex items-center gap-2">
+                          <div className="font-semibold text-primary mb-1 flex items-center gap-2">
                             <Folder className="w-4 h-4 text-slate-400" />
                             {category.name}
                           </div>
@@ -201,7 +201,7 @@ export function TemplateLoaderModal({
                 {selectedCategoryData ? (
                   <>
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-bold text-slate-900">
+                      <h3 className="text-lg font-bold text-primary">
                         {selectedCategoryData.name}
                       </h3>
                       <button
@@ -225,7 +225,7 @@ export function TemplateLoaderModal({
                             className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                           />
                           <div className="flex-1 min-w-0">
-                            <div className="font-semibold text-slate-900 mb-1">
+                            <div className="font-semibold text-primary mb-1">
                               {procedure.title}
                             </div>
                             <div className="text-sm text-slate-600 line-clamp-2">
@@ -257,9 +257,9 @@ export function TemplateLoaderModal({
               </div>
             </div>
 
-            <div className="border-t border-slate-200 p-6 flex items-center justify-between bg-slate-50">
+            <div className="border-t border-slate-200 p-6 flex items-center justify-between bg-canvas">
               <div className="text-sm text-slate-600">
-                <span className="font-semibold text-slate-900">
+                <span className="font-semibold text-primary">
                   {selectedProcedures.size}
                 </span>{' '}
                 procedure{selectedProcedures.size !== 1 ? 's' : ''} selected
@@ -267,7 +267,7 @@ export function TemplateLoaderModal({
               <div className="flex items-center gap-3">
                 <button
                   onClick={onClose}
-                  className="px-6 py-3 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold hover:bg-slate-50 transition-colors"
+                  className="px-6 py-3 bg-surface border border-slate-300 text-slate-700 rounded-xl font-semibold hover:bg-canvas transition-colors"
                 >
                   Cancel
                 </button>
@@ -295,7 +295,7 @@ export function TemplateLoaderModal({
           <div className="flex-1 flex items-center justify-center p-12">
             <div className="text-center">
               <CheckCircle2 className="w-20 h-20 text-green-500 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-2">
+              <h3 className="text-2xl font-bold text-primary mb-2">
                 {result.count} Steps Loaded
               </h3>
               <p className="text-slate-600">

@@ -17,6 +17,17 @@ import {
 import { fetchFindingsByEngagement } from '@/entities/finding/api/supabase-api';
 import type { ComprehensiveFinding } from '@/entities/finding/model/types';
 import { useFindingStore } from '@/entities/finding/model/store';
+
+// Supabase API'nin döndürebileceği legacy/alternatif alan adlarını kapsayan yardımcı tip.
+// Bu alanlar ComprehensiveFinding'e eklenmez; yalnızca çalışma zamanı erişimi için kullanılır.
+type FindingWithLegacyFields = ComprehensiveFinding & {
+  condition?: string;
+  criteria?: string;
+  cause?: string;
+  consequence?: string;
+  corrective_action?: string;
+  target_date?: string;
+};
 import { useActiveReportStore } from '@/entities/report';
 import type { FindingRefBlock } from '@/entities/report';
 
@@ -35,7 +46,7 @@ const SEVERITY_BADGE: Record<string, string> = {
   HIGH: 'bg-orange-50 text-orange-700 ring-1 ring-orange-200',
   MEDIUM: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
   LOW: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
-  OBSERVATION: 'bg-slate-50 text-slate-600 ring-1 ring-slate-200',
+  OBSERVATION: 'bg-canvas text-slate-600 ring-1 ring-slate-200',
 };
 
 const SEVERITY_LABEL: Record<string, string> = {
@@ -113,20 +124,20 @@ const getSeverityBadge = (severity: string): { color: string; label: string } =>
 
 // Field extraction helpers that handle both naming conventions
 // (Finding interface fields and supabase-api mapped fields)
-const getCondition = (f: ComprehensiveFinding): string =>
-  stripHtml(f.detection_html ?? (f as any).condition ?? f.description ?? '');
+const getCondition = (f: FindingWithLegacyFields): string =>
+  stripHtml(f.detection_html ?? f.condition ?? f.description ?? '');
 
-const getCriteria = (f: ComprehensiveFinding): string =>
-  stripHtml(f.criteria_text ?? (f as any).criteria ?? '');
+const getCriteria = (f: FindingWithLegacyFields): string =>
+  stripHtml(f.criteria_text ?? f.criteria ?? '');
 
-const getCause = (f: ComprehensiveFinding): string =>
-  stripHtml(f.cause_text ?? (f as any).cause ?? '');
+const getCause = (f: FindingWithLegacyFields): string =>
+  stripHtml(f.cause_text ?? f.cause ?? '');
 
-const getImpact = (f: ComprehensiveFinding): string =>
-  stripHtml(f.impact_html ?? (f as any).consequence ?? '');
+const getImpact = (f: FindingWithLegacyFields): string =>
+  stripHtml(f.impact_html ?? f.consequence ?? '');
 
-const getRecommendation = (f: ComprehensiveFinding): string =>
-  stripHtml(f.recommendation_html ?? (f as any).corrective_action ?? '');
+const getRecommendation = (f: FindingWithLegacyFields): string =>
+  stripHtml(f.recommendation_html ?? f.corrective_action ?? '');
 
 // ─── SECTION LABEL COMPONENT ──────────────────────────────────────────────────
 
@@ -170,7 +181,7 @@ export function DynamicFindingsBlock({
   readOnly = false,
   filterBySeverity,
 }: DynamicFindingsBlockProps) {
-  const [findings, setFindings] = useState<ComprehensiveFinding[]>([]);
+  const [findings, setFindings] = useState<FindingWithLegacyFields[]>([]);
   const [loading, setLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -190,8 +201,8 @@ export function DynamicFindingsBlock({
           : data;
       setFindings(filtered);
       setLastUpdated(new Date());
-    } catch (err: any) {
-      setError(err.message || 'Bulgular yüklenemedi');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Bulgular yüklenemedi');
     } finally {
       setLoading(false);
     }
@@ -203,7 +214,7 @@ export function DynamicFindingsBlock({
 
   if (!engagementId) {
     return (
-      <div className="border-2 border-dashed border-slate-300 bg-slate-50 rounded-xl p-8 text-center">
+      <div className="border-2 border-dashed border-slate-300 bg-canvas rounded-xl p-8 text-center">
         <Database className="w-12 h-12 text-slate-400 mx-auto mb-3" />
         <h3 className="text-lg font-semibold text-slate-600 mb-2">Veri Kaynağı Bekleniyor</h3>
         <p className="text-sm text-slate-500">
@@ -248,7 +259,7 @@ export function DynamicFindingsBlock({
             <button
               onClick={loadFindings}
               disabled={loading}
-              className="px-3 py-1.5 text-xs font-medium text-blue-700 bg-white border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-50 flex items-center gap-1.5"
+              className="px-3 py-1.5 text-xs font-medium text-blue-700 bg-surface border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-50 flex items-center gap-1.5"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               {loading ? 'Yenileniyor...' : 'Yenile'}
@@ -256,7 +267,7 @@ export function DynamicFindingsBlock({
             {onRemove && (
               <button
                 onClick={onRemove}
-                className="px-3 py-1.5 text-xs font-medium text-rose-700 bg-white border border-rose-300 rounded-lg hover:bg-rose-50 transition-colors"
+                className="px-3 py-1.5 text-xs font-medium text-rose-700 bg-surface border border-rose-300 rounded-lg hover:bg-rose-50 transition-colors"
               >
                 Kaldır
               </button>
@@ -266,12 +277,12 @@ export function DynamicFindingsBlock({
       )}
 
       {loading && !findings.length ? (
-        <div className="text-center py-12 bg-white/50 rounded-xl border border-slate-200">
+        <div className="text-center py-12 bg-surface/50 rounded-xl border border-slate-200">
           <RefreshCw className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
           <p className="text-sm text-slate-600 font-medium">Bulgular yükleniyor...</p>
         </div>
       ) : findings.length === 0 ? (
-        <div className="text-center py-12 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50">
+        <div className="text-center py-12 border-2 border-dashed border-slate-300 rounded-xl bg-canvas">
           <AlertCircle className="w-10 h-10 text-slate-400 mx-auto mb-3" />
           <p className="text-slate-500 italic">Bu engagement için bulgu bulunamadı</p>
         </div>
@@ -293,10 +304,10 @@ export function DynamicFindingsBlock({
                 const severityBadge = getSeverityBadge(finding.severity);
                 const actionTarget = finding.action_plans?.[0]?.target_date;
                 return (
-                  <tr key={finding.id} className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}>
-                    <td className="px-4 py-3 text-sm font-medium text-slate-900 border-b border-slate-200">{index + 1}</td>
+                  <tr key={finding.id} className={index % 2 === 0 ? 'bg-surface' : 'bg-canvas/50'}>
+                    <td className="px-4 py-3 text-sm font-medium text-primary border-b border-slate-200">{index + 1}</td>
                     <td className="px-4 py-3 text-sm border-b border-slate-200">
-                      <div className="font-semibold text-slate-900">{finding.title}</div>
+                      <div className="font-semibold text-primary">{finding.title}</div>
                       <div className="text-xs text-slate-600 mt-1 line-clamp-2">{getCondition(finding)}</div>
                     </td>
                     <td className="px-4 py-3 text-center border-b border-slate-200">
@@ -311,7 +322,7 @@ export function DynamicFindingsBlock({
                       <div className="line-clamp-2">{getRecommendation(finding) || 'Belirtilmedi'}</div>
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-700 text-center border-b border-slate-200">
-                      {formatDate(actionTarget ?? (finding as any).target_date)}
+                      {formatDate(actionTarget ?? finding.target_date)}
                     </td>
                   </tr>
                 );
@@ -336,7 +347,7 @@ export function DynamicFindingsBlock({
 // ─── DYNAMIC STATISTICS BLOCK ────────────────────────────────────────────────
 
 export function DynamicStatisticsBlock({ engagementId }: { engagementId?: string }) {
-  const [findings, setFindings] = useState<ComprehensiveFinding[]>([]);
+  const [findings, setFindings] = useState<FindingWithLegacyFields[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -350,7 +361,7 @@ export function DynamicStatisticsBlock({ engagementId }: { engagementId?: string
 
   if (!engagementId) {
     return (
-      <div className="text-center p-4 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50">
+      <div className="text-center p-4 border-2 border-dashed border-slate-300 rounded-xl bg-canvas">
         <Database className="w-8 h-8 text-slate-400 mx-auto mb-2" />
         <p className="text-sm text-slate-600 font-medium">İstatistik için engagement seçin</p>
       </div>
@@ -359,7 +370,7 @@ export function DynamicStatisticsBlock({ engagementId }: { engagementId?: string
 
   if (loading) {
     return (
-      <div className="text-center py-8 bg-white/50 rounded-xl border border-slate-200">
+      <div className="text-center py-8 bg-surface/50 rounded-xl border border-slate-200">
         <RefreshCw className="w-6 h-6 text-blue-600 animate-spin mx-auto" />
       </div>
     );
@@ -412,8 +423,8 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
 
   if (isPublished && hasSnapshot) {
     return (
-      <div className="border border-slate-200 rounded-xl bg-white shadow-sm mb-6 overflow-hidden">
-        <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 border-b border-slate-100">
+      <div className="border border-slate-200 rounded-xl bg-surface shadow-sm mb-6 overflow-hidden">
+        <div className="flex items-center gap-2 px-4 py-2 bg-canvas border-b border-slate-100">
           <Lock size={12} className="text-slate-400" />
           <span className="text-xs font-sans text-slate-400 uppercase tracking-wider font-semibold">
             Dondurulmuş Veri — Yayın Anı Fotoğrafı
@@ -430,7 +441,7 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
 
   if (!finding) {
     return (
-      <div className="flex items-start gap-3 border border-slate-200 rounded-xl bg-white p-5 mb-6 shadow-sm">
+      <div className="flex items-start gap-3 border border-slate-200 rounded-xl bg-surface p-5 mb-6 shadow-sm">
         <ShieldAlert size={20} className="text-slate-400 mt-0.5 flex-shrink-0" />
         <div>
           <p className="font-sans text-sm font-semibold text-slate-600">Bulgu Bulunamadı</p>
@@ -446,7 +457,7 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
 
   const severityKey = (finding.severity ?? 'LOW').toUpperCase();
   const borderClass = SEVERITY_BORDER[severityKey] ?? 'border-l-[5px] border-slate-300';
-  const badgeClass = SEVERITY_BADGE[severityKey] ?? 'bg-slate-50 text-slate-600 ring-1 ring-slate-200';
+  const badgeClass = SEVERITY_BADGE[severityKey] ?? 'bg-canvas text-slate-600 ring-1 ring-slate-200';
   const severityLabel = SEVERITY_LABEL[severityKey] ?? severityKey;
   const stateLabel = STATE_LABELS[finding.state ?? ''] ?? finding.state ?? '';
 
@@ -459,23 +470,23 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
   const actionPlans = finding.action_plans ?? [];
   const findingCode = finding.finding_code ?? finding.code ?? '';
 
-  const bddk = (finding as any).bddk_deficiency_type;
+  const bddk = finding.bddk_deficiency_type;
 
   return (
     <div
-      className={`${borderClass} report-finding-block print:break-inside-avoid border border-slate-200 rounded-r-xl bg-white shadow-sm mb-6 overflow-hidden`}
+      className={`${borderClass} report-finding-block print:break-inside-avoid border border-slate-200 rounded-r-xl bg-surface shadow-sm mb-6 overflow-hidden`}
     >
       {/* ── HEADER ──────────────────────────────────────────────── */}
       <div className="px-5 pt-5 pb-4">
         <div className="flex items-start justify-between gap-3 mb-3">
-          <h3 className="font-serif text-lg font-bold text-slate-900 leading-snug flex-1">
+          <h3 className="font-serif text-lg font-bold text-primary leading-snug flex-1">
             {finding.title}
           </h3>
           <div className="flex items-center gap-2 flex-shrink-0">
             {finding.impact_score != null && (
               <span className="font-sans text-xs font-medium text-slate-500">
                 WIF{' '}
-                <span className="font-bold text-slate-900 text-sm">
+                <span className="font-bold text-primary text-sm">
                   {finding.impact_score.toFixed(1)}
                 </span>
               </span>
@@ -543,7 +554,7 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
 
       {/* ── ACTION PLANS ────────────────────────────────────────── */}
       {actionPlans.length > 0 && (
-        <div className="px-5 pt-3 pb-4 border-t border-slate-100 bg-slate-50/50">
+        <div className="px-5 pt-3 pb-4 border-t border-slate-100 bg-canvas/50">
           <div className="flex items-center gap-1.5 mb-3">
             <CheckCircle2 size={12} className="text-slate-400" />
             <p className="font-sans text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">
@@ -559,7 +570,7 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
               return (
                 <div
                   key={plan.id ?? idx}
-                  className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+                  className="bg-surface border border-slate-200 rounded-xl p-3.5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <p className="font-sans text-sm font-semibold text-slate-800 leading-snug flex-1">

@@ -6,6 +6,9 @@ export {
   useCreateEntity,
   useUpdateEntity,
   useDeleteEntity,
+  useEntityFindingCounts,
+  fetchEntityFindingCounts,
 } from './api';
+export type { EntityFindingCounts } from './api';
 export { fetchAuditUniverse, useAuditUniverse } from './api/universe-api';
 export { buildHierarchyFromLTree, flattenTree } from './lib/ltree-parser';

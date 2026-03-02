@@ -79,7 +79,7 @@ export function SentinelChatPanel() {
   return (
     <div
       className={clsx(
-        'fixed z-50 bg-white border border-slate-200 shadow-2xl flex flex-col transition-all duration-300',
+        'fixed z-50 bg-surface border border-slate-200 shadow-2xl flex flex-col transition-all duration-300',
         isExpanded
           ? 'inset-4 rounded-2xl'
           : 'bottom-4 right-4 w-[420px] h-[600px] rounded-2xl'
@@ -116,35 +116,35 @@ export function SentinelChatPanel() {
         <div className="flex items-center gap-1">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-white/10"
+            className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-surface/10"
             title={isExpanded ? 'Kucult' : 'Genislet'}
           >
             {isExpanded ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
           </button>
           <button
             onClick={clearMessages}
-            className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-white/10"
+            className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-surface/10"
             title="Sohbeti Temizle"
           >
             <Trash2 size={14} />
           </button>
           <button
             onClick={() => navigate('/settings/cognitive-engine')}
-            className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-white/10"
+            className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-surface/10"
             title="AI Ayarlari"
           >
             <Settings size={14} />
           </button>
           <button
             onClick={() => setChatOpen(false)}
-            className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-white/10"
+            className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-surface/10"
           >
             <X size={14} />
           </button>
         </div>
       </div>
 
-      <div className="flex items-center justify-between px-4 py-2 border-b border-slate-100 bg-slate-50 text-xs">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-slate-100 bg-canvas text-xs">
         <div className="flex items-center gap-2 text-slate-500">
           <MapPin size={12} />
           <span className="truncate max-w-[180px]">{pageCtx.label}</span>
@@ -236,7 +236,7 @@ export function SentinelChatPanel() {
         <div ref={chatEndRef} />
       </div>
 
-      <div className="border-t border-slate-200 p-3 bg-white rounded-b-2xl">
+      <div className="border-t border-slate-200 p-3 bg-surface rounded-b-2xl">
         <div className="flex items-end gap-2">
           <textarea
             ref={inputRef}
@@ -245,7 +245,7 @@ export function SentinelChatPanel() {
             onKeyDown={handleKeyDown}
             placeholder="Sorunuzu yazin..."
             rows={1}
-            className="flex-1 resize-none px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 resize-none px-3 py-2 bg-canvas border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             style={{ maxHeight: '100px' }}
           />
           <button

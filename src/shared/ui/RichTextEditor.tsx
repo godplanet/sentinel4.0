@@ -57,12 +57,12 @@ export const RichTextEditor = ({ value, onChange, placeholder = 'Metin girin...'
   };
 
   return (
-    <div className="w-full border border-slate-300 rounded-lg bg-white overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all flex flex-col h-full shadow-sm">
+    <div className="w-full border border-slate-300 rounded-lg bg-surface overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all flex flex-col h-full shadow-sm">
       {/* TOOLBAR - WORD BENZERİ GELİŞMİŞ MENÜ */}
-      <div className="flex flex-wrap items-center gap-1 p-2 bg-slate-50 border-b border-slate-200 shrink-0">
+      <div className="flex flex-wrap items-center gap-1 p-2 bg-canvas border-b border-slate-200 shrink-0">
         
         {/* Metin Formatı */}
-        <div className="flex items-center gap-1 bg-white p-1 rounded border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-1 bg-surface p-1 rounded border border-slate-200 shadow-sm">
             <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={clsx('p-1.5 rounded transition-colors', editor.isActive('bold') ? 'bg-blue-100 text-blue-700' : 'text-slate-600 hover:bg-slate-100')} title="Kalın"><Bold size={15} /></button>
             <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={clsx('p-1.5 rounded transition-colors', editor.isActive('italic') ? 'bg-blue-100 text-blue-700' : 'text-slate-600 hover:bg-slate-100')} title="İtalik"><Italic size={15} /></button>
             <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()} className={clsx('p-1.5 rounded transition-colors', editor.isActive('underline') ? 'bg-blue-100 text-blue-700' : 'text-slate-600 hover:bg-slate-100')} title="Altı Çizili"><UnderlineIcon size={15} /></button>
@@ -70,7 +70,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = 'Metin girin...'
         </div>
 
         {/* Başlıklar ve Listeler */}
-        <div className="flex items-center gap-1 bg-white p-1 rounded border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-1 bg-surface p-1 rounded border border-slate-200 shadow-sm">
             <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={clsx('p-1.5 rounded transition-colors', editor.isActive('heading', { level: 1 }) ? 'bg-blue-100 text-blue-700' : 'text-slate-600 hover:bg-slate-100')} title="Başlık 1"><Heading1 size={15} /></button>
             <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={clsx('p-1.5 rounded transition-colors', editor.isActive('heading', { level: 2 }) ? 'bg-blue-100 text-blue-700' : 'text-slate-600 hover:bg-slate-100')} title="Başlık 2"><Heading2 size={15} /></button>
             <div className="w-px h-4 bg-slate-200 mx-1" />
@@ -79,7 +79,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = 'Metin girin...'
         </div>
 
         {/* Hizalama */}
-        <div className="flex items-center gap-1 bg-white p-1 rounded border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-1 bg-surface p-1 rounded border border-slate-200 shadow-sm">
             <button type="button" onClick={() => editor.chain().focus().setTextAlign('left').run()} className={clsx('p-1.5 rounded transition-colors', editor.isActive({ textAlign: 'left' }) ? 'bg-blue-100 text-blue-700' : 'text-slate-600 hover:bg-slate-100')} title="Sola Hizala"><AlignLeft size={15} /></button>
             <button type="button" onClick={() => editor.chain().focus().setTextAlign('center').run()} className={clsx('p-1.5 rounded transition-colors', editor.isActive({ textAlign: 'center' }) ? 'bg-blue-100 text-blue-700' : 'text-slate-600 hover:bg-slate-100')} title="Ortala"><AlignCenter size={15} /></button>
             <button type="button" onClick={() => editor.chain().focus().setTextAlign('right').run()} className={clsx('p-1.5 rounded transition-colors', editor.isActive({ textAlign: 'right' }) ? 'bg-blue-100 text-blue-700' : 'text-slate-600 hover:bg-slate-100')} title="Sağa Hizala"><AlignRight size={15} /></button>
@@ -87,7 +87,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = 'Metin girin...'
         </div>
 
         {/* Medya ve Tablo */}
-        <div className="flex items-center gap-1 bg-white p-1 rounded border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-1 bg-surface p-1 rounded border border-slate-200 shadow-sm">
             <button type="button" onClick={addImage} className="p-1.5 rounded text-slate-600 hover:bg-slate-100 transition-colors" title="Resim Ekle"><ImageIcon size={15} /></button>
             <div className="w-px h-4 bg-slate-200 mx-1" />
             <button type="button" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} className="p-1.5 rounded text-slate-600 hover:bg-slate-100 transition-colors" title="Tablo Ekle"><TableIcon size={15} /></button>
@@ -102,7 +102,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = 'Metin girin...'
       <EditorContent 
         editor={editor} 
         className={clsx(
-          "p-5 prose prose-sm sm:prose-base max-w-none focus:outline-none flex-1 overflow-y-auto cursor-text bg-white prose-td:border prose-td:border-slate-300 prose-th:border prose-th:border-slate-300 prose-th:bg-slate-100 prose-table:w-full prose-table:border-collapse prose-img:rounded-lg",
+          "p-5 prose prose-sm sm:prose-base max-w-none focus:outline-none flex-1 overflow-y-auto cursor-text bg-surface prose-td:border prose-td:border-slate-300 prose-th:border prose-th:border-slate-300 prose-th:bg-slate-100 prose-table:w-full prose-table:border-collapse prose-img:rounded-lg",
           minHeight
         )} 
       />

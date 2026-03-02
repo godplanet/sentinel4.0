@@ -66,7 +66,7 @@ export function UniverseScoring() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['universe-risk-scores'] });
-      toast.success('Risk puanları kaydedildi!');
+      toast.success('Risk puanları denetim evrenine işlendi — skorlama güncellendi.');
     },
     onError: (err: any) => {
       toast.error(`Kayıt hatası: ${err?.message}`);
@@ -123,7 +123,7 @@ export function UniverseScoring() {
   const getRiskColor = (score: number) => {
     if (score >= 20) return 'bg-red-500 text-white';
     if (score >= 12) return 'bg-orange-500 text-white';
-    if (score >= 6) return 'bg-yellow-500 text-slate-900';
+    if (score >= 6) return 'bg-yellow-500 text-primary';
     return 'bg-emerald-500 text-white';
   };
 
@@ -146,7 +146,7 @@ export function UniverseScoring() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-primary flex items-center gap-2">
             <TrendingUp className="w-6 h-6 text-blue-600" />
             Makro Risk Değerlendirmesi
           </h2>
@@ -166,7 +166,7 @@ export function UniverseScoring() {
           </select>
           <button
             onClick={() => navigate('/strategy/audit-universe')}
-            className="px-4 py-2 bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-2 text-sm font-medium"
+            className="px-4 py-2 bg-surface border border-slate-300 text-slate-700 hover:bg-canvas rounded-lg transition-colors flex items-center gap-2 text-sm font-medium"
           >
             <Target className="w-4 h-4" />
             Evrene Git
@@ -202,13 +202,13 @@ export function UniverseScoring() {
           {topRiskyNodes.map((node, idx) => (
             <div
               key={node.id}
-              className="flex items-center gap-3 bg-white rounded-lg p-3 border border-red-100"
+              className="flex items-center gap-3 bg-surface rounded-lg p-3 border border-red-100"
             >
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-sm">
                 {idx + 1}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-semibold text-slate-900 truncate text-sm">{node.name}</div>
+                <div className="font-semibold text-primary truncate text-sm">{node.name}</div>
                 <div className="text-xs text-slate-500 font-mono">{node.path}</div>
               </div>
               <div className={`px-2 py-1 rounded text-xs font-bold ${getRiskColor(node.risk_score || 0)}`}>
@@ -220,16 +220,16 @@ export function UniverseScoring() {
       </div>
 
       {/* ALL ENTITIES TABLE */}
-      <div className="bg-white rounded-lg border border-slate-200">
-        <div className="p-4 border-b border-slate-200 bg-slate-50">
-          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+      <div className="bg-surface rounded-lg border border-slate-200">
+        <div className="p-4 border-b border-slate-200 bg-canvas">
+          <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
             <Target className="w-5 h-5 text-slate-600" />
             Tüm Evren Varlıkları ({mergedNodes.length})
           </h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-canvas border-b border-slate-200">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Varlık</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Tip</th>
@@ -247,9 +247,9 @@ export function UniverseScoring() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {mergedNodes.map((node) => (
-                <tr key={node.id} className="hover:bg-slate-50 transition-colors">
+                <tr key={node.id} className="hover:bg-canvas transition-colors">
                   <td className="px-4 py-3">
-                    <div className="font-semibold text-slate-900 text-sm">{node.name}</div>
+                    <div className="font-semibold text-primary text-sm">{node.name}</div>
                     <div className="text-xs text-slate-500 font-mono">{node.path}</div>
                   </td>
                   <td className="px-4 py-3">

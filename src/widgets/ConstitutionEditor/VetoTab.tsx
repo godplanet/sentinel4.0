@@ -65,7 +65,7 @@ export function VetoTab({ rules, onChange }: Props) {
         {rules.map((rule, idx) => (
           <div
             key={rule.id}
-            className={`p-5 border rounded-xl transition-all ${rule.enabled ? 'bg-white border-red-300 shadow-sm' : 'bg-slate-50 border-slate-200 opacity-70'}`}
+            className={`p-5 border rounded-xl transition-all ${rule.enabled ? 'bg-surface border-red-300 shadow-sm' : 'bg-canvas border-slate-200 opacity-70'}`}
           >
             <div className="flex items-start gap-4">
               <button
@@ -73,7 +73,7 @@ export function VetoTab({ rules, onChange }: Props) {
                 className={`relative mt-1 w-11 h-6 rounded-full transition-colors flex-shrink-0 ${rule.enabled ? 'bg-red-500' : 'bg-slate-300'}`}
               >
                 <span
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${rule.enabled ? 'translate-x-5' : ''}`}
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-surface rounded-full shadow transition-transform ${rule.enabled ? 'translate-x-5' : ''}`}
                 />
               </button>
 

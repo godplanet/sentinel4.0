@@ -17,6 +17,7 @@ import {
 import { useActiveReportStore } from '@/entities/report';
 import type { ExecutiveSummarySections, ManagementResponse, DynamicSection } from '@/entities/report';
 import { SmartVariableNode } from '@/features/report-editor/blocks/extensions/SmartVariableNode';
+import { useReportSummary } from '@/features/report-editor/api/useReportSummary';
 
 function warmthToBg(w: number): string {
   const t = w / 10;
@@ -28,29 +29,6 @@ function warmthToBg(w: number): string {
 
 const GRADE_OPTIONS = ['A+', 'A', 'B+', 'B', 'C', 'D'];
 const ASSURANCE_OPTIONS = ['Tam Güvence', 'Kısmi Güvence', 'Güvence Verilmedi'];
-
-const AI_MOCK_SECTIONS: ExecutiveSummarySections = {
-  auditOpinion:
-    '<p>Denetim ekibi, GIAS 2024 Standardı 2400 çerçevesinde iç kontrol ortamını bütünsel olarak değerlendirmiş ve <strong>kısmi güvence</strong> sonucuna ulaşmıştır.</p>',
-  criticalRisks:
-    '<p>BDDK yönetmeliği kapsamında aşağıdaki kritik riskler öncelikli yönetim gündemine alınmalıdır:</p><ol><li><strong>Kredi Limiti Yetki Matrisi İhlali (KRİTİK)</strong></li><li><strong>KYC Belge Tamamlaması Yetersizliği (YÜKSEK)</strong></li></ol>',
-  strategicRecommendations:
-    '<p>Denetim ekibi GIAS 2024 Standardı 2410 doğrultusunda aşağıdaki stratejik aksiyonları önermektedir.</p>',
-  managementAction:
-    '<p>Şube yönetimi denetim bulgularını müzakere etmiş ve tüm yüksek öncelikli bulgular için eylem planı hazırlamayı kabul etmiştir.</p>',
-};
-
-const AI_MOCK_INVESTIGATION: DynamicSection[] = [
-  { id: 'ds-0', title: 'I. Olay Özeti ve Tespit Yöntemi', content: '<p>Soruşturma; şüpheli işlem bildirimi üzerine başlatılmış, hesap hareketleri ve kamera kayıtları incelenmiştir.</p>' },
-  { id: 'ds-1', title: 'II. Deliller ve Bulgular', content: '<p>Toplam <strong>47 işlem</strong> incelemeye alınmış; yetkisiz para transferleri tespit edilmiştir.</p>' },
-  { id: 'ds-2', title: 'III. Önerilen Eylem Planı', content: '<p>İlgili personel hakkında idari süreç başlatılması ve kredi limiti yetki matrisinin güncellenmesi önerilmektedir.</p>' },
-];
-
-const AI_MOCK_INFO: DynamicSection[] = [
-  { id: 'ds-0', title: 'I. Konu ve Kapsam', content: '<p>Bu bilgi notu, düzenleyici otoriteler tarafından yayımlanan güncel mevzuat değişikliklerini özetlemektedir.</p>' },
-  { id: 'ds-1', title: 'II. Temel Hususlar', content: '<p>İlgili birimlerin aşağıdaki değişikliklerden haberdar edilmesi gerekmektedir.</p>' },
-  { id: 'ds-2', title: 'III. Sonuç ve Öneri', content: '<p>Uyum biriminin konuyu değerlendirerek gerekli adımları atması önerilmektedir.</p>' },
-];
 
 const SMART_VARIABLE_DEFS = [
   { id: 'npl_ratio', label: 'NPL Oranı' },
@@ -115,7 +93,7 @@ function TiptapField({ label, fieldKey, content, placeholder, readOnly = false, 
             {varDropOpen && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setVarDropOpen(false)} />
-                <div className="absolute right-0 top-full mt-1.5 bg-white rounded-xl border border-slate-200 shadow-xl z-20 w-52 overflow-hidden">
+                <div className="absolute right-0 top-full mt-1.5 bg-surface rounded-xl border border-slate-200 shadow-xl z-20 w-52 overflow-hidden">
                   <div className="px-3 py-2 border-b border-slate-100">
                     <p className="text-xs font-sans font-semibold text-slate-500 uppercase tracking-wider">Canlı Değişkenler</p>
                   </div>
@@ -139,8 +117,8 @@ function TiptapField({ label, fieldKey, content, placeholder, readOnly = false, 
       <div
         className={`min-h-[120px] rounded-xl border px-4 py-3 font-serif text-slate-800 text-sm leading-relaxed transition-colors ${
           readOnly
-            ? 'bg-white/60 border-slate-200 cursor-not-allowed'
-            : 'bg-white border-slate-300 focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-100'
+            ? 'bg-surface/60 border-slate-200 cursor-not-allowed'
+            : 'bg-surface border-slate-300 focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-100'
         }`}
       >
         <EditorContent editor={editor} />
@@ -190,8 +168,8 @@ function DynamicTiptapField({ section, index, readOnly = false, onChange }: Dyna
       <div
         className={`min-h-[120px] rounded-xl border px-4 py-3 font-serif text-slate-800 text-sm leading-relaxed transition-colors ${
           readOnly
-            ? 'bg-white/60 border-slate-200 cursor-not-allowed'
-            : 'bg-white border-slate-300 focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-100'
+            ? 'bg-surface/60 border-slate-200 cursor-not-allowed'
+            : 'bg-surface border-slate-300 focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-100'
         }`}
       >
         <EditorContent editor={editor} />
@@ -204,7 +182,7 @@ function SkeletonBlock({ lines = 3 }: { lines?: number }) {
   return (
     <div className="mb-6 animate-pulse">
       <div className="h-3 w-24 bg-slate-200 rounded mb-3" />
-      <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 space-y-2">
+      <div className="rounded-xl border border-slate-200 bg-canvas px-4 py-3 space-y-2">
         {Array.from({ length: lines }).map((_, i) => (
           <div key={i} className={`h-3 bg-slate-200 rounded ${i === lines - 1 ? 'w-2/3' : 'w-full'}`} />
         ))}
@@ -219,11 +197,12 @@ interface ExecutiveSummaryStudioProps {
 }
 
 export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: ExecutiveSummaryStudioProps) {
-  const { activeReport, updateExecutiveSummary } = useActiveReportStore();
-  const [aiLoading, setAiLoading] = useState(false);
+  const reportId = useActiveReportStore((s) => s.activeReport?.id);
+  const { activeReport, updateExecutiveSummary, loadReport } = useActiveReportStore();
+  const { report: reportFromQuery, generateSummary, isGenerating } = useReportSummary(reportId);
 
   const mgmtResponse = activeReport?.executiveSummary?.managementResponse;
-  const es = activeReport?.executiveSummary;
+  const es = activeReport?.executiveSummary ?? reportFromQuery?.executiveSummary;
   const paperBg = warmthToBg(warmth);
   const layoutType = es?.layoutType ?? 'standard_audit';
 
@@ -240,17 +219,14 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
   );
 
   const handleAIDraft = useCallback(async () => {
-    setAiLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    if (layoutType === 'investigation') {
-      updateExecutiveSummary({ dynamicSections: AI_MOCK_INVESTIGATION });
-    } else if (layoutType === 'info_note') {
-      updateExecutiveSummary({ dynamicSections: AI_MOCK_INFO });
-    } else {
-      updateExecutiveSummary({ sections: AI_MOCK_SECTIONS });
+    if (!reportId) return;
+    try {
+      await generateSummary({ reportId });
+      await loadReport(reportId);
+    } catch {
+      /* toast / error handled by mutation or store */
     }
-    setAiLoading(false);
-  }, [updateExecutiveSummary, layoutType]);
+  }, [reportId, generateSummary, loadReport]);
 
   const handleSectionChange = useCallback(
     (key: keyof ExecutiveSummarySections, html: string) => {
@@ -290,23 +266,23 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h2 className="font-serif text-2xl font-bold text-slate-900">Yönetici Özeti Stüdyosu</h2>
+            <h2 className="font-serif text-2xl font-bold text-primary">Yönetici Özeti Stüdyosu</h2>
             <p className="text-sm text-slate-500 mt-1 font-sans">GIAS 2024 · Standart 2400 uyumlu</p>
           </div>
           {!readOnly && (
             <button
               onClick={handleAIDraft}
-              disabled={aiLoading}
+              disabled={isGenerating || !reportId}
               className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white rounded-xl text-sm font-sans font-semibold transition-colors shadow-sm flex-shrink-0"
             >
               <Sparkles size={16} />
-              {aiLoading ? 'Sentinel Prime Yazıyor...' : 'AI ile İlk Taslağı Oluştur'}
+              {isGenerating ? 'Sentinel Prime Yazıyor...' : 'Yapay Zeka ile Oluştur'}
             </button>
           )}
         </div>
 
         {layoutType !== 'info_note' && (
-          <div className="bg-white/80 rounded-2xl border border-slate-200 p-6 mb-6 shadow-sm">
+          <div className="bg-surface/80 rounded-2xl border border-slate-200 p-6 mb-6 shadow-sm">
             <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-4">
               Skor ve Değerlendirme
             </h3>
@@ -321,7 +297,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   value={es.score}
                   disabled={readOnly}
                   onChange={(e) => updateExecutiveSummary({ score: parseFloat(e.target.value) || 0 })}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-slate-50 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-primary focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed bg-surface"
                 />
               </div>
               <div>
@@ -330,7 +306,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   value={es.grade}
                   disabled={readOnly}
                   onChange={(e) => updateExecutiveSummary({ grade: e.target.value })}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-slate-50 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-primary focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed bg-surface"
                 >
                   {GRADE_OPTIONS.map((g) => <option key={g} value={g}>{g}</option>)}
                 </select>
@@ -341,7 +317,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   value={es.previousGrade}
                   disabled={readOnly}
                   onChange={(e) => updateExecutiveSummary({ previousGrade: e.target.value })}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-slate-50 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-primary focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed bg-surface"
                 >
                   {GRADE_OPTIONS.map((g) => <option key={g} value={g}>{g}</option>)}
                 </select>
@@ -355,7 +331,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                     value={es.trend}
                     disabled={readOnly}
                     onChange={(e) => updateExecutiveSummary({ trend: parseFloat(e.target.value) || 0 })}
-                    className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-slate-50 disabled:cursor-not-allowed pr-8 bg-white"
+                    className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-primary focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed pr-8 bg-surface"
                   />
                   <span className="absolute right-2 top-1/2 -translate-y-1/2">
                     {trendNeutral ? (
@@ -374,7 +350,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   value={es.assuranceLevel}
                   disabled={readOnly}
                   onChange={(e) => updateExecutiveSummary({ assuranceLevel: e.target.value })}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-slate-50 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-primary focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed bg-surface"
                 >
                   {ASSURANCE_OPTIONS.map((a) => <option key={a} value={a}>{a}</option>)}
                 </select>
@@ -400,7 +376,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   disabled={readOnly}
                   onChange={(e) => handleDynamicMetricChange('maliBoyu', e.target.value)}
                   placeholder="örn: 450.000 TL"
-                  className="w-full border border-red-200 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-200 disabled:bg-white/60 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-red-200 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-200 disabled:bg-surface/60 disabled:cursor-not-allowed bg-surface"
                 />
               </div>
               <div>
@@ -414,7 +390,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   disabled={readOnly}
                   onChange={(e) => handleDynamicMetricChange('olayTarihi', e.target.value)}
                   placeholder="örn: 15 Kasım 2025"
-                  className="w-full border border-red-200 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-200 disabled:bg-white/60 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-red-200 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-200 disabled:bg-surface/60 disabled:cursor-not-allowed bg-surface"
                 />
               </div>
               <div>
@@ -428,14 +404,14 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   disabled={readOnly}
                   onChange={(e) => handleDynamicMetricChange('ilgiliBirim', e.target.value)}
                   placeholder="örn: Kadıköy Şubesi"
-                  className="w-full border border-red-200 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-200 disabled:bg-white/60 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-red-200 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-200 disabled:bg-surface/60 disabled:cursor-not-allowed bg-surface"
                 />
               </div>
             </div>
           </div>
         )}
 
-        <div className="bg-white/80 rounded-2xl border border-slate-200 p-6 mb-6 shadow-sm">
+        <div className="bg-surface/80 rounded-2xl border border-slate-200 p-6 mb-6 shadow-sm">
           <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-4">
             {layoutType === 'info_note' ? 'Özet' : 'YK Bilgilendirme Notu'}
           </h3>
@@ -449,16 +425,16 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                 ? 'Bilgi notunun kısa özeti...'
                 : "Yönetim Kurulu'na iletilecek kısa özet notu..."
             }
-            className="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm font-sans text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none disabled:bg-slate-50 disabled:cursor-not-allowed bg-white"
+            className="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm font-sans text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none disabled:bg-canvas disabled:cursor-not-allowed bg-surface"
           />
         </div>
 
-        <div className="bg-white/80 rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div className="bg-surface/80 rounded-2xl border border-slate-200 p-6 shadow-sm">
           <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-6">
             Detaylı Bölümler
           </h3>
 
-          {aiLoading ? (
+          {isGenerating ? (
             <>
               <SkeletonBlock lines={4} />
               <SkeletonBlock lines={5} />
@@ -513,7 +489,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
         </div>
 
         {layoutType !== 'info_note' && (
-          <div className="bg-white/80 rounded-2xl border border-slate-200 p-6 mt-6 shadow-sm">
+          <div className="bg-surface/80 rounded-2xl border border-slate-200 p-6 mt-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <UserCheck size={16} className="text-slate-500" />
               <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500">
@@ -529,7 +505,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   disabled={readOnly}
                   onChange={(e) => handleManagementResponseChange('providedBy', e.target.value)}
                   placeholder="Ad Soyad – Unvan"
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-slate-50 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed bg-surface"
                 />
               </div>
               <div>
@@ -539,7 +515,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                   value={mgmtResponse?.providedAt ?? new Date().toISOString().slice(0, 10)}
                   disabled={readOnly}
                   onChange={(e) => handleManagementResponseChange('providedAt', e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-slate-50 disabled:cursor-not-allowed bg-white"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed bg-surface"
                 />
               </div>
             </div>
@@ -551,7 +527,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 2 }: Executi
                 onChange={(e) => handleManagementResponseChange('responseText', e.target.value)}
                 rows={4}
                 placeholder="Denetlenen birim yöneticisinin bulgu ve önerilere ilişkin resmi beyanı..."
-                className="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm font-sans text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none disabled:bg-slate-50 disabled:cursor-not-allowed bg-white"
+                className="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm font-sans text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none disabled:bg-canvas disabled:cursor-not-allowed bg-surface"
               />
             </div>
           </div>

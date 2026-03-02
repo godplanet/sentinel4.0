@@ -105,7 +105,7 @@ export default function RiskConstitutionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-canvas">
       <PageHeader
         icon={BookOpen}
         title="Risk Anayasasi v3.0"
@@ -117,7 +117,7 @@ export default function RiskConstitutionPage() {
             </span>
             <button
               onClick={() => setShowJson(true)}
-              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-600 bg-surface border border-slate-200 rounded-lg hover:bg-canvas transition-colors"
             >
               <Code2 className="w-4 h-4" />
               JSON
@@ -129,7 +129,7 @@ export default function RiskConstitutionPage() {
       <div className="max-w-[1600px] mx-auto px-6 py-6">
         <div className="flex gap-6">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1 mb-6 bg-white border border-slate-200 rounded-xl p-1">
+            <div className="flex items-center gap-1 mb-6 bg-surface border border-slate-200 rounded-xl p-1">
               {TABS.map(tab => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -140,7 +140,7 @@ export default function RiskConstitutionPage() {
                     className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg flex-1 transition-all ${
                       isActive
                         ? 'bg-slate-800 text-white shadow-sm'
-                        : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                        : 'text-slate-500 hover:text-slate-700 hover:bg-canvas'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -150,7 +150,7 @@ export default function RiskConstitutionPage() {
               })}
             </div>
 
-            <div className="bg-white/70 backdrop-blur-xl border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <div className="bg-surface/70 backdrop-blur-xl border border-slate-200 rounded-2xl p-6 shadow-sm">
               {activeTab === 'dimensions' && (
                 <DimensionsTab dimensions={draftDimensions} onChange={handleDimensionsChange} />
               )}
@@ -181,7 +181,7 @@ export default function RiskConstitutionPage() {
           </div>
 
           <div className="w-72 flex-shrink-0">
-            <div className="sticky top-6 bg-white/70 backdrop-blur-xl border border-slate-200 rounded-2xl p-5 shadow-sm">
+            <div className="sticky top-6 bg-surface/70 backdrop-blur-xl border border-slate-200 rounded-2xl p-5 shadow-sm">
               <LiveTestPanel
                 dimensions={draftDimensions}
                 vetoRules={draftVetoRules}

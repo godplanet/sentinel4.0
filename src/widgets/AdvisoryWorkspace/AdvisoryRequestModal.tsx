@@ -43,13 +43,13 @@ export function AdvisoryRequestModal({ onClose }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden">
+      <div className="bg-surface rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden">
         <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-between">
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
             <Handshake size={16} />
             Danismanlik Hizmeti Talep Et
           </h3>
-          <button onClick={onClose} className="p-1 rounded hover:bg-white/20 text-white transition-colors">
+          <button onClick={onClose} className="p-1 rounded hover:bg-surface/20 text-white transition-colors">
             <X size={18} />
           </button>
         </div>
@@ -60,7 +60,7 @@ export function AdvisoryRequestModal({ onClose }: Props) {
             <select
               value={deptId}
               onChange={(e) => setDeptId(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400"
+              className="w-full px-4 py-3 bg-canvas border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400"
             >
               <option value="">Departman secin...</option>
               {departments.map((d) => (
@@ -75,7 +75,7 @@ export function AdvisoryRequestModal({ onClose }: Props) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Orn: Yeni Ise Alim Sureci Tasarimi"
-              className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400"
+              className="w-full px-4 py-3 bg-canvas border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400"
             />
           </div>
 
@@ -86,7 +86,7 @@ export function AdvisoryRequestModal({ onClose }: Props) {
               onChange={(e) => setProblem(e.target.value)}
               placeholder="Ne konuda yardima ihtiyaciniz var?"
               rows={3}
-              className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400 resize-none"
+              className="w-full px-4 py-3 bg-canvas border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400 resize-none"
             />
           </div>
 
@@ -97,7 +97,7 @@ export function AdvisoryRequestModal({ onClose }: Props) {
               onChange={(e) => setOutcome(e.target.value)}
               placeholder="Bu danismanliktan ne bekliyorsunuz?"
               rows={2}
-              className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400 resize-none"
+              className="w-full px-4 py-3 bg-canvas border-2 border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-400 resize-none"
             />
           </div>
         </div>

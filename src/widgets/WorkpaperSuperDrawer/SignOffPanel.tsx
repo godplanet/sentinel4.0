@@ -158,7 +158,7 @@ export function SignOffPanel({
           <FileCheck size={16} className="text-blue-600" />
         </div>
         <div>
-          <h3 className="text-sm font-bold text-slate-900">İmza Süreci</h3>
+          <h3 className="text-sm font-bold text-primary">İmza Süreci</h3>
           <p className="text-xs text-slate-500">Hazırlayan ve Gözden Geçiren Onayları</p>
         </div>
       </div>
@@ -173,7 +173,7 @@ export function SignOffPanel({
             'border-2 rounded-xl p-4 transition-all',
             isPrepared
               ? 'border-emerald-300 bg-emerald-50/50'
-              : 'border-slate-200 bg-slate-50',
+              : 'border-slate-200 bg-canvas',
           )}
         >
           <div className="flex items-start justify-between gap-3 mb-3">
@@ -186,7 +186,7 @@ export function SignOffPanel({
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="text-sm font-bold text-slate-900 mb-1">Hazırlayan İmzası</h4>
+                <h4 className="text-sm font-bold text-primary mb-1">Hazırlayan İmzası</h4>
                 {isPrepared ? (
                   <div className="space-y-1">
                     <p className="text-xs text-slate-600">
@@ -237,10 +237,10 @@ export function SignOffPanel({
             isReviewed
               ? 'border-emerald-300 bg-emerald-50/50'
               : !isPrepared
-                ? 'border-slate-200 bg-slate-50 opacity-60'
+                ? 'border-slate-200 bg-canvas opacity-60'
                 : isQAIPBlocked
                   ? 'border-red-400/50 bg-red-950/20'
-                  : 'border-slate-200 bg-slate-50',
+                  : 'border-slate-200 bg-canvas',
           )}
         >
           <div className="flex items-start justify-between gap-3 mb-3">
@@ -264,7 +264,7 @@ export function SignOffPanel({
               <div className="flex-1 min-w-0">
                 <h4 className={clsx(
                   'text-sm font-bold mb-1',
-                  isQAIPBlocked && isPrepared && !isReviewed ? 'text-red-200' : 'text-slate-900',
+                  isQAIPBlocked && isPrepared && !isReviewed ? 'text-red-200' : 'text-primary',
                 )}>
                   Gözden Geçiren İmzası — Denetim Kapatma
                 </h4>

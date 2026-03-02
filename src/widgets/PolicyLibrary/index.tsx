@@ -79,15 +79,15 @@ export function PolicyLibrary() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-600">Toplam Politika</span>
             <FileText className="w-5 h-5 text-slate-500" />
           </div>
-          <p className="text-3xl font-bold text-slate-900">{policies.length}</p>
+          <p className="text-3xl font-bold text-primary">{policies.length}</p>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-600">Onaylandı</span>
             <CheckCircle2 className="w-5 h-5 text-green-500" />
@@ -95,7 +95,7 @@ export function PolicyLibrary() {
           <p className="text-3xl font-bold text-green-600">{attestedCount}</p>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+        <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-600">Bekleyen</span>
             <Shield className="w-5 h-5 text-amber-500" />
@@ -111,7 +111,7 @@ export function PolicyLibrary() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            className={`bg-white rounded-lg border-2 shadow-sm hover:shadow-md transition-all overflow-hidden ${
+            className={`bg-surface rounded-lg border-2 shadow-sm hover:shadow-md transition-all overflow-hidden ${
               policy.is_attested
                 ? 'border-green-200 bg-green-50/30'
                 : 'border-slate-200 hover:border-blue-300'
@@ -130,7 +130,7 @@ export function PolicyLibrary() {
                 )}
               </div>
 
-              <h3 className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2">
+              <h3 className="text-lg font-semibold text-primary mb-2 line-clamp-2">
                 {policy.title}
               </h3>
 
@@ -184,7 +184,7 @@ export function PolicyLibrary() {
       </div>
 
       {policies.length === 0 && (
-        <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+        <div className="bg-surface rounded-lg border border-slate-200 p-12 text-center">
           <FileText className="w-16 h-16 mx-auto text-slate-300 mb-4" />
           <h3 className="text-xl font-semibold text-slate-700 mb-2">
             Politika Bulunamadı
@@ -206,12 +206,12 @@ export function PolicyLibrary() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+              className="bg-surface rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-surface/20 rounded-lg flex items-center justify-center">
                     <FileText className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -223,7 +223,7 @@ export function PolicyLibrary() {
                 </div>
                 <button
                   onClick={() => !attesting && setShowPDFModal(false)}
-                  className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-lg flex items-center justify-center transition-colors"
+                  className="w-8 h-8 bg-surface/20 hover:bg-surface/30 rounded-lg flex items-center justify-center transition-colors"
                   disabled={attesting}
                 >
                   <X className="w-5 h-5 text-white" />
@@ -231,7 +231,7 @@ export function PolicyLibrary() {
               </div>
 
               <div className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
-                <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg p-12 text-center mb-6">
+                <div className="bg-canvas border-2 border-dashed border-slate-300 rounded-lg p-12 text-center mb-6">
                   <Download className="w-16 h-16 mx-auto text-slate-400 mb-4" />
                   <h3 className="text-lg font-semibold text-slate-700 mb-2">
                     PDF Görüntüleyici (Mock)
@@ -240,7 +240,7 @@ export function PolicyLibrary() {
                     Gerçek uygulamada PDF dosyası burada görüntülenecektir.
                   </p>
                   {selectedPolicy.content_url && (
-                    <p className="text-sm text-slate-500 font-mono bg-white px-4 py-2 rounded border border-slate-200 inline-block">
+                    <p className="text-sm text-slate-500 font-mono bg-surface px-4 py-2 rounded border border-slate-200 inline-block">
                       {selectedPolicy.content_url}
                     </p>
                   )}
@@ -278,10 +278,10 @@ export function PolicyLibrary() {
                 )}
               </div>
 
-              <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-200">
+              <div className="bg-canvas px-6 py-4 flex items-center justify-between border-t border-slate-200">
                 <button
                   onClick={() => !attesting && setShowPDFModal(false)}
-                  className="px-6 py-2.5 bg-white border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium"
+                  className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
                   disabled={attesting}
                 >
                   Kapat

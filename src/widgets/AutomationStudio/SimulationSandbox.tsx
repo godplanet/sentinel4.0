@@ -132,13 +132,13 @@ export const SimulationSandbox = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-4">
-          <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm p-5">
+          <div className="bg-surface rounded-xl border border-slate-200/80 shadow-sm p-5">
             <h4 className="text-xs font-bold text-slate-600 mb-3 uppercase tracking-wider">1. Kural Secin</h4>
             <div className="relative">
               <select
                 value={selectedRuleId}
                 onChange={(e) => handleSelectRule(e.target.value)}
-                className="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 appearance-none bg-white"
+                className="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 appearance-none bg-surface"
               >
                 <option value="">Bir kural seciniz...</option>
                 {(rules || []).map((r) => (
@@ -149,7 +149,7 @@ export const SimulationSandbox = () => {
             </div>
 
             {selectedRule && (
-              <div className="mt-3 text-xs text-slate-500 bg-slate-50 rounded-lg p-3">
+              <div className="mt-3 text-xs text-slate-500 bg-canvas rounded-lg p-3">
                 <div className="font-bold text-slate-600 mb-1">
                   Tetikleyici: {TRIGGER_EVENTS.find((t) => t.value === selectedRule.trigger_event)?.label}
                 </div>
@@ -159,7 +159,7 @@ export const SimulationSandbox = () => {
           </div>
 
           {selectedRule && (
-            <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm p-5">
+            <div className="bg-surface rounded-xl border border-slate-200/80 shadow-sm p-5">
               <h4 className="text-xs font-bold text-slate-600 mb-3 uppercase tracking-wider">2. Test Verisi Girin</h4>
               <div className="space-y-3">
                 {payloadFields.map((f) => (
@@ -239,7 +239,7 @@ export const SimulationSandbox = () => {
                   </div>
                 </div>
 
-                <div className="p-5 space-y-4 bg-white/60">
+                <div className="p-5 space-y-4 bg-surface/60">
                   <div>
                     <h4 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Kosul Analizi</h4>
                     {Object.keys(result.conditionResults).length === 0 ? (

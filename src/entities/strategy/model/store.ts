@@ -6,7 +6,7 @@ import type {
   StrategicGoal,
   AuditObjectiveSimple,
 } from './types';
-import { MOCK_STRATEGIC_GOALS, MOCK_AUDIT_OBJECTIVES_SIMPLE } from '../api/mock-data';
+import { fetchStrategicGoals, fetchAuditObjectivesSimple } from '../api/goals';
 
 interface ExtendedStrategicGoal extends StrategicGoal {
   period_year?: number;
@@ -30,8 +30,13 @@ interface StrategyStore {
   addGoal: (goal: Omit<ExtendedStrategicGoal, 'id' | 'linkedAuditObjectives' | 'progress'>) => void;
   addObjective: (objective: Omit<ExtendedAuditObjective, 'id' | 'status'>) => void;
   updateRiskWeights: (weights: { impact: number; likelihood: number; velocity: number }) => void;
+  setGoals: (goals: ExtendedStrategicGoal[]) => void;
+  setObjectives: (objectives: ExtendedAuditObjective[]) => void;
 
   getAlignmentsForGoal: (goalId: string) => StrategyAlignment[];
+
+  /** strategic_bank_goals ve strategic_audit_objectives tablolarından veri çeker. */
+  initialize: () => Promise<void>;
 }
 
 export const useStrategyStore = create<StrategyStore>((set, get) => ({
@@ -39,8 +44,8 @@ export const useStrategyStore = create<StrategyStore>((set, get) => ({
   auditObjectives: [],
   alignments: [],
 
-  goals: MOCK_STRATEGIC_GOALS || [],
-  objectives: MOCK_AUDIT_OBJECTIVES_SIMPLE || [],
+  goals: [],
+  objectives: [],
   riskWeights: { impact: 40, likelihood: 40, velocity: 20 },
 
   addGoal: (newGoalData) => set((state) => ({
@@ -65,7 +70,19 @@ export const useStrategyStore = create<StrategyStore>((set, get) => ({
 
   updateRiskWeights: (weights) => set({ riskWeights: weights }),
 
+  setGoals: (goals) => set({ goals }),
+
+  setObjectives: (objectives) => set({ objectives }),
+
   getAlignmentsForGoal: (goalId) => {
     return get().alignments.filter((a) => a.bank_goal_id === goalId);
+  },
+
+  initialize: async () => {
+    const [goals, objectives] = await Promise.all([
+      fetchStrategicGoals(),
+      fetchAuditObjectivesSimple(),
+    ]);
+    set({ goals, objectives });
   },
 }));

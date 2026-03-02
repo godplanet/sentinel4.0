@@ -1,5 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Rocket, ChevronRight, ChevronLeft, Check,
@@ -12,17 +14,27 @@ import { SKILL_LABELS } from '@/features/talent-os/types';
 import { fetchServiceTemplates, fetchProfilesWithSkills } from '@/features/talent-os/api';
 import { findBestFit } from '@/features/talent-os/matcher';
 import { generateSprints, calculateEndDate } from './sprint-generator';
-import { createAgileEngagement, createSprints } from './api';
+import { createAgileEngagement, createSprints, setFirstSprintActive } from './api';
 import type { WizardState, GeneratedSprint, TeamMember } from './types';
 
 const STEP_LABELS = ['Denetim Urunu', 'Sprint Plani', 'Ekip Secimi'];
 
 export function EngagementWizard() {
   const navigate = useNavigate();
-  const [templates, setTemplates] = useState<AuditServiceTemplate[]>([]);
-  const [profiles, setProfiles] = useState<TalentProfileWithSkills[]>([]);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [creating, setCreating] = useState(false);
+
+  const { data: templates = [], isLoading: templatesLoading } = useQuery({
+    queryKey: ['audit-service-templates'],
+    queryFn: fetchServiceTemplates,
+  });
+
+  const { data: profiles = [], isLoading: profilesLoading } = useQuery({
+    queryKey: ['talent-profiles-with-skills'],
+    queryFn: fetchProfilesWithSkills,
+  });
+
+  const loading = templatesLoading || profilesLoading;
 
   const [wizard, setWizard] = useState<WizardState>({
     step: 1,
@@ -35,13 +47,6 @@ export function EngagementWizard() {
     selectedTeam: [],
     fitResults: [],
   });
-
-  useEffect(() => {
-    Promise.all([fetchServiceTemplates(), fetchProfilesWithSkills()])
-      .then(([t, p]) => { setTemplates(t); setProfiles(p); })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
 
   const fitResults = useMemo(() => {
     if (!wizard.selectedTemplate) return [];
@@ -106,9 +111,18 @@ export function EngagementWizard() {
       });
 
       await createSprints(engagement.id, wizard.generatedSprints);
-      navigate(`/execution/sprint-board/${engagement.id}`);
+      await setFirstSprintActive(engagement.id);
+
+      queryClient.invalidateQueries({ queryKey: ['agile-engagements'] });
+      queryClient.invalidateQueries({ queryKey: ['agile-engagement', engagement.id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', engagement.id] });
+
+      toast.success('Denetim oluşturuldu. Sprint panosuna yönlendiriliyorsunuz.');
+      navigate(`/execution/agile/${engagement.id}`);
     } catch (err) {
       console.error('Failed to create engagement:', err);
+      const message = err instanceof Error ? err.message : 'Denetim oluşturulurken bir hata oluştu.';
+      toast.error(message);
     } finally {
       setCreating(false);
     }
@@ -141,7 +155,7 @@ export function EngagementWizard() {
                 )}>
                   {isDone ? <Check size={14} /> : stepNum}
                 </div>
-                <span className={clsx('text-sm font-medium', isActive ? 'text-slate-900' : 'text-slate-400')}>
+                <span className={clsx('text-sm font-medium', isActive ? 'text-primary' : 'text-slate-400')}>
                   {label}
                 </span>
               </div>
@@ -186,7 +200,7 @@ export function EngagementWizard() {
         <button
           onClick={() => setWizard((prev) => ({ ...prev, step: Math.max(1, prev.step - 1) as 1 | 2 | 3 }))}
           disabled={wizard.step === 1}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-600 bg-surface border border-slate-200 rounded-lg hover:bg-canvas disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <ChevronLeft size={16} /> Geri
         </button>
@@ -235,7 +249,7 @@ function Step1Templates({
 
   return (
     <div>
-      <h2 className="text-lg font-bold text-slate-900 mb-1">Denetim Urunu Secin</h2>
+      <h2 className="text-lg font-bold text-primary mb-1">Denetim Urunu Secin</h2>
       <p className="text-sm text-slate-500 mb-6">Hizmet katalogundan bir denetim tipi secin. Sprint yapisi otomatik olusturulacak.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -248,7 +262,7 @@ function Step1Templates({
               'text-left p-5 rounded-xl border-2 transition-all',
               selected?.id === t.id
                 ? 'border-blue-500 bg-blue-50 shadow-md'
-                : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+                : 'border-slate-200 bg-surface hover:border-slate-300 hover:shadow-sm'
             )}
           >
             <div className="flex items-start justify-between mb-3">
@@ -259,7 +273,7 @@ function Step1Templates({
                 {t.complexity}
               </span>
             </div>
-            <h3 className="font-bold text-slate-900 mb-1">{t.service_name}</h3>
+            <h3 className="font-bold text-primary mb-1">{t.service_name}</h3>
             <p className="text-xs text-slate-500 mb-3">{t.description}</p>
             <div className="flex flex-wrap gap-1.5">
               {Object.entries(t.required_skills).map(([skill, level]) => (
@@ -289,7 +303,7 @@ function Step2Sprints({
 }) {
   return (
     <div>
-      <h2 className="text-lg font-bold text-slate-900 mb-1">Sprint Plani</h2>
+      <h2 className="text-lg font-bold text-primary mb-1">Sprint Plani</h2>
       <p className="text-sm text-slate-500 mb-6">Denetim detaylarini ayarlayin. Sprintler otomatik olusturuldu.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -299,7 +313,7 @@ function Step2Sprints({
             type="text"
             value={wizard.engagementTitle}
             onChange={(e) => onChange({ engagementTitle: e.target.value })}
-            className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2.5 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
@@ -308,7 +322,7 @@ function Step2Sprints({
             type="date"
             value={wizard.startDate}
             onChange={(e) => { onChange({ startDate: e.target.value }); setTimeout(onRegenerate, 0); }}
-            className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2.5 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div className="md:col-span-2">
@@ -317,7 +331,7 @@ function Step2Sprints({
             value={wizard.engagementDescription}
             onChange={(e) => onChange({ engagementDescription: e.target.value })}
             rows={2}
-            className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full px-3 py-2.5 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
           />
         </div>
         <div>
@@ -325,7 +339,7 @@ function Step2Sprints({
           <select
             value={wizard.sprintDurationWeeks}
             onChange={(e) => { onChange({ sprintDurationWeeks: Number(e.target.value) }); setTimeout(onRegenerate, 0); }}
-            className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2.5 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value={1}>1 Hafta</option>
             <option value={2}>2 Hafta</option>
@@ -348,12 +362,12 @@ function Step2Sprints({
 
 function SprintPreviewCard({ sprint }: { sprint: GeneratedSprint }) {
   return (
-    <div className="flex items-start gap-4 p-4 bg-white rounded-lg border border-slate-200">
+    <div className="flex items-start gap-4 p-4 bg-surface rounded-lg border border-slate-200">
       <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center font-bold text-blue-700 text-sm flex-shrink-0">
         {sprint.sprint_number}
       </div>
       <div className="flex-1 min-w-0">
-        <h4 className="text-sm font-semibold text-slate-900">{sprint.title}</h4>
+        <h4 className="text-sm font-semibold text-primary">{sprint.title}</h4>
         <p className="text-xs text-slate-500 mt-0.5">{sprint.goal}</p>
         <div className="flex items-center gap-2 mt-2 text-[11px] text-slate-400">
           <Calendar size={11} />
@@ -375,7 +389,7 @@ function Step3Team({
 }) {
   return (
     <div>
-      <h2 className="text-lg font-bold text-slate-900 mb-1">Ekip Secimi</h2>
+      <h2 className="text-lg font-bold text-primary mb-1">Ekip Secimi</h2>
       <p className="text-sm text-slate-500 mb-6">
         Best-Fit motoru denetim gereksinimlerine gore en uygun denetcileri siraladi. Ekibinizi secin.
       </p>
@@ -406,9 +420,9 @@ function Step3Team({
               disabled={r.blocked}
               className={clsx(
                 'w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-all',
-                r.blocked ? 'bg-slate-50 border-slate-200 opacity-50 cursor-not-allowed' :
+                r.blocked ? 'bg-canvas border-slate-200 opacity-50 cursor-not-allowed' :
                 isSelected ? 'bg-blue-50 border-blue-300 ring-1 ring-blue-400' :
-                'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
+                'bg-surface border-slate-200 hover:border-slate-300 hover:shadow-sm'
               )}
             >
               <div className={clsx(
@@ -422,7 +436,7 @@ function Step3Team({
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-slate-900">{r.auditor.full_name}</span>
+                  <span className="text-sm font-semibold text-primary">{r.auditor.full_name}</span>
                   <span className="text-[10px] text-slate-400">{r.auditor.department}</span>
                   {r.blocked && <AlertTriangle size={12} className="text-red-500" />}
                 </div>

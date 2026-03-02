@@ -150,7 +150,7 @@ Kisa ve oz yaz. Turkce yanit ver.`;
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-primary flex items-center gap-2">
             <Shield size={20} className="text-blue-600" />
             Kalite Guvence Paneli
           </h2>
@@ -175,12 +175,12 @@ Kisa ve oz yaz. Turkce yanit ver.`;
               onClick={() => setSelectedWP(isSelected ? null : wp.id)}
               className={clsx(
                 'text-left p-4 rounded-xl border-2 transition-all',
-                isSelected ? 'border-blue-500 bg-blue-50/50 shadow-md' : 'border-slate-200/60 bg-white/90 backdrop-blur-sm hover:border-slate-300 hover:shadow-sm'
+                isSelected ? 'border-blue-500 bg-blue-50/50 shadow-md' : 'border-slate-200/60 bg-surface/90 backdrop-blur-sm hover:border-slate-300 hover:shadow-sm'
               )}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-slate-900 truncate">{wp.title}</p>
+                  <p className="text-sm font-bold text-primary truncate">{wp.title}</p>
                   <p className="text-xs text-slate-500 mt-0.5">{wp.auditor} - {wp.engagement}</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -226,7 +226,7 @@ Kisa ve oz yaz. Turkce yanit ver.`;
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="bg-white/90 backdrop-blur-sm border border-slate-200/60 rounded-xl p-5 space-y-4">
+            <div className="bg-surface/90 backdrop-blur-sm border border-slate-200/60 rounded-xl p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileCheck size={16} className="text-slate-600" />
@@ -283,7 +283,7 @@ Kisa ve oz yaz. Turkce yanit ver.`;
                   <p className="text-[10px] text-amber-400">AI motoru yapilandirilmamis. Ayarlar &gt; Cognitive Engine</p>
                 )}
                 {aiInsight && (
-                  <div className="mt-3 bg-white/10 rounded-lg p-3 border border-white/10">
+                  <div className="mt-3 bg-surface/10 rounded-lg p-3 border border-white/10">
                     {aiInsight.split('\n').filter(Boolean).map((line, i) => (
                       <p key={i} className="text-xs text-slate-300 leading-relaxed mb-1">{line}</p>
                     ))}

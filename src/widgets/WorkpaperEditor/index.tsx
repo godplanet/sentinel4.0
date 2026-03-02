@@ -147,7 +147,7 @@ export function WorkpaperEditor() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/50 shadow-xl">
+    <div className="h-full flex flex-col bg-surface/80 backdrop-blur-sm rounded-2xl border border-slate-200/50 shadow-xl">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200/50">
         <div className="flex items-center gap-4">
@@ -155,7 +155,7 @@ export function WorkpaperEditor() {
             <FileText className="text-white" size={20} />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-slate-900">Çalışma Kağıdı Editörü</h2>
+            <h2 className="text-lg font-bold text-primary">Çalışma Kağıdı Editörü</h2>
             <p className="text-sm text-slate-600">Versiyon {activeWorkpaper.version}</p>
           </div>
         </div>
@@ -182,7 +182,7 @@ export function WorkpaperEditor() {
           <select
             value={activeWorkpaper.status}
             onChange={(e) => handleStatusChange(e.target.value as any)}
-            className="px-3 py-2 rounded-lg border-2 border-slate-300 bg-white text-sm font-medium focus:outline-none focus:border-blue-500"
+            className="px-3 py-2 rounded-lg border-2 border-slate-300 bg-surface text-sm font-medium focus:outline-none focus:border-blue-500"
             disabled={isSaving}
           >
             <option value="draft">Taslak</option>
@@ -204,11 +204,11 @@ export function WorkpaperEditor() {
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
         {/* Objective */}
         <div className="glass-card p-4">
-          <label className="block text-sm font-bold text-slate-900 mb-2">Amaç</label>
+          <label className="block text-sm font-bold text-primary mb-2">Amaç</label>
           <textarea
             value={activeWorkpaper.data.objective || ''}
             onChange={(e) => handleFieldUpdate('objective', e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white"
+            className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface"
             rows={3}
             placeholder="Denetim amacını yazın..."
           />
@@ -216,11 +216,11 @@ export function WorkpaperEditor() {
 
         {/* Scope */}
         <div className="glass-card p-4">
-          <label className="block text-sm font-bold text-slate-900 mb-2">Kapsam</label>
+          <label className="block text-sm font-bold text-primary mb-2">Kapsam</label>
           <textarea
             value={activeWorkpaper.data.scope || ''}
             onChange={(e) => handleFieldUpdate('scope', e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white"
+            className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface"
             rows={2}
             placeholder="Kapsam bilgisi..."
           />
@@ -228,11 +228,11 @@ export function WorkpaperEditor() {
 
         {/* Test Results */}
         <div className="glass-card p-4">
-          <h3 className="text-sm font-bold text-slate-900 mb-4">Test Sonuçları</h3>
+          <h3 className="text-sm font-bold text-primary mb-4">Test Sonuçları</h3>
           <div className="space-y-3">
             {Object.keys(testResults).length > 0 ? (
               Object.keys(testResults).map((testKey) => (
-                <div key={testKey} className="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200">
+                <div key={testKey} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-slate-200">
                   <span className="text-sm font-medium text-slate-700">{testKey.replace(/_/g, ' ').toUpperCase()}</span>
                   <div className="flex gap-2">
                     <TestButton testKey={testKey} result="pass" />
@@ -249,11 +249,11 @@ export function WorkpaperEditor() {
 
         {/* Conclusion */}
         <div className="glass-card p-4">
-          <label className="block text-sm font-bold text-slate-900 mb-2">Sonuç</label>
+          <label className="block text-sm font-bold text-primary mb-2">Sonuç</label>
           <textarea
             value={activeWorkpaper.data.conclusion || ''}
             onChange={(e) => handleFieldUpdate('conclusion', e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white"
+            className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface"
             rows={4}
             placeholder="Denetim sonucu ve değerlendirme..."
           />
@@ -261,18 +261,18 @@ export function WorkpaperEditor() {
 
         {/* Evidence Section */}
         <div className="glass-card p-4">
-          <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <h3 className="text-sm font-bold text-primary mb-4 flex items-center gap-2">
             <Paperclip size={16} />
             Kanıtlar ({evidence.length})
           </h3>
           {evidence.length > 0 ? (
             <div className="space-y-2">
               {evidence.map((ev) => (
-                <div key={ev.id} className="p-3 bg-white rounded-lg border border-slate-200 flex items-center justify-between">
+                <div key={ev.id} className="p-3 bg-surface rounded-lg border border-slate-200 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Paperclip size={16} className="text-slate-400" />
                     <div>
-                      <p className="text-sm font-medium text-slate-900">{ev.file_name}</p>
+                      <p className="text-sm font-medium text-primary">{ev.file_name}</p>
                       <p className="text-xs text-slate-500">{(ev.file_size_bytes / 1024).toFixed(1)} KB</p>
                     </div>
                   </div>
@@ -291,7 +291,7 @@ export function WorkpaperEditor() {
         {/* Findings */}
         {findings.length > 0 && (
           <div className="glass-card p-4 border-red-200">
-            <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <h3 className="text-sm font-bold text-primary mb-4 flex items-center gap-2">
               <XCircle size={16} className="text-red-600" />
               Otomatik Bulgular ({findings.length})
             </h3>
@@ -315,7 +315,7 @@ export function WorkpaperEditor() {
 
         {/* Comments */}
         <div className="glass-card p-4">
-          <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <h3 className="text-sm font-bold text-primary mb-4 flex items-center gap-2">
             <MessageSquare size={16} />
             Yorumlar ({activeWorkpaper.data.comments?.length || 0})
           </h3>
@@ -336,7 +336,7 @@ export function WorkpaperEditor() {
               onChange={(e) => setNewComment(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
               placeholder="Yorum ekle..."
-              className="flex-1 px-4 py-2 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white"
+              className="flex-1 px-4 py-2 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface"
             />
             <button
               onClick={handleAddComment}

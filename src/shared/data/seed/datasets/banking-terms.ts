@@ -95,6 +95,43 @@ export const FINDING_TEMPLATES = [
     category: 'Operasyonel Risk',
     description: 'Gün sonu mutabakat süreçleri otomasyona alınmamıştır.',
     severity: 'MEDIUM' as const
+  },
+  // ─── Katılım Bankacılığı (İslami Finans) Senaryoları ────────────────────────
+  {
+    title: 'Murabaha Kredi Tahsis Sürecinde Şer\'i Denetim Eksikliği',
+    category: 'Şer\'i Uyum',
+    description: 'Murabaha akitlerinde mal mülkiyetinin geçici olarak bankaya devri belgelenmemektedir; AAOIFI standardı SS-08 ihlali.',
+    severity: 'CRITICAL' as const
+  },
+  {
+    title: 'Teverruk İşlemleri API Güvenliği — Emtia Doğrulama Açığı',
+    category: 'BT Güvenliği',
+    description: 'Organize Teverruk işlemlerinde emtia alım-satım API\'si imzasız çağrılara karşı korumasızdır; TCMB entegrasyonu risk altında.',
+    severity: 'CRITICAL' as const
+  },
+  {
+    title: 'İcara Sözleşmelerinde Kira Endekslemesi Hatalı Uygulanıyor',
+    category: 'Şer\'i Uyum',
+    description: 'İcara finansmanı kira oranları TÜFE endeksine bağlanmış; ancak endeksleme hesaplamaları akitlerde önceden sabitlenmiş tutarlarla çelişmektedir.',
+    severity: 'HIGH' as const
+  },
+  {
+    title: 'Sukuk Portföyü Piyasa Değerleme Metodolojisi Uyumsuzluğu',
+    category: 'Piyasa Riski',
+    description: 'Sukuk araçlarının gerçeğe uygun değer tespitinde TFRS 9 ve AAOIFI FAS 25 arasındaki metodoloji farkı giderilmemiştir.',
+    severity: 'HIGH' as const
+  },
+  {
+    title: 'Katılım Fonu Kar Dağılım Hesabı — Ağırlıklı Ortalama Hatalı',
+    category: 'Operasyonel Risk',
+    description: 'Mudarebe ve Vekalet bazlı katılım fonlarında günlük ağırlıklı ortalama bakiye hesaplaması hata içermekte; mudarib payı yanlış tahakkuk ettirilmektedir.',
+    severity: 'CRITICAL' as const
+  },
+  {
+    title: 'Zekât Fonu Yönetimi — İç Kontrol Çerçevesi Eksik',
+    category: 'Uyum Riski',
+    description: 'Kurumsal zekât fonu yönetiminde nisab hesabı ve sarf yerleri için yazılı politika ve kontrol prosedürleri bulunmamaktadır.',
+    severity: 'MEDIUM' as const
   }
 ];
 

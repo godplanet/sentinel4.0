@@ -9,17 +9,19 @@ interface KanbanColumnProps {
   icon: React.ComponentType<{ size?: number; className?: string }>;
   color: string;
   tasks: AuditTask[];
+  onEditTask?: (task: AuditTask) => void;
+  onDeleteTask?: (task: AuditTask) => void;
 }
 
-export function KanbanColumn({ columnId, title, icon: Icon, color, tasks }: KanbanColumnProps) {
+export function KanbanColumn({ columnId, title, icon: Icon, color, tasks, onEditTask, onDeleteTask }: KanbanColumnProps) {
   return (
     <div className="flex-shrink-0 w-72 flex flex-col">
       <div className={clsx('border rounded-t-lg p-3 flex items-center justify-between', color)}>
         <div className="flex items-center gap-2">
           <Icon size={16} className="text-slate-700" />
-          <h3 className="font-semibold text-slate-900 text-sm">{title}</h3>
+          <h3 className="font-semibold text-primary text-sm">{title}</h3>
         </div>
-        <span className="text-xs font-bold text-slate-600 bg-white/60 px-2 py-0.5 rounded-full">
+        <span className="text-xs font-bold text-slate-600 bg-surface/60 px-2 py-0.5 rounded-full">
           {tasks.length}
         </span>
       </div>
@@ -31,7 +33,7 @@ export function KanbanColumn({ columnId, title, icon: Icon, color, tasks }: Kanb
             {...provided.droppableProps}
             className={clsx(
               'flex-1 p-2 space-y-2 border-x border-b rounded-b-lg overflow-y-auto min-h-[200px]',
-              snapshot.isDraggingOver ? 'bg-blue-50 border-blue-200' : 'bg-slate-50/50 border-slate-200'
+              snapshot.isDraggingOver ? 'bg-blue-50 border-blue-200' : 'bg-canvas/50 border-slate-200'
             )}
           >
             {tasks.map((task, index) => (
@@ -43,7 +45,12 @@ export function KanbanColumn({ columnId, title, icon: Icon, color, tasks }: Kanb
                     {...provided.dragHandleProps}
                     className="cursor-grab active:cursor-grabbing"
                   >
-                    <TaskCard task={task} isDragging={snapshot.isDragging} />
+                    <TaskCard
+                      task={task}
+                      isDragging={snapshot.isDragging}
+                      onEdit={onEditTask}
+                      onDelete={onDeleteTask}
+                    />
                   </div>
                 )}
               </Draggable>

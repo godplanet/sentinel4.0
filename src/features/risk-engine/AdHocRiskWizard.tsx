@@ -85,7 +85,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
           initial={{ scale: 0.95, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.95, y: 20 }}
-          className="bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[85vh] flex flex-col"
+          className="bg-surface rounded-2xl shadow-2xl w-full max-w-xl max-h-[85vh] flex flex-col"
           onClick={e => e.stopPropagation()}
         >
           <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4 rounded-t-2xl flex items-center justify-between">
@@ -96,12 +96,12 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
                 <p className="text-xs text-orange-200">Saha calismasi sirasinda hizli risk kaydi</p>
               </div>
             </div>
-            <button onClick={onClose} className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30">
+            <button onClick={onClose} className="w-8 h-8 bg-surface/20 rounded-lg flex items-center justify-center hover:bg-surface/30">
               <X size={16} className="text-white" />
             </button>
           </div>
 
-          <div className="flex items-center gap-1 px-6 py-3 bg-slate-50 border-b border-slate-200">
+          <div className="flex items-center gap-1 px-6 py-3 bg-canvas border-b border-slate-200">
             {STEPS.map((s, i) => {
               const Icon = s.icon;
               return (
@@ -131,25 +131,25 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-1">Risk Basligi <span className="text-red-500">*</span></label>
                       <input type="text" value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm" placeholder="Tespit edilen risk" />
+                        className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg text-sm" placeholder="Tespit edilen risk" />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-1">Aciklama</label>
                       <textarea value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm min-h-[80px]" placeholder="Risk detaylari..." />
+                        className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg text-sm min-h-[80px]" placeholder="Risk detaylari..." />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-semibold text-slate-700 mb-1">Kategori</label>
                         <select value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
-                          className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm">
+                          className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg text-sm">
                           {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
                       </div>
                       <div>
                         <label className="block text-sm font-semibold text-slate-700 mb-1">Risk Sahibi</label>
                         <input type="text" value={form.owner} onChange={e => setForm(p => ({ ...p, owner: e.target.value }))}
-                          className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm" placeholder="Sorumlu kisi" />
+                          className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg text-sm" placeholder="Sorumlu kisi" />
                       </div>
                     </div>
                   </div>
@@ -180,7 +180,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-1">Mevcut Kontrol</label>
                       <textarea value={form.controlDescription} onChange={e => setForm(p => ({ ...p, controlDescription: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm min-h-[60px]" placeholder="Kontrol aciklamasi..." />
+                        className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg text-sm min-h-[60px]" placeholder="Kontrol aciklamasi..." />
                     </div>
                     <div>
                       <div className="flex items-center justify-between mb-2">
@@ -194,11 +194,11 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-1">Iyilestirme Plani</label>
                       <textarea value={form.mitigationPlan} onChange={e => setForm(p => ({ ...p, mitigationPlan: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-lg text-sm min-h-[60px]" placeholder="Onerilen aksiyon plani..." />
+                        className="w-full px-4 py-2.5 bg-canvas border-2 border-slate-300 rounded-lg text-sm min-h-[60px]" placeholder="Onerilen aksiyon plani..." />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 pt-2">
-                      <div className="bg-slate-50 rounded-lg p-4 text-center">
+                      <div className="bg-canvas rounded-lg p-4 text-center">
                         <p className="text-xs text-slate-500">Dogal Risk</p>
                         <p className="text-2xl font-black text-slate-800">{riskScore}</p>
                       </div>
@@ -214,7 +214,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
 
                 {step === 3 && (
                   <div className="space-y-4">
-                    <div className="bg-slate-50 rounded-lg p-4 space-y-3">
+                    <div className="bg-canvas rounded-lg p-4 space-y-3">
                       <SummaryRow label="Risk Basligi" value={form.title} />
                       <SummaryRow label="Kategori" value={form.category} />
                       <SummaryRow label="Risk Sahibi" value={form.owner || '-'} />
@@ -223,7 +223,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
                       <SummaryRow label="Artik Risk" value={String(residualScore)} />
                     </div>
                     {form.description && (
-                      <div className="bg-white border border-slate-200 rounded-lg p-3">
+                      <div className="bg-surface border border-slate-200 rounded-lg p-3">
                         <p className="text-[10px] text-slate-500 font-medium mb-1">Aciklama</p>
                         <p className="text-xs text-slate-700">{form.description}</p>
                       </div>
@@ -234,10 +234,10 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
             </AnimatePresence>
           </div>
 
-          <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+          <div className="bg-canvas px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
             <button
               onClick={() => step > 0 ? setStep(s => s - 1) : onClose()}
-              className="flex items-center gap-1 px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium text-sm"
+              className="flex items-center gap-1 px-4 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm"
             >
               <ChevronLeft size={14} />
               {step > 0 ? 'Geri' : 'Iptal'}

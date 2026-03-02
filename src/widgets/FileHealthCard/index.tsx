@@ -82,7 +82,7 @@ export function FileHealthCard({ tasks }: FileHealthCardProps) {
             <ZoneIcon size={14} className={config.color} />
             <span className={clsx('text-xs font-bold', config.color)}>{config.label}</span>
           </div>
-          <h4 className="text-sm font-semibold text-slate-900">Dosya Saglik Skoru</h4>
+          <h4 className="text-sm font-semibold text-primary">Dosya Saglik Skoru</h4>
           {health.qualityGaps.length > 0 && (
             <p className="text-[11px] text-slate-500 mt-1 truncate">
               {health.qualityGaps.length} kalite acigi tespit edildi

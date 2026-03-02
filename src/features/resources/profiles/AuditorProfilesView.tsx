@@ -48,7 +48,7 @@ export function AuditorProfilesView() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Denetçi Profilleri</h2>
+          <h2 className="text-2xl font-bold text-primary">Denetçi Profilleri</h2>
           <p className="text-slate-600 mt-1">
             Ekip üyelerinin profil ve iletişim bilgileri
           </p>
@@ -59,7 +59,7 @@ export function AuditorProfilesView() {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200 p-4">
+      <div className="bg-surface rounded-lg border border-slate-200 p-4">
         <div className="flex items-center gap-3 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
@@ -99,7 +99,7 @@ export function AuditorProfilesView() {
                     {profile.full_name?.charAt(0) || '?'}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-slate-900 truncate">{profile.full_name}</h3>
+                    <h3 className="font-semibold text-primary truncate">{profile.full_name}</h3>
                     <p className="text-xs text-slate-500">{profile.title || 'Denetçi'}</p>
                   </div>
                 </div>
@@ -139,40 +139,40 @@ export function AuditorProfilesView() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
               <Users className="text-blue-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Toplam Denetçi</p>
-              <p className="text-2xl font-bold text-slate-900">{profiles.length}</p>
+              <p className="text-2xl font-bold text-primary">{profiles.length}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
               <Award className="text-green-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Sertifikalı</p>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-2xl font-bold text-primary">
                 {profiles.filter(p => p.certifications && p.certifications.length > 0).length}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
               <Award className="text-amber-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Ort. Tecrübe</p>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-2xl font-bold text-primary">
                 {profiles.length > 0
                   ? Math.round(profiles.reduce((sum, p) => sum + (p.years_of_experience || 0), 0) / profiles.length)
                   : 0} Yıl

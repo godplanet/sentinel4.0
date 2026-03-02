@@ -31,7 +31,7 @@ export const ScratchpadPanel = ({ workpaper, onSave }: ScratchpadPanelProps) => 
             <Lock className="w-5 h-5 text-white" />
           </div>
           <div className="flex-1">
-            <h3 className="text-sm font-semibold text-slate-900 mb-1">
+            <h3 className="text-sm font-semibold text-primary mb-1">
               Akıllı Not Defteri (Scratchpad)
             </h3>
             <p className="text-xs text-slate-600 leading-relaxed">
@@ -79,7 +79,7 @@ export const ScratchpadPanel = ({ workpaper, onSave }: ScratchpadPanelProps) => 
           className={`w-full px-4 py-3 border rounded-lg text-sm resize-none focus:outline-none focus:ring-2 transition-all ${
             isBlindMode
               ? 'bg-slate-900 text-slate-100 border-slate-700 focus:ring-slate-500 placeholder-slate-500'
-              : 'bg-white text-slate-900 border-slate-300 focus:ring-blue-500 placeholder-slate-400'
+              : 'bg-surface text-primary border-slate-300 focus:ring-blue-500 placeholder-slate-400'
           }`}
         />
         {isBlindMode && (

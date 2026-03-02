@@ -14,7 +14,7 @@ import { AIEvidenceAnalyzer } from '@/features/action-review/ui/AIEvidenceAnalyz
 import { TraceabilityGoldenThread } from '@/features/action-review/ui/TraceabilityGoldenThread';
 import { ForensicTimeline } from '@/shared/ui/ForensicTimeline';
 import type { TimelineEvent } from '@/shared/ui/ForensicTimeline';
-import type { ActionAgingMetrics, ActionEvidence } from '@/entities/action/model/types';
+import type { ActionAgingMetrics } from '@/entities/action/model/types';
 
 type Tab = 'context' | 'evidence' | 'history';
 
@@ -97,7 +97,6 @@ function buildTimeline(action: ActionAgingMetrics): TimelineEvent[] {
 
 interface Props {
   action: ActionAgingMetrics;
-  evidence?: ActionEvidence[];
   isOpen?: boolean;
   onClose?: () => void;
   onDecision?: (verdict: 'closed' | 'review_rejected') => void;
@@ -105,7 +104,6 @@ interface Props {
 
 export function ActionSuperDrawer({
   action,
-  evidence,
   isOpen,
   onClose,
   onDecision,
@@ -119,7 +117,7 @@ export function ActionSuperDrawer({
         <div
           className={clsx(
             'flex flex-col h-full',
-            'bg-white/90 backdrop-blur-2xl border-l border-slate-200',
+            'bg-surface/90 backdrop-blur-2xl border-l border-slate-200',
             action.is_bddk_breach && 'border-t-[3px] border-t-[#700000]',
           )}
         >
@@ -149,7 +147,7 @@ export function ActionSuperDrawer({
                   <TraceabilityGoldenThread action={action} />
                 )}
                 {activeTab === 'evidence' && (
-                  <AIEvidenceAnalyzer evidence={evidence} />
+                  <AIEvidenceAnalyzer actionId={action.id} />
                 )}
                 {activeTab === 'history' && (
                   <ForensicTimeline
@@ -175,7 +173,7 @@ function DrawerHeader({
   const snapshot = action.finding_snapshot;
 
   return (
-    <div className="px-6 py-4 border-b border-slate-200 bg-white/70 backdrop-blur-md flex items-start justify-between gap-4 shrink-0">
+    <div className="px-6 py-4 border-b border-slate-200 bg-surface/70 backdrop-blur-md flex items-start justify-between gap-4 shrink-0">
       <div className="flex items-start gap-3 flex-1 min-w-0">
         <div className={clsx(
           'w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5',
@@ -189,7 +187,7 @@ function DrawerHeader({
         </div>
 
         <div className="flex-1 min-w-0">
-          <h2 className="text-base font-black text-slate-900 leading-snug line-clamp-2 mb-2">
+          <h2 className="text-base font-black text-primary leading-snug line-clamp-2 mb-2">
             {snapshot?.title ?? 'Aksiyon Detayı'}
           </h2>
           <div className="flex flex-wrap items-center gap-2">
@@ -227,7 +225,7 @@ function DrawerHeader({
 function IronVaultSection({ action }: { action: ActionAgingMetrics }) {
   const snapshot = action.finding_snapshot;
   return (
-    <div className="px-6 py-5 border-b border-slate-200 bg-white">
+    <div className="px-6 py-5 border-b border-slate-200 bg-surface">
       <div className="flex items-center gap-2 mb-3">
         <FileText size={13} className="text-slate-400" />
         <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
@@ -242,14 +240,14 @@ function IronVaultSection({ action }: { action: ActionAgingMetrics }) {
 
       <div className="font-serif bg-[#FDFBF7] border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-base font-bold text-slate-900 not-italic leading-snug">
+          <h3 className="text-base font-bold text-primary not-italic leading-snug">
             {snapshot?.title ?? 'Başlık Yok'}
           </h3>
           <span className={clsx(
             'inline-flex items-center px-2.5 py-0.5 rounded text-[11px] font-bold shrink-0 not-italic font-sans',
             snapshot?.severity === 'CRITICAL' ? 'bg-[#eb0000] text-white' :
             snapshot?.severity === 'HIGH'     ? 'bg-[#ff960a] text-white' :
-            snapshot?.severity === 'MEDIUM'   ? 'bg-[#FFD700] text-black' :
+            snapshot?.severity === 'MEDIUM'   ? 'bg-[#FFD700] text-primary' :
                                                 'bg-[#28a745] text-white',
           )}>
             {snapshot?.severity ?? 'N/A'}
@@ -292,7 +290,7 @@ function TabNavigation({
   isBddk: boolean;
 }) {
   return (
-    <div className="flex border-b border-slate-200 bg-white shrink-0 overflow-x-auto">
+    <div className="flex border-b border-slate-200 bg-surface shrink-0 overflow-x-auto">
       {tabs.map(({ id, label, icon: Icon }) => (
         <button
           key={id}

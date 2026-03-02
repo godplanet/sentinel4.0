@@ -1,102 +1,19 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/shared/api/supabase';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { CalendarCheck, Users, AlertTriangle, TrendingUp, Clock, UserPlus } from 'lucide-react';
 import clsx from 'clsx';
-
-interface Engagement {
-  id: string;
-  title: string;
-  status: string;
-  start_date: string;
-  end_date: string;
-  estimated_hours?: number;
-  assigned_count?: number;
-}
-
-interface AuditorAllocation {
-  id: string;
-  full_name: string;
-  email: string;
-  allocated_hours: number;
-  capacity_hours: number;
-  active_engagements: number;
-}
+import { fetchResourceAllocations, type Engagement, type AuditorAllocation } from '@/entities/resources/api';
 
 export function ResourceAllocationView() {
-  const [engagements, setEngagements] = useState<Engagement[]>([]);
-  const [auditors, setAuditors] = useState<AuditorAllocation[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedEngagement, setSelectedEngagement] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  const { data, isLoading: loading } = useQuery({
+    queryKey: ['resource-allocations'],
+    queryFn: fetchResourceAllocations
+  });
 
-  const loadData = async () => {
-    try {
-      setLoading(true);
-
-      const [engagementsResult, auditorsResult] = await Promise.all([
-        supabase
-          .from('audit_engagements')
-          .select('*')
-          .in('status', ['PLANNED', 'IN_PROGRESS'])
-          .order('start_date', { ascending: true }),
-        supabase
-          .from('auditor_profiles')
-          .select('*')
-          .order('full_name')
-      ]);
-
-      if (engagementsResult.error) throw engagementsResult.error;
-      if (auditorsResult.error) throw auditorsResult.error;
-
-      const engagementsWithAssignments = await Promise.all(
-        (engagementsResult.data || []).map(async (eng) => {
-          const { count } = await supabase
-            .from('resource_assignments')
-            .select('*', { count: 'exact', head: true })
-            .eq('engagement_id', eng.id);
-
-          return {
-            ...eng,
-            assigned_count: count || 0
-          };
-        })
-      );
-
-      const auditorsWithAllocation = await Promise.all(
-        (auditorsResult.data || []).map(async (auditor) => {
-          const { data: assignments } = await supabase
-            .from('resource_assignments')
-            .select('allocated_hours, engagement:audit_engagements!inner(status)')
-            .eq('user_id', auditor.id)
-            .in('engagement.status', ['PLANNED', 'IN_PROGRESS']);
-
-          const allocatedHours = (assignments || []).reduce(
-            (sum, a) => sum + (a.allocated_hours || 0),
-            0
-          );
-
-          return {
-            id: auditor.id,
-            full_name: auditor.full_name,
-            email: auditor.email,
-            allocated_hours: allocatedHours,
-            capacity_hours: 160,
-            active_engagements: (assignments || []).length
-          };
-        })
-      );
-
-      setEngagements(engagementsWithAssignments);
-      setAuditors(auditorsWithAllocation);
-    } catch (error) {
-      console.error('Failed to load data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const engagements = data?.engagements || [];
+  const auditors = data?.auditors || [];
 
   const getUtilizationColor = (allocated: number, capacity: number) => {
     const percent = (allocated / capacity) * 100;
@@ -113,61 +30,61 @@ export function ResourceAllocationView() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">Kaynak Tahsisi</h2>
+        <h2 className="text-2xl font-bold text-primary">Kaynak Tahsisi</h2>
         <p className="text-slate-600 mt-1">
           Denetim atama ve kaynak dağılımı yönetimi
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
               <CalendarCheck className="text-blue-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Aktif Denetimler</p>
-              <p className="text-2xl font-bold text-slate-900">{engagements.length}</p>
+              <p className="text-2xl font-bold text-primary">{engagements.length}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
               <Users className="text-green-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Uygun Kaynak</p>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-2xl font-bold text-primary">
                 {auditors.filter(a => a.allocated_hours < a.capacity_hours * 0.8).length}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
               <AlertTriangle className="text-orange-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Aşırı Yüklü</p>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-2xl font-bold text-primary">
                 {auditors.filter(a => a.allocated_hours >= a.capacity_hours).length}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="bg-surface rounded-lg border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
               <TrendingUp className="text-purple-600" size={20} />
             </div>
             <div>
               <p className="text-sm text-slate-600">Ort. Kullanım</p>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-2xl font-bold text-primary">
                 {auditors.length > 0
                   ? Math.round((auditors.reduce((sum, a) => sum + a.allocated_hours, 0) / auditors.reduce((sum, a) => sum + a.capacity_hours, 0)) * 100)
                   : 0}%
@@ -178,9 +95,9 @@ export function ResourceAllocationView() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg border border-slate-200">
+        <div className="bg-surface rounded-lg border border-slate-200">
           <div className="px-6 py-4 border-b border-slate-200">
-            <h3 className="font-semibold text-slate-900 flex items-center gap-2">
+            <h3 className="font-semibold text-primary flex items-center gap-2">
               <CalendarCheck size={18} className="text-blue-600" />
               Atama Bekleyen Denetimler
             </h3>
@@ -208,7 +125,7 @@ export function ResourceAllocationView() {
                   )}
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <h4 className="font-medium text-slate-900 text-sm">{engagement.title}</h4>
+                    <h4 className="font-medium text-primary text-sm">{engagement.title}</h4>
                     <span className={clsx(
                       'px-2 py-1 rounded text-xs font-medium',
                       engagement.status === 'IN_PROGRESS'
@@ -237,9 +154,9 @@ export function ResourceAllocationView() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200">
+        <div className="bg-surface rounded-lg border border-slate-200">
           <div className="px-6 py-4 border-b border-slate-200">
-            <h3 className="font-semibold text-slate-900 flex items-center gap-2">
+            <h3 className="font-semibold text-primary flex items-center gap-2">
               <Users size={18} className="text-green-600" />
               Denetçi Kapasite Durumu
             </h3>
@@ -270,7 +187,7 @@ export function ResourceAllocationView() {
                           {auditor.full_name.charAt(0)}
                         </div>
                         <div>
-                          <h4 className="font-medium text-slate-900 text-sm">{auditor.full_name}</h4>
+                          <h4 className="font-medium text-primary text-sm">{auditor.full_name}</h4>
                           <p className="text-xs text-slate-500">{auditor.email}</p>
                         </div>
                       </div>

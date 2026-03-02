@@ -156,14 +156,14 @@ export function TraceabilityDrawer({ open, onClose }: TraceabilityDrawerProps) {
   const es = activeReport.executiveSummary;
 
   return (
-      <div className="flex flex-col h-full bg-white border-l border-slate-200">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-white flex-shrink-0">
+      <div className="flex flex-col h-full bg-surface border-l border-slate-200">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-surface flex-shrink-0">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 bg-amber-100 rounded-xl flex items-center justify-center">
                   <GitBranch size={15} className="text-amber-600" />
                 </div>
                 <div>
-                  <h2 className="text-sm font-sans font-bold text-slate-900">Altın İplik</h2>
+                  <h2 className="text-sm font-sans font-bold text-primary">Altın İplik</h2>
                   <p className="text-[10px] text-slate-400 font-sans">İzlenebilirlik Zinciri</p>
                 </div>
               </div>
@@ -176,12 +176,12 @@ export function TraceabilityDrawer({ open, onClose }: TraceabilityDrawerProps) {
             </div>
 
             <div className="flex-1 overflow-y-auto">
-              <div className="p-5 border-b border-slate-100 bg-slate-50">
+              <div className="p-5 border-b border-slate-100 bg-canvas">
                 <div className="flex items-start gap-3">
                   <GradeCircle score={es.score ?? 0} grade={es.grade ?? '—'} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-sans text-slate-500 mb-1">Denetim Skoru</p>
-                    <p className="text-sm font-sans font-bold text-slate-900 truncate">{activeReport.title}</p>
+                    <p className="text-sm font-sans font-bold text-primary truncate">{activeReport.title}</p>
                     <div className="flex items-center gap-1.5 mt-1.5">
                       <TrendIcon trend={es.trend ?? 0} />
                       <span className="text-xs text-slate-500 font-sans">Önceki: {es.previousGrade ?? '—'}</span>
@@ -238,7 +238,7 @@ export function TraceabilityDrawer({ open, onClose }: TraceabilityDrawerProps) {
                   >
                     <div className="space-y-2">
                       {linkedFindings.map((finding) => (
-                        <div key={finding.id} className="bg-slate-50 rounded-lg p-2.5 border border-slate-200">
+                        <div key={finding.id} className="bg-canvas rounded-lg p-2.5 border border-slate-200">
                           <div className="flex items-start justify-between gap-2 mb-1">
                             <span className="text-xs font-sans font-semibold text-slate-800 line-clamp-2 leading-tight">
                               {finding.title}
@@ -307,7 +307,7 @@ export function TraceabilityDrawer({ open, onClose }: TraceabilityDrawerProps) {
               </div>
             </div>
 
-            <div className="flex-shrink-0 px-5 py-3 border-t border-slate-100 bg-slate-50">
+            <div className="flex-shrink-0 px-5 py-3 border-t border-slate-100 bg-canvas">
               <p className="text-[10px] text-slate-400 font-sans text-center">
                 Son güncelleme: {new Date(activeReport.updatedAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}
               </p>

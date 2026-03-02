@@ -25,10 +25,10 @@ export default function DashboardGrid({ data }: DashboardGridProps) {
   const [activeTab, setActiveTab] = useState<TabType>('action');
 
   return (
-    <div className="flex-1 bg-gray-50 p-8 overflow-y-auto">
+    <div className="flex-1 bg-canvas p-8 overflow-y-auto">
       <div className="max-w-[1600px] mx-auto">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-primary mb-2">
             Yönetim Kokpiti
           </h1>
           <p className="text-gray-600">
@@ -73,7 +73,7 @@ function TabButton({
       className={`px-6 py-3 font-semibold text-sm transition-colors relative ${
         active
           ? 'text-pink-600 border-b-2 border-pink-600'
-          : 'text-gray-600 hover:text-gray-900'
+          : 'text-gray-600 hover:text-primary'
       }`}
     >
       {children}
@@ -360,8 +360,8 @@ function FindingTrackingTab({ data }: { data: ExecutiveDashboardRow[] }) {
 
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+    <div className="bg-surface rounded-xl shadow-sm border border-gray-200 p-6">
+      <h3 className="text-lg font-semibold text-primary mb-4">{title}</h3>
       {children}
     </div>
   );

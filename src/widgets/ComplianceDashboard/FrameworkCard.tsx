@@ -9,7 +9,7 @@ const AUTHORITY_CONFIG: Record<string, { color: string; bg: string; ring: string
   ISACA: { color: 'text-amber-700', bg: 'bg-amber-50', ring: 'ring-amber-200', icon: 'bg-amber-600' },
 };
 
-const DEFAULT_CFG = { color: 'text-slate-700', bg: 'bg-slate-50', ring: 'ring-slate-200', icon: 'bg-slate-600' };
+const DEFAULT_CFG = { color: 'text-slate-700', bg: 'bg-canvas', ring: 'ring-slate-200', icon: 'bg-slate-600' };
 
 interface Props {
   stat: FrameworkCoverageStats;
@@ -27,7 +27,7 @@ export const FrameworkCard = ({ stat, onClick }: Props) => {
       className={clsx(
         'group relative w-full text-left rounded-2xl border p-5 transition-all duration-200',
         'hover:shadow-lg hover:-translate-y-0.5 hover:border-slate-300',
-        'bg-white border-slate-200/80 shadow-sm',
+        'bg-surface border-slate-200/80 shadow-sm',
       )}
     >
       <div className="flex items-start justify-between mb-4">
@@ -44,7 +44,7 @@ export const FrameworkCard = ({ stat, onClick }: Props) => {
         </span>
       </div>
 
-      <h3 className="text-sm font-bold text-slate-800 mb-1 line-clamp-2 leading-snug group-hover:text-slate-900">
+      <h3 className="text-sm font-bold text-slate-800 mb-1 line-clamp-2 leading-snug group-hover:text-primary">
         {stat.name}
       </h3>
       <p className="text-xs text-slate-400 mb-4">{stat.authority} | v{stat.short_code?.split('-')[1] || '1.0'}</p>

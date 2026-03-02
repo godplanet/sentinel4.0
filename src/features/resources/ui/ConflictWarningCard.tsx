@@ -2,16 +2,26 @@
  * CONFLICT WARNING CARD
  *
  * Displays overlap and fatigue warnings when assigning auditors.
+ * GIAS 9.2: Yönetim Kuruluna eskale butonu ve onay modalı.
  */
 
-import { AlertTriangle, Calendar, Activity } from 'lucide-react';
+import { useState } from 'react';
+import { AlertTriangle, Calendar, Activity, Send, CheckCircle2 } from 'lucide-react';
 import type { ConflictCheck } from '../conflicts';
+import {
+  useEscalateToBoard,
+  buildEscalationSummary,
+} from '../escalation-api';
 
 interface ConflictWarningCardProps {
   conflictCheck: ConflictCheck;
 }
 
 export function ConflictWarningCard({ conflictCheck }: ConflictWarningCardProps) {
+  const [showEscalateModal, setShowEscalateModal] = useState(false);
+  const [escalationSealed, setEscalationSealed] = useState(false);
+  const escalateMutation = useEscalateToBoard();
+
   if (!conflictCheck.hasConflict && conflictCheck.warnings.length === 0) {
     return (
       <div className="rounded-lg border border-green-200 bg-green-50 p-4">
@@ -46,10 +56,10 @@ export function ConflictWarningCard({ conflictCheck }: ConflictWarningCardProps)
       ))}
 
       {conflictCheck.overlappingEngagements.length > 0 && (
-        <div className="rounded-lg border border-slate-200 bg-white p-4">
+        <div className="rounded-lg border border-slate-200 bg-surface p-4">
           <div className="flex items-center gap-2 mb-3">
             <Calendar className="h-4 w-4 text-slate-600" />
-            <span className="text-sm font-semibold text-slate-900">
+            <span className="text-sm font-semibold text-primary">
               Overlapping Engagements
             </span>
           </div>
@@ -57,9 +67,9 @@ export function ConflictWarningCard({ conflictCheck }: ConflictWarningCardProps)
             {conflictCheck.overlappingEngagements.map((eng) => (
               <div
                 key={eng.id}
-                className="rounded border border-slate-200 bg-slate-50 p-3 text-sm"
+                className="rounded border border-slate-200 bg-canvas p-3 text-sm"
               >
-                <div className="font-medium text-slate-900">{eng.title}</div>
+                <div className="font-medium text-primary">{eng.title}</div>
                 <div className="text-slate-600 mt-1">
                   {new Date(eng.start_date).toLocaleDateString()} -{' '}
                   {new Date(eng.end_date).toLocaleDateString()}
@@ -105,6 +115,78 @@ export function ConflictWarningCard({ conflictCheck }: ConflictWarningCardProps)
                   </span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {(conflictCheck.hasConflict || conflictCheck.warnings.length > 0) && !escalationSealed && (
+        <div className="rounded-lg border-2 border-orange-200 bg-orange-50/80 p-4">
+          <button
+            type="button"
+            onClick={() => setShowEscalateModal(true)}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold text-sm hover:from-orange-600 hover:to-red-600 transition-all shadow-sm"
+          >
+            <Send size={16} />
+            Yönetim Kuruluna Eskale Et (GIAS 9.2)
+          </button>
+        </div>
+      )}
+
+      {escalationSealed && (
+        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 flex items-center gap-2 text-emerald-800">
+          <CheckCircle2 size={20} className="text-emerald-600 shrink-0" />
+          <span className="font-medium">Eskalasyon Mühürlendi</span>
+        </div>
+      )}
+
+      {showEscalateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-surface rounded-xl border border-slate-200 shadow-xl max-w-md w-full mx-4 overflow-hidden">
+            <div className="px-5 py-4 border-b border-slate-200 bg-canvas">
+              <h3 className="text-base font-bold text-slate-800">GIAS 9.2 Eskalasyon</h3>
+            </div>
+            <div className="p-5 space-y-4">
+              <p className="text-sm text-slate-600">
+                GIAS 9.2 gereği, bu riskleri denetleyecek yeterli bütçe/kapasite olmadığı
+                Yönetim Kuruluna bildirilecektir.
+              </p>
+              <p className="text-xs text-slate-500">
+                Özet: {buildEscalationSummary(conflictCheck)}
+              </p>
+            </div>
+            <div className="px-5 py-4 border-t border-slate-200 flex justify-end gap-2 bg-canvas/50">
+              <button
+                type="button"
+                onClick={() => setShowEscalateModal(false)}
+                className="px-3 py-2 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-100"
+              >
+                Vazgeç
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    await escalateMutation.mutateAsync({
+                      summary: buildEscalationSummary(conflictCheck),
+                      details: {
+                        overlappingEngagements: conflictCheck.overlappingEngagements,
+                        warnings: conflictCheck.warnings,
+                        fatigueWarning: conflictCheck.fatigueWarning ?? null,
+                      },
+                      report_type: 'GIAS_9_2_CAPACITY',
+                    });
+                    setShowEscalateModal(false);
+                    setEscalationSealed(true);
+                  } catch {
+                    setShowEscalateModal(false);
+                  }
+                }}
+                disabled={escalateMutation.isPending}
+                className="px-3 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 disabled:opacity-50"
+              >
+                {escalateMutation.isPending ? 'Gönderiliyor…' : 'Onayla ve Gönder'}
+              </button>
             </div>
           </div>
         </div>

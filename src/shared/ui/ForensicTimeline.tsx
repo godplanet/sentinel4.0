@@ -19,7 +19,7 @@ const COLOR_MAP: Record<
   green:  { ring: 'ring-emerald-200', bg: 'bg-emerald-50', icon: 'text-emerald-600', title: 'text-slate-800',   dot: 'bg-emerald-500' },
   amber:  { ring: 'ring-amber-200',   bg: 'bg-amber-50',   icon: 'text-amber-600',   title: 'text-slate-800',   dot: 'bg-amber-500'   },
   red:    { ring: 'ring-red-200',     bg: 'bg-red-50',     icon: 'text-red-600',     title: 'text-slate-800',   dot: 'bg-red-500'     },
-  slate:  { ring: 'ring-slate-200',   bg: 'bg-slate-50',   icon: 'text-slate-500',   title: 'text-slate-700',   dot: 'bg-slate-400'   },
+  slate:  { ring: 'ring-slate-200',   bg: 'bg-canvas',   icon: 'text-slate-500',   title: 'text-slate-700',   dot: 'bg-slate-400'   },
   maroon: { ring: 'ring-[#700000]/30',bg: 'bg-[#700000]/5',icon: 'text-[#700000]',   title: 'text-[#700000]',   dot: 'bg-[#700000]'   },
 };
 

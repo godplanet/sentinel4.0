@@ -94,11 +94,11 @@ export function RegulationSelectorModal({ isOpen, onClose, onSelect }: Regulatio
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[85vh] flex flex-col">
+      <div className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[85vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-200">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-primary flex items-center gap-2">
               <BookOpen className="text-blue-600" />
               Mevzuat Kütüphanesi
             </h2>
@@ -123,7 +123,7 @@ export function RegulationSelectorModal({ isOpen, onClose, onSelect }: Regulatio
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Mevzuat ara... (ör: 'Bilgi Sistemleri', 'KYC', 'MASAK')"
-              className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm"
+              className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface text-sm"
               autoFocus
             />
           </div>
@@ -211,7 +211,7 @@ export function RegulationSelectorModal({ isOpen, onClose, onSelect }: Regulatio
                         </span>
                       </div>
 
-                      <h4 className="font-bold text-slate-900 mb-1 group-hover:text-blue-700 transition-colors">
+                      <h4 className="font-bold text-primary mb-1 group-hover:text-blue-700 transition-colors">
                         {reg.title}
                       </h4>
 
@@ -229,7 +229,7 @@ export function RegulationSelectorModal({ isOpen, onClose, onSelect }: Regulatio
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-200 bg-slate-50 rounded-b-2xl">
+        <div className="p-4 border-t border-slate-200 bg-canvas rounded-b-2xl">
           <p className="text-xs text-slate-500 text-center">
             {loading ? 'Yükleniyor...' : `${filteredRegulations.length} mevzuat gösteriliyor`}
             {searchQuery && ` (Arama: "${searchQuery}")`}

@@ -162,7 +162,7 @@ export default function UserManagementPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+      <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
         <div className="p-6 border-b border-slate-200">
           <div className="flex items-center justify-between gap-4 mb-4">
             <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -192,7 +192,7 @@ export default function UserManagementPage() {
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
-              className="px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className="px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
             >
               <option value="all">Tüm Roller</option>
               {ROLES.map((role) => (
@@ -218,7 +218,7 @@ export default function UserManagementPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-slate-50 border-b border-slate-200">
+              <thead className="bg-canvas border-b border-slate-200">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">
                     Kullanıcı
@@ -242,7 +242,7 @@ export default function UserManagementPage() {
                   const role = getRoleBadge(user.role);
                   const status = getStatusBadge(user.status);
                   return (
-                    <tr key={user.id} className="hover:bg-slate-50 transition-colors">
+                    <tr key={user.id} className="hover:bg-canvas transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-sm">
@@ -304,7 +304,7 @@ export default function UserManagementPage() {
 
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+          <div className="bg-surface rounded-xl shadow-2xl max-w-md w-full p-6">
             <h3 className="text-xl font-bold text-slate-800 mb-4">Yeni Kullanıcı Ekle</h3>
             <div className="space-y-4">
               <div>
@@ -345,7 +345,7 @@ export default function UserManagementPage() {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setShowAddModal(false)}
-                className="flex-1 px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-semibold"
+                className="flex-1 px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-semibold"
               >
                 İptal
               </button>

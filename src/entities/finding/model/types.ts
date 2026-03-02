@@ -91,8 +91,8 @@ export interface Finding {
   description?: string;           // Legacy Description
 
   // RCA (Root Cause Analysis)
-  root_cause_analysis?: any;      
-  criteria_json?: any[];
+  root_cause_analysis?: Record<string, unknown>;
+  criteria_json?: unknown[];
   rca_category?: string;          
 
   // Müfettişin Son Sözü
@@ -111,6 +111,10 @@ export interface Finding {
   // GIAS 2024 Golden Thread
   traceability_token?: string;
 
+  // BDDK Denetim Çerçevesi
+  audit_framework?: 'STANDARD' | 'BDDK';
+  bddk_deficiency_type?: BDDKDeficiencyType;
+
   // Tarihler
   negotiation_started_at?: string;
   agreed_at?: string;
@@ -127,7 +131,7 @@ export interface Finding {
 // ------------------------------------------------------------------
 export interface FindingSecret {
   finding_id: string;
-  auditor_notes_raw?: Record<string, any>;
+  auditor_notes_raw?: Record<string, unknown>;
   root_cause_analysis_internal?: string;
   detection_methodology?: string;
   
@@ -148,7 +152,7 @@ export interface FindingSecret {
 
   root_cause_summary?: string;
   internal_notes?: string;
-  technical_details?: Record<string, any>;
+  technical_details?: Record<string, unknown>;
   auditor_only_comments?: string;
   updated_at?: string;
 }
@@ -226,8 +230,8 @@ export interface ActionPlan {
   extension_count?: number;
   
   // Detaylar
-  milestones?: any[];
-  plan_details?: Record<string, any>;
+  milestones?: unknown[];
+  plan_details?: Record<string, unknown>;
   current_state?: NegotiationState;
   
   // Müzakere
@@ -236,7 +240,7 @@ export interface ActionPlan {
   auditee_agreed?: boolean;
   auditee_agreed_at?: string;
   
-  evidence_links?: any[];
+  evidence_links?: unknown[];
   
   created_at: string;
   updated_at?: string;
@@ -272,7 +276,7 @@ export interface FindingHistory {
   previous_state?: string;
   new_state: string;
   change_type: ChangeType;
-  changed_fields?: Record<string, any>;
+  changed_fields?: Record<string, unknown>;
   change_description?: string;
   changed_by?: string;
   changed_by_role?: string;
@@ -292,7 +296,7 @@ export interface FindingComment {
   author_role: AuthorRole;
   author_name?: string;
   parent_comment_id?: string;
-  attachments?: any[];
+  attachments?: unknown[];
   created_at: string;
   updated_at: string;
   is_deleted: boolean;
@@ -366,27 +370,9 @@ export interface FindingWithAssignment extends Finding {
   action_steps?: ActionStep[];
 }
 
-// --- MEVCUT DOSYAYA EKLENECEK / GÜNCELLENECEK KISIMLAR ---
-
-// 1. Severity Genişletmesi (GIAS 2024 'Observation' eklendi)
-export type FindingSeverity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'OBSERVATION';
-
-// 2. BDDK Özel Tanımları
+// BDDK Özel Tanımları
 export type BDDKDeficiencyType = 
   | 'OK'  // Önemli Kontrol Eksikliği (Kritik)
   | 'KD'  // Kayda Değer Kontrol Eksikliği (Yüksek)
   | 'KZ'  // Kontrol Zayıflığı (Orta)
   | null; // Standart modda null olabilir
-
-// 3. Finding Interface Güncellemesi
-export interface Finding {
-  // ... mevcut alanlar ...
-  
-  // Denetim Çerçevesi Ayarı
-  audit_framework: 'STANDARD' | 'BDDK'; 
-  
-  // BDDK Özel Alanı
-  bddk_deficiency_type?: BDDKDeficiencyType;
-  
-  // ... diğer alanlar ...
-}

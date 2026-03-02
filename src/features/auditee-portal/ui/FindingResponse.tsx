@@ -74,9 +74,9 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
   const isLocked = assignment.is_locked;
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+    <form onSubmit={handleSubmit} className="bg-surface rounded-lg border border-slate-200 overflow-hidden">
       <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200">
-        <h3 className="text-lg font-semibold text-slate-900">
+        <h3 className="text-lg font-semibold text-primary">
           {isLocked ? 'Yanıt (Kilitli)' : 'Yanıtınız'}
         </h3>
       </div>
@@ -90,7 +90,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
             className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
               responseType === 'AGREED'
                 ? 'bg-green-50 border-green-500 text-green-800'
-                : 'bg-white border-slate-200 text-slate-600 hover:border-green-300'
+                : 'bg-surface border-slate-200 text-slate-600 hover:border-green-300'
             } disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             <CheckCircle2 className="w-5 h-5" />
@@ -104,7 +104,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
             className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
               responseType === 'DISAGREED'
                 ? 'bg-red-50 border-red-500 text-red-800'
-                : 'bg-white border-slate-200 text-slate-600 hover:border-red-300'
+                : 'bg-surface border-slate-200 text-slate-600 hover:border-red-300'
             } disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             <XCircle className="w-5 h-5" />
@@ -122,7 +122,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
             value={auditeeOpinion}
             onChange={(e) => setAuditeeOpinion(e.target.value)}
             rows={4}
-            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-slate-50 disabled:cursor-not-allowed"
+            className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-canvas disabled:cursor-not-allowed"
             placeholder={
               responseType === 'AGREED'
                 ? 'Bulgunun kök nedeni hakkındaki görüşünüz...'
@@ -140,7 +140,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-slate-50 disabled:cursor-not-allowed"
+              className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-canvas disabled:cursor-not-allowed"
               placeholder="Bulguyu neden kabul etmediğinizi açıklayın..."
             />
           </div>
@@ -161,7 +161,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
             </div>
 
             {actionSteps.length === 0 ? (
-              <div className="text-center py-8 text-slate-500 bg-slate-50 rounded-lg border border-dashed border-slate-300">
+              <div className="text-center py-8 text-slate-500 bg-canvas rounded-lg border border-dashed border-slate-300">
                 Aksiyon adımı eklemek için yukarıdaki butona tıklayın
               </div>
             ) : (
@@ -169,7 +169,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
                 {actionSteps.map((step, index) => (
                   <div
                     key={index}
-                    className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-3"
+                    className="bg-canvas border border-slate-200 rounded-lg p-4 space-y-3"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 space-y-3">
@@ -179,14 +179,14 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
                           value={step.description || ''}
                           onChange={(e) => updateActionStep(index, 'description', e.target.value)}
                           placeholder="Aksiyon açıklaması..."
-                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <input
                           type="date"
                           required
                           value={step.due_date || ''}
                           onChange={(e) => updateActionStep(index, 'due_date', e.target.value)}
-                          className="px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="px-3 py-2 bg-surface border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                       </div>
                       <button
@@ -205,7 +205,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
         )}
       </div>
 
-      <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
+      <div className="bg-canvas px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
         <button
           type="button"
           onClick={onCancel}

@@ -74,7 +74,7 @@ export function ResourcePoolGrid({ profiles, selectedId, onSelect }: ResourcePoo
             placeholder="Denetci ara..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full pl-9 pr-4 py-2.5 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         <button
@@ -83,7 +83,7 @@ export function ResourcePoolGrid({ profiles, selectedId, onSelect }: ResourcePoo
             'flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium border transition-colors',
             showFilters
               ? 'bg-blue-50 text-blue-700 border-blue-200'
-              : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+              : 'bg-surface text-slate-600 border-slate-200 hover:bg-canvas'
           )}
         >
           <SlidersHorizontal size={16} />
@@ -92,13 +92,13 @@ export function ResourcePoolGrid({ profiles, selectedId, onSelect }: ResourcePoo
       </div>
 
       {showFilters && (
-        <div className="bg-slate-50 rounded-lg border border-slate-200 p-4 mb-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-canvas rounded-lg border border-slate-200 p-4 mb-5 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-xs font-semibold text-slate-600 mb-1.5">Beceri Filtresi</label>
             <select
               value={skillFilter}
               onChange={(e) => setSkillFilter(e.target.value)}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">Tumu</option>
               {ALL_SKILLS.map((s) => (
@@ -111,7 +111,7 @@ export function ResourcePoolGrid({ profiles, selectedId, onSelect }: ResourcePoo
             <select
               value={availFilter}
               onChange={(e) => setAvailFilter(e.target.value as AvailabilityFilter)}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">Tumu</option>
               <option value="available">Musait</option>
@@ -123,7 +123,7 @@ export function ResourcePoolGrid({ profiles, selectedId, onSelect }: ResourcePoo
             <select
               value={zoneFilter}
               onChange={(e) => setZoneFilter(e.target.value as ZoneFilter)}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">Tumu</option>
               <option value="GREEN">Yesil (Normal)</option>

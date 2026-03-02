@@ -1,7 +1,8 @@
 import { supabase } from '@/shared/api/supabase';
 import type {
   AgileEngagement, AuditSprint, AuditTask,
-  GeneratedSprint, TeamMember, TaskStatus,
+  GeneratedSprint, TeamMember, TaskStatus, TaskPriority,
+  EngagementStatus, ValidationStatus,
 } from './types';
 
 export async function fetchAgileEngagements(): Promise<AgileEngagement[]> {
@@ -87,6 +88,22 @@ export async function fetchSprints(engagementId: string): Promise<AuditSprint[]>
   return data || [];
 }
 
+export async function setFirstSprintActive(engagementId: string): Promise<void> {
+  const { data: sprints } = await supabase
+    .from('audit_sprints')
+    .select('id')
+    .eq('engagement_id', engagementId)
+    .order('sprint_number', { ascending: true })
+    .limit(1);
+
+  if (sprints?.length) {
+    await supabase
+      .from('audit_sprints')
+      .update({ status: 'ACTIVE', updated_at: new Date().toISOString() })
+      .eq('id', sprints[0].id);
+  }
+}
+
 export async function fetchTasks(engagementId: string): Promise<AuditTask[]> {
   const { data, error } = await supabase
     .from('audit_tasks')
@@ -109,6 +126,38 @@ export async function fetchTasksBySprint(sprintId: string): Promise<AuditTask[]>
   return data || [];
 }
 
+export async function createTask(input: {
+  sprint_id: string;
+  engagement_id: string;
+  title: string;
+  description?: string;
+  story_points?: number;
+  priority?: TaskPriority;
+  assigned_to?: string | null;
+  assigned_name?: string;
+}): Promise<AuditTask> {
+  const { data, error } = await supabase
+    .from('audit_tasks')
+    .insert({
+      sprint_id: input.sprint_id,
+      engagement_id: input.engagement_id,
+      title: input.title,
+      description: input.description ?? '',
+      story_points: input.story_points ?? 1,
+      priority: input.priority ?? 'MEDIUM',
+      assigned_to: input.assigned_to ?? null,
+      assigned_name: input.assigned_name ?? '',
+      status: 'TODO',
+      validation_status: 'OPEN',
+      evidence_links: [],
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
 export async function updateTaskStatus(
   taskId: string,
   status: TaskStatus
@@ -117,6 +166,90 @@ export async function updateTaskStatus(
     .from('audit_tasks')
     .update({ status, updated_at: new Date().toISOString() })
     .eq('id', taskId);
+
+  if (error) throw error;
+}
+
+export type TaskUpdatePayload = Partial<{
+  title: string;
+  description: string;
+  priority: TaskPriority;
+  story_points: number;
+  assigned_to: string | null;
+  assigned_name: string;
+  validation_status: ValidationStatus;
+}>;
+
+export async function updateTask(
+  taskId: string,
+  payload: TaskUpdatePayload
+): Promise<AuditTask> {
+  const updates: Record<string, unknown> = {
+    ...payload,
+    updated_at: new Date().toISOString(),
+  };
+  const { data, error } = await supabase
+    .from('audit_tasks')
+    .update(updates)
+    .eq('id', taskId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteTask(taskId: string): Promise<void> {
+  const { error } = await supabase
+    .from('audit_tasks')
+    .delete()
+    .eq('id', taskId);
+
+  if (error) throw error;
+}
+
+/** Engagement durumunu günceller. ACTIVE yapıldığında ilk PLANNED sprint ACTIVE yapılır (tek ACTIVE sprint kuralı). */
+export async function updateEngagementStatus(
+  engagementId: string,
+  status: EngagementStatus
+): Promise<void> {
+  if (status === 'ACTIVE') {
+    const { data: sprints, error: listErr } = await supabase
+      .from('audit_sprints')
+      .select('id, status')
+      .eq('engagement_id', engagementId)
+      .order('sprint_number', { ascending: true });
+
+    if (listErr) throw listErr;
+
+    const toActivate = sprints?.find((s) => s.status === 'PLANNED');
+    const currentlyActive = sprints?.filter((s) => s.status === 'ACTIVE') ?? [];
+
+    const { error: engErr } = await supabase
+      .from('audit_engagements_v2')
+      .update({ status: 'ACTIVE', updated_at: new Date().toISOString() })
+      .eq('id', engagementId);
+    if (engErr) throw engErr;
+
+    for (const s of currentlyActive) {
+      await supabase
+        .from('audit_sprints')
+        .update({ status: 'PLANNED', updated_at: new Date().toISOString() })
+        .eq('id', s.id);
+    }
+    if (toActivate) {
+      await supabase
+        .from('audit_sprints')
+        .update({ status: 'ACTIVE', updated_at: new Date().toISOString() })
+        .eq('id', toActivate.id);
+    }
+    return;
+  }
+
+  const { error } = await supabase
+    .from('audit_engagements_v2')
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq('id', engagementId);
 
   if (error) throw error;
 }
@@ -176,6 +309,23 @@ export async function closeSprint(sprintId: string): Promise<void> {
     .eq('id', sprintId);
 
   if (error) throw error;
+
+  const engagementId = (tasks as AuditTask[])[0]?.engagement_id;
+  if (engagementId) {
+    const { data: nextSprints } = await supabase
+      .from('audit_sprints')
+      .select('id')
+      .eq('engagement_id', engagementId)
+      .eq('status', 'PLANNED')
+      .order('sprint_number', { ascending: true })
+      .limit(1);
+    if (nextSprints?.length) {
+      await supabase
+        .from('audit_sprints')
+        .update({ status: 'ACTIVE', updated_at: new Date().toISOString() })
+        .eq('id', nextSprints[0].id);
+    }
+  }
 }
 
 function calculateSprintHealth(tasks: AuditTask[]): number {

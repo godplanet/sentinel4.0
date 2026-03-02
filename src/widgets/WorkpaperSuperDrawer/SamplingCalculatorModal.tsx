@@ -83,10 +83,10 @@ export function SamplingCalculatorModal({ open, onClose, onApply }: SamplingCalc
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className="fixed inset-0 flex items-center justify-center z-[110] p-4"
           >
-            <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden">
+            <div className="bg-surface rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden">
               <div className="px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-700 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-white/10 rounded-lg">
+                  <div className="p-2 bg-surface/10 rounded-lg">
                     <Calculator size={18} className="text-white" />
                   </div>
                   <div>
@@ -94,7 +94,7 @@ export function SamplingCalculatorModal({ open, onClose, onApply }: SamplingCalc
                     <p className="text-[10px] text-white/60">Attribute Sampling</p>
                   </div>
                 </div>
-                <button onClick={onClose} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors">
+                <button onClick={onClose} className="p-1.5 hover:bg-surface/10 rounded-lg transition-colors">
                   <X size={16} className="text-white/60" />
                 </button>
               </div>
@@ -110,7 +110,7 @@ export function SamplingCalculatorModal({ open, onClose, onApply }: SamplingCalc
                     value={population}
                     onChange={(e) => { setPopulation(e.target.value); setResult(null); }}
                     placeholder="orn. 5000"
-                    className="w-full px-4 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    className="w-full px-4 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
                   />
                 </div>
 
@@ -125,7 +125,7 @@ export function SamplingCalculatorModal({ open, onClose, onApply }: SamplingCalc
                           'px-3 py-2.5 text-xs font-bold rounded-xl border-2 transition-all',
                           riskLevel === opt.value
                             ? `${opt.bg} ${opt.color} ring-2 ring-offset-1 ring-current`
-                            : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
+                            : 'bg-surface border-slate-200 text-slate-500 hover:border-slate-300'
                         )}
                       >
                         {opt.label}
@@ -145,7 +145,7 @@ export function SamplingCalculatorModal({ open, onClose, onApply }: SamplingCalc
                           'px-3 py-2.5 text-xs font-bold rounded-xl border-2 transition-all',
                           confidence === opt.value
                             ? 'bg-blue-50 border-blue-200 text-blue-700 ring-2 ring-offset-1 ring-blue-500'
-                            : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
+                            : 'bg-surface border-slate-200 text-slate-500 hover:border-slate-300'
                         )}
                       >
                         {opt.label}

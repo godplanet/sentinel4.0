@@ -118,7 +118,7 @@ export function TestStepsPanel({
 
   return (
     <div className="space-y-5">
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+      <div className="bg-canvas border border-slate-200 rounded-xl p-4">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">Test Ilerleme</span>
           <div className="flex items-center gap-2">
@@ -127,7 +127,7 @@ export function TestStepsPanel({
                 Orneklem: {sampleSize}
               </span>
             )}
-            <span className="text-sm font-bold text-slate-900">{completed}/{total}</span>
+            <span className="text-sm font-bold text-primary">{completed}/{total}</span>
           </div>
         </div>
         <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
@@ -154,7 +154,7 @@ export function TestStepsPanel({
         {onOpenLibrary && (
           <button
             onClick={onOpenLibrary}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-white text-slate-700 text-xs font-bold rounded-xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-surface text-slate-700 text-xs font-bold rounded-xl border border-slate-200 hover:bg-canvas hover:border-slate-300 transition-colors"
           >
             <Library size={14} />
             Kutuphaneden Ekle
@@ -176,7 +176,7 @@ export function TestStepsPanel({
               }
             }}
             placeholder="Hizli test adimi ekle..."
-            className="w-full px-3 py-2 pr-9 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            className="w-full px-3 py-2 pr-9 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface"
           />
           {quickText.trim() && (
             <button
@@ -210,7 +210,7 @@ export function TestStepsPanel({
                   ? 'bg-red-950/20 border-red-500/40 shadow-[0_0_12px_rgba(239,68,68,0.1)]'
                   : step.is_completed
                     ? 'bg-emerald-50/50 border-emerald-200'
-                    : 'bg-white border-slate-200 hover:border-slate-300'
+                    : 'bg-surface border-slate-200 hover:border-slate-300'
               )}
             >
               <div className="flex items-start gap-3 p-4">
@@ -279,7 +279,7 @@ export function TestStepsPanel({
                     onChange={(e) => setEditingComment(prev => ({ ...prev, [step.id]: e.target.value }))}
                     onBlur={() => handleCommentBlur(step.id)}
                     placeholder="Test sonuclarini ve gozlemlerinizi buraya yazin..."
-                    className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white"
+                    className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-surface"
                   />
                 </div>
               )}
@@ -345,7 +345,7 @@ export function TestStepsPanel({
             value={newStepText}
             onChange={(e) => setNewStepText(e.target.value)}
             placeholder="Test prosedurunu tanimlayin..."
-            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white mb-3"
+            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-surface mb-3"
             autoFocus
           />
           <div className="flex items-center gap-2">

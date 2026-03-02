@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/shared/utils/cn';
 import { format } from 'date-fns';
-import { tr } from 'date-fns/locale';
+import { useNegotiationChat, type NegotiationMessage } from '@/features/finding-studio/api/useNegotiationChat';
 
 // --- Shared UI ---
 // Projenizde mevcut olan FileUploader'ı kullanıyoruz
@@ -43,24 +43,25 @@ interface Message {
   timestamp: Date;
 }
 
-// --- Mock Data ---
-const MOCK_USERS = [
-  { id: 'u1', name: 'Ahmet Yılmaz (IT Manager)' },
-  { id: 'u2', name: 'Ayşe Demir (Ops Lead)' },
-  { id: 'u3', name: 'Mehmet Öz (CISO)' },
-];
-
-const MOCK_MESSAGES: Message[] = [
-  { id: 'm1', sender: 'auditor', content: 'Bulgu detayındaki 3. madde kritik önem taşıyor. Aksiyon planında buna öncelik verilmeli.', timestamp: new Date(Date.now() - 86400000) },
-  { id: 'm2', sender: 'auditee', content: 'Anlaşıldı, kaynak planlamasını buna göre revize ediyoruz.', timestamp: new Date(Date.now() - 82000000) },
-  { id: 'm3', sender: 'system', content: 'Ahmet Yılmaz vade tarihini 15.05.2026 olarak güncelledi.', timestamp: new Date(Date.now() - 3600000) },
-];
-
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
+function mapApiMessageToUi(msg: NegotiationMessage): Message {
+  const sender: 'auditor' | 'auditee' | 'system' =
+    msg.is_system_message ? 'system' : msg.role === 'AUDITOR' ? 'auditor' : 'auditee';
+  return {
+    id: msg.id,
+    sender,
+    content: msg.message_text,
+    timestamp: new Date(msg.created_at),
+  };
+}
+
 export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
+  const { data: apiMessages = [], isLoading: messagesLoading, sendMessage, isSending } = useNegotiationChat(id);
+  const messages: Message[] = apiMessages.map(mapApiMessageToUi);
+
   // 1. State Management
   const [decision, setDecision] = useState<DecisionType>('accept');
   const [activeTab, setActiveTab] = useState<TabType>('plan');
@@ -78,9 +79,8 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
   // GÜNCELLEME: Tek dosya yerine çoklu dosya desteği (Mevcut yapıyı bozmadan genişletildi)
   const [acceptanceFiles, setAcceptanceFiles] = useState<File[]>([]);
   
-  // Chat State
-  const [messages, setMessages] = useState<Message[]>(MOCK_MESSAGES);
   const [newMessage, setNewMessage] = useState('');
+  const [sendError, setSendError] = useState<string | null>(null);
 
   // 2. Handlers
   const addStep = () => {
@@ -95,15 +95,17 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
     setSteps(steps.map(s => s.id === id ? { ...s, [field]: value } : s));
   };
 
-  const handleSendMessage = () => {
-    if (!newMessage.trim()) return;
-    setMessages([...messages, {
-      id: Math.random().toString(),
-      sender: 'auditee',
-      content: newMessage,
-      timestamp: new Date()
-    }]);
-    setNewMessage('');
+  const handleSendMessage = async () => {
+    if (!id || !newMessage.trim()) return;
+    setSendError(null);
+    try {
+      await sendMessage(newMessage.trim(), 'AUDITOR');
+      setNewMessage('');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Mesaj gönderilemedi.';
+      setSendError(msg);
+      console.error('Müzakere mesajı gönderilemedi:', err);
+    }
   };
 
   // Dosya Yükleme Handler'ları
@@ -129,9 +131,9 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
     return (
       <div className="space-y-2 mt-3">
         {files.map((f, i) => (
-          <div key={i} className="flex items-center justify-between p-2 bg-slate-50 border border-slate-200 rounded text-xs animate-in fade-in slide-in-from-top-1">
+          <div key={i} className="flex items-center justify-between p-2 bg-canvas border border-slate-200 rounded text-xs animate-in fade-in slide-in-from-top-1">
             <div className="flex items-center gap-2 overflow-hidden">
-               <div className="p-1.5 bg-white border border-slate-200 rounded text-slate-500">
+               <div className="p-1.5 bg-surface border border-slate-200 rounded text-slate-500">
                  <FileText size={14} />
                </div>
                <span className="truncate max-w-[200px] text-slate-600 font-medium">{f.name}</span>
@@ -150,22 +152,22 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white border-l border-slate-200 shadow-xl overflow-hidden">
+    <div className="flex flex-col h-full bg-surface border-l border-slate-200 shadow-xl overflow-hidden">
       
       {/* --- HEADER: DECISION SWITCH --- */}
-      <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+      <div className="p-6 border-b border-slate-100 bg-canvas/50">
         <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
           Mutabakat Kararı
         </h2>
         
-        <div className="flex bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
+        <div className="flex bg-surface p-1 rounded-xl border border-slate-200 shadow-sm">
           <button
             onClick={() => setDecision('accept')}
             className={cn(
               "flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-all duration-300",
               decision === 'accept' 
                 ? "bg-emerald-50 text-emerald-700 font-bold shadow-sm ring-1 ring-emerald-200" 
-                : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                : "text-slate-400 hover:text-slate-600 hover:bg-canvas"
             )}
           >
             <CheckCircle2 size={18} />
@@ -178,7 +180,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
               "flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-all duration-300",
               decision === 'reject' 
                 ? "bg-rose-50 text-rose-700 font-bold shadow-sm ring-1 ring-rose-200" 
-                : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                : "text-slate-400 hover:text-slate-600 hover:bg-canvas"
             )}
           >
             <ShieldAlert size={18} />
@@ -188,7 +190,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
       </div>
 
       {/* --- TABS --- */}
-      <div className="flex border-b border-slate-200 bg-white sticky top-0 z-10">
+      <div className="flex border-b border-slate-200 bg-surface sticky top-0 z-10">
         {[
           { id: 'plan', label: decision === 'accept' ? 'Aksiyon Planı' : 'Risk Beyanı', icon: FileText },
           { id: 'chat', label: 'Müzakere', icon: MessageSquare },
@@ -200,8 +202,8 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
             className={cn(
               "flex-1 py-4 text-xs font-bold uppercase tracking-wide flex items-center justify-center gap-2 border-b-2 transition-colors",
               activeTab === tab.id 
-                ? "border-slate-900 text-slate-900 bg-slate-50" 
-                : "border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                ? "border-slate-900 text-primary bg-canvas" 
+                : "border-transparent text-slate-400 hover:text-slate-600 hover:bg-canvas"
             )}
           >
             <tab.icon size={14} />
@@ -211,14 +213,14 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
       </div>
 
       {/* --- CONTENT AREA --- */}
-      <div className="flex-1 overflow-y-auto bg-slate-50/30">
+      <div className="flex-1 overflow-y-auto bg-canvas/30">
         
         {/* SCENARIO A: ACTION PLAN (GREEN PATH) */}
         {activeTab === 'plan' && decision === 'accept' && (
           <div className="p-6 space-y-8 animate-in slide-in-from-bottom-2 duration-300">
             
             {/* Responsible */}
-            <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div className="bg-surface p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
               <div className="flex items-center gap-2 text-emerald-700 mb-2">
                 <User size={18} />
                 <h3 className="font-bold text-sm">Sorumluluk Ataması</h3>
@@ -230,17 +232,16 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
                   <select 
                     value={responsibleId}
                     onChange={(e) => setResponsibleId(e.target.value)}
-                    className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                    className="w-full text-sm p-2.5 rounded-lg border border-slate-200 bg-canvas focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
                   >
                     <option value="">Seçiniz...</option>
-                    {MOCK_USERS.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
                   </select>
                 </div>
               </div>
             </div>
 
             {/* Steps */}
-            <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div className="bg-surface p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
               <div className="flex items-center justify-between text-emerald-700 mb-2">
                 <div className="flex items-center gap-2">
                   <FileText size={18} />
@@ -288,12 +289,12 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
             </div>
 
             {/* YENİ BÖLÜM: Plan Files Upload */}
-            <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div className="bg-surface p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
               <div className="flex items-center gap-2 text-emerald-700 mb-2">
                 <Paperclip size={18} />
                 <h3 className="font-bold text-sm">Ek Dokümanlar / Plan Dosyası</h3>
               </div>
-              <div className="p-4 bg-slate-50 border border-slate-200 border-dashed rounded-lg">
+              <div className="p-4 bg-canvas border border-slate-200 border-dashed rounded-lg">
                  <FileUploader 
                     onUpload={handlePlanFileUpload}
                     compact
@@ -322,7 +323,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
             </div>
 
             {/* Justification Form */}
-            <div className="bg-white p-5 rounded-xl border border-rose-200 shadow-sm space-y-4 relative overflow-hidden">
+            <div className="bg-surface p-5 rounded-xl border border-rose-200 shadow-sm space-y-4 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-rose-500" />
               
               <div className="flex items-center gap-2 text-rose-700 mb-2">
@@ -339,7 +340,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
                     rows={6}
                     value={justification}
                     onChange={(e) => setJustification(e.target.value)}
-                    className="w-full text-sm p-3 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all resize-none"
+                    className="w-full text-sm p-3 rounded-lg border border-slate-200 bg-canvas focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all resize-none"
                     placeholder="Risk neden kabul ediliyor? Maliyet/Fayda analizi sonucu nedir?"
                   />
                 </div>
@@ -365,9 +366,12 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
 
         {/* SCENARIO C: CHAT (COMMON) */}
         {activeTab === 'chat' && (
-          <div className="flex flex-col h-full bg-slate-50">
+          <div className="flex flex-col h-full bg-canvas">
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((msg) => (
+              {messagesLoading ? (
+                <div className="text-sm text-slate-500 py-4">Mesajlar yükleniyor...</div>
+              ) : (
+              messages.map((msg) => (
                 <div 
                   key={msg.id} 
                   className={cn(
@@ -388,7 +392,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
                           "p-3 rounded-xl text-sm shadow-sm",
                           msg.sender === 'auditee' 
                             ? "bg-indigo-600 text-white rounded-tr-none" 
-                            : "bg-white text-slate-700 border border-slate-200 rounded-tl-none"
+                            : "bg-surface text-slate-700 border border-slate-200 rounded-tl-none"
                         )}
                       >
                         {msg.content}
@@ -399,25 +403,36 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
                     </>
                   )}
                 </div>
-              ))}
+              ))
+              )}
             </div>
             
             {/* Input Area */}
-            <div className="p-3 bg-white border-t border-slate-200 flex gap-2">
-              <input 
-                type="text" 
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder="Bir mesaj yazın..."
-                className="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
-              />
-              <button 
-                onClick={handleSendMessage}
-                className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-              >
-                <Send size={18} />
-              </button>
+            <div className="p-3 bg-surface border-t border-slate-200 flex flex-col gap-2">
+              {sendError && (
+                <p className="text-xs text-rose-600 flex items-center gap-1">
+                  <AlertOctagon size={12} />
+                  {sendError}
+                </p>
+              )}
+              <div className="flex gap-2">
+                <input 
+                  type="text" 
+                  value={newMessage}
+                  onChange={(e) => { setNewMessage(e.target.value); setSendError(null); }}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                  placeholder="Bir mesaj yazın..."
+                  className="flex-1 bg-canvas border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+                />
+                <button 
+                  type="button"
+                  onClick={() => handleSendMessage()}
+                  disabled={isSending || !id || !newMessage.trim()}
+                  className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send size={18} />
+                </button>
+              </div>
             </div>
           </div>
         )}

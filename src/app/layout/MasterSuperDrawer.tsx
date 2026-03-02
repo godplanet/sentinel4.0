@@ -66,7 +66,6 @@ export const MasterSuperDrawer = () => {
         return payload?.action ? (
           <ActionSuperDrawer
             action={payload.action}
-            evidence={payload?.evidence}
             onClose={closeDrawer}
             onDecision={payload?.onDecision}
           />
@@ -90,11 +89,11 @@ export const MasterSuperDrawer = () => {
         aria-hidden="true"
       />
 
-      {/* 🛡️ The Super Drawer Uzamsal Paneli (Ekranın %45'i) */}
+      {/* 🛡️ The Super Drawer Uzamsal Paneli (Ekranın %50'si) */}
       <div 
         className={cn(
           "fixed top-0 right-0 h-screen z-[101] flex flex-col shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
-          isStealthMode ? "bg-slate-950 text-slate-100 border-l border-slate-800 w-full lg:w-[60vw]" : "bg-background text-foreground border-l border-border w-full md:w-[60%] lg:w-[45%] xl:w-[40%]",
+          isStealthMode ? "bg-slate-950 text-slate-100 border-l border-slate-800 w-full lg:w-[60vw]" : "bg-background text-foreground border-l border-border w-full md:w-[55%] lg:w-[50%] xl:w-[50%]",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >

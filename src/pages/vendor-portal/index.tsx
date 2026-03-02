@@ -111,7 +111,7 @@ export default function VendorPortalPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      <div className="border-b border-slate-200 bg-white/80 backdrop-blur-sm">
+      <div className="border-b border-slate-200 bg-surface/80 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center">
@@ -188,7 +188,7 @@ function TokenGate({
         </p>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+      <div className="bg-surface border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
         <div>
           <label className="text-xs font-bold text-slate-600 block mb-1.5">Erisim Anahtari</label>
           <input
@@ -196,7 +196,7 @@ function TokenGate({
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={(e) => { if (e.key === 'Enter') onSubmit(); }}
             placeholder="vp-xxxxxxxx-xxxx"
-            className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-slate-400 font-mono transition-colors"
+            className="w-full px-3 py-2.5 bg-canvas border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-slate-400 font-mono transition-colors"
           />
         </div>
 
@@ -242,7 +242,7 @@ function AssessmentForm({
       exit={{ opacity: 0, y: -20 }}
       className="space-y-6"
     >
-      <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+      <div className="bg-surface border border-slate-200 rounded-xl p-5 shadow-sm">
         <div className="flex items-start gap-4">
           <div className="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
             <Building2 size={20} className="text-slate-600" />
@@ -277,7 +277,7 @@ function AssessmentForm({
           </div>
         ) : (
           data.questions.map((q, i) => (
-            <div key={q.id} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <div key={q.id} className="bg-surface border border-slate-200 rounded-xl p-4 shadow-sm">
               <div className="flex items-start gap-3">
                 <span className="text-[10px] font-bold text-slate-400 bg-slate-100 rounded-md px-2 py-1 shrink-0">
                   {i + 1}
@@ -294,7 +294,7 @@ function AssessmentForm({
                     onChange={(e) => onChange(q.id, e.target.value)}
                     rows={3}
                     placeholder="Yanitinizi yazin..."
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-slate-400 transition-colors resize-none"
+                    className="w-full px-3 py-2 bg-canvas border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-slate-400 transition-colors resize-none"
                   />
                 </div>
               </div>
@@ -339,7 +339,7 @@ function SubmissionConfirmation({ vendorName }: { vendorName?: string }) {
         {vendorName || 'Tedarikci'} olarak degerlendirme yanitlariniz basariyla gonderildi.
         Denetim ekibi inceleme sonrasinda sizinle iletisime gececektir.
       </p>
-      <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-500">
+      <div className="p-4 bg-canvas border border-slate-200 rounded-xl text-[11px] text-slate-500">
         Bu pencereyi guvenle kapatabilirsiniz.
       </div>
     </motion.div>

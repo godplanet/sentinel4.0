@@ -85,7 +85,7 @@ export const StrategicAnalyticsView = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-600">Toplam Risk</p>
-                <p className="mt-2 text-3xl font-bold text-slate-900">247</p>
+                <p className="mt-2 text-3xl font-bold text-primary">247</p>
               </div>
               <div className="rounded-full bg-blue-100 p-3">
                 <Shield className="h-6 w-6 text-blue-600" />
@@ -99,7 +99,7 @@ export const StrategicAnalyticsView = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-600">Aktif Denetim</p>
-                <p className="mt-2 text-3xl font-bold text-slate-900">12</p>
+                <p className="mt-2 text-3xl font-bold text-primary">12</p>
               </div>
               <div className="rounded-full bg-emerald-100 p-3">
                 <FileText className="h-6 w-6 text-emerald-600" />
@@ -113,7 +113,7 @@ export const StrategicAnalyticsView = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-600">Açık Bulgu</p>
-                <p className="mt-2 text-3xl font-bold text-slate-900">38</p>
+                <p className="mt-2 text-3xl font-bold text-primary">38</p>
               </div>
               <div className="rounded-full bg-rose-100 p-3">
                 <AlertCircle className="h-6 w-6 text-rose-600" />
@@ -127,7 +127,7 @@ export const StrategicAnalyticsView = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-600">Plan Uyum</p>
-                <p className="mt-2 text-3xl font-bold text-slate-900">94%</p>
+                <p className="mt-2 text-3xl font-bold text-primary">94%</p>
               </div>
               <div className="rounded-full bg-purple-100 p-3">
                 <TrendingUp className="h-6 w-6 text-purple-600" />
@@ -138,7 +138,7 @@ export const StrategicAnalyticsView = () => {
       </div>
 
       <div>
-        <h2 className="mb-4 text-xl font-bold text-slate-900">Hızlı Erişim</h2>
+        <h2 className="mb-4 text-xl font-bold text-primary">Hızlı Erişim</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {quickAccessCards.map((card) => {
             const Icon = card.icon;
@@ -157,7 +157,7 @@ export const StrategicAnalyticsView = () => {
                     <Icon className={`h-6 w-6 ${card.textColor}`} />
                   </div>
 
-                  <h3 className="mt-4 font-bold text-slate-900">{card.title}</h3>
+                  <h3 className="mt-4 font-bold text-primary">{card.title}</h3>
                   <p className="mt-2 text-sm text-slate-600">{card.description}</p>
 
                   <div className={`mt-4 inline-flex items-center text-sm font-medium ${card.textColor}`}>
@@ -179,12 +179,12 @@ export const StrategicAnalyticsView = () => {
       </div>
 
       <div>
-        <h2 className="mb-4 text-xl font-bold text-slate-900">Risk Simülatörü</h2>
+        <h2 className="mb-4 text-xl font-bold text-primary">Risk Simülatörü</h2>
         <RiskSimulator />
       </div>
 
       <div>
-        <h2 className="mb-4 text-xl font-bold text-slate-900">Yönetim Araçları</h2>
+        <h2 className="mb-4 text-xl font-bold text-primary">Yönetim Araçları</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {adminCards.map((card) => {
             const Icon = card.icon;
@@ -204,7 +204,7 @@ export const StrategicAnalyticsView = () => {
                   </div>
 
                   <div className="flex-1">
-                    <h3 className="font-bold text-slate-900">{card.title}</h3>
+                    <h3 className="font-bold text-primary">{card.title}</h3>
                     <p className="mt-1 text-sm text-slate-600">{card.description}</p>
                   </div>
 

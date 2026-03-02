@@ -9,8 +9,8 @@ function ReviewNoteCard({ note, onResolve }: { note: M6ReviewNote; onResolve: ()
     <div
       className={`rounded-xl border shadow-sm p-3 mb-3 transition-all ${
         isResolved
-          ? 'bg-slate-50 border-slate-200 opacity-60'
-          : 'bg-white border-slate-200 hover:shadow-md'
+          ? 'bg-canvas border-slate-200 opacity-60'
+          : 'bg-surface border-slate-200 hover:shadow-md'
       }`}
     >
       <div className="flex items-start justify-between gap-2 mb-2">
@@ -67,8 +67,8 @@ export function ReviewNotesSidebar() {
   const resolvedNotes = notes.filter((n) => n.status === 'resolved');
 
   return (
-    <aside className="no-print report-review-sidebar w-72 flex-shrink-0 border-l border-slate-200 bg-slate-50 flex flex-col h-full overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-200 bg-white flex items-center justify-between">
+    <aside className="no-print report-review-sidebar w-72 flex-shrink-0 border-l border-slate-200 bg-canvas flex flex-col h-full overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-200 bg-surface flex items-center justify-between">
         <div className="flex items-center gap-2">
           <MessageSquare size={14} className="text-amber-500" />
           <h3 className="text-sm font-sans font-semibold text-slate-800">Gözden Geçirme Notları</h3>

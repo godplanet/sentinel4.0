@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Lock, BookOpen, Layout, Monitor, MessageSquare, Plus, Sun, Sunrise, X, FileText } from 'lucide-react';
 import clsx from 'clsx';
 import { useActiveReportStore } from '@/entities/report';
@@ -99,7 +100,7 @@ function WarmthControl({ warmth, onChange }: { warmth: number; onChange: (v: num
             ? 'bg-amber-500 border-amber-400 text-white'
             : warmth > 5
             ? 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100'
-            : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100',
+            : 'bg-canvas border-slate-200 text-slate-600 hover:bg-slate-100',
         )}
       >
         <Sun size={13} />
@@ -112,7 +113,7 @@ function WarmthControl({ warmth, onChange }: { warmth: number; onChange: (v: num
             className="fixed inset-0 z-40"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-slate-200 p-4 w-64 z-50">
+          <div className="absolute right-0 top-full mt-2 bg-surface rounded-2xl shadow-2xl border border-slate-200 p-4 w-64 z-50">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Sunrise size={15} className="text-amber-500" />
@@ -135,10 +136,10 @@ function WarmthControl({ warmth, onChange }: { warmth: number; onChange: (v: num
               onChange={(e) => onChange(Number(e.target.value))}
               className="w-full h-2 bg-gradient-to-r from-slate-200 via-amber-100 to-amber-400 rounded-full appearance-none cursor-pointer
                 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
-                [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
+                [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-surface
                 [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-amber-300
                 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full
-                [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-amber-300"
+                [&::-moz-range-thumb]:bg-surface [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-amber-300"
             />
 
             <div className="flex items-center justify-between mt-2 text-xs">
@@ -200,26 +201,26 @@ export default function ReportEditorPage() {
     };
   }, [id]);
 
+  const { data: findingsData } = useQuery({
+    queryKey: ['report-findings', activeReport?.engagementId],
+    queryFn: () => fetchFindingsByEngagement(activeReport!.engagementId!),
+    enabled: !!activeReport?.engagementId,
+  });
+
   useEffect(() => {
     if (!activeReport) return;
-    const engagementId = activeReport.engagementId;
-    if (!engagementId) {
+    if (!activeReport.engagementId) {
       setFindings(FALLBACK_FINDINGS);
       return;
     }
-    (async () => {
-      try {
-        const data = await fetchFindingsByEngagement(engagementId);
-        setFindings(data.length > 0 ? data : FALLBACK_FINDINGS);
-      } catch {
-        setFindings(FALLBACK_FINDINGS);
-      }
-    })();
-  }, [activeReport?.id, setFindings]);
+    if (findingsData !== undefined) {
+      setFindings(findingsData.length > 0 ? findingsData : FALLBACK_FINDINGS);
+    }
+  }, [findingsData, activeReport?.engagementId, setFindings]);
 
   if (isLoading) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
+      <div className="h-screen flex flex-col items-center justify-center bg-canvas gap-4">
         <div className="w-10 h-10 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin" />
         <p className="text-sm font-sans text-slate-500">Rapor yükleniyor...</p>
       </div>
@@ -228,7 +229,7 @@ export default function ReportEditorPage() {
 
   if (error || !activeReport) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
+      <div className="h-screen flex flex-col items-center justify-center bg-canvas gap-4">
         <FileText size={40} className="text-slate-300" />
         <p className="text-sm font-sans font-semibold text-slate-600">
           {error ?? 'Rapor bulunamadı.'}
@@ -242,7 +243,7 @@ export default function ReportEditorPage() {
   const isEditable = !isLocked;
 
   return (
-    <div className="h-screen overflow-hidden flex flex-col bg-slate-100 print:h-auto print:overflow-visible">
+    <div className="h-screen overflow-hidden flex flex-col bg-canvas print:h-auto print:overflow-visible">
       <LiquidGlassToolbar
         collabCtx={collabCtx}
         traceabilityOpen={traceabilityOpen}
@@ -258,7 +259,7 @@ export default function ReportEditorPage() {
         </div>
       )}
 
-      <div className="bg-white border-b border-slate-200 px-4 sm:px-6 flex-shrink-0 no-print">
+      <div className="bg-surface border-b border-slate-200 px-4 sm:px-6 flex-shrink-0 no-print">
         <div className="flex items-center justify-between">
           <div className="flex gap-1 overflow-x-auto">
             {TABS.map((tab) => (
@@ -299,7 +300,7 @@ export default function ReportEditorPage() {
               <ZenCanvas readOnly={!isEditable} warmth={warmth} externalCollabCtx={collabCtx} />
             </div>
             <div className="hidden sm:flex flex-col border-l border-slate-200 flex-shrink-0 w-56 xl:w-64">
-              <div className="flex items-center bg-white border-b border-slate-200 px-2 py-1.5 gap-1">
+              <div className="flex items-center bg-surface border-b border-slate-200 px-2 py-1.5 gap-1">
                 {isEditable && (
                   <button
                     onClick={() => setRightPanel('blocks')}

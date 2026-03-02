@@ -180,7 +180,7 @@ export function AssuranceDecayGauge({ actions, unitLabel = 'Tüm Birimler' }: Pr
             { label: 'Kritik', val: counts.crit, color: 'text-rose-600'  },
             { label: 'BDDK',   val: counts.bddk, color: 'text-[#700000]' },
           ].map(({ label, val, color }) => (
-            <div key={label} className="text-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+            <div key={label} className="text-center p-2 bg-canvas rounded-lg border border-slate-100">
               <p className={clsx('text-sm font-black', color)}>{val}</p>
               <p className="text-[9px] text-slate-400 mt-0.5">{label}</p>
             </div>

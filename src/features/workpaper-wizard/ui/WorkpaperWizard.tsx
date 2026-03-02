@@ -181,7 +181,7 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
               <FileText className="text-white" size={20} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900">Yeni Çalışma Kağıdı Oluştur</h2>
+              <h2 className="text-xl font-bold text-primary">Yeni Çalışma Kağıdı Oluştur</h2>
               <p className="text-sm text-slate-600">AI destekli çalışma kağıdı oluşturma sihirbazı</p>
             </div>
           </div>
@@ -205,19 +205,19 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
             <div className="space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <Layers className="text-blue-600" size={20} />
-                <h3 className="text-lg font-bold text-slate-900">Denetim Adımı Seçin</h3>
+                <h3 className="text-lg font-bold text-primary">Denetim Adımı Seçin</h3>
               </div>
               <div className="grid grid-cols-1 gap-3">
                 {auditSteps.map((step) => (
                   <button
                     key={step.id}
                     onClick={() => handleSelectStep(step)}
-                    className="p-4 bg-white rounded-lg border-2 border-slate-200 hover:border-blue-500 hover:shadow-md transition-all text-left group"
+                    className="p-4 bg-surface rounded-lg border-2 border-slate-200 hover:border-blue-500 hover:shadow-md transition-all text-left group"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <p className="text-xs font-medium text-slate-500 mb-1">{step.step_code}</p>
-                        <p className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                        <p className="text-sm font-bold text-primary group-hover:text-blue-600 transition-colors">
                           {step.title}
                         </p>
                         {step.description && (
@@ -241,7 +241,7 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
                     <Sparkles className="text-white" size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-1">Sentinel AI Önerisi</h3>
+                    <h3 className="text-lg font-bold text-primary mb-1">Sentinel AI Önerisi</h3>
                     <p className="text-sm text-slate-600">
                       AI asistanınız bu denetim adımı için aşağıdaki çalışma kağıdını önerdi. İnceleyip düzenleyebilir veya sıfırdan başlayabilirsiniz.
                     </p>
@@ -250,27 +250,27 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <label className="block text-sm font-bold text-primary mb-2 flex items-center gap-2">
                       <Target size={14} />
                       Amaç
                     </label>
-                    <div className="p-4 bg-white rounded-lg border border-blue-200">
+                    <div className="p-4 bg-surface rounded-lg border border-blue-200">
                       <p className="text-sm text-slate-700">{draft.objective}</p>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-slate-900 mb-2">Kapsam</label>
-                    <div className="p-4 bg-white rounded-lg border border-blue-200">
+                    <label className="block text-sm font-bold text-primary mb-2">Kapsam</label>
+                    <div className="p-4 bg-surface rounded-lg border border-blue-200">
                       <p className="text-sm text-slate-700">{draft.scope}</p>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-slate-900 mb-2">Önerilen Test Adımları</label>
+                    <label className="block text-sm font-bold text-primary mb-2">Önerilen Test Adımları</label>
                     <div className="space-y-2">
                       {draft.testCases.map((testCase, idx) => (
-                        <div key={idx} className="p-3 bg-white rounded-lg border border-blue-200 flex items-start gap-2">
+                        <div key={idx} className="p-3 bg-surface rounded-lg border border-blue-200 flex items-start gap-2">
                           <CheckCircle2 className="text-blue-600 flex-shrink-0 mt-0.5" size={16} />
                           <p className="text-sm text-slate-700">{testCase}</p>
                         </div>
@@ -283,7 +283,7 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
               <div className="flex gap-3">
                 <button
                   onClick={handleRejectAI}
-                  className="flex-1 px-4 py-3 border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-medium transition-colors"
+                  className="flex-1 px-4 py-3 border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas font-medium transition-colors"
                 >
                   Önerileri Reddet (Sıfırdan Başla)
                 </button>
@@ -303,15 +303,15 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
             <div className="space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <FileSearch className="text-blue-600" size={20} />
-                <h3 className="text-lg font-bold text-slate-900">Çalışma Kağıdını Düzenleyin</h3>
+                <h3 className="text-lg font-bold text-primary">Çalışma Kağıdını Düzenleyin</h3>
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-2">Tür</label>
+                <label className="block text-sm font-bold text-primary mb-2">Tür</label>
                 <select
                   value={draft.type}
                   onChange={(e) => setDraft({ ...draft, type: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface"
                 >
                   <option value="test_of_design">Test of Design</option>
                   <option value="test_of_operating_effectiveness">Test of Operating Effectiveness</option>
@@ -321,23 +321,23 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-2">Amaç</label>
+                <label className="block text-sm font-bold text-primary mb-2">Amaç</label>
                 <textarea
                   value={draft.objective}
                   onChange={(e) => setDraft({ ...draft, objective: e.target.value })}
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface"
                   placeholder="Denetim amacını açıklayın..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-2">Kapsam</label>
+                <label className="block text-sm font-bold text-primary mb-2">Kapsam</label>
                 <textarea
                   value={draft.scope}
                   onChange={(e) => setDraft({ ...draft, scope: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface"
                   placeholder="Denetim kapsamını belirtin..."
                 />
               </div>
@@ -345,7 +345,7 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
               <div className="flex gap-3 pt-4">
                 <button
                   onClick={() => setCurrentStep('ai-suggestions')}
-                  className="px-4 py-3 border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-medium transition-colors"
+                  className="px-4 py-3 border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas font-medium transition-colors"
                 >
                   Geri
                 </button>

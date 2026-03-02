@@ -121,7 +121,7 @@ export const MappingModal = ({ requirement, onClose }: Props) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-xl mx-4 max-h-[90vh] overflow-y-auto"
+        className="bg-surface rounded-2xl shadow-2xl w-full max-w-xl mx-4 max-h-[90vh] overflow-y-auto"
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <div>
@@ -190,19 +190,19 @@ export const MappingModal = ({ requirement, onClose }: Props) => {
                 onChange={(e) => setControlRef(e.target.value)}
                 onFocus={() => setShowPresets(true)}
                 placeholder="CTR-XXX-001"
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 outline-none bg-white"
+                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 outline-none bg-surface"
               />
               {showPresets && (
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setShowPresets(false)} />
-                  <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-xl max-h-48 overflow-y-auto">
+                  <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-surface border border-slate-200 rounded-lg shadow-xl max-h-48 overflow-y-auto">
                     {PRESET_CONTROLS.filter((p) =>
                       !controlRef || p.ref.toLowerCase().includes(controlRef.toLowerCase()) || p.title.toLowerCase().includes(controlRef.toLowerCase())
                     ).map((p) => (
                       <button
                         key={p.ref}
                         onClick={() => selectPreset(p)}
-                        className="w-full text-left px-3 py-2 hover:bg-slate-50 transition-colors flex items-center gap-2"
+                        className="w-full text-left px-3 py-2 hover:bg-canvas transition-colors flex items-center gap-2"
                       >
                         <span className="text-xs font-mono font-bold text-slate-600">{p.ref}</span>
                         <span className="text-xs text-slate-500">{p.title}</span>
@@ -221,7 +221,7 @@ export const MappingModal = ({ requirement, onClose }: Props) => {
                 value={controlTitle}
                 onChange={(e) => setControlTitle(e.target.value)}
                 placeholder="Kontrol aciklamasi"
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 outline-none bg-white"
+                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 outline-none bg-surface"
               />
             </div>
 
@@ -233,7 +233,7 @@ export const MappingModal = ({ requirement, onClose }: Props) => {
                 <select
                   value={coverage}
                   onChange={(e) => setCoverage(e.target.value as 'FULL' | 'PARTIAL' | 'WEAK')}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 outline-none bg-white"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 outline-none bg-surface"
                 >
                   <option value="FULL">Tam (FULL)</option>
                   <option value="PARTIAL">Kismi (PARTIAL)</option>
@@ -265,13 +265,13 @@ export const MappingModal = ({ requirement, onClose }: Props) => {
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
                 placeholder="Esleme gereksesi..."
-                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 outline-none bg-white resize-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 outline-none bg-surface resize-none"
               />
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-100 bg-slate-50/50">
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-100 bg-canvas/50">
           <button
             onClick={onClose}
             className="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"

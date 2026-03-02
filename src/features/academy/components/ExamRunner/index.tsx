@@ -85,7 +85,7 @@ export function ExamRunner({ examId, userId, onBack }: ExamRunnerProps) {
           <p className="text-slate-400 text-sm mb-6">{error}</p>
           <button
             onClick={onBack}
-            className="px-6 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.12] text-white
+            className="px-6 py-2.5 rounded-xl bg-surface/[0.08] hover:bg-surface/[0.12] text-white
                        text-sm font-medium transition-colors"
           >
             Geri Dön

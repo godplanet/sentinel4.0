@@ -47,7 +47,7 @@ export const VendorCard = ({ vendor, onClick }: Props) => {
       className={clsx(
         'group relative w-full text-left rounded-2xl border p-5 transition-all duration-200',
         'hover:shadow-lg hover:-translate-y-0.5 hover:border-slate-300',
-        'bg-white border-slate-200/80 shadow-sm',
+        'bg-surface border-slate-200/80 shadow-sm',
       )}
     >
       <div className="flex items-start justify-between mb-3">
@@ -56,7 +56,7 @@ export const VendorCard = ({ vendor, onClick }: Props) => {
             <Building2 size={20} className="text-slate-600" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-800 group-hover:text-slate-900 line-clamp-1">
+            <h3 className="text-sm font-bold text-slate-800 group-hover:text-primary line-clamp-1">
               {vendor.name}
             </h3>
             <div className="flex items-center gap-2 mt-0.5">
@@ -77,21 +77,21 @@ export const VendorCard = ({ vendor, onClick }: Props) => {
       </div>
 
       {vendor.category && (
-        <span className="inline-block text-[10px] font-medium text-slate-500 bg-slate-50 rounded px-2 py-0.5 mb-3">
+        <span className="inline-block text-[10px] font-medium text-slate-500 bg-canvas rounded px-2 py-0.5 mb-3">
           {vendor.category}
         </span>
       )}
 
       <div className="grid grid-cols-3 gap-2 mb-3">
-        <div className="bg-slate-50 rounded-lg p-2 text-center">
+        <div className="bg-canvas rounded-lg p-2 text-center">
           <div className={clsx('text-lg font-black', scoreColor)}>{vendor.criticality_score}</div>
           <div className="text-[9px] font-semibold text-slate-400 uppercase">Kritiklik</div>
         </div>
-        <div className="bg-slate-50 rounded-lg p-2 text-center">
+        <div className="bg-canvas rounded-lg p-2 text-center">
           <div className="text-lg font-black text-slate-700">{vendor.total_assessments}</div>
           <div className="text-[9px] font-semibold text-slate-400 uppercase">Anket</div>
         </div>
-        <div className="bg-slate-50 rounded-lg p-2 text-center">
+        <div className="bg-canvas rounded-lg p-2 text-center">
           <div className="text-lg font-black text-slate-700">
             {vendor.avg_risk_score > 0 ? `%${vendor.avg_risk_score}` : '-'}
           </div>

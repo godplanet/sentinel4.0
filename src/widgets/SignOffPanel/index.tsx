@@ -33,10 +33,10 @@ export const SignOffPanel = ({
   const canPrepare = !isPrepared && !isReviewer;
 
   return (
-    <div className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-lg shadow-xl p-6">
+    <div className="bg-surface/80 backdrop-blur-xl border border-gray-200 rounded-lg shadow-xl p-6">
       <div className="flex items-center gap-2 mb-6">
         <ShieldCheck className="w-5 h-5 text-blue-600" />
-        <h3 className="font-semibold text-gray-900">İmza Katmanı</h3>
+        <h3 className="font-semibold text-primary">İmza Katmanı</h3>
         <span className="text-xs text-gray-500">(Four Eyes Principle)</span>
       </div>
 
@@ -47,7 +47,7 @@ export const SignOffPanel = ({
             'p-4 rounded-lg border-2',
             isPrepared
               ? 'bg-green-50 border-green-300'
-              : 'bg-gray-50 border-gray-300 border-dashed'
+              : 'bg-canvas border-gray-300 border-dashed'
           )}
         >
           <div className="flex items-start gap-3">
@@ -62,7 +62,7 @@ export const SignOffPanel = ({
               />
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-gray-900 mb-1 flex items-center gap-2">
+              <h4 className="font-semibold text-primary mb-1 flex items-center gap-2">
                 Hazırlayan Denetçi
                 {isPrepared && <CheckCircle className="w-4 h-4 text-green-600" />}
               </h4>
@@ -106,7 +106,7 @@ export const SignOffPanel = ({
             'p-4 rounded-lg border-2',
             isReviewed
               ? 'bg-blue-50 border-blue-300'
-              : 'bg-gray-50 border-gray-300 border-dashed'
+              : 'bg-canvas border-gray-300 border-dashed'
           )}
         >
           <div className="flex items-start gap-3">
@@ -121,7 +121,7 @@ export const SignOffPanel = ({
               />
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-gray-900 mb-1 flex items-center gap-2">
+              <h4 className="font-semibold text-primary mb-1 flex items-center gap-2">
                 İnceleyen Yönetici
                 {isReviewed && <CheckCircle className="w-4 h-4 text-blue-600" />}
               </h4>

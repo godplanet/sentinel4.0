@@ -25,7 +25,7 @@ const PRIORITY_CFG: Record<string, { bg: string; text: string; dot: string }> = 
   CRITICAL: { bg: 'bg-red-50', text: 'text-red-700', dot: 'bg-red-500' },
   HIGH: { bg: 'bg-orange-50', text: 'text-orange-700', dot: 'bg-orange-500' },
   MEDIUM: { bg: 'bg-amber-50', text: 'text-amber-700', dot: 'bg-amber-500' },
-  LOW: { bg: 'bg-slate-50', text: 'text-slate-600', dot: 'bg-slate-400' },
+  LOW: { bg: 'bg-canvas', text: 'text-slate-600', dot: 'bg-slate-400' },
 };
 
 export const RequirementsPanel = ({ frameworkId, frameworkName, shortCode, onClose }: Props) => {
@@ -61,9 +61,9 @@ export const RequirementsPanel = ({ frameworkId, frameworkName, shortCode, onClo
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      className="bg-white rounded-2xl border border-slate-200/80 shadow-md overflow-hidden"
+      className="bg-surface rounded-2xl border border-slate-200/80 shadow-md overflow-hidden"
     >
-      <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-canvas/50">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm">
             <Shield size={18} className="text-white" />
@@ -121,7 +121,7 @@ export const RequirementsPanel = ({ frameworkId, frameworkName, shortCode, onClo
                 <div key={req.id} className="group">
                   <button
                     onClick={() => setExpandedReq(isExpanded ? null : req.id)}
-                    className="w-full text-left px-6 py-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors"
+                    className="w-full text-left px-6 py-3.5 flex items-center gap-3 hover:bg-canvas/50 transition-colors"
                   >
                     <div className="shrink-0">
                       {isExpanded ? (
@@ -178,7 +178,7 @@ export const RequirementsPanel = ({ frameworkId, frameworkName, shortCode, onClo
                               {maps.map((m) => (
                                 <div
                                   key={m.id}
-                                  className="flex items-center justify-between bg-slate-50 rounded-lg px-3 py-2 group/map"
+                                  className="flex items-center justify-between bg-canvas rounded-lg px-3 py-2 group/map"
                                 >
                                   <div className="flex items-center gap-2">
                                     <span className="text-xs font-mono font-bold text-slate-600">{m.control_ref}</span>

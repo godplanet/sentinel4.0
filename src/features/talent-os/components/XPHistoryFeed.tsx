@@ -150,7 +150,7 @@ export function XPHistoryFeed({ userId, limit = 15, compact = false, className =
           <button
             onClick={() => setVisible((v) => v + 8)}
             className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-mono
-                       text-cyan-500 hover:text-cyan-300 hover:bg-white/5 transition-colors
+                       text-cyan-500 hover:text-cyan-300 hover:bg-surface/5 transition-colors
                        border-t border-zinc-800"
           >
             <ChevronDown size={13} />
@@ -195,7 +195,7 @@ function TerminalHeader({
         <button
           onClick={onRefresh}
           disabled={loading}
-          className="p-1.5 rounded-lg hover:bg-white/5 text-zinc-500 hover:text-cyan-400 transition-colors"
+          className="p-1.5 rounded-lg hover:bg-surface/5 text-zinc-500 hover:text-cyan-400 transition-colors"
           title="Refresh"
         >
           <RefreshCw size={12} className={loading ? 'animate-spin' : ''} />

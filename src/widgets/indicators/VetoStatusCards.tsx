@@ -61,7 +61,7 @@ export function VetoStatusCards({ findingCounts }: Props) {
                 backdrop-blur-md border rounded-xl p-4 transition-all
                 ${isTriggered
                   ? 'bg-red-500/20 border-red-400/50 ring-2 ring-red-400/30'
-                  : 'bg-white/5 border-white/10'
+                  : 'bg-surface/5 border-white/10'
                 }
               `}
             >

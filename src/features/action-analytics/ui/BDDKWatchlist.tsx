@@ -44,7 +44,7 @@ export function BDDKWatchlist({ actions, onSelectAction }: Props) {
             BDDK Düzenleyici İhlali Tespit Edildi — {breaches.length} Aksiyon &gt;365 Gün Vadesi Aşıldı
           </p>
         </div>
-        <span className="shrink-0 px-3 py-1 bg-white/20 border border-white/30 rounded-full text-[11px] font-black text-white">
+        <span className="shrink-0 px-3 py-1 bg-surface/20 border border-white/30 rounded-full text-[11px] font-black text-white">
           {breaches.length} İhlal
         </span>
       </div>

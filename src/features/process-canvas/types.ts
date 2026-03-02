@@ -26,3 +26,28 @@ export interface ProcessMap {
   created_at: string;
   updated_at: string;
 }
+
+// ─── Canvas düğüm tipleri ─────────────────────────────────────────────────────
+
+export type CanvasNodeType = 'processNode' | 'riskNode' | 'controlNode';
+
+export type NodeSeverity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+
+export type ControlType = 'PREVENTIVE' | 'DETECTIVE' | 'CORRECTIVE';
+
+export type ProcessNodeData = {
+  label: string;
+  description?: string;
+} & Record<string, unknown>;
+
+export type RiskNodeData = {
+  label: string;
+  severity?: NodeSeverity;
+  description?: string;
+} & Record<string, unknown>;
+
+export type ControlNodeData = {
+  label: string;
+  controlType?: ControlType;
+  description?: string;
+} & Record<string, unknown>;

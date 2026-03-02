@@ -81,7 +81,7 @@ export default function InvestigationHubPage() {
               <Link
                 key={c.id}
                 to={`/investigation/${c.id}`}
-                className="flex items-center gap-4 p-4 bg-white/70 backdrop-blur-sm border border-slate-200 rounded-xl hover:border-slate-300 hover:shadow-sm transition-all group"
+                className="flex items-center gap-4 p-4 bg-surface/70 backdrop-blur-sm border border-slate-200 rounded-xl hover:border-slate-300 hover:shadow-sm transition-all group"
               >
                 <div className={clsx(
                   'w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border',
@@ -91,7 +91,7 @@ export default function InvestigationHubPage() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-bold text-slate-800 group-hover:text-slate-900 transition-colors">
+                  <h3 className="text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">
                     {c.title}
                   </h3>
                   <div className="flex items-center gap-3 mt-1">

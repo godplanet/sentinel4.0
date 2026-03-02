@@ -108,7 +108,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
             <Calculator className="text-white" size={24} />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-slate-900">Örneklem Hesaplayıcı</h2>
+            <h2 className="text-2xl font-bold text-primary">Örneklem Hesaplayıcı</h2>
             <p className="text-sm text-slate-600">GIAS Standard 14.1 - İstatistiksel Örnekleme</p>
           </div>
         </div>
@@ -127,7 +127,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
 
           {/* Population Size */}
           <div>
-            <label className="block text-sm font-bold text-slate-900 mb-2">
+            <label className="block text-sm font-bold text-primary mb-2">
               Evren Büyüklüğü (N)
             </label>
             <input
@@ -135,7 +135,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
               min="0"
               value={populationSize || ''}
               onChange={(e) => setPopulationSize(Number(e.target.value))}
-              className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white text-lg font-semibold"
+              className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface text-lg font-semibold"
               placeholder="Örn: 1000"
             />
             <p className="text-xs text-slate-500 mt-1">Test edilecek toplam birim sayısı</p>
@@ -143,7 +143,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
 
           {/* Risk Level */}
           <div>
-            <label className="block text-sm font-bold text-slate-900 mb-2">Risk Seviyesi</label>
+            <label className="block text-sm font-bold text-primary mb-2">Risk Seviyesi</label>
             <div className="grid grid-cols-3 gap-3">
               {(['low', 'medium', 'high'] as RiskLevel[]).map((level) => {
                 const isActive = riskLevel === level;
@@ -152,7 +152,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
                     label: 'Düşük Risk',
                     color: 'green',
                     bgActive: 'bg-green-100 border-green-500',
-                    bgInactive: 'bg-white border-slate-300 hover:border-green-400',
+                    bgInactive: 'bg-surface border-slate-300 hover:border-green-400',
                     textActive: 'text-green-900',
                     textInactive: 'text-slate-600',
                   },
@@ -160,7 +160,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
                     label: 'Orta Risk',
                     color: 'yellow',
                     bgActive: 'bg-yellow-100 border-yellow-500',
-                    bgInactive: 'bg-white border-slate-300 hover:border-yellow-400',
+                    bgInactive: 'bg-surface border-slate-300 hover:border-yellow-400',
                     textActive: 'text-yellow-900',
                     textInactive: 'text-slate-600',
                   },
@@ -168,7 +168,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
                     label: 'Yüksek Risk',
                     color: 'red',
                     bgActive: 'bg-red-100 border-red-500',
-                    bgInactive: 'bg-white border-slate-300 hover:border-red-400',
+                    bgInactive: 'bg-surface border-slate-300 hover:border-red-400',
                     textActive: 'text-red-900',
                     textInactive: 'text-slate-600',
                   },
@@ -195,11 +195,11 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
 
           {/* Confidence Level */}
           <div>
-            <label className="block text-sm font-bold text-slate-900 mb-2">Güven Aralığı</label>
+            <label className="block text-sm font-bold text-primary mb-2">Güven Aralığı</label>
             <select
               value={confidenceLevel}
               onChange={(e) => setConfidenceLevel(Number(e.target.value) as ConfidenceLevel)}
-              className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white text-sm font-medium"
+              className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface text-sm font-medium"
             >
               <option value={90}>%90 Güven Aralığı</option>
               <option value={95}>%95 Güven Aralığı (Standart)</option>
@@ -210,7 +210,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
 
           {/* Expected Error Rate (Optional) */}
           <div>
-            <label className="block text-sm font-bold text-slate-900 mb-2">
+            <label className="block text-sm font-bold text-primary mb-2">
               Beklenen Hata Oranı (%) - İsteğe Bağlı
             </label>
             <input
@@ -220,7 +220,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
               step="0.1"
               value={expectedErrorRate || ''}
               onChange={(e) => setExpectedErrorRate(Number(e.target.value))}
-              className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-white"
+              className="w-full px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none bg-surface"
               placeholder="0"
             />
             <p className="text-xs text-slate-500 mt-1">
@@ -286,11 +286,11 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
               <div className="flex items-start gap-3 mb-4">
                 <TrendingUp className="text-blue-600 mt-0.5" size={20} />
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Metodoloji Gerekçesi</h3>
+                  <h3 className="text-sm font-bold text-primary">Metodoloji Gerekçesi</h3>
                   <p className="text-xs text-slate-600 mt-1">GIAS Standard 14.1 Uyumluluğu</p>
                 </div>
               </div>
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+              <div className="bg-canvas border border-slate-200 rounded-lg p-4">
                 <pre className="text-xs text-slate-700 whitespace-pre-wrap font-mono leading-relaxed">
                   {result.justification}
                 </pre>
@@ -332,7 +332,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
                 <div className="flex items-start gap-3 mb-4">
                   <CheckCircle2 className="text-purple-600 mt-0.5" size={20} />
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold text-slate-900">
+                    <h3 className="text-sm font-bold text-primary">
                       Rastgele Seçilen Örneklem Numaraları
                     </h3>
                     <p className="text-xs text-slate-600 mt-1">
@@ -355,7 +355,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
                     {sampleIndices.map((index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-white border border-purple-300 rounded-lg text-sm font-medium text-purple-900"
+                        className="px-3 py-1 bg-surface border border-purple-300 rounded-lg text-sm font-medium text-purple-900"
                       >
                         #{index}
                       </span>

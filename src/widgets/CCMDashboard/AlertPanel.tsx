@@ -33,7 +33,7 @@ function AlertCard({ alert }: { alert: CCMAlert }) {
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <div className={clsx('w-2 h-2 rounded-full flex-shrink-0', colors.dot)} />
           <div className="flex-1 min-w-0">
-            <h4 className="text-sm font-semibold text-slate-900 truncate">{alert.title}</h4>
+            <h4 className="text-sm font-semibold text-primary truncate">{alert.title}</h4>
             <div className="flex items-center gap-2 mt-0.5">
               <span className={clsx('text-[10px] font-bold uppercase', colors.text)}>
                 {SEVERITY_LABELS[alert.severity]}
@@ -71,10 +71,10 @@ function AlertCard({ alert }: { alert: CCMAlert }) {
             exit={{ height: 0 }}
             className="overflow-hidden"
           >
-            <div className="px-4 py-3 bg-white border-t border-slate-100 space-y-2">
+            <div className="px-4 py-3 bg-surface border-t border-slate-100 space-y-2">
               <p className="text-xs text-slate-600 leading-relaxed">{alert.description}</p>
 
-              <div className="bg-slate-50 rounded-lg p-3">
+              <div className="bg-canvas rounded-lg p-3">
                 <h5 className="text-[10px] font-bold text-slate-500 uppercase mb-2">Kanit Detaylari</h5>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(alert.evidence_data).map(([key, value]) => (

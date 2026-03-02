@@ -96,7 +96,7 @@ export function ImportModal({ isOpen, onClose, onImport, mode, title }: ImportMo
           initial={{ scale: 0.95, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.95, y: 20 }}
-          className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col"
+          className="bg-surface rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col"
           onClick={e => e.stopPropagation()}
         >
           <div className={clsx('bg-gradient-to-r px-6 py-4 rounded-t-2xl flex items-center justify-between', config.color)}>
@@ -107,7 +107,7 @@ export function ImportModal({ isOpen, onClose, onImport, mode, title }: ImportMo
                 <p className="text-xs text-white/70">{items.length} kayit mevcut</p>
               </div>
             </div>
-            <button onClick={onClose} className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30">
+            <button onClick={onClose} className="w-8 h-8 bg-surface/20 rounded-lg flex items-center justify-center hover:bg-surface/30">
               <X size={16} className="text-white" />
             </button>
           </div>
@@ -120,7 +120,7 @@ export function ImportModal({ isOpen, onClose, onImport, mode, title }: ImportMo
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Kayit ara..."
-                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                className="w-full pl-10 pr-4 py-2 bg-canvas border border-slate-300 rounded-lg text-sm"
               />
             </div>
             <button
@@ -183,12 +183,12 @@ export function ImportModal({ isOpen, onClose, onImport, mode, title }: ImportMo
             )}
           </div>
 
-          <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+          <div className="bg-canvas px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
             <p className="text-xs text-slate-500">
               {selected.size} kayit secildi
             </p>
             <div className="flex items-center gap-3">
-              <button onClick={onClose} className="px-5 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">
+              <button onClick={onClose} className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">
                 Iptal
               </button>
               <button

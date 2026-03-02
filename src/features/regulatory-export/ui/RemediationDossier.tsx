@@ -1,65 +1,38 @@
 import React from 'react';
-import { Printer, Shield, CheckCircle2, AlertTriangle } from 'lucide-react';
-import type { ActionEvidence, FindingSnapshot } from '@/entities/action/model/types';
-
-interface DossierData {
-  dossierRef: string;
-  generatedAt: string;
-  tenantName: string;
-  finding: FindingSnapshot & { entity?: string; control?: string };
-  originalDueDate: string;
-  actualClosureDate: string;
-  isBddkBreach: boolean;
-  boardExceptionRef?: string;
-  evidence: ActionEvidence & { file_name: string };
-  auditorName: string;
-  auditorUid: string;
-  reviewNote: string;
-}
-
-const MOCK_DATA: DossierData = {
-  dossierRef: 'SEN-DOSSIER-2026-0042',
-  generatedAt: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }),
-  tenantName: 'Türkiye Kalkınma Bankası A.Ş.',
-  finding: {
-    finding_id: 'FND-2025-0112',
-    title: 'Inadequate Network Perimeter Security Controls',
-    severity: 'Critical',
-    risk_rating: 'High',
-    gias_category: 'Technology & Cybersecurity',
-    description:
-      'The external firewall ruleset has not been reviewed in over 18 months. Legacy rule permitting unrestricted egress on port 8080 identified. Presents a material risk of data exfiltration.',
-    created_at: '2025-03-14T09:00:00Z',
-    entity: 'IT Infrastructure Division',
-    control: 'CTL-NET-042 — External Perimeter Firewall Review',
-  },
-  originalDueDate: '2025-06-30',
-  actualClosureDate: '2025-09-12',
-  isBddkBreach: true,
-  boardExceptionRef: 'BOARD-EXC-2025-007',
-  evidence: {
-    id: 'EVD-0081',
-    action_id: 'ACT-2025-0334',
-    storage_path: 'evidence/firewall_audit_report_q3_2025.pdf',
-    file_name: 'firewall_audit_report_q3_2025.pdf',
-    file_hash: 'e5b9c3a7f2d14806f9e2c1a3d7b04856f2e9c1d3a5b7e904e5b9c3a7f2d14806',
-    ai_confidence_score: 94.7,
-    review_note: 'Evidence verified. Firewall ruleset updated and independently validated by external pen-test team.',
-    uploaded_by: 'Auditee — IT Infrastructure Division',
-    created_at: '2025-09-10T14:22:00Z',
-  },
-  auditorName: 'Mehmet Yılmaz, CIA, CISA',
-  auditorUid: '8f4c-2a1b-9d3e-5f2c',
-  reviewNote:
-    'All control deficiencies identified in the original finding have been remediated. Firewall rules reviewed, legacy egress rule removed, and quarterly review schedule established.',
-};
+import { Printer, Shield, CheckCircle2, AlertTriangle, FileQuestion } from 'lucide-react';
+import { useDossierData } from '../api/dossier-api';
 
 export const RemediationDossier: React.FC = () => {
-  const d = MOCK_DATA;
+  const { data: d, isLoading, isError } = useDossierData(null);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <div className="text-center text-slate-600">
+          <div className="animate-pulse font-medium">Dosya yükleniyor...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError || !d) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <div className="text-center text-slate-600 max-w-md px-4">
+          <FileQuestion className="w-12 h-12 mx-auto mb-4 text-slate-400" />
+          <p className="font-medium">Dosya bulunamadı</p>
+          <p className="text-sm mt-1">
+            Görüntülenecek resmî iyileştirme dosyası yok. Kapatılmış bir aksiyon ve kanıt kaydı (actions + action_evidence) gereklidir.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const isOverdue = new Date(d.actualClosureDate) > new Date(d.originalDueDate);
 
   return (
-    <div className="min-h-screen bg-slate-100 py-8 px-4 print:bg-white print:py-0 print:px-0">
+    <div className="min-h-screen bg-slate-100 py-8 px-4 print:bg-surface print:py-0 print:px-0">
       <div className="print:hidden fixed top-6 right-6 z-50">
         <button
           onClick={() => window.print()}
@@ -70,13 +43,13 @@ export const RemediationDossier: React.FC = () => {
         </button>
       </div>
 
-      <div className="max-w-4xl mx-auto bg-white p-12 shadow-sm border border-slate-300 print:shadow-none print:border-none print:max-w-full">
+      <div className="max-w-4xl mx-auto bg-surface p-12 shadow-sm border border-slate-300 print:shadow-none print:border-none print:max-w-full">
         <header className="flex items-start justify-between pb-8 border-b-2 border-slate-900 mb-10">
           <div>
             <p className="font-mono text-[10px] text-slate-500 tracking-widest uppercase mb-2">
               {d.tenantName}
             </p>
-            <h1 className="font-serif text-3xl font-bold text-slate-900 tracking-widest uppercase leading-tight">
+            <h1 className="font-serif text-3xl font-bold text-primary tracking-widest uppercase leading-tight">
               Official Remediation Dossier
             </h1>
             <p className="font-mono text-xs text-slate-500 mt-2 tracking-wide">
@@ -94,7 +67,7 @@ export const RemediationDossier: React.FC = () => {
         <section className="mb-10">
           <SectionHeader number="I" title="The Genesis" subtitle="Original finding record — immutable snapshot at time of action creation" />
           <div className="border border-slate-300 rounded-lg overflow-hidden mt-4">
-            <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+            <div className="bg-canvas border-b border-slate-200 px-5 py-3 flex items-center justify-between">
               <span className="font-mono text-xs text-slate-600 tracking-wide">{d.finding.finding_id}</span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200">
                 {d.finding.severity}
@@ -103,7 +76,7 @@ export const RemediationDossier: React.FC = () => {
             <div className="px-5 py-5 space-y-4">
               <div>
                 <p className="text-xs font-medium text-slate-400 uppercase tracking-widest mb-1">Finding Title</p>
-                <p className="font-serif text-lg text-slate-900">{d.finding.title}</p>
+                <p className="font-serif text-lg text-primary">{d.finding.title}</p>
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <MetaField label="GIAS Category" value={d.finding.gias_category ?? '—'} />
@@ -158,7 +131,7 @@ export const RemediationDossier: React.FC = () => {
         <section className="mb-10">
           <SectionHeader number="III" title="Cryptographic Evidence" subtitle="Immutable audit trail — file integrity sealed via SHA-256" />
           <div className="mt-4 border border-slate-200 rounded-lg overflow-hidden">
-            <div className="bg-slate-50 border-b border-slate-200 px-5 py-3">
+            <div className="bg-canvas border-b border-slate-200 px-5 py-3">
               <p className="text-xs font-medium text-slate-500 tracking-widest uppercase">Evidence Record — {d.evidence.id}</p>
             </div>
             <div className="px-5 py-5 space-y-4">
@@ -190,11 +163,11 @@ export const RemediationDossier: React.FC = () => {
               </p>
             </div>
 
-            <div className="border border-slate-300 rounded-lg px-6 py-5 bg-slate-50">
+            <div className="border border-slate-300 rounded-lg px-6 py-5 bg-canvas">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-xs font-medium text-slate-400 uppercase tracking-widest mb-2">Digital Signature</p>
-                  <p className="font-serif text-base text-slate-900 font-semibold">{d.auditorName}</p>
+                  <p className="font-serif text-base text-primary font-semibold">{d.auditorName}</p>
                   <p className="font-mono text-xs text-slate-500 mt-1">
                     Signed cryptographically by Auditor UID: {d.auditorUid}
                   </p>
@@ -227,7 +200,7 @@ function SectionHeader({ number, title, subtitle }: { number: string; title: str
         {number}.
       </span>
       <div>
-        <h2 className="font-serif text-xl text-slate-900">{title}</h2>
+        <h2 className="font-serif text-xl text-primary">{title}</h2>
         <p className="text-xs text-slate-500 font-sans mt-0.5">{subtitle}</p>
       </div>
     </div>
@@ -244,8 +217,8 @@ function MetaField({ label, value }: { label: string; value: string }) {
 }
 
 function DateBlock({ label, value, sub, variant }: { label: string; value: string; sub: string; variant: 'neutral' | 'warning' | 'success' }) {
-  const bg = variant === 'warning' ? 'bg-amber-50 border-amber-200' : variant === 'success' ? 'bg-emerald-50 border-emerald-200' : 'bg-slate-50 border-slate-200';
-  const text = variant === 'warning' ? 'text-amber-900' : variant === 'success' ? 'text-emerald-900' : 'text-slate-900';
+  const bg = variant === 'warning' ? 'bg-amber-50 border-amber-200' : variant === 'success' ? 'bg-emerald-50 border-emerald-200' : 'bg-canvas border-slate-200';
+  const text = variant === 'warning' ? 'text-amber-900' : variant === 'success' ? 'text-emerald-900' : 'text-primary';
   const sub_text = variant === 'warning' ? 'text-amber-700' : variant === 'success' ? 'text-emerald-700' : 'text-slate-500';
   return (
     <div className={`border rounded-lg px-5 py-4 ${bg}`}>

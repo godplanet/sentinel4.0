@@ -122,7 +122,7 @@ export function FinancialGridBlock({ block, sectionId, readOnly }: Props) {
             {rows.map((row, ri) => (
               <tr
                 key={ri}
-                className={`group border-b border-slate-100 last:border-b-0 ${ri % 2 === 0 ? 'bg-white' : 'bg-slate-50'} hover:bg-blue-50/40 transition-colors`}
+                className={`group border-b border-slate-100 last:border-b-0 ${ri % 2 === 0 ? 'bg-surface' : 'bg-canvas'} hover:bg-blue-50/40 transition-colors`}
               >
                 {columns.map((col, ci) => (
                   <td key={ci} className="px-4 py-2 border-r border-slate-100 last:border-r-0">

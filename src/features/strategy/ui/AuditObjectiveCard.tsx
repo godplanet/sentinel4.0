@@ -26,7 +26,7 @@ export const AuditObjectiveCard = ({ objective }: Props) => {
       <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full blur-2xl opacity-10 bg-teal-500" />
 
       <div className="flex items-start gap-3 relative z-10">
-        <div className="flex-shrink-0 p-2 rounded-lg bg-white/50 backdrop-blur-md border border-white/20">
+        <div className="flex-shrink-0 p-2 rounded-lg bg-surface/50 backdrop-blur-md border border-white/20">
           <Icon className="w-5 h-5 text-teal-600" />
         </div>
 
@@ -38,7 +38,7 @@ export const AuditObjectiveCard = ({ objective }: Props) => {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[10px] bg-slate-50 text-slate-600 px-2 py-0.5 rounded border border-slate-200">
+            <span className="text-[10px] bg-canvas text-slate-600 px-2 py-0.5 rounded border border-slate-200">
               {objective.type}
             </span>
             <span className={clsx("text-[10px] px-2 py-0.5 rounded border font-semibold", getStatusColor(objective.status))}>

@@ -86,11 +86,11 @@ export class UniversalSeeder {
     console.log(`   ✓ Created ${entities.length} entities in ltree hierarchy`);
 
     // Store for later use
-    (window as any).__seedData = { tenant, users, entities };
+    window.__seedData = { tenant, users, entities };
   }
 
   private static async seedStrategy(): Promise<void> {
-    const { users, entities } = (window as any).__seedData;
+    const { users, entities } = window.__seedData ?? {};
 
     // 1. Create Risk Library (50 risks)
     const risks = await RiskFactory.createRiskLibrary(this.tenantId);
@@ -100,12 +100,14 @@ export class UniversalSeeder {
     const assessments = await RiskFactory.createRiskAssessments(this.tenantId, entities, risks);
     console.log(`   ✓ Created ${assessments.length} risk assessments`);
 
-    (window as any).__seedData.risks = risks;
-    (window as any).__seedData.assessments = assessments;
+    if (window.__seedData) {
+      window.__seedData.risks = risks;
+      window.__seedData.assessments = assessments;
+    }
   }
 
   private static async seedPlanning(): Promise<void> {
-    const { users, entities } = (window as any).__seedData;
+    const { users, entities } = window.__seedData ?? {};
 
     // 1. Create Annual Audit Plan (15 engagements)
     const engagements = await EngagementFactory.createAnnualPlan(this.tenantId, entities, users);
@@ -115,11 +117,13 @@ export class UniversalSeeder {
     await EngagementFactory.assignTeamMembers(engagements, users);
     console.log(`   ✓ Assigned team members to engagements`);
 
-    (window as any).__seedData.engagements = engagements;
+    if (window.__seedData) {
+      window.__seedData.engagements = engagements;
+    }
   }
 
   private static async seedExecution(): Promise<void> {
-    const { engagements, users } = (window as any).__seedData;
+    const { engagements, users } = window.__seedData ?? {};
 
     // 1. Create Findings (50 findings)
     const findings = await FindingFactory.createFindings(this.tenantId, engagements, users);
@@ -153,13 +157,15 @@ export class UniversalSeeder {
     await WorkpaperFactory.createWorkpaperEvidence(workpapers);
     console.log(`   ✓ Created workpaper evidence`);
 
-    (window as any).__seedData.findings = findings;
-    (window as any).__seedData.actionPlans = actionPlans;
-    (window as any).__seedData.workpapers = workpapers;
+    if (window.__seedData) {
+      window.__seedData.findings = findings;
+      window.__seedData.actionPlans = actionPlans;
+      window.__seedData.workpapers = workpapers;
+    }
   }
 
   private static async seedSpecialized(): Promise<void> {
-    const { entities, users, engagements } = (window as any).__seedData;
+    const { entities, users, engagements } = window.__seedData ?? {};
 
     // 1. CCM Predator Alerts
     const alerts = await CCMFactory.createPredatorAlerts(this.tenantId, entities);
@@ -186,7 +192,7 @@ export class UniversalSeeder {
     console.log(`   ✓ Created ${pbcRequests.length} PBC requests`);
 
     // Clean up temporary data
-    delete (window as any).__seedData;
+    delete window.__seedData;
   }
 
   private static isSeeded(): boolean {

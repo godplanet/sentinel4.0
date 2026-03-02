@@ -30,7 +30,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-surface dark:bg-gray-900 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-emerald-600 to-teal-600 p-6 flex items-center justify-between text-white z-10">
           <div className="flex items-center gap-3">
@@ -42,7 +42,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+            className="p-2 hover:bg-surface/20 rounded-lg transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -59,7 +59,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Paste your finding description here. Example: The bank sells commodities to customers under Murabaha contracts without taking physical possession..."
-              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none text-gray-900 dark:text-white placeholder-gray-500"
+              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-surface dark:bg-gray-800 focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none text-primary dark:text-white placeholder-gray-500"
               rows={6}
             />
             <button
@@ -133,7 +133,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
               {/* Violations */}
               {result.violations.length > 0 && (
                 <div className="space-y-3">
-                  <h4 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                  <h4 className="font-semibold text-primary dark:text-white flex items-center gap-2">
                     <AlertTriangle className="w-5 h-5 text-red-500" />
                     Detected Violations ({result.violations.length})
                   </h4>
@@ -148,7 +148,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
               {/* Recommendations */}
               {result.recommendations.length > 0 && (
                 <GlassCard className="p-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Recommendations</h4>
+                  <h4 className="font-semibold text-primary dark:text-white mb-3">Recommendations</h4>
                   <ul className="space-y-2">
                     {result.recommendations.map((rec, idx) => (
                       <li key={idx} className="text-sm text-gray-700 dark:text-gray-300 flex items-start gap-2">

@@ -157,7 +157,7 @@ export const DataEntryView = () => {
                   : p === 'S' ? 'bg-cyan-50 border-cyan-300 text-cyan-700'
                   : p === 'G' ? 'bg-amber-50 border-amber-300 text-amber-700'
                   : 'bg-slate-800 border-slate-800 text-white'
-                : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300',
+                : 'bg-surface border-slate-200 text-slate-500 hover:border-slate-300',
             )}
           >
             {p === 'all' ? 'Tumu' : p === 'E' ? 'Cevre' : p === 'S' ? 'Sosyal' : 'Yonetisim'}
@@ -168,7 +168,7 @@ export const DataEntryView = () => {
       <div className="border border-slate-200 rounded-lg overflow-hidden">
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-slate-50 border-b border-slate-200">
+            <tr className="bg-canvas border-b border-slate-200">
               <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Kod</th>
               <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Metrik</th>
               <th className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase">Birim</th>
@@ -182,7 +182,7 @@ export const DataEntryView = () => {
             {filteredMetrics.map((metric) => {
               const existing = existingMap.get(metric.id);
               return (
-                <tr key={metric.id} className="border-b border-slate-100 hover:bg-slate-50/50">
+                <tr key={metric.id} className="border-b border-slate-100 hover:bg-canvas/50">
                   <td className="px-3 py-2.5">
                     <span className={clsx('text-[10px] font-bold px-1.5 py-0.5 rounded',
                       metric.pillar === 'E' ? 'bg-emerald-50 text-emerald-700' :
@@ -225,7 +225,7 @@ export const DataEntryView = () => {
       {selectedMetric && !skepticResult && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={closeForm} />
-          <div className="relative w-full max-w-lg bg-white rounded-xl shadow-xl overflow-hidden">
+          <div className="relative w-full max-w-lg bg-surface rounded-xl shadow-xl overflow-hidden">
             <div className="bg-emerald-800 text-white p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <FileText size={18} />
@@ -299,13 +299,13 @@ export const DataEntryView = () => {
                 </div>
               )}
 
-              <div className="bg-slate-50 rounded-lg p-3 text-[10px] text-slate-500 flex items-center gap-2">
+              <div className="bg-canvas rounded-lg p-3 text-[10px] text-slate-500 flex items-center gap-2">
                 <Lock size={12} className="text-slate-400" />
                 Veri SHA-256 ile hash'lenecek ve Cryo-Chamber'a kaydedilecektir.
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 p-4 border-t border-slate-100 bg-slate-50/50">
+            <div className="flex justify-end gap-3 p-4 border-t border-slate-100 bg-canvas/50">
               <button onClick={closeForm} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">
                 Vazgec
               </button>

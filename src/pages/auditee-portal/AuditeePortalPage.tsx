@@ -91,12 +91,12 @@ export const AuditeePortalPage = () => {
 
       // Başarı Animasyonu (Konfeti)
       setShowConfetti(true);
-      toast.success('Aksiyon Planı Başarıyla Gönderildi!');
+      toast.success('Aksiyon planı Teftiş Kurulu\'na iletildi — müzakere süreci başlatıldı.');
       setTimeout(() => setShowConfetti(false), 3500);
 
     } catch (error) {
       console.error('Failed to submit response:', error);
-      toast.error('Aksiyon planı gönderilemedi. Lütfen tekrar deneyin.');
+      toast.error('Aksiyon planı iletilemedi — zorunlu alanlar eksik veya veri bütünlüğü hatası.');
     } finally {
       setSubmitting(false);
     }
@@ -128,7 +128,7 @@ export const AuditeePortalPage = () => {
       {/* ================================================================================= */}
       {/* SOL PANEL: OKUMA MODU (APPLE GLASS & ZEN READER - BLIND MODE ACTIVE)                */}
       {/* ================================================================================= */}
-      <div className="relative w-1/2 h-full flex flex-col backdrop-blur-2xl bg-white/10 border-r border-white/20 transition-colors duration-500">
+      <div className="relative w-1/2 h-full flex flex-col backdrop-blur-2xl bg-surface/10 border-r border-white/20 transition-colors duration-500">
         
         {/* WARMTH (SAYFA SICAKLIĞI) OVERLAY */}
         <div 
@@ -153,7 +153,7 @@ export const AuditeePortalPage = () => {
             <input 
                 type="range" min="0" max="100" value={warmth} 
                 onChange={(e) => setWarmth(parseInt(e.target.value))}
-                className="w-24 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-white"
+                className="w-24 h-1 bg-surface/20 rounded-lg appearance-none cursor-pointer accent-white"
             />
             <Moon size={14} className={warmth >= 50 ? 'text-white' : 'text-white/40'} />
           </div>

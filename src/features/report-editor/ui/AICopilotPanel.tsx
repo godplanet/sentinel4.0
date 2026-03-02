@@ -91,7 +91,7 @@ export function AICopilotPanel({
                   key={p.label}
                   onClick={() => onAIGenerate(p.prompt)}
                   disabled={aiLoading}
-                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-700 bg-white rounded-lg border border-sky-100 hover:border-blue-300 hover:bg-blue-50 transition-all disabled:opacity-50"
+                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-700 bg-surface rounded-lg border border-sky-100 hover:border-blue-300 hover:bg-blue-50 transition-all disabled:opacity-50"
                 >
                   {p.label}
                 </button>
@@ -113,7 +113,7 @@ export function AICopilotPanel({
                   }
                 }}
                 placeholder="AI'a bir sey sor..."
-                className="flex-1 px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
+                className="flex-1 px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-surface"
               />
               <button
                 onClick={() => {
@@ -197,7 +197,7 @@ function CommentCard({ comment, onResolve }: { comment: ReportComment; onResolve
     <div
       className={clsx(
         'rounded-lg p-3 text-xs',
-        comment.resolved ? 'bg-slate-50 opacity-60' : isSuggestion ? 'bg-amber-50 border border-amber-200' : 'bg-white border border-slate-200 shadow-sm'
+        comment.resolved ? 'bg-canvas opacity-60' : isSuggestion ? 'bg-amber-50 border border-amber-200' : 'bg-surface border border-slate-200 shadow-sm'
       )}
     >
       <div className="flex items-start justify-between gap-2">

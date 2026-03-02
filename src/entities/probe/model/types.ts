@@ -28,7 +28,7 @@ export interface ProbeLog {
   id: string;
   probe_id: string;
   execution_time: string;
-  result_data?: any;
+  result_data?: Record<string, unknown>;
   is_anomaly: boolean;
   anomaly_count: number;
   execution_duration_ms?: number;
@@ -43,7 +43,7 @@ export interface ProbeRun {
   items_found: number;
   execution_time_ms: number;
   status: 'PASS' | 'FAIL' | 'ERROR';
-  run_metadata: Record<string, any>;
+  run_metadata: Record<string, unknown>;
   started_at: string;
   completed_at: string;
   tenant_id: string;
@@ -54,7 +54,7 @@ export interface ProbeException {
   id: string;
   run_id: string;
   probe_id: string;
-  data_payload: Record<string, any>;
+  data_payload: Record<string, unknown>;
   status: ExceptionStatus;
   assigned_to?: string;
   notes: string;

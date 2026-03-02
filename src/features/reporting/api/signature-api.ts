@@ -5,6 +5,7 @@ import type {
   SignatureChainStatus,
   ReportSnapshot,
   SignatureStep,
+  SignerRole,
 } from '@/entities/report/model/types';
 
 const SIGNATURE_WORKFLOW: SignatureStep[] = [
@@ -101,7 +102,7 @@ export async function addSignature(data: CreateSignatureData): Promise<ReportSig
 export async function approveReport(
   reportId: string,
   signerName: string,
-  signerRole: string,
+  signerRole: SignerRole,
   signerTitle: string,
   orderIndex: number,
   userId?: string
@@ -110,7 +111,7 @@ export async function approveReport(
     report_id: reportId,
     user_id: userId,
     signer_name: signerName,
-    signer_role: signerRole as any,
+    signer_role: signerRole,
     signer_title: signerTitle,
     status: 'signed',
     order_index: orderIndex,
@@ -120,7 +121,7 @@ export async function approveReport(
 export async function approveWithDissent(
   reportId: string,
   signerName: string,
-  signerRole: string,
+  signerRole: SignerRole,
   signerTitle: string,
   orderIndex: number,
   dissentComment: string,
@@ -130,7 +131,7 @@ export async function approveWithDissent(
     report_id: reportId,
     user_id: userId,
     signer_name: signerName,
-    signer_role: signerRole as any,
+    signer_role: signerRole,
     signer_title: signerTitle,
     status: 'signed_with_dissent',
     order_index: orderIndex,
@@ -141,7 +142,7 @@ export async function approveWithDissent(
 export async function rejectReport(
   reportId: string,
   signerName: string,
-  signerRole: string,
+  signerRole: SignerRole,
   signerTitle: string,
   orderIndex: number,
   rejectionReason: string,
@@ -151,7 +152,7 @@ export async function rejectReport(
     report_id: reportId,
     user_id: userId,
     signer_name: signerName,
-    signer_role: signerRole as any,
+    signer_role: signerRole,
     signer_title: signerTitle,
     status: 'rejected',
     order_index: orderIndex,
@@ -166,7 +167,7 @@ export async function createReportSnapshot(
 ): Promise<void> {
   const { error } = await supabase.rpc('create_report_snapshot', {
     p_report_id: reportId,
-    p_snapshot_data: snapshotData as any,
+    p_snapshot_data: snapshotData as unknown as Record<string, unknown>,
     p_published_by: publishedBy || null,
   });
 

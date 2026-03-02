@@ -16,6 +16,10 @@ export interface TaxonomyEntity {
   description: string;
   created_at: string;
 
+  // Extended fields
+  velocity_multiplier?: number;
+  metadata?: Record<string, unknown>;
+
   // Computed fields (not in DB)
   depth?: number;
   parent_path?: string;

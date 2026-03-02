@@ -64,14 +64,14 @@ export function FindingSignOff({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border-2 border-slate-200 p-8 mt-8">
+    <div className="bg-surface rounded-2xl shadow-xl border-2 border-slate-200 p-8 mt-8">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-slate-200">
         <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center">
           <Shield className="w-6 h-6 text-white" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Onay Zinciri</h2>
+          <h2 className="text-xl font-bold text-primary">Onay Zinciri</h2>
           <p className="text-sm text-slate-600">GIAS 2024 - Resmi İmza Kaydı</p>
         </div>
       </div>
@@ -149,8 +149,8 @@ export function FindingSignOff({
       {/* Comment Modal */}
       {showCommentModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
-            <h3 className="text-lg font-bold text-slate-900 mb-4">İmza Onayı</h3>
+          <div className="bg-surface rounded-2xl shadow-2xl max-w-md w-full p-6">
+            <h3 className="text-lg font-bold text-primary mb-4">İmza Onayı</h3>
 
             <div className="mb-4">
               <label className="text-sm font-semibold text-slate-700 mb-2 block">
@@ -229,7 +229,7 @@ function SignatureSlot({
           ? 'border-green-500 bg-green-50/50'
           : canSign
           ? 'border-blue-300 bg-blue-50/30 hover:border-blue-500 cursor-pointer'
-          : 'border-slate-200 bg-slate-50'
+          : 'border-slate-200 bg-canvas'
       )}
       onClick={canSign ? onSign : undefined}
     >

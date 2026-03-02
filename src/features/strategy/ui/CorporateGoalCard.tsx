@@ -69,7 +69,7 @@ export const CorporateGoalCard = ({ goal }: Props) => {
           <span>Gerçekleşme</span>
           <span>{goal.progress}%</span>
         </div>
-        <div className="h-2 w-full bg-white/60 rounded-full overflow-hidden border border-slate-200/60">
+        <div className="h-2 w-full bg-surface/60 rounded-full overflow-hidden border border-slate-200/60">
           <div 
             className={clsx("h-full rounded-full bg-gradient-to-r shadow-sm", theme.progress)} 
             style={{ width: `${goal.progress}%` }}

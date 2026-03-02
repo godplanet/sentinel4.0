@@ -23,7 +23,7 @@ export function LanguageSwitcher() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/90 hover:bg-white border border-slate-200 hover:border-indigo-300 transition-all backdrop-blur-xl shadow-sm hover:shadow-md"
+        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/90 hover:bg-surface border border-slate-200 hover:border-indigo-300 transition-all backdrop-blur-xl shadow-sm hover:shadow-md"
         title="Change Language"
       >
         <Languages size={18} className="text-slate-600" />
@@ -37,7 +37,7 @@ export function LanguageSwitcher() {
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 mt-2 w-48 bg-white/95 backdrop-blur-xl rounded-xl border-2 border-indigo-200 shadow-xl z-50 overflow-hidden">
+          <div className="absolute right-0 mt-2 w-48 bg-surface/95 backdrop-blur-xl rounded-xl border-2 border-indigo-200 shadow-xl z-50 overflow-hidden">
             {languages.map((lang) => (
               <button
                 key={lang.code}
@@ -46,7 +46,7 @@ export function LanguageSwitcher() {
                   "w-full flex items-center gap-3 px-4 py-3 transition-all",
                   i18n.language === lang.code
                     ? "bg-indigo-50 text-indigo-700 font-semibold"
-                    : "text-slate-700 hover:bg-slate-50"
+                    : "text-slate-700 hover:bg-canvas"
                 )}
               >
                 <span className="text-xl">{lang.flag}</span>

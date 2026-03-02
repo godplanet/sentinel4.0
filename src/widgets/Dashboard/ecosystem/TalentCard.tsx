@@ -35,7 +35,7 @@ export function TalentCard() {
 
   if (loading) {
     return (
-      <div className="bg-white border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
+      <div className="bg-surface border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
         <Loader2 size={20} className="animate-spin text-slate-400" />
       </div>
     );
@@ -87,7 +87,7 @@ export function TalentCard() {
                   </div>
                   <span className="text-[11px] font-bold text-slate-700">{count} kisi</span>
                 </div>
-                <div className="h-3 bg-white/70 border border-slate-100 rounded-full overflow-hidden">
+                <div className="h-3 bg-surface/70 border border-slate-100 rounded-full overflow-hidden">
                   <div
                     className={clsx('h-full rounded-full transition-all duration-700', cfg.bar)}
                     style={{ width: `${pct}%` }}
@@ -99,7 +99,7 @@ export function TalentCard() {
         </div>
 
         <div className="grid grid-cols-2 gap-2 mb-2">
-          <div className="bg-white/70 border border-amber-100 rounded-xl p-3">
+          <div className="bg-surface/70 border border-amber-100 rounded-xl p-3">
             <div className="flex items-center gap-1.5 mb-1">
               <Flame size={11} className="text-amber-500" />
               <p className="text-[9px] text-slate-500 font-medium">Ort. Yorgunluk</p>
@@ -111,7 +111,7 @@ export function TalentCard() {
               {avgFatigue}%
             </p>
           </div>
-          <div className="bg-white/70 border border-amber-100 rounded-xl p-3">
+          <div className="bg-surface/70 border border-amber-100 rounded-xl p-3">
             <div className="flex items-center gap-1.5 mb-1">
               <AlertTriangle size={11} className="text-red-500" />
               <p className="text-[9px] text-slate-500 font-medium">Red Zone</p>

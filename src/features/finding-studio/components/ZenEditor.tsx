@@ -66,7 +66,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
         .map((section, index) => {
           
           // Theme Determination
-          const themeClass = SECTION_THEMES[section.key] || 'border-l-slate-300 bg-slate-50';
+          const themeClass = SECTION_THEMES[section.key] || 'border-l-slate-300 bg-canvas';
           const isRootCauseSection = section.key === 'cause';
           
           // Current Value (Dynamic Access)
@@ -85,7 +85,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
                 {/* Icon Bubble */}
                 <div 
                   className={cn(
-                    "flex items-center justify-center w-10 h-10 rounded-full border bg-white shadow-sm z-10 transition-colors",
+                    "flex items-center justify-center w-10 h-10 rounded-full border bg-surface shadow-sm z-10 transition-colors",
                     isRootCauseSection ? "border-rose-200 text-rose-600" : "border-slate-200 text-slate-500 group-hover:border-indigo-300 group-hover:text-indigo-600"
                   )}
                 >
@@ -118,7 +118,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
                 className={cn(
                   "ml-5 p-4 rounded-xl border-l-4 transition-all shadow-sm group-hover:shadow-md",
                   themeClass,
-                  "bg-white border-slate-200 border-l-slate-300" 
+                  "bg-surface border-slate-200 border-l-slate-300" 
                 )}
                 style={{ borderLeftColor: isRootCauseSection ? '#f43f5e' : undefined }}
               >
@@ -158,7 +158,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
           {/* --- Section Header --- */}
           <div className="flex items-center gap-3 mb-3">
             {/* Icon Bubble */}
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border bg-white shadow-sm z-10 transition-colors border-slate-200 text-slate-500 group-hover:border-indigo-300 group-hover:text-indigo-600">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full border bg-surface shadow-sm z-10 transition-colors border-slate-200 text-slate-500 group-hover:border-indigo-300 group-hover:text-indigo-600">
               <Icons.Paperclip size={20} />
             </div>
 
@@ -179,7 +179,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
           </div>
 
           {/* --- Evidence Area --- */}
-          <div className="ml-5 p-4 rounded-xl border-l-4 transition-all shadow-sm group-hover:shadow-md bg-white border-slate-200 border-l-slate-300">
+          <div className="ml-5 p-4 rounded-xl border-l-4 transition-all shadow-sm group-hover:shadow-md bg-surface border-slate-200 border-l-slate-300">
             {!readOnly && (
               <FileUploader
                 onUpload={(files) => {
@@ -197,7 +197,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
             {finding.evidence_files && finding.evidence_files.length > 0 && (
               <div className={cn("space-y-2", !readOnly && "mt-4")}>
                 {finding.evidence_files.map((file: string, idx: number) => (
-                  <div key={idx} className="flex items-center gap-2 p-2 bg-slate-50 rounded border border-slate-200">
+                  <div key={idx} className="flex items-center gap-2 p-2 bg-canvas rounded border border-slate-200">
                     <Icons.FileText size={16} className="text-slate-400" />
                     <span className="text-xs font-medium text-slate-700 flex-1">{file}</span>
                     {!readOnly && (
@@ -220,7 +220,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
 
        {/* Akış Sonu İndikatörü */}
        <div className="flex items-center gap-3 pl-4 opacity-50 mt-8">
-          <div className="w-10 h-10 rounded-full border border-slate-200 bg-slate-50 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full border border-slate-200 bg-canvas flex items-center justify-center">
             <div className="w-3 h-3 bg-slate-300 rounded-full" />
           </div>
           <span className="text-sm text-slate-400 font-medium">Akış Sonu</span>

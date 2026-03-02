@@ -40,8 +40,8 @@ export function SourceCards({ sources }: SourceCardsProps) {
             className={clsx(
               'border rounded-lg p-4 transition-all',
               isActive
-                ? 'bg-white border-slate-200 hover:border-emerald-300 hover:shadow-sm'
-                : 'bg-slate-50 border-slate-200 opacity-60'
+                ? 'bg-surface border-slate-200 hover:border-emerald-300 hover:shadow-sm'
+                : 'bg-canvas border-slate-200 opacity-60'
             )}
           >
             <div className="flex items-start justify-between mb-3">
@@ -53,7 +53,7 @@ export function SourceCards({ sources }: SourceCardsProps) {
                   <Icon size={18} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900">{src.name}</h4>
+                  <h4 className="text-sm font-bold text-primary">{src.name}</h4>
                   <p className="text-[10px] text-slate-400 uppercase tracking-wide">{src.source_type.replace(/_/g, ' ')}</p>
                 </div>
               </div>

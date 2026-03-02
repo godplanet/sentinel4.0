@@ -103,7 +103,7 @@ export function TextToRulePanel({ onCreateProbe }: TextToRulePanelProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+    <div className="bg-surface rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
       <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-blue-500/20 border border-blue-500/30 rounded-xl">
@@ -127,7 +127,7 @@ export function TextToRulePanel({ onCreateProbe }: TextToRulePanelProps) {
             onKeyDown={handleKeyDown}
             placeholder="orn. &quot;Cift odemeleri yakala&quot; veya &quot;Haftasonu yapilan yuksek tutarli islemleri izle&quot;"
             rows={2}
-            className="w-full px-4 py-3 pr-28 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-slate-50"
+            className="w-full px-4 py-3 pr-28 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-canvas"
           />
           <button
             onClick={handleGenerate}
@@ -153,7 +153,7 @@ export function TextToRulePanel({ onCreateProbe }: TextToRulePanelProps) {
             <button
               key={qp.label}
               onClick={() => handleQuickPrompt(qp.label)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-medium text-slate-600 hover:bg-slate-100 hover:border-slate-300 transition-all"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 bg-canvas border border-slate-200 rounded-lg text-[11px] font-medium text-slate-600 hover:bg-slate-100 hover:border-slate-300 transition-all"
             >
               <span className="text-[9px] font-black text-blue-500 bg-blue-50 px-1 py-0.5 rounded">{qp.icon}</span>
               {qp.label}
@@ -169,7 +169,7 @@ export function TextToRulePanel({ onCreateProbe }: TextToRulePanelProps) {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden"
             >
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+              <div className="bg-canvas border border-slate-200 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <motion.div
                     animate={{ rotate: 360 }}
@@ -222,9 +222,9 @@ export function TextToRulePanel({ onCreateProbe }: TextToRulePanelProps) {
                 <p className="text-[10px] text-blue-600 font-bold text-right">-- Sentinel Prime</p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+              <div className="bg-surface border border-slate-200 rounded-xl p-4 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-bold text-slate-900">{result.title}</h4>
+                  <h4 className="text-sm font-bold text-primary">{result.title}</h4>
                   <div className="flex items-center gap-1.5">
                     <span className={clsx(
                       'text-[9px] font-bold px-2 py-0.5 rounded-md',

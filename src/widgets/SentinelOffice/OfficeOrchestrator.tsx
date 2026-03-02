@@ -69,9 +69,9 @@ export function OfficeOrchestrator({ workpaperId, isOpen, onClose }: Props) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
             transition={{ type: 'spring', damping: 30, stiffness: 350 }}
-            className="fixed inset-4 sm:inset-8 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/60 z-[191] flex flex-col overflow-hidden"
+            className="fixed inset-4 sm:inset-8 bg-surface/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/60 z-[191] flex flex-col overflow-hidden"
           >
-            <div className="shrink-0 bg-white border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+            <div className="shrink-0 bg-surface border-b border-slate-200 px-5 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {activeDoc && (
                   <button
@@ -102,7 +102,7 @@ export function OfficeOrchestrator({ workpaperId, isOpen, onClose }: Props) {
                       'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors',
                       showHistory
                         ? 'bg-blue-50 border-blue-200 text-blue-700'
-                        : 'border-slate-200 text-slate-500 hover:bg-slate-50',
+                        : 'border-slate-200 text-slate-500 hover:bg-canvas',
                     )}
                   >
                     <GitBranch size={12} />
@@ -152,7 +152,7 @@ export function OfficeOrchestrator({ workpaperId, isOpen, onClose }: Props) {
                     animate={{ width: 280, opacity: 1 }}
                     exit={{ width: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="shrink-0 border-l border-slate-200 bg-slate-50/50 overflow-hidden"
+                    className="shrink-0 border-l border-slate-200 bg-canvas/50 overflow-hidden"
                   >
                     <div className="w-[280px] h-full overflow-y-auto p-3">
                       <VersionHistory

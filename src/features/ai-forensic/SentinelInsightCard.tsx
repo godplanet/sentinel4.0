@@ -84,11 +84,11 @@ export function SentinelInsightCard({ insight, onAcceptAction, onDismiss }: Sent
     >
       <div className={clsx('px-4 py-3 flex items-center justify-between', riskCfg.bg)}>
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 bg-white/80 rounded-lg">
+          <div className="p-1.5 bg-surface/80 rounded-lg">
             <Sparkles size={14} className="text-blue-600" />
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-900">Sentinel Prime Analizi</p>
+            <p className="text-xs font-bold text-primary">Sentinel Prime Analizi</p>
             <p className="text-[10px] text-slate-500">Adli Denetim Yapay Zeka Degerlendirmesi</p>
           </div>
         </div>
@@ -100,7 +100,7 @@ export function SentinelInsightCard({ insight, onAcceptAction, onDismiss }: Sent
             <RiskIcon size={11} />
             {riskCfg.label}
           </div>
-          <div className="flex items-center gap-1 px-2 py-1 bg-white border border-slate-200 rounded-lg">
+          <div className="flex items-center gap-1 px-2 py-1 bg-surface border border-slate-200 rounded-lg">
             <span className="text-[10px] font-bold text-slate-500">Guven:</span>
             <span className={clsx(
               'text-[10px] font-black',
@@ -113,8 +113,8 @@ export function SentinelInsightCard({ insight, onAcceptAction, onDismiss }: Sent
         </div>
       </div>
 
-      <div className="p-4 bg-white space-y-3">
-        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3">
+      <div className="p-4 bg-surface space-y-3">
+        <div className="bg-canvas border border-slate-200 rounded-lg p-3">
           <p className="text-xs text-slate-700 leading-relaxed">{insight.reasoning}</p>
         </div>
 

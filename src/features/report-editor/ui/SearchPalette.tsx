@@ -141,7 +141,7 @@ export function SearchPalette({ open, onClose }: SearchPaletteProps) {
             className="fixed left-1/2 top-[15%] z-[9001] -translate-x-1/2 w-full max-w-xl"
             onKeyDown={handleKeyDown}
           >
-            <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden">
+            <div className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden">
               <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100">
                 {loading ? (
                   <Loader2 size={18} className="text-slate-400 animate-spin flex-shrink-0" />
@@ -154,7 +154,7 @@ export function SearchPalette({ open, onClose }: SearchPaletteProps) {
                   value={query}
                   onChange={(e) => handleChange(e.target.value)}
                   placeholder="Rapor içinde ara..."
-                  className="flex-1 text-sm font-sans text-slate-900 placeholder-slate-400 bg-transparent outline-none"
+                  className="flex-1 text-sm font-sans text-primary placeholder-slate-400 bg-transparent outline-none"
                 />
                 <button
                   onClick={onClose}
@@ -172,7 +172,7 @@ export function SearchPalette({ open, onClose }: SearchPaletteProps) {
                         onClick={() => handleSelect(result)}
                         onMouseEnter={() => setSelectedIndex(idx)}
                         className={`w-full flex items-start gap-3 px-4 py-2.5 text-left transition-colors ${
-                          idx === selectedIndex ? 'bg-blue-50' : 'hover:bg-slate-50'
+                          idx === selectedIndex ? 'bg-blue-50' : 'hover:bg-canvas'
                         }`}
                       >
                         <FileText

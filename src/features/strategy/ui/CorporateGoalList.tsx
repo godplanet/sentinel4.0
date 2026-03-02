@@ -14,11 +14,11 @@ export const CorporateGoalList = () => {
   };
 
   return (
-    <div className="w-full bg-white/60 backdrop-blur-xl border border-white/50 rounded-2xl shadow-sm overflow-hidden">
+    <div className="w-full bg-surface/60 backdrop-blur-xl border border-white/50 rounded-2xl shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-slate-200/60 bg-slate-50/50 text-xs uppercase tracking-wider text-slate-500 font-semibold">
+            <tr className="border-b border-slate-200/60 bg-canvas/50 text-xs uppercase tracking-wider text-slate-500 font-semibold">
               <th className="px-6 py-4">Stratejik Hedef</th>
               <th className="px-6 py-4">Dönem & Sahiplik</th>
               <th className="px-6 py-4 w-48">Risk İştahı</th>
@@ -31,7 +31,7 @@ export const CorporateGoalList = () => {
             {goals.map((goal) => (
               <tr 
                 key={goal.id} 
-                className="hover:bg-white/80 transition-colors group cursor-pointer"
+                className="hover:bg-surface/80 transition-colors group cursor-pointer"
               >
                 {/* 1. Hedef Başlığı */}
                 <td className="px-6 py-4">

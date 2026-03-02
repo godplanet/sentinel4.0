@@ -17,7 +17,7 @@ export default function GovernanceVaultPage() {
       <div className="space-y-8">
         <div className="mb-8 bg-gradient-to-r from-slate-700 to-slate-800 rounded-xl p-6 text-white">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
               <Shield className="w-6 h-6" />
             </div>
             <div>
@@ -27,15 +27,15 @@ export default function GovernanceVaultPage() {
                 ve diğer yönetişim dokümanlarını tek bir merkezi kasada saklayın.
               </p>
               <div className="flex flex-wrap gap-4 text-sm">
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <FileText className="w-4 h-4" />
                   <span>Audit Charter</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <FileCheck className="w-4 h-4" />
                   <span>Bağımsızlık Beyanları</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+                <div className="flex items-center gap-2 bg-surface/20 rounded-lg px-3 py-1.5">
                   <Clock className="w-4 h-4" />
                   <span>Komite Tutanakları</span>
                 </div>
@@ -44,13 +44,13 @@ export default function GovernanceVaultPage() {
           </div>
         </div>
 
-        <div className="mb-6 bg-white rounded-lg border border-slate-200 p-1 inline-flex shadow-sm">
+        <div className="mb-6 bg-surface rounded-lg border border-slate-200 p-1 inline-flex shadow-sm">
           <button
             onClick={() => setActiveTab('vault')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
               activeTab === 'vault'
                 ? 'bg-slate-700 text-white shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
+                : 'text-slate-600 hover:text-primary'
             }`}
           >
             <FileText className="w-4 h-4" />
@@ -61,7 +61,7 @@ export default function GovernanceVaultPage() {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
               activeTab === 'declarations'
                 ? 'bg-slate-700 text-white shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
+                : 'text-slate-600 hover:text-primary'
             }`}
           >
             <FileSignature className="w-4 h-4" />

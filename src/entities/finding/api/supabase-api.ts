@@ -18,7 +18,7 @@ interface DBFinding {
   engagement_id: string;
   title: string;
   severity: string;
-  details: any; // JSONB
+  details: Record<string, unknown>; // JSONB
   status: string;
   state?: string;
 

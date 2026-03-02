@@ -59,7 +59,7 @@ function StatusDot({ status, isActive }: { status?: ProbeStatus; isActive: boole
 export function ProbeCards({ probes, runningIds, onRun, onToggle, onEdit, onDelete }: ProbeCardsProps) {
   if (probes.length === 0) {
     return (
-      <div className="bg-white border border-dashed border-slate-300 rounded-2xl p-12 text-center">
+      <div className="bg-surface border border-dashed border-slate-300 rounded-2xl p-12 text-center">
         <Database className="mx-auto text-slate-300 mb-3" size={40} />
         <h3 className="text-lg font-bold text-slate-700 mb-1">Henuz Probe Yok</h3>
         <p className="text-sm text-slate-500">Wizard ile ilk probe'unuzu olusturun</p>
@@ -85,7 +85,7 @@ export function ProbeCards({ probes, runningIds, onRun, onToggle, onEdit, onDele
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.04 }}
             className={clsx(
-              'bg-white rounded-2xl border shadow-sm hover:shadow-md transition-all overflow-hidden group',
+              'bg-surface rounded-2xl border shadow-sm hover:shadow-md transition-all overflow-hidden group',
               hasRecentAnomaly ? 'border-red-200' : 'border-slate-200'
             )}
           >
@@ -106,7 +106,7 @@ export function ProbeCards({ probes, runningIds, onRun, onToggle, onEdit, onDele
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="text-sm font-bold text-slate-900 line-clamp-1">{probe.title}</h4>
+                      <h4 className="text-sm font-bold text-primary line-clamp-1">{probe.title}</h4>
                       <StatusDot status={probe.last_result_status} isActive={probe.is_active} />
                     </div>
                     <div className="flex items-center gap-1.5 mt-0.5">
@@ -139,9 +139,9 @@ export function ProbeCards({ probes, runningIds, onRun, onToggle, onEdit, onDele
               )}
 
               {probe.stats && probe.stats.total_runs > 0 && (
-                <div className="grid grid-cols-3 gap-2 mb-3 bg-slate-50 rounded-xl p-2.5">
+                <div className="grid grid-cols-3 gap-2 mb-3 bg-canvas rounded-xl p-2.5">
                   <div className="text-center">
-                    <p className="text-lg font-black text-slate-900">{probe.stats.total_runs}</p>
+                    <p className="text-lg font-black text-primary">{probe.stats.total_runs}</p>
                     <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Calisma</p>
                   </div>
                   <div className="text-center">
