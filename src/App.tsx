@@ -4,7 +4,6 @@ import { AppShell } from '@/app/layout/AppShell';
 import { AppRoutes } from '@/app/routes';
 import { SystemInitOverlay } from '@/app/layout/SystemInitOverlay';
 import { useSystemInit } from '@/shared/hooks/useSystemInit';
-import { DebugBar } from '@/shared/ui/DebugBar';
 import { ThemeProvider } from '@/app/providers/ThemeProvider';
 
 const queryClient = new QueryClient({
@@ -24,7 +23,6 @@ function App() {
     <ThemeProvider>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <DebugBar />
         {!isComplete && (
           <SystemInitOverlay progress={progress} error={error} />
         )}

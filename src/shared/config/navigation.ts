@@ -280,6 +280,12 @@ export const navigationConfig: NavigationItem[] = [
         path: '/surveys',
         icon: ClipboardCheck,
       },
+      {
+        id: 'rcsa-campaigns',
+        label: 'RCSA Kampanyaları',
+        path: '/rcsa',
+        icon: ShieldAlert,
+      },
     ],
   },
 

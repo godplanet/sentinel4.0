@@ -4,6 +4,16 @@ import { Palette, Paintbrush, Monitor, Moon, Sun, Server, Layers } from 'lucide-
 import { useUIStore } from '@/shared/stores/ui-store';
 import { THEME_CONFIG } from '@/shared/lib/theme';
 import clsx from 'clsx';
+import type { Environment } from '@/shared/stores/ui-store';
+
+const applyEnvironment = (
+  env: Environment,
+  setEnvironment: (e: Environment) => void,
+  setSidebarColor: (c: string) => void
+) => {
+  setEnvironment(env);
+  setSidebarColor(THEME_CONFIG.envSidebarHex[env]);
+};
 
 const ENV_META = {
   PROD: {
@@ -33,7 +43,7 @@ const ENV_META = {
 } as const;
 
 export default function AppearancePage() {
-  const { environment, setEnvironment } = useUIStore();
+  const { environment, setEnvironment, setSidebarColor } = useUIStore();
   return (
     <div className="p-6 space-y-6">
       <PageHeader
@@ -110,7 +120,7 @@ export default function AppearancePage() {
                 return (
                   <button
                     key={env}
-                    onClick={() => setEnvironment(env)}
+                    onClick={() => applyEnvironment(env, setEnvironment, setSidebarColor)}
                     className={clsx(
                       'w-full flex items-center justify-between p-4 border-2 rounded-xl transition-all',
                       isActive ? meta.activeClass : 'border-slate-200 hover:border-slate-300'

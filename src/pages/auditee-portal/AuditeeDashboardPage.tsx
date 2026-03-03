@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import {
   ClipboardList, AlertTriangle, CheckCircle2, Clock,
   ChevronRight, Upload, CalendarPlus, FileText, Loader2,
-  Handshake,
+  Handshake, ShieldAlert,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchAuditeeTasks, uploadEvidenceFile, requestExtension } from '@/features/auditee-portal/api';
 import { AdvisoryRequestModal } from '@/widgets/AdvisoryWorkspace/AdvisoryRequestModal';
+import { fetchRCSACampaigns, RCSACampaign } from '@/features/rcsa/api/rcsa-campaigns';
+import { SurveyExecutor } from '@/features/rcsa/ui/SurveyExecutor';
 
 export function AuditeeDashboardPage() {
   const navigate = useNavigate();
@@ -16,11 +18,22 @@ export function AuditeeDashboardPage() {
   const [extensionId, setExtensionId] = useState<string | null>(null);
   const [extensionReason, setExtensionReason] = useState('');
   const [showAdvisoryModal, setShowAdvisoryModal] = useState(false);
+  const [activeRCSACampaignId, setActiveRCSACampaignId] = useState<string | null>(null);
 
   const { data: tasks = [], isLoading } = useQuery({
     queryKey: ['auditee-tasks'],
     queryFn: fetchAuditeeTasks,
   });
+
+  const { data: rcsaCampaigns = [], isLoading: rcsaLoading } = useQuery<RCSACampaign[]>({
+    queryKey: ['rcsa-campaigns-auditee'],
+    queryFn: fetchRCSACampaigns,
+  });
+
+  const activeRCSACampaigns = rcsaCampaigns.filter((c) => c.status === 'ACTIVE');
+  const activeRCSACampaign = activeRCSACampaigns.find((c) => c.id === activeRCSACampaignId) ?? null;
+
+  const MOCK_AUDITEE_ID = '00000000-0000-0000-0000-000000000001';
 
   const uploadMutation = useMutation({
     mutationFn: ({ findingId, file }: { findingId: string; file: File }) =>
@@ -79,6 +92,60 @@ export function AuditeeDashboardPage() {
         <StatCard label="Bekleyen Yanit" value={pending.length} icon={Clock} color="bg-amber-100 text-amber-600" />
         <StatCard label="Devam Eden" value={inProgress.length} icon={CheckCircle2} color="bg-emerald-100 text-emerald-600" />
         <StatCard label="Suresi Gecen" value={overdue.length} icon={AlertTriangle} color="bg-red-100 text-red-600" />
+      </div>
+
+      {/* Aktif RCSA Öz Değerlendirme Görevleri */}
+      <div className="bg-surface border-2 border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b-2 border-slate-200 bg-canvas flex items-center justify-between">
+          <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <ShieldAlert size={18} />
+            Aktif RCSA Öz Değerlendirme Görevleri
+          </h2>
+          <span className="text-xs text-slate-500">
+            {rcsaLoading
+              ? 'Kampanyalar yükleniyor...'
+              : activeRCSACampaigns.length === 0
+              ? 'Şu anda size atanmış aktif RCSA kampanyası yok.'
+              : `${activeRCSACampaigns.length} aktif kampanya bulundu`}
+          </span>
+        </div>
+        <div className="px-6 py-4 space-y-3">
+          {rcsaLoading && (
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <Loader2 size={14} className="animate-spin" />
+              Kampanyalar yükleniyor...
+            </div>
+          )}
+          {!rcsaLoading && activeRCSACampaigns.length === 0 && (
+            <p className="text-xs text-slate-500">
+              Teftiş Kurulu şu an için bir RCSA öz değerlendirme kampanyası başlatmamış.
+            </p>
+          )}
+          {!rcsaLoading &&
+            activeRCSACampaigns.map((campaign) => (
+              <div
+                key={campaign.id}
+                className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-canvas px-4 py-3 md:flex-row md:items-center md:justify-between"
+              >
+                <div className="space-y-1">
+                  <p className="text-sm font-semibold text-slate-800">
+                    {campaign.title}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    Başlangıç: {campaign.start_date ? new Date(campaign.start_date).toLocaleDateString('tr-TR') : 'Belirtilmedi'} ·
+                    {' '}Bitiş: {campaign.end_date ? new Date(campaign.end_date).toLocaleDateString('tr-TR') : 'Belirtilmedi'}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRCSACampaignId(campaign.id)}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                >
+                  Anketi Başlat
+                </button>
+              </div>
+            ))}
+        </div>
       </div>
 
       <div className="bg-surface border-2 border-slate-200 rounded-2xl shadow-sm overflow-hidden">
@@ -221,6 +288,36 @@ export function AuditeeDashboardPage() {
                 {extensionMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : <CalendarPlus size={14} />}
                 Talep Gonder
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeRCSACampaignId && activeRCSACampaign && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="w-full max-w-3xl max-h-[90vh] rounded-2xl bg-canvas border border-slate-200 shadow-2xl flex flex-col">
+            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3 bg-surface/80 backdrop-blur-md">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  RCSA Öz Değerlendirme
+                </p>
+                <p className="text-sm font-bold text-slate-900">
+                  {activeRCSACampaign.title}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveRCSACampaignId(null)}
+                className="rounded-lg border border-slate-300 bg-canvas px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+              >
+                Kapat
+              </button>
+            </div>
+            <div className="flex-1 overflow-auto p-5">
+              <SurveyExecutor
+                campaignId={activeRCSACampaign.id}
+                auditeeId={MOCK_AUDITEE_ID}
+              />
             </div>
           </div>
         </div>

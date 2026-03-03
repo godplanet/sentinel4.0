@@ -15,7 +15,13 @@ export const THEME_CONFIG = {
       badge: 'bg-rose-100 text-rose-800',
       indicator: 'bg-blue-500'
     }
-  }
+  },
+  /** Ortam seçildiğinde sidebar rengi (hex) — gerçek davranış için */
+  envSidebarHex: {
+    PROD: '#0f172a',   // slate-900 — Canlı
+    UAT:  '#064e3b',   // emerald-900 — Test
+    DEV:  '#7f1d1d',   // rose-900 — Geliştirme
+  } as const,
 } as const;
 
 export const getEnvClasses = (env: keyof typeof THEME_CONFIG.environments) => {

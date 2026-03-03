@@ -279,16 +279,30 @@ export const Sidebar = () => {
       )}
       style={{ backgroundColor: sidebarColor }}
     >
-      {/* ── Logo / Başlık ─────────────────────────────────────────────── */}
+      {/* ── Logo / Başlık + Ortam Rozeti ───────────────────────────────── */}
       <div className="h-16 flex items-center px-6 border-b border-white/10 shrink-0 bg-black/10 backdrop-blur-sm">
         <div className="min-w-[32px] h-8 rounded-lg bg-surface/20 flex items-center justify-center backdrop-blur-md shadow-lg ring-1 ring-white/20">
           <ShieldCheck className="w-5 h-5 text-white drop-shadow-md" />
         </div>
         {isSidebarOpen && (
-          <div className="ml-3 fade-in overflow-hidden whitespace-nowrap">
+          <div className="ml-3 fade-in overflow-hidden flex flex-col gap-1">
             <h1 className="font-bold text-lg tracking-tight drop-shadow-md">SENTINEL</h1>
-            <div className="text-[9px] uppercase tracking-widest opacity-80 font-mono drop-shadow-sm">
-              {t('common.version')}3.0 {environment}
+            <div className="flex items-center gap-2">
+              <span className={clsx(
+                'inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm ring-1 ring-black/20',
+                environment === 'PROD' && 'bg-emerald-500/90 text-white',
+                environment === 'UAT'  && 'bg-amber-500 text-slate-900',
+                environment === 'DEV'  && 'bg-rose-500 text-white'
+              )}>
+                <span className={clsx(
+                  'w-1.5 h-1.5 rounded-full mr-1.5',
+                  environment === 'PROD' && 'bg-white',
+                  environment === 'UAT'  && 'bg-slate-900',
+                  environment === 'DEV'  && 'bg-white'
+                )} />
+                {environment === 'UAT' ? 'TEST' : environment}
+              </span>
+              <span className="text-[9px] text-white/60 font-mono">{t('common.version')}3.0</span>
             </div>
           </div>
         )}
