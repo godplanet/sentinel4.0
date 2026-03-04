@@ -2424,3 +2424,140 @@ VALUES
   ('11111111-1111-1111-1111-111111111111'::uuid, 'MEDIUM',   30, 3),
   ('11111111-1111-1111-1111-111111111111'::uuid, 'LOW',      60, 3)
 ON CONFLICT (tenant_id, severity) DO NOTHING;
+
+-- =============================================================================
+-- THE GRAND SEED — C-Level Demo (Sıfır Mock Kuralı)
+-- Strateji, Denetim Evreni, Görevler, Bulgular, Aksiyonlar, Eskalasyon, CCM, Raporlar
+-- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- G1. EK STRATEJİK BANKA HEDEFLERİ (Dijital Kanallar, Siber Güvenlik)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.strategic_bank_goals
+  (id, tenant_id, title, description, period_year, weight, category, owner_executive, progress, risk_appetite, linked_audit_objective_ids)
+VALUES
+  (
+    'b1000000-0000-0000-0000-000000000006'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Dijital Kanallarda Büyüme',
+    'Mobil ve internet bankacılığı kanallarında müşteri sayısını ve işlem hacmini 2026 sonuna kadar %40 artırmak; BDDK Dijital Bankacılık rehberine tam uyum.',
+    2026, 88, 'GROWTH', 'Genel Müdür Yardımcısı — Dijital Kanallar',
+    35, 'Medium', '{}'
+  ),
+  (
+    'b1000000-0000-0000-0000-000000000007'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'Siber Güvenlik Olgunluğunun Artırılması',
+    'BDDK BT Denetimi ve siber direnç rehberi kapsamında SIEM/SOC olgunluk seviyesini yükseltmek; yıllık sızma testi ve olay müdahale tatbikatlarını tamamlamak.',
+    2026, 92, 'COMPLIANCE', 'BT Güvenlik Müdürü',
+    50, 'High', '{}'
+  )
+ON CONFLICT (id) DO UPDATE SET progress = EXCLUDED.progress, risk_appetite = EXCLUDED.risk_appetite;
+
+-- -----------------------------------------------------------------------------
+-- G2. EK DENETİM GÖREVLERİ (2026 Hazine, Kredi Tahsis)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.audit_engagements (id, tenant_id, plan_id, entity_id, title, status, audit_type, start_date, end_date, assigned_auditor_id, risk_snapshot_score, estimated_hours, actual_hours) VALUES
+  ('52d72f07-e813-4cff-8218-4a64f7a3baf1', '11111111-1111-1111-1111-111111111111', 'd0000000-0000-0000-0000-000000000001', 'e0000000-0000-0000-0000-000000000012', '2026 Hazine Süreçleri Denetimi', 'IN_PROGRESS', 'COMPREHENSIVE', '2026-01-10', '2026-04-30', '00000000-0000-0000-0000-000000000003', 72, 240, 120),
+  ('52d72f07-e813-4cff-8218-4a64f7a3baf2', '11111111-1111-1111-1111-111111111111', 'd0000000-0000-0000-0000-000000000001', 'e0000000-0000-0000-0000-000000000013', 'Kredi Tahsis Denetimi', 'COMPLETED', 'COMPREHENSIVE', '2025-09-01', '2025-11-30', '00000000-0000-0000-0000-000000000004', 68, 200, 195)
+ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- G3. EK BULGULAR (SWIFT Maker-Checker CRITICAL, Kredi Teminat HIGH)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.audit_findings (id, engagement_id, title, severity, status, state, details, impact_score, likelihood_score, gias_category, financial_impact) VALUES
+  (
+    'f8000000-0000-0000-0000-000000000001',
+    '52d72f07-e813-4cff-8218-4a64f7a3baf1',
+    'SWIFT Mesajlarında Çift Onay (Maker-Checker) İhlali',
+    'CRITICAL', 'FINAL', 'FINAL',
+    '{"condition":"Hazine işlemlerinde SWIFT MT103/MT202 mesajlarının bir kısmında tek yetkili ile gönderim yapıldığı; BDDK Ödeme Sistemleri rehberinde zorunlu maker-checker kuralı ihlal edilmiştir.","criteria":"BDDK Ödeme ve Menkul Kıymet Mutabakat Sistemleri; SWIFT CSP Kontrol Listesi","cause":"Acil işlem taleplerinde bypass prosedürü kötüye kullanılmış.","consequence":"Operasyonel risk, dolandırıcılık ve regülatör yaptırım riski.","recommendation":"Tüm SWIFT çıkışlarında zorunlu çift onay; bypass için CAE onayı ve loglama."}'::jsonb,
+    5, 4, 'Operasyonel Risk', 12000000
+  ),
+  (
+    'f8000000-0000-0000-0000-000000000002',
+    '52d72f07-e813-4cff-8218-4a64f7a3baf2',
+    'Kredi Teminat Girişlerinde Gecikme',
+    'HIGH', 'FINAL', 'IN_NEGOTIATION',
+    '{"condition":"Ticari kredi dosyalarında teminat değerleme ve sistem girişi ortalama 18 iş günü gecikmeli; 42 dosyada teminat güncellemesi 30+ gün aşılmış.","criteria":"BDDK Kredi Yönetimi rehberi; İç Kredi Politikası Bölüm 5 — Teminat Takibi","cause":"Teknik ekip yetersizliği ve önceliklendirme eksikliği.","consequence":"Kredi riski ölçümünde hata; yetersiz teminat nedeniyle kayıp riski.","recommendation":"Teminat güncelleme SLA (15 iş günü); otomasyon ve haftalık raporlama."}'::jsonb,
+    4, 3, 'Kredi Riski', 2800000
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- G4. AKSİYONLAR (Gecikmiş due_date — OVERDUE)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.actions (
+  id, tenant_id, finding_id, finding_snapshot, title, description,
+  original_due_date, current_due_date, status, priority, created_by
+) VALUES
+  (
+    'a8000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f8000000-0000-0000-0000-000000000001'::uuid,
+    '{"title":"SWIFT Mesajlarında Çift Onay (Maker-Checker) İhlali","severity":"CRITICAL","gias_category":"Operasyonel Risk"}'::jsonb,
+    'SWIFT Maker-Checker zorunluluğunun sistemde etkinleştirilmesi',
+    'Tüm SWIFT çıkış mesajları için ikinci onay (checker) rolü tanımlanacak; bypass sadece CAE onayı ile ve loglanacak.',
+    (CURRENT_DATE - 45), (CURRENT_DATE - 20), 'OVERDUE', 'CRITICAL',
+    '00000000-0000-0000-0000-000000000003'::uuid
+  ),
+  (
+    'a8000000-0000-0000-0000-000000000002'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f8000000-0000-0000-0000-000000000002'::uuid,
+    '{"title":"Kredi Teminat Girişlerinde Gecikme","severity":"HIGH","gias_category":"Kredi Riski"}'::jsonb,
+    'Teminat güncelleme SLA ve otomasyon projesi',
+    '15 iş günü SLA tanımı; haftalık eksik teminat raporu ve Kredi Yönetim Sistemi entegrasyonu.',
+    (CURRENT_DATE - 60), (CURRENT_DATE - 15), 'OVERDUE', 'HIGH',
+    '00000000-0000-0000-0000-000000000004'::uuid
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- G5. ESKALASYON KAYITLARI (CAE kararı: COMMITTEE_FLAGGED — YK'ya raporlanmış)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.escalation_logs (id, tenant_id, action_id, escalation_level, cae_decision, justification, triggered_at) VALUES
+  ('e8000000-0000-0000-0000-000000000001'::uuid, '11111111-1111-1111-1111-111111111111'::uuid, 'a8000000-0000-0000-0000-000000000001'::uuid, 3, 'COMMITTEE_FLAGGED', 'Kritik SWIFT kontrolü gecikmesi; Denetim Komitesi ve Yönetim Kuruluna bilgilendirme yapıldı. Takip raporu bir sonraki YK toplantısında sunulacak.', (CURRENT_TIMESTAMP - INTERVAL '10 days')),
+  ('e8000000-0000-0000-0000-000000000002'::uuid, '11111111-1111-1111-1111-111111111111'::uuid, 'a8000000-0000-0000-0000-000000000002'::uuid, 3, 'COMMITTEE_FLAGGED', 'Kredi teminat aksiyonu SLA ihlali; CAE kararı ile YK raporuna çekildi. Hazine ve Kredi birimleri ortak aksiyon planı sunacak.', (CURRENT_TIMESTAMP - INTERVAL '5 days'))
+ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- G6. CCM ALARMLARI (Açık — Gece Limit Dışı EFT, Aynı IP Çoklu Başarısız Giriş)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.ccm_alerts (id, rule_triggered, risk_score, severity, title, description, evidence_data, status) VALUES
+  ('c1000000-0000-0000-0000-000000000005', 'UNUSUAL_HOURS', 94, 'CRITICAL', 'Gece 03:00''te Limit Dışı EFT', 'Saat 03:12''te tek seferde 2.5M TL EFT işlemi gerçekleştirilmiştir. Günlük tek işlem limiti 1M TL. Kaynak: Core Banking.', '{}'::jsonb, 'OPEN'),
+  ('c1000000-0000-0000-0000-000000000006', 'CUSTOM', 88, 'HIGH', 'Aynı IP''den Çoklu Başarısız Giriş', 'Aynı IP adresinden (10.128.x.x) son 15 dakikada 47 başarısız oturum açma denemesi tespit edildi. Olası brute-force veya kimlik bilgisi doldurma.', '{}'::jsonb, 'OPEN')
+ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- G7. RAPORLAR (1 Mühürlü published, 1 Taslak draft)
+-- -----------------------------------------------------------------------------
+INSERT INTO public.reports (id, tenant_id, engagement_id, title, description, status, theme_config, layout_type, created_by, published_at, published_by, locked_at, locked_by) VALUES
+  (
+    'd8000000-0000-0000-0000-000000000001'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    '42d72f07-e813-4cff-8218-4a64f7a3baab'::uuid,
+    '2026 Q1 Katılım Fonları Kar Dağıtım Denetim Raporu',
+    'Katılım Fonları kar dağıtım süreçlerinin BDDK ve şeri uyum çerçevesinde denetim sonuçları. Mühürlü nihai rapor.',
+    'published',
+    '{"mode": "neon", "accent": "blue", "layout": "standard"}'::jsonb,
+    'standard',
+    '00000000-0000-0000-0000-000000000001'::uuid,
+    (CURRENT_TIMESTAMP - INTERVAL '7 days'),
+    '00000000-0000-0000-0000-000000000001'::uuid,
+    (CURRENT_TIMESTAMP - INTERVAL '7 days'),
+    '00000000-0000-0000-0000-000000000001'::uuid
+  ),
+  (
+    'd8000000-0000-0000-0000-000000000002'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    '42d72f07-e813-4cff-8218-4a64f7a3baac'::uuid,
+    'Kritik BT Sistemleri Sızma Testi — Taslak Rapor',
+    'Sızma testi ve ayrıcalıklı erişim denetimi taslak raporu; CAE incelemesi bekleniyor.',
+    'draft',
+    '{"mode": "neon", "accent": "blue", "layout": "standard"}'::jsonb,
+    'standard',
+    '00000000-0000-0000-0000-000000000004'::uuid,
+    NULL, NULL, NULL, NULL
+  )
+ON CONFLICT (id) DO NOTHING;

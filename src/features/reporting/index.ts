@@ -14,6 +14,7 @@ export type {
 } from './integration';
 
 export { SignaturePanel } from './ui/SignaturePanel';
+export { ReportAmendmentModal } from './ui/ReportAmendmentModal';
 
 export {
   getReportSignatures,

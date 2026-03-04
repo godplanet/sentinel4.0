@@ -1,49 +1,26 @@
 import { Filter, ChevronDown } from 'lucide-react';
 import clsx from 'clsx';
 
+/** Filtreler — reports tablosuna göre (sadece durum + yıl) */
 export interface ReportFilters {
   year: string;
-  reportType: string;
-  riskLevel: string;
   status: string;
-}
-
-interface ReportTypeStat {
-  value: string;
-  label: string;
-  count: number;
 }
 
 interface ReportFilterSidebarProps {
   filters: ReportFilters;
   onChange: (filters: ReportFilters) => void;
-  typeCounts: Record<string, number>;
+  statusCounts: Record<string, number>;
   totalCount: number;
 }
-
-const REPORT_TYPES: ReportTypeStat[] = [
-  { value: 'all', label: 'Tümü', count: 0 },
-  { value: 'branch_audit', label: 'Şube Denetimi', count: 0 },
-  { value: 'investigation', label: 'Soruşturma', count: 0 },
-  { value: 'compliance', label: 'Uyum Raporu', count: 0 },
-  { value: 'executive', label: 'Yönetici Sunumu', count: 0 },
-  { value: 'blank', label: 'Diğer', count: 0 },
-];
-
-const RISK_LEVELS = [
-  { value: 'all', label: 'Tümü' },
-  { value: 'critical', label: 'Kritik' },
-  { value: 'high', label: 'Yüksek' },
-  { value: 'medium', label: 'Orta' },
-  { value: 'low', label: 'Düşük' },
-];
 
 const STATUSES = [
   { value: 'all', label: 'Tümü' },
   { value: 'draft', label: 'Taslak' },
-  { value: 'in_review', label: 'İncelemede' },
+  { value: 'review', label: 'İncelemede' },
   { value: 'published', label: 'Yayınlandı' },
   { value: 'archived', label: 'Arşiv' },
+  { value: 'REVOKED_AMENDED', label: 'İptal — Zeyilname' },
 ];
 
 const YEARS = ['Tüm Yıllar', '2026', '2025', '2024'];
@@ -51,7 +28,7 @@ const YEARS = ['Tüm Yıllar', '2026', '2025', '2024'];
 export function ReportFilterSidebar({
   filters,
   onChange,
-  typeCounts,
+  statusCounts,
   totalCount,
 }: ReportFilterSidebarProps) {
   const set = (key: keyof ReportFilters, value: string) =>
@@ -88,18 +65,18 @@ export function ReportFilterSidebar({
           </div>
         </div>
 
-        <div className="mb-5">
+        <div>
           <p className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider mb-2">
-            RAPOR TİPİ
+            DURUM
           </p>
           <div className="space-y-0.5">
-            {REPORT_TYPES.map((rt) => {
-              const count = rt.value === 'all' ? totalCount : (typeCounts[rt.value] ?? 0);
-              const isActive = filters.reportType === rt.value;
+            {STATUSES.map((s) => {
+              const count = s.value === 'all' ? totalCount : (statusCounts[s.value] ?? 0);
+              const isActive = filters.status === s.value;
               return (
                 <button
-                  key={rt.value}
-                  onClick={() => set('reportType', rt.value)}
+                  key={s.value}
+                  onClick={() => set('status', s.value)}
                   className={clsx(
                     'w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-sm font-sans transition-colors text-left',
                     isActive
@@ -107,7 +84,7 @@ export function ReportFilterSidebar({
                       : 'text-slate-600 hover:bg-canvas',
                   )}
                 >
-                  <span>{rt.label}</span>
+                  <span>{s.label}</span>
                   <span
                     className={clsx(
                       'text-xs px-1.5 py-0.5 rounded-full',
@@ -116,56 +93,6 @@ export function ReportFilterSidebar({
                   >
                     {count}
                   </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="mb-5">
-          <p className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider mb-2">
-            RİSK SEVİYESİ
-          </p>
-          <div className="space-y-0.5">
-            {RISK_LEVELS.map((rl) => {
-              const isActive = filters.riskLevel === rl.value;
-              return (
-                <button
-                  key={rl.value}
-                  onClick={() => set('riskLevel', rl.value)}
-                  className={clsx(
-                    'w-full px-3 py-1.5 rounded-lg text-sm font-sans transition-colors text-left',
-                    isActive
-                      ? 'bg-blue-50 text-blue-700 font-semibold'
-                      : 'text-slate-600 hover:bg-canvas',
-                  )}
-                >
-                  {rl.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div>
-          <p className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider mb-2">
-            DURUM
-          </p>
-          <div className="space-y-0.5">
-            {STATUSES.map((s) => {
-              const isActive = filters.status === s.value;
-              return (
-                <button
-                  key={s.value}
-                  onClick={() => set('status', s.value)}
-                  className={clsx(
-                    'w-full px-3 py-1.5 rounded-lg text-sm font-sans transition-colors text-left',
-                    isActive
-                      ? 'bg-blue-50 text-blue-700 font-semibold'
-                      : 'text-slate-600 hover:bg-canvas',
-                  )}
-                >
-                  {s.label}
                 </button>
               );
             })}

@@ -1,9 +1,8 @@
 /**
- * Yönetici Özeti (Executive Summary) — m6_reports tablosuna React Query ile bağlanır.
+ * Yönetici Özeti (Executive Summary) — reports tablosu
  * useQuery: reportId ile rapor detayı ve executive_summary (JSONB) çeker.
- * generateSummary: İlgili engagement'a ait audit_findings (HIGH/CRITICAL) ile sentez üretir ve m6_reports.executive_summary'ye UPDATE yazar.
- *
- * DDL: m6_reports.executive_summary (jsonb) — migration 20260218172714
+ * generateSummary: İlgili engagement'a ait audit_findings (HIGH/CRITICAL) ile sentez üretir
+ * ve reports.executive_summary'ye UPDATE yazar. 4 Göz onayı payload bu veriyi referans alır.
  */
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -35,17 +34,17 @@ export interface GenerateSummaryInput {
   reportId: string;
 }
 
-/** Mevcut rapor executive_summary'sini alıp, bulgulardan üretilen metinle birleştirir; m6_reports'a UPDATE atar */
+/** Mevcut rapor executive_summary'sini alıp bulgulardan üretilen metinle birleştirir; reports tablosuna UPDATE atar */
 async function generateSummaryPayload(reportId: string): Promise<M6Report> {
   const { data: reportRow, error: reportError } = await supabase
-    .from('m6_reports')
+    .from('reports')
     .select('id, engagement_id, executive_summary')
     .eq('id', reportId)
     .maybeSingle();
   if (reportError) throw reportError;
   if (!reportRow) throw new Error('Rapor bulunamadı.');
 
-  const engagementId = reportRow.engagement_id ?? '';
+  const engagementId = (reportRow.engagement_id as string) ?? '';
   const findings = await fetchFindingsByEngagement(engagementId);
   const titles = findings.map((f) => f.title).filter(Boolean);
   const count = titles.length;
@@ -77,7 +76,7 @@ async function generateSummaryPayload(reportId: string): Promise<M6Report> {
   };
 
   const { error: updateError } = await supabase
-    .from('m6_reports')
+    .from('reports')
     .update({
       executive_summary: updatedSummary,
       updated_at: new Date().toISOString(),

@@ -430,7 +430,7 @@ export const useActiveReportStore = create<ActiveReportState>((set, get) => ({
         ),
       },
     });
-    upsertBlockDb(sectionId, block).catch((err: any) => {
+    upsertBlockDb(activeReport.id, sectionId, block).catch((err: any) => {
       if (isIronVaultError(err?.message ?? '')) {
         toast.error(err.message);
       }
@@ -452,7 +452,7 @@ export const useActiveReportStore = create<ActiveReportState>((set, get) => ({
       .find((s) => s.id === sectionId)
       ?.blocks.find((b) => b.id === blockId);
     if (updatedBlock) {
-      upsertBlockDb(sectionId, updatedBlock).catch((err: any) => {
+      upsertBlockDb(activeReport.id, sectionId, updatedBlock).catch((err: any) => {
         set({ activeReport: prev });
         toast.error(isIronVaultError(err?.message ?? '') ? err.message : 'Blok güncellenemedi.');
       });

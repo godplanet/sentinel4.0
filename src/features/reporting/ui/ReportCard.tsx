@@ -1,16 +1,12 @@
 /**
- * Rapor Kartı — Sihirli Link + Adli Okundu Zırhı
- *
- * BDDK gizlilik kuralı: Raporlar PDF olarak mail ile GÖNDERİLEMEZ.
- * Bunun yerine token tabanlı "Sihirli Link" mekanizması kullanılır.
- * Erişim logları: "Görmedim" bahanesi adli delille çürütülür.
+ * Rapor Kartı — Tek doğru kaynak: public.reports tablosu
+ * Sihirli Link, Amend, REVOKED_AMENDED damgası. Mock yok.
  */
 
 import { useState } from 'react';
 import {
-  Clock, Eye, CheckCircle, FileText, AlertTriangle, Building2,
-  Scale, BarChart2, User, AlertCircle, Edit3, Link2, BookOpen,
-  X, Loader2, ChevronDown, ChevronUp, Copy, Check,
+  Clock, Eye, CheckCircle, FileText, AlertTriangle, Edit3, Link2, BookOpen,
+  X, Loader2, ChevronDown, ChevronUp, Copy, Check, FileWarning, Lock, Ban,
   type LucideIcon,
 } from 'lucide-react';
 import clsx from 'clsx';
@@ -21,56 +17,22 @@ import {
   fetchReadReceipts,
   fetchMagicLinks,
 } from '../api/magic-link-api';
+import { ReportAmendmentModal } from './ReportAmendmentModal';
 import { usePersonaStore } from '@/entities/user/model/persona-store';
-
-export interface ReportCardData {
-  id: string;
-  title: string;
-  status: string;
-  report_type: string | null;
-  risk_level: string | null;
-  auditor_name: string | null;
-  finding_count: number;
-  created_at: string;
-  executive_summary: Record<string, unknown>;
-  hash_seal: string | null;
-}
+import type { ReportListItem } from '../api/reports-api';
 
 interface ReportCardProps {
-  report: ReportCardData;
+  report: ReportListItem;
   onView: (id: string) => void;
   onEdit: (id: string) => void;
 }
 
-const RISK_STRIPE: Record<string, string> = {
-  critical: 'border-t-[#700000]',
-  high: 'border-t-[#eb0000]',
-  medium: 'border-t-[#ff960a]',
-  low: 'border-t-[#FFD700]',
-};
-
-const RISK_BADGE: Record<string, { bg: string; text: string; label: string }> = {
-  critical: { bg: 'bg-red-50', text: 'text-[#700000]', label: 'Kritik Risk' },
-  high: { bg: 'bg-red-50', text: 'text-red-600', label: 'Yüksek Risk' },
-  medium: { bg: 'bg-orange-50', text: 'text-orange-600', label: 'Orta Risk' },
-  low: { bg: 'bg-yellow-50', text: 'text-yellow-700', label: 'Düşük Risk' },
-};
-
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: LucideIcon }> = {
   draft: { label: 'Taslak', color: 'bg-slate-100 text-slate-600', icon: Clock },
-  in_review: { label: 'İncelemede', color: 'bg-amber-100 text-amber-700', icon: Eye },
-  cae_review: { label: 'CAE Onayı', color: 'bg-blue-100 text-blue-700', icon: AlertCircle },
+  review: { label: 'İncelemede', color: 'bg-blue-100 text-blue-700', icon: AlertTriangle },
   published: { label: 'Yayınlandı', color: 'bg-emerald-100 text-emerald-700', icon: CheckCircle },
-  PUBLISHED: { label: 'Yayınlandı', color: 'bg-emerald-100 text-emerald-700', icon: CheckCircle },
   archived: { label: 'Arşiv', color: 'bg-slate-200 text-slate-500', icon: FileText },
-};
-
-const TYPE_CONFIG: Record<string, { label: string; icon: LucideIcon }> = {
-  investigation: { label: 'Soruşturma', icon: AlertTriangle },
-  branch_audit: { label: 'Şube Denetimi', icon: Building2 },
-  compliance: { label: 'Uyum Raporu', icon: Scale },
-  executive: { label: 'Yönetici Sunumu', icon: BarChart2 },
-  blank: { label: 'Denetim Raporu', icon: FileText },
+  REVOKED_AMENDED: { label: 'İptal — Zeyilname', color: 'bg-red-100 text-red-700', icon: Ban },
 };
 
 /** Sihirli Link + Erişim Logları alt paneli */
@@ -115,7 +77,6 @@ function MagicLinkPanel({ reportId }: { reportId: string }) {
 
   return (
     <div className="px-5 py-4 border-t border-slate-100 bg-canvas/30 space-y-4">
-      {/* Yeni Link Oluştur */}
       <div>
         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 font-sans">
           Sihirli Link Gönder (PDF göndermek yasaktır)
@@ -145,7 +106,6 @@ function MagicLinkPanel({ reportId }: { reportId: string }) {
         </div>
       </div>
 
-      {/* Mevcut Linkler */}
       {(loadingLinks || magicLinks.length > 0) && (
         <div className="space-y-1.5">
           <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest font-sans">
@@ -185,7 +145,6 @@ function MagicLinkPanel({ reportId }: { reportId: string }) {
         </div>
       )}
 
-      {/* Erişim Logları — Adli Okundu Zırhı */}
       <div>
         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 font-sans">
           Erişim Logları (Adli Okundu Zırhı)
@@ -235,37 +194,44 @@ export function ReportCard({ report, onView, onEdit }: ReportCardProps) {
   const statusCfg = STATUS_CONFIG[report.status] ?? STATUS_CONFIG.draft;
   const StatusIcon = statusCfg.icon;
 
-  const riskLevel = report.risk_level ?? 'medium';
-  const riskBadge = RISK_BADGE[riskLevel] ?? RISK_BADGE.medium;
-  const stripeClass = RISK_STRIPE[riskLevel] ?? 'border-t-slate-200';
-
-  const typeCfg = TYPE_CONFIG[report.report_type ?? 'blank'] ?? TYPE_CONFIG.blank;
-  const TypeIcon = typeCfg.icon;
-
+  const isRevoked = report.status === 'REVOKED_AMENDED';
   const isPublished =
-    report.status === 'published' || report.status === 'PUBLISHED';
+    report.status === 'published' || (report.locked_at != null && report.locked_at !== '');
+  const isLocked = isPublished;
 
   const [showMagicPanel, setShowMagicPanel] = useState(false);
+  const [amendmentModalOpen, setAmendmentModalOpen] = useState(false);
 
-  const findingCount =
-    report.finding_count ??
-    Object.values(
-      (report.executive_summary as Record<string, Record<string, unknown>>)?.findingCounts ?? {}
-    ).reduce((a: number, b: unknown) => a + (typeof b === 'number' ? b : 0), 0);
+  const cardBorderClass = isRevoked
+    ? 'border-t-red-500'
+    : isPublished
+      ? 'border-t-emerald-500'
+      : 'border-t-slate-200';
+
+  const cardBgClass = isRevoked ? 'bg-red-50/30' : isLocked ? 'bg-emerald-50/30' : 'bg-surface';
 
   return (
     <div
       className={clsx(
-        'bg-surface rounded-2xl border border-slate-200 border-t-4 overflow-hidden',
-        'hover:shadow-lg hover:border-slate-300 transition-all duration-200 flex flex-col',
-        stripeClass,
+        'rounded-2xl border border-t-4 overflow-hidden flex flex-col transition-all duration-200',
+        cardBgClass,
+        isRevoked ? 'border-red-200' : isLocked ? 'border-emerald-200' : 'border-slate-200',
+        cardBorderClass,
+        !isRevoked && 'hover:shadow-lg hover:border-slate-300',
       )}
     >
-      {/* Tür + Durum */}
+      {/* Durum + Versiyon */}
       <div className="px-5 pt-4 pb-3 flex items-start justify-between gap-3">
         <div className="flex items-center gap-2">
-          <TypeIcon size={14} className="text-slate-400 flex-shrink-0" />
-          <span className="text-xs font-sans text-slate-500 font-medium">{typeCfg.label}</span>
+          <FileText size={14} className="text-slate-400 flex-shrink-0" />
+          {report.engagement_title && (
+            <span className="text-xs font-sans text-slate-500 truncate max-w-[140px]" title={report.engagement_title}>
+              {report.engagement_title}
+            </span>
+          )}
+          {report.version > 1 && (
+            <span className="text-[10px] font-sans text-slate-400">v{report.version}</span>
+          )}
         </div>
         <span
           className={clsx(
@@ -278,59 +244,46 @@ export function ReportCard({ report, onView, onEdit }: ReportCardProps) {
         </span>
       </div>
 
-      {/* Başlık + Özet */}
-      <div className="px-5 pb-3 flex-1">
-        <h3 className="font-sans font-bold text-primary text-sm leading-snug line-clamp-2 mb-1.5">
+      {/* Başlık + Açıklama */}
+      <div className={clsx('px-5 pb-3 flex-1', isRevoked && 'opacity-75')}>
+        <h3
+          className={clsx(
+            'font-sans font-bold text-primary text-sm leading-snug line-clamp-2 mb-1.5',
+            isRevoked && 'line-through text-slate-500',
+          )}
+        >
           {report.title}
         </h3>
         <p className="text-xs font-sans text-slate-400 line-clamp-2">
-          {(report.executive_summary as Record<string, Record<string, string>>)?.sections?.auditOpinion
-            ? String((report.executive_summary as Record<string, Record<string, string>>).sections.auditOpinion).slice(0, 80) + '...'
-            : 'Taslak rapor — içerik henüz girilmemiş.'}
+          {report.description?.trim()
+            ? report.description.slice(0, 100) + (report.description.length > 100 ? '...' : '')
+            : 'Taslak rapor — açıklama henüz girilmemiş.'}
         </p>
       </div>
 
-      {/* Denetçi + Tarih */}
-      <div className="px-5 py-2.5 border-t border-slate-100 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 text-xs font-sans text-slate-500 min-w-0">
-          <User size={12} className="flex-shrink-0 text-slate-400" />
-          <span className="truncate">{report.auditor_name ?? 'Denetçi'}</span>
+      {/* REVOKED damgası */}
+      {isRevoked && (
+        <div className="px-5 py-2 bg-red-100/80 border-y border-red-200 flex items-center gap-2">
+          <Ban size={14} className="text-red-600 flex-shrink-0" />
+          <span className="text-xs font-sans font-semibold text-red-700">
+            İPTAL EDİLDİ — ZEYİLNAME YAYINLANDI
+          </span>
         </div>
-        <span className="text-xs font-sans text-slate-400 flex-shrink-0">
-          {new Date(report.created_at).toLocaleDateString('tr-TR', {
+      )}
+
+      {/* Tarih */}
+      <div className="px-5 py-2.5 border-t border-slate-100 flex items-center justify-between gap-2">
+        <span className="text-xs font-sans text-slate-500">
+          Oluşturulma: {new Date(report.created_at).toLocaleDateString('tr-TR', {
             day: 'numeric',
             month: 'short',
             year: 'numeric',
           })}
         </span>
-      </div>
-
-      {/* Bulgu Sayısı + Hash */}
-      <div className="px-5 py-2.5 border-t border-slate-100 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1">
-            <AlertCircle size={12} className="text-red-400" />
-            <span className="text-xs font-sans text-slate-600 font-medium">
-              {findingCount} Bulgu
-            </span>
-          </div>
-          <span
-            className={clsx(
-              'inline-block px-2 py-0.5 rounded text-[11px] font-sans font-semibold',
-              riskBadge.bg,
-              riskBadge.text,
-            )}
-          >
-            {riskBadge.label}
-          </span>
-        </div>
-
-        {isPublished && report.hash_seal && (
-          <span
-            title={`SHA-256: ${report.hash_seal}`}
-            className="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 flex-shrink-0 cursor-help"
-          >
-            #{report.hash_seal.slice(0, 6)}
+        {isLocked && report.locked_at && (
+          <span className="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-sans">
+            <Lock size={10} />
+            Mühürlü
           </span>
         )}
       </div>
@@ -346,10 +299,10 @@ export function ReportCard({ report, onView, onEdit }: ReportCardProps) {
         </button>
         <button
           onClick={() => onEdit(report.id)}
-          disabled={isPublished}
+          disabled={isPublished || isRevoked}
           className={clsx(
             'flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 border text-xs font-sans font-semibold rounded-lg transition-colors',
-            isPublished
+            isPublished || isRevoked
               ? 'border-slate-200 text-slate-300 cursor-not-allowed bg-surface'
               : 'border-slate-300 text-slate-700 hover:bg-slate-100 bg-surface',
           )}
@@ -358,8 +311,20 @@ export function ReportCard({ report, onView, onEdit }: ReportCardProps) {
           Düzenle
         </button>
 
-        {/* Sihirli Link Butonu — yalnızca yayınlanmış raporlarda */}
-        {isPublished && (
+        {/* GIAS: Düzeltme — sadece yayınlanmış; REVOKED_AMENDED kartında YOK */}
+        {isPublished && !isRevoked && (
+          <button
+            onClick={() => setAmendmentModalOpen(true)}
+            title="GIAS: Hata bildir ve düzeltme versiyonu (zeyilname) oluştur"
+            className="flex items-center gap-1 px-2.5 py-1.5 border border-amber-300 rounded-lg text-xs font-semibold
+                       text-amber-700 bg-amber-50 hover:bg-amber-100 transition-colors font-sans"
+          >
+            <FileWarning size={12} />
+            Düzeltme
+          </button>
+        )}
+        {/* Sihirli Link — yalnızca yayınlanmış ve iptal edilmemiş */}
+        {isPublished && !isRevoked && (
           <button
             onClick={() => setShowMagicPanel(!showMagicPanel)}
             title="Sihirli Link Gönder / Erişim Logları"
@@ -376,9 +341,16 @@ export function ReportCard({ report, onView, onEdit }: ReportCardProps) {
         )}
       </div>
 
-      {/* Sihirli Link + Erişim Logları Paneli */}
+      {amendmentModalOpen && (
+        <ReportAmendmentModal
+          reportId={report.id}
+          reportTitle={report.title}
+          onClose={() => setAmendmentModalOpen(false)}
+        />
+      )}
+
       <AnimatePresence>
-        {showMagicPanel && isPublished && (
+        {showMagicPanel && isPublished && !isRevoked && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
