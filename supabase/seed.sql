@@ -2403,3 +2403,14 @@ INSERT INTO public.ccm_alerts (id, rule_triggered, risk_score, severity, title, 
     'OPEN'
   )
 ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------------------------
+-- SLA Policies (sla_escalation_engine) — CAE tavan, adil SLA motoru
+-- -----------------------------------------------------------------------------
+INSERT INTO public.sla_policies (tenant_id, severity, max_delay_days, target_level)
+VALUES
+  ('11111111-1111-1111-1111-111111111111'::uuid, 'CRITICAL', 7,  3),
+  ('11111111-1111-1111-1111-111111111111'::uuid, 'HIGH',     14, 3),
+  ('11111111-1111-1111-1111-111111111111'::uuid, 'MEDIUM',   30, 3),
+  ('11111111-1111-1111-1111-111111111111'::uuid, 'LOW',      60, 3)
+ON CONFLICT (tenant_id, severity) DO NOTHING;

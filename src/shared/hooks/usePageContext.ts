@@ -17,6 +17,7 @@ const PAGE_LABELS: Record<string, string> = {
   '/reporting/executive': 'Stratejik Analiz',
   '/governance/policies': 'Politikalar',
   '/governance/board': 'YK Raporlama',
+  '/governance/escalation-desk': 'CAE Eskalasyon ve Karar Masasi',
   '/resources': 'Kaynak Yonetimi',
   '/oracle': 'Sentinel AI Oracle',
 };

@@ -52,6 +52,7 @@ import BoardBriefingPage from '@/pages/reporting/BoardBriefingPage';
 import TrendAnalysisPage from '@/pages/reporting/TrendAnalysisPage';
 import EntityScorecardPage from '@/pages/reporting/EntityScorecardPage';
 import BoardReportingPage from '@/pages/governance/BoardReportingPage';
+import EscalationDeskPage from '@/pages/governance/EscalationDeskPage';
 import StakeholderManagementPage from '@/pages/governance/StakeholderManagementPage';
 import WhistleblowerPage from '@/pages/governance/WhistleblowerPage';
 import OraclePage from '@/pages/oracle';
@@ -148,6 +149,7 @@ export const AppRoutes = () => {
       <Route path="/strategy/neural-map" element={<ProtectedRoute><NeuralMapPage /></ProtectedRoute>} />
 
       <Route path="/governance/board" element={<ProtectedRoute><BoardReportingPage /></ProtectedRoute>} />
+      <Route path="/governance/escalation-desk" element={<ProtectedRoute><EscalationDeskPage /></ProtectedRoute>} />
       <Route path="/governance/stakeholders" element={<ProtectedRoute><StakeholderManagementPage /></ProtectedRoute>} />
       <Route path="/governance/voice" element={<ProtectedRoute><WhistleblowerPage /></ProtectedRoute>} />
       <Route path="/governance/policies" element={<ProtectedRoute><PolicyPage /></ProtectedRoute>} />

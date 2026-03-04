@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllFindings } from '@/entities/finding/api/crud';
 import type { FindingWithAssignment } from '@/entities/finding';
 import {
-  Filter, Plus, Search,
+  Filter, Plus, Search, Loader2,
   Layout, ArrowRight, BookOpen
 } from 'lucide-react';
 import { useRiskConstitution } from '@/features/risk-constitution';
@@ -93,7 +93,10 @@ export function FindingList({ onSelectFinding, onCreateNew }: FindingListProps) 
 
       {/* LİSTE */}
       {isLoading ? (
-        <div className="text-center py-20 text-slate-400 animate-pulse">Yükleniyor...</div>
+        <div className="flex flex-col items-center justify-center py-20 gap-3 text-slate-500">
+          <Loader2 size={28} className="animate-spin" />
+          <span className="text-sm font-medium">Yükleniyor...</span>
+        </div>
       ) : filteredFindings.length === 0 ? (
         <div className="text-center py-20 bg-canvas rounded-2xl border border-slate-200 border-dashed">
           <Filter className="w-10 h-10 text-slate-300 mx-auto mb-3" />

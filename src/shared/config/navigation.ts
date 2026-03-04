@@ -425,6 +425,12 @@ export const navigationConfig: NavigationItem[] = [
         icon: Building2,
       },
       {
+        id: 'escalation-desk',
+        label: 'Eskalasyon Merkezi',
+        path: '/governance/escalation-desk',
+        icon: AlertTriangle,
+      },
+      {
         id: 'zen-editor',
         label: 'Rapor Düzenleyici (Zen)',
         path: '/reporting/zen-editor',

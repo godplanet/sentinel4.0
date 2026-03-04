@@ -215,7 +215,7 @@ export default function WatchtowerPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <button
             onClick={handleRefresh}
             disabled={refreshing}
@@ -224,7 +224,6 @@ export default function WatchtowerPage() {
             <RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} />
             Yenile
           </button>
-
           <button
             onClick={() => setShowWizard(true)}
             className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-sm font-bold rounded-xl hover:from-blue-700 hover:to-cyan-700 transition-all shadow-lg shadow-blue-500/20"

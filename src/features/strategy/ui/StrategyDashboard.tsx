@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useStrategyStore } from '@/entities/strategy/model/store';
+import { fetchStrategicGoals, fetchAuditObjectivesSimple } from '@/entities/strategy/api/goals';
 import { AlignmentMap } from './AlignmentMap';
 import { CorporateGoalList } from './CorporateGoalList';
 import { AddStrategyItemModal } from './AddStrategyItemModal';
 import {
   Target, Shield, LayoutGrid, List,
-  Activity, PieChart
+  Activity, PieChart, Loader2, FileText
 } from 'lucide-react';
 import clsx from 'clsx';
 
@@ -13,12 +15,40 @@ export const StrategyDashboard = () => {
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
   const [modalType, setModalType] = useState<'goal' | 'objective' | null>(null);
 
-  const { goals, objectives } = useStrategyStore();
+  const { goals, objectives, setGoals, setObjectives } = useStrategyStore();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['strategy-dashboard'],
+    queryFn: async () => {
+      const [goalsData, objectivesData] = await Promise.all([
+        fetchStrategicGoals(),
+        fetchAuditObjectivesSimple(),
+      ]);
+      return { goals: goalsData, objectives: objectivesData };
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      setGoals(data.goals);
+      setObjectives(data.objectives);
+    }
+  }, [data, setGoals, setObjectives]);
+
   const safeGoals = Array.isArray(goals) ? goals : [];
   const safeObjectives = Array.isArray(objectives) ? objectives : [];
   const avgProgress = safeGoals.length > 0
     ? Math.round(safeGoals.reduce((acc, curr) => acc + (curr?.progress || 0), 0) / safeGoals.length)
     : 0;
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 gap-3 text-slate-500">
+        <Loader2 size={32} className="animate-spin" />
+        <p className="text-sm font-medium">Stratejik hedefler yükleniyor...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-8 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
@@ -120,13 +150,19 @@ export const StrategyDashboard = () => {
 
       {/* 3. ANA İÇERİK ALANI */}
       <div className="min-h-[600px] transition-all duration-500">
-         {viewMode === 'map' ? (
-           <div className="bg-surface/40 backdrop-blur-xl border border-white/50 p-8 rounded-3xl shadow-sm overflow-x-auto">
-             <AlignmentMap />
-           </div>
-         ) : (
-           <CorporateGoalList />
-         )}
+        {safeGoals.length === 0 && safeObjectives.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-24 rounded-2xl border-2 border-dashed border-slate-200 bg-canvas/50">
+            <FileText size={48} className="text-slate-300 mb-4" />
+            <p className="text-slate-600 font-semibold">Kayıt bulunamadı.</p>
+            <p className="text-sm text-slate-500 mt-1">Banka hedefi veya denetim hedefi ekleyerek başlayın.</p>
+          </div>
+        ) : viewMode === 'map' ? (
+          <div className="bg-surface/40 backdrop-blur-xl border border-white/50 p-8 rounded-3xl shadow-sm overflow-x-auto">
+            <AlignmentMap />
+          </div>
+        ) : (
+          <CorporateGoalList />
+        )}
       </div>
 
       {/* MODAL */}
