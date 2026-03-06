@@ -4,23 +4,9 @@
 -- Tarih: 2026-03-08
 -- ============================================================================
 
-INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-VALUES (
-  'evidence-vault',
-  'evidence-vault',
-  false, -- Public erişime kapalı (Sıfır Güven / Zero-Trust)
-  52428800, -- 50MB
-  ARRAY[
-    'application/pdf',
-    'image/jpeg',
-    'image/png',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  ]
-)
-ON CONFLICT (id) DO UPDATE SET
-  public          = false,
-  file_size_limit = 52428800;
+-- Evidence Vault bucket kurulumu: supabase/seed.sql
+-- Bucket seed verisi seed.sql'de yönetilir.
+
 
 -- Storage RLS politikaları (dev: anon bypass)
 CREATE POLICY "evidence_vault anon upload"

@@ -56,24 +56,8 @@ CREATE POLICY "Authenticated users can update system definitions"
   USING (true)
   WITH CHECK (true);
 
--- Seed initial risk level definitions
-INSERT INTO system_definitions (category, code, label, color, sort_order) VALUES
-  ('RISK_LEVEL', 'CRITICAL', 'Kritik', '#dc2626', 1),
-  ('RISK_LEVEL', 'HIGH', 'Yüksek', '#ea580c', 2),
-  ('RISK_LEVEL', 'MEDIUM', 'Orta', '#f59e0b', 3),
-  ('RISK_LEVEL', 'LOW', 'Düşük', '#10b981', 4),
-  ('RISK_LEVEL', 'OBSERVATION', 'Gözlem', '#3b82f6', 5)
-ON CONFLICT (tenant_id, category, code) DO NOTHING;
-
--- Seed finding status definitions
-INSERT INTO system_definitions (category, code, label, color, sort_order) VALUES
-  ('FINDING_STATE', 'DRAFT', 'Taslak', '#64748b', 1),
-  ('FINDING_STATE', 'IN_NEGOTIATION', 'Müzakerede', '#f59e0b', 2),
-  ('FINDING_STATE', 'AGREED', 'Üzerinde Anlaşıldı', '#3b82f6', 3),
-  ('FINDING_STATE', 'DISPUTED', 'İtiraz Edildi', '#ef4444', 4),
-  ('FINDING_STATE', 'FINAL', 'Kesinleşti', '#8b5cf6', 5),
-  ('FINDING_STATE', 'REMEDIATED', 'Düzeltildi', '#10b981', 6)
-ON CONFLICT (tenant_id, category, code) DO NOTHING;
+-- Seed verileri: supabase/seed.sql
+-- `npx supabase db push` sonrası seed.sql ayrıca uygulanır.
 
 -- Create index for faster queries
 CREATE INDEX IF NOT EXISTS idx_system_definitions_category

@@ -155,14 +155,7 @@ CREATE POLICY "Authenticated users can update parameters"
     USING (true)
     WITH CHECK (true);
 
--- 5. INSERT DEFAULT SYSTEM PARAMETERS
-INSERT INTO public.system_parameters (key, value, description, category) VALUES
-    ('risk_weights', '{"impact": 50, "likelihood": 50}'::jsonb, 'Default risk calculation weights', 'risk'),
-    ('grading_thresholds', '{"A": 90, "B": 80, "C": 70, "D": 60, "F": 0}'::jsonb, 'Audit grading thresholds', 'grading'),
-    ('finding_severity_points', '{"CRITICAL": 25, "HIGH": 15, "MEDIUM": 10, "LOW": 5, "OBSERVATION": 2}'::jsonb, 'Points deducted per finding severity', 'grading'),
-    ('auto_assign_rules', '{"enabled": false, "load_balance": true}'::jsonb, 'Automatic workpaper assignment rules', 'workflow'),
-    ('notification_settings', '{"email_enabled": true, "slack_enabled": false}'::jsonb, 'System notification preferences', 'notifications')
-ON CONFLICT (key) DO NOTHING;
+-- Seed verileri: supabase/seed.sql
 
 -- 6. CREATE INDEXES FOR PERFORMANCE
 CREATE INDEX IF NOT EXISTS idx_auditor_skills_user ON public.auditor_skills(user_id);

@@ -2643,3 +2643,56 @@ VALUES
   ('Şube denetimi son raporunu imzala',        'CAE imzası bekleniyor',                               'aaaaaaaa-0000-0000-0000-000000000005', TRUE,  FALSE, '2026-03-11', 'pending',   'engagement', '00000000-0000-0000-0000-000000000301',  'ENG-2026-SUB-01',   3),
   ('Planlama matrisini güncelle',              NULL,                                                   'aaaaaaaa-0000-0000-0000-000000000005', FALSE, FALSE, '2026-03-15', 'pending',   NULL,         NULL,                                   NULL,                4)
 ON CONFLICT DO NOTHING;
+
+
+-- =============================================================================
+-- SEED: Grand Purge — Migration'lardan taşınan statik referans verileri
+-- Bağımlılık sırası: system_definitions → system_parameters → storage.buckets
+-- =============================================================================
+
+-- ── system_definitions: Risk seviyeleri (20260202204014'ten taşındı) ──────────
+INSERT INTO public.system_definitions (category, code, label, color, sort_order) VALUES
+  ('RISK_LEVEL', 'CRITICAL',    'Kritik',  '#dc2626', 1),
+  ('RISK_LEVEL', 'HIGH',        'Yüksek',  '#ea580c', 2),
+  ('RISK_LEVEL', 'MEDIUM',      'Orta',    '#f59e0b', 3),
+  ('RISK_LEVEL', 'LOW',         'Düşük',   '#10b981', 4),
+  ('RISK_LEVEL', 'OBSERVATION', 'Gözlem',  '#3b82f6', 5)
+ON CONFLICT (tenant_id, category, code) DO NOTHING;
+
+-- ── system_definitions: Bulgu durum tanımları (20260202204014'ten taşındı) ────
+INSERT INTO public.system_definitions (category, code, label, color, sort_order) VALUES
+  ('FINDING_STATE', 'DRAFT',           'Taslak',               '#64748b', 1),
+  ('FINDING_STATE', 'IN_NEGOTIATION',  'Müzakerede',           '#f59e0b', 2),
+  ('FINDING_STATE', 'AGREED',          'Üzerinde Anlaşıldı',   '#3b82f6', 3),
+  ('FINDING_STATE', 'DISPUTED',        'İtiraz Edildi',        '#ef4444', 4),
+  ('FINDING_STATE', 'FINAL',           'Kesinleşti',           '#8b5cf6', 5),
+  ('FINDING_STATE', 'REMEDIATED',      'Düzeltildi',           '#10b981', 6)
+ON CONFLICT (tenant_id, category, code) DO NOTHING;
+
+-- ── system_parameters: Varsayılan sistem parametreleri (20260205182132'ten taşındı) ──
+INSERT INTO public.system_parameters (key, value, description, category) VALUES
+  ('risk_weights',            '{"impact": 50, "likelihood": 50}'::jsonb,                                    'Default risk calculation weights',          'risk'),
+  ('grading_thresholds',      '{"A": 90, "B": 80, "C": 70, "D": 60, "F": 0}'::jsonb,                      'Audit grading thresholds',                  'grading'),
+  ('finding_severity_points', '{"CRITICAL": 25, "HIGH": 15, "MEDIUM": 10, "LOW": 5, "OBSERVATION": 2}'::jsonb, 'Points deducted per finding severity',  'grading'),
+  ('auto_assign_rules',       '{"enabled": false, "load_balance": true}'::jsonb,                           'Automatic workpaper assignment rules',       'workflow'),
+  ('notification_settings',   '{"email_enabled": true, "slack_enabled": false}'::jsonb,                    'System notification preferences',           'notifications')
+ON CONFLICT (key) DO NOTHING;
+
+-- ── storage.buckets: Evidence Vault bucket (20260308000000'dan taşındı) ───────
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'evidence-vault',
+  'evidence-vault',
+  false,
+  52428800,
+  ARRAY[
+    'application/pdf',
+    'image/jpeg',
+    'image/png',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ]
+)
+ON CONFLICT (id) DO UPDATE SET
+  public          = false,
+  file_size_limit = 52428800;
