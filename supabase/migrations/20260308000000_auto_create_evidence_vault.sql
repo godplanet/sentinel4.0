@@ -40,6 +40,4 @@ CREATE POLICY "evidence_vault auth read"
   ON storage.objects FOR SELECT TO authenticated
   USING (bucket_id = 'evidence-vault');
 
-COMMENT ON TABLE storage.buckets IS
-  'evidence-vault: GIAS 2025 Std 14.3 — Forensic Immutable Evidence Vault. '
-  'public=false, max 50MB, PDF/JPEG/PNG/XLSX/DOCX.';
+-- Note: storage.buckets is owned by Supabase system role; COMMENT is skipped.
