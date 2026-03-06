@@ -20,7 +20,7 @@ ALTER TABLE audit_entities
 -- 3. Mevcut string `path` kolonundan ltree_path'i doldur
 --    Not: path kolonundaki noktalar ltree formatıyla uyumludur (örn. 'root.bank.unit_a')
 UPDATE audit_entities
-SET ltree_path = REPLACE(path, '-', '_')::ltree
+SET ltree_path = REPLACE(path::text, '-', '_')::ltree
 WHERE ltree_path IS NULL AND path IS NOT NULL;
 
 -- 4. GIST index — ltree descendant (<@, @>) sorguları için kritik
