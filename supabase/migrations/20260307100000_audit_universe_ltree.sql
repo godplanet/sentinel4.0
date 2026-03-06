@@ -45,20 +45,8 @@ SELECT
   ae.tenant_id,
   ae.owner_id,
   ae.parent_id,
-  -- Risk skorları (savunmacı: COALESCE ile 0 fallback)
-  COALESCE(ae.risk_score, 0)                                         AS inherent_risk,
-  COALESCE(ae.risk_score * ae.velocity_multiplier, ae.risk_score, 0) AS residual_risk,
-  COALESCE(ae.velocity_multiplier, 1.0)                              AS risk_velocity,
-  -- Risk bileşenleri (opsiyonel, BDDK kategorileri)
-  COALESCE(ae.risk_operational, 0)  AS risk_operational,
-  COALESCE(ae.risk_it, 0)           AS risk_it,
-  COALESCE(ae.risk_compliance, 0)   AS risk_compliance,
-  COALESCE(ae.risk_financial, 0)    AS risk_financial,
-  -- Denetim döngüsü
-  ae.last_audit_date,
-  ae.next_audit_due,
-  ae.audit_frequency,
-  -- Uzak metadata (ESG, Shariah, vb.)
+  -- Risk skoru (savunmacı: COALESCE ile 0 fallback)
+  COALESCE(ae.risk_score, 0) AS inherent_risk,
   ae.metadata,
   ae.created_at,
   ae.updated_at
