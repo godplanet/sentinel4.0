@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { PageHeader } from '@/shared/ui';
 import { SuperDrawer } from '@/widgets/SuperDrawer';
-import { actionApi, agingApi, calculateActionAging, formatAgingMetric } from '@/entities/action';
-import type { ActionWithDetails, ActionAging } from '@/entities/action';
+import { actionApi, calculateActionAging, formatAgingMetric } from '@/entities/action';
+import type { ActionWithDetails } from '@/entities/action';
 import {
   ListTodo,
-  Filter,
   Search,
   TrendingUp,
   Clock,
@@ -16,23 +17,16 @@ import {
   Loader2,
   Download,
   CheckSquare,
-  MoreHorizontal,
   X,
-  BarChart3,
   MessageSquare,
   Mail,
 } from 'lucide-react';
 
 type ViewMode = 'operational' | 'governance';
-type ViewLayout = 'cards' | 'table' | 'timeline';
 type QuickFilter = 'all' | 'my-actions' | 'overdue' | 'critical' | 'due-this-week' | 'pending-review';
 
 export default function ActionWorkbenchPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('operational');
-  const [viewLayout, setViewLayout] = useState<ViewLayout>('cards');
-  const [actions, setActions] = useState<ActionWithDetails[]>([]);
-  const [agingData, setAgingData] = useState<ActionAging[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedActionId, setSelectedActionId] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [quickFilter, setQuickFilter] = useState<QuickFilter>('all');
@@ -40,28 +34,27 @@ export default function ActionWorkbenchPage() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [showBulkActions, setShowBulkActions] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  const { 
+    data: actions = [], 
+    isLoading: loading, 
+    isError: isActionsError, 
+    error: actionsError,
+    refetch: refetchActions,
+  } = useQuery({
+    queryKey: ['actions', 'all'],
+    queryFn: () => actionApi.getAll()
+  });
 
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      const [actionsData, agingDataResult] = await Promise.all([
-        actionApi.getAll(),
-        agingApi.getAll(),
-      ]);
-      setActions(actionsData);
-      setAgingData(agingDataResult);
-    } catch (error) {
-      console.error('Failed to load actions:', error);
-    } finally {
-      setLoading(false);
+  // Aşırı Savunmacı Error Logging (BDDK standardı loglama)
+  useEffect(() => {
+    if (isActionsError && actionsError) {
+      console.error('Ciddi Sistem Hatası [Action Data]:', actionsError);
+      toast.error(`Aksiyon verileri veritabanından alınamadı: ${(actionsError as Error)?.message ?? 'Bilinmeyen Hata'}`);
     }
-  };
+  }, [isActionsError, actionsError]);
 
   const filteredActions = useMemo(() => {
-    return actions.filter((action) => {
+    return (actions || []).filter((action) => {
       const aging = calculateActionAging(action);
 
       if (filterStatus !== 'all' && action.status !== filterStatus) return false;
@@ -79,9 +72,9 @@ export default function ActionWorkbenchPage() {
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         return (
-          action.title.toLowerCase().includes(query) ||
+          action.finding_snapshot?.title?.toLowerCase().includes(query) ||
           action.id.toLowerCase().includes(query) ||
-          action.assignee_unit_name?.toLowerCase().includes(query)
+          action.assignee_unit_id?.toLowerCase().includes(query)
         );
       }
       return true;
@@ -89,8 +82,8 @@ export default function ActionWorkbenchPage() {
   }, [actions, filterStatus, quickFilter, searchQuery]);
 
   const stats = useMemo(() => {
-    const now = Date.now();
-    const overdueActions = actions.filter((a) => {
+    const rawActions = actions || [];
+    const overdueActions = rawActions.filter((a) => {
       const aging = calculateActionAging(a);
       return aging.isOperationallyOverdue;
     });
@@ -100,11 +93,11 @@ export default function ActionWorkbenchPage() {
     });
 
     return {
-      total: actions.length,
-      pending: actions.filter((a) => a.status === 'pending').length,
-      inProgress: actions.filter((a) => a.status === 'in_progress').length,
-      review: actions.filter((a) => ['evidence_uploaded', 'auditor_review'].includes(a.status)).length,
-      closed: actions.filter((a) => a.status === 'closed').length,
+      total: rawActions.length,
+      pending: rawActions.filter((a) => a?.status === 'pending').length,
+      inProgress: rawActions.filter((a) => a?.status === 'evidence_submitted').length,
+      review: rawActions.filter((a) => ['evidence_submitted', 'review_rejected'].includes(a?.status || '')).length,
+      closed: rawActions.filter((a) => a?.status === 'closed').length,
       overdue: overdueActions.length,
       critical: criticalActions.length,
     };
@@ -140,13 +133,13 @@ export default function ActionWorkbenchPage() {
       ...filteredActions.map((action) => {
         const aging = calculateActionAging(action);
         return [
-          action.id,
-          `"${action.title}"`,
-          action.status,
-          action.assignee_unit_name || 'Unassigned',
-          new Date(action.current_due_date).toLocaleDateString(),
-          aging.operationalOverdue,
-          aging.ageFromDetection,
+          action.id || '',
+          `"${action.finding_snapshot?.title || 'İsimsiz'}"`,
+          action.status || 'unknown',
+          action.assignee_unit_id || 'Unassigned',
+          action.current_due_date ? new Date(action.current_due_date).toLocaleDateString() : 'Belirsiz',
+          aging.operationalOverdue || 0,
+          aging.ageFromDetection || 0,
         ].join(',');
       }),
     ].join('\n');
@@ -164,7 +157,6 @@ export default function ActionWorkbenchPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <PageHeader
         title="Action Workbench"
-        subtitle="AuditBoard-Style Action Tracking with Dual Aging Metrics"
         icon={ListTodo}
       />
 
@@ -403,7 +395,7 @@ export default function ActionWorkbenchPage() {
         actionId={selectedActionId}
         isOpen={!!selectedActionId}
         onClose={() => setSelectedActionId(null)}
-        onUpdate={loadData}
+        onUpdate={refetchActions}
       />
     </div>
   );
@@ -541,9 +533,9 @@ function ActionCard({
                 />
               </div>
               <div className="flex-1">
-                <h3 className="font-bold text-primary text-base leading-tight">{action.title}</h3>
+                <h3 className="font-bold text-primary text-base leading-tight">{action.finding_snapshot?.title || 'No Title'}</h3>
                 <p className="text-sm text-slate-600 mt-0.5">
-                  {action.finding_snapshot.title}
+                  Action ID: {action.id}
                 </p>
               </div>
             </div>
@@ -575,15 +567,15 @@ function ActionCard({
             )}
 
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500">{action.assignee_unit_name || 'Unassigned'}</span>
+              <span className="text-xs text-slate-500">{action.assignee_unit_id || 'Unassigned'}</span>
             </div>
 
             <div
               className={`
                 px-2 py-1 rounded text-xs font-semibold uppercase
                 ${action.status === 'closed' ? 'bg-green-100 text-green-700' :
-                  action.status === 'evidence_uploaded' ? 'bg-blue-100 text-blue-700' :
-                  action.status === 'auditor_review' ? 'bg-purple-100 text-purple-700' :
+                  action.status === 'evidence_submitted' ? 'bg-blue-100 text-blue-700' :
+                  action.status === 'review_rejected' ? 'bg-red-100 text-red-700' :
                   'bg-slate-100 text-slate-700'}
               `}
             >

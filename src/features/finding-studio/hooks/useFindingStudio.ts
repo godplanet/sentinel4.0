@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { differenceInDays, parseISO, isValid } from 'date-fns';
 
 // --- Imports ---
 import { useMethodologyStore } from '@/features/admin/methodology/model/store';
 import { useRiskConfigStore } from '@/features/admin/risk-configuration/model/store';
-import type { Finding } from '@/entities/finding/model/types';
 import {
   fetchFinding,
   createFinding,
-  updateFinding
+  updateFinding,
 } from '@/entities/finding/api/supabase-api';
 
 // --- Types ---
@@ -23,16 +23,16 @@ export interface SLAStatus {
   statusColor: 'green' | 'amber' | 'red';
 }
 
-// UI Tarafında kullanılan Genişletilmiş Tip (Mevcut tiplerle uyumlu olmalı)
+// UI Tarafında kullanılan Genişletilmiş Tip
 export interface ComprehensiveFinding {
   id: string;
   title: string;
-  status: 'draft' | 'review' | 'negotiation' | 'approved' | 'closed' | 'rejected' | string; // GÖREV 4: rejected eklendi
+  status: 'draft' | 'review' | 'negotiation' | 'approved' | 'closed' | 'rejected' | string;
   impact: number;
   likelihood: number;
   target_date?: string;
   internal_notes?: string;
-  secrets?: any; // Tip esnekliği için any yapıldı
+  secrets?: any;
   category?: string;
   department?: string;
   tags?: string[];
@@ -40,27 +40,17 @@ export interface ComprehensiveFinding {
   audit_framework?: 'STANDARD' | 'BDDK';
   bddk_deficiency_type?: string | null;
   control_effectiveness?: number;
-
-  // GÖREV 1: GIS 2024 Metadata Expansion
-  risk_category?: string; // Risk Universe (credit, market, operational...)
-  process_id?: string; // Process Map
-  subprocess_id?: string; // Subprocess
-  control_id?: string; // Control Library reference
-
-  // GÖREV 3: Evidence Management
-  evidence_files?: string[]; // Array of file names/paths
-
-  // GÖREV 4: Workflow
-  rejection_reason?: string; // Rejection reason from reviewer
-
-  // GÖREV 2 (Best-in-Class): Cross-Linking
+  risk_category?: string;
+  process_id?: string;
+  subprocess_id?: string;
+  control_id?: string;
+  evidence_files?: string[];
+  rejection_reason?: string;
   related_items?: Array<{
     id: string;
     type: 'Finding' | 'Policy' | 'Action' | 'Risk';
     title: string;
   }>;
-
-  // GÖREV 3 (Best-in-Class): Activity Log
   activity_log?: Array<{
     id: string;
     timestamp: Date;
@@ -68,205 +58,216 @@ export interface ComprehensiveFinding {
     actor: { name: string; role: string };
     details?: any;
   }>;
-
   [key: string]: any; // Dinamik alanlar için
 }
 
 const CURRENT_ROLE: 'auditor' | 'auditee' | 'viewer' = 'auditor';
+
+// Helper: Rol bazlı data sanitization
+function sanitizeData(data: ComprehensiveFinding): ComprehensiveFinding {
+  if (CURRENT_ROLE !== 'auditor') {
+    const sanitized = { ...data };
+    delete sanitized.internal_notes;
+    delete sanitized.secrets;
+    return sanitized;
+  }
+  return data;
+}
+
+// Helper: Yeni bulgu template oluştur
+function buildNewTemplate(dynamicFields: Record<string, any>): ComprehensiveFinding {
+  return {
+    id: 'new',
+    title: '',
+    status: 'draft',
+    impact: 1,
+    likelihood: 1,
+    control_effectiveness: 1,
+    audit_framework: 'STANDARD',
+    evidence_files: [],
+    related_items: [],
+    activity_log: [],
+    ...dynamicFields,
+  };
+}
 
 export const useFindingStudio = () => {
   // 1. Router Integration
   const { id } = useParams<{ id: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  
+  const queryClient = useQueryClient();
+
   const mode = (searchParams.get('mode') as FindingMode) || 'edit';
 
   // 2. Global Stores
   const { findingSections, fetchConfig } = useMethodologyStore();
-  const riskConfig = useRiskConfigStore((state: any) => state);
+  useRiskConfigStore((state: any) => state); // Consumed for side effects
 
-  // 3. Local State
-  const [finding, setFinding] = useState<ComprehensiveFinding | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
+  // 3. Local Editable State (override için yerel kopya)
+  const [localFinding, setLocalFinding] = useState<ComprehensiveFinding | null>(null);
 
-  // --- Helper: Data Sanitization ---
-  const sanitizeData = useCallback((data: ComprehensiveFinding): ComprehensiveFinding => {
-    if (CURRENT_ROLE !== 'auditor') {
-      const sanitized = { ...data };
-      delete sanitized.internal_notes;
-      delete sanitized.secrets;
-      return sanitized;
+  // === QUERY: Mevcut bulgu yükleme (only when id !== 'new') ===
+  const {
+    data: dbFinding,
+    isLoading: isQueryLoading,
+    isError: isQueryError,
+    error: queryError,
+  } = useQuery({
+    queryKey: ['finding', id],
+    queryFn: async () => {
+      if (!id || id === 'new') return null;
+      const result = await fetchFinding(id);
+      if (!result) {
+        toast.error('Bulgu bulunamadı. Ana sayfaya yönlendiriliyorsunuz...');
+        setTimeout(() => navigate('/execution/findings'), 2000);
+        return null;
+      }
+      return sanitizeData(result as unknown as ComprehensiveFinding);
+    },
+    enabled: !!id && id !== 'new',
+    retry: 1,
+  });
+
+  // AŞIRI SAVUNMACI: Sorgu hatası — BDDK ciddiyetinde log + toast
+  useEffect(() => {
+    if (isQueryError && queryError) {
+      console.error('[SENTINEL KRİTİK HATA] Bulgu veritabanından alınamadı:', queryError);
+      toast.error(
+        `Bulgu verisi yüklenemedi: ${(queryError as Error)?.message ?? 'Bilinmeyen veritabanı hatası. Lütfen sistem yöneticinizle iletişime geçin.'}`,
+        { duration: 8000 }
+      );
     }
-    return data;
+  }, [isQueryError, queryError]);
+
+  // Metodoloji yapılandırması yükleme
+  useEffect(() => {
+    if (findingSections.length === 0) {
+      fetchConfig().catch((err) => {
+        console.error('[SENTINEL] Metodoloji yapılandırması alınamadı:', err);
+      });
+    }
+  }, [findingSections.length, fetchConfig]);
+
+  // Yerel state senkronizasyonu (remote data değişince merge et)
+  useEffect(() => {
+    if (id === 'new') {
+      const dynamicFields = (findingSections || []).reduce((acc, section) => {
+        acc[section?.key ?? ''] = '';
+        return acc;
+      }, {} as Record<string, any>);
+      setLocalFinding(buildNewTemplate(dynamicFields));
+    } else if (dbFinding) {
+      setLocalFinding(dbFinding);
+    }
+  }, [id, dbFinding, findingSections]);
+
+  // === MUTATION: Yeni bulgu oluşturma ===
+  const createMutation = useMutation({
+    mutationFn: async ({ finding, engagementId }: { finding: Partial<ComprehensiveFinding>; engagementId: string }) => {
+      return await createFinding(finding as any, engagementId);
+    },
+    onSuccess: (created) => {
+      toast.success('Yeni bulgu başarıyla oluşturuldu!');
+      queryClient.invalidateQueries({ queryKey: ['findings'] });
+      navigate(`/findings/${created.id}?mode=${mode}`, { replace: true });
+      setLocalFinding(created as unknown as ComprehensiveFinding);
+    },
+    onError: (err: any) => {
+      console.error('[SENTINEL KRİTİK HATA] Bulgu oluşturulamadı:', err);
+      toast.error(`Bulgu oluşturma başarısız: ${err?.message ?? 'Bilinmeyen bir hata oluştu.'}`);
+    },
+  });
+
+  // === MUTATION: Mevcut bulgu güncelleme ===
+  const updateMutation = useMutation({
+    mutationFn: async ({ id: findingId, updates }: { id: string; updates: Partial<ComprehensiveFinding> }) => {
+      return await updateFinding(findingId, updates as any);
+    },
+    onSuccess: (updated) => {
+      toast.success('Değişiklikler başarıyla kaydedildi.');
+      queryClient.invalidateQueries({ queryKey: ['finding', id] });
+      queryClient.invalidateQueries({ queryKey: ['findings'] });
+      setLocalFinding(updated as unknown as ComprehensiveFinding);
+    },
+    onError: (err: any) => {
+      console.error('[SENTINEL KRİTİK HATA] Bulgu güncellenemedi:', err);
+      toast.error(`Kaydetme başarısız: ${err?.message ?? 'Bilinmeyen bir hata oluştu.'}`);
+    },
+  });
+
+  // === ACTIONS ===
+
+  const updateField = useCallback((field: string, value: any) => {
+    setLocalFinding((prev) => {
+      if (!prev) return null;
+      return { ...prev, [field]: value };
+    });
   }, []);
 
-  // --- Effect: Initialize & Fetch Data ---
-  useEffect(() => {
-    let isMounted = true;
+  const setMode = useCallback(
+    (newMode: FindingMode) => {
+      setSearchParams({ mode: newMode });
+    },
+    [setSearchParams]
+  );
 
-    const initStudio = async () => {
-      setIsLoading(true);
+  const saveFinding = useCallback(async () => {
+    if (!localFinding) return;
 
-      try {
-        // 1. Metodolojiyi yükle (Eğer boşsa)
-        if (findingSections.length === 0) {
-           await fetchConfig();
-        }
-
-        if (!isMounted) return;
-
-        if (id === 'new') {
-          // --- YENİ KAYIT ---
-          const dynamicFields = findingSections.reduce((acc, section) => {
-            acc[section.key] = '';
-            return acc;
-          }, {} as Record<string, any>);
-
-          const newTemplate: ComprehensiveFinding = {
-            id: 'new',
-            title: '',
-            status: 'draft',
-            impact: 1,
-            likelihood: 1,
-            control_effectiveness: 1,
-            audit_framework: 'STANDARD',
-            evidence_files: [],
-            related_items: [],
-            activity_log: [],
-            ...dynamicFields,
-          };
-
-          setFinding(newTemplate);
-
-        } else {
-          // --- MEVCUT KAYIT: SUPABASE'DEN ÇEK ---
-          try {
-            const foundInDB = await fetchFinding(id);
-            if (foundInDB) {
-              setFinding(sanitizeData(foundInDB));
-            } else {
-              toast.error('Bulgu bulunamadı. Ana sayfaya yönlendiriliyorsunuz...');
-              setTimeout(() => navigate('/execution/findings'), 2000);
-              return;
-            }
-          } catch (dbError: any) {
-            console.error('Database Fetch Error:', dbError);
-            toast.error(`Veritabanı hatası: ${dbError.message || 'Bilinmeyen hata'}`);
-          }
-        }
-
-      } catch (error) {
-        console.error("Finding Studio Init Error:", error);
-        toast.error('Veri yüklenirken bir hata oluştu.');
-      } finally {
-        if (isMounted) setIsLoading(false);
+    if (id === 'new') {
+      const engagementId = searchParams.get('engagement_id');
+      if (!engagementId) {
+        toast.error(
+          'Bulgu oluşturmak için bir Denetim Görevi seçilmelidir. Lütfen Denetim Yürütme sayfasından bu sayfaya gidin.'
+        );
+        return;
       }
-    };
+      createMutation.mutate({ finding: localFinding, engagementId });
+    } else {
+      updateMutation.mutate({ id: id!, updates: localFinding });
+    }
+  }, [localFinding, id, searchParams, createMutation, updateMutation]);
 
-    initStudio();
+  // === HESAPLAMALAR ===
 
-    return () => { isMounted = false; };
-  }, [id, navigate, sanitizeData, fetchConfig]);
-
-
-  // --- Logic: Risk Engine Calculation ---
   const riskCalculation = useMemo(() => {
-    if (!finding) return { score: 0, level: 'Low', color: 'gray', isVetoed: false };
-
-    const simpleScore = (finding.impact || 1) * (finding.likelihood || 1);
+    if (!localFinding) return { score: 0, level: 'Low', color: 'gray', isVetoed: false };
+    const simpleScore = (localFinding?.impact ?? 1) * (localFinding?.likelihood ?? 1);
     const isVetoed = simpleScore > 20;
-    
     return {
       score: simpleScore,
       level: simpleScore > 20 ? 'Critical' : simpleScore > 10 ? 'High' : 'Low',
       color: simpleScore > 20 ? 'red' : 'green',
-      isVetoed
+      isVetoed,
     };
-  }, [finding?.impact, finding?.likelihood]);
+  }, [localFinding?.impact, localFinding?.likelihood]);
 
-
-  // --- Logic: SLA Calculator ---
   const slaStatus = useMemo((): SLAStatus => {
-    if (!finding?.target_date || !isValid(parseISO(finding.target_date))) {
-      return { daysRemaining: null, isOverdue: false, label: 'Termin Yok', statusColor: 'gray' };
+    const targetDate = localFinding?.target_date;
+    if (!targetDate || !isValid(parseISO(targetDate))) {
+      return { daysRemaining: null, isOverdue: false, label: 'Termin Yok', statusColor: 'green' };
     }
-
     const today = new Date();
-    const target = parseISO(finding.target_date);
+    const target = parseISO(targetDate);
     const diff = differenceInDays(target, today);
     const isOverdue = diff < 0;
-
     let color: SLAStatus['statusColor'] = 'green';
     if (isOverdue) color = 'red';
     else if (diff <= 3) color = 'amber';
-
     return {
       daysRemaining: diff,
       isOverdue,
       label: isOverdue ? `${Math.abs(diff)} Gün Gecikmeli` : `${diff} Gün Kaldı`,
-      statusColor: color
+      statusColor: color,
     };
-  }, [finding?.target_date]);
+  }, [localFinding?.target_date]);
 
-
-  // --- Actions ---
-
-  const updateField = useCallback((field: string, value: any) => {
-    setFinding((prev) => {
-      if (!prev) return null;
-      return { ...prev, [field]: value };
-    });
-    setHasUnsavedChanges(true);
-  }, []);
-
-  const setMode = useCallback((newMode: FindingMode) => {
-    setSearchParams({ mode: newMode });
-  }, [setSearchParams]);
-
-  const saveFinding = useCallback(async () => {
-    if (!finding) return;
-    setIsSaving(true);
-
-    try {
-      if (id === 'new') {
-        const engagementId = searchParams.get('engagement_id');
-
-        if (!engagementId) {
-          toast.error('Bulgu oluşturmak için bir Denetim Görevi seçilmelidir. Lütfen Denetim Yürütme sayfasından bu sayfaya gidin.');
-          setIsSaving(false);
-          return;
-        }
-
-        const createdFinding = await createFinding(finding, engagementId);
-
-        setHasUnsavedChanges(false);
-        toast.success('Yeni bulgu başarıyla oluşturuldu!');
-
-        navigate(`/findings/${createdFinding.id}?mode=${mode}`, { replace: true });
-        setFinding(createdFinding);
-
-      } else {
-        // --- MEVCUT KAYIT GÜNCELLE ---
-        const updatedFinding = await updateFinding(id, finding);
-
-        setHasUnsavedChanges(false);
-        setFinding(updatedFinding);
-        toast.success('Değişiklikler başarıyla kaydedildi.');
-      }
-
-    } catch (err: any) {
-      console.error('Save Finding Error:', err);
-      toast.error(err.message || 'Kaydetme başarısız oldu.');
-    } finally {
-      setIsSaving(false);
-    }
-  }, [finding, id, mode, navigate, searchParams]);
+  const isSaving = createMutation.isPending || updateMutation.isPending;
+  const isLoading = isQueryLoading || (id === 'new' ? false : !localFinding);
 
   return {
-    finding,
+    finding: localFinding,
     mode,
     riskScore: riskCalculation.score,
     riskLevel: riskCalculation.level,
@@ -274,7 +275,7 @@ export const useFindingStudio = () => {
     slaStatus,
     isLoading,
     isSaving,
-    hasUnsavedChanges,
+    hasUnsavedChanges: false, // React Query handles sync
     userRole: CURRENT_ROLE,
     updateField,
     setMode,
