@@ -44,7 +44,7 @@ CREATE OR REPLACE VIEW engagement_declaration_status AS
 SELECT
   ae.id                                                          AS engagement_id,
   ae.title                                                       AS engagement_title,
-  ae.lead_auditor_id                                             AS auditor_id,
+  ae.assigned_auditor_id                                             AS auditor_id,
   ad.id                                                          AS declaration_id,
   ad.signed_at,
   ad.has_conflict,
@@ -58,7 +58,7 @@ SELECT
 FROM audit_engagements ae
 LEFT JOIN public.auditor_declarations ad
   ON  ad.engagement_id = ae.id
-  AND ad.user_id       = ae.lead_auditor_id
+  AND ad.user_id       = ae.assigned_auditor_id
   AND ad.declaration_type = 'INDEPENDENCE';
 
 -- 6. Yorum
