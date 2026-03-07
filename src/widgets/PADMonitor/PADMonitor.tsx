@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  ShieldAlert, TrendingDown, TrendingUp, AlertTriangle, FileText,
+  ShieldAlert, TrendingDown, TrendingUp, AlertTriangle,
   Building2, ArrowRightLeft, Lock, Loader2, Info
 } from 'lucide-react';
 import clsx from 'clsx';

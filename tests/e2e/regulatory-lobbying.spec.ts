@@ -23,7 +23,7 @@ test.describe('⚖️ REGULATORY LOBBYING AI E2E TEST', () => {
     await page.waitForTimeout(3500);
 
     // Look for the loaded Draft Title and inbox mechanism
-    await expect(page.getByText('Bilgi Sistemleri Tebliği Yönetmeliği')).first().toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Bilgi Sistemleri Tebliği Yönetmeliği').first()).toBeVisible({ timeout: 10000 });
     await expect(page.getByText('Sentinel LLM Devrede')).toBeVisible();
 
     // Look for actual injected rich AI text feedback mapping

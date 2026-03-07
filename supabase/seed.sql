@@ -8698,6 +8698,91 @@ INSERT INTO public.non_compliant_income (id, tenant_id, income_source, detection
 ON CONFLICT (id) DO NOTHING;
 
 -- =============================================================================
+-- WAVE 83 SEED: Shadow Board & AI Strategy Simulator
+-- =============================================================================
+
+INSERT INTO public.simulated_strategies (id, tenant_id, strategy_name, description, simulation_date, capital_allocation, status) VALUES
+  (
+    'sim83000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Tarım Kredilerinde Büyüme (Q3-Q4)',
+    'İklim krizi beklentileri doğrultusunda çiftçilere sağlanan uzun vadeli tarım kredilerinde agresif hacim artırma senaryosu.',
+    '2026-03-05',
+    350.00,
+    'Completed'
+  ),
+  (
+    'sim83000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Yurtdışı Şube Ağı Genişlemesi (MENA)',
+    'Birleşik Arap Emirlikleri ve Suudi Arabistan bölgelerinde eş zamanlı fiziki şube ve dijital on-boarding açılımı.',
+    '2026-03-06',
+    1200.00,
+    'Simulating'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.strategy_risk_scores (id, tenant_id, strategy_id, risk_category, projected_impact, impact_direction, confidence_score) VALUES
+  (
+    'srk83000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'sim83000-0000-0000-0000-000000000001',
+    'NPL Riski (Takipteki Alacaklar)',
+    12.50,
+    'Negative',
+    89.00
+  ),
+  (
+    'srk83000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'sim83000-0000-0000-0000-000000000001',
+    'Sektörel Kârlılık Oranı',
+    4.20,
+    'Positive',
+    75.00
+  ),
+  (
+    'srk83000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'sim83000-0000-0000-0000-000000000001',
+    'Karbon Ayak İzi Uyumu (ESG)',
+    -2.00,
+    'Neutral',
+    60.00
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.ai_board_responses (id, tenant_id, strategy_id, avatar_role, avatar_name, response, sentiment) VALUES
+  (
+    'aib83000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'sim83000-0000-0000-0000-000000000001',
+    'Gölge Risk Komitesi',
+    'Sentinel RiskEngine v4',
+    'Kuraklık verilerindeki sapmalar incelendi. İklim krizinin gecikmeli etkisiyle hasat döngülerinin kırılma ihtimali yüksek. Model, bu bölgedeki NPL (Batık Kredi) riskinin mevcut tahminlerden %12 ila %15 daha fazla olabileceğini öngörüyor.',
+    'Negative'
+  ),
+  (
+    'aib83000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'sim83000-0000-0000-0000-000000000001',
+    'Gölge Satış ve Büyüme Komitesi',
+    'Sentinel SalesMatrix',
+    'Ancak hükümetin açıkladığı uzun vadeli tarım subvansiyon teşvikleri (TKDK destekleri) temerrüt ihtimalini ciddi oranda hedge edecektir. Rakiplerden pazar payı çalmak için ideal bir zaman aralığındayız.',
+    'Positive'
+  ),
+  (
+    'aib83000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'sim83000-0000-0000-0000-000000000001',
+    'Gölge Yönetim Kurulu Başkanı',
+    'Sentinel ChairmanX',
+    'Satış tarafının teşvik beklentisi mantıklı olsa da, risk motorunun NPL uyarısını göz ardı edemeyiz. Kararım: Krediler onaylansın, fakat %30''luk dilimi Sendikasyon poliçesi (Risk Sigortası) kapsamına alınarak execute edilsin.',
+    'Cautious'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
 -- WAVE 71 SEED: BoD Evaluation & Skill Matrix
 -- =============================================================================
 
@@ -9211,3 +9296,206 @@ INSERT INTO public.bank_feedback_reports (id, tenant_id, draft_id, report_title,
   )
 ON CONFLICT (id) DO NOTHING;
 
+-- =============================================================================
+-- WAVE 82 SEED: Immutable Evidence Vault
+-- =============================================================================
+
+-- 1. immutable_evidences
+INSERT INTO public.immutable_evidences (id, tenant_id, evidence_name, category, uploader_email, file_size_bytes, file_mime_type, original_hash, ipfs_cid, blockchain_network, tx_hash, is_verified) VALUES
+  (
+    'evd00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Şüpheli İşlem Dekontu (PDF)',
+    'Fraud',
+    'denetim@sentinel.bank',
+    1245000,
+    'application/pdf',
+    '8f43b35064e43ab7eebd2e9fcf0e5138bc4f4f728dc9053cc2debe1ea32a514d',
+    'QmYKJQwqJxwLg1gYfA9R7XZUo3K1zJ7bXZUo3K1zJ7b',
+    'Ethereum_Quorum',
+    '0xabc1234567890defabcdef1234567890defabcde1234567890defabcdef123',
+    true
+  ),
+  (
+    'evd00000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Çeyreklik Yönetim Kurulu Onaylı Denetim Raporu',
+    'Audit_Report',
+    'cae@sentinel.bank',
+    4560000,
+    'application/pdf',
+    'f3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4',
+    NULL,
+    'Polygon',
+    NULL,
+    false
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. blockchain_tx_logs
+INSERT INTO public.blockchain_tx_logs (id, tenant_id, evidence_id, action, tx_status, block_number, gas_used, executed_by) VALUES
+  (
+    'btx00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'evd00000-0000-0000-0000-000000000001',
+    'SEAL_EVIDENCE',
+    'CONFIRMED',
+    15500123,
+    0.012,
+    'Sentinel_SmartContract_Relayer'
+  ),
+  (
+    'btx00000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'evd00000-0000-0000-0000-000000000002',
+    'SEAL_EVIDENCE',
+    'PENDING',
+    NULL,
+    NULL,
+    'CAE_Wallet_0x11'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 85 SEED: Employee Stress & Fraud Correlation Engine
+-- =============================================================================
+
+-- 1. employee_financial_stress (Anonimleştirilmiş finansal stres indikatörleri)
+INSERT INTO public.employee_financial_stress (id, tenant_id, anon_employee_id, department, job_title, salary_garnishment, credit_score_drop, lifestyle_mismatch, financial_stress_score) VALUES
+  (
+    'efs85000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'EMP-1042',
+    'Hazine Yönetimi',
+    'Kıdemli Fon Yöneticisi',
+    true,      -- İcra var
+    true,      -- Kredi skoru düştü
+    false,
+    85.50
+  ),
+  (
+    'efs85000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'EMP-8831',
+    'Bireysel Krediler',
+    'Kredi Onay Yetkilisi',
+    false,
+    false,
+    true,      -- Sosyal medya ihbarı (Maaş / Araç uyumsuzluğu)
+    60.00
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. fraud_triangle_scores (Suiistimal Üçgeni)
+INSERT INTO public.fraud_triangle_scores (id, tenant_id, anon_employee_id, pressure_score, opportunity_score, rationalization_score, total_fraud_risk) VALUES
+  (
+    'fts85000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'EMP-1042',
+    85.50,     -- Yüksek Baskı (İcra)
+    95.00,     -- Yüksek Fırsat (Hazine Yetkileri limit artışı)
+    40.00,     -- Düşük/Orta Haklı Çıkarma
+    82.50      -- Kritik Ağırlıklı Risk
+  ),
+  (
+    'fts85000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'EMP-8831',
+    30.00,
+    75.00,     -- Kredi Onay Fırsatı
+    60.00,     -- Kötü performans değerlendirmesi / İK zıtlaşması
+    52.00
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 3. hr_correlation_alerts (Yapay Zeka Korelasyon Alarmları)
+INSERT INTO public.hr_correlation_alerts (id, tenant_id, anon_employee_id, alert_severity, fraud_vector, description, status) VALUES
+  (
+    'hca85000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'EMP-1042',
+    'CRITICAL',
+    'FON_ZIMMET_RISKI_EMBEZZLEMENT',
+    'Anonim Personel ID EMP-1042. Maaşında banka dışı 3. şahıs icra kesintisi (Finansal Baskı) başlamış bir personelin, aynı dönemde Hazine Fon Yönetim limitlerinin (Fırsat) arttığı tespit edildi. Çok Yüksek Suiistimal (Zimmet) ihtimali.',
+    'OPEN'
+  ),
+  (
+    'hca85000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'EMP-8831',
+    'MEDIUM',
+    'HAYALİ_KREDİ_RISKI_CORRUPTION',
+    'Bireysel kredi tahsis onay yetkilisinin yaşam tarzı-gelir uyuşmazlığı ihbarı (Sosyal Ağ Tarama). İK performans notlarındaki kötüleşme "Haklı Çıkarma" bacağının büyümesine sebep oluyor.',
+    'MONITORING'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+
+-- =============================================================================
+-- WAVE 84 SEED: The Hunter's Guild (Gamification System)
+-- =============================================================================
+
+-- 1. auditor_profiles
+INSERT INTO public.auditor_profiles (id, full_name, title, department, current_level, total_xp, xp_to_next_level, rank_name) VALUES
+  ('gam00000-0000-0000-0000-000000000001', 'Ahmet Yılmaz', 'Kıdemli Uyum Uzmanı', 'Regülasyon & Uyum', 12, 14500, 15000, 'Üstat'),
+  ('gam00000-0000-0000-0000-000000000002', 'Ayşe Demir', 'Baş Hukuk Müşaviri', 'Hukuk Müşavirliği', 15, 21200, 25000, 'Sentinel'),
+  ('gam00000-0000-0000-0000-000000000003', 'Mehmet Öztürk', 'Kıdemli BT Denetçisi', 'Bilgi Sistemleri Denetimi', 9, 8750, 10000, 'Avcı'),
+  ('gam00000-0000-0000-0000-000000000004', 'Zeynep Kaya', 'Kıdemli İç Denetçi', 'Kurumsal Denetim', 8, 7100, 8000, 'Uzman'),
+  ('gam00000-0000-0000-0000-000000000005', 'Caner Tunç', 'Siber Savunma Mimarı', 'Siber İstihbarat (CTI)', 10, 11200, 12000, 'Tehdit Avcısı')
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. auditor_xp_logs
+INSERT INTO public.auditor_xp_logs (id, auditor_id, action_type, xp_awarded, description, awarded_at) VALUES
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000004', 'CRITICAL_FINDING', 500, 'Kritik Kara Para Aklama (AML) Bulgusu Yakaladı', now() - interval '2 hours'),
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000005', 'ZERO_DAY_PREVENTION', 800, 'Deepfake Biyometrik Vakasını Sıfır Gününde Engelledi', now() - interval '5 hours'),
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000001', 'REG_RESPONSE_APPROVED', 150, 'BDDK Görüş Taslağı Üst Kurul Tarafından Onaylandı', now() - interval '1 day'),
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000003', 'INFRASTRUCTURE_AUDIT', 200, 'Cloud Migration Risk Raporu Teslim Edildi', now() - interval '2 days')
+ON CONFLICT (id) DO NOTHING;
+
+-- 3. earned_badges
+INSERT INTO public.earned_badges (id, auditor_id, badge_name, badge_icon, rarity, earned_at) VALUES
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000004', 'Kartal Gözü', 'Eye', 'EPIC', now() - interval '2 hours'),
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000005', 'Sıfır Gün Avcısı', 'ShieldAlert', 'LEGENDARY', now() - interval '5 hours'),
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000001', 'Regülasyon Üstadı', 'Award', 'RARE', now() - interval '1 month'),
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000002', 'Adaletin Kılıcı', 'Swords', 'LEGENDARY', now() - interval '6 months'),
+  (gen_random_uuid(), 'gam00000-0000-0000-0000-000000000003', 'Fiber Optik Prens', 'Zap', 'RARE', now() - interval '3 months')
+ON CONFLICT (id) DO NOTHING;
+
+
+-- ============================================================
+-- Wave 86 Seed: External Regulator Portal & Continuous Assurance
+-- BDDK / TCMB Dış Denetçi Girişleri ve Paylaşılan Klasörler
+-- ============================================================
+
+-- Sürekli Güvence (Continuous Assurance) Raporu Skorları
+INSERT INTO continuous_assurance_reports (
+  report_code, title, category, assurance_score_pct,
+  status, findings_count, is_published, generated_at
+) VALUES
+  ('CA-2026-Q1-CR', 'Kredi Riski (Basel IV Standardı) Güvence Skoru', 'CREDIT_RISK', 95.5, 'GREEN', 2, TRUE, '2026-04-06 09:00:00+03'),
+  ('CA-2026-Q1-LQ', 'Likitide Rasyosu LCR/NSFR İzleme Raporu', 'LIQUIDITY', 88.0, 'AMBER', 5, TRUE, '2026-04-06 09:15:00+03'),
+  ('CA-2026-Q1-OP', 'Operasyonel Kayıp & İhlal Yönetimi Kontrolü', 'OPERATIONAL_RISK', 98.2, 'GREEN', 0, TRUE, '2026-04-06 09:30:00+03'),
+  ('CA-2026-Q1-IT', 'Bilgi Sistemleri Sızma Testi ve Zafiyet Analizi', 'IT_SECURITY', 72.4, 'RED', 14, TRUE, '2026-04-05 18:00:00+03')
+ON CONFLICT (report_code) DO NOTHING;
+
+-- Dış Denetçilerle Paylaşılan Dosyalar
+INSERT INTO shared_dossiers (
+  dossier_code, title, description, dossier_type,
+  file_url, access_level, expires_at
+) VALUES
+  ('BDDK-DOS-2026-01', 'Q1 Kredi Risk Matrisi ve Maruziyet Tabloları', 'Büyük Ölçekli Kurumsal Kredi Limit Aşımları Raporu', 'AUDIT_EVIDENCE', 's3://sentinel-vault/bddk/q1-credit-risk.pdf', 'CONFIDENTIAL', '2026-06-30 23:59:59+03'),
+  ('TCMB-DOS-2026-02', 'Likitide Acil Durum Eylem Planı (L-AEP)', '2026 Revize Likitide Krizi Simülasyon Senaryoları', 'POLICY_DOC', 's3://sentinel-vault/tcmb/laep-2026.pdf', 'STRICTLY_CONFIDENTIAL', NULL),
+  ('KPMG-DOS-2026-03', 'Yönetim Kurulu Kararları (Q1/2026 Özeti)', 'Sermaye Artırımı ve Yeni Şube Açılış İzinleri', 'BOARD_MINUTES', 's3://sentinel-vault/kpmg/ykk-q1.pdf', 'STRICTLY_CONFIDENTIAL', '2026-12-31 23:59:59+03')
+ON CONFLICT (dossier_code) DO NOTHING;
+
+-- Murakıp / Denetçi Erişim ve İşlem Logları (Audit the Auditor)
+INSERT INTO regulator_access_logs (
+  regulator_name, regulator_agency, action_type, target_resource, ip_address, access_time, is_success
+) VALUES
+  ('Hasan B. (BDDK Murakıp)', 'BDDK', 'LOGIN', 'System Auth', '193.10.150.12', '2026-04-06 10:05:00+03', TRUE),
+  ('Hasan B. (BDDK Murakıp)', 'BDDK', 'VIEW_DOSSIER', 'BDDK-DOS-2026-01 (Q1 Kredi Risk)', '193.10.150.12', '2026-04-06 10:08:24+03', TRUE),
+  ('Hasan B. (BDDK Murakıp)', 'BDDK', 'DOWNLOAD_DOSSIER', 'BDDK-DOS-2026-01 (Q1 Kredi Risk)', '193.10.150.12', '2026-04-06 10:15:30+03', TRUE),
+  ('Zeynep K. (KPMG Dış Denetim)', 'KPMG', 'LOGIN', 'System Auth', '212.156.90.8', '2026-04-06 11:20:00+03', TRUE),
+  ('Zeynep K. (KPMG Dış Denetim)', 'KPMG', 'VIEW_DASHBOARD', 'Continuous Assurance Overview', '212.156.90.8', '2026-04-06 11:21:40+03', TRUE),
+  ('Anonim (TCMB VPN)', 'TCMB', 'LOGIN', 'System Auth', '195.140.230.10', '2026-04-06 03:15:00+03', FALSE) -- Başarısız yetkisiz giriş denemesi
+ON CONFLICT DO NOTHING;

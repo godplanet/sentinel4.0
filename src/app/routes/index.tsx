@@ -42,6 +42,7 @@ import { FindingDetailPage as AuditorFindingDetailPage } from '@/pages/auditor/F
 import { AuditeePortalPage } from '@/pages/auditee-portal/AuditeePortalPage';
 import SmartContractPage from '@/pages/execution/SmartContractPage';
 import ZakatLedgerPage from '@/pages/execution/ZakatLedgerPage';
+import ShadowBoardPage from '@/pages/strategy/ShadowBoardPage';
 
 import LoginPage from '@/pages/auth/LoginPage';
 import NotFoundPage from '@/pages/error/NotFoundPage';
@@ -69,6 +70,7 @@ import WhistleblowerPage from '@/pages/governance/WhistleblowerPage';
 import CulturePulsePage from '@/pages/governance/CulturePulsePage';
 import BoardEvaluationPage from '@/pages/governance/BoardEvaluationPage';
 import InsiderRadarPage from '@/pages/governance/InsiderRadarPage';
+import FraudRadarPage from '@/pages/governance/FraudRadarPage';
 import OraclePage from '@/pages/oracle';
 
 import QuantPage from '@/pages/quant';
@@ -121,6 +123,7 @@ import NeuralMapPage from '@/pages/strategy/NeuralMapPage';
 import FieldAgentPage from '@/pages/execution/FieldAgentPage';
 import FatwaGPTPage from '@/pages/shariah/FatwaGPTPage';
 import AcademyPage from '@/pages/academy';
+import GamificationPage from '@/pages/academy/GamificationPage';
 import PlaybookPage from '@/pages/playbook';
 import ActivityReportsPage from '@/pages/reporting/ActivityReportsPage';
 import RCSAPage from '@/pages/rcsa';
@@ -170,6 +173,7 @@ export const AppRoutes = () => {
       <Route path="/strategy/risk-lab" element={<ProtectedRoute><RiskLaboratoryPage /></ProtectedRoute>} />
       <Route path="/strategy/risk-simulator" element={<ProtectedRoute><RiskSimulationPage /></ProtectedRoute>} />
       <Route path="/strategy/neural-map" element={<ProtectedRoute><NeuralMapPage /></ProtectedRoute>} />
+      <Route path="/strategy/shadow-board" element={<ProtectedRoute><ShadowBoardPage /></ProtectedRoute>} />
       <Route path="/risk/appetite" element={<ProtectedRoute><RiskAppetitePage /></ProtectedRoute>} />
 
       <Route path="/governance/board" element={<ProtectedRoute><BoardReportingPage /></ProtectedRoute>} />
@@ -180,6 +184,7 @@ export const AppRoutes = () => {
       <Route path="/governance/culture-pulse" element={<ProtectedRoute><CulturePulsePage /></ProtectedRoute>} />
       <Route path="/governance/board-evaluation" element={<ProtectedRoute><BoardEvaluationPage /></ProtectedRoute>} />
       <Route path="/governance/insider-radar" element={<ProtectedRoute><InsiderRadarPage /></ProtectedRoute>} />
+      <Route path="/governance/fraud-radar" element={<ProtectedRoute><FraudRadarPage /></ProtectedRoute>} />
       <Route path="/governance/vault" element={<ProtectedRoute><GovernanceVaultPage /></ProtectedRoute>} />
       <Route path="/governance/charter" element={<ProtectedRoute><GovernancePage /></ProtectedRoute>} />
 
@@ -270,6 +275,7 @@ export const AppRoutes = () => {
       <Route path="/compliance/lobbying" element={<ProtectedRoute><RegulatoryLobbyPage /></ProtectedRoute>} />
       <Route path="/shariah/fatwa-gpt" element={<ProtectedRoute><FatwaGPTPage /></ProtectedRoute>} />
       <Route path="/academy" element={<ProtectedRoute><AcademyPage /></ProtectedRoute>} />
+      <Route path="/academy/gamification" element={<ProtectedRoute><GamificationPage /></ProtectedRoute>} />
       <Route path="/playbook" element={<ProtectedRoute><PlaybookPage /></ProtectedRoute>} />
 
       <Route path="/tprm" element={<ProtectedRoute><TPRMPage /></ProtectedRoute>} />
