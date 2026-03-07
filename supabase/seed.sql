@@ -6657,3 +6657,1241 @@ INSERT INTO ccm_visual_rules (
     1
   )
 ON CONFLICT (rule_code) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 55 SEED: Root Cause & 5-Whys Analyzer
+-- Kök Neden Analizi ve 5-Neden Ağacı — Örnek Veriler
+-- =============================================================================
+
+INSERT INTO public.root_cause_analyses (
+  id, finding_ref, title, problem_statement, root_cause,
+  category, severity, status, analyst_name,
+  corrective_action, preventive_action
+) VALUES
+  (
+    'rca55000-0000-0000-0000-000000000001',
+    'BLG-2026-0047',
+    'Yetkisiz Erişim — Sunucu Odası Fiziksel Kontrol İhlali',
+    'Sunucu odasına yetkisiz iki kişinin giriş yaptığı tespit edilmiş; kamera kayıtları ve biyometrik log çelişkisi bulunmaktadır.',
+    'Kart okuyucu yazılımının güncel tutulmaması nedeniyle süresi dolmuş kartlar sisteme geçişe izin vermiştir.',
+    'Sistem/BT',
+    'Kritik',
+    'Onaylandı',
+    'Denetçi Ahmet Koç',
+    'Kart okuyucu yazılımı güncellenmiş, süresi dolan tüm kartlar derhal iptal edilmiştir.',
+    'Otomatik kart iptali için 90-gün politikası hayata geçirilecek; yazılım güncelleme zorunluluğu IT süreç dokümanına eklenmiştir.'
+  ),
+  (
+    'rca55000-0000-0000-0000-000000000002',
+    'BLG-2026-0051',
+    'FATF Öneri 16 — Şüpheli İşlem Bildirim Gecikmesi',
+    'MASAK''a iletilmesi gereken şüpheli işlem bildirimleri 72 saat gecikmeyle yapılmış; yasal süre 24 saattir.',
+    'Uyum ekibinin bildirim süreç otomasyonunu manuel takiple yönetmesi ve kritik bildirim eşiğini manuel aşamada atlayan bir tasarım hatası.',
+    'Süreç',
+    'Yüksek',
+    'Tamamlandı',
+    'Denetçi Leyla Şahin',
+    'Bildirim süreci CCM otomasyonuna entegre edilmiştir; 24 saat aşıldığında otomatik eskalasyon devrededir.',
+    'Tüm uyum bildirimleri real-time izleme sistemine taşınacak; el ile müdahale gerektiren adımlar minimize edilecektir.'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.five_whys_steps (
+  id, analysis_id, step_number, why_question, answer,
+  evidence, is_root_cause, contributing_factor, ai_suggestion
+) VALUES
+  -- Analiz 1: Yetkisiz Erişim (rca55000...001) — 5 Neden
+  (
+    'fws55000-0000-0000-0000-000000000001',
+    'rca55000-0000-0000-0000-000000000001', 1,
+    'Neden yetkisiz kişiler sunucu odasına girebildi?',
+    'Biyometrik kart okuyucu süresi dolmuş kartları reddedecek şekilde yapılandırılmamıştı.',
+    'Biyometrik log kayıtları 15:43 ile 15:51 arası 2 geçiş gösteriyor; her iki kartın da son geçerlilik tarihi 2026-02-28.',
+    false,
+    'Yazılım sürüm yönetimi eksikliği',
+    'Kart okuyucu firmware versiyonu ile geçerlilik kontrol modülünü inceleyin.'
+  ),
+  (
+    'fws55000-0000-0000-0000-000000000002',
+    'rca55000-0000-0000-0000-000000000001', 2,
+    'Neden kart okuyucu süresi dolmuş kartı kabul etti?',
+    'Kart okuyucu yazılımı 14 ay boyunca güncellenmemişti; geçerlilik doğrulama modülü bu versiyonda hatalıydı.',
+    'IT varlık yönetim sistemi versiyonu: v2.1.4 (2024-12-01). Güncel versiyon: v3.0.2 (2026-01-20).',
+    false,
+    'IT sistem bakım politikasının uygulanmaması',
+    'Bu güncellemenin neden Bu kadar uzun ertelediğini araştırın.'
+  ),
+  (
+    'fws55000-0000-0000-0000-000000000003',
+    'rca55000-0000-0000-0000-000000000001', 3,
+    'Neden 14 ay boyunca yazılım güncellenmedi?',
+    'BT departmanı güncelleme için değişiklik talebi (Change Request) açmamıştı; periyodik bakım takvimi mevcut değildi.',
+    'ITSM sistemi son 2 yıldaki CR kayıtları tarandı: kart okuyucu için hiç CR bulunamadı.',
+    false,
+    'ITSM süreç kontrolünün yokluğu',
+    'Periyodik bakım takviminin neden oluşturulmadığını sorgulayın.'
+  ),
+  (
+    'fws55000-0000-0000-0000-000000000004',
+    'rca55000-0000-0000-0000-000000000001', 4,
+    'Neden periyodik bakım takvimi oluşturulmamıştı?',
+    'Fiziksel güvenlik cihazları, IT varlık envanterinde "kritik altyapı" kategorisinde tanımlanmamıştı; bu nedenle bakım planlaması kapsamı dışında kalmıştı.',
+    'IT varlık envanteri çıktısı incelendi; kart okuyucular "çevre birimi" olarak sınıflandırılmış.',
+    false,
+    'Varlık sınıflandırma politikası boşluğu',
+    'Bu sınıflandırma politikasının kim tarafından, ne zaman belirlendiğini araştırın.'
+  ),
+  (
+    'fws55000-0000-0000-0000-000000000005',
+    'rca55000-0000-0000-0000-000000000001', 5,
+    'Neden fiziksel güvenlik cihazları kritik varlık olarak sınıflandırılmamış?',
+    'Bilgi güvenliği politikası son 4 yılda güncellenmemiş; ISO 27001:2022 revizyonu ve fiziksel güvenlik kontrollerinin kritiklik kriterleri mevcut politikaya yansıtılmamış.',
+    'Bilgi Güvenliği Politikası son revizyon tarihi: 2022-11-15. ISO 27001:2022 yayım tarihi: 2022-10-25.',
+    true,
+    'Politika yaşam döngüsü yönetimi eksikliği',
+    NULL
+  ),
+  -- Analiz 2: FATF Gecikmesi (rca55000...002) — 4 Neden
+  (
+    'fws55000-0000-0000-0000-000000000006',
+    'rca55000-0000-0000-0000-000000000002', 1,
+    'Neden bildirim 72 saat gecikti?',
+    'Uyum ekibi süpheli işlemi manuel inceleme kuyruğunda 2 gün bekletmiş; otomatik eskalasyon mekanizması devrede değildi.',
+    'CCM sistemi işlem log kaydı: alarm 2026-03-04 09:12, MASAK bildirimi 2026-03-07 09:44.',
+    false,
+    'Manuel süreç yönetimi',
+    'Neden otomatik eskalasyon devre dışındaydı?'
+  ),
+  (
+    'fws55000-0000-0000-0000-000000000007',
+    'rca55000-0000-0000-0000-000000000002', 2,
+    'Neden otomatik eskalasyon mekanizması devrede değildi?',
+    'CCM modülünün bildirim eşiği konfigürasyonu yanlış yapılandırılmıştı; eşik değeri çok yüksek tutulmuştu.',
+    'CCM konfigürasyon dosyası: threshold=5000000 (5 Mn TL). İşlem tutarı: 1.2 Mn TL.',
+    false,
+    'Konfigürasyon yönetimi zayıflığı',
+    'Bu yanlış konfigürasyonun nasıl ve ne zaman oluştuğunu araştırın.'
+  ),
+  (
+    'fws55000-0000-0000-0000-000000000008',
+    'rca55000-0000-0000-0000-000000000002', 3,
+    'Neden eşik değeri bu kadar yüksek tutulmuştu?',
+    'CCM sisteminin ilk kurulumunda MASAK eşiğini bilen uzman danışman çalışmıyordu; eşik değeri varsayılan olarak bırakılmıştı.',
+    'Proje teslim belgesi incelendi; MASAK eşiği konfigürasyonu "ileride yapılacak" olarak not düşülmüş.',
+    false,
+    'Proje teslim kalite kontrolü eksikliği',
+    'Bu "ileride yapılacak" notunun takip mekanizması neydi?'
+  ),
+  (
+    'fws55000-0000-0000-0000-000000000009',
+    'rca55000-0000-0000-0000-000000000002', 4,
+    'Neden "ileride yapılacak" maddesinin takibi yapılmadı?',
+    'Proje kapanışında açık madde takibi için sorumlu atanmamış; uyum ekibi CCM konfigürasyonunun tamamlandığını varsaymış.',
+    'Proje kapanış tutanağında açık madde sorumlu sütunu boş. Uyum ekibi iç yazışmaları incelendi.',
+    true,
+    'Proje yönetim sürecinde hesap verebilirlik boşluğu',
+    NULL
+  )
+ON CONFLICT (id) DO NOTHING;
+
+
+-- =============================================================================
+-- WAVE 53 SEED: Cyber Threat Intelligence & Dark Web Monitor
+-- =============================================================================
+
+INSERT INTO public.cyber_threat_feeds (id, tenant_id, feed_source, threat_type, title, description, severity, status, ioc_type, ioc_value, mitre_tactic, mitre_technique, total_vulnerabilities, affected_systems, confidence_score, threat_actor, detected_at) VALUES
+  (
+    'ctf00001-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'CERT-TR',
+    'RANSOMWARE',
+    'LockBit 3.0 Fidye Yazılımı — Finansal Sektör Hedefli Kampanya',
+    'CERT-TR, Türk bankacılık sektörünü hedef alan aktif LockBit 3.0 fidye yazılımı kampanyası tespit etti. Saldırı vektörü: RDP brute-force + spear-phishing. MITRE T1059 (Command Scripting Interpreter) tekniği kullanılmaktadır.',
+    'CRITICAL',
+    'ACTIVE',
+    'IP',
+    '185.220.101.47',
+    'Execution',
+    'T1059.001',
+    12,
+    ARRAY['core_banking_api','swift_interface','internal_vpn'],
+    91.5,
+    'LockBit Affiliate Group',
+    NOW() - INTERVAL '3 hours'
+  ),
+  (
+    'ctf00001-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'OSINT',
+    'PHISHING',
+    'Sentinel Bank Kimlik Avı Domainleri (Typosquatting)',
+    'Kurumun resmi alan adını taklit eden 3 adet typosquatting domain tespit edildi (sentinel-bank.com.tr, sentinelb4nk.com, sentínel.com). Bu domainler sahte giriş formu barındırmaktadır.',
+    'HIGH',
+    'INVESTIGATING',
+    'DOMAIN',
+    'sentinel-bank.com.tr',
+    'Initial Access',
+    'T1566.002',
+    3,
+    ARRAY['customer_portal','internet_banking'],
+    78.0,
+    'Unknown APT',
+    NOW() - INTERVAL '6 hours'
+  ),
+  (
+    'ctf00001-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'INTERNAL_SIEM',
+    'CREDENTIAL_THEFT',
+    'Servis Hesabı Kimlik Bilgisi Hırsızlığı Şüphesi',
+    'SIEM, bir servis hesabının olağandışı saatlerde (03:00–04:00) core banking sistemine erişim sağladığını tespit etti. Erişim deseni Mimikatz lateral movement ile örtüşmektedir.',
+    'HIGH',
+    'ACTIVE',
+    'HASH',
+    'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4',
+    'Credential Access',
+    'T1003.001',
+    5,
+    ARRAY['core_banking','ldap_server'],
+    82.0,
+    NULL,
+    NOW() - INTERVAL '2 hours'
+  ),
+  (
+    'ctf00001-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'MITRE_ATT&CK',
+    'SUPPLY_CHAIN',
+    'Tedarik Zinciri Riski: 3. Parti Yazılım Otomatik Güncelleme Mekanizması',
+    'Kullanılan muhasebe entegrasyon yazılımının sağlayıcısından bir güvenlik açığı bildirimi alındı. Otomatik güncelleme mekanizması üzerinden DDLL hijacking saldırısı mümkün.',
+    'MEDIUM',
+    'ACTIVE',
+    NULL,
+    NULL,
+    'Defense Evasion',
+    'T1574.002',
+    8,
+    ARRAY['erp_integration','accounting_api'],
+    65.0,
+    NULL,
+    NOW() - INTERVAL '1 day'
+  ),
+  (
+    'ctf00001-0000-0000-0000-000000000005',
+    '11111111-1111-1111-1111-111111111111',
+    'CERT-TR',
+    'DDOS',
+    'DNS Amplifikasyon DDoS Saldırısı Uyarısı',
+    'CERT-TR, Türk finans kurumlarını hedef alan DNS amplifikasyon tabanlı DDoS kampanyasına ilişkin IoC listesi yayımladı. Bant genişliği: 380 Gbps peak.',
+    'HIGH',
+    'CONTAINED',
+    'IP',
+    '91.108.4.0/24',
+    'Impact',
+    'T1498.002',
+    0,
+    ARRAY['internet_gateway','dns_servers','public_api'],
+    88.0,
+    'NoName057(16)',
+    NOW() - INTERVAL '5 hours'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.darkweb_alerts (id, tenant_id, alert_code, title, description, category, severity, status, source_forum, threat_actor_alias, affected_data_types, estimated_records, evidence_snippet, confidence_score, feed_id, detected_at) VALUES
+  (
+    'dwa00001-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'DW-LEAK-001',
+    'Müşteri Veritabanı Sızıntı İddiası — BreachForums',
+    'BreachForums''ta bir tehdit aktörü, finansal kuruma ait 2.4 milyon müşteri kaydını sattığını iddia etti. Sızdırılan verilerin ad, TCKN, IBAN ve telefon numarası içerdiği öne sürüldü. MASAK bildirimi ve KVKK ihlal bildirimi değerlendirme sürecinde.',
+    'DATA_LEAK',
+    'CRITICAL',
+    'ESCALATED',
+    'BreachForums v3',
+    'PhantomSeller_TR',
+    ARRAY['full_name','tc_kimlik','iban','phone','email'],
+    2400000,
+    'Selling fresh Turkish banking customers DB - 2.4M records - IBAN + TCKN included. Price: $12,000 in BTC.',
+    87.0,
+    'ctf00001-0000-0000-0000-000000000003',
+    NOW() - INTERVAL '4 hours'
+  ),
+  (
+    'dwa00001-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'DW-CRED-001',
+    'Çalışan VPN Kimlik Bilgileri Satışı',
+    '""Exploit.in" credential dump listesinde kurumun VPN ağ geçidine ait olduğu düşünülen 47 adet çalışan kullanıcı adı/parola çifti tespit edildi. Aktif erişim riski.',
+    'CREDENTIAL_DUMP',
+    'HIGH',
+    'VALIDATED',
+    'Exploit.in',
+    'CredMaster_RU',
+    ARRAY['vpn_credentials','email','username'],
+    47,
+    'sentinelbank[.]com[.]tr VPN credentials - 47 accounts - valid as of 2026-03-01',
+    92.0,
+    NULL,
+    NOW() - INTERVAL '8 hours'
+  ),
+  (
+    'dwa00001-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'DW-RANSOM-001',
+    'Fidye Yazılımı Kurban Listesi İddiası',
+    'LockBit 3.0 leak sitesinde kuruma ait logo ve alan adı görüntülendi. Ödeme yapılmadığı takdirde 72 saat içinde 28 GB verinin yayımlanacağı tehdidinde bulunuldu.',
+    'RANSOMWARE_LISTING',
+    'CRITICAL',
+    'NEW',
+    'LockBit 3.0 Leak Site',
+    'LockBit Affiliate #447',
+    ARRAY['financial_reports','board_minutes','customer_data'],
+    NULL,
+    'Sentinel Bank - 28GB - Deadline: 72 hours. Payment: 50 BTC.',
+    75.0,
+    'ctf00001-0000-0000-0000-000000000001',
+    NOW() - INTERVAL '1 hour'
+  ),
+  (
+    'dwa00001-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'DW-BRAND-001',
+    'Telegram''da Sahte Müşteri Destek Kanalı',
+    'Kurumun adını ve logosunu kullanan sahte bir Telegram kanalı tespit edildi. Kanal, müşterilerden "hesap doğrulama" bahanesiyle OTP ve şifre istiyor.',
+    'BRAND_ABUSE',
+    'HIGH',
+    'NEW',
+    'Telegram',
+    'Unknown',
+    ARRAY['otp','password','account_number'],
+    NULL,
+    't.me/sentinelbank_destek_tr — Sahte kanal, 1.240 üye',
+    68.0,
+    NULL,
+    NOW() - INTERVAL '12 hours'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 54 SEED: Auto-Deck & Board Presentation Generator
+-- =============================================================================
+
+-- 1. presentation_decks — Kurul Sunumları
+INSERT INTO public.presentation_decks (id, tenant_id, title, subtitle, deck_type, period, status, total_slides, theme, generated_by) VALUES
+  (
+    'pd000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    '2026 Q1 İç Denetim Faaliyet Raporu',
+    'Yönetim Kurulu ve Denetim Komitesi Bilgilendirme Sunumu',
+    'BOARD_REPORT',
+    '2026 Q1',
+    'ready',
+    8,
+    'sentinel',
+    'Auto-Deck AI v4.0'
+  ),
+  (
+    'pd000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'BDDK Denetim Hazırlık Sunumu — 2026',
+    'BDDK Yerinde İnceleme Öncesi Yönetim Brifinci',
+    'AUDIT_COMMITTEE',
+    '2026',
+    'draft',
+    5,
+    'executive',
+    'Auto-Deck AI v4.0'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. slide_blocks — Q1 Sunumu Slaytları
+INSERT INTO public.slide_blocks (id, tenant_id, deck_id, slide_order, slide_type, title, subtitle, body_content, kpi_data, speaker_notes) VALUES
+  (
+    'sb000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'pd000000-0000-0000-0000-000000000001',
+    1,
+    'COVER',
+    '2026 Birinci Çeyrek İç Denetim Faaliyet Raporu',
+    'Yönetim Kurulu Sunumu — 7 Mart 2026',
+    'Teftiş Kurulu Başkanlığı tarafından GIAS 2024 standartları çerçevesinde hazırlanmıştır.',
+    NULL,
+    'Sunumu açarken denetim planına olan bağlılığı ve tamamlanan denetimlerin sayısını vurgulayın.'
+  ),
+  (
+    'sb000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'pd000000-0000-0000-0000-000000000001',
+    2,
+    'EXECUTIVE_SUMMARY',
+    'Yönetici Özeti',
+    'Q1 2026 Temel Bulgular',
+    'Bu çeyrekte 12 denetim görevi tamamlanmış, toplam 47 bulgu tespit edilmiştir. Kritik bulgular derhal Yönetim Kurulu''nun dikkatine sunulmuştur. Otonom iyileştirme kampanyası kapsamında 31 bulgu kapatılmıştır.',
+    '[{"label":"Tamamlanan Denetim","value":"12","trend":"up"},{"label":"Toplam Bulgu","value":"47","trend":"down"},{"label":"Kapatılan Bulgu","value":"31","trend":"up"},{"label":"Genel Not","value":"B+","trend":"up"}]',
+    'Genel not artışını (bir önceki çeyreğe göre B''den B+''ya) özellikle vurgulayın.'
+  ),
+  (
+    'sb000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'pd000000-0000-0000-0000-000000000001',
+    3,
+    'FINDINGS',
+    'Kritik ve Yüksek Riskli Bulgular',
+    'Acil Eylem Gerektiren Konular',
+    'Bulgu 1 — Ayrıcalıklı Erişim Yönetimi (Kritik): Sistem yöneticisi hesapları periyodik incelemeye tabi tutulmamaktadır. Bulgu 2 — Değişim Yönetimi (Yüksek): Yazılım değişikliklerinin yalnızca %45''i onay sürecine tabi.',
+    NULL,
+    'Her bulgu için sorumlu birim ve kapatma tarihini belirtmeyi unutmayın.'
+  ),
+  (
+    'sb000000-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'pd000000-0000-0000-0000-000000000001',
+    4,
+    'KPI',
+    'Denetim Karnesi — Q1 2026',
+    'KERD-2026 Notlama Motoru Çıktıları',
+    NULL,
+    '[{"label":"Ortalama Denetim Notu","value":"B+ (82.4)","trend":"up"},{"label":"SLA Uyum Oranı","value":"%91","trend":"up"},{"label":"Kritik Bulgu Kapatma","value":"%68","trend":"up"},{"label":"Bütçe Kullanımı","value":"%74","trend":"neutral"}]',
+    'Geçen yılın aynı dönemine kıyasla tüm göstergeler iyileşme eğiliminde.'
+  ),
+  (
+    'sb000000-0000-0000-0000-000000000005',
+    '11111111-1111-1111-1111-111111111111',
+    'pd000000-0000-0000-0000-000000000001',
+    5,
+    'RECOMMENDATIONS',
+    'Yönetim Kurulu Kararına Sunulan Öneriler',
+    'GIAS 2024 Standardı Çerçevesinde',
+    '1. Ayrıcalıklı hesap gözden geçirme sürecinin 90 gün içinde tamamlanması. 2. Değişim yönetimi onay oranının %95''e yükseltilmesi için GenelMüdürlük talimatı çıkarılması. 3. Suiistimal tespitinde yapay zeka destekli sürekli denetim altyapısının Q2 itibarıyla aktive edilmesi.',
+    NULL,
+    'Her öneri için sorumlu Genel Müdür Yardımcısını belirtin.'
+  ),
+  (
+    'sb000000-0000-0000-0000-000000000006',
+    '11111111-1111-1111-1111-111111111111',
+    'pd000000-0000-0000-0000-000000000001',
+    6,
+    'CONTENT',
+    'Q2 2026 Denetim Planı',
+    'Önümüzdeki Dönem Öncelikli Alanlar',
+    'Öncelik 1: Dijital Bankacılık ITGC denetimi. Öncelik 2: Bireysel Kredi Tahsis Süreci. Öncelik 3: KVKK Veri İşleme Uyum Denetimi. Öncelik 4: AML/MASAK Kontrol Etkinliği.',
+    NULL,
+    'Risk önceliklendirme matrisine göre hazırlanmıştır.'
+  ),
+  (
+    'sb000000-0000-0000-0000-000000000007',
+    '11111111-1111-1111-1111-111111111111',
+    'pd000000-0000-0000-0000-000000000001',
+    7,
+    'CONTENT',
+    'Bağımsızlık ve Tarafsızlık Beyanı',
+    'GIAS 2024 Std. 2.1 — Bağımsızlık',
+    'Teftiş Kurulu Başkanlığı, raporlama döneminde bağımsızlığını ve tarafsızlığını tam olarak korumuştur. Tüm denetçiler bağımsızlık beyanlarını imzalamıştır. Herhangi bir kısıtlama veya kapsam dışı bırakma sınırı bulunmamaktadır.',
+    NULL,
+    'Denetim komitesine direkt raporlama yapısının altını çizin.'
+  ),
+  (
+    'sb000000-0000-0000-0000-000000000008',
+    '11111111-1111-1111-1111-111111111111',
+    'pd000000-0000-0000-0000-000000000001',
+    8,
+    'CLOSING',
+    'Sorular ve Kapanış',
+    'Teftiş Kurulu Başkanlığı',
+    'Sunumun tamamı için teşekkür ederiz. Denetim Komitesi''nin soru ve görüşleri için hazırız. Bir sonraki brifing: Q2 2026 sonunda.',
+    NULL,
+    'Yönetim Kurulu kararlarını kayıt altına almayı unutmayın.'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- ============================================================
+-- Wave 56 Seed: ORM Loss Database & Fines Tracker
+-- Basel II uyumlu operasyonel kayıp olayları ve cezalar
+-- ============================================================
+
+INSERT INTO operational_losses (
+  id, event_code, event_date, discovery_date, event_type, risk_category,
+  business_line, department, description,
+  gross_loss, recovery_amount, insurance_recovery,
+  status, provisioning_pct, root_cause, control_failure,
+  bddk_reportable, reported_to_bddk, report_deadline
+) VALUES
+  (
+    'oooo0001-loss-0000-0000-000000000001',
+    'ORM-2025-0041',
+    '2025-10-15', '2025-10-18',
+    'INTERNAL_FRAUD', 'OPERATIONAL',
+    'RETAIL_BANKING', 'Şube Operasyonları',
+    'İzmir Şubesi nakit kasasından yetkisiz para transferi. Güvenlik kamerası kaydı ve muhasebe mutabakatı ile tespit edilmiştir. İlgili personel hakkında cezai işlem başlatılmıştır.',
+    850000.00, 620000.00, 0.00,
+    'LITIGATED', 70,
+    'Yetersiz denetim ve görev ayrımı ihlali',
+    'Kasa muabere kontrollerinin aylık yerine günlük yapılmaması',
+    TRUE, TRUE, '2025-11-15'
+  ),
+  (
+    'oooo0001-loss-0000-0000-000000000002',
+    'ORM-2026-0003',
+    '2026-01-07', '2026-01-08',
+    'EXTERNAL_FRAUD', 'OPERATIONAL',
+    'DIGITAL_BANKING', 'Dijital Bankacılık',
+    'Sosyal mühendislik saldırısı sonucunda 34 müşteri hesabından yetkisiz EFT. Saldırganlar müşterilere banka çalışanı gibi telefon açarak hesap bilgilerini elde etmiştir.',
+    1240000.00, 980000.00, 210000.00,
+    'PROVISIONED', 50,
+    'Telefon doğrulama sisteminin yetersizliği',
+    'Çok faktörlü kimlik doğrulama zorunlu kılınmamış',
+    TRUE, FALSE, '2026-02-07'
+  ),
+  (
+    'oooo0001-loss-0000-0000-000000000003',
+    'ORM-2026-0007',
+    '2026-01-22', '2026-01-23',
+    'BUSINESS_DISRUPTION', 'OPERATIONAL',
+    'CORPORATE_FINANCE', 'Sistem ve Teknoloji',
+    'Core Banking sistemi güncelleme sırasında 6 saatlik hizmet kesintisi. Kurumsal müşterilere yapılması gereken 2.4 milyar TL tutarındaki ödeme işlemi gecikmiştir.',
+    380000.00, 0.00, 380000.00,
+    'CLOSED', 100,
+    'Yazılım güncelleme prosedürü yetersizliği',
+    'Test ortamında gözden kaçan kritik bağımlılık hatası',
+    FALSE, FALSE, NULL
+  ),
+  (
+    'oooo0001-loss-0000-0000-000000000004',
+    'ORM-2026-0011',
+    '2026-02-03', '2026-02-05',
+    'REGULATORY_NON_COMPLIANCE', 'OPERATIONAL',
+    'ALL_LINES', 'Uyum Birimi',
+    'BDDK ICAAP raporunun yasal süresinde sunulmaması. Raporlama gecikme gerekçesi otomatik sistem alarmının e-posta sistemine iletilmemesinden kaynaklanmaktadır.',
+    500000.00, 0.00, 0.00,
+    'CLOSED', 100,
+    'Raporlama takvimi otomasyonunun başarısız olması',
+    'İkincil (backup) bildirim mekanizmasının mevcut olmaması',
+    TRUE, TRUE, '2026-02-20'
+  ),
+  (
+    'oooo0001-loss-0000-0000-000000000005',
+    'ORM-2026-0019',
+    '2026-02-28', '2026-03-01',
+    'EXECUTION_DELIVERY', 'OPERATIONAL',
+    'TREASURY', 'Hazine',
+    'Repo işleminde hata tutarı yanlış girildi. İşlem miktarı 10M TL yerine 100M TL olarak konfirme edildi. Aynı gün düzeltme yapıldı ancak spread farkı zararı oluştu.',
+    125000.00, 0.00, 0.00,
+    'CLOSED', 100,
+    'Veri giriş doğrulama kontrolünün yetersizliği',
+    '4-Göz prensibinin yüksek tutarlı işlemlerde uygulanmaması',
+    FALSE, FALSE, NULL
+  ),
+  (
+    'oooo0001-loss-0000-0000-000000000006',
+    'ORM-2026-0024',
+    '2026-03-05', '2026-03-06',
+    'CLIENTS_PRODUCTS', 'OPERATIONAL',
+    'WEALTH_MANAGEMENT', 'Özel Bankacılık',
+    'Müşteriye uygunsuz finansal ürün satışı (mis-selling). Risk profili düşük olan emekli müşteriye yüksek volatiliteli yapılandırılmış ürün satılması.',
+    320000.00, 0.00, 0.00,
+    'UNDER_REVIEW', 30,
+    'Uygunluk testi (suitability assessment) prosedür ihlali',
+    'Satış temsilcisi eğitim ve denetim eksikliği',
+    TRUE, FALSE, '2026-04-05'
+  )
+ON CONFLICT (event_code) DO NOTHING;
+
+-- İdari Para Cezaları
+INSERT INTO regulatory_fines (
+  id, fine_code, related_loss_id, regulator, penalty_type,
+  subject, legal_basis, fine_amount, currency,
+  imposed_date, payment_deadline, paid_date, paid_amount,
+  status, is_appealed
+) VALUES
+  (
+    'pppp0001-fine-0000-0000-000000000001',
+    'FINE-BDDK-2026-001',
+    'oooo0001-loss-0000-0000-000000000004',
+    'BDDK', 'ADMINISTRATIVE',
+    'ICAAP Raporlama Gecikmesi İdari Para Cezası',
+    '5411 Sayılı Bankacılık Kanunu Md. 68/3 — Düzenleyici Raporlama Yükümlülüğü',
+    500000.00, 'TRY',
+    '2026-02-20', '2026-03-20', '2026-03-15', 500000.00,
+    'PAID', FALSE
+  ),
+  (
+    'pppp0001-fine-0000-0000-000000000002',
+    'FINE-KVKK-2026-001',
+    NULL,
+    'KVKK', 'ADMINISTRATIVE',
+    'Müşteri Kişisel Verisi İşleme İhlali Cezası — Açık Rıza Eksikliği',
+    '6698 Sayılı KVKK Md. 18 — Kabahatler',
+    250000.00, 'TRY',
+    '2026-01-15', '2026-02-28', NULL, 0.00,
+    'CONTESTED', TRUE
+  ),
+  (
+    'pppp0001-fine-0000-0000-000000000003',
+    'FINE-MASAK-2025-003',
+    'oooo0001-loss-0000-0000-000000000001',
+    'MASAK', 'ADMINISTRATIVE',
+    'Şüpheli İşlem Bildirim Yükümlülüğü Gecikmesi',
+    '5549 Sayılı MASAK Kanunu Md. 16 — İdari Para Cezaları',
+    180000.00, 'TRY',
+    '2025-12-01', '2026-01-01', '2025-12-28', 180000.00,
+    'PAID', FALSE
+  ),
+  (
+    'pppp0001-fine-0000-0000-000000000004',
+    'FINE-BDDK-2026-002',
+    'oooo0001-loss-0000-0000-000000000006',
+    'BDDK', 'ADMINISTRATIVE',
+    'Uygunsuz Ürün Satışı — MiFID II Benzeri Uygunluk Testi İhlali',
+    'BDDK Finansal Tüketici Koruma Yönetmeliği Md. 12',
+    420000.00, 'TRY',
+    '2026-03-07', '2026-04-07', NULL, 0.00,
+    'UNPAID', FALSE
+  )
+ON CONFLICT (fine_code) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 55 SEED: Root Cause & 5-Whys Analyzer
+-- =============================================================================
+-- Örnek: "Yetkisiz Erişim Bulgusu" için 5-Neden derinlemesine analizi
+-- =============================================================================
+
+INSERT INTO public.root_cause_analyses
+  (id, linked_entity_type, linked_entity_id, title, method, status,
+   problem_statement, root_cause_summary, created_by_name)
+VALUES
+  (
+    'rca00001-0000-0000-0000-000000000001',
+    'finding',
+    '00000000-0000-0000-0000-000000000001',   -- placeholder finding ID
+    'Yetkisiz Sistem Erişimi — Core Banking Yönetici Paneli',
+    'five_whys',
+    'Tamamlandı',
+    'Bir junior back-office kullanıcısı, yetki sınırlarını aşarak Core Banking Yönetici Paneline erişebilmiş ve müşteri limitlerini değiştirmiştir. Olay, CyberArk log anomali alarmı ile tespit edilmiştir.',
+    'IAM sisteminde role-based access control (RBAC) politikalarının 6 aylık erişim belgelendirme döngüsünde gözden geçirilmemesi; bu süreçten sorumlu Bilgi Güvenliği Koordinatörü pozisyonunun 3 aydır boş bırakılması.',
+    'Zeynep Aydın (CAE · Kıdemli Denetçi)'
+  ),
+  (
+    'rca00001-0000-0000-0000-000000000002',
+    'crisis_event',
+    'ce000001-0000-0000-0000-000000000001',
+    'Veri Merkezi A Kesintisi — Altyapı Arıza Kök Nedeni',
+    'five_whys',
+    'Devam Ediyor',
+    'Birincil veri merkezinde UPS ünitesinin beklenmedik çöküşü ana güç kesintisine yol açmıştır. Olay periyodik UPS bakım kaydında gözden kaçan kapasite uyarısı ile ilişkilidir.',
+    NULL,
+    'Ahmet Yılmaz (BT Direktörü)'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 5-Neden Adımları: Yetkisiz Erişim (rca00001...001)
+INSERT INTO public.five_whys_steps
+  (id, analysis_id, step_number, why_question, answer, evidence, is_root_cause, contributing_factor)
+VALUES
+  (
+    'fws00001-0000-0000-0000-000000000001',
+    'rca00001-0000-0000-0000-000000000001',
+    1,
+    'Neden #1: Kullanıcı Core Banking Yönetici Paneline erişebildi?',
+    'Kullanıcının profili "Back-Office Extended" rolüne atanmıştı ve bu rol, yapılandırma hatası nedeniyle Yönetici Paneli iznini içeriyordu.',
+    'IAM Log #CBA-2026-0301-7742 — CyberArk Session: BO_USER_4412',
+    false,
+    ''
+  ),
+  (
+    'fws00001-0000-0000-0000-000000000002',
+    'rca00001-0000-0000-0000-000000000001',
+    2,
+    'Neden #2: "Back-Office Extended" rolü neden yönetici iznini içeriyordu?',
+    'Yaklaşık 18 ay önce bir proje teslim aciliyetinde geçici yetki verilmiş; teslim sonrası bu ekleme kaldırılmamıştır.',
+    'JIRA Ticket: IAM-2024-0879 — "Geçici Yetki Genişletme" etiketi, kapatma tarihi boş.',
+    false,
+    ''
+  ),
+  (
+    'fws00001-0000-0000-0000-000000000003',
+    'rca00001-0000-0000-0000-000000000001',
+    3,
+    'Neden #3: Geçici yetkiler neden zamanında geri alınmadı?',
+    'IAM sisteminde geçici erişim bitişini otomatik olarak revokeeden bir mekanizma (expiry-date alanı) yapılandırılmamış.',
+    'IAM Panel Screenshot: expiry_date = NULL — 1.247 aktif geçici yetki kaydından 834ünde expiry_date boş.',
+    false,
+    ''
+  ),
+  (
+    'fws00001-0000-0000-0000-000000000004',
+    'rca00001-0000-0000-0000-000000000001',
+    4,
+    'Neden #4: IAM sistemi neden otomatik expiry özelliğiyle yapılandırılmadı?',
+    'RBAC politikaları son 6 ayda periyodik erişim incelemesine (periodic access review) tabi tutulmamış; bu incelemeyi yönetecek Bilgi Güvenliği Koordinatörü pozisyonu 3 aydır boş.',
+    'İK Kayıtları: BGYS-Koordinatör pozisyonu — 2025-11-30 istifa, yerine atama yapılmadı.',
+    false,
+    ''
+  ),
+  (
+    'fws00001-0000-0000-0000-000000000005',
+    'rca00001-0000-0000-0000-000000000001',
+    5,
+    'Neden #5 (KÖK NEDEN): Bilgi Güvenliği Koordinatörü neden 3 aydır atanmadı?',
+    'Bilgi Güvenliği bütçesi 2025 konsolidasyonunda %20 kısıntıya uğradı. Yönetim, kritik güvenlik rollerinin önceliklendirilmesi yerine kadroyu dondurdu. BGYS süreçleri otomasyon olmaksızın tek kişiye bağımlıydı.',
+    'YK Bütçe Kararı No: 2025/BTC-041 — BT kadro dondurma kararı. BGYS proses haritası: tek sahip riski tespit edildi.',
+    true,
+    'Yönetim & Bütçe'
+  ),
+  -- 5-Neden Adımları: Veri Merkezi A (rca00001...002) — devam ediyor, 3 adım var
+  (
+    'fws00001-0000-0000-0000-000000000006',
+    'rca00001-0000-0000-0000-000000000002',
+    1,
+    'Neden #1: UPS ünitesi beklenmedik biçimde çöktü?',
+    'UPS batarya kapasitemsi tasarım kapasitesinin %43üne düşmüştü. Eşik aşım uyarısı operasyon ekibine iletilmemişti.',
+    'UPS Monitoring Portal: battery_health=43% — Uyarı eşiği 60% olarak ayarlı ancak eskalasyon akışı kapalı.',
+    false,
+    ''
+  ),
+  (
+    'fws00001-0000-0000-0000-000000000007',
+    'rca00001-0000-0000-0000-000000000002',
+    2,
+    'Neden #2: Batarya kapasite uyarısı operasyon ekibine neden iletilmedi?',
+    'DCIM (Data Center Infrastructure Management) sistemindeki bildirim kuralı 2025 yazılım güncellemesinden sonra devre dışı kalmış.',
+    'DCIM Update Log: v4.2 → v4.3 (2025-08-15) — Alert routing kural seti reset edildi.',
+    false,
+    ''
+  ),
+  (
+    'fws00001-0000-0000-0000-000000000008',
+    'rca00001-0000-0000-0000-000000000002',
+    3,
+    'Neden #3: Yazılım güncellemesinden sonra kural seti neden kontrol edilmedi?',
+    'Güncelleme sonrası test prosedürü sadece fonksiyonel testleri kapsıyordu; uyarı/bildirim altyapısı regresyon testine dahil edilmemişti.',
+    'Change Management Ticket: CHG-2025-1104 — Test checklist: bildirim sistemi testi satırı "N/A" olarak işaretlenmiş.',
+    false,
+    ''
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 58 SEED: PQC (Post-Quantum Cryptography) Radar
+-- Kuantum Sonrası Şifreleme Radarı ve Kripto Envanteri — Örnek Veriler
+-- =============================================================================
+
+INSERT INTO public.cryptographic_assets (
+  id, asset_name, system_owner, algorithm, key_size, usage_context,
+  quantum_risk_level, estimated_break_year, target_pqc_algorithm, status, is_agile
+) VALUES
+  (
+    'pqc58000-0000-0000-0000-000000000001',
+    'Mobil Bankacılık API İstemci Anahtarları',
+    'Dijital Kanallar BT',
+    'RSA',
+    2048,
+    'B2C Mobil Uygulama Kimlik Doğrulama (mTLS)',
+    'Yüksek',
+    2029,
+    'ML-KEM (Kyber-768)',
+    'Geçiş Planlandı',
+    false
+  ),
+  (
+    'pqc58000-0000-0000-0000-000000000002',
+    'SWIFT Mesajlaşma İmza Anahtarları',
+    'Uluslararası Operasyonlar BT',
+    'RSA',
+    4096,
+    'Uluslararası Fon Transferi İmzası (MAC)',
+    'Orta',
+    2034,
+    'ML-DSA (Dilithium-3)',
+    'Envanterde',
+    true
+  ),
+  (
+    'pqc58000-0000-0000-0000-000000000003',
+    'Core Banking Veritabanı Şifreleme (TDE)',
+    'Veritabanı Yönetimi',
+    'AES-GCM',
+    256,
+    'Data-at-Rest Şifreleme (Müşteri Verileri)',
+    'Güvenli (PQC)',
+    NULL,
+    'Gerekmiyor (AES-256 Kuantum Güvenli)',
+    'Tamamlandı',
+    true
+  ),
+  (
+    'pqc58000-0000-0000-0000-000000000004',
+    'VPN Gateway Master Secret Key',
+    'Ağ Güvenliği',
+    'IKEv2 / Diffie-Hellman',
+    2048,
+    'Anahtar Paylaşımı (Key Exchange)',
+    'Kritik',
+    2027,
+    'Hybrid Kyber / X25519',
+    'Geçiş Devam Ediyor',
+    false
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.pqc_transition_plans (
+  id, asset_id, phase, description, target_date, status, budget_estimate, assigned_to
+) VALUES
+  -- Mobil Bankacılık Planları (pqc58000...001)
+  (
+    'pqcp5800-0000-0000-0000-000000000001',
+    'pqc58000-0000-0000-0000-000000000001',
+    'Keşif',
+    'Mobil uygulamadaki hardcoded RSA anahtarlarının tespit edilmesi ve envanterin çıkarılması işlemi.',
+    '2025-10-15',
+    'Tamamlandı',
+    15000,
+    'SecOps Ekibi'
+  ),
+  (
+    'pqcp5800-0000-0000-0000-000000000002',
+    'pqc58000-0000-0000-0000-000000000001',
+    'Değerlendirme',
+    'NIST onaylı ML-KEM (Kyber) algoritmasının mobil cihaz (iOS/Android) performans testleri ve batarya tüketim analizleri.',
+    '2026-05-30',
+    'Devam Ediyor',
+    45000,
+    'Mobil Mimari Ekibi'
+  ),
+  (
+    'pqcp5800-0000-0000-0000-000000000003',
+    'pqc58000-0000-0000-0000-000000000001',
+    'Hibrit Test',
+    'Test ortamında RSA-2048 ile ML-KEM\'in hibrit modda (composite key) çalıştırılması ve API Gateway uyumluluğu.',
+    '2026-11-15',
+    'Planlandı',
+    85000,
+    'Mobil Geliştirme'
+  ),
+  
+  -- VPN Gateway Planları (pqc58000...004)
+  (
+    'pqcp5800-0000-0000-0000-000000000004',
+    'pqc58000-0000-0000-0000-000000000004',
+    'Tam Geçiş',
+    'Firewall/VPN vendor update: Yeni firmware ile IKEv2 protokolünde Hybrid Kyber geçişinin tüm veri merkezlerinde uygulanması.',
+    '2025-12-01',
+    'Gecikti',
+    120000,
+    'Ağ Güvenliği Müdürü'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+
+-- =============================================================================
+-- WAVE 57 SEED: AI & LLM Model Risk Management
+-- =============================================================================
+
+-- 1. ai_models_inventory — Yapay Zeka Modelleri Envanteri
+INSERT INTO public.ai_models_inventory (id, tenant_id, model_name, model_type, use_case, vendor, risk_tier, status, business_owner, data_sources, last_review_at) VALUES
+  (
+    'aim00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Kredi Karar Motoru v4.2',
+    'XGBoost',
+    'Bireysel Kredi Skorlama',
+    'In-House',
+    'critical',
+    'active',
+    'Bireysel Krediler Tahsis Birimi',
+    '["KKB Verisi", "Müşteri Demografisi", "Harcama Alışkanlıkları"]',
+    NOW() - INTERVAL '45 days'
+  ),
+  (
+    'aim00000-0000-0000-0000-000000000002',
+    'aim00000-0000-0000-0000-000000000002',
+    'Müşteri Asistanı Chatbot',
+    'LLM',
+    'Kullanıcı Destek ve Sıkça Sorulan Sorular',
+    'OpenAI',
+    'high',
+    'active',
+    'Müşteri Deneyimi Ekibi',
+    '["SSS Veritabanı", "Chat Geçmişi"]',
+    NOW() - INTERVAL '15 days'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- tenant UUID update for second item
+UPDATE public.ai_models_inventory SET tenant_id = '11111111-1111-1111-1111-111111111111' WHERE id = 'aim00000-0000-0000-0000-000000000002';
+
+-- 2. model_bias_tests — Model Test Sonuçları
+INSERT INTO public.model_bias_tests (id, tenant_id, model_id, test_type, status, total_prompts, failed_prompts, findings, metrics) VALUES
+  (
+    'mbt00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'aim00000-0000-0000-0000-000000000001',
+    'BIAS',
+    'fail',
+    15000,
+    3450,
+    'Modelin 35 yaş altı kadın başvuru sahiplerine karşı istatistiksel olarak anlamlı bir ret ön yargısına (%23 sapma) sahip olduğu tespit edilmiştir. İlgili veri setindeki (demografik) dengesizlik kök neden olarak değerlendirilmektedir.',
+    '{"accuracy": 0.88, "demographic_parity": 0.77, "equal_opportunity": 0.65}'
+  ),
+  (
+    'mbt00000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'aim00000-0000-0000-0000-000000000002',
+    'HALLUCINATION',
+    'warning',
+    5000,
+    185,
+    'Sistem, BDDK regülasyonlarına dair sorulan ters köşe senaryo testlerinde %3.7 oranında uydurma kaynak (halüsinasyon) üretmiştir. Hata oranı kabul edilebilir eşik olan %5''in altında olsa da yakından izlenmelidir.',
+    '{"hallucination_rate": 0.037, "context_relevance": 0.94, "answer_faithfulness": 0.91}'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 58 SEED: PQC (Post-Quantum Cryptography) Radar
+-- =============================================================================
+
+-- 1. cryptographic_assets — Kriptografik Envanter
+INSERT INTO public.cryptographic_assets (id, tenant_id, asset_name, algorithm, key_size, quantum_risk, usage_context, owner_dept, status) VALUES
+  (
+    'ca000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Mobil Bankacılık API Anahtarları',
+    'RSA',
+    2048,
+    'critical',
+    'Data in Transit (TLS)',
+    'Dijital Bankacılık Geliştirme',
+    'active'
+  ),
+  (
+    'ca000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Müşteri Veritabanı Şifreleme (TDE)',
+    'AES-GCM',
+    256,
+    'safe',
+    'Data at Rest',
+    'Veritabanı Yönetimi',
+    'active'
+  ),
+  (
+    'ca000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'Kurumsal VPN Bağlantıları',
+    'ECC',
+    256,
+    'high',
+    'Data in Transit',
+    'Ağ Güvenliği',
+    'active'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. pqc_transition_plans — Geçiş Planları
+INSERT INTO public.pqc_transition_plans (id, tenant_id, asset_id, target_algorithm, target_date, budget_usd, status, progress_pct, notes) VALUES
+  (
+    'pqc00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'ca000000-0000-0000-0000-000000000001',
+    'ML-KEM (Kyber-768)',
+    '2026-12-31',
+    150000.00,
+    'planning',
+    15,
+    'RSA-2048 Shor algoritmasına karşı tamamen savunmasızdır. NIST onaylı Kyber algoritmasına geçiş için POC (Proof of Concept) Q3 2026''da başlayacaktır.'
+  ),
+  (
+    'pqc00000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'ca000000-0000-0000-0000-000000000003',
+    'Hybrid (ECC + ML-KEM)',
+    '2027-06-30',
+    80000.00,
+    'testing',
+    40,
+    'Cisco AnyConnect Hybrid testleri devam ediyor. Mevcut donanım performansı izleniyor.'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+
+-- ============================================================
+-- Wave 59 Seed: Greenwashing Detector & Sustainable Finance
+-- Yeşil Tahviller ve Fon Kullanım Sapmaları (Greenwashing İhtimali)
+-- ============================================================
+
+INSERT INTO green_bonds (
+  id, instrument_code, project_name, borrower_name, sector,
+  amount_issued, currency, issue_date, maturity_date,
+  interest_rate, esg_premium_bps, kpi_target, spo_provider, spo_status
+) VALUES
+  (
+    '11110001-grnb-0000-0000-000000000001',
+    'GB-2025-SUN-01',
+    'Akdeniz Güneş Enerjisi Parkı Genişlemesi',
+    'Akdeniz Enerji A.Ş.',
+    'RENEWABLE_ENERGY',
+    50000000.00, 'USD',
+    '2025-06-15', '2030-06-15',
+    4.50, 15,
+    'Yıllık 120,000 ton CO2 azaltımı; 250 MW ek kurulu güç.',
+    'Sustainalytics', 'DEVIATION_DETECTED'
+  ),
+  (
+    '11110001-grnb-0000-0000-000000000002',
+    'GB-2026-TRN-01',
+    'Marmara Elektrikli Filo Dönüşümü',
+    'Marmara Lojistik A.Ş.',
+    'CLEAN_TRANSPORT',
+    25000000.00, 'EUR',
+    '2026-01-10', '2031-01-10',
+    3.75, 10,
+    'Mevcut dizel filonun %40''ının elektrikli araçlarla değişimi.',
+    'Vigeo Eiris', 'ALIGNMENT_CONFIRMED'
+  ),
+  (
+    '11110001-grnb-0000-0000-000000000003',
+    'GL-2026-BLD-01',
+    'Yeşil Kampüs ve Enerji Verimliliği Kredisi',
+    'Anadolu İnşaat A.Ş.',
+    'GREEN_BUILDINGS',
+    120000000.00, 'TRY',
+    '2026-02-05', '2029-02-05',
+    18.50, 50,
+    'LEED Gold sertifikasyonu; bina enerji tüketiminde %35 düşüş.',
+    'ISS ESG', 'PENDING'
+  ),
+  (
+    '11110001-grnb-0000-0000-000000000004',
+    'GB-2025-WAT-01',
+    'İleri Biyolojik Atıksu Arıtma Tesisi',
+    'Ege Su Yönetimi A.Ş.',
+    'SUSTAINABLE_WATER',
+    15000000.00, 'USD',
+    '2025-11-20', '2032-11-20',
+    4.10, 12,
+    'Günlük 50,000 m3 su geri kazanımı.',
+    'Sustainalytics', 'ALIGNMENT_CONFIRMED'
+  )
+ON CONFLICT (instrument_code) DO NOTHING;
+
+-- ESG Denetimleri ve Greenwashing Bulguları
+INSERT INTO esg_fund_audits (
+  id, bond_id, bond_code, audit_date, auditor_name,
+  total_fund, allocated_to_green, deviated_amount, deviation_reason,
+  risk_level, kpi_status, carbon_footprint_ton, findings, requires_action, status
+) VALUES
+  (
+    '22220001-esga-0000-0000-000000000001',
+    '11110001-grnb-0000-0000-000000000001',
+    'GB-2025-SUN-01',
+    '2026-03-01', 'İç Denetim - Sürdürülebilirlik Odası',
+    50000000.00, 38000000.00, 12000000.00,
+    'Fonların 12M USD''lik kısmı ana şirketin konvansiyonel (fosil yakıtlı) enerji operasyonlarının işletme sermayesine kaydırılmıştır.',
+    'CRITICAL', 'MISSED', 45000.00,
+    'Kırmızı Bulgu: Tahvil ihraç sirkülerinde belirtilen Yeşil Tahvil Prensipleri (GBP) çerçevesine açık aykırılık (Greenwashing ihtimali yüksektir). İtibar riski ve regülatif ceza potansiyeli.',
+    TRUE, 'ESCALATED'
+  ),
+  (
+    '22220001-esga-0000-0000-000000000002',
+    '11110001-grnb-0000-0000-000000000002',
+    'GB-2026-TRN-01',
+    '2026-03-05', 'Dış Bağımsız Denetçi',
+    25000000.00, 25000000.00, 0.00,
+    NULL,
+    'LOW', 'ON_TRACK', 12500.00,
+    'Eksiksiz Uyum: Fonların tamamı elektrikli filo alımında kullanılmıştır. Satın alma faturaları ve tescil belgeleri teyit edilmiştir.',
+    FALSE, 'COMPLETED'
+  ),
+  (
+    '22220001-esga-0000-0000-000000000003',
+    '11110001-grnb-0000-0000-000000000003',
+    'GL-2026-BLD-01',
+    '2026-03-10', 'İç Denetim - Kurumsal Krediler',
+    120000000.00, 110000000.00, 10000000.00,
+    'Kampüs dışı genel pazarlama giderleri için fon kullanımı.',
+    'MEDIUM', 'DELAYED', NULL,
+    'Turuncu Bulgu: Fonun bir kısmı yeşil olmayan pazarlama faaliyetlerine harcanmış. LEED sertifika sürecinde gecikmeler mevcut ancak tahsisat çoğunlukla inşaatta.',
+    TRUE, 'IN_PROGRESS'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 61 SEED: Risk Culture & Tone at the Top Pulse
+-- =============================================================================
+
+INSERT INTO public.culture_surveys (id, tenant_id, survey_code, title, description, target_audience, status, start_date, end_date, total_responses, participation_rate, overall_score) VALUES
+  (
+    'cs000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'CUL-2026-Q1-BRANCH',
+    '2026 Q1 Şube Personeli Etik Algı Anketi',
+    'Şube personelinin etik standartlara ve yönetim iklimine bakış açısını ölçümleyen periyodik nabız anketi.',
+    'BRANCH_STAFF',
+    'CLOSED',
+    '2026-02-01',
+    '2026-02-15',
+    1250,
+    85.4,
+    68.0  -- Riskli Bölge (68/100)
+  ),
+  (
+    'cs000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'CUL-2026-Q1-HQ',
+    '2026 Q1 Genel Müdürlük Ton-at-the-Top Anketi',
+    'Genel müdürlük çalışanlarının C-Level iletişime ve hesap verebilirliğe dair algı anketi.',
+    'HQ_MANAGEMENT',
+    'ACTIVE',
+    '2026-03-01',
+    '2026-03-15',
+    420,
+    62.5,
+    78.4
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.sentiment_scores (id, tenant_id, survey_id, department_name, category, score, sentiment_label, response_count, key_themes) VALUES
+  (
+    'ss000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'cs000000-0000-0000-0000-000000000001',
+    'Şube Operasyonları',
+    'ETHICS',
+    52.5,
+    'NEGATIVE',
+    450,
+    ARRAY['Baskı', 'Satış Hedefi', 'Mesai']
+  ),
+  (
+    'ss000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'cs000000-0000-0000-0000-000000000001',
+    'Kurumsal Bankacılık Şubeleri',
+    'SPEAK_UP',
+    45.0,
+    'CRITICAL',
+    200,
+    ARRAY['Misilleme Korkusu', 'Sessizlik', 'Görmezden Gelme']
+  ),
+  (
+    'ss000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'cs000000-0000-0000-0000-000000000001',
+    'Bireysel Pazarlama',
+    'RISK_AWARENESS',
+    82.0,
+    'POSITIVE',
+    600,
+    ARRAY['Eğitimler', 'Farkındalık', 'Müşteri Odaklılık']
+  ),
+  (
+    'ss000000-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'cs000000-0000-0000-0000-000000000002',
+    'Risk Yönetimi',
+    'TONE_AT_THE_TOP',
+    88.5,
+    'POSITIVE',
+    120,
+    ARRAY['Açık İletişim', 'Destek', 'Liderlik']
+  ),
+  (
+    'ss000000-0000-0000-0000-000000000005',
+    '11111111-1111-1111-1111-111111111111',
+    'cs000000-0000-0000-0000-000000000002',
+    'Hazine',
+    'ACCOUNTABILITY',
+    65.0,
+    'NEUTRAL',
+    80,
+    ARRAY['Sorumluluk Dağılımı', 'Rol Karmaşası']
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 60 SEED: Red Team Campaigns & BAS Attack Logs
+-- =============================================================================
+
+-- RED TEAM CAMPAIGNS
+INSERT INTO public.red_team_campaigns
+  (id, campaign_code, title, description, campaign_type, status, severity, target_systems, start_date, success_rate, lead_operator)
+VALUES
+  (
+    'rtc00000-0000-0000-0000-000000000001',
+    'RED-2026-PHISH-01',
+    'SWIFT Altyapısı Phishing Simülasyonu',
+    'Muhasebe ve operasyon ekiplerine yönelik hedefli (spear-phishing) simülasyonu. "Acil SWIFT Transfer İptali" konulu sahte e-postalar gönderilmiştir.',
+    'PHISHING',
+    'COMPLETED',
+    'HIGH',
+    ARRAY['Kurumsal E-posta', 'Oturum Yönetimi'],
+    NOW() - INTERVAL '5 days',
+    18.5,
+    'Siber Savunma Merkezi (SOC)'
+  ),
+  (
+    'rtc00000-0000-0000-0000-000000000002',
+    'RED-2026-BAS-02',
+    'İç Ağ Yanal Hareket (Lateral Movement) Simülasyonu',
+    'DMZ bölgesinde ele geçirildiği varsayılan bir sunucu üzerinden iç ağdaki veritabanlarına erişim denemeleri.',
+    'BAS',
+    'ACTIVE',
+    'CRITICAL',
+    ARRAY['Core Banking (Fineksus)', 'Oracle DB Cluster', 'Active Directory'],
+    NOW() - INTERVAL '4 hours',
+    NULL,
+    'Otomatik BAS Motoru'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- BAS ATTACK LOGS
+INSERT INTO public.bas_attack_logs
+  (id, campaign_id, attack_vector, target_asset, status, timestamp, mitre_tactic, mitre_technique, finding_details)
+VALUES
+  -- Phishing logs (Campaign 1)
+  (
+    'bas00000-0000-0000-0000-000000000001',
+    'rtc00000-0000-0000-0000-000000000001',
+    'Spearphishing Email Payload',
+    'ahmet.yavuz@bank.com.tr',
+    'SUCCESS',
+    NOW() - INTERVAL '4 days',
+    'TA0001 - Initial Access',
+    'T1566.002 - Spearphishing Link',
+    'Kullanıcı zararlı bağlantıya tıklamış ve sahte O365 portalına giriş bilgilerini girmiştir.'
+  ),
+  (
+    'bas00000-0000-0000-0000-000000000002',
+    'rtc00000-0000-0000-0000-000000000001',
+    'Spearphishing Email Payload',
+    'zeynep.kara@bank.com.tr',
+    'BLOCKED',
+    NOW() - INTERVAL '4 days' + INTERVAL '2 hours',
+    'TA0001 - Initial Access',
+    'T1566.002 - Spearphishing Link',
+    'Kullanıcı bağlantıya tıkladı ancak kurumsal EDR çözümü bağlantıyı zararlı olarak işaretleyip engelledi.'
+  ),
+  -- BAS logs (Campaign 2)
+  (
+    'bas00000-0000-0000-0000-000000000003',
+    'rtc00000-0000-0000-0000-000000000002',
+    'Pass the Hash',
+    '10.50.12.100 (Core App Server)',
+    'DETECTED',
+    NOW() - INTERVAL '3 hours',
+    'TA0008 - Lateral Movement',
+    'T1550.002 - Pass the Hash',
+    'Kimlik bilgisi doğrulama alarmı tetiklendi. SIEM üzerinde kural eşleşmesi sağlandı ancak erişim engellenmedi (izleme modu).'
+  ),
+  (
+    'bas00000-0000-0000-0000-000000000004',
+    'rtc00000-0000-0000-0000-000000000002',
+    'Remote Desktop Protocol',
+    '10.50.10.55 (Domain Controller)',
+    'BLOCKED',
+    NOW() - INTERVAL '1 hour',
+    'TA0008 - Lateral Movement',
+    'T1021.001 - Remote Desktop Protocol',
+    'Sunucular arası RDP erişimi Network Firewall tarafından DROP edildi.'
+  )
+ON CONFLICT (id) DO NOTHING;
+

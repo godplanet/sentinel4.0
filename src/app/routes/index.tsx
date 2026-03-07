@@ -17,6 +17,7 @@ import { RemediationDossier } from '@/features/regulatory-export/ui/RemediationD
 import ExecutionConsolidatedPage from '@/pages/execution-consolidated';
 import ExecutionDetailPage from '@/pages/execution/ExecutionPage';
 import CognitiveInterviewPage from '@/pages/execution/CognitiveInterviewPage';
+import RootCausePage from '@/pages/findings/RootCausePage';
 import ExecutiveDashboardPage from '@/pages/reporting/ExecutiveDashboardPage';
 import ResourceManagementPage from '@/pages/resources/ResourceManagementPage';
 import GovernancePage from '@/pages/governance';
@@ -28,6 +29,8 @@ import SurveysPage from '@/pages/surveys';
 import WatchtowerPage from '@/pages/monitoring/WatchtowerPage';
 import CreditMonitoringPage from '@/pages/monitoring/CreditMonitoringPage';
 import MarketMonitoringPage from '@/pages/monitoring/MarketMonitoringPage';
+import PqcRadarPage from '@/pages/monitoring/PqcRadarPage';
+import CyberThreatPage from '@/pages/cyber-threats';
 import SettingsConsolidatedPage from '@/pages/settings-consolidated';
 import FindingCenterPage from '@/pages/findings/FindingCenterPage';
 import FindingStudioPage from '@/pages/findings/FindingStudioPage';
@@ -57,6 +60,7 @@ import BoardReportingPage from '@/pages/governance/BoardReportingPage';
 import EscalationDeskPage from '@/pages/governance/EscalationDeskPage';
 import StakeholderManagementPage from '@/pages/governance/StakeholderManagementPage';
 import WhistleblowerPage from '@/pages/governance/WhistleblowerPage';
+import CulturePulsePage from '@/pages/governance/CulturePulsePage';
 import OraclePage from '@/pages/oracle';
 
 import QuantPage from '@/pages/quant';
@@ -68,6 +72,7 @@ import AuditStartPage from '@/pages/audit-start';
 import TemplateManagerPage from '@/pages/admin/TemplateManagerPage';
 import PBCPage from '@/pages/pbc';
 import BCPCrisisPage from '@/pages/bcp';
+import RedTeamPage from '@/pages/red-team';
 import CompliancePage from '@/pages/compliance';
 import RegulationsPage from '@/pages/compliance/RegulationsPage';
 import GapAnalysisPage from '@/pages/compliance/GapAnalysisPage';
@@ -160,6 +165,7 @@ export const AppRoutes = () => {
       <Route path="/governance/stakeholders" element={<ProtectedRoute><StakeholderManagementPage /></ProtectedRoute>} />
       <Route path="/governance/voice" element={<ProtectedRoute><WhistleblowerPage /></ProtectedRoute>} />
       <Route path="/governance/policies" element={<ProtectedRoute><PolicyPage /></ProtectedRoute>} />
+      <Route path="/governance/culture-pulse" element={<ProtectedRoute><CulturePulsePage /></ProtectedRoute>} />
       <Route path="/governance/vault" element={<ProtectedRoute><GovernanceVaultPage /></ProtectedRoute>} />
       <Route path="/governance/charter" element={<ProtectedRoute><GovernancePage /></ProtectedRoute>} />
 
@@ -178,6 +184,7 @@ export const AppRoutes = () => {
       <Route path="/execution/actions" element={<ProtectedRoute><ActionWorkbenchPage /></ProtectedRoute>} />
       <Route path="/execution/pbc" element={<ProtectedRoute><PBCPage /></ProtectedRoute>} />
       <Route path="/bcp" element={<ProtectedRoute><BCPCrisisPage /></ProtectedRoute>} />
+      <Route path="/red-team" element={<ProtectedRoute><RedTeamPage /></ProtectedRoute>} />
 
       <Route path="/execution/start" element={<ProtectedRoute><AuditStartPage /></ProtectedRoute>} />
       <Route path="/execution/agile" element={<ProtectedRoute><AgileEngagementsPage /></ProtectedRoute>} />
@@ -198,6 +205,8 @@ export const AppRoutes = () => {
       <Route path="/monitoring/anomaly" element={<ProtectedRoute><AnomalyDashboard /></ProtectedRoute>} />
       <Route path="/monitoring/credit" element={<ProtectedRoute><CreditMonitoringPage /></ProtectedRoute>} />
       <Route path="/monitoring/market" element={<ProtectedRoute><MarketMonitoringPage /></ProtectedRoute>} />
+      <Route path="/monitoring/cyber-threats" element={<ProtectedRoute><CyberThreatPage /></ProtectedRoute>} />
+      <Route path="/monitoring/pqc-radar" element={<ProtectedRoute><PqcRadarPage /></ProtectedRoute>} />
 
       <Route path="/rcsa" element={<ProtectedRoute><RCSAPage /></ProtectedRoute>} />
 
@@ -296,6 +305,7 @@ export const AppRoutes = () => {
       <Route path="/governance/board-resolution" element={<ProtectedRoute><BoardResolutionPage /></ProtectedRoute>} />
 
       <Route path="/execution/cognitive-interview" element={<ProtectedRoute><CognitiveInterviewPage /></ProtectedRoute>} />
+      <Route path="/execution/root-cause" element={<ProtectedRoute><RootCausePage /></ProtectedRoute>} />
 
       <Route path="/governance" element={<Navigate to="/governance/charter" replace />} />
       <Route path="/strategy" element={<Navigate to="/strategy/objectives" replace />} />
