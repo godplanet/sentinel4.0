@@ -8615,6 +8615,89 @@ ON CONFLICT (id) DO NOTHING;
 
 
 -- =============================================================================
+-- WAVE 79 SEED: Zakat Ledger & Participation ESG Auditor
+-- =============================================================================
+
+INSERT INTO public.corporate_zakat_obligations (id, tenant_id, fiscal_year, calculation_method, eligible_assets, deductible_liabilities, net_zakat_base, zakat_rate, calculated_zakat, approved_by_shariah_board, status) VALUES
+  (
+    'zak79000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    2025,
+    'Net Assets',
+    1550000000.00,
+    350000000.00,
+    1200000000.00,
+    2.50,
+    30000000.00,
+    true,
+    'Paid'
+  ),
+  (
+    'zak79000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    2026,
+    'Net Invested Funds',
+    1850000000.00,
+    420000000.00,
+    1430000000.00,
+    2.577, -- Miladi yıla göre hesaplama (AAOIFI Standard)
+    36851100.00,
+    false,
+    'Pending Approval'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.charity_disbursements (id, tenant_id, obligation_id, fund_type, beneficiary_name, disbursement_date, amount, transaction_ref, impact_category, status) VALUES
+  (
+    'char7900-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'zak79000-0000-0000-0000-000000000001',
+    'Zakat',
+    'Kızılay Afet Fonu',
+    '2026-01-15',
+    15000000.00,
+    'TRX-ZAKAT-2025-01',
+    'Afet Yardımı',
+    'Completed'
+  ),
+  (
+    'char7900-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'zak79000-0000-0000-0000-000000000001',
+    'Zakat',
+    'Darüşşafaka Eğitim Kurumları',
+    '2026-01-20',
+    15000000.00,
+    'TRX-ZAKAT-2025-02',
+    'Eğitim',
+    'Completed'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.non_compliant_income (id, tenant_id, income_source, detection_date, amount, justification, purification_status, disbursement_id) VALUES
+  (
+    'nci79000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Kurumsal Kredi Gecikme Cezası',
+    '2026-02-10',
+    450000.00,
+    'X Firmasının taksit ertelemesi nedeniyle tahakkuk eden gecikme cezası iradı (Late Payment Penalty). Faiz hükmündedir.',
+    'Pending',
+    NULL
+  ),
+  (
+    'nci79000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Hata Kaynaklı Nostro Faiz Geliri',
+    '2025-12-05',
+    125000.00,
+    'Yurtdışı muhabir banka hesabında hafta sonu kalan bakiye üzerinden tahakkuk edilen gayri-İslami getiri.',
+    'Purified',
+    NULL -- Gerçekte bir disbursement_id olmalı ama örnek sadeleştirmesi
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
 -- WAVE 71 SEED: BoD Evaluation & Skill Matrix
 -- =============================================================================
 
@@ -8888,3 +8971,243 @@ VALUES
   (gen_random_uuid(), CURRENT_DATE - INTERVAL '1 day', 840, 'UP', 2, 1, 99.50, 'API anomalisine müdahale edildi. Engelleme (Block) aktif.'),
   (gen_random_uuid(), CURRENT_DATE, 842, 'STABLE', 1, 0, 99.80, 'Kurumsal GRC Sağlık Skoru: 842/1000 (Stabil, Ancak Jeopolitik Risk Yüksek)')
 ON CONFLICT (tenant_id, snapshot_date) DO NOTHING;
+
+-- ============================================================
+-- Wave 77 Seed: IoT Vault & Cyber-Physical Auditor
+-- Isı/Nem Sensörleri, Biyometrik Erişimler ve İhlal Alarmları
+-- ============================================================
+
+-- IoT Sensör Okumaları
+INSERT INTO iot_sensors (
+  sensor_uuid, location_name, sensor_type,
+  temperature_c, humidity_pct, door_status, motion_detected, is_online, battery_pct
+) VALUES
+  ('SENS-IST-DC-01', 'Genel Müdürlük - Sistem Odası', 'TEMP_HUMIDITY', 21.5, 45, NULL, NULL, TRUE, 100),
+  ('SENS-IST-DC-02', 'Şube 342 - Sistem Odası', 'TEMP_HUMIDITY', 34.2, 82, NULL, NULL, TRUE, 85),
+  ('SENS-IST-DC-03', 'Şube 342 - Sistem Odası Kapı', 'DOOR_CONTACT', NULL, NULL, 'OPEN', TRUE, TRUE, 90),
+  ('SENS-ANK-VLT-01', 'Ankara Şube - Kasa Dairesi', 'MOTION', NULL, NULL, 'CLOSED', FALSE, TRUE, 98),
+  ('SENS-ANK-VLT-SMK', 'Ankara Şube - Kasa Dairesi', 'SMOKE', NULL, NULL, NULL, FALSE, TRUE, 100)
+ON CONFLICT (sensor_uuid) DO NOTHING;
+
+-- Biyometrik / Kartlı Geçiş Logları
+INSERT INTO vault_access_logs (
+  location_name, access_point, personnel_id, personnel_name,
+  access_status, auth_method, access_time
+) VALUES
+  ('Genel Müdürlük - Sistem Odası', 'Turnike 1', 'P-1204', 'Ahmet Yılmaz (Sistem Yöneticisi)', 'GRANTED', 'BIOMETRIC', '2026-04-05 08:30:00+03'),
+  ('Şube 342 - Sistem Odası', 'Güvenlik Kapısı', 'UNKNOWN', 'Bilinmeyen Şahıs', 'DENIED', 'RFID_CARD', '2026-04-05 09:12:00+03'),
+  ('Ankara Şube - Kasa Dairesi', 'Kasa Girişi', 'P-4492', 'Ayşe Demir (Şube Müdürü)', 'GRANTED', 'BIOMETRIC', '2026-04-05 10:00:00+03')
+ON CONFLICT DO NOTHING;
+
+-- Fiziksel Güvenlik Alarmları (Cyber-Physical Breaches)
+INSERT INTO physical_breaches (
+  breach_code, location_name, severity, breach_type,
+  description, trigger_sensor, status, event_time
+) VALUES
+  (
+    'PHY-2026-001', 'Şube 342 - Sistem Odası', 'CRITICAL', 'ENVIRONMENTAL',
+    'Şube 342 Sistem Odası Isı %80''i aştı. Sunucu donanımları erime tehlikesi altında. İklimlendirme (HVAC) sistem arızası.',
+    'SENS-IST-DC-02', 'OPEN', '2026-04-05 09:15:00+03'
+  ),
+  (
+    'PHY-2026-002', 'Şube 342 - Sistem Odası', 'HIGH', 'UNAUTHORIZED_ACCESS',
+    'Zorlama Girişim - Tanımsız RFID kart master kapıda üst üste 3 kez okutuldu. Sistem odası kapı sensörü şu an (AÇIK) durumunda.',
+    'SENS-IST-DC-03', 'INVESTIGATING', '2026-04-05 09:12:05+03'
+  ),
+  (
+    'PHY-2026-003', 'Ankara Şube - Kasa Dairesi', 'LOW', 'SENSOR_OFFLINE',
+    'Hareket sensörü 3 saattir veri göndermiyor. Pil değişimi veya ağ kontrolü gerekiyor.',
+    'SENS-ANK-VLT-01', 'RESOLVED', '2026-04-04 14:00:00+03'
+  )
+ON CONFLICT (breach_code) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 78 SEED: Deepfake & Synthetic Identity Shield
+-- =============================================================================
+
+-- 1. biometric_audits
+INSERT INTO public.biometric_audits (id, tenant_id, channel, customer_id, session_id, liveliness_score, voice_match_score, face_match_score, overall_confidence, status) VALUES
+  (
+    'bio00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Video_Call',
+    'CUST-8812',
+    'VC-2026-8812-A1',
+    42.50,
+    98.00,
+    15.00,
+    35.00,
+    'failed'
+  ),
+  (
+    'bio00000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Mobile_App',
+    'CUST-9923',
+    'MOB-2026-9923-B2',
+    95.00,
+    96.50,
+    98.00,
+    96.50,
+    'passed'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. deepfake_alerts
+INSERT INTO public.deepfake_alerts (id, tenant_id, audit_id, alert_type, deepfake_probability, detected_artifacts, severity, action_taken, description) VALUES
+  (
+    'dfa00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'bio00000-0000-0000-0000-000000000001',
+    'Face_Swap',
+    98.50,
+    '{"lip_sync_error": true, "unnatural_blink_rate": true, "audio_frequency_jump": 0.85}',
+    'critical',
+    'session_terminated',
+    'Görüntülü Çağrı Merkezi - Müşteri (CEO) profiliyle yüksek tutarlı para transferi girişimi. Ses klonlaması oldukça başarılı (Voice Match %98) ancak görüntüde bariz face-swap (Yüz Değiştirme) anomalileri tespit edildi. İşlem otomatik durduruldu.'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 3. kyc_synthetic_logs
+INSERT INTO public.kyc_synthetic_logs (id, tenant_id, applicant_name, national_id, risk_factors, synthetic_risk_score, decision) VALUES
+  (
+    'kyc00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Mehmet Yılmaz',
+    '12345678901',
+    '{"ghost_address": true, "reused_phone": true, "credit_history_jump": true}',
+    88.00,
+    'reject'
+  ),
+  (
+    'kyc00000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Ayşe Demir',
+    '98765432109',
+    '{"device_velocity": false}',
+    12.00,
+    'approve'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 80 SEED: Insider Trading & Executive PAD Radar
+-- =============================================================================
+
+-- 1. restricted_trading_lists (Yasaklı Hisseler)
+INSERT INTO public.restricted_trading_lists (id, tenant_id, ticker, company_name, restriction_reason, added_by) VALUES
+  (
+    'rtl80000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'XYZ',
+    'XYZ Teknoloji A.Ş.',
+    'Menfi Kredi Kararı: Firmaya ait 50M TL kredi yenileme talebi reddedilmiştir. İçsel bilgi oluşmuştur.',
+    'Kurumsal Krediler Komitesi'
+  ),
+  (
+    'rtl80000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'ABC',
+    'ABC Enerji A.Ş.',
+    'M&A Süreci: Bankamız M&A danışmanlığını yürütmektedir.',
+    'Yatırım Bankacılığı Grubu'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. personal_account_dealings (Personel İşlem Bildirimleri)
+INSERT INTO public.personal_account_dealings (id, tenant_id, employee_id, employee_name, department, ticker, company_name, transaction_type, quantity, price, total_value, trade_date, status) VALUES
+  (
+    'pad80000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'EMP-1045',
+    'Ahmet Yılmaz',
+    'Krediler Tahsis Direktörlüğü',
+    'XYZ',
+    'XYZ Teknoloji A.Ş.',
+    'SELL',
+    50000,
+    145.50,
+    7275000.00,
+    now() - INTERVAL '2 days',
+    'FLAGGED'
+  ),
+  (
+    'pad80000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'EMP-2098',
+    'Büşra Kaya',
+    'Hazine Yönetimi',
+    'THYAO',
+    'Türk Hava Yolları',
+    'BUY',
+    1000,
+    305.00,
+    305000.00,
+    now() - INTERVAL '5 days',
+    'APPROVED'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 3. insider_alerts (Çakışma / Uyarı Kayıtları)
+INSERT INTO public.insider_alerts (id, tenant_id, pad_id, employee_name, ticker, alert_type, severity, description, status) VALUES
+  (
+    'isa80000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'pad80000-0000-0000-0000-000000000001',
+    'Ahmet Yılmaz',
+    'XYZ',
+    'EXECUTIVE_CONFLICT',
+    'CRITICAL',
+    'Krediler Direktörü Ahmet Y., kredi red kararı (Menfi) verilen XYZ Teknoloji A.Ş. hisselerini (Açıklanmamış İçsel Bilgi) agresif miktarda (50.000 lot) açığa satmıştır. İşlem Restricted Trading List ile %100 örtüşmektedir. SPK bildirim eşiği aşılmıştır.',
+    'OPEN'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 81 SEED: Regulatory Lobbying AI
+-- =============================================================================
+
+-- 1. regulatory_drafts
+INSERT INTO public.regulatory_drafts (id, tenant_id, regulator_name, draft_title, publication_date, deadline_date, status) VALUES
+  (
+    'reg00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'BDDK',
+    'Bilgi Sistemleri Tebliği Yönetmeliği (Taslak Değişiklik)',
+    '2026-04-01',
+    '2026-04-30',
+    'OPEN'
+  ),
+  (
+    'reg00000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'SPK',
+    'Kurumsal Yönetim İlkeleri Revizyonu ve Sürdürülebilirlik Kriterleri (Taslak)',
+    '2026-03-15',
+    '2026-04-15',
+    'OPEN'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. bank_feedback_reports
+INSERT INTO public.bank_feedback_reports (id, tenant_id, draft_id, report_title, report_text, generated_by_ai, approval_status) VALUES
+  (
+    'fed00000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'reg00000-0000-0000-0000-000000000001',
+    'Katılım Bankaları Birliği Adına Hazırlanan Otomatik İtiraz Görüşü',
+    '<strong>İLGİ:</strong> BDDK Kurumumuza sunulan Bilgi Sistemleri Yönetmeliği 15. Madde Taslağı Hakkında Değerlendirme.<br/><br/><strong>AÇIKLAMA (LLM Sentez):</strong> Önerilen Cloud taslak değişiklikleri, Tier 1 hizmetlerin bulut tabanlı hibrit sisteme (Public Cloud) tam geçişini sınırlandırmaktadır. Bu durum maliyet analizlerimizi ve esneklik (Scalability) kapasitemizi %34 oranında kısıtlayacaktır. <u>Görüşümüz şudur ki;</u> verinin kriptografik mülkiyeti bankada (On-Premise HSM) kalması kaydıyla, Public Cloud izninin Katılım Bankalarına özel esnetilmesini talep eder, bilgilerinize arz ederiz.',
+    true,
+    'DRAFT'
+  ),
+  (
+    'fed00000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'reg00000-0000-0000-0000-000000000002',
+    'Yönetim Kurulu Bağımsızlık Oranı (SPK Sürdürülebilirlik Katkısı)',
+    NULL,
+    true,
+    'DRAFT'
+  )
+ON CONFLICT (id) DO NOTHING;
+

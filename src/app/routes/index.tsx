@@ -41,6 +41,7 @@ import FindingStudioPage from '@/pages/findings/FindingStudioPage';
 import { FindingDetailPage as AuditorFindingDetailPage } from '@/pages/auditor/FindingDetailPage';
 import { AuditeePortalPage } from '@/pages/auditee-portal/AuditeePortalPage';
 import SmartContractPage from '@/pages/execution/SmartContractPage';
+import ZakatLedgerPage from '@/pages/execution/ZakatLedgerPage';
 
 import LoginPage from '@/pages/auth/LoginPage';
 import NotFoundPage from '@/pages/error/NotFoundPage';
@@ -67,6 +68,7 @@ import StakeholderManagementPage from '@/pages/governance/StakeholderManagementP
 import WhistleblowerPage from '@/pages/governance/WhistleblowerPage';
 import CulturePulsePage from '@/pages/governance/CulturePulsePage';
 import BoardEvaluationPage from '@/pages/governance/BoardEvaluationPage';
+import InsiderRadarPage from '@/pages/governance/InsiderRadarPage';
 import OraclePage from '@/pages/oracle';
 
 import QuantPage from '@/pages/quant';
@@ -84,6 +86,7 @@ import OpenBankingApiPage from '@/pages/open-banking';
 import CompliancePage from '@/pages/compliance';
 import RegulationsPage from '@/pages/compliance/RegulationsPage';
 import GapAnalysisPage from '@/pages/compliance/GapAnalysisPage';
+import RegulatoryLobbyPage from '@/pages/compliance/RegulatoryLobbyPage';
 import TPRMPage from '@/pages/tprm';
 import AutomationPage from '@/pages/automation';
 import SoxPage from '@/pages/sox';
@@ -176,6 +179,7 @@ export const AppRoutes = () => {
       <Route path="/governance/policies" element={<ProtectedRoute><PolicyPage /></ProtectedRoute>} />
       <Route path="/governance/culture-pulse" element={<ProtectedRoute><CulturePulsePage /></ProtectedRoute>} />
       <Route path="/governance/board-evaluation" element={<ProtectedRoute><BoardEvaluationPage /></ProtectedRoute>} />
+      <Route path="/governance/insider-radar" element={<ProtectedRoute><InsiderRadarPage /></ProtectedRoute>} />
       <Route path="/governance/vault" element={<ProtectedRoute><GovernanceVaultPage /></ProtectedRoute>} />
       <Route path="/governance/charter" element={<ProtectedRoute><GovernancePage /></ProtectedRoute>} />
 
@@ -263,6 +267,7 @@ export const AppRoutes = () => {
       <Route path="/compliance" element={<ProtectedRoute><CompliancePage /></ProtectedRoute>} />
       <Route path="/compliance/regulations" element={<ProtectedRoute><RegulationsPage /></ProtectedRoute>} />
       <Route path="/compliance/gap-analysis" element={<ProtectedRoute><GapAnalysisPage /></ProtectedRoute>} />
+      <Route path="/compliance/lobbying" element={<ProtectedRoute><RegulatoryLobbyPage /></ProtectedRoute>} />
       <Route path="/shariah/fatwa-gpt" element={<ProtectedRoute><FatwaGPTPage /></ProtectedRoute>} />
       <Route path="/academy" element={<ProtectedRoute><AcademyPage /></ProtectedRoute>} />
       <Route path="/playbook" element={<ProtectedRoute><PlaybookPage /></ProtectedRoute>} />
@@ -322,6 +327,7 @@ export const AppRoutes = () => {
       <Route path="/execution/cognitive-interview" element={<ProtectedRoute><CognitiveInterviewPage /></ProtectedRoute>} />
       <Route path="/execution/root-cause" element={<ProtectedRoute><RootCausePage /></ProtectedRoute>} />
       <Route path="/execution/smart-contracts" element={<ProtectedRoute><SmartContractPage /></ProtectedRoute>} />
+      <Route path="/execution/zakat-ledger" element={<ProtectedRoute><ZakatLedgerPage /></ProtectedRoute>} />
 
       <Route path="/governance" element={<Navigate to="/governance/charter" replace />} />
       <Route path="/strategy" element={<Navigate to="/strategy/objectives" replace />} />
