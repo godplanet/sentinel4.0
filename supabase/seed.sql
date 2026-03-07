@@ -8454,3 +8454,141 @@ INSERT INTO capital_adequacy_ratios (
     12.00, 2.50, 'APPROVED'
   )
 ON CONFLICT (report_period) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 70 SEED: Smart Contract & Digital Asset Ledger Audit
+-- =============================================================================
+
+INSERT INTO public.smart_contracts (id, tenant_id, contract_name, network, contract_address, solidity_version, description, audit_status, risk_score, deployment_date) VALUES
+  (
+    'smc70000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Dijital Sukuk İhracı (Ijarah)',
+    'Ethereum Subnet (Quorum)',
+    '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+    '0.8.20',
+    'Bankanın islami finans kurallarına (Shariah-compliant) uygun olarak ihraç ettiği 50 Milyon USD değerindeki dijital sukuk sözleşmesi.',
+    'Critical Risk',
+    88.50,
+    '2025-11-10'
+  ),
+  (
+    'smc70000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Müşteri Sadakat Puanı (SentinelLoyalty)',
+    'Polygon (PoS)',
+    '0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7',
+    '0.8.24',
+    'Müşterilerin harcamalarından kazandıkları ve uçak bileti alımında kullanılabilen sadakat token sözleşmesi.',
+    'Audited',
+    12.00,
+    '2026-01-15'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.token_issuances (id, tenant_id, contract_id, token_name, token_symbol, total_supply, issuance_date, regulatory_compliance) VALUES
+  (
+    'tkn70000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'smc70000-0000-0000-0000-000000000001',
+    'Sentinel Digital Sukuk 2025',
+    'SDS25',
+    50000000.0000,
+    '2025-11-15',
+    'Pending Review'
+  ),
+  (
+    'tkn70000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'smc70000-0000-0000-0000-000000000002',
+    'Sentinel Reward Points',
+    'SRP',
+    1000000000.0000,
+    '2026-01-20',
+    'Compliant'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.contract_vulnerabilities (id, tenant_id, contract_id, vulnerability_type, severity, description, code_snippet, line_number, remediation_plan, status) VALUES
+  (
+    'vuln7000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'smc70000-0000-0000-0000-000000000001',
+    'Reentrancy (Yeniden Giriş Açığı)',
+    'Critical',
+    'Sukuk itfa (redemption) fonksiyonunda dış çağrı öncesinde state güncellenmediği (Checks-Effects-Interactions pattern ihlali) tespit edildi. Kötü niyetli bir kontrat aynı bakiyeyi defalarca çekebilir.',
+    'function redeemSukuk(uint256 amount) public {\n    require(balances[msg.sender] >= amount);\n    // VULNERABILITY: External call before state update\n    (bool success, ) = msg.sender.call{value: amount}("");\n    require(success);\n    balances[msg.sender] -= amount;\n}',
+    142,
+    'Fonksiyon içerisinde state güncellemesini (balances[msg.sender] -= amount) dış çağrıdan (msg.sender.call) ÖNCE yapın. Ek olarak OpenZeppelin ReentrancyGuard modifier''ını kullanın.',
+    'Open'
+  ),
+  (
+    'vuln7000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'smc70000-0000-0000-0000-000000000001',
+    'Unchecked Return Data',
+    'Low',
+    'Low-level çağrı yapıldıktan sonra dönen verinin boyutu kontrol edilmiyor. Bazı durumlarda beklenmeyen çalışmalara neden olabilir.',
+    '(bool success, bytes memory data) = target.call(payload);\nrequire(success, "Call failed");',
+    215,
+    'Return data boş olsa bile asgari uzunluk doğrulaması gerçekleştirin veya yüksek seviyeli interface çağrılarını tercih edin.',
+    'In Progress'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 71 SEED: BoD Evaluation & Skill Matrix
+-- =============================================================================
+
+-- 1. BOARD MEMBERS
+INSERT INTO public.board_members
+  (id, full_name, role_title, is_independent, status)
+VALUES
+  ('bod00000-0000-0000-0000-000000000001', 'Ahmet Yılmaz', 'Yönetim Kurulu Başkanı', false, 'ACTIVE'),
+  ('bod00000-0000-0000-0000-000000000002', 'Ayşe Demir', 'Bağımsız YK Üyesi (Denetim Komitesi Başkanı)', true, 'ACTIVE'),
+  ('bod00000-0000-0000-0000-000000000003', 'Mehmet Öztürk', 'Yönetim Kurulu Üyesi (IT Odaklı)', false, 'ACTIVE'),
+  ('bod00000-0000-0000-0000-000000000004', 'Zeynep Kaya', 'Bağımsız YK Üyesi (Risk Komitesi)', true, 'ACTIVE')
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. SKILL EVALUATIONS
+INSERT INTO public.skill_evaluations
+  (id, member_id, skill_category, score, evaluator_note)
+VALUES
+  -- Ahmet Yılmaz (Başkan - Finans ve Strateji)
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000001', 'Finansal Yönetim', 9, 'Yüksek tecrübe.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000001', 'Kurumsal Strateji', 10, 'Vizyoner.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000001', 'Siber Güvenlik', 5, 'Orta düzey farkındalık.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000001', 'ESG ve Sürdürülebilirlik', 7, 'Gelişen anlayış.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000001', 'Mevzuat ve Uyum', 8, 'Güçlü.'),
+
+  -- Ayşe Demir (Denetim - Mevzuat)
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000002', 'Finansal Yönetim', 8, 'Denetim altyapısı sağlam.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000002', 'Kurumsal Strateji', 7, 'Odak'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000002', 'Siber Güvenlik', 6, 'İyileştirmeye açık.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000002', 'ESG ve Sürdürülebilirlik', 8, ''),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000002', 'Mevzuat ve Uyum', 10, 'Otorite statüsünde.'),
+
+  -- Mehmet Öztürk (IT Odaklı)
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000003', 'Finansal Yönetim', 6, 'Geliştirilebilir.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000003', 'Kurumsal Strateji', 8, 'Dijital strateji lideri.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000003', 'Siber Güvenlik', 9, 'Siber Güvenlik Vizyon Skoru: 9/10'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000003', 'ESG ve Sürdürülebilirlik', 6, ''),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000003', 'Mevzuat ve Uyum', 7, 'KVKK/GDPR uzmanlığı.'),
+
+  -- Zeynep Kaya (Risk Komitesi - ESG Odaklı)
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000004', 'Finansal Yönetim', 8, ''),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000004', 'Kurumsal Strateji', 8, ''),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000004', 'Siber Güvenlik', 7, 'Modern risk mimarisi.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000004', 'ESG ve Sürdürülebilirlik', 10, 'Yeşil Finans lideri.'),
+  (gen_random_uuid(), 'bod00000-0000-0000-0000-000000000004', 'Mevzuat ve Uyum', 9, 'Önleyici uyum kültürü.')
+ON CONFLICT (id) DO NOTHING;
+
+-- 3. BOARD EFFECTIVENESS SCORES
+INSERT INTO public.board_effectiveness_scores
+  (id, evaluation_period, category, average_score, findings)
+VALUES
+  (gen_random_uuid(), '2025-H2', 'Karar Alma Kalitesi ve Hızı', 8.4, 'Kriz anlarında hızlı aksiyon.'),
+  (gen_random_uuid(), '2025-H2', 'Çeşitlilik (Diversity) ve Kapsayıcılık', 9.0, 'Mükemmel cinsiyet ve mesleki dağılım.'),
+  (gen_random_uuid(), '2025-H2', 'Teknoloji ve Dijitalleşme Vizyonu', 7.2, 'BT komitelerinin YK sunumları sıklaştırılmalı.')
+ON CONFLICT (id) DO NOTHING;
+
