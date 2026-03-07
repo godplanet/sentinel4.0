@@ -111,3 +111,150 @@ export async function fetchGroupConsolidation(): Promise<GroupConsolidationRow[]
 
   return (data ?? []) as GroupConsolidationRow[];
 }
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+// ─── Wave 38: React Query Wrappers ─────────────────────────────────────────
+
+export interface AuditGrade {
+  id: string;
+  engagement_id: string | null;
+  grading_scale_id: string | null;
+  tenant_id: string;
+  final_score: number;
+  final_grade: string;
+  assurance_opinion: string;
+  base_score: number;
+  total_deductions: number;
+  capping_triggered: boolean;
+  capping_reason: string | null;
+  waterfall_breakdown: unknown[] | null;
+  count_critical: number;
+  count_high: number;
+  count_medium: number;
+  count_low: number;
+  graded_by: string;
+  graded_at: string;
+}
+
+export interface GradeHistoryRow {
+  id: string;
+  engagement_id: string;
+  previous_grade: string | null;
+  new_grade: string;
+  previous_score: number | null;
+  new_score: number;
+  change_reason: string | null;
+  changed_by: string;
+  changed_at: string;
+}
+
+export function useEngagementGradings(planId?: string) {
+  return useQuery({
+    queryKey: ['engagement-gradings', planId ?? 'all'],
+    queryFn: () => fetchEngagementGradings(planId),
+    staleTime: 30_000,
+  });
+}
+
+export function useAuditGrades(tenantId: string = '11111111-1111-1111-1111-111111111111') {
+  return useQuery({
+    queryKey: ['audit-grades', tenantId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('audit_grades')
+        .select('*')
+        .eq('tenant_id', tenantId)
+        .order('graded_at', { ascending: false });
+      if (error) return [] as AuditGrade[];
+      return (data ?? []) as AuditGrade[];
+    },
+    staleTime: 30_000,
+  });
+}
+
+export function useGradeHistory(engagementId: string | undefined) {
+  return useQuery({
+    queryKey: ['grade-history', engagementId],
+    enabled: !!engagementId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('grade_history')
+        .select('*')
+        .eq('engagement_id', engagementId!)
+        .order('changed_at', { ascending: false });
+      if (error) return [] as GradeHistoryRow[];
+      return (data ?? []) as GradeHistoryRow[];
+    },
+  });
+}
+
+export function useSaveAuditGrade() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      engagementId,
+      tenantId = '11111111-1111-1111-1111-111111111111',
+      grade,
+    }: {
+      engagementId: string;
+      tenantId?: string;
+      grade: {
+        finalScore: number;
+        finalGrade: string;
+        assuranceOpinion: string;
+        baseScore: number;
+        totalDeductions: number;
+        cappingTriggered: boolean;
+        cappingReason: string | null;
+        waterfallBreakdown: unknown[];
+        countCritical?: number;
+        countHigh?: number;
+        countMedium?: number;
+        countLow?: number;
+        gradedBy?: string;
+      };
+    }) => {
+      // Save to audit_grades (upsert by engagement_id)
+      const { error: gradeError } = await supabase
+        .from('audit_grades')
+        .upsert({
+          engagement_id:      engagementId,
+          tenant_id:          tenantId,
+          final_score:        grade.finalScore,
+          final_grade:        grade.finalGrade,
+          assurance_opinion:  grade.assuranceOpinion,
+          base_score:         grade.baseScore,
+          total_deductions:   grade.totalDeductions,
+          capping_triggered:  grade.cappingTriggered,
+          capping_reason:     grade.cappingReason,
+          waterfall_breakdown: grade.waterfallBreakdown,
+          count_critical:     grade.countCritical ?? 0,
+          count_high:         grade.countHigh ?? 0,
+          count_medium:       grade.countMedium ?? 0,
+          count_low:          grade.countLow ?? 0,
+          graded_by:          grade.gradedBy ?? 'system',
+          graded_at:          new Date().toISOString(),
+          updated_at:         new Date().toISOString(),
+        }, { onConflict: 'engagement_id' });
+
+      if (gradeError) throw gradeError;
+
+      // Also update audit_engagements for backward compat
+      await saveEngagementGrade(engagementId, {
+        baseScore: grade.baseScore,
+        totalDeductions: grade.totalDeductions,
+        finalScore: grade.finalScore,
+        finalGrade: grade.finalGrade,
+        assuranceOpinion: grade.assuranceOpinion,
+        cappingTriggered: grade.cappingTriggered,
+        cappingReason: grade.cappingReason,
+        waterfall: grade.waterfallBreakdown,
+      });
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['audit-grades'] });
+      qc.invalidateQueries({ queryKey: ['engagement-gradings'] });
+      qc.invalidateQueries({ queryKey: ['grade-history'] });
+    },
+  });
+}

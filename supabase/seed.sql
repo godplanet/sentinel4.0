@@ -4456,3 +4456,655 @@ INSERT INTO public.cpe_annual_goals (id, user_id, year, goal_hours) VALUES
     40
   )
 ON CONFLICT (user_id, year) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 35 SEED: SOX / ICFR & Skeptic Agent — Şüpheci İtiraz Kayıtları
+-- =============================================================================
+
+INSERT INTO public.skeptic_challenges (
+  id, control_code, department, proposed_status, severity,
+  incident_count, ai_message, justification, resolution
+) VALUES
+  (
+    'sc350000-0000-0000-0000-000000000001',
+    'SOX-FIN-001',
+    'Hazine',
+    'Effective',
+    'critical',
+    3,
+    E'SENTINEL SKEPTIC [KRITIK ITIRAZ]\n\nHazine departmaninda son 30 gunde 3 adet olay kaydi tespit edilmistir:\n\n- [Critical] Repo işlemi limit aşımı (2026-03-01)\n- [High] Faiz oranı bildirim gecikmesi (2026-03-05)\n- [High] Teminat eksikliği bildirimi yapılmadı (2026-03-07)\n\nKontrol SOX-FIN-001 icin "Effective" beyani, yukaridaki olaylarla celismektedir.',
+    'Olay incelemeleri tamamlandı. Repo limit aşımı operasyonel bir parametre hatasından kaynaklandı, kontrol sürecinde tespit edilip anında düzeltildi. Sistem kayıtları mevcuttur.',
+    'Override'
+  ),
+  (
+    'sc350000-0000-0000-0000-000000000002',
+    'SOX-IT-003',
+    'BT',
+    'Effective',
+    'critical',
+    2,
+    E'SENTINEL SKEPTIC [KRITIK ITIRAZ]\n\nBT departmaninda son 30 gunde 2 adet kritik olay kaydi tespit edilmistir:\n\n- [Critical] Yetkisiz erişim girişimi — Active Directory (2026-03-02)\n- [Critical] Sunucu odası fiziksel erişim log kaydı yok (2026-03-06)\n\nKontrol SOX-IT-003 icin "Effective" beyani, yukaridaki olaylarla celismektedir.',
+    '',
+    'Pending'
+  ),
+  (
+    'sc350000-0000-0000-0000-000000000003',
+    'SOX-OPS-002',
+    'Operasyon',
+    'Effective',
+    'warning',
+    1,
+    E'SENTINEL SKEPTIC [UYARI]\n\nOperasyon departmaninda son 30 gunde 1 adet olay kaydi bulunmaktadir:\n\n- [Medium] Müşteri IBAN doğrulama bypass (2026-03-03)\n\nKontrol SOX-OPS-002 icin "Effective" beyani vermeden once bu olayi degerlendirmeniz onerilmektedir.',
+    '',
+    'Withdrawn'
+  ),
+  (
+    'sc350000-0000-0000-0000-000000000004',
+    'SOX-COM-001',
+    'Uyum',
+    'Effective',
+    'warning',
+    2,
+    E'SENTINEL SKEPTIC [UYARI]\n\nUyum departmaninda son 30 gunde 2 adet olay kaydi bulunmaktadir:\n\n- [High] FATF Öneri 16 raporlaması gecikti (2026-03-04)\n- [Medium] MASAK şüpheli işlem bildirimi eksik (2026-03-08)\n\nKontrol SOX-COM-001 icin "Effective" beyani vermeden once bu olayi degerlendirmeniz onerilmektedir.',
+    '',
+    'Pending'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+
+-- ============================================================
+-- Wave 36 Seed: RKM Master Grid & Sampling Logs
+-- BDDK standartlarına uygun risk kayıtları
+-- ============================================================
+
+INSERT INTO rkm_master (
+  id, risk_code, risk_title, risk_owner, risk_status, risk_category, risk_subcategory,
+  main_process, sub_process, inherent_impact, inherent_likelihood,
+  control_type, control_design_rating, control_operating_rating,
+  residual_impact, residual_likelihood,
+  bddk_reference, iso27001_reference, risk_response_strategy,
+  last_audit_date, audit_rating
+) VALUES
+  (
+    'gggg0001-rkm0-0000-0000-000000000001',
+    'RKM-KRD-2026-001',
+    'Kurumsal Kredi Portföyünde Yoğunlaşma Riski',
+    'Kredi Risk Komitesi',
+    'ACTIVE',
+    'Kredi Riski',
+    'Portföy Yoğunlaşma',
+    'Kredi Yönetimi',
+    'Portföy İzleme',
+    4, 4,
+    'DETECTIVE', 4, 3,
+    2, 3,
+    'BDDK-KRK-Md.7', 'ISO-A.8.1',
+    'MITIGATE',
+    '2025-12-15',
+    'NEEDS_IMPROVEMENT'
+  ),
+  (
+    'gggg0001-rkm0-0000-0000-000000000002',
+    'RKM-BT-2026-001',
+    'Core Banking Sistemi Erişim Kontrolü Yetersizliği',
+    'Bilgi Güvenliği Birimi',
+    'ACTIVE',
+    'BT Riski',
+    'Erişim Yönetimi',
+    'Bilgi Teknolojileri',
+    'Kimlik ve Erişim Yönetimi',
+    5, 3,
+    'PREVENTIVE', 3, 3,
+    3, 2,
+    'BDDK-BT-Md.12', 'ISO-A.9.1',
+    'MITIGATE',
+    '2025-11-20',
+    'NEEDS_IMPROVEMENT'
+  ),
+  (
+    'gggg0001-rkm0-0000-0000-000000000003',
+    'RKM-OP-2026-001',
+    'MASAK Şüpheli İşlem Bildirim Süreci Zafiyeti',
+    'MASAK Uyum Birimi',
+    'ACTIVE',
+    'Operasyonel Risk',
+    'Uyum ve Mevzuat',
+    'Mali Suçlarla Mücadele',
+    'İşlem İzleme',
+    5, 4,
+    'DETECTIVE', 4, 3,
+    2, 2,
+    'MASAK-Md.4', 'ISO-A.12.1',
+    'MITIGATE',
+    '2026-01-10',
+    'SATISFACTORY'
+  ),
+  (
+    'gggg0001-rkm0-0000-0000-000000000004',
+    'RKM-LIK-2026-001',
+    'Kısa Vadeli Likidite Tampon Yetersizliği (LCR)',
+    'Hazine ve ALM',
+    'ACTIVE',
+    'Likidite Riski',
+    'Likidite Tampon Yönetimi',
+    'Hazine Yönetimi',
+    'Likidite İzleme',
+    4, 3,
+    'PREVENTIVE', 4, 4,
+    2, 2,
+    'BDDK-LIK-Md.5', '',
+    'MITIGATE',
+    '2025-10-30',
+    'SATISFACTORY'
+  ),
+  (
+    'gggg0001-rkm0-0000-0000-000000000005',
+    'RKM-KVKK-2026-001',
+    'Kişisel Veri İhlaline İlişkin Bildirim Sürecinin Yetersizliği',
+    'Hukuk ve Uyum Departmanı',
+    'ACTIVE',
+    'Yasal / Uyum Riski',
+    'KVKK Uyumu',
+    'Veri Yönetişimi',
+    'Veri İhlali Yönetimi',
+    4, 2,
+    'CORRECTIVE', 3, 3,
+    2, 2,
+    '', 'ISO-A.18.1',
+    'MITIGATE',
+    '2026-02-15',
+    'NEEDS_IMPROVEMENT'
+  ),
+  (
+    'gggg0001-rkm0-0000-0000-000000000006',
+    'RKM-STR-2026-001',
+    'Dijital Bankacılık Dönüşüm Projesinde Teknik Borç Birikimi',
+    'Dijital Bankacılık Birimi',
+    'ACTIVE',
+    'Stratejik Risk',
+    'Proje Yönetimi',
+    'Dijital Dönüşüm',
+    'Platform Modernizasyonu',
+    3, 4,
+    'DIRECTIVE', 3, 3,
+    2, 3,
+    'BDDK-BT-Md.6', 'ISO-A.14.1',
+    'ACCEPT',
+    '2025-09-25',
+    'NEEDS_IMPROVEMENT'
+  )
+ON CONFLICT (risk_code) DO NOTHING;
+
+-- Örnekleme Logları (Sampling Wizard geçmiş hesaplamaları)
+INSERT INTO sampling_logs (
+  id, population_size, risk_level, confidence_level, expected_error_rate,
+  recommended_sample_size, methodology, is_full_scope
+) VALUES
+  (
+    'hhhh0001-samp-0000-0000-000000000001',
+    1200, 'high', 95, 2.5,
+    136, 'Attribute Sampling — GIAS 14.1 / BDDK Annex-C', FALSE
+  ),
+  (
+    'hhhh0001-samp-0000-0000-000000000002',
+    450, 'medium', 95, 0,
+    83, 'Attribute Sampling — GIAS 14.1 / BDDK Annex-C', FALSE
+  ),
+  (
+    'hhhh0001-samp-0000-0000-000000000003',
+    38, 'high', 95, 0,
+    38, 'Tam Kapsam Testi (N<50)', TRUE
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 37 SEED: Sentinel Office & Document Vault — Bankacılık Belgeleri
+-- =============================================================================
+
+-- DOCUMENTS: 3 C-Level banking documents
+INSERT INTO office_documents (id, tenant_id, title, doc_type, created_by_name, is_archived)
+VALUES
+  (
+    'f0ffce00-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Kredi Riski Değerlendirme Tablosu — Q1 2026',
+    'SPREADSHEET',
+    'Dr. Aysun Kaya (Kredi Risk Direktörü)',
+    false
+  ),
+  (
+    'f0ffce00-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Yönetim Kurulu Sunumu — ESG & TCFD Uyum Raporu 2026',
+    'DOCUMENT',
+    'Murat Demir (CFO)',
+    false
+  ),
+  (
+    'f0ffce00-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'BDDK Saha Denetimi — Anomali Bulguları Özet Tablosu',
+    'SPREADSHEET',
+    'Hakan Yıldız (CAE)',
+    false
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- VERSIONS for doc-1: Kredi Riski Tablosu (Spreadsheet)
+INSERT INTO office_versions
+  (id, document_id, version_number, content_data, content_hash, change_summary, is_frozen, created_by_name)
+VALUES
+  (
+    'f0ffce01-0000-0000-0000-000000000001',
+    'f0ffce00-0000-0000-0000-000000000001',
+    1,
+    '{
+      "cells": {
+        "A1": {"value": "Müşteri Adı", "formula": null, "style": {"bold": true}},
+        "B1": {"value": "Limit (TRY)", "formula": null, "style": {"bold": true}},
+        "C1": {"value": "Kullanım (%)", "formula": null, "style": {"bold": true}},
+        "D1": {"value": "NPL Kategorisi", "formula": null, "style": {"bold": true}},
+        "E1": {"value": "Teminat Değeri", "formula": null, "style": {"bold": true}},
+        "F1": {"value": "Risk Skoru", "formula": null, "style": {"bold": true}},
+        "A2": {"value": "Türkiye Petrol A.Ş.", "formula": null},
+        "B2": {"value": 125000000, "formula": null},
+        "C2": {"value": 0.87, "formula": null},
+        "D2": {"value": "İzleme", "formula": null},
+        "E2": {"value": 98000000, "formula": null},
+        "F2": {"value": null, "formula": "=B2*C2/E2"},
+        "A3": {"value": "Mega İnşaat Holding", "formula": null},
+        "B3": {"value": 75000000, "formula": null},
+        "C3": {"value": 0.94, "formula": null},
+        "D3": {"value": "Yakın İzleme (Grup 2)", "formula": null},
+        "E3": {"value": 45000000, "formula": null},
+        "F3": {"value": null, "formula": "=B3*C3/E3"},
+        "A4": {"value": "YeşilNet Teknoloji", "formula": null},
+        "B4": {"value": 12000000, "formula": null},
+        "C4": {"value": 0.42, "formula": null},
+        "D4": {"value": "Normal", "formula": null},
+        "E4": {"value": 18000000, "formula": null},
+        "F4": {"value": null, "formula": "=B4*C4/E4"},
+        "A5": {"value": "Altın Tarım Kooperatifi", "formula": null},
+        "B5": {"value": 8500000, "formula": null},
+        "C5": {"value": 0.71, "formula": null},
+        "D5": {"value": "İzleme", "formula": null},
+        "E5": {"value": 15000000, "formula": null},
+        "F5": {"value": null, "formula": "=B5*C5/E5"},
+        "A6": {"value": "TOPLAM", "formula": null, "style": {"bold": true}},
+        "B6": {"value": null, "formula": "=SUM(B2:B5)", "style": {"bold": true}},
+        "C6": {"value": null, "formula": "=AVERAGE(C2:C5)", "style": {"bold": true}},
+        "F6": {"value": null, "formula": "=AVERAGE(F2:F5)", "style": {"bold": true}}
+      },
+      "metadata": {"rows": 6, "cols": 6, "lastModified": "2026-03-07T20:00:00Z"}
+    }',
+    'a1b2c3d4e5f60001',
+    'İlk kredi riski tablosu oluşturuldu — 4 müşteri, 6 sütun',
+    true,
+    'Dr. Aysun Kaya (Kredi Risk Direktörü)'
+  ),
+  (
+    'f0ffce01-0000-0000-0000-000000000002',
+    'f0ffce00-0000-0000-0000-000000000001',
+    2,
+    '{
+      "cells": {
+        "A1": {"value": "Müşteri Adı", "formula": null, "style": {"bold": true}},
+        "B1": {"value": "Limit (TRY)", "formula": null, "style": {"bold": true}},
+        "C1": {"value": "Kullanım (%)", "formula": null, "style": {"bold": true}},
+        "D1": {"value": "NPL Kategorisi", "formula": null, "style": {"bold": true}},
+        "E1": {"value": "Teminat Değeri", "formula": null, "style": {"bold": true}},
+        "F1": {"value": "Risk Skoru", "formula": null, "style": {"bold": true}},
+        "A2": {"value": "Türkiye Petrol A.Ş.", "formula": null},
+        "B2": {"value": 125000000, "formula": null},
+        "C2": {"value": 0.87, "formula": null},
+        "D2": {"value": "İzleme", "formula": null},
+        "E2": {"value": 98000000, "formula": null},
+        "F2": {"value": null, "formula": "=B2*C2/E2"},
+        "A3": {"value": "Mega İnşaat Holding", "formula": null},
+        "B3": {"value": 75000000, "formula": null},
+        "C3": {"value": 0.94, "formula": null},
+        "D3": {"value": "Yakın İzleme (Grup 2)", "formula": null},
+        "E3": {"value": 45000000, "formula": null},
+        "F3": {"value": null, "formula": "=B3*C3/E3"},
+        "A4": {"value": "YeşilNet Teknoloji", "formula": null},
+        "B4": {"value": 12000000, "formula": null},
+        "C4": {"value": 0.42, "formula": null},
+        "D4": {"value": "Normal", "formula": null},
+        "E4": {"value": 18000000, "formula": null},
+        "F4": {"value": null, "formula": "=B4*C4/E4"},
+        "A5": {"value": "Altın Tarım Kooperatifi", "formula": null},
+        "B5": {"value": 8500000, "formula": null},
+        "C5": {"value": 0.71, "formula": null},
+        "D5": {"value": "İzleme", "formula": null},
+        "E5": {"value": 15000000, "formula": null},
+        "F5": {"value": null, "formula": "=B5*C5/E5"},
+        "A6": {"value": "Denizcilik Taşımacılık Ltd.", "formula": null},
+        "B6": {"value": 32000000, "formula": null},
+        "C6": {"value": 0.58, "formula": null},
+        "D6": {"value": "Normal", "formula": null},
+        "E6": {"value": 40000000, "formula": null},
+        "F6": {"value": null, "formula": "=B6*C6/E6"},
+        "A7": {"value": "TOPLAM", "formula": null, "style": {"bold": true}},
+        "B7": {"value": null, "formula": "=SUM(B2:B6)", "style": {"bold": true}},
+        "C7": {"value": null, "formula": "=AVERAGE(C2:C6)", "style": {"bold": true}},
+        "F7": {"value": null, "formula": "=AVERAGE(F2:F6)", "style": {"bold": true}}
+      },
+      "metadata": {"rows": 7, "cols": 6, "lastModified": "2026-03-07T22:15:00Z"}
+    }',
+    'b2c3d4e5f6a70002',
+    'Denizcilik Taşımacılık Ltd. portföye eklendi, toplamlar güncellendi',
+    true,
+    'Dr. Aysun Kaya (Kredi Risk Direktörü)'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- VERSIONS for doc-2: YK Sunumu (Document)
+INSERT INTO office_versions
+  (id, document_id, version_number, content_data, content_hash, change_summary, is_frozen, created_by_name)
+VALUES
+  (
+    'f0ffce02-0000-0000-0000-000000000001',
+    'f0ffce00-0000-0000-0000-000000000002',
+    1,
+    '{
+      "type": "doc",
+      "content": [
+        {"type": "heading", "attrs": {"level": 1}, "content": [{"type": "text", "text": "Yönetim Kurulu Sunumu — ESG & TCFD Uyum Raporu 2026"}]},
+        {"type": "paragraph", "content": [{"type": "text", "text": "Bu sunum, Bankanın 2026 yılı ilk çeyrek ESG ve TCFD uyum durumunu ve Planet Pulse modülü üzerinden izlenen karbon ayak izi verilerini özetlemektedir."}]},
+        {"type": "heading", "attrs": {"level": 2}, "content": [{"type": "text", "text": "1. Çevre Metrikleri"}]},
+        {"type": "paragraph", "content": [{"type": "text", "text": "Kapsam 1 emisyonları 13.450 tCO2e ile hedef eşiği olan 12.000 tCO2e değerini %12 aşmıştır. Kapsam 2 emisyonları ise yenilenebilir enerji anlaşması (PPA) sayesinde hedef altında seyretmektedir (7.320 tCO2e, hedef: 8.000)."}]},
+        {"type": "heading", "attrs": {"level": 2}, "content": [{"type": "text", "text": "2. Yeşil Varlık Oranı (GAR)"}]},
+        {"type": "paragraph", "content": [{"type": "text", "text": "Yeşil kredi ve tahvil portföyümüz 2026-Q1 itibarıyla toplam portföyün %28.4ini oluşturmaktadır. AB Taksonomisi uzun vadeli hedefimiz olan %35e ulaşmak için Transition Finance sınıflandırması hızlandırılacaktır."}]},
+        {"type": "heading", "attrs": {"level": 2}, "content": [{"type": "text", "text": "3. Sosyal Performans"}]},
+        {"type": "paragraph", "content": [{"type": "text", "text": "Çalışan sayısı 5.020e yükselmiş, kadın yönetici oranı %28.6 ile rekor kırmıştır. Cinsiyet ücret uçurumu 2025 maaş denge projesi sonucunda %4.2ye gerilemiştir (HEDEF: <%5)."}]},
+        {"type": "heading", "attrs": {"level": 2}, "content": [{"type": "text", "text": "4. Yönetişim"}]},
+        {"type": "paragraph", "content": [{"type": "text", "text": "KVKK veri işleme ihlali nedeniyle 125.000 TRY idari para cezası uygulanmıştır. EDP güncellemesi ve Veri Koruma Ofisi takviyesi planlanmaktadır. İklim riski limiti kullanım oranı %62.3 ile %80 eşiğinin altındadır."}]},
+        {"type": "heading", "attrs": {"level": 2}, "content": [{"type": "text", "text": "5. Aksiyon Planı"}]},
+        {"type": "bulletList", "content": [
+          {"type": "listItem", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "Kapsam 1 için araç filosu elektrifikasyon programı başlatılacak (2026-Q3 hedefi)"}]}]},
+          {"type": "listItem", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "GAR arttırmak için yeşil proje finansmanı birimi kurulacak"}]}]},
+          {"type": "listItem", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "KVKK uyum programı güçlendirilecek, CISO pozisyonu ihdas edilecek"}]}]}
+        ]}
+      ]
+    }',
+    'c3d4e5f6a7b80003',
+    'YK Sunumu ilk taslak oluşturuldu',
+    true,
+    'Murat Demir (CFO)'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- VERSIONS for doc-3: BDDK Anomali Özet Tablosu  
+INSERT INTO office_versions
+  (id, document_id, version_number, content_data, content_hash, change_summary, is_frozen, created_by_name)
+VALUES
+  (
+    'f0ffce03-0000-0000-0000-000000000001',
+    'f0ffce00-0000-0000-0000-000000000003',
+    1,
+    '{
+      "cells": {
+        "A1": {"value": "Bulgu Kodu", "formula": null, "style": {"bold": true}},
+        "B1": {"value": "Açıklama", "formula": null, "style": {"bold": true}},
+        "C1": {"value": "Departman", "formula": null, "style": {"bold": true}},
+        "D1": {"value": "Önem", "formula": null, "style": {"bold": true}},
+        "E1": {"value": "Durum", "formula": null, "style": {"bold": true}},
+        "A2": {"value": "BDDK-CCM-001", "formula": null},
+        "B2": {"value": "147 SWIFT MT103 işleminde tek yetkili imzası", "formula": null},
+        "C2": {"value": "Muhasebe", "formula": null},
+        "D2": {"value": "Kritik", "formula": null},
+        "E2": {"value": "Açık", "formula": null},
+        "A3": {"value": "BDDK-IT-002", "formula": null},
+        "B3": {"value": "Core banking erişim yetkisi fazlalığı", "formula": null},
+        "C3": {"value": "BT", "formula": null},
+        "D3": {"value": "Yüksek", "formula": null},
+        "E3": {"value": "İnceleme", "formula": null},
+        "A4": {"value": "BDDK-FIN-003", "formula": null},
+        "B4": {"value": "Kapsam 1 emisyon hedef aşımı (%12)", "formula": null},
+        "C4": {"value": "Kurumsal Yönetim", "formula": null},
+        "D4": {"value": "Uyarı", "formula": null},
+        "E4": {"value": "Aksiyon Planında", "formula": null},
+        "A5": {"value": "BDDK-COM-004", "formula": null},
+        "B5": {"value": "GAR hedefi altında (%28.4 / hedef %35)", "formula": null},
+        "C5": {"value": "Hazine", "formula": null},
+        "D5": {"value": "Uyarı", "formula": null},
+        "E5": {"value": "Aksiyon Planında", "formula": null},
+        "A6": {"value": "TOPLAM AÇIK", "formula": null, "style": {"bold": true}},
+        "E6": {"value": null, "formula": "=COUNTIF(E2:E5,\"Açık\")", "style": {"bold": true}}
+      },
+      "metadata": {"rows": 6, "cols": 5, "lastModified": "2026-03-07T21:30:00Z"}
+    }',
+    'd4e5f6a7b8c90004',
+    'BDDK saha denetimi anomali bulguları tablosu oluşturuldu',
+    true,
+    'Hakan Yıldız (CAE)'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- Link current_version_id for Wave 37 docs
+UPDATE office_documents SET current_version_id = 'f0ffce01-0000-0000-0000-000000000002'
+WHERE id = 'f0ffce00-0000-0000-0000-000000000001';
+
+UPDATE office_documents SET current_version_id = 'f0ffce02-0000-0000-0000-000000000001'
+WHERE id = 'f0ffce00-0000-0000-0000-000000000002';
+
+UPDATE office_documents SET current_version_id = 'f0ffce03-0000-0000-0000-000000000001'
+WHERE id = 'f0ffce00-0000-0000-0000-000000000003';
+
+-- =============================================================================
+-- WAVE 38 SEED: Ultimate Grading Engine — BDDK Derecelendirme Senaryoları
+-- =============================================================================
+
+-- 1. Grading Scale — BDDK ve KERD-2026 standartları
+INSERT INTO public.grading_scales (id, tenant_id, name, version, is_active, base_score, deduction_config) VALUES
+  (
+    'gs000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'KERD-2026 Standart Ölçeği',
+    '4.0',
+    true,
+    100,
+    '{"critical":25,"high":10,"medium":5,"low":1}'
+  ),
+  (
+    'gs000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'BDDK Basit Ölçeği',
+    '2024',
+    false,
+    100,
+    '{"critical":20,"high":8,"medium":4,"low":1}'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. audit_grades — Gerçekçi BDDK derecelendirme sonuçları
+INSERT INTO public.audit_grades (
+  id, engagement_id, grading_scale_id, tenant_id,
+  final_score, final_grade, assurance_opinion,
+  base_score, total_deductions, capping_triggered, capping_reason,
+  count_critical, count_high, count_medium, count_low, graded_by
+)
+SELECT
+  'ag000000-0000-0000-0000-000000000001',
+  ae.id,
+  'gs000000-0000-0000-0000-000000000001',
+  '11111111-1111-1111-1111-111111111111',
+  72.0, 'C', 'SINIRLI_GUVENCE',
+  100, 28.0, true, '1 critical bulgu mevcut - Maksimum not C',
+  1, 1, 2, 3, 'Kıdemli Denetçi: Ahmet Demir'
+FROM public.audit_engagements ae
+WHERE ae.tenant_id = '11111111-1111-1111-1111-111111111111'
+LIMIT 1
+ON CONFLICT (engagement_id) DO NOTHING;
+
+-- 3. grade_history — Not değişim geçmişi
+INSERT INTO public.grade_history (id, engagement_id, tenant_id, previous_grade, new_grade, previous_score, new_score, change_reason, changed_by)
+SELECT
+  'gh000000-0000-0000-0000-000000000001',
+  ae.id,
+  '11111111-1111-1111-1111-111111111111',
+  'D',
+  'C',
+  62.0,
+  72.0,
+  'BDDK Uyum Denetimi kapsamında yeniden değerlendirme: 2 kritik bulgu kapatıldı, kalan 1 kritik için kısıtlama uygulandı.',
+  'Kıdemli Denetçi: Ahmet Demir'
+FROM public.audit_engagements ae
+WHERE ae.tenant_id = '11111111-1111-1111-1111-111111111111'
+LIMIT 1
+ON CONFLICT (id) DO NOTHING;
+
+-- ============================================================
+-- Wave 40 Seed: Cryptographic Report Sealer — Mühürlenmiş Rapor Örnekleri
+-- ============================================================
+
+-- Örnek Snapshots (gerçek UUID'ler seed'de hardcoded — gerçek rapor UUID'leri olmadığında kullanılır)
+INSERT INTO report_snapshots (
+  id, report_id, snapshot_by, content_json, title, status_at_seal, hash_sha256, metadata
+) VALUES
+  (
+    'iiii0001-snap-0000-0000-000000000001',
+    '00000000-0000-0000-0000-000000000001',
+    'kbirim@sentinelab.com.tr',
+    '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"2025 Q4 İç Denetim Nihai Raporu mühürlenmiş içeriği."}]}]}',
+    '2025 Q4 İç Denetim — Nihai Rapor',
+    'published',
+    'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2',
+    '{"sealed_version": "1.0", "bddk_reference": "BDDK-DEN-2025-Q4", "attestation": "WORM"}'
+  ),
+  (
+    'iiii0001-snap-0000-0000-000000000002',
+    '00000000-0000-0000-0000-000000000002',
+    'denetim.baskani@sentinelab.com.tr',
+    '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Kredi Riski Kapsamlı Değerlendirme Raporu mühürlenmiş içeriği."}]}]}',
+    'Kredi Riski Kapsamlı Değerlendirme — Q1 2026',
+    'published',
+    'b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3',
+    '{"sealed_version": "1.0", "bddk_reference": "BDDK-KRD-2026-Q1", "attestation": "WORM"}'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- İmzalar
+INSERT INTO cryptographic_signatures (
+  id, report_id, snapshot_id, signer_name, signer_role, signer_email,
+  signature_type, signature_hash, order_index
+) VALUES
+  (
+    'jjjj0001-sig0-0000-0000-000000000001',
+    '00000000-0000-0000-0000-000000000001',
+    'iiii0001-snap-0000-0000-000000000001',
+    'Dr. Ayşe Kaya',
+    'DENETIM_BASKANI',
+    'a.kaya@sentinelab.com.tr',
+    'APPROVAL',
+    'c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4',
+    1
+  ),
+  (
+    'jjjj0001-sig0-0000-0000-000000000002',
+    '00000000-0000-0000-0000-000000000001',
+    'iiii0001-snap-0000-0000-000000000001',
+    'Mehmet Yılmaz',
+    'RISK_DIREKTORU',
+    'm.yilmaz@sentinelab.com.tr',
+    'APPROVAL',
+    'd4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5',
+    2
+  ),
+  (
+    'jjjj0001-sig0-0000-0000-000000000003',
+    '00000000-0000-0000-0000-000000000001',
+    'iiii0001-snap-0000-0000-000000000001',
+    'Fatma Demir',
+    'YON_KURULU',
+    'f.demir@sentinelab.com.tr',
+    'SEAL',
+    'e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6',
+    3
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 39. GOLDEN THREAD — İzlenebilirlik Altın İpi Seed Verisi
+-- =============================================================================
+-- Bu seed mevcut 'actions' tablosunda finding_snapshot içeren kayıtların
+-- regulatory_tags alanını günceller ve seed denetim yolculuğunu tamamlar.
+-- Actions tablosunda önce temsili seed kaydı eklenir (conflict'te güncelleme yapılır).
+
+-- Pilot Action: Kredi Limiti Aşımı İzlenebilirlik Kaydı
+INSERT INTO public.actions (
+  id,
+  finding_id,
+  title,
+  description,
+  priority,
+  status,
+  due_date,
+  original_due_date,
+  regulatory_tags,
+  finding_snapshot,
+  created_by,
+  created_at
+) VALUES (
+  'a9000000-0000-0000-0000-000000000039',
+  NULL,
+  'Kredi Limiti Aşımı Kontrol Açığı — Kapatma Aksiyonu',
+  'Belirli kurumsal kredi hesaplarında limit aşımlarının onay sürecindeki kontrol zafiyetinin giderilmesi.',
+  'CRITICAL',
+  'pending',
+  NOW() + INTERVAL '45 days',
+  NOW() + INTERVAL '45 days',
+  ARRAY['BDDK', 'GIAS-2024', 'Std15.1'],
+  jsonb_build_object(
+    'finding_id',     'a9000000-find-0000-0000-000000000001',
+    'title',          'Onaysız Kredi Limiti Aşımı',
+    'severity',       'CRITICAL',
+    'risk_rating',    'HIGH',
+    'gias_category',  'Kredi Riski',
+    'description',    'Sistematik onay mekanizması devre dışı bırakılarak limitin üstüne çıkıldığı tespit edildi.',
+    'created_at',     to_char(NOW() - INTERVAL '30 days', ''YYYY-MM-DD"T"HH24:MI:SS"Z"'')
+  ),
+  '00000000-0000-0000-0000-000000000001',
+  NOW() - INTERVAL '30 days'
+) ON CONFLICT (id) DO UPDATE
+  SET regulatory_tags   = EXCLUDED.regulatory_tags,
+      finding_snapshot  = EXCLUDED.finding_snapshot;
+
+-- İkinci Pilot Action: KVKK Uyum Süreci
+INSERT INTO public.actions (
+  id,
+  finding_id,
+  title,
+  description,
+  priority,
+  status,
+  due_date,
+  original_due_date,
+  regulatory_tags,
+  finding_snapshot,
+  created_by,
+  created_at
+) VALUES (
+  'a9000000-0000-0000-0000-000000000040',
+  NULL,
+  'KVKK Veri Erişim Logu Eksikliği — Kapatma Aksiyonu',
+  'Hassas kişisel veri tablolarına erişim loglarının KVKK Madde 12 kapsamında tutulmaması.',
+  'HIGH',
+  'evidence_submitted',
+  NOW() + INTERVAL '20 days',
+  NOW() + INTERVAL '20 days',
+  ARRAY['KVKK', 'BDDK', 'GIAS-2024'],
+  jsonb_build_object(
+    'finding_id',     'a9000000-find-0000-0000-000000000002',
+    'title',          'Kişisel Veri Erişim Logu Eksikliği',
+    'severity',       'HIGH',
+    'risk_rating',    'HIGH',
+    'gias_category',  'Veri Yönetimi',
+    'description',    'Hassas kişisel verilere erişim loglarının tutulmaması yasal yükümlülükleri ihlal etmektedir.',
+    'created_at',     to_char(NOW() - INTERVAL '15 days', ''YYYY-MM-DD"T"HH24:MI:SS"Z"'')
+  ),
+  '00000000-0000-0000-0000-000000000001',
+  NOW() - INTERVAL '15 days'
+) ON CONFLICT (id) DO UPDATE
+  SET regulatory_tags   = EXCLUDED.regulatory_tags,
+      finding_snapshot  = EXCLUDED.finding_snapshot;

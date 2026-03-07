@@ -2,10 +2,9 @@ import { useState, useMemo } from 'react';
 import {
   BookOpen, FlaskConical, Wallet, Plus, Award, Clock, Star,
   Trash2, CheckCircle2, XCircle, Clock3, Trophy,
-  BarChart2, Zap, BarChart3,
+  Zap, BarChart3,
 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/shared/api/supabase';
 import { ManagerDashboard } from '@/features/academy/components/ManagerDashboard';
 import { PageHeader } from '@/shared/ui/PageHeader';
 import { CPEProgressBar } from '@/features/academy/components/CPETracker/CPEProgressBar';
@@ -70,6 +69,7 @@ interface PassedAttempt {
 
 export default function AcademyPage() {
   const queryClient = useQueryClient();
+  const { userId, userName } = useCurrentUser();
   const [activeTab, setActiveTab] = useState<Tab>('learning');
   const [activeExamId, setActiveExamId] = useState<string | null>(null);
   const [showCpeModal, setShowCpeModal] = useState(false);
@@ -88,43 +88,57 @@ export default function AcademyPage() {
   });
 
   const { data: cpeRecords = [], isLoading: loadingCpe } = useQuery({
-    queryKey: ['cpe-records', DEMO_USER_ID, currentYear],
-    queryFn: () => fetchCpeRecords(DEMO_USER_ID, currentYear),
+    queryKey: ['cpe-records', userId, currentYear],
+    queryFn: () => fetchCpeRecords(userId, currentYear),
   });
 
   const { data: cpeGoalData } = useQuery({
-    queryKey: ['cpe-goal', DEMO_USER_ID, currentYear],
-    queryFn: () => fetchCpeGoal(DEMO_USER_ID, currentYear),
+    queryKey: ['cpe-goal', userId, currentYear],
+    queryFn: () => fetchCpeGoal(userId, currentYear),
   });
 
-  const { data: attempts = [], isLoading: loadingAttempts } = useQuery({
-    queryKey: ['passed-attempts', DEMO_USER_ID],
-    queryFn: () => fetchPassedAttempts(DEMO_USER_ID),
+  const { data: attemptsRaw = [], isLoading: loadingAttempts } = useQuery({
+    queryKey: ['passed-attempts', userId],
+    queryFn: () => fetchPassedAttempts(userId),
   });
 
   const deleteCpeMutation = useMutation({
     mutationFn: deleteCpeRecord,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cpe-records', DEMO_USER_ID, currentYear] });
+      queryClient.invalidateQueries({ queryKey: ['cpe-records', userId, currentYear] });
     },
   });
+
+  // Normalize the nested query result into a typed PassedAttempt array
+  const attempts: PassedAttempt[] = (attemptsRaw ?? []).map((a: any) => ({
+    id: a.id,
+    score: a.score,
+    passed: a.passed,
+    completed_at: a.completed_at,
+    xp_awarded: a.xp_awarded,
+    exam: {
+      id: a.exam?.id ?? '',
+      title: a.exam?.title ?? '',
+      course: Array.isArray(a.exam?.course)
+        ? a.exam.course[0] ?? { id: '', title: '', category: '' }
+        : a.exam?.course ?? { id: '', title: '', category: '' },
+    },
+  }));
 
   const cpeGoal = cpeGoalData?.goal_hours ?? 40;
   const earnedHours = (cpeRecords as UserCpeRecord[]).filter((r) => r.status === 'approved').reduce((s, r) => s + r.credit_hours, 0);
   const pendingHours = (cpeRecords as UserCpeRecord[]).filter((r) => r.status === 'pending').reduce((s, r) => s + r.credit_hours, 0);
-  const totalXP = (attempts as PassedAttempt[]).reduce((s, a) => s + a.xp_awarded, 0);
-
-  const loading = loadingCourses || loadingExams || loadingCpe || loadingAttempts;
+  const totalXP = attempts.reduce((s, a) => s + a.xp_awarded, 0);
 
   if (activeExamId) {
     return (
       <ExamRunner
         examId={activeExamId}
-        userId={DEMO_USER_ID}
+        userId={userId}
         onBack={() => {
           setActiveExamId(null);
-          queryClient.invalidateQueries({ queryKey: ['passed-attempts', DEMO_USER_ID] });
-          queryClient.invalidateQueries({ queryKey: ['cpe-records', DEMO_USER_ID, currentYear] });
+          queryClient.invalidateQueries({ queryKey: ['passed-attempts', userId] });
+          queryClient.invalidateQueries({ queryKey: ['cpe-records', userId, currentYear] });
         }}
       />
     );
@@ -141,7 +155,7 @@ export default function AcademyPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
         <div className="grid grid-cols-3 gap-4 mb-6">
           <StatCard icon={<Trophy size={18} className="text-amber-500" />} label="Total XP Earned" value={totalXP.toLocaleString()} sub="from passed exams" color="amber" />
-          <StatCard icon={<Award size={18} className="text-emerald-500" />} label="Certificates" value={String((attempts as PassedAttempt[]).length)} sub="exams passed" color="emerald" />
+          <StatCard icon={<Award size={18} className="text-emerald-500" />} label="Certificates" value={String(attempts.length)} sub="exams passed" color="emerald" />
           <StatCard icon={<Zap size={18} className="text-blue-500" />} label="CPE Hours" value={`${earnedHours.toFixed(1)} / ${cpeGoal}`} sub={`${currentYear} approved`} color="blue" />
         </div>
 
@@ -173,12 +187,12 @@ export default function AcademyPage() {
             {activeTab === 'exams' && (
               <ExamCenterTab
                 exams={exams}
-                attempts={attempts as PassedAttempt[]}
+                attempts={attempts}
                 loading={loadingExams || loadingAttempts}
                 onStartExam={setActiveExamId}
                 onViewCertificate={(a) =>
                   setCertificate({
-                    recipientName: DEMO_USER_NAME,
+                    recipientName: userName,
                     courseTitle:   a.exam.course.title,
                     examTitle:     a.exam.title,
                     score:         a.score,
@@ -208,10 +222,10 @@ export default function AcademyPage() {
 
       {showCpeModal && (
         <CPEUploadModal
-          userId={DEMO_USER_ID}
+          userId={userId}
           onClose={() => setShowCpeModal(false)}
           onCreated={() => {
-            queryClient.invalidateQueries({ queryKey: ['cpe-records', DEMO_USER_ID, currentYear] });
+            queryClient.invalidateQueries({ queryKey: ['cpe-records', userId, currentYear] });
             setShowCpeModal(false);
           }}
         />

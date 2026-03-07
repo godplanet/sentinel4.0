@@ -34,10 +34,16 @@ CREATE INDEX IF NOT EXISTS idx_fatwa_logs_user ON public.fatwa_logs(user_id);
 ALTER TABLE public.shariah_rulings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.fatwa_logs ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "shariah_rulings_select_anon" ON public.shariah_rulings;
 CREATE POLICY "shariah_rulings_select_anon" ON public.shariah_rulings FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "shariah_rulings_select" ON public.shariah_rulings;
 CREATE POLICY "shariah_rulings_select" ON public.shariah_rulings FOR SELECT TO authenticated USING (true);
 
+DROP POLICY IF EXISTS "fatwa_logs_select_anon" ON public.fatwa_logs;
 CREATE POLICY "fatwa_logs_select_anon" ON public.fatwa_logs FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "fatwa_logs_select" ON public.fatwa_logs;
 CREATE POLICY "fatwa_logs_select" ON public.fatwa_logs FOR SELECT TO authenticated USING (true);
+DROP POLICY IF EXISTS "fatwa_logs_insert_anon" ON public.fatwa_logs;
 CREATE POLICY "fatwa_logs_insert_anon" ON public.fatwa_logs FOR INSERT TO anon WITH CHECK (true);
+DROP POLICY IF EXISTS "fatwa_logs_insert" ON public.fatwa_logs;
 CREATE POLICY "fatwa_logs_insert" ON public.fatwa_logs FOR INSERT TO authenticated WITH CHECK (true);

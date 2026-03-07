@@ -2,10 +2,11 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Zap, ShieldCheck, ShieldAlert, ShieldOff, Loader2,
-  Play, BarChart3, Clock, AlertTriangle,
+  Play, BarChart3, Clock, AlertTriangle, History, TrendingUp,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { runSmurfingTest } from '@/features/chaos/ChaosMonkey';
+import { persistChaosResult, useChaosResults, useChaosStats } from '@/features/chaos/api';
 import type { ChaosTestResult, ChaosStep, ControlReaction } from '@/features/chaos/types';
 import { SCENARIO_LABELS, SCENARIO_DESCRIPTIONS } from '@/features/chaos/types';
 
@@ -39,6 +40,8 @@ export function ChaosTestCard() {
         });
       });
       setResult(outcome);
+      // Supabase'e sessizce kaydet — hata UI'yi bloklamasın
+      await persistChaosResult('ce000000-0000-0000-0000-000000000001', outcome);
     } catch (err) {
       console.error('Chaos test failed:', err);
       setSteps((prev) => [...prev, { label: 'Test basarisiz oldu', status: 'error', detail: String(err) }]);
@@ -149,6 +152,9 @@ export function ChaosTestCard() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Supabase'den gelen gecmiş test sonuçları */}
+      <ChaosHistoryPanel />
     </div>
   );
 }
@@ -209,6 +215,86 @@ function ChaosResultCard({ result }: { result: ChaosTestResult }) {
         <span className="text-[10px] text-slate-500">Batch ID: {result.batchId}</span>
         <span className="text-[10px] text-slate-500 ml-3">Zaman: {new Date(result.timestamp).toLocaleString('tr-TR')}</span>
       </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────
+   ChaosHistoryPanel — Supabase'den gelen geçmiş test sonuçları
+   ────────────────────────────────────────────────────────── */
+function ChaosHistoryPanel() {
+  const { data: results, isLoading } = useChaosResults();
+  const { stats } = useChaosStats();
+  const rows = results ?? [];
+
+  return (
+    <div className="bg-surface border border-slate-200 rounded-xl p-5">
+      <div className="flex items-center gap-2 mb-4">
+        <History size={16} className="text-slate-400" />
+        <h4 className="text-sm font-bold text-primary">Geçmiş Test Sonuçları</h4>
+        <span className="ml-auto text-[10px] text-slate-400 font-mono">
+          {stats.total_runs} çalıştırma
+        </span>
+      </div>
+
+      {/* Stats bar */}
+      <div className="grid grid-cols-4 gap-2 mb-4">
+        {[
+          { label: 'Başarı Oranı', value: `%${stats.success_rate}`, color: 'text-emerald-600', icon: TrendingUp },
+          { label: 'Engellendi', value: stats.blocked_count, color: 'text-emerald-600', icon: ShieldCheck },
+          { label: 'Tespit', value: stats.detected_count, color: 'text-amber-600', icon: ShieldAlert },
+          { label: 'Kaçırıldı', value: stats.missed_count, color: 'text-red-600', icon: ShieldOff },
+        ].map(({ label, value, color, icon: Icon }) => (
+          <div key={label} className="bg-canvas rounded-lg p-2.5 text-center">
+            <Icon size={14} className={clsx('mx-auto mb-1', color)} />
+            <span className={clsx('text-sm font-black', color)}>{value}</span>
+            <span className="text-[10px] text-slate-500 block mt-0.5">{label}</span>
+          </div>
+        ))}
+      </div>
+
+      {isLoading ? (
+        <div className="flex items-center gap-2 text-xs text-slate-400 py-3">
+          <Loader2 size={14} className="animate-spin" />
+          Yükleniyor...
+        </div>
+      ) : rows.length === 0 ? (
+        <p className="text-xs text-slate-400 text-center py-3">
+          Henüz test çalıştırılmadı. Yukarıdan başlatabilirsiniz.
+        </p>
+      ) : (
+        <div className="space-y-2 max-h-64 overflow-y-auto">
+          {rows.map((r) => {
+            const reaction = r.control_reaction as ControlReaction;
+            const cfg = REACTION_CONFIG[reaction] ?? REACTION_CONFIG.MISSED;
+            const RIcon = cfg.icon;
+            return (
+              <div
+                key={r.id}
+                className={clsx(
+                  'flex items-center gap-3 px-3 py-2 rounded-lg border text-xs',
+                  cfg.bg,
+                )}
+              >
+                <RIcon size={14} className={cfg.color} />
+                <div className="flex-1 min-w-0">
+                  <span className="font-medium text-primary truncate block">
+                    {r.scenario}
+                  </span>
+                  <span className="text-slate-400">
+                    {r.transactions_injected} işlem · {(r.total_amount ?? 0).toLocaleString('tr-TR')} TL
+                    {r.detection_time_ms > 0 ? ` · ${r.detection_time_ms}ms` : ''}
+                  </span>
+                </div>
+                <span className={clsx('font-bold uppercase text-[9px]', cfg.color)}>{cfg.label}</span>
+                <span className="text-slate-400 shrink-0">
+                  {new Date(r.ran_at).toLocaleDateString('tr-TR')}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

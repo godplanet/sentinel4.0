@@ -83,6 +83,12 @@ export class GradingCalculator {
       finalGrade: scaleEntry.grade,
       assuranceOpinion: scaleEntry.opinion,
       assuranceLabel: scaleEntry.label,
+      color: (() => {
+        // Pick color from DEFAULT_CONSTITUTION grade_scale
+        const { grade_scale } = require('./types').DEFAULT_CONSTITUTION;
+        const entry = grade_scale?.find((g: { grade: string; color: string }) => g.grade === scaleEntry.grade);
+        return entry?.color ?? '#6b7280';
+      })(),
       capping,
       waterfall,
       counts,
@@ -143,7 +149,7 @@ export class GradingCalculator {
   }
 
   private evaluateCappingRule(rule: CappingRule, counts: FindingSeverityCounts): boolean {
-    const fieldValue = (counts as Record<string, number>)[rule.field] ?? 0;
+    const fieldValue = (counts as unknown as Record<string, number>)[rule.field] ?? 0;
 
     switch (rule.operator) {
       case '>=': return fieldValue >= rule.value;
@@ -427,7 +433,7 @@ export function calculateAuditScore(
     if (details.length === 0) continue;
 
     const totalDeduction = details.reduce((sum, d) => sum + d.finalDeduction, 0);
-    const avgPointsEach = totalDeduction / details.length;
+    const avgPointsEach = totalDeduction / (details.length || 1); // Wave 38: div-by-zero guard
 
     runningScore = Math.max(0, runningScore - totalDeduction);
 

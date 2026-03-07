@@ -24,6 +24,8 @@ import {
   type SamplingInput,
   type SamplingResult,
 } from '@/features/sampling/lib/calculator';
+import { useSaveSamplingLog } from '@/widgets/RKMMasterGrid/rkm-grid-api';
+import toast from 'react-hot-toast';
 
 interface SamplingWizardProps {
   workpaperId?: string | null;
@@ -38,6 +40,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
   const [result, setResult] = useState<SamplingResult | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+  const saveSamplingLog = useSaveSamplingLog();
   const [showSampleIndices, setShowSampleIndices] = useState(false);
   const [sampleIndices, setSampleIndices] = useState<number[]>([]);
 
@@ -78,22 +81,29 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
 
     setIsSaving(true);
     try {
-      const config = {
-        populationSize,
-        riskLevel,
-        confidenceLevel,
-        expectedErrorRate: expectedErrorRate || undefined,
-        result,
-      };
+      // Supabase'e kaydet
+      await saveSamplingLog.mutateAsync({
+        workpaper_id:             workpaperId ?? null,
+        population_size:          populationSize,
+        risk_level:               riskLevel,
+        confidence_level:         confidenceLevel,
+        expected_error_rate:      expectedErrorRate || undefined,
+        recommended_sample_size:  result.recommendedSampleSize,
+        methodology:              result.methodology,
+        justification:            result.justification,
+        is_full_scope:            result.isFullScope ?? false,
+        sample_indices:           showSampleIndices ? sampleIndices : undefined,
+      });
 
       if (onSave) {
-        await onSave(config);
+        await onSave({ populationSize, riskLevel, confidenceLevel,
+          expectedErrorRate: expectedErrorRate || undefined, result });
       }
 
-      alert('Örneklem metodolojisi başarıyla kaydedildi!');
+      toast.success('Örneklem metodolojisi başarıyla kaydedildi!');
     } catch (error) {
       console.error('Failed to save sampling config:', error);
-      alert('Kaydetme sırasında bir hata oluştu.');
+      toast.error('Kaydetme sırasında bir hata oluştu.');
     } finally {
       setIsSaving(false);
     }
@@ -271,7 +281,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
                 <div>
                   <p className="text-xs opacity-75">Kapsam Oranı</p>
                   <p className="text-lg font-bold">
-                    {((result.recommendedSampleSize / populationSize) * 100).toFixed(1)}%
+                    {((result.recommendedSampleSize / (populationSize || 1)) * 100).toFixed(1)}%
                   </p>
                 </div>
                 <div>
