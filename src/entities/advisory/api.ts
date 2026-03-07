@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/shared/api/supabase';
 import type {
   AdvisoryRequest, AdvisoryEngagement, AdvisoryInsight,
+  AdvisoryService, AdvisoryCanvasBlock,
 } from './types';
 
 export function useAdvisoryRequests() {
@@ -167,6 +168,94 @@ export function useUpdateAdvisoryInsight() {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['advisory-insights'] });
+    },
+  });
+}
+
+// ─── Advisory Services (Wave 31) ────────────────────────────────────────────
+
+export function useAdvisoryServices(engagementId?: string) {
+  return useQuery({
+    queryKey: ['advisory-services', engagementId ?? 'all'],
+    queryFn: async () => {
+      let query = supabase
+        .from('advisory_services')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (engagementId) {
+        query = query.eq('engagement_id', engagementId);
+      }
+      const { data, error } = await query;
+      if (error) return [] as AdvisoryService[];
+      return (data ?? []) as AdvisoryService[];
+    },
+  });
+}
+
+export function useUpdateAdvisoryServiceStatus() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: AdvisoryService['status'] }) => {
+      const { error } = await supabase
+        .from('advisory_services')
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['advisory-services'] });
+    },
+  });
+}
+
+// ─── Advisory Canvas Blocks (Wave 31) ────────────────────────────────────────
+
+export function useCanvasBlocks(engagementId: string | undefined) {
+  return useQuery({
+    queryKey: ['advisory-canvas-blocks', engagementId],
+    enabled: !!engagementId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('advisory_canvas_blocks')
+        .select('*')
+        .eq('engagement_id', engagementId!)
+        .order('position_index', { ascending: true });
+      if (error) return [] as AdvisoryCanvasBlock[];
+      return (data ?? []) as AdvisoryCanvasBlock[];
+    },
+  });
+}
+
+export function useUpsertCanvasBlocks(engagementId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (blocks: Pick<AdvisoryCanvasBlock, 'id' | 'block_type' | 'text_content' | 'position_index'>[]) => {
+      // Delete removed blocks, then upsert remainder
+      const { error: delError } = await supabase
+        .from('advisory_canvas_blocks')
+        .delete()
+        .eq('engagement_id', engagementId)
+        .not('id', 'in', `(${blocks.map((b) => `'${b.id}'`).join(',')})`);
+      if (delError && blocks.length > 0) throw delError;
+
+      if (blocks.length === 0) return;
+
+      const rows = blocks.map((b) => ({
+        id: b.id,
+        engagement_id: engagementId,
+        block_type: b.block_type,
+        text_content: b.text_content,
+        position_index: b.position_index,
+        updated_at: new Date().toISOString(),
+      }));
+
+      const { error } = await supabase
+        .from('advisory_canvas_blocks')
+        .upsert(rows, { onConflict: 'id' });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['advisory-canvas-blocks', engagementId] });
     },
   });
 }

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   BookOpen, FlaskConical, Wallet, Plus, Award, Clock, Star,
   Trash2, CheckCircle2, XCircle, Clock3, Trophy,
   BarChart2, Zap, BarChart3,
 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/shared/api/supabase';
 import { ManagerDashboard } from '@/features/academy/components/ManagerDashboard';
 import { PageHeader } from '@/shared/ui/PageHeader';
 import { CPEProgressBar } from '@/features/academy/components/CPETracker/CPEProgressBar';
@@ -22,8 +23,28 @@ import { fetchAcademyCourses, fetchAcademyExams } from '@/features/academy/api/a
 import type { CourseRow, ExamRow } from '@/features/academy/api/academyApi';
 import type { UserCpeRecord } from '@/features/academy/types';
 
-const DEMO_USER_ID = '00000000-0000-0000-0000-000000000001';
-const DEMO_USER_NAME = 'Ahmet Yılmaz';
+/** Fallback user ID used only if auth is unavailable */
+const FALLBACK_USER_ID = '00000000-0000-0000-0000-000000000001';
+
+/** Resolve real user from Supabase session or localStorage sentinel_user */
+function useCurrentUser(): { userId: string; userName: string } {
+  return useMemo(() => {
+    // Try localStorage first (set by auth flow)
+    try {
+      const raw = localStorage.getItem('sentinel_user');
+      if (raw) {
+        const parsed = JSON.parse(raw) as { id?: string; name?: string; email?: string };
+        if (parsed?.id && parsed.id !== '00000000-0000-0000-0000-000000000001') {
+          return { userId: parsed.id, userName: parsed.name ?? parsed.email ?? 'Kullanıcı' };
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return { userId: FALLBACK_USER_ID, userName: 'Ahmet Yılmaz' };
+  }, []);
+}
+
 
 type Tab = 'learning' | 'exams' | 'cpe' | 'manager';
 

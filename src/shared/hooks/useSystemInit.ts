@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { UniversalSeeder, SeedProgress } from '@/shared/lib/universal-seeder';
-import { supabase } from '@/shared/api/supabase'; // Assuming standard Supabase client path
+import { supabase } from '@/shared/api/supabase';
 
 interface SystemInitState {
   isInitializing: boolean;
@@ -9,20 +9,59 @@ interface SystemInitState {
   progress: string;
 }
 
+/**
+ * Sistem başlatma flag'leri:
+ *
+ * 1. `skip_seed` (localStorage)  → E2E testleri / dev modunda manuel bypass.
+ *    Playwright testleri bu flag'i page.evaluate() içinde set eder.
+ *
+ * 2. `VITE_SKIP_SEED=true` (env) → CI/CD ortamı için build-time bypass.
+ *
+ * 3. `sentinel_seeded_flag` (sessionStorage) → Oturum başına bir kez DB sorgusu.
+ *    Sayfa yenilendiğinde (F5) sıfırlanan session içinde flag varsa anında complete.
+ *    Sekme kapanınca otomatik temizlenir, böylece ilk açılış her zaman kontrol edilir.
+ */
+const SEEDED_SESSION_KEY = 'sentinel_seeded_flag';
+
+function isInstantBypassActive(): boolean {
+  // 1. E2E / dev bypass (localStorage — kalıcı, test sonrası temizlenmez)
+  if (
+    import.meta.env.VITE_SKIP_SEED === 'true' ||
+    localStorage.getItem('skip_seed') === 'true'
+  ) {
+    return true;
+  }
+
+  // 2. Oturum cache'i (sessionStorage — sekme kapanınca otomatik silinir)
+  if (sessionStorage.getItem(SEEDED_SESSION_KEY) === 'true') {
+    return true;
+  }
+
+  return false;
+}
+
+function markSessionAsSeeded(): void {
+  try {
+    sessionStorage.setItem(SEEDED_SESSION_KEY, 'true');
+  } catch {
+    // Private mode veya storage dolu — sessizce geç
+  }
+}
+
 export function useSystemInit() {
   const [state, setState] = useState<SystemInitState>({
     isInitializing: true,
     isComplete: false,
     error: null,
-    progress: 'Veritabanı bağlantısı kontrol ediliyor...'
+    progress: 'Veritabanı bağlantısı kontrol ediliyor...',
   });
 
   useEffect(() => {
     let isMounted = true;
 
     async function initializeSystem() {
-      // 1. Bypass check for local development/testing to skip slow checks
-      if (import.meta.env.VITE_SKIP_SEED === 'true' || localStorage.getItem('skip_seed') === 'true') {
+      // ─── HIZLI BYPASS: Anında tamamlandı ─────────────────────────────────
+      if (isInstantBypassActive()) {
         if (isMounted) {
           setState({ isInitializing: false, isComplete: true, error: null, progress: '' });
         }
@@ -30,67 +69,65 @@ export function useSystemInit() {
       }
 
       try {
-        if (isMounted) setState(prev => ({ ...prev, progress: 'Temel veri altyapısı kontrol ediliyor...' }));
-        
-        // 2. We use a quick fetch to see if core records exist. 
-        // We'll check `audit_entities` or `user_profiles` as a proxy for fully seeded system.
+        if (isMounted) {
+          setState((prev) => ({ ...prev, progress: 'Temel veri altyapısı kontrol ediliyor...' }));
+        }
+
+        // Sadece sayı sorgula — veri çekme
         const { count, error } = await supabase
           .from('audit_entities')
           .select('*', { count: 'exact', head: true });
 
-        // 3. Silently continue if there's any network or permission error — 
-        //    the app should NOT crash on init. Let the actual pages handle data errors.
-        if (error) {
-          console.warn('useSystemInit: Could not check DB state, continuing anyway.', error.message);
-          if (isMounted) {
-            setState({ isInitializing: false, isComplete: true, error: null, progress: '' });
-          }
-          return;
+        if (error && error.code !== '42P01') {
+          throw error;
         }
 
-        // 4. If DB has data (count > 0), mark complete immediately.
-        //    This is the NORMAL path for the online Supabase instance (seeded via seed.sql).
+        // DB'de veri var → oturum flag'ini set et, anında tamamla
         if (count && count > 0) {
+          markSessionAsSeeded();
           if (isMounted) {
             setState({ isInitializing: false, isComplete: true, error: null, progress: '' });
           }
           return;
         }
 
-        // 5. Data is missing — attempt edge function seed but never crash the app if it fails.
-        if (isMounted) setState(prev => ({ ...prev, progress: 'Sistem ilk defa başlatılıyor, demo verileri yükleniyor...' }));
-        
-        try {
-          const seeder = new UniversalSeeder((progressEvents: SeedProgress[]) => {
-            if (!isMounted) return;
-            const current = progressEvents[progressEvents.length - 1];
-            if (current) {
-               setState(prev => ({ ...prev, progress: current.message }));
-            }
-          });
+        // İlk kez başlatma: seed çalıştır
+        if (isMounted) {
+          setState((prev) => ({
+            ...prev,
+            progress: 'Sistem ilk defa başlatılıyor, ana tohum verileri yükleniyor...',
+          }));
+        }
 
-          const result = await seeder.runFullSeed();
-
-          if (!result.success) {
-            // Log the error but DO NOT block the UI — seed failures shouldn't crash the app.
-            console.warn('useSystemInit: Seed edge function failed, continuing without seed.', result.error);
+        const seeder = new UniversalSeeder((progressEvents: SeedProgress[]) => {
+          if (!isMounted) return;
+          const current = progressEvents[progressEvents.length - 1];
+          if (current) {
+            setState((prev) => ({ ...prev, progress: current.message }));
           }
-        } catch (seedErr) {
-          // Edge function might be unavailable — log and continue gracefully.
-          console.warn('useSystemInit: Seed edge function unreachable, continuing.', seedErr);
+        });
+
+        const result = await seeder.runFullSeed();
+
+        if (!result.success) {
+          throw new Error('Veri tohumlama edge function çalıştırılamadı.');
         }
 
-        // 6. Always mark complete after seed attempt (success or fail).
-        if (isMounted) {
-           setState({ isInitializing: false, isComplete: true, error: null, progress: '' });
-        }
+        // Seed başarılı → oturum flag'ini set et
+        markSessionAsSeeded();
 
-      } catch (err: any) {
-        // Only log unexpected errors, never show them as fatal.
-        console.error('System init unexpected error:', err);
         if (isMounted) {
-          // Still complete — let individual pages show their own errors.
           setState({ isInitializing: false, isComplete: true, error: null, progress: '' });
+        }
+      } catch (err: any) {
+        console.error('System init error:', err);
+        if (isMounted) {
+          setState({
+            isInitializing: false,
+            isComplete: false,
+            error: err.message || 'Sistem başlatılırken kritik bir veritabanı hatası oluştu.',
+            progress: '',
+          });
         }
       }
     }

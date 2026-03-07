@@ -217,24 +217,33 @@ export async function simulateVoiceInput(): Promise<string> {
 }
 
 /**
- * Save finding draft to database
+ * Save finding draft to database (Wave 29: Supabase field_notes tablosuna kaydet)
  */
 export async function saveFindingDraft(draft: VoiceFindingDraft): Promise<boolean> {
   try {
-    // In a real implementation, this would save to Supabase
-    // For now, we'll just store in localStorage
-    const drafts = JSON.parse(localStorage.getItem('field_agent_drafts') || '[]');
-    drafts.unshift({
-      ...draft,
-      timestamp: draft.timestamp.toISOString(),
+    const { supabase } = await import('@/shared/api/supabase');
+
+    const { error } = await supabase.from('field_notes').insert({
+      title: draft?.title ?? 'Adsız Saha Notu',
+      description: draft?.description ?? '',
+      severity: draft?.severity ?? 'medium',
+      category: draft?.category ?? 'Genel',
+      location: draft?.location ?? '',
+      audio_source: draft?.audioSource ?? false,
+      confidence: draft?.confidence ?? 0.75,
+      transcript: draft?.description ?? null,
+      status: 'draft',
     });
 
-    // Keep only last 20 drafts
-    if (drafts.length > 20) {
-      drafts.length = 20;
+    if (error) {
+      console.error('[Wave29] field_notes insert error:', error);
+      // Supabase hatası olursa localStorage fallback
+      const drafts = JSON.parse(localStorage.getItem('field_agent_drafts') || '[]');
+      drafts.unshift({ ...draft, timestamp: draft.timestamp.toISOString() });
+      if (drafts.length > 20) drafts.length = 20;
+      localStorage.setItem('field_agent_drafts', JSON.stringify(drafts));
     }
 
-    localStorage.setItem('field_agent_drafts', JSON.stringify(drafts));
     return true;
   } catch (error) {
     console.error('Error saving draft:', error);
@@ -243,14 +252,35 @@ export async function saveFindingDraft(draft: VoiceFindingDraft): Promise<boolea
 }
 
 /**
- * Get recent drafts from storage
+ * Get recent drafts from Supabase (Wave 29: Gerçek DB'den çek)
  */
-export function getRecentDrafts(): VoiceFindingDraft[] {
+export async function getRecentDrafts(): Promise<VoiceFindingDraft[]> {
   try {
-    const drafts = JSON.parse(localStorage.getItem('field_agent_drafts') || '[]');
-    return drafts.map((d: any) => ({
-      ...d,
-      timestamp: new Date(d.timestamp),
+    const { supabase } = await import('@/shared/api/supabase');
+
+    const { data, error } = await supabase
+      .from('field_notes')
+      .select('*')
+      .eq('status', 'draft')
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (error || !data?.length) {
+      // localStorage fallback
+      const drafts = JSON.parse(localStorage.getItem('field_agent_drafts') || '[]');
+      return (drafts || []).map((d: any) => ({ ...d, timestamp: new Date(d?.timestamp) }));
+    }
+
+    return (data || []).map((row: any) => ({
+      id: row?.id ?? '',
+      title: row?.title ?? '',
+      description: row?.description ?? '',
+      severity: row?.severity ?? 'medium',
+      category: row?.category ?? 'Genel',
+      location: row?.location ?? '',
+      timestamp: new Date(row?.created_at ?? Date.now()),
+      audioSource: row?.audio_source ?? false,
+      confidence: row?.confidence ?? 0.75,
     }));
   } catch (error) {
     return [];
@@ -258,7 +288,7 @@ export function getRecentDrafts(): VoiceFindingDraft[] {
 }
 
 /**
- * Clear all drafts
+ * Clear all drafts (localStorage + DB fallback)
  */
 export function clearDrafts(): void {
   localStorage.removeItem('field_agent_drafts');

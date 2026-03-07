@@ -3689,3 +3689,770 @@ INSERT INTO public.export_logs (id, dossier_id, action, status, metadata) VALUES
   )
 ON CONFLICT (id) DO NOTHING;
 
+-- =============================================================================
+-- WAVE 29 SEED: Scribble & Field Agent — Saha Notları
+-- =============================================================================
+
+INSERT INTO public.scribbles (id, content, linked_context, is_processed, extracted_data) VALUES
+  (
+    'sc000000-0000-0000-0000-000000000001',
+    'Kasa dairesinde kamera açısı kör noktada. Saat 09:00-12:00 arası müşteri girişi kayıt altına alınmıyor. Şube müdürü durumu biliyor ancak iş emri açılmamış.',
+    'Fiziksel Güvenlik Denetimi',
+    true,
+    '{"severity": "HIGH", "category": "Güvenlik Sistemleri", "finding_extracted": true}'::jsonb
+  ),
+  (
+    'sc000000-0000-0000-0000-000000000002',
+    'IT departmanında sunucu odasına giriş için yalnızca şifre yeterli, kart okuyucu devrede değil. Kapı çoğu zaman aralık bırakılıyor.',
+    'BT & Bilgi Sistemleri Denetimi',
+    true,
+    '{"severity": "CRITICAL", "category": "IT Altyapısı", "finding_extracted": true}'::jsonb
+  ),
+  (
+    'sc000000-0000-0000-0000-000000000003',
+    'Müşteri dosyaları çoğunda onay imzası eksik, birden fazla işlemde tespit edildi, Hazine birimi özellikle etkilenmiş görünüyor.',
+    'Kredi Uyum Denetimi',
+    false,
+    null
+  ),
+  (
+    'sc000000-0000-0000-0000-000000000004',
+    'Acil çıkış kapısının önünde malzeme deposundan gelen kutular var. KVKK ve iş güvenliği açısından tescilli bir ihlal.',
+    'Fiziksel Güvenlik Denetimi',
+    false,
+    null
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.field_notes (
+  id, title, description, severity, category, location,
+  audio_source, confidence, transcript, status
+) VALUES
+  (
+    'fn000000-0000-0000-0000-000000000001',
+    'Kasa Dairesi Kamera Kör Noktası',
+    'Kasa dairesinde kamera açısı kör noktada bulundu. Saat 09:00-12:00 arası müşteri girişi kayıt altına alınmıyor. Şube müdürü durumu biliyor ancak iş emri açılmamış.',
+    'high',
+    'Güvenlik Sistemleri',
+    'Kasa Dairesi',
+    true,
+    0.87,
+    'Kasa dairesinde kamera açısı kör noktada. Saat dokuz ile onikiler arası müşteri girişi kayıt altına alınmıyor.',
+    'submitted'
+  ),
+  (
+    'fn000000-0000-0000-0000-000000000002',
+    'Sunucu Odası Erişim Kartı Kontrolü Yok',
+    'IT departmanında sunucu odasına giriş için yalnızca şifre yeterli, biyometrik kart okuyucu devrede değil. Fiziksel erişim logu tutulmuyor.',
+    'critical',
+    'IT Altyapısı',
+    'IT Departmanı — Sunucu Odası',
+    true,
+    0.92,
+    'IT departmanında sunucu odasına giriş için yalnızca şifre yeterli. Kart okuyucu devrede değil.',
+    'draft'
+  ),
+  (
+    'fn000000-0000-0000-0000-000000000003',
+    'Yangın Söndürücü Tüpü Bakım Süresi Geçmiş',
+    'Şube koridorundaki yangın söndürücü tüpünün bakım etiketi 14 ay önce tarihli. Yenilenmesi gerekiyor. Yangın güvenliği yönetmeliği kapsamında kritik ihlal.',
+    'critical',
+    'Yangın Güvenliği',
+    'Şube Ana Koridor',
+    true,
+    0.95,
+    'Şube koridorundaki yangın söndürücü tüpünün bakım süresi geçmiş, 14 ay önce tarihli.',
+    'draft'
+  ),
+  (
+    'fn000000-0000-0000-0000-000000000004',
+    'Kasa Sayım Çift İmza Eksikliği',
+    'Kasa sayım işleminde çift imza kuralına uyulmamış. Birden fazla günde tek yetkili kişi tarafından sayım yapıldığı kayıtlarda görülüyor.',
+    'high',
+    'Yetkilendirme',
+    'Kasa',
+    false,
+    0.78,
+    null,
+    'converted'
+  ),
+  (
+    'fn000000-0000-0000-0000-000000000005',
+    'Arşiv Odası Yangın Alarm Testi Yapılmamış',
+    'Arşiv odasındaki yangın alarmının en son test edilme tarihi 2 yılı aşıyor. BDDK Bilgi Sistemleri Yönetmeliği kapsamında periyodik test zorunluluğu ihlali.',
+    'high',
+    'Yangın Güvenliği',
+    'Arşiv Odası B-3',
+    false,
+    0.85,
+    null,
+    'draft'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+
+-- ============================================================
+-- Wave 30 Seed: Compliance Mapper — BDDK & ISO 27001 Çerçeveleri
+-- ============================================================
+
+-- Çerçeveler
+INSERT INTO compliance_frameworks (id, name, short_code, version, description, authority, effective_date, status) VALUES
+  (
+    'cccc0001-comp-0000-0000-000000000001',
+    'BDDK Denetim Çerçevesi',
+    'BDDK',
+    '2024',
+    'Bankacılık Düzenleme ve Denetleme Kurumu iç denetim ve uyum çerçevesi',
+    'BDDK',
+    '2024-01-01',
+    'ACTIVE'
+  ),
+  (
+    'cccc0001-comp-0000-0000-000000000002',
+    'ISO/IEC 27001:2022',
+    'ISO27001',
+    '2022',
+    'Bilgi Güvenliği Yönetim Sistemi uluslararası standardı',
+    'ISO',
+    '2022-10-25',
+    'ACTIVE'
+  ),
+  (
+    'cccc0001-comp-0000-0000-000000000003',
+    'Kişisel Verilerin Korunması Kanunu',
+    'KVKK',
+    '6698',
+    'Türkiye kişisel veri işleme ve koruma mevzuatı',
+    'KVKK',
+    '2016-04-07',
+    'ACTIVE'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- BDDK Gereksinimleri (Madde 14 ve ilgili maddeler)
+INSERT INTO framework_requirements (id, framework_id, code, title, description, category, priority) VALUES
+  (
+    'dddd0001-req0-0000-0000-000000000001',
+    'cccc0001-comp-0000-0000-000000000001',
+    'BDDK-14.1',
+    'İç Denetim Bağımsızlığı',
+    'İç denetim birimi, yönetim kuruluna bağlı olarak bağımsız biçimde çalışmalı; denetçiler denetledikleri faaliyetlerden sorumlu olmamalıdır.',
+    'Kurumsal Yönetim',
+    'CRITICAL'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000002',
+    'cccc0001-comp-0000-0000-000000000001',
+    'BDDK-14.2',
+    'Denetim Kapsamı ve Planlaması',
+    'Yıllık denetim planı risk odaklı metodoloji ile hazırlanmalı ve yönetim kurulunca onaylanmalıdır.',
+    'Denetim Planlaması',
+    'CRITICAL'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000003',
+    'cccc0001-comp-0000-0000-000000000001',
+    'BDDK-14.3',
+    'Bulgu Takip ve Kapatma',
+    'Tespit edilen bulgular kayıt altına alınmalı, aksiyon planıyla takip edilmeli ve zamanında kapatılmalıdır.',
+    'Bulgu Yönetimi',
+    'HIGH'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000004',
+    'cccc0001-comp-0000-0000-000000000001',
+    'BDDK-14.4',
+    'Denetim Raporlaması',
+    'Denetim bulguları ve sonuçları yönetim kuruluna periyodik raporlarla iletilmelidir.',
+    'Raporlama',
+    'HIGH'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000005',
+    'cccc0001-comp-0000-0000-000000000001',
+    'BDDK-14.5',
+    'Denetçi Nitelikleri',
+    'İç denetim personeli mesleki yeterlilik, deneyim ve sürekli eğitim gerekliliklerini karşılamalıdır.',
+    'İnsan Kaynakları',
+    'MEDIUM'
+  ),
+  -- ISO 27001 A.8 — Varlık Yönetimi
+  (
+    'dddd0001-req0-0000-0000-000000000006',
+    'cccc0001-comp-0000-0000-000000000002',
+    'ISO-A.8.1',
+    'Varlık Envanteri ve Sınıflandırma',
+    'Kuruluş, bilgi varlıklarını tanımlamalı, sınıflandırmalı ve envanter altına almalıdır. Gizlilik, bütünlük ve erişilebilirlik düzeyleri belirlenmelidir.',
+    'Varlık Yönetimi',
+    'HIGH'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000007',
+    'cccc0001-comp-0000-0000-000000000002',
+    'ISO-A.8.2',
+    'Bilgi Etiketleme',
+    'Varlıklar sınıflandırma düzeyine göre etiketlenmeli; etiketleme prosedürleri uygulanmalıdır.',
+    'Varlık Yönetimi',
+    'MEDIUM'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000008',
+    'cccc0001-comp-0000-0000-000000000002',
+    'ISO-A.8.3',
+    'Taşınabilir Ortam Yönetimi',
+    'USB, disk gibi taşınabilir ortamların kullanımı ve imhası politika çerçevesinde yönetilmelidir.',
+    'Varlık Yönetimi',
+    'MEDIUM'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000009',
+    'cccc0001-comp-0000-0000-000000000002',
+    'ISO-A.9.1',
+    'Erişim Kontrol Politikası',
+    'Bilgi varlıklarına erişim iş gereksinimine ve en az yetki prensibine dayalı politikayla kontrol edilmelidir.',
+    'Erişim Kontrolü',
+    'CRITICAL'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000010',
+    'cccc0001-comp-0000-0000-000000000002',
+    'ISO-A.12.1',
+    'Operasyonel Prosedürler ve Sorumluluklar',
+    'Bilgi işlem tesisi operasyonları için belgelenmiş prosedürler ve sorumluluklar tanımlanmalıdır.',
+    'Operasyon Güvenliği',
+    'HIGH'
+  ),
+  -- KVKK
+  (
+    'dddd0001-req0-0000-0000-000000000011',
+    'cccc0001-comp-0000-0000-000000000003',
+    'KVKK-4',
+    'Veri İşleme İlkeleri',
+    'Kişisel veriler hukuka ve dürüstlük kurallarına uygun, belirli ve meşru amaçlarla, sınırlı ve ölçülü biçimde işlenmelidir.',
+    'Veri İşleme',
+    'CRITICAL'
+  ),
+  (
+    'dddd0001-req0-0000-0000-000000000012',
+    'cccc0001-comp-0000-0000-000000000003',
+    'KVKK-12',
+    'Veri Güvenliği Tedbirleri',
+    'Veri sorumlusu, kişisel verilerin yetkisiz işlenmesini önlemek için gerekli teknik ve idari tedbirleri almalıdır.',
+    'Veri Güvenliği',
+    'CRITICAL'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- Örnek Kontrol-Gereksinim Eşleşmeleri (seed bazlı, gerçek mapping'ler UI üzerinden yapılır)
+INSERT INTO control_requirement_mappings (requirement_id, control_ref, control_title, coverage_strength, match_score, notes) VALUES
+  ('dddd0001-req0-0000-0000-000000000001', 'CTRL-GOV-001', 'Yönetim Kurulu İç Denetim Talimatı', 'FULL', 95, 'Talimat belgesi bağımsızlık ilkesini tam karşılamaktadır.'),
+  ('dddd0001-req0-0000-0000-000000000002', 'CTRL-AUD-001', 'Yıllık Risk Odaklı Denetim Planı', 'FULL', 92, 'Plan metodoloji dokümanına uygun hazırlanmaktadır.'),
+  ('dddd0001-req0-0000-0000-000000000003', 'CTRL-FND-001', 'Bulgu Kayıt ve Takip Sistemi', 'PARTIAL', 75, 'Takip sistemi mevcut ancak otomatik hatırlatma eksik.'),
+  ('dddd0001-req0-0000-0000-000000000006', 'CTRL-IT-001', 'BT Varlık Envanteri Prosedürü', 'PARTIAL', 70, 'Ağ varlıkları dahil ancak bulut varlıkları eksik.'),
+  ('dddd0001-req0-0000-0000-000000000009', 'CTRL-IT-002', 'Erişim Yönetimi Politikası', 'FULL', 88, 'IAM sistemi ile entegre, en az yetki prensibi uygulanmaktadır.'),
+  ('dddd0001-req0-0000-0000-000000000011', 'CTRL-KVKK-001', 'Kişisel Veri İşleme Envanteri', 'PARTIAL', 68, 'Envanter mevcut ancak departman bazlı gözden geçirme beklenmekte.')
+ON CONFLICT DO NOTHING;
+
+-- =============================================================================
+-- WAVE 31 SEED: Advisory & Consulting Workspace
+-- =============================================================================
+
+-- Advisory engagements (bağlı görevler)
+INSERT INTO public.advisory_engagements (id, request_id, title, scope_limitations, management_responsibility_confirmed, start_date, target_date, status, methodology) VALUES
+  (
+    'ae000000-0000-0000-0000-000000000001',
+    NULL,
+    'Yeni Kredi Kartı Ürünü Lansmanı Uyum Danışmanlığı',
+    'Bu danışmanlık yalnızca BDDK 5411 ve 6493 sayılı ödeme hizmetleri kanunu kapsamındaki uyum süreçlerini kapsar. Kredi riski analizi ve fiyatlandırma modeli bu kapsam dışındadır.',
+    true,
+    '2026-03-01',
+    '2026-05-31',
+    'FIELDWORK',
+    'PROCESS_DESIGN'
+  ),
+  (
+    'ae000000-0000-0000-0000-000000000002',
+    NULL,
+    'KOBİ Kredileri Teminat Değerleme Süreci Tasarımı',
+    'Teminat değerleme sürecinin uçtan uca haritalanması ve iç kontrol noktalarının belirlenmesi. Hukuki danışmanlık kapsamı dışındadır.',
+    false,
+    NULL,
+    '2026-06-15',
+    'PLANNING',
+    NULL
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- Advisory services seed
+INSERT INTO public.advisory_services (id, tenant_id, engagement_id, title, service_type, description, regulatory_ref, estimated_hours, fee_basis, status, deliverable) VALUES
+  (
+    'as000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'ae000000-0000-0000-0000-000000000001',
+    'BDDK 6493 Ödeme Hizmetleri Uyum Yol Haritası',
+    'GAP_ANALYSIS',
+    'Yeni kredi kartı ürününün BDDK 6493 sayılı kanun gereksinimleriyle uyumunu ölçen gap analizi ve action plan hazırlanması.',
+    'BDDK 6493 md.12, 18, 23',
+    80,
+    'INTERNAL',
+    'IN_PROGRESS',
+    'Gap Analiz Raporu + Kapatma Planı (Excel + PDF)'
+  ),
+  (
+    'as000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'ae000000-0000-0000-0000-000000000001',
+    'Ürün Lansmanı Uyum Çalıştayı',
+    'RISK_WORKSHOP',
+    'Pazarlama, Hukuk ve Operasyon ekipleriyle yapılacak uyum çalıştayı. GIAS 11.1 kapsamında yönetim sorumluluğu bilgilendirmesi dahil.',
+    'GIAS 2024 Std.11.1',
+    16,
+    'INTERNAL',
+    'APPROVED',
+    'Çalıştay Tutanağı + Katılımcı Listesi'
+  ),
+  (
+    'as000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'ae000000-0000-0000-0000-000000000002',
+    'Teminat Değerleme Akış Şeması Tasarımı',
+    'PROCESS_DESIGN',
+    'BANKA iç yönetmeliği ve BDDK Kredi Riski Yönetimi Rehberi esaslarına göre teminat değerleme sürecinin uçtan uca haritalanması.',
+    'BDDK Kredi Riski Yönetimi Rehberi 2023',
+    40,
+    'INTERNAL',
+    'SCOPING',
+    'Swim-lane akış diyagramı + kontrol matrisi'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- Advisory canvas blocks için Engagement 1'e başlangıç blokları
+INSERT INTO public.advisory_canvas_blocks (id, engagement_id, block_type, text_content, position_index) VALUES
+  ('cb000000-0000-0000-0000-000000000001', 'ae000000-0000-0000-0000-000000000001', 'process',  'Mevcut kredi kartı başvuru süreci analiz edilir', 0),
+  ('cb000000-0000-0000-0000-000000000002', 'ae000000-0000-0000-0000-000000000001', 'decision', 'Mevcut süreç BDDK 6493 ile uyumlu mu?', 1),
+  ('cb000000-0000-0000-0000-000000000003', 'ae000000-0000-0000-0000-000000000001', 'note',     'Uyumsuz adımlar raporlanacak, aksiyon planına alınacak', 2),
+  ('cb000000-0000-0000-0000-000000000004', 'ae000000-0000-0000-0000-000000000001', 'process',  'Yeni uyumlu süreç tasarlanır ve onay alınır', 3)
+ON CONFLICT (id) DO NOTHING;
+
+-- ============================================================
+-- Wave 32 Seed: Resurrection Watch — Zombi Bulgu Senaryoları
+-- ============================================================
+
+INSERT INTO resurrection_logs (id, finding_code, finding_title, category, risk_level, original_closed_at, resurface_date, previous_close_count, assigned_to, entity_name, notes, status) VALUES
+  (
+    'eeee0001-res0-0000-0000-000000000001',
+    'M6-KRD-2024-042',
+    'KGF Destekli Kredilerde Temerrüt Risk Kontrolü Eksikliği',
+    'KREDİ RİSKİ',
+    'CRITICAL',
+    '2024-06-15',
+    '2026-01-20',
+    2,
+    'Kredi Risk Yönetim Birimi',
+    'Katılım Bankası A.Ş.',
+    'Geçen yıl Haziran''da kapatılan bulgu, Q1 2026 portföy incelemesinde tekrar tespit edildi. KGF limitlerinin yeniden aşıldığı görülmektedir.',
+    'ACTIVE'
+  ),
+  (
+    'eeee0001-res0-0000-0000-000000000002',
+    'BT-SEC-2024-017',
+    'Core Banking API Katmanında Nesne Düzeyi Yetkilendirme Açığı',
+    'BT GÜVENLİĞİ',
+    'CRITICAL',
+    '2024-09-01',
+    '2026-02-10',
+    1,
+    'Bilgi Güvenliği Birimi',
+    'Dijital Bankacılık Platformu',
+    'Eylül 2024''te yamalar uygulandı ve bulgu kapatıldı. Şubat 2026 sızma testinde yama regresyonu tespit edildi — açık yeniden aktif.',
+    'ACTIVE'
+  ),
+  (
+    'eeee0001-res0-0000-0000-000000000003',
+    'OP-MASAK-2023-008',
+    'MASAK Bildirim Sürelerinde Gecikme (Şüpheli İşlem Bildirimi)',
+    'OPERASYONEL',
+    'HIGH',
+    '2023-12-31',
+    '2026-01-05',
+    3,
+    'MASAK Uyum Birimi',
+    'Yurt İçi Çeviri İşlemleri',
+    'Bulgu 3. kez hortladı. Sistem iyileştirme tamamlamadan kapatılmış. Şı defa bütçe onayı ve sistem geliştirme kararı alınmalı.',
+    'ACTIVE'
+  ),
+  (
+    'eeee0001-res0-0000-0000-000000000004',
+    'KVKK-VER-2025-003',
+    'Üçüncü Taraf ile Veri Paylaşım Sözleşmesi Eksikliği',
+    'KVKK / UYUM',
+    'HIGH',
+    '2025-04-20',
+    '2026-02-28',
+    1,
+    'Hukuk ve Uyum Departmanı',
+    'Dijital Pazarlama Hizmetleri',
+    'KVKK denetiminde kapatılmış ancak sözleşme yenileme sürecinde tekrar tespit edildi.',
+    'MONITORING'
+  ),
+  (
+    'eeee0001-res0-0000-0000-000000000005',
+    'BDDK-LIK-2024-011',
+    'Likidite Yönetim Politikasında Stres Testi Metodoloji Açığı',
+    'LİKİDİTE RİSKİ',
+    'MEDIUM',
+    '2024-08-12',
+    '2026-03-01',
+    1,
+    'Risk Yönetim Merkezi',
+    'Hazine Departmanı',
+    'BDDK denetimine hazırlık kapsamında yeniden incelemede metodoloji eksikliği tespit edildi.',
+    'ACTIVE'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- Tahminsel Uyarılar (Predictive Alerts)
+INSERT INTO predictive_alerts (id, category, alert_type, severity, title, description, predicted_date, confidence_pct, source_data) VALUES
+  (
+    'ffff0001-prda-0000-0000-000000000001',
+    'KREDİ RİSKİ',
+    'RECURRENCE',
+    'CRITICAL',
+    'KGF Kredilerinde Tekerrür Riski — Q2 2026',
+    'Mevcut trend analizine göre KGF bulgularının Q2 2026''da 3. kez tekerrür etme olasılığı %78. Acil sistem kontrol denetimi önerilir.',
+    '2026-06-01',
+    78,
+    '{"source": "ResurrectionWatch", "finding_code": "M6-KRD-2024-042", "history_count": 2}'
+  ),
+  (
+    'ffff0001-prda-0000-0000-000000000002',
+    'BT GÜVENLİĞİ',
+    'RECURRENCE',
+    'CRITICAL',
+    'API Güvenlik Yaması Regresyon Riski — Q3 2026',
+    'Geçmiş veri: yamalar regresyona uğruyor. Yeni yazılım sürümlerinde benzer açıkların tekrar çıkma olasılığı %65.',
+    '2026-07-15',
+    65,
+    '{"source": "ResurrectionWatch", "finding_code": "BT-SEC-2024-017"}'
+  ),
+  (
+    'ffff0001-prda-0000-0000-000000000003',
+    'OPERASYONEL',
+    'ESCALATION',
+    'HIGH',
+    'MASAK Yaptırım Riski Eşiği Aşılıyor',
+    '3. tekerrür sonrası BDDK/MASAK yaptırım sürecinin başlatılma riski yüksek. Acil iyileştirme paketi hazırlanmalı.',
+    '2026-04-30',
+    82,
+    '{"source": "ResurrectionWatch", "finding_code": "OP-MASAK-2023-008", "escalation_risk": true}'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 33. CHAOS LAB — Kaos Deneyleri ve Sonuçları
+-- =============================================================================
+
+INSERT INTO public.chaos_experiments (id, tenant_id, title, scenario, description, target_control, target_table, injection_count, injection_amount, severity, is_active) VALUES
+  (
+    'ce000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Yapilandirma / Smurfing Testi',
+    'SMURFING_TEST',
+    'MASAK esiginin (10.000 TL) altında kalan ardısık işlemler enjekte edilerek CCM anomali motorunun smurfing tespiti test edilir.',
+    'CCM Anomali Motoru — STRUCTURING kuralı',
+    'shadow_transactions',
+    10,
+    4800,
+    'HIGH',
+    true
+  ),
+  (
+    'ce000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'Kredi Onay Limitini Gizlice Devre Dışı Bırakma Testi',
+    'CREDIT_LIMIT_BYPASS',
+    'Kredi onay limit kontrolünü atlatmaya çalışan sentetik işlemler enjekte edilerek limit bypass korumasının etkinliği test edilir.',
+    'Kredi Onay Kontrol Katmanı — limit_check middleware',
+    'shadow_transactions',
+    5,
+    750000,
+    'CRITICAL',
+    true
+  ),
+  (
+    'ce000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'Dairesel İşlem (Round-Trip) Testi',
+    'ROUND_TRIP_TEST',
+    'A→B→C→A şeklinde dairesel fon akışı oluşturarak kara para aklama tespit kontrollerinin etkinliği ölçülür.',
+    'MASAK Şüpheli İşlem Dedektörü',
+    'shadow_transactions',
+    3,
+    95000,
+    'HIGH',
+    true
+  ),
+  (
+    'ce000000-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'Hayalet Bordro Testi',
+    'GHOST_PAYROLL_TEST',
+    'Sahte çalışan kaydı ve ilişkili maaş ödemesi oluşturarak İK-Muhasebe entegrasyon kontrollerinin etkinliği test edilir.',
+    'HR-GL Mutabakat Kontrol Motoru',
+    'shadow_transactions',
+    1,
+    28500,
+    'MEDIUM',
+    true
+  ),
+  (
+    'ce000000-0000-0000-0000-000000000005',
+    '11111111-1111-1111-1111-111111111111',
+    'Hareketsiz Hesap Devralma Testi',
+    'DORMANT_ACCOUNT_HIJACK',
+    '180 gün+ hareketsiz hesaplarda ani aktivasyon senaryosu oluşturularak hesap devralma (account takeover) tespit kontrolü test edilir.',
+    'Core Banking Hareketsiz Hesap Monitörü',
+    'shadow_transactions',
+    1,
+    45000,
+    'HIGH',
+    false
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.chaos_results (id, tenant_id, experiment_id, batch_id, scenario, transactions_injected, total_amount, control_reaction, detection_time_ms, alert_triggered, notes, ran_at) VALUES
+  (
+    'cr000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'ce000000-0000-0000-0000-000000000001',
+    'batch-smurfing-001',
+    'SMURFING_TEST',
+    10, 48000, 'DETECTED', 1247, true,
+    'CCM motoru 10 işlemi 1.2sn içinde tespit etti ve STRUCTURING uyarısı oluşturdu.',
+    NOW() - INTERVAL '7 days'
+  ),
+  (
+    'cr000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'ce000000-0000-0000-0000-000000000001',
+    'batch-smurfing-002',
+    'SMURFING_TEST',
+    10, 47500, 'MISSED', 0, false,
+    'İkinci test turunda kontrol tetiklenmedi. Eşik değeri gözden geçirilmeli.',
+    NOW() - INTERVAL '3 days'
+  ),
+  (
+    'cr000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'ce000000-0000-0000-0000-000000000002',
+    'batch-creditbypass-001',
+    'CREDIT_LIMIT_BYPASS',
+    5, 3750000, 'BLOCKED', 340, false,
+    'Kredi limit kontrolü başarıyla devreye girdi. Tüm işlemler limit aşımı gerekçesiyle reddedildi.',
+    NOW() - INTERVAL '5 days'
+  ),
+  (
+    'cr000000-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'ce000000-0000-0000-0000-000000000003',
+    'batch-roundtrip-001',
+    'ROUND_TRIP_TEST',
+    3, 285000, 'DETECTED', 2103, true,
+    'Dairesel fon akışı 2.1sn içinde tespit edildi. İlgili hesaplar uyarı listesine alındı.',
+    NOW() - INTERVAL '10 days'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 34 SEED: Academy, CPE Tracker & Exam Runner — CIA/CISA Eğitimleri
+-- =============================================================================
+
+-- 1. academy_courses — CIA ve CISA sertifika kursları
+INSERT INTO public.academy_courses (id, tenant_id, title, description, category, xp_reward, estimated_duration, difficulty, is_active, tags) VALUES
+  (
+    'ac000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'CIA Part I: Temel İç Denetim Bilgisi',
+    'IIA CIA Part I sınavına hazırlık: iç denetimin özellikleri, bağımsızlık, yetki, sorumluluk ve kalite güvence süreçleri.',
+    'CIA Sertifika',
+    500,
+    480,
+    'intermediate',
+    true,
+    ARRAY['CIA', 'IIA', 'iç denetim', 'sertifika']
+  ),
+  (
+    'ac000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'CIA Part II: Uygulama Bilgisi',
+    'Risk yönetimi, kontrol, yönetişim ve denetim icrasını kapsayan CIA Part II sınav hazırlık kursu.',
+    'CIA Sertifika',
+    650,
+    600,
+    'advanced',
+    true,
+    ARRAY['CIA', 'risk yönetimi', 'kontrol', 'yönetişim']
+  ),
+  (
+    'ac000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'CISA: Bilgi Sistemleri Denetimi',
+    'ISACA CISA sertifikası için BT denetimi, kontrol ve güvence süreçleri. Bankacılık BT altyapısına özgü örnekler.',
+    'CISA Sertifika',
+    700,
+    720,
+    'expert',
+    true,
+    ARRAY['CISA', 'ISACA', 'BT denetimi', 'siber güvenlik']
+  ),
+  (
+    'ac000000-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'GIAS 2024 Standartları Uyum Eğitimi',
+    'Global İç Denetim Standartları 2024 — tüm iç denetçiler için zorunlu temel bilgilendirme. Katılım Bankası bağlamı ile.',
+    'Zorunlu Eğitim',
+    200,
+    120,
+    'beginner',
+    true,
+    ARRAY['GIAS', 'standartlar', 'zorunlu', 'IIA']
+  ),
+  (
+    'ac000000-0000-0000-0000-000000000005',
+    '11111111-1111-1111-1111-111111111111',
+    'Bankacılık Düzenleyici Çerçeve (BDDK 5411)',
+    'Bankacılık Kanunu 5411 kapsamında iç denetim yükümlülükleri, raporlama ve uyum gereksinimleri.',
+    'Düzenleyici Uyum',
+    300,
+    180,
+    'intermediate',
+    true,
+    ARRAY['BDDK', 'bankacılık kanunu', 'uyum', '5411']
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. academy_exams — Her kurs için bir sınav
+INSERT INTO public.academy_exams (id, course_id, title, description, passing_score, time_limit_minutes, max_attempts, randomize_questions, is_active) VALUES
+  (
+    'ae100000-0000-0000-0000-000000000001',
+    'ac000000-0000-0000-0000-000000000001',
+    'CIA Part I Yeterlilik Sınavı',
+    'CIA Part I: Temel İç Denetim Bilgisi yeterlilik değerlendirme sınavı.',
+    70, 60, 3, true, true
+  ),
+  (
+    'ae100000-0000-0000-0000-000000000002',
+    'ac000000-0000-0000-0000-000000000003',
+    'CISA Temel BT Denetim Sınavı',
+    'CISA hazırlık modülü — BT kontrolleri ve denetim süreçleri.',
+    75, 90, 2, true, true
+  ),
+  (
+    'ae100000-0000-0000-0000-000000000003',
+    'ac000000-0000-0000-0000-000000000004',
+    'GIAS 2024 Farkındalık Testi',
+    '2024 GIAS standartları zorunlu farkındalık değerlendirmesi.',
+    80, 30, 5, false, true
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 3. academy_questions — CIA Part I sınavı için örnek sorular
+INSERT INTO public.academy_questions (id, exam_id, question_text, options, correct_option_id, points, explanation, order_index) VALUES
+  (
+    'aq000000-0000-0000-0000-000000000001',
+    'ae100000-0000-0000-0000-000000000001',
+    'GIAS 2024''e göre iç denetim biriminin birincil amacı aşağıdakilerden hangisidir?',
+    '[{"id":"A","text":"Hata ve usulsüzlükleri tespit etmek"},{"id":"B","text":"Kuruma değer katmak ve faaliyetlerini geliştirmek"},{"id":"C","text":"Yönetim kuruluna raporlamak"},{"id":"D","text":"Finansal tabloları onaylamak"}]',
+    'B',
+    10,
+    'GIAS 2024 Standart 1: İç denetim birimi, "kurumun hedeflerine ulaşmasına yardımcı olmak için sistematik, disiplinli ve risk odaklı bir yaklaşımla kuraca değer katar ve iyileştirir."',
+    1
+  ),
+  (
+    'aq000000-0000-0000-0000-000000000002',
+    'ae100000-0000-0000-0000-000000000001',
+    'İç denetim faaliyetinin "bağımsızlığı" için en kritik gereksinim hangisidir?',
+    '[{"id":"A","text":"Denetçilerin ayrı bir binada çalışması"},{"id":"B","text":"İç denetim biriminin doğrudan yönetim kuruluna veya eşdeğerine raporlaması"},{"id":"C","text":"Tüm denetçilerin CIA sertifikasına sahip olması"},{"id":"D","text":"Bilgi teknolojileri bölümünden bütçe almaması"}]',
+    'B',
+    10,
+    'GIAS Standart 1100: İç denetim birimi bağımsız olmalı; İAE (İç Denetim Yöneticisi) yönetim kuruluna veya eşdeğerine raporlamalıdır.',
+    2
+  ),
+  (
+    'aq000000-0000-0000-0000-000000000003',
+    'ae100000-0000-0000-0000-000000000001',
+    'Aşağıdakilerden hangisi bir iç denetim bulgusunun zorunlu bileşeni DEĞİLDİR?',
+    '[{"id":"A","text":"Kriter (Standart/Politika)"},{"id":"B","text":"Durum (Gözlemlenen)"},{"id":"C","text":"Neden (Kök Sebep)"},{"id":"D","text":"Yönetim Kurulu İmzası"}]',
+    'D',
+    10,
+    'Bulgu bileşenleri: Kriter, Durum, Etki ve Neden. Yönetim kurulu imzası standart bir bulgu bileşeni değildir.',
+    3
+  ),
+  (
+    'aq000000-0000-0000-0000-000000000004',
+    'ae100000-0000-0000-0000-000000000002',
+    'IT General Controls (ITGC) kapsamında aşağıdakilerden hangisi birincil kontrol kategorisidir?',
+    '[{"id":"A","text":"Müşteri hizmetleri kalitesi"},{"id":"B","text":"Erişim kontrolü ve kimlik yönetimi"},{"id":"C","text":"Pazarlama veri analitiği"},{"id":"D","text":"İnsan kaynakları planlaması"}]',
+    'B',
+    10,
+    'ITGC dört temel kategorisi: Erişim yönetimi, Değişim yönetimi, Operasyon yönetimi ve Program geliştirme. Erişim kontrolü en kritik ITGC alanıdır.',
+    1
+  ),
+  (
+    'aq000000-0000-0000-0000-000000000005',
+    'ae100000-0000-0000-0000-000000000003',
+    'GIAS 2024''ün önceki IPPF sürümünden temel farkı nedir?',
+    '[{"id":"A","text":"Risk tabanlı denetim kaldırıldı"},{"id":"B","text":"Denetim planlaması isteğe bağlı hale getirildi"},{"id":"C","text":"Hem güvence hem danışmanlık faaliyetleri için tek entegre çerçeve"},{"id":"D","text":"Tüm denetçilerin hukuk diplomasına sahip olması zorunlu"}]',
+    'C',
+    10,
+    'GIAS 2024, IPPF''in yerini alarak güvence ve danışmanlık hizmetleri için tek, entegre bir standartlar seti sunmaktadır.',
+    1
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 4. user_cpe_records — Örnek CPE kayıtları (gerçekçi bankacılık eğitimleri)
+INSERT INTO public.user_cpe_records (id, user_id, tenant_id, title, provider, credit_hours, status, date_earned, notes) VALUES
+  (
+    'ur000000-0000-0000-0000-000000000001',
+    '00000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'IIA Türkiye — Risk Odaklı Denetim Zirvesi',
+    'IIA Türkiye',
+    8.0,
+    'approved',
+    '2026-02-15',
+    '2 günlük konferans, 8 CPE saati. Belge no: IIA-TR-2026-0215'
+  ),
+  (
+    'ur000000-0000-0000-0000-000000000002',
+    '00000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'ISACA — CISA Review Webinar (BT Kontrolleri)',
+    'ISACA Online',
+    4.0,
+    'approved',
+    '2026-01-20',
+    'Online webinar. CPE No: ISACA-WEB-2026-047'
+  ),
+  (
+    'ur000000-0000-0000-0000-000000000003',
+    '00000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'BDDK Uyum Konferansı — Katılım Bankacılığı',
+    'TKBB',
+    6.0,
+    'pending',
+    '2026-03-05',
+    'Belge yüklendi, onay bekleniyor.'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 5. cpe_annual_goals — Demo kullanıcı için 2026 hedefi
+INSERT INTO public.cpe_annual_goals (id, user_id, year, goal_hours) VALUES
+  (
+    'cg000000-0000-0000-0000-000000000001',
+    '00000000-0000-0000-0000-000000000001',
+    2026,
+    40
+  )
+ON CONFLICT (user_id, year) DO NOTHING;

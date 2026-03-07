@@ -11,9 +11,9 @@ export function SystemInitOverlay({ progress, error }: SystemInitOverlayProps) {
     <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 z-50 flex items-center justify-center">
       <div className="text-center space-y-8">
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
+          initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.15 }}
         >
           <div className="mb-6">
             <Database className="w-20 h-20 text-blue-400 mx-auto mb-4" />
@@ -48,13 +48,13 @@ export function SystemInitOverlay({ progress, error }: SystemInitOverlayProps) {
             className="h-2 bg-blue-900/50 rounded-full overflow-hidden"
             initial={{ width: 0 }}
             animate={{ width: '100%' }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.15 }}
           >
             <motion.div
               className="h-full bg-gradient-to-r from-blue-500 to-cyan-400"
               initial={{ width: '0%' }}
               animate={{ width: error ? '0%' : progress ? '75%' : '100%' }}
-              transition={{ duration: 2, ease: 'easeInOut' }}
+              transition={{ duration: 0.6, ease: 'linear' }}
             />
           </motion.div>
         </div>
