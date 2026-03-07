@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/shared/ui/PageHeader';
-import { UniversalSeeder, type SeedProgress } from '@/shared/lib/universal-seeder';
+import { supabase } from '@/shared/api/supabase';
 import PersonaSwitcher from '@/widgets/PersonaSwitcher';
 import {
   Database,
@@ -9,7 +9,6 @@ import {
   XCircle,
   Loader2,
   AlertTriangle,
-  Trash2,
   Package,
   Users,
   FileText,
@@ -30,10 +29,7 @@ interface TableStat {
 
 export default function SystemHealthPage() {
   const [loading, setLoading] = useState(true);
-  const [seeding, setSeeding] = useState(false);
   const [tableCounts, setTableCounts] = useState<Record<string, number>>({});
-  const [progress, setProgress] = useState<SeedProgress[]>([]);
-  const [showConfirm, setShowConfirm] = useState(false);
 
   const { data: diagnostics, isLoading: diagnosticsLoading, isError: diagnosticsError } = useSystemDiagnostics(15000);
 
@@ -44,37 +40,27 @@ export default function SystemHealthPage() {
   const loadTableCounts = async () => {
     setLoading(true);
     try {
-      const seeder = new UniversalSeeder();
-      const counts = await seeder.getTableCounts();
+      // Kalıcı DB mimarisi: doğrudan Supabase count sorgusu
+      const tables = [
+        'audit_entities', 'risk_library', 'user_profiles',
+        'audit_engagements', 'audit_findings', 'workpapers',
+        'action_plans', 'board_members', 'stakeholders',
+        'risk_assessments', 'governance_docs', 'rkm_processes', 'rkm_risks',
+      ];
+      const counts: Record<string, number> = {};
+      await Promise.all(
+        tables.map(async (table) => {
+          const { count } = await supabase
+            .from(table)
+            .select('*', { count: 'exact', head: true });
+          counts[table] = count ?? 0;
+        }),
+      );
       setTableCounts(counts);
     } catch (error) {
       console.error('Failed to load table counts:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleFactoryReset = async () => {
-    setSeeding(true);
-    setProgress([]);
-
-    try {
-      const seeder = new UniversalSeeder((newProgress) => {
-        setProgress([...newProgress]);
-      });
-
-      const result = await seeder.runFullSeed();
-
-      if (result.success) {
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
-    } catch (error) {
-      console.error('Factory reset failed:', error);
-    } finally {
-      setSeeding(false);
-      setShowConfirm(false);
     }
   };
 
@@ -188,7 +174,7 @@ export default function SystemHealthPage() {
         action={
           <button
             onClick={loadTableCounts}
-            disabled={loading || seeding}
+            disabled={loading}
             className="flex items-center gap-2 px-4 py-2 bg-surface border border-slate-300 rounded-lg hover:bg-canvas transition-colors disabled:opacity-50"
           >
             <RefreshCw className={clsx('w-4 h-4', loading && 'animate-spin')} />
@@ -304,14 +290,11 @@ export default function SystemHealthPage() {
             </div>
           </div>
 
-          <button
-            onClick={() => setShowConfirm(true)}
-            disabled={seeding}
-            className="flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 font-semibold"
-          >
-            <Trash2 className="w-5 h-5" />
-            FACTORY RESET
-          </button>
+          {/* Kalıcı DB: Factory Reset yerine CLI komutu */}
+          <div className="bg-slate-900 text-slate-100 rounded-lg px-4 py-3 text-xs font-mono max-w-xs text-right">
+            <div className="text-slate-400 text-[10px] mb-1 uppercase tracking-widest">Seed Yenileme (CLI)</div>
+            <div className="text-emerald-400">npx supabase db reset --linked</div>
+          </div>
         </div>
       </div>
 
@@ -392,70 +375,6 @@ export default function SystemHealthPage() {
         })}
       </div>
 
-      {/* Progress Panel */}
-      {seeding && (
-        <div className="bg-surface rounded-xl shadow-lg border border-slate-200 p-6">
-          <h3 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
-            <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
-            Veri Yukleniyor...
-          </h3>
-
-          <div className="space-y-3">
-            {progress.map((step, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                {step.status === 'running' && (
-                  <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
-                )}
-                {step.status === 'completed' && (
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                )}
-                {step.status === 'error' && <XCircle className="w-5 h-5 text-red-600" />}
-                {step.status === 'pending' && (
-                  <div className="w-5 h-5 rounded-full border-2 border-slate-300" />
-                )}
-
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-primary">{step.message}</div>
-                  {step.count !== undefined && (
-                    <div className="text-xs text-slate-500">{step.count} kayit</div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Confirmation Modal */}
-      {showConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-surface rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <AlertTriangle className="w-8 h-8 text-red-600" />
-              <h3 className="text-xl font-bold text-primary">FACTORY RESET</h3>
-            </div>
-
-            <p className="text-slate-700 mb-6">
-              Bu islem TUM verileri silip demo verileri yukleyecek. Bu islem geri alinamaz!
-            </p>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="flex-1 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors font-medium"
-              >
-                Iptal
-              </button>
-              <button
-                onClick={handleFactoryReset}
-                className="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
-              >
-                Eminim, Sil ve Yukle
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

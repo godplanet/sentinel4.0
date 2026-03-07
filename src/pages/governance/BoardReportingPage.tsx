@@ -15,6 +15,7 @@ import {
   Loader2,
   CheckCircle2,
   ChevronRight,
+  Vote,
 } from 'lucide-react';
 import clsx from 'clsx';
 import {
@@ -25,14 +26,17 @@ import {
   type CriticalFindingRow,
   type BoardEscalationRow,
 } from '@/features/reporting/api/useBoardBriefing';
+import { ResolutionDeck } from '@/widgets/ResolutionDeck';
+import { useResolutions } from '@/features/board-voting/api';
 
-type TabId = 'execution' | 'findings' | 'escalations' | 'qaip';
+type TabId = 'execution' | 'findings' | 'escalations' | 'qaip' | 'resolutions';
 
 const TABS: { id: TabId; label: string; shortLabel: string; icon: typeof ClipboardCheck }[] = [
-  { id: 'execution', label: 'İcra ve Güvence', shortLabel: 'İcra', icon: ClipboardCheck },
-  { id: 'findings', label: 'Önemli (Kritik, Yüksek Seviyeli) Bulgular', shortLabel: 'Bulgular', icon: AlertTriangle },
-  { id: 'escalations', label: 'YK Eskalasyonları', shortLabel: 'Eskalasyonlar', icon: ArrowUpCircle },
-  { id: 'qaip', label: 'QAIP ve Bağımsızlık', shortLabel: 'QAIP', icon: ShieldCheck },
+  { id: 'execution',   label: 'İcra ve Güvence',                                         shortLabel: 'İcra',       icon: ClipboardCheck },
+  { id: 'findings',   label: 'Önemli (Kritik, Yüksek Seviyeli) Bulgular',               shortLabel: 'Bulgular',   icon: AlertTriangle },
+  { id: 'escalations', label: 'YK Eskalasyonları',                                       shortLabel: 'Eskalasyonlar', icon: ArrowUpCircle },
+  { id: 'qaip',       label: 'QAIP ve Bağımsızlık',                                     shortLabel: 'QAIP',       icon: ShieldCheck },
+  { id: 'resolutions', label: 'E-Oylama & Kararlar',                                    shortLabel: 'Kararlar',   icon: Vote },
 ];
 
 const STATUS_LABELS: Record<string, string> = {
@@ -289,10 +293,12 @@ export default function BoardReportingPage() {
   const { data: executionStats = [] } = useAuditExecutionStats();
   const { data: criticalFindings = [] } = useCriticalFindings();
   const { data: escalations = [] } = useBoardEscalations();
+  const { data: resolutions = [] } = useResolutions();
 
   const totalEngagements = executionStats.reduce((s, x) => s + x.count, 0);
   const criticalCount = criticalFindings.length;
   const escalationCount = escalations.length;
+  const openResolutionCount = (resolutions || []).filter(r => r?.status === 'OPEN').length;
 
   return (
     <div className="min-h-screen bg-canvas w-full">
@@ -334,6 +340,7 @@ export default function BoardReportingPage() {
                   tab.id === 'execution' ? totalEngagements
                   : tab.id === 'findings' ? criticalCount
                   : tab.id === 'escalations' ? escalationCount
+                  : tab.id === 'resolutions' ? openResolutionCount
                   : null;
                 return (
                   <button
@@ -377,10 +384,11 @@ export default function BoardReportingPage() {
           id="board-panel"
           className="rounded-b-xl border border-t-0 border-slate-200 bg-surface shadow-sm p-6 min-h-[320px] w-full"
         >
-          {activeTab === 'execution' && <ExecutionTab />}
-          {activeTab === 'findings' && <FindingsTab />}
-          {activeTab === 'escalations' && <EscalationsTab />}
-          {activeTab === 'qaip' && <QaipTab />}
+          {activeTab === 'execution'   && <ExecutionTab />}
+          {activeTab === 'findings'     && <FindingsTab />}
+          {activeTab === 'escalations'  && <EscalationsTab />}
+          {activeTab === 'qaip'         && <QaipTab />}
+          {activeTab === 'resolutions'  && <ResolutionDeck />}
         </div>
       </div>
     </div>

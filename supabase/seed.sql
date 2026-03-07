@@ -5108,3 +5108,650 @@ INSERT INTO public.actions (
 ) ON CONFLICT (id) DO UPDATE
   SET regulatory_tags   = EXCLUDED.regulatory_tags,
       finding_snapshot  = EXCLUDED.finding_snapshot;
+
+-- =============================================================================
+-- WAVE 41 SEED: Data Signals & Seismograph
+-- =============================================================================
+
+-- 1. external_data_signals — Gerçekçi Türk Bankacılık Sinyalleri
+INSERT INTO public.external_data_signals (id, tenant_id, signal_type, signal_source, title, description, signal_strength, impact_score, severity, is_active, triggered_at) VALUES
+  (
+    'es000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'MACRO_ECONOMIC',
+    'TCMB',
+    'TCMB Ani Faiz Artışı Sinyali',
+    'Türkiye Cumhuriyet Merkez Bankası, enflasyonla mücadele kapsamında politika faizini 250 baz puan artırdı. Katılım bankalarında Sukuk maliyetleri ve kâr payı oranları kritik düzeyde etkilenebilir.',
+    8.5,
+    7.2,
+    'high',
+    true,
+    NOW() - INTERVAL '2 hours'
+  ),
+  (
+    'es000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'CYBER',
+    'CERT-TR',
+    'Global Siber Fidye Yazılımı Alarmı',
+    'CERT-TR, Türk finans sektörüne yönelik organize edilmiş uluslararası fidye yazılımı kampanyası tespit etti. Hedef sistemler: SWIFT, core banking API katmanları.',
+    9.8,
+    9.5,
+    'critical',
+    true,
+    NOW() - INTERVAL '45 minutes'
+  ),
+  (
+    'es000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'REGULATORY',
+    'BDDK',
+    'BDDK Likidite Karşılama Oranı Revizyonu',
+    'BDDK, Katılım Bankaları için LCR (Likidite Karşılama Oranı) alt limitini %80''den %100''e yükseltme tasarısı yayımladı. Yürürlük tarihi: 90 gün.',
+    6.0,
+    5.8,
+    'medium',
+    true,
+    NOW() - INTERVAL '6 hours'
+  ),
+  (
+    'es000000-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'MARKET',
+    'Bloomberg',
+    'Döviz Kuru Volatilite Artışı (USD/TRY)',
+    'USD/TRY paritesi son 48 saatte %4.2 değer kaybetti. Döviz pozisyon limitleri ve kur riski yönetimi gözden geçirilmeli.',
+    7.1,
+    6.4,
+    'high',
+    true,
+    NOW() - INTERVAL '30 minutes'
+  ),
+  (
+    'es000000-0000-0000-0000-000000000005',
+    '11111111-1111-1111-1111-111111111111',
+    'REGULATORY',
+    'SPK',
+    'Sermaye Piyasası Kripto Varlık Düzenlemesi',
+    'SPK, bankaların müşterileri adına kripto varlık saklama hizmeti sunmasına izin veren yönetmelik taslağını kamuoyuyla paylaştı.',
+    4.5,
+    3.2,
+    'low',
+    false,
+    NOW() - INTERVAL '1 day'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. seismograph_logs — Son 24 saat sismograf verisi (saat başı)
+INSERT INTO public.seismograph_logs (id, tenant_id, log_hour, hour_label, exceptions, passes, signal_strength) VALUES
+  ('sl000000-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '23 hours', '01:00', 2, 45, 0.4),
+  ('sl000000-0000-0000-0000-000000000002', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '22 hours', '02:00', 1, 52, 0.2),
+  ('sl000000-0000-0000-0000-000000000003', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '21 hours', '03:00', 0, 37, 0.0),
+  ('sl000000-0000-0000-0000-000000000004', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '20 hours', '04:00', 3, 41, 0.7),
+  ('sl000000-0000-0000-0000-000000000005', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '19 hours', '05:00', 1, 60, 0.2),
+  ('sl000000-0000-0000-0000-000000000006', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '18 hours', '06:00', 4, 78, 0.5),
+  ('sl000000-0000-0000-0000-000000000007', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '17 hours', '07:00', 8, 112, 0.7),
+  ('sl000000-0000-0000-0000-000000000008', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '16 hours', '08:00', 12, 145, 0.8),
+  ('sl000000-0000-0000-0000-000000000009', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '15 hours', '09:00', 18, 160, 1.1),
+  ('sl000000-0000-0000-0000-000000000010', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '14 hours', '10:00', 24, 148, 1.6),
+  ('sl000000-0000-0000-0000-000000000011', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '13 hours', '11:00', 31, 155, 2.0),
+  ('sl000000-0000-0000-0000-000000000012', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '12 hours', '12:00', 15, 130, 1.2),
+  ('sl000000-0000-0000-0000-000000000013', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '11 hours', '13:00', 19, 141, 1.3),
+  ('sl000000-0000-0000-0000-000000000014', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '10 hours', '14:00', 22, 138, 1.6),
+  ('sl000000-0000-0000-0000-000000000015', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '9 hours',  '15:00', 42, 120, 3.5),
+  ('sl000000-0000-0000-0000-000000000016', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '8 hours',  '16:00', 28, 110, 2.5),
+  ('sl000000-0000-0000-0000-000000000017', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '7 hours',  '17:00', 16, 98,  1.6),
+  ('sl000000-0000-0000-0000-000000000018', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '6 hours',  '18:00', 9,  87,  0.9),
+  ('sl000000-0000-0000-0000-000000000019', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '5 hours',  '19:00', 6,  71,  0.8),
+  ('sl000000-0000-0000-0000-000000000020', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '4 hours',  '20:00', 11, 65,  1.7),
+  ('sl000000-0000-0000-0000-000000000021', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '3 hours',  '21:00', 7,  55,  1.2),
+  ('sl000000-0000-0000-0000-000000000022', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '2 hours',  '22:00', 5,  48,  1.0),
+  ('sl000000-0000-0000-0000-000000000023', '11111111-1111-1111-1111-111111111111', NOW() - INTERVAL '1 hour',   '23:00', 3,  40,  0.8)
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 42 SEED: Board Resolution & E-Voting Deck
+-- =============================================================================
+
+INSERT INTO public.board_resolutions (id, tenant_id, title, description, resolution_type, status, quorum_required, meeting_date, regulatory_ref, proposed_by) VALUES
+  (
+    'br000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    'Bireysel Kredi Tahsis Süreci Revizyonu',
+    'BDDK 5411 sayılı Kanun 51. Maddesi ve ilgili Yönetmelik değişiklikleri çerçevesinde, bireysel kredi tahsis sürecinin yeniden yapılandırılması, limit matrisinin güncellenmesi ve otomatik onay mekanizmasının devreye alınması hususlarının karara bağlanması.',
+    'APPROVAL',
+    'OPEN',
+    7,
+    NOW() + INTERVAL '3 days',
+    'BDDK 5411 md.51; GIAS 2024 Std.8.3',
+    'Genel Müdür Yardımcısı — Bireysel Bankacılık'
+  ),
+  (
+    'br000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    'KVKK Veri İşleme Politikası Güncellemesi',
+    'Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında hazırlanan güncel veri işleme politikasının ve müşteri aydınlatma metinlerinin Yönetim Kurulu onayına sunulması.',
+    'APPROVAL',
+    'CLOSED',
+    5,
+    NOW() - INTERVAL '10 days',
+    'KVKK md.10, 12; BDDK Siber Güvenlik Rehberi',
+    'Hukuk ve Uyum Direktörü'
+  ),
+  (
+    'br000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    'İç Denetim Yıllık Planı — 2026',
+    'Teftiş Kurulu Başkanlığı tarafından GIAS 2024 standartları çerçevesinde hazırlanan 2026 yılı iç denetim çalışma planının ve risk odaklı önceliklendirme matrisinin YK bilgisine sunulması.',
+    'INFORMATION',
+    'OPEN',
+    5,
+    NOW() + INTERVAL '7 days',
+    'GIAS 2024 Std.9.1; BDDK İç Denetim Yönetmeliği',
+    'Teftiş Kurulu Başkanı (CAE)'
+  ),
+  (
+    'br000000-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    'Operasyonel Risk Çerçevesi Onayı',
+    'Basel III operasyonel risk standartları ve BDDK Operasyonel Risk Yönetimi Rehberi esas alınarak revize edilen Operasyonel Risk Politikası ile ölçüm ve izleme metodolojisinin YK onayına sunulması.',
+    'APPROVAL',
+    'OPEN',
+    7,
+    NOW() + INTERVAL '14 days',
+    'Basel III; BDDK Operasyonel Risk Yönetimi Rehberi 2024',
+    'Risk Yönetimi Genel Müdür Yardımcısı'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.committee_votes (id, tenant_id, resolution_id, member_name, member_title, vote, rationale, voted_at) VALUES
+  -- Karar 1: Kredi Tahsis Süreci Revizyonu
+  ('cv000001-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000001', 'Ahmet Yılmaz', 'Yönetim Kurulu Başkanı', 'FOR', 'Operasyonel verimliliği artıracak, rekabet gücünü güçlendirecektir.', NOW() - INTERVAL '1 hour'),
+  ('cv000001-0000-0000-0000-000000000002', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000001', 'Fatma Kaya', 'Bağımsız YK Üyesi', 'FOR', 'BDDK uyumluluk açısından gereklidir.', NOW() - INTERVAL '45 minutes'),
+  ('cv000001-0000-0000-0000-000000000003', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000001', 'Mehmet Demir', 'YK Üyesi', 'AGAINST', 'Uygulama takvimi kısa; etki analizi yetersiz.', NOW() - INTERVAL '30 minutes'),
+  ('cv000001-0000-0000-0000-000000000004', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000001', 'Ayşe Çelik', 'Bağımsız YK Üyesi', 'FOR', 'Risk azaltıcı etkileri baskın; destekliyorum.', NOW() - INTERVAL '20 minutes'),
+  ('cv000001-0000-0000-0000-000000000005', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000001', 'Hasan Öztürk', 'YK Üyesi', 'ABSTAIN', NULL, NOW() - INTERVAL '15 minutes'),
+  -- Karar 2: KVKK (KAPANDI)
+  ('cv000002-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000002', 'Ahmet Yılmaz', 'Yönetim Kurulu Başkanı', 'FOR', 'Yasal yükümlülük; oybirliğiyle kabul.', NOW() - INTERVAL '10 days'),
+  ('cv000002-0000-0000-0000-000000000002', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000002', 'Fatma Kaya', 'Bağımsız YK Üyesi', 'FOR', 'KVKK uyumluluğu kritik öneme sahiptir.', NOW() - INTERVAL '10 days'),
+  ('cv000002-0000-0000-0000-000000000003', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000002', 'Mehmet Demir', 'YK Üyesi', 'FOR', NULL, NOW() - INTERVAL '10 days'),
+  ('cv000002-0000-0000-0000-000000000004', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000002', 'Ayşe Çelik', 'Bağımsız YK Üyesi', 'FOR', NULL, NOW() - INTERVAL '10 days'),
+  ('cv000002-0000-0000-0000-000000000005', '11111111-1111-1111-1111-111111111111', 'br000000-0000-0000-0000-000000000002', 'Hasan Öztürk', 'YK Üyesi', 'FOR', NULL, NOW() - INTERVAL '10 days')
+ON CONFLICT (id) DO NOTHING;
+
+-- ============================================================
+-- Wave 44 Seed: Core Banking API Connectors
+-- BDDK uyumlu bankacılık pipeline tanımları ve log örnekleri
+-- ============================================================
+
+-- Pipeline Tanımları
+INSERT INTO external_data_pipelines (
+  id, pipeline_code, name, description, system_source, target_table,
+  schedule_cron, is_active, sync_type, data_format, auth_type,
+  endpoint_url, last_success_at, record_count
+) VALUES
+  (
+    'kkkk0001-pipe-0000-0000-000000000001',
+    'MIZAN-DAILY',
+    'Mizan Verisi Günlük Aktarımı',
+    'Genel Muhasebe Sistemi''nden günlük mizan verilerinin Sentinel analiz tablolarına aktarılması. BDDK Muhasebe Md. 7 kapsamında.',
+    'CORE_BANKING',
+    'gl_trial_balance',
+    '0 6 * * *',
+    TRUE,
+    'PULL',
+    'JSON',
+    'API_KEY',
+    'https://cbs-api.bankinternal.com/v2/gl/trial-balance',
+    now() - INTERVAL '1 hour',
+    48320
+  ),
+  (
+    'kkkk0001-pipe-0000-0000-000000000002',
+    'EFT-INTRADAY',
+    'Günlük EFT/Havale Log Çekimi',
+    'Gün içi EFT ve havale işlem loglarının gerçek zamanlı izleme için çekilmesi. MASAK uyum takibi doğrudan bu pipeline üzerinden yapılmaktadır.',
+    'CORE_BANKING',
+    'eft_transactions',
+    '*/15 * * * *',
+    TRUE,
+    'PULL',
+    'JSON',
+    'OAUTH2',
+    'https://cbs-api.bankinternal.com/v2/transactions/eft',
+    now() - INTERVAL '12 minutes',
+    1240
+  ),
+  (
+    'kkkk0001-pipe-0000-0000-000000000003',
+    'SWIFT-MT940',
+    'SWIFT MT940 Hesap Ekstreleri',
+    'Muhabir banka hesap ekstrelerinin SWIFT MT940 formatında SFTP üzerinden çekilmesi ve doğrulanması.',
+    'SWIFT',
+    'swift_statements',
+    '0 7 * * 1-5',
+    TRUE,
+    'PULL',
+    'FIXED_LENGTH',
+    'SFTP',
+    NULL,
+    now() - INTERVAL '18 hours',
+    96
+  ),
+  (
+    'kkkk0001-pipe-0000-0000-000000000004',
+    'KREDI-PORTFOLIO',
+    'Kredi Portföy Anlık Görüntüsü',
+    'Aktif kredi portföyünün tüm taksit ve vade bilgileriyle birlikte günlük snapshot''ının çekilmesi. Risk skorlama modeli için girdi.',
+    'CORE_BANKING',
+    'credit_portfolio_snapshot',
+    '0 23 * * *',
+    TRUE,
+    'PULL',
+    'CSV',
+    'DB_LINK',
+    NULL,
+    now() - INTERVAL '1 day',
+    284910
+  ),
+  (
+    'kkkk0001-pipe-0000-0000-000000000005',
+    'MIS-RAPORLAMA',
+    'MIS Yönetim Raporlama Sistemi Aktarımı',
+    'Yönetim Bilgi Sistemi''nden haftalık özet raporların Sentinel''e aktarılması. BDDK raporlama takvimi ile senkronizasyon.',
+    'MIS',
+    'mis_management_reports',
+    '0 8 * * 1',
+    TRUE,
+    'PULL',
+    'XML',
+    'API_KEY',
+    'https://mis.bankinternal.com/api/reports/weekly',
+    now() - INTERVAL '6 days',
+    210
+  ),
+  (
+    'kkkk0001-pipe-0000-0000-000000000006',
+    'KVKK-MASAK-PUSH',
+    'KVKK/MASAK Uyumsuzluk Bildirimi',
+    'Sentinel''den tespit edilen KVKK ve MASAK ihlallerinin dış uyum sistemine bildirilmesi. Çift yönlü doğrulama dahil.',
+    'COMPLIANCE_SYSTEM',
+    'compliance_notifications',
+    '0 */4 * * *',
+    FALSE,
+    'PUSH',
+    'JSON',
+    'MTLS',
+    'https://compliance.regulator-api.gov.tr/api/v1/notify',
+    NULL,
+    0
+  )
+ON CONFLICT (pipeline_code) DO NOTHING;
+
+-- Senkronizasyon Logları (geçmiş çalıştırmalar)
+INSERT INTO core_sync_logs (
+  id, pipeline_id, pipeline_code, started_at, completed_at, duration_ms,
+  status, records_fetched, records_written, records_failed, triggered_by
+) VALUES
+  -- MIZAN başarılı
+  (
+    'llll0001-log0-0000-0000-000000000001',
+    'kkkk0001-pipe-0000-0000-000000000001',
+    'MIZAN-DAILY',
+    now() - INTERVAL '1 hour 5 minutes',
+    now() - INTERVAL '1 hour',
+    312000,
+    'SUCCESS', 48320, 48320, 0, 'SCHEDULER'
+  ),
+  -- EFT son çalıştırma
+  (
+    'llll0001-log0-0000-0000-000000000002',
+    'kkkk0001-pipe-0000-0000-000000000002',
+    'EFT-INTRADAY',
+    now() - INTERVAL '14 minutes',
+    now() - INTERVAL '12 minutes',
+    87000,
+    'SUCCESS', 1240, 1240, 0, 'SCHEDULER'
+  ),
+  -- EFT önceki başarısız çalıştırma
+  (
+    'llll0001-log0-0000-0000-000000000003',
+    'kkkk0001-pipe-0000-0000-000000000002',
+    'EFT-INTRADAY',
+    now() - INTERVAL '29 minutes',
+    now() - INTERVAL '28 minutes',
+    45000,
+    'FAILED', 0, 0, 0, 'SCHEDULER',
+    'TIMEOUT_502',
+    'CBS API gateway timed out (502 Bad Gateway). Yeniden deneme planlandı.'
+  ),
+  -- SWIFT başarılı
+  (
+    'llll0001-log0-0000-0000-000000000004',
+    'kkkk0001-pipe-0000-0000-000000000003',
+    'SWIFT-MT940',
+    now() - INTERVAL '18 hours 8 minutes',
+    now() - INTERVAL '18 hours',
+    451000,
+    'SUCCESS', 96, 96, 0, 'SCHEDULER'
+  ),
+  -- Kredi portföyü kısmı başarılı
+  (
+    'llll0001-log0-0000-0000-000000000005',
+    'kkkk0001-pipe-0000-0000-000000000004',
+    'KREDI-PORTFOLIO',
+    now() - INTERVAL '1 day 12 minutes',
+    now() - INTERVAL '1 day',
+    720000,
+    'PARTIAL', 284910, 284820, 90, 'SCHEDULER',
+    'PARTIAL_WRITE',
+    '90 kayıt foreign key kısıtlaması nedeniyle yazılamadı. Manuel inceleme gerekiyor.'
+  ),
+  -- Manuel tetikleme
+  (
+    'llll0001-log0-0000-0000-000000000006',
+    'kkkk0001-pipe-0000-0000-000000000001',
+    'MIZAN-DAILY',
+    now() - INTERVAL '3 hours',
+    now() - INTERVAL '2 hours 50 minutes',
+    587000,
+    'SUCCESS', 48280, 48280, 0, 'MANUAL',
+    NULL, NULL,
+    'denetim.baskani@sentinelab.com.tr'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 42 SEED: Board Resolution & E-Voting Deck
+-- Yönetim Kurulu Karar ve Oylama Masası — Örnek Oturum Verileri
+-- =============================================================================
+
+INSERT INTO public.board_resolutions (
+  id, title, description, resolution_type, status,
+  quorum_required, meeting_date, regulatory_ref, proposed_by, urgency, category
+) VALUES
+  (
+    'br420000-0000-0000-0000-000000000001',
+    'Kredi Tahsis Süreci Revizyonu — SOX/ICFR Uyumu',
+    'Basel IV ve SOX Section 302 kapsamında kurumsal kredi tahsis sürecinin yeniden yapılandırılması ve 4-Göz ilkesine uygun dual-control mekanizmasının zorunlu kılınması.',
+    'APPROVAL',
+    'OPEN',
+    7,
+    '2026-03-15T10:00:00+03:00',
+    'BDDK 2024/1 Madde 12, SOX S.302',
+    'Dr. Mehmet Yıldız — Yönetim Kurulu Başkanı',
+    'Kritik',
+    'Kredi'
+  ),
+  (
+    'br420000-0000-0000-0000-000000000002',
+    'Yıllık Bütçe ve Kaynak Planı — FY2026',
+    'İç Denetim Bölümü FY2026 operasyonel bütçesinin onayı ve ek uzman istihdamı kararının YK gündemine alınması.',
+    'APPROVAL',
+    'OPEN',
+    5,
+    '2026-03-15T11:30:00+03:00',
+    'IIA Practice Advisory 2030-1',
+    'CAE Dr. Hasan Aksoy',
+    'Yüksek',
+    'Bütçe'
+  ),
+  (
+    'br420000-0000-0000-0000-000000000003',
+    'FATF Öneri 16 Raporlaması — Gecikme Gerekçe Kabulü',
+    'FATF Öneri 16 kapsamındaki işlem izleme raporlamasındaki 72 saatlik gecikmenin operasyonel sebepleri and gerekçe müzakeresi.',
+    'ACKNOWLEDGEMENT',
+    'CLOSED',
+    5,
+    '2026-03-10T09:00:00+03:00',
+    'FATF R.16, MASAK 2023/5',
+    'Uyum Direktörü Ayşe Kara',
+    'Yüksek',
+    'Uyum'
+  ),
+  (
+    'br420000-0000-0000-0000-000000000004',
+    'Siber Güvenlik Altyapısı Modernizasyonu',
+    'ISO 27001:2022 ve BDDK BT Risk Yönetimi Tebliği kapsamında Zero-Trust mimarisine geçiş yatırım kararı (₺12.5M bütçe talebi).',
+    'APPROVAL',
+    'DEFERRED',
+    7,
+    '2026-03-20T14:00:00+03:00',
+    'BDDK BT Risk 2023, ISO 27001:2022',
+    'CTO Ahmet Demir',
+    'Kritik',
+    'Strateji'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.committee_votes (
+  id, resolution_id, member_name, member_title, vote, rationale, voted_at
+) VALUES
+  -- Karar 1: Kredi Tahsis — açık oylama
+  (
+    'cv420000-0000-0000-0000-000000000001',
+    'br420000-0000-0000-0000-000000000001',
+    'Dr. Mehmet Yıldız',
+    'Yönetim Kurulu Başkanı',
+    'FOR',
+    'Basel IV uyum zorunluluğu açısından kritik reform. Erteleme riski BDDK yaptırımı doğurabilir.',
+    '2026-03-15T10:12:00+03:00'
+  ),
+  (
+    'cv420000-0000-0000-0000-000000000002',
+    'br420000-0000-0000-0000-000000000001',
+    'Fatma Çelik',
+    'Bağımsız Üye',
+    'FOR',
+    'Dual kontrol mekanizması kurumsal yönetişim açısından zorunludur.',
+    '2026-03-15T10:15:00+03:00'
+  ),
+  (
+    'cv420000-0000-0000-0000-000000000003',
+    'br420000-0000-0000-0000-000000000001',
+    'Kemal Öztürk',
+    'Risk Komitesi Başkanı',
+    'FOR',
+    'Revizyon 4-Göz ilkesini güçlendiriyor. Tam destek.',
+    '2026-03-15T10:17:00+03:00'
+  ),
+  (
+    'cv420000-0000-0000-0000-000000000004',
+    'br420000-0000-0000-0000-000000000001',
+    'Selin Arslan',
+    'Bağımsız Üye',
+    'ABSTAIN',
+    'Teknik detayların Kredi Alt Komitesi tarafından incelenmesini bekliyorum.',
+    '2026-03-15T10:19:00+03:00'
+  ),
+  -- Karar 3: FATF — kapalı oylama
+  (
+    'cv420000-0000-0000-0000-000000000005',
+    'br420000-0000-0000-0000-000000000003',
+    'Dr. Mehmet Yıldız',
+    'Yönetim Kurulu Başkanı',
+    'FOR',
+    'Gerekçe makul, operasyonel nedenler belgelenmiş kabul edildi.',
+    '2026-03-10T09:25:00+03:00'
+  ),
+  (
+    'cv420000-0000-0000-0000-000000000006',
+    'br420000-0000-0000-0000-000000000003',
+    'Fatma Çelik',
+    'Bağımsız Üye',
+    'AGAINST',
+    '72 saatlik gecikme kural ihlali olarak kayıt altına alınmalıdır.',
+    '2026-03-10T09:28:00+03:00'
+  ),
+  (
+    'cv420000-0000-0000-0000-000000000007',
+    'br420000-0000-0000-0000-000000000003',
+    'Kemal Öztürk',
+    'Risk Komitesi Başkanı',
+    'FOR',
+    'Sistem kaynaklı gecikme — raporlama altyapısı iyileştirme planı mevcut.',
+    '2026-03-10T09:30:00+03:00'
+  ),
+  (
+    'cv420000-0000-0000-0000-000000000008',
+    'br420000-0000-0000-0000-000000000003',
+    'Selin Arslan',
+    'Bağımsız Üye',
+    'FOR',
+    NULL,
+    '2026-03-10T09:32:00+03:00'
+  ),
+  (
+    'cv420000-0000-0000-0000-000000000009',
+    'br420000-0000-0000-0000-000000000003',
+    'Burak Şahin',
+    'Uyum Komitesi Üyesi',
+    'FOR',
+    'Uyum direktörünün sunumu ikna edici.',
+    '2026-03-10T09:35:00+03:00'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+
+-- =============================================================================
+-- WAVE 45 SEED: AI Report Translator — İngilizce ITGC Çevirileri
+-- =============================================================================
+
+INSERT INTO public.report_translations (id, tenant_id, report_id, source_language, target_language, source_text, translated_text, section_key, translation_model, confidence_score, is_reviewed, created_by) VALUES
+  (
+    'rt000000-0000-0000-0000-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    (SELECT id FROM public.reports WHERE tenant_id = '11111111-1111-1111-1111-111111111111' LIMIT 1),
+    'tr',
+    'en',
+    'Bu denetim, Bilgi Teknolojileri Genel Kontrolleri (ITGC) kapsamında gerçekleştirilmiştir. Denetim bulgularına göre, erişim kontrolü yönetiminde önemli zafiyetler tespit edilmiştir. Ayrıcalıklı kullanıcı hesaplarının yönetimi yetersiz kalmaktadır.',
+    'This audit was conducted within the scope of IT General Controls (ITGC). According to the audit findings, significant deficiencies have been identified in access control management. The management of privileged user accounts remains inadequate.',
+    'executive_summary',
+    'gpt-4o',
+    0.9850,
+    true,
+    'AI Çeviri Motoru v4.5'
+  ),
+  (
+    'rt000000-0000-0000-0000-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    (SELECT id FROM public.reports WHERE tenant_id = '11111111-1111-1111-1111-111111111111' LIMIT 1),
+    'tr',
+    'en',
+    'Bulgu 1 — Ayrıcalıklı Erişim Yönetimi (BDDK Rehber Md. 22): Sistem yöneticisi hesaplarının periyodik incelemesi yapılmamaktadır. Önerilen eylem: Üç aylık erişim gözden geçirme süreci oluşturulmalı ve CISO onayına bağlanmalıdır.',
+    'Finding 1 — Privileged Access Management (BRSA Guideline Art. 22): Periodic reviews of system administrator accounts are not being conducted. Recommended Action: A quarterly access review process should be established and linked to CISO approval.',
+    'findings',
+    'gpt-4o',
+    0.9720,
+    true,
+    'AI Çeviri Motoru v4.5'
+  ),
+  (
+    'rt000000-0000-0000-0000-000000000003',
+    '11111111-1111-1111-1111-111111111111',
+    (SELECT id FROM public.reports WHERE tenant_id = '11111111-1111-1111-1111-111111111111' LIMIT 1),
+    'tr',
+    'en',
+    'Bulgu 2 — Değişim Yönetimi Süreci (ISO 27001 A.14.2.2): Yazılım değişikliklerinin yalnızca %45''i resmi onay prosedürüne tabi tutulmaktadır. Bu oran BDDK beklentileri olan %95''in çok altındadır.',
+    'Finding 2 — Change Management Process (ISO 27001 A.14.2.2): Only 45% of software changes are subject to formal approval procedures. This rate is well below the BRSA expectation of 95%.',
+    'findings',
+    'gpt-4o',
+    0.9680,
+    false,
+    'AI Çeviri Motoru v4.5'
+  ),
+  (
+    'rt000000-0000-0000-0000-000000000004',
+    '11111111-1111-1111-1111-111111111111',
+    (SELECT id FROM public.reports WHERE tenant_id = '11111111-1111-1111-1111-111111111111' LIMIT 1),
+    'tr',
+    'en',
+    'Genel Sonuç: İç denetim ekibi, bilgi sistemleri kontrol ortamının GIAS 2024 standardı çerçevesinde "Sınırlı Güvence" düzeyinde değerlendirildiğini bildirmektedir. Kritik bulgular 90 gün içinde giderilmeli ve ilerleme CAE''ye raporlanmalıdır.',
+    'Overall Conclusion: The internal audit team reports that the information systems control environment is assessed at the "Limited Assurance" level within the framework of GIAS 2024 standards. Critical findings must be remediated within 90 days and progress reported to the CAE.',
+    'recommendations',
+    'gpt-4o',
+    0.9910,
+    true,
+    'AI Çeviri Motoru v4.5'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 43 SEED: Quantum Risk Graph — risk_edges (Bankacılık Risk İlişkileri)
+-- =============================================================================
+-- Source/Target IDs reference rkm_master rows inserted in Wave 36 seed:
+--   gggg0001-rkm0-0000-0000-000000000001  → Kredi Yoğunlaşma Riski
+--   gggg0001-rkm0-0000-0000-000000000002  → Core Banking Erişim Kontrolü
+--   gggg0001-rkm0-0000-0000-000000000003  → MASAK Şüpheli İşlem Bildirimi
+--   gggg0001-rkm0-0000-0000-000000000004  → LCR Likidite Tampon Yetersizliği
+--   gggg0001-rkm0-0000-0000-000000000005  → KVKK Bildirim Süreci
+--   gggg0001-rkm0-0000-0000-000000000006  → Dijital Dönüşüm Teknik Borç
+-- =============================================================================
+
+INSERT INTO public.risk_edges
+  (id, source_id, target_id, relationship_type, weight, description)
+VALUES
+  -- Kredi Yoğunlaşma → Likidite (nedensellik: büyük kredi bozulması likiditeyi etkiler)
+  (
+    'edge0001-0000-0000-0000-000000000001',
+    'gggg0001-rkm0-0000-0000-000000000001',
+    'gggg0001-rkm0-0000-0000-000000000004',
+    'CAUSAL',
+    3.5,
+    'Portföy yoğunlaşması kayıpları LCR baskısına yol açabilir'
+  ),
+  -- Core Banking Erişim → MASAK İzleme (bağımlılık: güvenlik açığı şüpheli işlem tespitini engeller)
+  (
+    'edge0001-0000-0000-0000-000000000002',
+    'gggg0001-rkm0-0000-0000-000000000002',
+    'gggg0001-rkm0-0000-0000-000000000003',
+    'DEPENDENCY',
+    2.8,
+    'Erişim kontrolü zafiyeti MASAK işlem izleme kalitesini düşürür'
+  ),
+  -- Dijital Dönüşüm Teknik Borç → Core Banking Erişim (nedensellik: modernizasyon gecikmesi güvenliği artırır)
+  (
+    'edge0001-0000-0000-0000-000000000003',
+    'gggg0001-rkm0-0000-0000-000000000006',
+    'gggg0001-rkm0-0000-0000-000000000002',
+    'ESCALATION',
+    2.2,
+    'Teknik borç birikimi güncellenmemiş erişim yönetimini tetikler'
+  ),
+  -- MASAK → Uyum Riski (korelasyon: her ikisi de mevzuat uyum alanında)
+  (
+    'edge0001-0000-0000-0000-000000000004',
+    'gggg0001-rkm0-0000-0000-000000000003',
+    'gggg0001-rkm0-0000-0000-000000000005',
+    'CORRELATED',
+    1.9,
+    'Uyum zaafiyetleri KVKK ve AML süreçlerini eş zamanlı etkiler'
+  ),
+  -- Likidite → Kredi Yoğunlaşma (geri döngü: stres ortamında kredi çekilmesi)
+  (
+    'edge0001-0000-0000-0000-000000000005',
+    'gggg0001-rkm0-0000-0000-000000000004',
+    'gggg0001-rkm0-0000-0000-000000000001',
+    'CORRELATED',
+    1.5,
+    'Likidite kısıtı kredi portföyü kalitesini bozar (geri etki)'
+  ),
+  -- KVKK → Dijital Dönüşüm (engelleme: veri sınırları dijital büyümeyi kısıtlar)
+  (
+    'edge0001-0000-0000-0000-000000000006',
+    'gggg0001-rkm0-0000-0000-000000000005',
+    'gggg0001-rkm0-0000-0000-000000000006',
+    'DEPENDENCY',
+    1.2,
+    'KVKK gereksinimleri dijital platform veri mimarisini etkiler'
+  ),
+  -- Kredi Yoğunlaşma → MASAK (dolaylı: büyük kurumsal müşteri HNW riski)
+  (
+    'edge0001-0000-0000-0000-000000000007',
+    'gggg0001-rkm0-0000-0000-000000000001',
+    'gggg0001-rkm0-0000-0000-000000000003',
+    'CORRELATED',
+    1.8,
+    'Büyük kurumsal kredi müşterileri AML risk profilini artırır'
+  )
+ON CONFLICT (id) DO NOTHING;

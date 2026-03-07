@@ -1,0 +1,1 @@
+export { ResolutionDeck } from './ResolutionDeck';
