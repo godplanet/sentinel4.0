@@ -3,6 +3,7 @@ import { X, Shield, AlertTriangle, CheckCircle, FileText } from 'lucide-react';
 import { GlassCard } from '@/shared/ui/GlassCard';
 import { analyzeFindingCompliance } from './rag-engine';
 import type { AAOIFIStandard } from './data/aaoifi_standards';
+import { useAAOIFIStandards } from '@/entities/shariah/api/shariah-api';
 
 interface ComplianceCheckerModalProps {
   isOpen: boolean;
@@ -15,15 +16,16 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
   const [result, setResult] = useState<ReturnType<typeof analyzeFindingCompliance> | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const { data: standards = [], isLoading: isStandardsLoading } = useAAOIFIStandards();
+
   if (!isOpen) return null;
 
   const handleAnalyze = async () => {
-    if (!description.trim()) return;
+    if (!description.trim() || isStandardsLoading) return;
 
     setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    const analysis = analyzeFindingCompliance(description);
+    const analysis = analyzeFindingCompliance(description, standards);
     setResult(analysis);
     setLoading(false);
   };
@@ -64,10 +66,10 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
             />
             <button
               onClick={handleAnalyze}
-              disabled={!description.trim() || loading}
+              disabled={!description.trim() || loading || isStandardsLoading}
               className="w-full py-3 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {loading ? (
+              {loading || isStandardsLoading ? (
                 <>
                   <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
                   Analyzing...

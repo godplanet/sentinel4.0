@@ -19,7 +19,7 @@ const ROUTE_DESCRIPTIONS: Record<string, string> = {
   '/execution/findings': 'Bulgu Merkezi - Tum bulgular, durumlar ve oncelikler',
   '/execution/actions': 'Aksiyon Takibi - Duzeltici eylem planlari',
   '/monitoring/watchtower': 'Gozetim Kulesi - Surekli izleme ve prob sistemi',
-  '/reporting/executive': 'Yonetim Raporu - Ust yonetim icin ozet gosterge paneli',
+  '/reporting/executive-dashboard': 'Yonetim Raporu - Ust yonetim icin ozet gosterge paneli',
   '/reporting/builder': 'Rapor Olusturucu - Dinamik rapor sablonlari',
   '/governance/policies': 'Politika Kutuphanesi - Ic denetim politika ve prosedürleri',
   '/qaip/kpi': 'Kalite KPI - Denetim kalite gostergeleri',

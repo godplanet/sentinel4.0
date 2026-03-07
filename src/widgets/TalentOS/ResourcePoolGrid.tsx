@@ -24,37 +24,37 @@ export function ResourcePoolGrid({ profiles, selectedId, onSelect }: ResourcePoo
   const [showFilters, setShowFilters] = useState(false);
 
   const filtered = useMemo(() => {
-    let result = profiles;
+    let result = profiles || [];
 
     if (search.trim()) {
       const q = search.toLowerCase();
-      result = result.filter(
+      result = (result || []).filter(
         (p) =>
-          p.full_name.toLowerCase().includes(q) ||
-          p.department.toLowerCase().includes(q) ||
-          p.title.toLowerCase().includes(q)
+          (p?.full_name || '').toLowerCase().includes(q) ||
+          (p?.department || '').toLowerCase().includes(q) ||
+          (p?.title || '').toLowerCase().includes(q)
       );
     }
 
     if (skillFilter !== 'all') {
-      result = result.filter((p) =>
-        p.skills.some((s) => s.skill_name === skillFilter && s.proficiency_level >= 3)
+      result = (result || []).filter((p) =>
+        (p?.skills || []).some((s) => s?.skill_name === skillFilter && (s?.proficiency_level ?? 0) >= 3)
       );
     }
 
-    if (availFilter === 'available') result = result.filter((p) => p.is_available);
-    if (availFilter === 'unavailable') result = result.filter((p) => !p.is_available);
+    if (availFilter === 'available') result = (result || []).filter((p) => p?.is_available);
+    if (availFilter === 'unavailable') result = (result || []).filter((p) => !p?.is_available);
 
-    if (zoneFilter !== 'all') result = result.filter((p) => p.burnout_zone === zoneFilter);
+    if (zoneFilter !== 'all') result = (result || []).filter((p) => p?.burnout_zone === zoneFilter);
 
     return result;
   }, [profiles, search, skillFilter, availFilter, zoneFilter]);
 
   const stats = useMemo(() => ({
-    total: profiles.length,
-    available: profiles.filter((p) => p.is_available).length,
-    red: profiles.filter((p) => p.burnout_zone === 'RED').length,
-    green: profiles.filter((p) => p.burnout_zone === 'GREEN').length,
+    total: (profiles || []).length,
+    available: (profiles || []).filter((p) => p?.is_available).length,
+    red: (profiles || []).filter((p) => p?.burnout_zone === 'RED').length,
+    green: (profiles || []).filter((p) => p?.burnout_zone === 'GREEN').length,
   }), [profiles]);
 
   return (
@@ -134,7 +134,7 @@ export function ResourcePoolGrid({ profiles, selectedId, onSelect }: ResourcePoo
         </div>
       )}
 
-      {filtered.length === 0 ? (
+      {(!filtered || filtered.length === 0) ? (
         <div className="text-center py-16 border-2 border-dashed border-slate-200 rounded-lg">
           <Users className="mx-auto text-slate-400 mb-4" size={48} />
           <p className="text-slate-600 font-medium">Eslesen denetci bulunamadi</p>
@@ -142,12 +142,12 @@ export function ResourcePoolGrid({ profiles, selectedId, onSelect }: ResourcePoo
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {filtered.map((p) => (
+          {(filtered || []).map((p) => (
             <TalentCard
-              key={p.id}
+              key={p?.id}
               profile={p}
-              selected={selectedId === p.id}
-              onClick={() => onSelect(p.id)}
+              selected={selectedId === p?.id}
+              onClick={() => onSelect(p?.id)}
             />
           ))}
         </div>
@@ -162,7 +162,7 @@ function StatChip({
   value,
   color,
 }: {
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<{ size?: number | string; className?: string }>;
   label: string;
   value: number;
   color: string;

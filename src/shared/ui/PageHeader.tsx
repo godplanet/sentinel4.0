@@ -6,6 +6,7 @@ import { useUIStore } from '@/shared/stores/ui-store';
 interface PageHeaderProps {
   title: string;
   description?: string;
+  subtitle?: string;
   icon?: LucideIcon;
   action?: ReactNode;
   viewControls?: ReactNode;
@@ -15,6 +16,7 @@ interface PageHeaderProps {
 export const PageHeader = ({
   title,
   description,
+  subtitle,
   icon: Icon,
   action,
   viewControls,
@@ -54,6 +56,9 @@ export const PageHeader = ({
             </h1>
             {description && (
               <p className="text-xs font-medium text-slate-500 mt-0.5">{description}</p>
+            )}
+            {subtitle && (
+              <p className="text-xs font-medium text-slate-500 mt-0.5">{subtitle}</p>
             )}
           </div>
         </div>

@@ -9,7 +9,7 @@ import {
   Eye,
   EyeOff,
 } from 'lucide-react';
-import { createIncident, type CreateIncidentInput, type IncidentCategory } from '@/entities/incident';
+import { useSubmitIncident, type CreateIncidentInput, type IncidentCategory } from '@/entities/incident';
 
 const CATEGORIES: { value: IncidentCategory; label: string }[] = [
   { value: 'Dolandırıcılık', label: 'Dolandırıcılık' },
@@ -23,9 +23,14 @@ export function IncidentPortal() {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState<IncidentCategory>('Etik');
   const [isAnonymous, setIsAnonymous] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [trackingCode, setTrackingCode] = useState<string | null>(null);
+
+  const submitMutation = useSubmitIncident();
+
+  const isSubmitting = submitMutation.isPending;
+  const isSuccess = submitMutation.isSuccess;
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,34 +41,29 @@ export function IncidentPortal() {
       return;
     }
 
-    setIsSubmitting(true);
+    const input: CreateIncidentInput = {
+      title: title.trim(),
+      description: description.trim(),
+      category,
+      is_anonymous: isAnonymous,
+    };
 
-    try {
-      const input: CreateIncidentInput = {
-        title: title.trim(),
-        description: description.trim(),
-        category,
-        is_anonymous: isAnonymous,
-      };
-
-      await createIncident(input);
-      setIsSuccess(true);
-
-      setTitle('');
-      setDescription('');
-      setCategory('Etik');
-      setIsAnonymous(true);
-
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 5000);
-    } catch (err) {
-      console.error('Failed to submit incident:', err);
-      setError('Bildirim gönderilirken bir hata oluştu. Lütfen tekrar deneyin.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    submitMutation.mutate(input, {
+      onSuccess: (data) => {
+        // Gerçek ID'yi tracking code olarak göster
+        setTrackingCode((data as { id?: string })?.id?.substring(0, 12)?.toUpperCase() ?? 'REF-ALINDI');
+        setTitle('');
+        setDescription('');
+        setCategory('Etik');
+        setIsAnonymous(true);
+      },
+      onError: (err) => {
+        console.error('Failed to submit incident:', err);
+        setError('Bildirim gönderilirken bir hata oluştu. Lütfen tekrar deneyin.');
+      },
+    });
   };
+
 
   if (isSuccess) {
     return (
@@ -71,6 +71,7 @@ export function IncidentPortal() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         className="bg-surface rounded-2xl shadow-2xl p-8 max-w-2xl mx-auto text-center"
+        data-testid="incident-success-screen"
       >
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-12 h-12 text-green-600" />
@@ -83,7 +84,7 @@ export function IncidentPortal() {
         </p>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm text-blue-900">
-            <strong>Referans No:</strong> {Math.random().toString(36).substring(2, 10).toUpperCase()}
+            <strong>Referans No:</strong> {trackingCode ?? 'REF-ALINDI'}
           </p>
           <p className="text-xs text-blue-700 mt-2">
             Bu numarayı not alarak takip edebilirsiniz.

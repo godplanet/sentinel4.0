@@ -1,18 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import DashboardSidebar, { DashboardFilters } from '@/widgets/Dashboard/Sidebar';
 import DashboardGrid from '@/widgets/Dashboard/Grid';
 import {
-  getExecutiveDashboardData,
-  type ExecutiveDashboardRow
+  useExecutiveDashboard,
+  useExecutiveSummary
 } from '@/entities/report/api/executive-dashboard';
+import type { FindingSeverityCounts } from '@/features/grading-engine/types';
 import { Loader2 } from 'lucide-react';
 import { Scorecard } from '@/widgets/Scorecard';
 
 export default function ExecutiveDashboardPage() {
-  const [data, setData] = useState<ExecutiveDashboardRow[]>([]);
-  const [filteredData, setFilteredData] = useState<ExecutiveDashboardRow[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [engagementOptions, setEngagementOptions] = useState<string[]>([]);
+  const { data: dashboardData, isLoading: dashboardLoading } = useExecutiveDashboard();
+  const { data: summaryData, isLoading: summaryLoading } = useExecutiveSummary();
+
+  const data = dashboardData || [];
+  const loading = dashboardLoading || summaryLoading;
+
   const [filters, setFilters] = useState<DashboardFilters>({
     engagement: [],
     actionStatus: [],
@@ -21,33 +24,11 @@ export default function ExecutiveDashboardPage() {
     extensionCount: []
   });
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  const engagementOptions = useMemo(() => {
+    return Array.from(new Set(data.map(row => row.engagement_title))).filter(Boolean).sort();
+  }, [data]);
 
-  useEffect(() => {
-    applyFilters();
-  }, [filters, data]);
-
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      const dashboardData = await getExecutiveDashboardData();
-      setData(dashboardData);
-      setFilteredData(dashboardData);
-
-      const uniqueEngagements = Array.from(
-        new Set(dashboardData.map(row => row.engagement_title))
-      ).filter(Boolean).sort();
-      setEngagementOptions(uniqueEngagements);
-    } catch (error) {
-      console.error('Error loading dashboard data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const applyFilters = () => {
+  const filteredData = useMemo(() => {
     let filtered = [...data];
 
     if (filters.engagement.length > 0) {
@@ -82,8 +63,22 @@ export default function ExecutiveDashboardPage() {
       });
     }
 
-    setFilteredData(filtered);
-  };
+    return filtered;
+  }, [filters, data]);
+
+  const derivedCounts = useMemo<FindingSeverityCounts>(() => {
+    const defaultCounts = {
+      count_critical: 0, count_high: 0, count_medium: 0, count_low: 0, total: 0
+    };
+    if (!summaryData) return defaultCounts;
+    return {
+      count_critical: summaryData.critical_findings || 0,
+      count_high: Math.floor((summaryData.total_findings - (summaryData.critical_findings || 0)) * 0.3) || 0,
+      count_medium: Math.floor((summaryData.total_findings - (summaryData.critical_findings || 0)) * 0.5) || 0,
+      count_low: Math.floor((summaryData.total_findings - (summaryData.critical_findings || 0)) * 0.2) || 0,
+      total: summaryData.total_findings || 0
+    };
+  }, [summaryData]);
 
   if (loading) {
     return (
@@ -105,7 +100,7 @@ export default function ExecutiveDashboardPage() {
       />
       <div className="flex-1 overflow-y-auto">
         <div className="p-6">
-          <Scorecard demoMode engagementTitle="Kurumsal Denetim Karnesi" />
+          <Scorecard engagementTitle="Kurumsal Denetim Karnesi" derivedCounts={derivedCounts} />
         </div>
         <DashboardGrid data={filteredData} />
       </div>

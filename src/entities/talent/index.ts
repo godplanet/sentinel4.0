@@ -1,1 +1,1 @@
-export * from '@/features/talent-os';
+// FSD architecture maintained: No external feature exports from entity folder

@@ -68,13 +68,13 @@ export function useCriticalFindings() {
         status: string;
         engagement?: { title?: string; audit_entities?: { name?: string } | null } | null;
       }>;
-      return rows.map((r) => ({
-        id: r.id,
-        title: r.title ?? '',
-        severity: r.severity ?? 'HIGH',
-        status: r.status ?? 'DRAFT',
-        institution: r.engagement?.audit_entities?.name ?? r.engagement?.title ?? undefined,
-        engagement_title: r.engagement?.title ?? undefined,
+      return (rows || []).map((r) => ({
+        id: r?.id,
+        title: r?.title ?? '',
+        severity: r?.severity ?? 'HIGH',
+        status: r?.status ?? 'DRAFT',
+        institution: r?.engagement?.audit_entities?.name ?? r?.engagement?.title ?? undefined,
+        engagement_title: r?.engagement?.title ?? undefined,
       }));
     },
     staleTime: 2 * 60 * 1000,
@@ -112,7 +112,7 @@ export function useBoardEscalations() {
       }>;
       if (list.length === 0) return [];
 
-      const actionIds = list.map((l) => l.action_id);
+      const actionIds = (list || []).map((l) => l?.action_id);
       const { data: actions, error: actErr } = await supabase
         .from('actions')
         .select('id, title, current_due_date, status, finding_id, finding_snapshot')
@@ -130,15 +130,15 @@ export function useBoardEscalations() {
         ])
       );
 
-      return list.map((l) => {
-        const act = actionMap.get(l.action_id);
+      return (list || []).map((l) => {
+        const act = actionMap.get(l?.action_id);
         return {
-          id: l.id,
-          action_id: l.action_id,
+          id: l?.id,
+          action_id: l?.action_id,
           action_title: act?.title ?? '—',
-          cae_decision: l.cae_decision,
-          justification: l.justification ?? null,
-          triggered_at: l.triggered_at,
+          cae_decision: l?.cae_decision,
+          justification: l?.justification ?? null,
+          triggered_at: l?.triggered_at,
           current_due_date: act?.current_due_date ?? null,
           status: act?.status ?? '',
           finding_title: act?.finding_title,

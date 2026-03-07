@@ -112,24 +112,4 @@ CREATE INDEX IF NOT EXISTS idx_test_steps_workpaper ON workpaper_test_steps(work
 CREATE INDEX IF NOT EXISTS idx_evidence_requests_workpaper ON evidence_requests(workpaper_id);
 CREATE INDEX IF NOT EXISTS idx_evidence_requests_status ON evidence_requests(status);
 
-DO $$
-DECLARE
-  v_wp_id UUID;
-BEGIN
-  SELECT id INTO v_wp_id FROM workpapers LIMIT 1;
 
-  IF v_wp_id IS NOT NULL THEN
-    INSERT INTO workpaper_test_steps (workpaper_id, step_order, description, is_completed, auditor_comment) VALUES
-      (v_wp_id, 1, 'Kredi dosyalarından rastgele 25 adet seçin ve dosya bütünlüğünü kontrol edin.', true, 'Tamamlandı - 25 dosya incelendi, 2 dosyada eksiklik tespit edildi.'),
-      (v_wp_id, 2, 'Seçilen dosyalardaki teminat değerlemelerinin güncelliğini doğrulayın.', true, '23 dosyada güncel, 2 dosyada 6 aydan eski değerleme mevcut.'),
-      (v_wp_id, 3, 'Kredi onay yetkilerinin yetki matrisine uygunluğunu test edin.', false, ''),
-      (v_wp_id, 4, 'Limit aşımı olan kredilerin yönetim kurulu onaylarını kontrol edin.', false, ''),
-      (v_wp_id, 5, 'Takipteki krediler için karşılık hesaplamalarının doğruluğunu analiz edin.', false, '');
-
-    INSERT INTO evidence_requests (workpaper_id, title, description, status, due_date) VALUES
-      (v_wp_id, 'Mart 2026 Genel Mizan', 'Genel muhasebe mizanının tam dökümü gereklidir.', 'submitted', now() + interval '3 days'),
-      (v_wp_id, 'Kredi Komitesi Toplantı Tutanakları', 'Son 3 aylık kredi komitesi karar tutanakları.', 'pending', now() + interval '5 days'),
-      (v_wp_id, 'Teminat Değerleme Raporları', 'Seçilen 25 kredi dosyasına ait ekspertiz raporları.', 'pending', now() + interval '7 days'),
-      (v_wp_id, 'Yetki Matrisi Güncel Kopya', 'Kredi tahsis ve onay yetki matrisinin güncel versiyonu.', 'accepted', now() - interval '2 days');
-  END IF;
-END $$;

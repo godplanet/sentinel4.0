@@ -12,6 +12,7 @@ interface GlassCardProps {
   className?: string;
   neonGlow?: 'blue' | 'orange' | 'green' | 'red' | 'none';
   solidMode?: boolean; // Override for VDI/Citrix environments
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export function GlassCard({
@@ -19,6 +20,7 @@ export function GlassCard({
   className = '',
   neonGlow = 'none',
   solidMode = false,
+  onClick,
 }: GlassCardProps) {
   const ui = SENTINEL_CONSTITUTION.UI;
   const ai = SENTINEL_CONSTITUTION.AI;
@@ -59,6 +61,7 @@ return (
       ...glassStyles,
       boxShadow,
     }}
+    onClick={onClick}
   >
     {/* Parlama efekti de yumuşatıldı */}
     {useGlass && (
@@ -81,7 +84,7 @@ interface RiskBadgeProps {
 export function RiskBadge({ score, showLabel = true }: RiskBadgeProps) {
   const zones = SENTINEL_CONSTITUTION.RISK.ZONES;
 
-  let zone = zones.GREEN;
+  let zone: any = zones.GREEN;
   if (score >= zones.RED.min) zone = zones.RED;
   else if (score >= zones.ORANGE.min) zone = zones.ORANGE;
   else if (score >= zones.YELLOW.min) zone = zones.YELLOW;
@@ -239,7 +242,6 @@ export function GradeWaterfall({
   criticalCount,
   highCount,
 }: GradeWaterfallProps) {
-  const grading = SENTINEL_CONSTITUTION.GRADING;
   const isLimited = finalScore < rawScore;
 
   const getGradeLetter = (score: number) => {

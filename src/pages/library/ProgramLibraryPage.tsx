@@ -62,7 +62,7 @@ export default function ProgramLibraryPage() {
       <PageHeader
         title="Program Library"
         subtitle="Pre-built audit programs ready to deploy"
-        actions={
+        action={
           <button
             onClick={() => navigate('/library/builder/new')}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -163,7 +163,7 @@ export default function ProgramLibraryPage() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/library/deploy/${template.id}`);
+                        navigate(`/library/builder/${template.id}`);
                       }}
                       className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm font-medium"
                     >

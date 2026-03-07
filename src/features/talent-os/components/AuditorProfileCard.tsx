@@ -162,13 +162,13 @@ export function AuditorProfileCard({
   const [isLeveling, setIsLeveling] = useState(false);
   const [leveledUp,  setLeveledUp]  = useState(false);
 
-  const gradient   = LEVEL_GRADIENTS[profile.current_level] ?? LEVEL_GRADIENTS[1];
-  const levelLabel = LEVEL_LABELS[profile.current_level] ?? `Lv ${profile.current_level}`;
-  const initials   = getInitials(profile.full_name);
-  const isBurnout  = profile.fatigue_score > 80;
-  const topSkills  = profile.skills_snapshot?.skills?.slice(0, 3) ?? [];
+  const gradient   = LEVEL_GRADIENTS[profile?.current_level ?? 1] ?? LEVEL_GRADIENTS[1];
+  const levelLabel = LEVEL_LABELS[profile?.current_level ?? 1] ?? `Lv ${profile?.current_level ?? 1}`;
+  const initials   = getInitials(profile?.full_name ?? '??');
+  const isBurnout  = (profile?.fatigue_score ?? 0) > 80;
+  const topSkills  = profile?.skills_snapshot?.skills?.slice(0, 3) ?? [];
 
-  const canLevelUp    = profile.total_xp >= profile.next_level_xp && profile.current_level < 5;
+  const canLevelUp    = (profile?.total_xp ?? 0) >= (profile?.next_level_xp ?? 999999) && (profile?.current_level ?? 1) < 5;
   const isGateBlocked = gateResult?.reason === 'MEMORY_GATE_BLOCKED';
 
   const handleLevelUp = useCallback(async (e: React.MouseEvent) => {
@@ -176,6 +176,7 @@ export function AuditorProfileCard({
     setIsLeveling(true);
     setGateResult(null);
     try {
+      if (!profile?.id) throw new Error('No profile id');
       const result = await XPEngine.attemptLevelUp(profile.id, 0);
       setGateResult(result);
       if (result.success) setLeveledUp(true);
@@ -224,15 +225,15 @@ export function AuditorProfileCard({
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="text-primary font-semibold text-sm leading-tight truncate">{profile.full_name}</h3>
-          <p className="text-slate-500 text-xs mt-0.5">{TITLE_MAP[profile.title] ?? profile.title}</p>
-          <p className="text-slate-400 text-[10px] mt-0.5 truncate">{profile.department}</p>
+          <h3 className="text-primary font-semibold text-sm leading-tight truncate">{profile?.full_name ?? 'Bilinmeyen'}</h3>
+          <p className="text-slate-500 text-xs mt-0.5">{TITLE_MAP[profile?.title ?? 'Junior'] ?? profile?.title}</p>
+          <p className="text-slate-400 text-[10px] mt-0.5 truncate">{profile?.department ?? ''}</p>
           <div className="flex items-center gap-2 mt-1.5">
             <div className="flex items-center gap-1">
               <Trophy className="w-3 h-3 text-amber-500" />
               <span className="text-[10px] text-amber-600 font-mono font-semibold">{levelLabel}</span>
             </div>
-            {profile.is_available
+            {profile?.is_available
               ? <span className="text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full px-1.5 py-0.5">Müsait</span>
               : <span className="text-[9px] bg-rose-50 text-rose-700 border border-rose-200 rounded-full px-1.5 py-0.5">Dolu</span>}
           </div>
@@ -241,9 +242,9 @@ export function AuditorProfileCard({
 
       <div className="mb-4">
         <XPBar
-          current={profile.total_xp}
-          next={profile.next_level_xp}
-          level={profile.current_level}
+          current={profile?.total_xp ?? 0}
+          next={profile?.next_level_xp ?? 999999}
+          level={profile?.current_level ?? 1}
           showShield={isDiminishingActive}
           memoryGateLocked={memoryGateLocked}
         />
@@ -306,39 +307,40 @@ export function AuditorProfileCard({
 
       <div className="flex items-start gap-3 mb-4">
         <div className="flex-1">
-          <FatigueMeter score={profile.fatigue_score} />
+          <FatigueMeter score={profile?.fatigue_score ?? 0} />
         </div>
-        {topSkills.length > 0 && (
+        {(topSkills || []).length > 0 && (
           <div className="flex-1 space-y-1.5">
             <p className="text-[9px] text-slate-400 uppercase tracking-widest font-semibold">Top Beceriler</p>
-            {topSkills.map((s) => (
-              <div key={s.skill_name} className="flex items-center gap-1.5">
+            {(topSkills || []).map((s) => (
+              <div key={s?.skill_name} className="flex items-center gap-1.5">
                 <div className="flex gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < s.proficiency_level ? 'bg-sky-400' : 'bg-slate-200'}`} />
+                    <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < (s?.proficiency_level ?? 0) ? 'bg-sky-400' : 'bg-slate-200'}`} />
                   ))}
                 </div>
-                <span className="text-[9px] text-slate-500 truncate">{s.skill_name}</span>
+                <span className="text-[9px] text-slate-500 truncate">{s?.skill_name ?? ''}</span>
               </div>
             ))}
           </div>
         )}
       </div>
 
-      {profile.certifications.length > 0 && (
+      {(profile?.certifications || []).length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-4">
-          {profile.certifications.slice(0, 4).map((cert) => {
-            const key   = Object.keys(CERT_COLORS).find((k) => cert.name.includes(k)) ?? '';
+          {(profile?.certifications || []).slice(0, 4).map((cert) => {
+            const certName = cert?.name ?? '';
+            const key   = Object.keys(CERT_COLORS).find((k) => certName.includes(k)) ?? '';
             const style = CERT_COLORS[key] ?? DEFAULT_CERT_COLOR;
             return (
-              <div key={cert.id} className={`flex items-center gap-1 px-1.5 py-0.5 rounded border text-[9px] font-semibold uppercase tracking-wide ${style.bg} ${style.text} ${style.border}`}>
+              <div key={cert?.id} className={`flex items-center gap-1 px-1.5 py-0.5 rounded border text-[9px] font-semibold uppercase tracking-wide ${style.bg} ${style.text} ${style.border}`}>
                 <Shield className="w-2.5 h-2.5" />
-                {cert.name.split(' ')[0]}
+                {certName.split(' ')[0]}
               </div>
             );
           })}
-          {profile.certifications.length > 4 && (
-            <span className="text-[9px] text-slate-400 self-center">+{profile.certifications.length - 4}</span>
+          {(profile?.certifications || []).length > 4 && (
+            <span className="text-[9px] text-slate-400 self-center">+{(profile?.certifications || []).length - 4}</span>
           )}
         </div>
       )}

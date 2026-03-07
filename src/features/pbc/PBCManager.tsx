@@ -4,13 +4,14 @@ import {
   FileDown, Plus, X, Clock, CheckCircle2, AlertTriangle,
   Send, Search, Calendar, User, Sparkles, Brain, Loader2
 } from 'lucide-react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+
 import {
-  fetchPBCRequests,
-  createPBCRequest,
-  updatePBCRequestStatus,
-} from './api';
-import type { PBCRequest } from './api';
+  usePBCRequests,
+  useCreatePBCRequest,
+  useUpdatePBCStatus,
+} from '@/entities/pbc/api/pbc-requests';
+import type { PBCRequest } from '@/entities/pbc/api/pbc-requests';
 import { useSentinelAI } from '@/shared/hooks/useSentinelAI';
 import clsx from 'clsx';
 
@@ -47,7 +48,6 @@ const AUDIT_TYPES = [
 ] as const;
 
 export function PBCManager({ engagementId }: PBCManagerProps) {
-  const queryClient = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
   const [filter, setFilter] = useState<string>('ALL');
   const [search, setSearch] = useState('');
@@ -62,37 +62,27 @@ export function PBCManager({ engagementId }: PBCManagerProps) {
     due_date: '',
   });
 
-  const queryKey = ['pbc-requests', engagementId ?? 'all'];
+  const { data: requests = [], isLoading } = usePBCRequests(engagementId);
 
-  const { data: requests = [], isLoading } = useQuery({
-    queryKey,
-    queryFn: () => fetchPBCRequests(engagementId),
-  });
+  const baseCreateMutation = useCreatePBCRequest();
+  const createMutation = {
+    isPending: baseCreateMutation.isPending,
+    mutate: () => baseCreateMutation.mutate({
+      title: form.title,
+      description: form.description,
+      requested_from: form.requested_from,
+      priority: form.priority,
+      due_date: form.due_date || null,
+      engagement_id: engagementId ?? null,
+    }, {
+      onSuccess: () => {
+        setShowCreate(false);
+        setForm({ title: '', description: '', requested_from: '', priority: 'MEDIUM', due_date: '' });
+      }
+    })
+  };
 
-  const createMutation = useMutation({
-    mutationFn: () =>
-      createPBCRequest({
-        title: form.title,
-        description: form.description,
-        requested_from: form.requested_from,
-        priority: form.priority,
-        due_date: form.due_date || null,
-        engagement_id: engagementId ?? null,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey });
-      setShowCreate(false);
-      setForm({ title: '', description: '', requested_from: '', priority: 'MEDIUM', due_date: '' });
-    },
-  });
-
-  const statusMutation = useMutation({
-    mutationFn: ({ id, status }: { id: string; status: PBCRequest['status'] }) =>
-      updatePBCRequestStatus(id, status),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey });
-    },
-  });
+  const statusMutation = useUpdatePBCStatus();
 
   const handleMagicDraft = async () => {
     if (!selectedAuditType) return;

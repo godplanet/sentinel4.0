@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { Play, Pause, Clock, RotateCcw } from 'lucide-react';
+import { Play, Pause, Clock, RotateCcw, AlertTriangle } from 'lucide-react';
 import clsx from 'clsx';
+import type { SimulationScenario } from '@/entities/risk/api/scenario-api';
 
 interface TimeTravelSliderProps {
   onProgressChange: (progress: number) => void;
+  /** Opsiyonel: Supabase'den gelen stres testi senaryoları */
+  scenarios?: SimulationScenario[];
+  /** Anlık aktif senaryo (dışarıdan kontrol için) */
+  activeScenario?: SimulationScenario | null;
 }
 
 const QUARTERS = [
@@ -14,7 +19,14 @@ const QUARTERS = [
   { label: 'Q1 2026', value: 1.0 },
 ];
 
-export function TimeTravelSlider({ onProgressChange }: TimeTravelSliderProps) {
+const SEVERITY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+  LOW:      { bg: 'bg-blue-50',    text: 'text-blue-700',   border: 'border-blue-200' },
+  MEDIUM:   { bg: 'bg-amber-50',   text: 'text-amber-700',  border: 'border-amber-200' },
+  HIGH:     { bg: 'bg-orange-50',  text: 'text-orange-700', border: 'border-orange-200' },
+  CRITICAL: { bg: 'bg-red-50',     text: 'text-red-700',    border: 'border-red-200' },
+};
+
+export function TimeTravelSlider({ onProgressChange, scenarios = [], activeScenario }: TimeTravelSliderProps) {
   const [progress, setProgress] = useState(1.0);
   const [isPlaying, setIsPlaying] = useState(false);
   const animRef = useRef<number>();
@@ -75,16 +87,18 @@ export function TimeTravelSlider({ onProgressChange }: TimeTravelSliderProps) {
   );
 
   return (
-    <div className="bg-surface border border-slate-200 rounded-xl p-5 shadow-sm">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="bg-surface border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+      {/* Başlık */}
+      <div className="flex items-center gap-2">
         <Clock size={16} className="text-blue-600" />
-        <h4 className="text-sm font-bold text-slate-800">Zaman Yolculugu</h4>
+        <h4 className="text-sm font-bold text-slate-800">Zaman Yolculuğu</h4>
         <span className="ml-auto px-2.5 py-1 bg-blue-50 border border-blue-200 rounded-md text-xs font-bold text-blue-700">
           {currentQuarter.label}
         </span>
       </div>
 
-      <div className="relative mb-3">
+      {/* Slider İzi */}
+      <div className="relative">
         <input
           type="range"
           min={0}
@@ -94,7 +108,28 @@ export function TimeTravelSlider({ onProgressChange }: TimeTravelSliderProps) {
           onChange={handleSliderChange}
           className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
         />
-        <div className="flex justify-between mt-1.5">
+        {/* Senaryo Marker İşaretçileri */}
+        {scenarios.map((s) => {
+          const pct = s.quarter_slot * 100;
+          return (
+            <div
+              key={s.id}
+              className="absolute top-[-6px] flex flex-col items-center pointer-events-none"
+              style={{ left: `calc(${pct}% - 4px)` }}
+            >
+              <div className={clsx(
+                'w-2.5 h-2.5 rounded-full border-2 shadow-sm',
+                s.severity === 'CRITICAL' ? 'bg-red-500 border-red-700' :
+                s.severity === 'HIGH'     ? 'bg-orange-500 border-orange-700' :
+                s.severity === 'MEDIUM'   ? 'bg-amber-400 border-amber-600' :
+                                            'bg-blue-400 border-blue-600'
+              )} />
+            </div>
+          );
+        })}
+
+        {/* Çeyrek Etiketleri */}
+        <div className="flex justify-between mt-2.5">
           {QUARTERS.map(q => (
             <button
               key={q.label}
@@ -116,6 +151,27 @@ export function TimeTravelSlider({ onProgressChange }: TimeTravelSliderProps) {
         </div>
       </div>
 
+      {/* Aktif Senaryo Bandı */}
+      {activeScenario && (
+        <div className={clsx(
+          'flex items-start gap-2 px-3 py-2.5 rounded-lg border text-xs font-medium',
+          SEVERITY_COLORS[activeScenario.severity]?.bg ?? 'bg-slate-50',
+          SEVERITY_COLORS[activeScenario.severity]?.text ?? 'text-slate-700',
+          SEVERITY_COLORS[activeScenario.severity]?.border ?? 'border-slate-200',
+        )}>
+          <AlertTriangle size={13} className="shrink-0 mt-0.5" />
+          <div>
+            <p className="font-black tracking-wide uppercase text-[10px]">
+              Aktif Stres Senaryosu
+            </p>
+            <p className="text-[11px] font-semibold mt-0.5 leading-snug">
+              {activeScenario.title}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Kontroller */}
       <div className="flex items-center gap-2">
         <button
           onClick={() => setIsPlaying(!isPlaying)}
@@ -134,8 +190,11 @@ export function TimeTravelSlider({ onProgressChange }: TimeTravelSliderProps) {
           className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors"
         >
           <RotateCcw size={12} />
-          Sifirla
+          Sıfırla
         </button>
+        <span className="ml-auto text-[10px] text-slate-400 font-mono">
+          {(progress * 100).toFixed(0)}%
+        </span>
       </div>
     </div>
   );

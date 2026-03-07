@@ -3,6 +3,7 @@ import { BookOpen, Send, AlertTriangle, CheckCircle, AlertCircle, Shield, Sparkl
 import { GlassCard } from '@/shared/ui/GlassCard';
 import { generateFatwa, getSuggestedQuestions, type FatwaResponse } from '@/features/shariah/rag-engine';
 import type { AAOIFIStandard } from '@/features/shariah/data/aaoifi_standards';
+import { useAAOIFIStandards, useLogFatwaQuery } from '@/entities/shariah/api/shariah-api';
 
 function getRulingLabelTR(ruling: FatwaResponse['ruling']): string {
   const labels = {
@@ -31,15 +32,24 @@ export default function FatwaGPTPage() {
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState<Array<{ query: string; response: FatwaResponse }>>([]);
 
+  const { data: standards = [], isLoading: isStandardsLoading } = useAAOIFIStandards();
+  const { mutateAsync: logFatwa } = useLogFatwaQuery();
+
   const handleSubmit = async (queryText: string = query) => {
-    if (!queryText.trim()) return;
+    if (!queryText.trim() || isStandardsLoading) return;
 
     setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 800));
 
-    const fatwa = generateFatwa(queryText);
+    const fatwa = generateFatwa(queryText, standards);
     setResponse(fatwa);
     setHistory(prev => [{ query: queryText, response: fatwa }, ...prev]);
+    
+    try {
+      await logFatwa({ query: queryText, ruling: fatwa.ruling, risk_level: fatwa.riskLevel });
+    } catch (error) {
+      console.error('Fatva loglama hatası:', error);
+    }
+
     setQuery('');
     setLoading(false);
   };
@@ -78,7 +88,7 @@ export default function FatwaGPTPage() {
             <div className="flex items-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4" />
-                <span>8+ Standart</span>
+                <span>{isStandardsLoading ? '...' : standards.length} Standart</span>
               </div>
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4" />
@@ -120,14 +130,14 @@ export default function FatwaGPTPage() {
                   placeholder="Örnek: Arabayı galeriden satın almadan müşteriye satabilir miyiz?"
                   className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-surface dark:bg-gray-800 focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none text-primary dark:text-white placeholder-gray-500"
                   rows={3}
-                  disabled={loading}
+                  disabled={loading || isStandardsLoading}
                 />
                 <button
                   onClick={() => handleSubmit()}
-                  disabled={!query.trim() || loading}
+                  disabled={!query.trim() || loading || isStandardsLoading}
                   className="absolute bottom-3 right-3 p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? (
+                  {loading || isStandardsLoading ? (
                     <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
                   ) : (
                     <Send className="w-5 h-5" />
@@ -243,7 +253,7 @@ export default function FatwaGPTPage() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">Standartlar</span>
-                  <span className="font-semibold text-emerald-600">8</span>
+                  <span className="font-semibold text-emerald-600">{standards.length}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">Maddeler</span>

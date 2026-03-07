@@ -555,7 +555,7 @@ function deriveContext(pathname: string): string {
     '/execution/findings': 'Bulgu Merkezi',
     '/execution/actions': 'Aksiyon Yonetimi',
     '/reporting/builder': 'Rapor Olusturucu',
-    '/reporting/executive': 'Yonetici Raporu',
+    '/reporting/executive-dashboard': 'Yonetici Raporu',
     '/reporting/trends': 'Trend Analizi',
     '/governance/policies': 'Politika Kutuphanesi',
     '/governance/vault': 'Yonetisim Kasasi',

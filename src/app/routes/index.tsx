@@ -56,8 +56,7 @@ import EscalationDeskPage from '@/pages/governance/EscalationDeskPage';
 import StakeholderManagementPage from '@/pages/governance/StakeholderManagementPage';
 import WhistleblowerPage from '@/pages/governance/WhistleblowerPage';
 import OraclePage from '@/pages/oracle';
-import TalentPage from '@/pages/talent';
-import TalentOSPage from '@/pages/talent-os';
+
 import QuantPage from '@/pages/quant';
 import NegotiationPage from '@/pages/negotiation';
 import RiskHeatmapPage from '@/pages/risk-heatmap';
@@ -107,6 +106,7 @@ import ActivityReportsPage from '@/pages/reporting/ActivityReportsPage';
 import RCSAPage from '@/pages/rcsa';
 import ApprovalCenterPage from '@/pages/security/ApprovalCenterPage';
 import TaskCommandPage from '@/pages/tasks/TaskCommandPage';
+import OrphanInspectorPage from '@/pages/settings/OrphanInspectorPage';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true' || localStorage.getItem('sentinel_token');
@@ -165,7 +165,10 @@ export const AppRoutes = () => {
       <Route path="/execution/findings" element={<ProtectedRoute><FindingCenterPage /></ProtectedRoute>} />
       <Route path="/execution/finding-hub" element={<Navigate to="/execution/findings" replace />} />
       <Route path="/execution/findings/new" element={<ProtectedRoute><FindingStudioPage /></ProtectedRoute>} />
+      <Route path="/execution/findings/zen/new" element={<ProtectedRoute><FindingStudioPage /></ProtectedRoute>} />
       <Route path="/execution/findings/:id" element={<ProtectedRoute><FindingStudioPage /></ProtectedRoute>} />
+      <Route path="/execution/findings/zen/:id" element={<ProtectedRoute><FindingStudioPage /></ProtectedRoute>} />
+      <Route path="/execution/findings/:id/studio" element={<ProtectedRoute><FindingStudioPage /></ProtectedRoute>} />
       <Route path="/execution/findings/:id/legacy" element={<ProtectedRoute><AuditorFindingDetailPage /></ProtectedRoute>} />
       <Route path="/execution/actions" element={<ProtectedRoute><ActionWorkbenchPage /></ProtectedRoute>} />
       <Route path="/execution/pbc" element={<ProtectedRoute><PBCPage /></ProtectedRoute>} />
@@ -177,11 +180,9 @@ export const AppRoutes = () => {
       <Route path="/execution/sprint-board/:id" element={<ProtectedRoute><SprintBoardPage /></ProtectedRoute>} />
       <Route path="/execution/field-agent" element={<ProtectedRoute><FieldAgentPage /></ProtectedRoute>} />
 
-      <Route path="/talent" element={<ProtectedRoute><TalentPage /></ProtectedRoute>} />
       <Route path="/surveys" element={<ProtectedRoute><SurveysPage /></ProtectedRoute>} />
 
       <Route path="/resources" element={<ProtectedRoute><ResourceManagementPage /></ProtectedRoute>} />
-      <Route path="/resources/talent-os" element={<ProtectedRoute><TalentOSPage /></ProtectedRoute>} />
 
       <Route path="/monitoring/watchtower" element={<ProtectedRoute><WatchtowerPage /></ProtectedRoute>} />
       <Route path="/monitoring/probes" element={<ProtectedRoute><WatchtowerPage /></ProtectedRoute>} />
@@ -204,7 +205,7 @@ export const AppRoutes = () => {
       <Route path="/reporting/editor/:id" element={<Navigate to="/reporting/zen-editor" replace />} />
       <Route path="/reporting/edit/:id" element={<Navigate to="/reporting/zen-editor" replace />} />
       <Route path="/reporting/view/:id" element={<Navigate to="/reporting/zen-editor" replace />} />
-      <Route path="/reporting/executive" element={<ProtectedRoute><ExecutiveDashboardPage /></ProtectedRoute>} />
+      <Route path="/reporting/executive-dashboard" element={<ProtectedRoute><ExecutiveDashboardPage /></ProtectedRoute>} />
       <Route path="/reporting/trends" element={<ProtectedRoute><TrendAnalysisPage /></ProtectedRoute>} />
       <Route path="/reporting/entity-scorecard" element={<ProtectedRoute><EntityScorecardPage /></ProtectedRoute>} />
       <Route path="/reporting/activity-reports" element={<ProtectedRoute><ActivityReportsPage /></ProtectedRoute>} />
@@ -224,6 +225,7 @@ export const AppRoutes = () => {
       <Route path="/settings/custom-fields" element={<ProtectedRoute><CustomFieldsPage /></ProtectedRoute>} />
       <Route path="/settings/templates" element={<ProtectedRoute><TemplateManagerPage /></ProtectedRoute>} />
       <Route path="/settings/risk-constitution" element={<ProtectedRoute><RiskConstitutionPage /></ProtectedRoute>} />
+      <Route path="/settings/orphan-inspector" element={<ProtectedRoute><OrphanInspectorPage /></ProtectedRoute>} />
 
       <Route path="/strategy/quant" element={<ProtectedRoute><QuantPage /></ProtectedRoute>} />
 
@@ -287,8 +289,10 @@ export const AppRoutes = () => {
       <Route path="/governance" element={<Navigate to="/governance/charter" replace />} />
       <Route path="/strategy" element={<Navigate to="/strategy/objectives" replace />} />
       <Route path="/execution" element={<Navigate to="/execution/my-engagements" replace />} />
-      <Route path="/reporting" element={<Navigate to="/reporting/executive" replace />} />
-      <Route path="/resources/profiles" element={<Navigate to="/resources?tab=profiles" replace />} />
+      <Route path="/reporting" element={<Navigate to="/reporting/executive-dashboard" replace />} />
+      <Route path="/talent" element={<Navigate to="/resources?tab=rpg" replace />} />
+      <Route path="/resources/talent-os" element={<Navigate to="/resources?tab=pool" replace />} />
+      <Route path="/resources/profiles" element={<Navigate to="/resources?tab=overview" replace />} />
       <Route path="/resources/talent" element={<Navigate to="/resources?tab=talent" replace />} />
       <Route path="/resources/timesheets" element={<Navigate to="/resources?tab=timesheets" replace />} />
       <Route path="/resources/capacity" element={<Navigate to="/resources?tab=capacity" replace />} />

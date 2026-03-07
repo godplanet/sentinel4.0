@@ -3,7 +3,7 @@ import { Handle, Position, type NodeProps } from '@xyflow/react';
 import {
   Building2, Building, Network, Box, Workflow,
   MapPin, Briefcase, Landmark, Server, Truck, Factory,
-  PlusCircle, CheckCircle2, Zap, Leaf, Star, Trash2,
+  PlusCircle, CheckCircle2, Zap, Leaf, Star, Trash2, GitMerge
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import type { EntityType } from '@/entities/universe';
@@ -22,6 +22,7 @@ export interface EntityNodeData {
   risk_velocity?: number;
   shariah_impact?: number;
   esg_impact?: number;
+  alignment_score?: number;
 }
 
 const getTypeIcon = (type: EntityType) => {
@@ -132,7 +133,8 @@ export const CustomEntityNode = memo(({ data }: NodeProps) => {
   const hasDimensions =
     nodeData.risk_velocity !== undefined ||
     nodeData.shariah_impact !== undefined ||
-    nodeData.esg_impact !== undefined;
+    nodeData.esg_impact !== undefined ||
+    (nodeData.alignment_score !== undefined && nodeData.alignment_score > 0);
 
   return (
     <div className="relative group">
@@ -199,6 +201,12 @@ export const CustomEntityNode = memo(({ data }: NodeProps) => {
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                   <Leaf size={9} className="text-emerald-500" />
                   E {nodeData.esg_impact}
+                </span>
+              )}
+              {nodeData.alignment_score !== undefined && nodeData.alignment_score > 0 && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                  <GitMerge size={9} className="text-indigo-500" />
+                  Stratejik Uyum
                 </span>
               )}
             </div>

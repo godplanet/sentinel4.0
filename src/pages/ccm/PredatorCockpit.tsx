@@ -11,7 +11,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Shield,
   AlertTriangle,
@@ -27,8 +27,7 @@ import {
 import { PageHeader } from '@/shared/ui';
 import { LiveScanner } from '@/features/ccm/components/LiveScanner';
 import { useAlertAction, useConstitutionRules } from '@/features/ccm/hooks';
-import { fetchCCMAlerts } from '@/entities/ccm/api';
-import type { CCMAlert } from '@/entities/ccm/types';
+import { useCCMAlerts } from '@/features/ccm/api/useCCMQueries';
 import { motion } from 'framer-motion';
 
 export default function PredatorCockpit() {
@@ -42,11 +41,7 @@ export default function PredatorCockpit() {
   const { getConstitutionSummary, getRiskThresholds } = useConstitutionRules();
   const navigate = useNavigate();
 
-  const { data: alerts = [], isLoading } = useQuery<CCMAlert[]>({
-    queryKey: ['ccm-alerts'],
-    queryFn: fetchCCMAlerts,
-    refetchInterval: 60_000,
-  });
+  const { data: alerts = [], isLoading } = useCCMAlerts();
 
   const handleConvertToFinding = async (alertId: string) => {
     setSelectedAlert(alertId);
@@ -103,12 +98,13 @@ export default function PredatorCockpit() {
       .join(' ');
   };
 
+  const rawAlerts = alerts || [];
   const stats = {
-    totalAlerts: alerts.length,
-    openAlerts: alerts.filter((a) => a.status === 'OPEN').length,
-    criticalAlerts: alerts.filter((a) => a.severity === 'CRITICAL').length,
+    totalAlerts: rawAlerts.length || 0,
+    openAlerts: rawAlerts.filter((a) => a?.status === 'OPEN').length || 0,
+    criticalAlerts: rawAlerts.filter((a) => a?.severity === 'CRITICAL').length || 0,
     avgRiskScore: Math.round(
-      alerts.reduce((sum, a) => sum + a.risk_score, 0) / (alerts.length || 1)
+      rawAlerts.reduce((sum, a) => sum + (a?.risk_score || 0), 0) / (rawAlerts.length || 1)
     ),
   };
 
@@ -117,7 +113,6 @@ export default function PredatorCockpit() {
       <PageHeader
         title="Predator Cockpit"
         description="Continuous Control Monitoring with AI-Powered Anomaly Detection"
-        breadcrumbs={[{ label: 'CCM' }, { label: 'Predator Cockpit' }]}
       />
 
       <div className="max-w-[1800px] mx-auto p-6 space-y-6">
@@ -265,16 +260,16 @@ export default function PredatorCockpit() {
                       Uyarılar yükleniyor...
                     </td>
                   </tr>
-                ) : alerts.length === 0 ? (
+                ) : rawAlerts.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
                       Uyarı bulunamadı. Anomali tespit etmek için tarama başlatın.
                     </td>
                   </tr>
                 ) : (
-                  alerts.map((alert) => (
+                  rawAlerts.map((alert) => (
                     <tr
-                      key={alert.id}
+                      key={alert?.id}
                       className="border-b border-slate-800/40 hover:bg-slate-800/50 transition-colors"
                     >
                       <td className="px-4 py-3">

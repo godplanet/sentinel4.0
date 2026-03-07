@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ClipboardList, AlertTriangle, CheckCircle2, Clock,
-  ChevronRight, Upload, CalendarPlus, FileText, Loader2,
-  Handshake, ShieldAlert,
+  ChevronRight, Upload, CalendarPlus, Loader2,
+  Handshake, ShieldAlert, FileDown, Send, CheckCircle,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,6 +11,8 @@ import { fetchAuditeeTasks, uploadEvidenceFile, requestExtension } from '@/featu
 import { AdvisoryRequestModal } from '@/widgets/AdvisoryWorkspace/AdvisoryRequestModal';
 import { fetchRCSACampaigns, RCSACampaign } from '@/features/rcsa/api/rcsa-campaigns';
 import { SurveyExecutor } from '@/features/rcsa/ui/SurveyExecutor';
+import { usePBCRequests, useUploadPBC, type PBCRequest } from '@/entities/pbc/api/pbc-requests';
+
 
 export function AuditeeDashboardPage() {
   const navigate = useNavigate();
@@ -34,6 +36,10 @@ export function AuditeeDashboardPage() {
   const activeRCSACampaign = activeRCSACampaigns.find((c) => c.id === activeRCSACampaignId) ?? null;
 
   const MOCK_AUDITEE_ID = '00000000-0000-0000-0000-000000000001';
+
+  // Wave 20: PBC Requests live data
+  const { data: pbcRequests = [], isLoading: pbcLoading } = usePBCRequests();
+  const uploadPBCMutation = useUploadPBC();
 
   const uploadMutation = useMutation({
     mutationFn: ({ findingId, file }: { findingId: string; file: File }) =>
@@ -238,6 +244,85 @@ export function AuditeeDashboardPage() {
                         <ChevronRight size={12} />
                       </button>
                     </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* ============================================================= */}
+      {/* WAVE 20: PBC KANIT TALEPLERİ                                   */}
+      {/* ============================================================= */}
+      <div data-testid="pbc-requests-section" className="bg-surface border-2 border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b-2 border-slate-200 bg-canvas flex items-center justify-between">
+          <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <FileDown size={18} />
+            Kanıt Talepleri (PBC)
+          </h2>
+          <span className="text-xs text-slate-500">
+            {pbcLoading ? 'Yükleniyor...' : `${pbcRequests?.length ?? 0} talep`}
+          </span>
+        </div>
+
+        {pbcLoading ? (
+          <div className="flex items-center justify-center py-10">
+            <Loader2 size={24} className="animate-spin text-slate-400" />
+          </div>
+        ) : (pbcRequests?.length ?? 0) === 0 ? (
+          <div className="text-center py-12">
+            <CheckCircle size={36} className="mx-auto text-emerald-400 mb-3" />
+            <p className="text-slate-500 font-medium">Bekleyen kanıt talebiniz bulunmuyor.</p>
+          </div>
+        ) : (
+          <div data-testid="pbc-request-list" className="divide-y divide-slate-100">
+            {(pbcRequests ?? []).map((req: PBCRequest) => {
+              const isOverdue = req.due_date && new Date(req.due_date) < new Date() && req.status !== 'ACCEPTED';
+              const STYLE: Record<string, { bg: string; text: string; label: string }> = {
+                PENDING:     { bg: 'bg-slate-100',  text: 'text-slate-600', label: 'Bekliyor'     },
+                IN_PROGRESS: { bg: 'bg-blue-100',   text: 'text-blue-700',  label: 'Hazırlanıyor' },
+                SUBMITTED:   { bg: 'bg-amber-100',  text: 'text-amber-700', label: 'Gönderildi'   },
+                ACCEPTED:    { bg: 'bg-green-100',  text: 'text-green-700', label: 'Kabul Edildi' },
+                REJECTED:    { bg: 'bg-red-100',    text: 'text-red-700',   label: 'Reddedildi'   },
+              };
+              const st = STYLE[req.status] ?? STYLE.PENDING;
+              const PDOT: Record<string, string> = { LOW: 'bg-slate-400', MEDIUM: 'bg-blue-500', HIGH: 'bg-orange-500', CRITICAL: 'bg-red-500' };
+
+              return (
+                <div key={req.id} className="px-6 py-4 hover:bg-canvas transition-colors group">
+                  <div className="flex items-start gap-4">
+                    <div className={clsx('mt-1.5 w-3 h-3 rounded-full shrink-0', PDOT[req.priority] ?? 'bg-slate-400')} />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <h3 className="text-sm font-bold text-slate-800">{req.title}</h3>
+                        <span className={clsx('text-[10px] font-bold px-2 py-0.5 rounded', st.bg, st.text)}>{st.label}</span>
+                        {isOverdue && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-red-100 text-red-700">Süresi Geçti!</span>
+                        )}
+                      </div>
+                      {req.description && (
+                        <p className="text-xs text-slate-500 line-clamp-1 mb-1">{req.description}</p>
+                      )}
+                      <div className="flex items-center gap-4 text-xs text-slate-500">
+                        <span className="flex items-center gap-1"><ClipboardList size={10} />{req.requested_from}</span>
+                        {req.due_date && (
+                          <span className={clsx('flex items-center gap-1', isOverdue && 'text-red-600 font-semibold')}>
+                            <Clock size={10} />Son Tarih: {new Date(req.due_date).toLocaleDateString('tr-TR')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {req.status !== 'ACCEPTED' && (
+                      <label className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition-colors cursor-pointer opacity-0 group-hover:opacity-100 shrink-0">
+                        {uploadPBCMutation.isPending ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} />}
+                        Kanıt Yükle
+                        <input type="file" className="hidden" onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) uploadPBCMutation.mutate({ requestId: req.id, file });
+                        }} />
+                      </label>
+                    )}
                   </div>
                 </div>
               );

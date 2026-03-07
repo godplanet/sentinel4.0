@@ -9,6 +9,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Play, Square, AlertTriangle, CheckCircle, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { useCCMTransactions, useCCMAlerts } from '@/features/ccm/api/useCCMQueries';
+
 interface ScanLog {
   id: string;
   transactionId: string;
@@ -29,62 +31,40 @@ export function LiveScanner({ onAnomalyDetected, onScanComplete }: LiveScannerPr
   const [stats, setStats] = useState({ scanned: 0, anomalies: 0 });
   const logsEndRef = useRef<HTMLDivElement>(null);
 
+  const { data: realTransactions } = useCCMTransactions(50);
+  const { data: realAlerts } = useCCMAlerts();
+
   useEffect(() => {
     if (logsEndRef.current) {
       logsEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [logs]);
 
-  const generateMockTransaction = (index: number): ScanLog => {
-    const id = `TXN-${Date.now()}-${index}`;
-    const amount = Math.random() * 100000;
-
-    const isAnomaly = Math.random() < 0.15;
-
-    let message = '';
-    let status: 'scanning' | 'ok' | 'anomaly' = 'scanning';
-
-    if (isAnomaly) {
-      const anomalyTypes = [
-        'Structuring pattern detected',
-        'Benford violation: Leading digit anomaly',
-        'High-value transaction (>$50k)',
-        'Ghost employee salary payment',
-        'Duplicate payment detected',
-        'Round-dollar amount (potential manipulation)',
-      ];
-      message = anomalyTypes[Math.floor(Math.random() * anomalyTypes.length)];
-      status = 'anomaly';
-    } else {
-      message = 'Transaction validated';
-      status = 'ok';
-    }
-
-    return {
-      id,
-      transactionId: id,
-      amount,
-      status,
-      message,
-      timestamp: new Date().toISOString(),
-    };
-  };
-
   const runScan = async () => {
+    const txList = realTransactions && realTransactions.length > 0 ? realTransactions : [
+      { id: 'fallback-1', amount: 49850, transaction_date: new Date().toISOString(), user_id: 'USR-109', beneficiary: 'CUST-8812' } as any,
+      { id: 'fallback-2', amount: 100, transaction_date: new Date().toISOString(), user_id: 'USR-999', beneficiary: 'VND-3011' } as any
+    ];
+
     setIsScanning(true);
     setLogs([]);
     setStats({ scanned: 0, anomalies: 0 });
-
-    const totalTransactions = 50;
+    const altList = realAlerts || [];
+    const totalTransactions = txList.length;
     let anomalyCount = 0;
 
     for (let i = 0; i < totalTransactions; i++) {
+      if (!isScanning) break; // Allow early stop
+
       await new Promise((resolve) => setTimeout(resolve, 100 + Math.random() * 100));
 
+      const tx = txList[i];
+      if (!tx) continue;
+
       const scanningLog: ScanLog = {
-        id: `scan-${i}`,
-        transactionId: `TXN-${Date.now()}-${i}`,
-        amount: Math.random() * 100000,
+        id: `scan-${tx.id}`,
+        transactionId: `TXN-${tx.id.substring(0,8).toUpperCase()}`,
+        amount: tx.amount || 0,
         status: 'scanning',
         message: 'Analyzing...',
         timestamp: new Date().toISOString(),
@@ -94,8 +74,25 @@ export function LiveScanner({ onAnomalyDetected, onScanComplete }: LiveScannerPr
 
       await new Promise((resolve) => setTimeout(resolve, 50));
 
-      const resultLog = generateMockTransaction(i);
-      if (resultLog.status === 'anomaly') {
+      // Check if there is an alert for this related_entity_id
+      // We map the transaction user_id or beneficiary as proxy for related_entity_id in this context
+      // Because alerts in seed data are linked to USR-xxx, VND-xxx etc.
+      const triggeredAlert = altList.find((a) => 
+        a?.related_entity_id === tx?.user_id || a?.related_entity_id === tx?.beneficiary
+      );
+
+      const isAnomaly = !!triggeredAlert;
+      
+      const resultLog: ScanLog = {
+        id: `res-${tx.id}`,
+        transactionId: scanningLog.transactionId,
+        amount: scanningLog.amount,
+        status: isAnomaly ? 'anomaly' : 'ok',
+        message: isAnomaly ? (triggeredAlert.title || 'Unknown Anomaly') : 'Transaction validated',
+        timestamp: tx.transaction_date || new Date().toISOString(),
+      };
+
+      if (isAnomaly) {
         anomalyCount++;
         if (onAnomalyDetected) {
           onAnomalyDetected(resultLog);

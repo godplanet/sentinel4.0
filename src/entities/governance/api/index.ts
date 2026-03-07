@@ -198,3 +198,5 @@ export async function fetchStakeholders(filters?: { type?: string; influence_lev
   if (error) throw error;
   return data || [];
 }
+
+export * from './escalations';

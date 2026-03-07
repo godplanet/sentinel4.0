@@ -144,11 +144,11 @@ export interface NetworkStats {
 export function calculateNetworkStats(results: Map<string, ContagionResult>): NetworkStats {
   const values = Array.from(results.values());
 
-  const risks = values.map(v => v.effectiveRisk);
-  const contagions = values.map(v => v.contagionImpact);
+  const risks = (values || []).map(v => v?.effectiveRisk || 0);
+  const contagions = (values || []).map(v => v?.contagionImpact || 0);
 
   return {
-    averageRisk: risks.reduce((a, b) => a + b, 0) / risks.length,
+    averageRisk: risks.reduce((a, b) => a + b, 0) / (risks.length || 1),
     maxRisk: Math.max(...risks),
     minRisk: Math.min(...risks),
     totalContagion: contagions.reduce((a, b) => a + b, 0),

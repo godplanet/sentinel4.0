@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/shared/api/supabase';
 
 export interface ExecutiveDashboardRow {
@@ -230,7 +231,56 @@ export function calculateActionAging(data: ExecutiveDashboardRow[]): AgingBucket
   return buckets.map(({ label, min, max }) => ({
     bucket: label,
     count: data.filter(row =>
-      row.days_overdue >= min && row.days_overdue < max
+      (row?.days_overdue || 0) >= min && (row?.days_overdue || 0) < max
     ).length
   }));
 }
+
+// ============================================================================
+// REACT QUERY HOOKS (Extreme Defensive Programming Layer)
+// ============================================================================
+
+export const executiveDashboardKeys = {
+  all: ['executiveDashboard'] as const,
+  lists: () => [...executiveDashboardKeys.all, 'list'] as const,
+  summary: () => [...executiveDashboardKeys.all, 'summary'] as const,
+};
+
+export function useExecutiveDashboard() {
+  return useQuery({
+    queryKey: executiveDashboardKeys.lists(),
+    queryFn: async () => {
+      const data = await getExecutiveDashboardData();
+      return (data || []).map(row => ({
+        ...row,
+        finding_severity: row?.finding_severity ?? 'LOW',
+        action_status: row?.action_status ?? 'OPEN',
+        extension_count: row?.extension_count ?? 0,
+        days_overdue: row?.days_overdue ?? 0,
+        finding_age_days: row?.finding_age_days ?? 0,
+        alert_level: row?.alert_level ?? 'GREEN',
+        action_title: row?.action_title ?? '',
+        engagement_title: row?.engagement_title ?? 'Bilinmeyen Görev',
+      }));
+    },
+  });
+}
+
+export function useExecutiveSummary() {
+  return useQuery({
+    queryKey: executiveDashboardKeys.summary(),
+    queryFn: async () => {
+      const item = await getExecutiveSummary();
+      return {
+        total_findings: item?.total_findings || 0,
+        closed_findings: item?.closed_findings || 0,
+        overdue_findings: item?.overdue_findings || 0,
+        critical_findings: item?.critical_findings || 0,
+        overdue_1year_plus: item?.overdue_1year_plus || 0,
+        avg_resolution_days: item?.avg_resolution_days || 0,
+        total_extensions: item?.total_extensions || 0
+      };
+    },
+  });
+}
+

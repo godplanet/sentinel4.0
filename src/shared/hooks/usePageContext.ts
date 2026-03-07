@@ -14,7 +14,7 @@ const PAGE_LABELS: Record<string, string> = {
   '/execution/actions': 'Aksiyon Takip',
   '/monitoring/watchtower': 'Surekli Izleme - Watchtower',
   '/reporting/builder': 'Rapor Olusturucu',
-  '/reporting/executive': 'Stratejik Analiz',
+  '/reporting/executive-dashboard': 'Stratejik Analiz',
   '/governance/policies': 'Politikalar',
   '/governance/board': 'YK Raporlama',
   '/governance/escalation-desk': 'CAE Eskalasyon ve Karar Masasi',

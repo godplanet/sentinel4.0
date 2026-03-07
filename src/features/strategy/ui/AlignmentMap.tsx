@@ -1,4 +1,4 @@
-import { useStrategyStore } from '@/entities/strategy/model/store';
+import { useStrategicGoals, useAuditObjectives } from '@/entities/strategy/api/alignment-api';
 import { CorporateGoalCard } from './CorporateGoalCard';
 import { AuditObjectiveCard } from './AuditObjectiveCard';
 import { GitMerge, FileText, Loader2 } from 'lucide-react';
@@ -18,7 +18,7 @@ const ConnectionLines = ({ activeGoalId, goals, objectives }: { activeGoalId: st
 
   // Hangi hedefler bağlı?
   const connectedIndices = objectives
-    .map((obj, idx) => activeGoal.linkedAuditObjectives.includes(obj.id) ? idx : -1)
+    .map((obj, idx) => (activeGoal.linkedAuditObjectives || []).includes(obj.id) ? idx : -1)
     .filter(idx => idx !== -1);
 
   if (connectedIndices.length === 0) return null;
@@ -55,7 +55,12 @@ const ConnectionLines = ({ activeGoalId, goals, objectives }: { activeGoalId: st
 };
 
 export const AlignmentMap = () => {
-  const { goals, objectives } = useStrategyStore();
+  const { data: dbGoals, isLoading: goalsLoading } = useStrategicGoals();
+  const { data: dbObjectives, isLoading: objLoading } = useAuditObjectives();
+  
+  const goals = dbGoals || [];
+  const objectives = dbObjectives || [];
+
   const [activeGoalId, setActiveGoalId] = useState<string | null>(null);
 
   const { data: dbEngagements, isLoading } = useQuery({
@@ -135,7 +140,7 @@ export const AlignmentMap = () => {
           <div className="space-y-4">
             {objectives.map((obj) => {
                const isConnected = activeGoalId 
-                 ? goals.find(g => g.id === activeGoalId)?.linkedAuditObjectives.includes(obj.id)
+                 ? (goals.find(g => g.id === activeGoalId)?.linkedAuditObjectives || []).includes(obj.id)
                  : false;
 
                return (
@@ -168,12 +173,12 @@ export const AlignmentMap = () => {
             <h4 className="text-sm font-bold text-slate-700">Denetim Görevleri (İcra)</h4>
           </div>
           <div className="space-y-3 relative min-h-[200px]">
-            {isLoading ? (
+            {isLoading || goalsLoading || objLoading ? (
               <div className="absolute inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-30 rounded-xl">
                 <Loader2 className="w-6 h-6 animate-spin text-emerald-500" />
               </div>
             ) : null}
-            {displayEngagements.map((eng, idx) => (
+            {(displayEngagements || []).map((eng, idx) => (
               <div 
                 key={eng.id || idx}
                 className={clsx(

@@ -42,7 +42,6 @@ import {
   FileText,
   Calendar,
   Users,
-  UserCheck,
   ClipboardCheck,
   Activity,
   Megaphone,
@@ -67,6 +66,7 @@ import {
   MonitorDot,
   Swords,
   ShieldCheck,
+  Gamepad2,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -255,24 +255,12 @@ export const navigationConfig: NavigationItem[] = [
         badgeColor: 'purple',
       },
       {
-        id: 'talent-os',
-        label: 'Yetenek İşletim Sistemi',
-        path: '/resources/talent-os',
-        icon: UserCheck,
-        badge: 'RPG',
-        badgeColor: 'blue',
-      },
-      {
-        id: 'resources',
-        label: 'Kaynak Yönetimi',
+        id: 'talent-management',
+        label: 'Yetenek Yönetimi',
         path: '/resources',
-        icon: Users,
-      },
-      {
-        id: 'talent-main',
-        label: 'Talent OS (Kadro)',
-        path: '/talent',
-        icon: UserCheck,
+        icon: Gamepad2,
+        badge: 'AI',
+        badgeColor: 'blue',
       },
       {
         id: 'surveys',
@@ -303,6 +291,14 @@ export const navigationConfig: NavigationItem[] = [
         label: 'Yeni Görev Oluştur',
         path: '/execution/start',
         icon: Rocket,
+      },
+      {
+        id: 'task-command',
+        label: 'Görev Komuta Merkezi',
+        path: '/tasks',
+        icon: CheckSquare,
+        badge: 'YENİ',
+        badgeColor: 'blue',
       },
       {
         id: 'my-engagements',
@@ -415,7 +411,7 @@ export const navigationConfig: NavigationItem[] = [
       {
         id: 'executive-summaries',
         label: 'Yönetici Özetleri',
-        path: '/reporting/executive',
+        path: '/reporting/executive-dashboard',
         icon: LayoutDashboard,
       },
       {
@@ -676,7 +672,14 @@ export const navigationConfig: NavigationItem[] = [
         path: '/settings/integrations',
         icon: MonitorDot,
       },
-      // ── Sınıflandırılmamış (Öksüzler) ──────────────────────────────────
+      {
+        id: 'orphan-inspector',
+        label: 'Öksüz Sayfalar',
+        path: '/settings/orphan-inspector',
+        icon: MonitorDot,
+        badge: 'DEV',
+        badgeColor: 'red',
+      },
       {
         id: 'cognitive-engine',
         label: 'AI Motor Ayarları',

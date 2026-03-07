@@ -147,7 +147,7 @@ const CRITICAL_ROUTES = [
   { path: '/auditee-portal', role: 'auditee', label: 'Denetlenen Portalı' },
   // Raporlama
   { path: '/reporting/library', role: 'cae', label: 'Rapor Kütüphanesi' },
-  { path: '/reporting/executive', role: 'cae', label: 'Yönetici Özeti' },
+  { path: '/reporting/executive-dashboard', role: 'cae', label: 'Yönetici Özeti' },
   { path: '/reporting/activity-reports', role: 'cae', label: 'Aktivite Raporları' },
   // Diğer
   { path: '/qaip', role: 'cae', label: 'QAIP' },

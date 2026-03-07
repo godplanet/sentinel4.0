@@ -12,7 +12,7 @@ function betaDistributionSample(alpha: number, beta: number): number {
     y += -Math.log(Math.random());
   }
 
-  return x / (x + y);
+  return x / ((x + y) || 1);
 }
 
 function pertSample(min: number, likely: number, max: number): number {
@@ -40,7 +40,7 @@ export function runMonteCarloSimulation(
 
   samples.sort((a, b) => a - b);
 
-  const mean = samples.reduce((sum, val) => sum + val, 0) / samples.length;
+  const mean = (samples || []).reduce((sum, val) => sum + val, 0) / (samples?.length || 1);
 
   const var95Index = Math.floor(samples.length * 0.95);
   const var99Index = Math.floor(samples.length * 0.99);
@@ -58,9 +58,9 @@ export function runMonteCarloSimulation(
     bins[binIndex]++;
   });
 
-  const histogram: SimulationResult[] = bins.map((count, index) => ({
+  const histogram: SimulationResult[] = (bins || []).map((count, index) => ({
     value: min + binSize * (index + 0.5),
-    probability: count / samples.length,
+    probability: count / (samples?.length || 1),
   }));
 
   return {
@@ -99,10 +99,10 @@ export function getDistributionStats(samples: number[]) {
   if (samples.length === 0) return null;
 
   const sorted = [...samples].sort((a, b) => a - b);
-  const mean = sorted.reduce((sum, val) => sum + val, 0) / sorted.length;
+  const mean = (sorted || []).reduce((sum, val) => sum + val, 0) / (sorted?.length || 1);
 
   const variance =
-    sorted.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / sorted.length;
+    (sorted || []).reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / (sorted?.length || 1);
   const stdDev = Math.sqrt(variance);
 
   const median = sorted[Math.floor(sorted.length / 2)];

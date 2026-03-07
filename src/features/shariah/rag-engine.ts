@@ -9,7 +9,7 @@
  * Felsefe: "Kaynak Olmadan Fetva Yok"
  */
 
-import { aaoifiStandards, searchByKeywords, type AAOIFIStandard } from './data/aaoifi_standards';
+import type { AAOIFIStandard } from './data/aaoifi_standards';
 
 export interface RAGSearchResult {
   standards: AAOIFIStandard[];
@@ -29,19 +29,19 @@ export interface FatwaResponse {
 /**
  * Advanced semantic search with TF-IDF-like scoring
  */
-export function searchStandards(query: string): RAGSearchResult {
+export function searchStandards(query: string, aaoifiStandards: AAOIFIStandard[] = []): RAGSearchResult {
   const queryLower = query.toLowerCase();
   const queryTokens = tokenize(queryLower);
 
   // Enhanced scoring algorithm
-  const scored = aaoifiStandards.map(standard => {
+  const scored = (aaoifiStandards || []).map(standard => {
     let score = 0;
     const standardText = `${standard.text} ${standard.section}`.toLowerCase();
-    const keywords = standard.keywords.join(' ').toLowerCase();
+    const keywords = (standard.keywords || []).join(' ').toLowerCase();
 
     // Keyword matching (highest weight)
     queryTokens.forEach(token => {
-      if (standard.keywords.some(kw => kw.toLowerCase() === token)) {
+      if ((standard.keywords || []).some(kw => kw.toLowerCase() === token)) {
         score += 20; // Exact keyword match
       } else if (keywords.includes(token)) {
         score += 10; // Partial keyword match
@@ -91,9 +91,9 @@ export function searchStandards(query: string): RAGSearchResult {
 /**
  * Generate a structured Fatwa response based on query
  */
-export function generateFatwa(query: string): FatwaResponse {
-  const searchResult = searchStandards(query);
-  const citations = searchResult.standards;
+export function generateFatwa(query: string, aaoifiStandards: AAOIFIStandard[] = []): FatwaResponse {
+  const searchResult = searchStandards(query, aaoifiStandards);
+  const citations = searchResult.standards || [];
 
   if (citations.length === 0) {
     return {
@@ -160,14 +160,14 @@ export function generateFatwa(query: string): FatwaResponse {
 /**
  * Analyze a finding for Shari'ah compliance issues
  */
-export function analyzeFindingCompliance(findingDescription: string): {
+export function analyzeFindingCompliance(findingDescription: string, aaoifiStandards: AAOIFIStandard[] = []): {
   complianceStatus: 'compliant' | 'non_compliant' | 'needs_review';
   violations: AAOIFIStandard[];
   recommendations: string[];
   severity: 'critical' | 'high' | 'medium' | 'low';
 } {
-  const searchResult = searchStandards(findingDescription);
-  const relevantStandards = searchResult.standards;
+  const searchResult = searchStandards(findingDescription, aaoifiStandards);
+  const relevantStandards = searchResult.standards || [];
 
   // Check for violations
   const violations = relevantStandards.filter(s =>

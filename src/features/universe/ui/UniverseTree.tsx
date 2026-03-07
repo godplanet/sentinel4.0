@@ -12,6 +12,7 @@ import {
 import '@xyflow/react/dist/style.css';
 
 import { useAuditUniverse } from '@/entities/universe/api/universe-api';
+import { useStrategyAlignments } from '@/entities/strategy/api/alignment-api';
 import { flattenTree } from '@/entities/universe/lib/ltree-parser';
 import type { UniverseNode } from '@/entities/universe/model/types';
 import { CustomEntityNode } from './CustomEntityNode';
@@ -32,6 +33,7 @@ function annotateWithCascadeRisk(node: UniverseNode): UniverseNode {
 
 export const UniverseTree = () => {
   const { data: hierarchy = [], isLoading, error } = useAuditUniverse();
+  const { data: alignments = [] } = useStrategyAlignments();
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
 
   const flatEntities = useMemo((): LayoutableEntity[] => {
@@ -40,18 +42,24 @@ export const UniverseTree = () => {
     const annotated = (hierarchy || []).map(annotateWithCascadeRisk);
     const flat = flattenTree(annotated);
 
-    return (flat || []).map((node) => ({
-      id: node?.id ?? '',
-      name: node?.name ?? '',
-      path: node?.path ?? '',
-      type: node?.type ?? 'UNIT',
-      risk_score: node?.cascade_risk ?? node?.inherent_risk ?? 0,
-      velocity_multiplier: 1.0,
-      risk_velocity: node?.risk_velocity,
-      shariah_impact: node?.shariah_impact,
-      esg_impact: node?.esg_impact,
-    }));
-  }, [hierarchy]);
+    return (flat || []).map((node) => {
+      const nodeAlignments = alignments.filter(a => a.universe_node_id === node?.id);
+      const alignScore = nodeAlignments.reduce((acc, curr) => acc + (curr.alignment_score ?? 0), 0);
+      
+      return {
+        id: node?.id ?? '',
+        name: node?.name ?? '',
+        path: node?.path ?? '',
+        type: node?.type ?? 'UNIT',
+        risk_score: node?.cascade_risk ?? node?.inherent_risk ?? 0,
+        velocity_multiplier: 1.0,
+        risk_velocity: node?.risk_velocity,
+        shariah_impact: node?.shariah_impact,
+        esg_impact: node?.esg_impact,
+        alignment_score: alignScore,
+      };
+    });
+  }, [hierarchy, alignments]);
 
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
     if (!flatEntities.length) return { nodes: [], edges: [] };

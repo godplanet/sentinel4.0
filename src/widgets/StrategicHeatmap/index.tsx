@@ -2,7 +2,8 @@ import { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Grid3x3, Radar, TrendingDown, X, ChevronRight,
-  AlertTriangle, ArrowUpRight, ArrowDownLeft, Minus, Loader2, RefreshCw
+  AlertTriangle, ArrowUpRight, ArrowDownLeft, Minus, Loader2, RefreshCw,
+  TrendingUp
 } from 'lucide-react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
@@ -12,6 +13,10 @@ import type { AssessmentWithDetails } from '@/entities/risk/heatmap-types';
 import { ClassicGrid } from './ClassicGrid';
 import { CometChart } from './CometChart';
 import { TimeTravelSlider } from './TimeTravelSlider';
+import {
+  useRiskScenarios,
+  getActiveScenario,
+} from '@/entities/risk/api/scenario-api';
 
 type ViewMode = 'classic' | 'radar';
 type MatrixMode = 'inherent' | 'residual';
@@ -19,12 +24,19 @@ type MatrixMode = 'inherent' | 'residual';
 export function StrategicHeatmap() {
   const { data: assessments = [], isLoading: loadingAssessments, isError: assessmentsError, error: assessmentsErr, refetch: refetchAssessments } = useHeatmapData();
   const { data: comets = [], isLoading: loadingComets, isError: cometsError, refetch: refetchComets } = useCometData();
+  const { data: scenarios = [] } = useRiskScenarios();
 
   const [viewMode, setViewMode] = useState<ViewMode>('classic');
   const [matrixMode, setMatrixMode] = useState<MatrixMode>('inherent');
   const [selectedCell, setSelectedCell] = useState<string | null>(null);
   const [selectedRisk, setSelectedRisk] = useState<AssessmentWithDetails | null>(null);
   const [timeProgress, setTimeProgress] = useState(1.0);
+
+  // Aktif senaryo: slider pozisyonundan en yakın senaryo (optimistik)
+  const activeScenario = useMemo(
+    () => getActiveScenario(scenarios, timeProgress),
+    [scenarios, timeProgress]
+  );
 
   const handleCellClick = useCallback((key: string, risks: AssessmentWithDetails[]) => {
     if ((risks || []).length === 0) return;
@@ -196,7 +208,50 @@ export function StrategicHeatmap() {
 
         <div className="xl:col-span-1 space-y-4">
           {viewMode === 'radar' && (
-            <TimeTravelSlider onProgressChange={handleTimeChange} />
+            <TimeTravelSlider
+              onProgressChange={handleTimeChange}
+              scenarios={scenarios}
+              activeScenario={activeScenario}
+            />
+          )}
+
+          {/* Aktif Senaryo Risk Etkisi Bandı */}
+          {viewMode === 'radar' && activeScenario && (
+            <motion.div
+              key={activeScenario.id}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className={clsx(
+                'rounded-xl border p-4 shadow-sm',
+                activeScenario.severity === 'CRITICAL' ? 'bg-red-50 border-red-200' :
+                activeScenario.severity === 'HIGH'     ? 'bg-orange-50 border-orange-200' :
+                                                         'bg-amber-50 border-amber-200'
+              )}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <p className={clsx(
+                    'text-[10px] font-black uppercase tracking-widest mb-1',
+                    activeScenario.severity === 'CRITICAL' ? 'text-red-600' : 'text-orange-600'
+                  )}>
+                    {activeScenario.type} · {activeScenario.severity}
+                  </p>
+                  <p className="text-sm font-bold text-slate-800">{activeScenario.title}</p>
+                  {activeScenario.description && (
+                    <p className="text-[11px] text-slate-600 mt-1 leading-snug">
+                      {activeScenario.description}
+                    </p>
+                  )}
+                </div>
+                <div className="shrink-0 flex flex-col items-end gap-1">
+                  <span className="flex items-center gap-1 text-xs font-black text-red-700">
+                    <TrendingUp size={13} />
+                    Risk Artışı
+                  </span>
+                </div>
+              </div>
+            </motion.div>
           )}
 
           {viewMode === 'radar' && (

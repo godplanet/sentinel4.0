@@ -16,6 +16,8 @@ const queryClient = new QueryClient({
   },
 });
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   const { isInitializing, isComplete, error, progress } = useSystemInit();
 
@@ -32,6 +34,7 @@ function App() {
           </AppShell>
         )}
       </BrowserRouter>
+      <Toaster position="top-right" />
     </QueryClientProvider>
     </ThemeProvider>
   );

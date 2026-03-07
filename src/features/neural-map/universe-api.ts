@@ -19,6 +19,11 @@ export interface AuditEntityRow {
   metadata?: Record<string, unknown> | null;
 }
 
+import { fetchStrategyAlignments } from '@/entities/strategy/api/alignment-api';
+import { fetchStrategicGoals } from '@/entities/strategy/api/goals';
+import type { StrategyUniverseAlignment } from '@/entities/strategy/api/alignment-api';
+import type { StrategicGoal } from '@/entities/strategy/model/types';
+
 const QUERY_KEY = ['neural-universe'] as const;
 
 /**
@@ -95,7 +100,11 @@ function calculateDependencyWeight(
  * audit_entities listesini React Flow / Neural Map için Node[] ve Edge[] formatına dönüştürür.
  * Edge mantığı: ltree path parçalama (path.split('.')) ile üst düğüm bulunur.
  */
-export function buildGraphFromEntities(entities: AuditEntityRow[]): {
+export function buildGraphFromEntities(
+  entities: AuditEntityRow[],
+  alignments: StrategyUniverseAlignment[] = [],
+  goals: StrategicGoal[] = []
+): {
   nodes: NeuralNode[];
   edges: NeuralEdge[];
 } {
@@ -105,20 +114,37 @@ export function buildGraphFromEntities(entities: AuditEntityRow[]): {
     pathToEntity.set(pathStr, e);
   }
 
-  const nodes: NeuralNode[] = entities.map((entity) => {
-    const risk = typeof entity.risk_score === 'number' ? entity.risk_score : 50;
+  const nodes: NeuralNode[] = (entities || []).map((entity) => {
+    let risk = typeof entity.risk_score === 'number' ? entity.risk_score : 50;
+    
+    // Wave 13: Dynamic Risk Augmentation based on Strategic Alignments
+    const entityAlignments = alignments.filter(a => a.universe_node_id === entity.id);
+    let riskAugmentation = 0;
+    
+    entityAlignments.forEach(alignment => {
+      const goal = goals.find(g => g.id === alignment.goal_id);
+      if (goal) {
+        if (goal.riskAppetite === 'High') riskAugmentation += 15;
+        else if (goal.riskAppetite === 'Medium') riskAugmentation += 8;
+        else if (goal.riskAppetite === 'Low') riskAugmentation += 3;
+      }
+    });
+    
+    const augmentedRisk = risk + riskAugmentation;
     const velocity = typeof entity.velocity_multiplier === 'number' ? entity.velocity_multiplier : 1.0;
+    
     return {
       id: entity.id,
       label: entity.name,
       type: mapEntityTypeToNodeType(entity.type),
-      baseRisk: Math.min(100, Math.max(0, risk)),
-      effectiveRisk: Math.min(100, Math.max(0, risk)),
+      baseRisk: Math.min(100, Math.max(0, augmentedRisk)),
+      effectiveRisk: Math.min(100, Math.max(0, augmentedRisk)),
       contagionImpact: 0,
       metadata: {
         entityType: entity.type,
         path: entity.path,
         velocity,
+        alignments: entityAlignments, // save for ui details if needed
         ...(entity.metadata ?? {}),
       },
     };
@@ -151,8 +177,12 @@ export function useNeuralUniverse() {
   return useQuery({
     queryKey: QUERY_KEY,
     queryFn: async (): Promise<NeuralUniverseResult> => {
-      const entities = await fetchAuditEntitiesForNeural();
-      return buildGraphFromEntities(entities);
+      const [entities, alignments, goals] = await Promise.all([
+        fetchAuditEntitiesForNeural(),
+        fetchStrategyAlignments(),
+        fetchStrategicGoals()
+      ]);
+      return buildGraphFromEntities(entities, alignments, goals);
     },
   });
 }

@@ -119,15 +119,3 @@ CREATE INDEX IF NOT EXISTS idx_workpaper_findings_severity
   ON workpaper_findings(severity);
 
 -- Add sample findings data
-DO $$
-DECLARE
-  v_wp_id UUID;
-BEGIN
-  SELECT id INTO v_wp_id FROM workpapers LIMIT 1;
-
-  IF v_wp_id IS NOT NULL THEN
-    INSERT INTO workpaper_findings (workpaper_id, title, description, severity, source_ref) VALUES
-      (v_wp_id, 'Eksik Teminat Değerlemesi', '2 kredi dosyasında teminat değerlemesinin 6 aydan eski olduğu tespit edilmiştir. BDDK düzenlemelerine göre yıllık güncelleme zorunludur.', 'HIGH', 'Test Step 2'),
-      (v_wp_id, 'Dosya Eksikliği', 'İncelenen 25 dosyanın 2 tanesinde zorunlu kredi başvuru formlarının eksik olduğu görülmüştür.', 'MEDIUM', 'Test Step 1');
-  END IF;
-END $$;

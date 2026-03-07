@@ -1,415 +1,208 @@
-/**
- * SENTINEL GRC v3.0 — Iron Gate: Bağımsızlık Beyanı Modal
- * =========================================================
- * GIAS 2025 Standard II.1 — Bağımsızlık ve Tarafsızlık
- *
- * Bu modal engagement'a tıklanınca açılır, eğer ilgili denetçinin
- * `auditor_declarations` tablosunda onaylı beyanı YOKSA Drawer açılmaz.
- * Denetçi "Bağımsızlık ve Çıkar Çatışması Yoktur" beyanını bu modalden imzalar.
- *
- * UI: Glassmorphism + Koyu/Yaldızlı C-Level tema
- */
-
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Shield, AlertTriangle, CheckCircle2, X, Lock, Loader2,
-  Scale, Eye, FileText, ChevronRight
-} from 'lucide-react';
-import clsx from 'clsx';
-import { useSignDeclaration } from '@/entities/independence/api/declarations-api';
-
-// ─── Tür Tanımları ─────────────────────────────────────────────────────────────
+import React, { useState, useEffect } from 'react';
+import { Shield, CheckCircle2, Lock, FileSignature, ArrowRight } from 'lucide-react';
+import { useSignDeclaration, useDeclarationStatus } from '@/entities/independence/model/queries';
+import toast from 'react-hot-toast';
+import { supabase } from '@/shared/api/supabase';
+import type { User } from '@supabase/supabase-js';
 
 interface IronGateModalProps {
   engagementId: string;
-  engagementTitle: string;
-  userId: string;
-  onGateCleared: () => void; // Beyan imzalandı → Drawer açılabilir
-  onClose: () => void;
+  onSuccess?: () => void;
+  onGateCleared?: (engagementId: string) => void;
+  onClose?: () => void;
+  engagementTitle?: string;
+  userId?: string;
 }
 
-// ─── Beyan Metni (GIAS 2025 Standart Uyumlu) ──────────────────────────────────
+export function IronGateModal({ engagementId, engagementTitle, onSuccess, onGateCleared, onClose }: IronGateModalProps) {
+  const [isChecked, setIsChecked] = useState(false);
+  const signDeclaration = useSignDeclaration();
+  const { data: declaration } = useDeclarationStatus(engagementId);
+  const [user, setUser] = useState<User | null>(null);
 
-const DECLARATION_TEXT = `Ben, aşağıda imzası bulunan denetçi olarak;
-Türkiye Bankacılık Düzenleme ve Denetleme Kurumu (BDDK) düzenlemeleri ve
-Küresel İç Denetim Standartları (GIAS 2025) Standart II.1 çerçevesinde,
-
-1. Atandığım denetim göreviyle ilgili herhangi bir çıkar çatışmamın bulunmadığını,
-2. Denetlenecek birim, süreç veya varlıkla doğrudan veya dolaylı finansal ilişkim, akrabalık bağım,
-   yönetim görevim ya da taraflılık yaratabilecek başka bir ilişkimin olmadığını,
-3. Bu denetimi bağımsız, tarafsız ve nesnel bir şekilde yürüteceğimi,
-4. Denetim süresince herhangi bir çıkar çatışması durumu oluşması halinde, derhal Teftiş Kurulu
-   Başkanlığı'na bildireceğimi,
-5. Sunum, bulgu ve tavsiyelerin tamamen Sentinel GRC kılavuzları ve GIAS 2025 standartlarına
-   uygun olarak hazırlanacağını
-
-BEYAN, TAAHHÜT VE KABUL EDERİM.`;
-
-// ─── Ana Bileşen ───────────────────────────────────────────────────────────────
-
-export function IronGateModal({
-  engagementId,
-  engagementTitle,
-  userId,
-  onGateCleared,
-  onClose,
-}: IronGateModalProps) {
-  const [step, setStep] = useState<'declaration' | 'conflict-check' | 'signing' | 'done'>(
-    'declaration'
-  );
-  const [hasConflict, setHasConflict] = useState<boolean | null>(null);
-  const [conflictDescription, setConflictDescription] = useState('');
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [confirmChecked, setConfirmChecked] = useState(false);
-
-  const { mutate: signDeclaration, isPending: isSigning } = useSignDeclaration();
-
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const el = e.currentTarget;
-    const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 20;
-    if (atBottom) setIsScrolled(true);
-  };
-
-  const handleSign = () => {
-    if (!confirmChecked) return;
-    if (hasConflict === null) return;
-
-    signDeclaration(
-      {
-        engagement_id: engagementId,
-        user_id: userId,
-        has_conflict: hasConflict,
-        conflict_description: hasConflict ? conflictDescription : undefined,
-        declaration_text: DECLARATION_TEXT,
-      },
-      {
-        onSuccess: () => {
-          setStep('done');
-          setTimeout(() => {
-            onGateCleared();
-          }, 1800);
-        },
+  useEffect(() => {
+    const userStr = localStorage.getItem('sentinel_user');
+    if (userStr) {
+      try {
+        const parsedUser = JSON.parse(userStr);
+        setUser({ id: parsedUser.id, user_metadata: { full_name: parsedUser.name } } as unknown as User);
+      } catch (e) {
+        console.error(e);
       }
-    );
+    } else {
+      supabase.auth.getUser().then(({ data }) => {
+        if (data.user) setUser(data.user);
+      });
+    }
+  }, []);
+
+  const handleSign = async () => {
+    console.log('BROWSER CONSOLE: handleSign called. isChecked:', isChecked);
+    if (!isChecked) {
+      toast.error('Lütfen çıkar çatışmanız olmadığını beyan eden kutucuğu işaretleyin.', {
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+          fontWeight: 600,
+        },
+      });
+      return;
+    }
+
+    try {
+      const declarationText = "GIAS 2025 Standart 2.1 uyarınca, denetlenen birimle hiçbir finansal, kişisel veya mesleki çıkar çatışmam bulunmamaktadır.";
+      
+      console.log('BROWSER CONSOLE: calling mutateAsync', { engagementId, declarationText });
+      await signDeclaration.mutateAsync({
+        engagementId,
+        declarationText
+      });
+      console.log('BROWSER CONSOLE: mutateAsync resolved');
+      
+      toast.success('Bağımsızlık beyanınız başarıyla mühürlendi.', {
+        icon: '🛡️',
+        style: {
+          background: '#047857',
+          color: '#fff',
+          fontWeight: 600,
+        },
+      });
+      console.log('BROWSER CONSOLE: calling onClose()');
+      if (onSuccess) onSuccess();
+      if (onGateCleared) onGateCleared(engagementId);
+      if (onClose) onClose();
+    } catch (error: any) {
+      console.error('BROWSER CONSOLE: [SENTINEL] Gate sign error:', error);
+      toast.error('Beyan işlemi sırasında güvenli bağlantı hatası oluştu. Lütfen sistem yöneticinizle görüşün.', {
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+          fontWeight: 600,
+        },
+      });
+    }
   };
 
   return (
-    <AnimatePresence>
-      {/* ─── Backdrop ─────────────────────────────────────────────────────── */}
-      <motion.div
-        key="backdrop"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md"
-        onClick={onClose}
-      />
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+      {/* Absolute Backdrop Cam Efekti: %100 Light Mode, bg-white/80, backdrop-blur-xl */}
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-xl" />
 
-      {/* ─── Modal Panel ──────────────────────────────────────────────────── */}
-      <motion.div
-        key="modal"
-        initial={{ opacity: 0, scale: 0.94, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.94, y: 20 }}
-        transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
-      >
-        <div
-          className="pointer-events-auto w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl"
-          style={{
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-            border: '1px solid rgba(148, 163, 184, 0.15)',
-            boxShadow: '0 0 0 1px rgba(251,191,36,0.1), 0 32px 64px rgba(0,0,0,0.8)',
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* ─── Header ──────────────────────────────────────────────────── */}
-          <div
-            className="px-8 py-6 flex-shrink-0"
-            style={{
-              background: 'linear-gradient(135deg, rgba(251,191,36,0.08) 0%, transparent 60%)',
-              borderBottom: '1px solid rgba(148,163,184,0.1)',
-            }}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-4">
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background: 'linear-gradient(135deg, #b45309, #78350f)',
-                    boxShadow: '0 4px 16px rgba(180,83,9,0.4)',
-                  }}
-                >
-                  <Lock size={22} className="text-amber-200" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold text-amber-400 tracking-widest uppercase">
-                      GIAS 2025 · STANDART II.1
-                    </span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                  </div>
-                  <h2 className="text-lg font-black text-white leading-tight">
-                    Iron Gate — Bağımsızlık Beyanı
-                  </h2>
-                  <p className="text-sm text-slate-400 mt-0.5">
-                    Bu denetim görevine erişmeden önce beyanınız gereklidir
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={onClose}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-white/5 transition-colors"
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            {/* Engagement Bilgisi */}
-            <div
-              className="mt-4 px-4 py-3 rounded-xl flex items-center gap-3"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
-            >
-              <FileText size={14} className="text-amber-400 flex-shrink-0" />
-              <div>
-                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Denetim Görevi</p>
-                <p className="text-sm font-bold text-white">{engagementTitle ?? '—'}</p>
-              </div>
-            </div>
+      {/* C-Level Adli Sözleşme Modal İçeriği */}
+      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden isolate transform transition-all">
+        {/* Dekoratif Yaldızlı/Bordo Rozet Üst Çizgi */}
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-red-800 via-rose-700 to-amber-500" />
+        
+        {/* Heraldic Badge / Rozet Tasarımı */}
+        <div className="px-8 pt-10 pb-6 border-b border-slate-100 bg-slate-50/50 relative overflow-hidden">
+          {/* Arka plan silüeti */}
+          <div className="absolute right-0 top-0 opacity-5 pointer-events-none transform translate-x-1/3 -translate-y-1/4">
+             <Shield size={240} />
           </div>
 
-          {/* ─── İçerik ──────────────────────────────────────────────────── */}
-          <div className="flex-1 overflow-hidden flex flex-col">
-
-            {/* ADIM: Beyan Metni */}
-            {step === 'declaration' && (
-              <div className="flex-1 flex flex-col p-6 gap-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <Eye size={14} className="text-amber-400" />
-                  <span className="text-xs font-bold text-amber-300 tracking-wide">
-                    Lütfen beyan metnini sonuna kadar okuyun
-                  </span>
-                </div>
-
-                {/* Beyan Metni Scroll Alanı */}
-                <div
-                  onScroll={handleScroll}
-                  className="flex-1 overflow-y-auto rounded-xl p-5 text-sm leading-relaxed text-slate-300 space-y-2 max-h-48"
-                  style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                    fontFamily: 'Georgia, serif',
-                    lineHeight: '1.8',
-                  }}
-                >
-                  <pre className="whitespace-pre-wrap font-serif text-xs text-slate-300">
-                    {DECLARATION_TEXT}
-                  </pre>
-                </div>
-
-                {/* Scroll uyarısı */}
-                {!isScrolled && (
-                  <p className="text-[10px] text-amber-500 flex items-center gap-1">
-                    <AlertTriangle size={10} />
-                    Devam için beyan metnini sonuna kadar kaydırın
-                  </p>
-                )}
-
-                <button
-                  disabled={!isScrolled}
-                  onClick={() => setStep('conflict-check')}
-                  className={clsx(
-                    'w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all',
-                    isScrolled
-                      ? 'bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-lg shadow-amber-500/20'
-                      : 'bg-slate-800 text-slate-600 cursor-not-allowed'
-                  )}
-                >
-                  Okudum, Devam Et
-                  <ChevronRight size={16} />
-                </button>
-              </div>
-            )}
-
-            {/* ADIM: Çıkar Çatışması Sorusu */}
-            {step === 'conflict-check' && (
-              <div className="flex-1 flex flex-col p-6 gap-5">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Scale size={14} className="text-amber-400" />
-                    <span className="text-xs font-bold text-amber-300 uppercase tracking-wide">
-                      Çıkar Çatışması Beyanı
-                    </span>
-                  </div>
-                  <p className="text-sm text-slate-300 mt-2 leading-relaxed">
-                    Bu denetim görevi kapsamındaki birim, süreç veya varlıklarla doğrudan ya da
-                    dolaylı bir <strong className="text-white">çıkar çatışmanız</strong> var mı?
-                  </p>
-                </div>
-
-                {/* Seçenekler */}
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    {
-                      value: false,
-                      label: 'HAYIR — Çıkar Çatışmam Yok',
-                      icon: CheckCircle2,
-                      color: 'border-emerald-500/40 hover:border-emerald-400 hover:bg-emerald-500/10',
-                      activeColor: 'border-emerald-400 bg-emerald-500/15',
-                      iconColor: 'text-emerald-400',
-                    },
-                    {
-                      value: true,
-                      label: 'EVET — Açıklamam Var',
-                      icon: AlertTriangle,
-                      color: 'border-red-500/40 hover:border-red-400 hover:bg-red-500/10',
-                      activeColor: 'border-red-400 bg-red-500/15',
-                      iconColor: 'text-red-400',
-                    },
-                  ].map((opt) => (
-                    <button
-                      key={String(opt.value)}
-                      onClick={() => setHasConflict(opt.value)}
-                      className={clsx(
-                        'p-4 rounded-xl border-2 transition-all text-left flex flex-col gap-2',
-                        hasConflict === opt.value ? opt.activeColor : opt.color
-                      )}
-                      style={{ background: 'rgba(255,255,255,0.02)' }}
-                    >
-                      <opt.icon size={20} className={opt.iconColor} />
-                      <span className="text-xs font-bold text-white leading-tight">{opt.label}</span>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Çatışma Açıklaması */}
-                {hasConflict === true && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="overflow-hidden"
-                  >
-                    <label className="text-xs text-slate-400 font-medium mb-1.5 block">
-                      Çıkar çatışmasını açıklayın (zorunlu)
-                    </label>
-                    <textarea
-                      value={conflictDescription}
-                      onChange={(e) => setConflictDescription(e.target.value)}
-                      rows={3}
-                      placeholder="Çatışma durumunu, ilgili tarafları ve niteliğini açıklayın..."
-                      className="w-full rounded-lg px-3 py-2.5 text-sm text-slate-200 placeholder-slate-600 resize-none focus:outline-none focus:ring-1 focus:ring-amber-500/50"
-                      style={{
-                        background: 'rgba(255,255,255,0.04)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                      }}
-                    />
-                    <p className="text-[10px] text-amber-500 mt-1 flex items-center gap-1">
-                      <AlertTriangle size={10} />
-                      Çatışma beyanı durumunda CAE derhal bilgilendirilecektir.
-                    </p>
-                  </motion.div>
-                )}
-
-                {/* Onay Checkbox */}
-                {hasConflict !== null && (
-                  <motion.label
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex items-start gap-3 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={confirmChecked}
-                      onChange={(e) => setConfirmChecked(e.target.checked)}
-                      className="mt-0.5 w-4 h-4 accent-amber-500 cursor-pointer"
-                    />
-                    <span className="text-xs text-slate-400 leading-relaxed">
-                      Yukarıdaki beyanın tamamını okudum, içeriğini anlıyorum ve tüm bilgilerin
-                      doğru olduğunu <strong className="text-white">elektronik imzamla</strong> onaylıyorum.
-                    </span>
-                  </motion.label>
-                )}
-
-                <button
-                  disabled={
-                    hasConflict === null ||
-                    !confirmChecked ||
-                    (hasConflict === true && !conflictDescription.trim())
-                  }
-                  onClick={handleSign}
-                  className={clsx(
-                    'w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all',
-                    hasConflict !== null && confirmChecked
-                      ? 'bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-lg shadow-amber-500/20'
-                      : 'bg-slate-800 text-slate-600 cursor-not-allowed'
-                  )}
-                >
-                  {isSigning ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin" />
-                      İmzalanıyor...
-                    </>
-                  ) : (
-                    <>
-                      <Shield size={16} />
-                      Beyanı İmzala ve Göreve Giriş Yap
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
-
-            {/* ADIM: Başarılı */}
-            {step === 'done' && (
-              <div className="flex-1 flex flex-col items-center justify-center p-8">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', damping: 15 }}
-                  className="w-20 h-20 rounded-full flex items-center justify-center mb-4"
-                  style={{
-                    background: 'linear-gradient(135deg, #065f46, #047857)',
-                    boxShadow: '0 8px 32px rgba(4,120,87,0.5)',
-                  }}
-                >
-                  <CheckCircle2 size={40} className="text-emerald-200" />
-                </motion.div>
-                <h3 className="text-xl font-black text-white mb-2">Beyan İmzalandı</h3>
-                <p className="text-sm text-slate-400 text-center max-w-xs">
-                  Bağımsızlık beyanınız blockchain-benzeri imza hash'i ile kaydedildi.
-                  Denetim görevi açılıyor...
-                </p>
-                <div className="mt-4 flex items-center gap-1">
-                  {[0, 1, 2].map((i) => (
-                    <div
-                      key={i}
-                      className="w-2 h-2 rounded-full bg-emerald-500"
-                      style={{ animation: `pulse 1s ease-in-out ${i * 0.3}s infinite` }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* ─── Footer ──────────────────────────────────────────────────── */}
-          <div
-            className="px-8 py-3 flex-shrink-0 flex items-center justify-between"
-            style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
-          >
-            <div className="flex items-center gap-2">
-              <Shield size={11} className="text-amber-500" />
-              <span className="text-[10px] text-slate-600">
-                GIAS 2025 Standard II.1 · Dijital İmza Kayıt Sistemi
-              </span>
+          <div className="flex items-center gap-4 mb-4 relative z-10">
+            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-red-900 to-rose-800 p-0.5 shadow-lg flex-shrink-0">
+               <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
+                  <Lock className="w-8 h-8 text-rose-800" />
+               </div>
             </div>
-            <span className="text-[10px] text-slate-600">
-              Sentinel GRC v3.0
-            </span>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-widest bg-amber-100 text-amber-800 border border-amber-200">
+                  GIAS 2025 • STANDART 2.1
+                </span>
+                <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-widest bg-red-100 text-red-800 border border-red-200">
+                  ZORUNLU PROTOKOL
+                </span>
+              </div>
+              <h2 className="text-2xl font-serif font-bold text-slate-900">
+                Bağımsızlık ve Tarafsızlık Beyanı
+              </h2>
+              {engagementTitle && (
+                <p className="text-sm font-medium text-slate-500 mt-1">{engagementTitle}</p>
+              )}
+            </div>
           </div>
+          
+          <p className="text-slate-600 text-[13px] leading-relaxed max-w-lg relative z-10 font-medium">
+            Denetim görevine başlamadan önce, görevlendirildiğiniz alan/süreç ile ilgili bağımsızlığınızı tehlikeye atacak bir çıkar çatışması olmadığını yasal olarak beyan etmeniz gerekmektedir.
+          </p>
         </div>
-      </motion.div>
-    </AnimatePresence>
+
+        {/* Adli Metin Alanı */}
+        <div className="px-8 py-8 space-y-6 bg-white">
+          <div className="p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-inner">
+            <div className="flex items-start gap-4">
+              <FileSignature className="w-6 h-6 text-slate-400 mt-1 flex-shrink-0" />
+              <div className="space-y-4">
+                <p className="text-[14px] text-slate-800 leading-relaxed font-serif text-justify">
+                  "Uluslararası İç Denetim Standartları (GIAS 2025) ve kurum içi etik kurallar çerçevesinde; bu denetim görevi kapsamındaki birimler, personeller veya incelenecek süreçler üzerinde herhangi bir doğrudan/dolaylı <strong>finansal menfaatim, kişisel veya mesleki çıkar çatışmam</strong> (akrabalık, eski yöneticilik, taraf olma vb.) bulunmadığını vicdani ve mesleki sorumlulukla beyan ederim."
+                </p>
+                <div className="pt-4 mt-2 border-t border-slate-200/60 text-[12px] text-slate-500 flex flex-col gap-1">
+                  <div className="flex items-center justify-between">
+                    <span>Müfettiş: <strong>{user?.user_metadata?.full_name || 'İsimsiz Müfettiş'}</strong></span>
+                    <span>Tarih: <strong>{new Date().toLocaleDateString('tr-TR')}</strong></span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Sicil / Kimlik: <strong>{user?.id?.slice(0, 8).toUpperCase() || 'BİLİNMİYOR'}</strong></span>
+                    <span>Durum: <strong className="text-amber-600 uppercase">{declaration?.signed_at ? 'MÜHÜRLENDİ' : 'EKSİK İMZA'}</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label className="flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:bg-slate-50 border-slate-200">
+            <div className="flex items-center h-6">
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={(e) => setIsChecked(e.target.checked)}
+                className="w-5 h-5 rounded border-slate-300 text-rose-700 focus:ring-rose-700 bg-white"
+              />
+            </div>
+            <span className="text-[14px] font-medium text-slate-700 pt-0.5 select-none">
+              Yukarıdaki metni okudum, anladım. Herhangi bir çıkar çatışmam <strong>yoktur</strong>.
+            </span>
+          </label>
+        </div>
+
+        {/* Footer Aksiyonları */}
+        <div className="px-8 py-5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+          <div className="flex flex-col gap-1">
+             <p className="text-[11px] text-slate-400 max-w-[280px] leading-tight font-medium">
+               Mühür işlemi sistem loglarına IP adresiniz ve zaman damgası ile <strong className="text-slate-500">Değiştirilemez (Immutable)</strong> olarak kaydedilecektir.
+             </p>
+             {onClose && (
+                <button onClick={onClose} className="text-[12px] text-slate-500 hover:text-slate-800 text-left font-medium w-fit mt-1">İptal Et</button>
+             )}
+          </div>
+          
+          <button
+            onClick={handleSign}
+            disabled={signDeclaration.isPending}
+            className={`
+              relative overflow-hidden group px-6 py-3 rounded-lg flex items-center gap-3 font-bold text-[13px] tracking-wide uppercase transition-all
+              ${isChecked && !signDeclaration.isPending
+                ? 'bg-rose-800 text-white shadow-md hover:bg-rose-900 hover:shadow-lg hover:-translate-y-0.5' 
+                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+              }
+            `}
+          >
+            {signDeclaration.isPending ? (
+              <span className="flex items-center gap-2">
+                <Lock className="w-4 h-4 animate-pulse" /> Mühürleniyor...
+              </span>
+            ) : (
+              <>
+                <CheckCircle2 className={`w-5 h-5 ${isChecked ? 'text-amber-300' : 'text-slate-400'}`} />
+                <span>Dijital Olarak Mühürle</span>
+                <ArrowRight className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${isChecked ? 'text-rose-300' : 'text-slate-400'}`} />
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

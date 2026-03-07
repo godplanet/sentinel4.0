@@ -2755,3 +2755,366 @@ INSERT INTO public.strategy_universe_alignment (id, goal_id, universe_node_id, a
   (gen_random_uuid(), 'b1000000-0000-0000-0000-000000000007', 'e0000000-0000-0000-0000-000000000010', 80)   -- Siber Güvenlik -> Risk Yönetimi
 ON CONFLICT (goal_id, universe_node_id) DO NOTHING;
 
+-- ── 20260206165647_create_workpaper_detail_tables.sql Seed Data ──
+DO $$
+DECLARE
+  v_wp_id UUID;
+BEGIN
+  SELECT id INTO v_wp_id FROM workpapers LIMIT 1;
+
+  IF v_wp_id IS NOT NULL THEN
+    INSERT INTO workpaper_test_steps (workpaper_id, step_order, description, is_completed, auditor_comment) VALUES
+      (v_wp_id, 1, 'Kredi dosyalarından rastgele 25 adet seçin ve dosya bütünlüğünü kontrol edin.', true, 'Tamamlandı - 25 dosya incelendi, 2 dosyada eksiklik tespit edildi.'),
+      (v_wp_id, 2, 'Seçilen dosyalardaki teminat değerlemelerinin güncelliğini doğrulayın.', true, '23 dosyada güncel, 2 dosyada 6 aydan eski değerleme mevcut.'),
+      (v_wp_id, 3, 'Kredi onay yetkilerinin yetki matrisine uygunluğunu test edin.', false, ''),
+      (v_wp_id, 4, 'Limit aşımı olan kredilerin yönetim kurulu onaylarını kontrol edin.', false, ''),
+      (v_wp_id, 5, 'Takipteki krediler için karşılık hesaplamalarının doğruluğunu analiz edin.', false, '');
+
+    INSERT INTO evidence_requests (workpaper_id, title, description, status, due_date) VALUES
+      (v_wp_id, 'Mart 2026 Genel Mizan', 'Genel muhasebe mizanının tam dökümü gereklidir.', 'submitted', now() + interval '3 days'),
+      (v_wp_id, 'Kredi Komitesi Toplantı Tutanakları', 'Son 3 aylık kredi komitesi karar tutanakları.', 'pending', now() + interval '5 days'),
+      (v_wp_id, 'Teminat Değerleme Raporları', 'Seçilen 25 kredi dosyasına ait ekspertiz raporları.', 'pending', now() + interval '7 days'),
+      (v_wp_id, 'Yetki Matrisi Güncel Kopya', 'Kredi tahsis ve onay yetki matrisinin güncel versiyonu.', 'accepted', now() - interval '2 days');
+  END IF;
+END $$;
+
+-- ── 20260206174056_add_workpaper_findings_and_signoff.sql Seed Data ──
+DO $$
+DECLARE
+  v_wp_id UUID;
+BEGIN
+  SELECT id INTO v_wp_id FROM workpapers LIMIT 1;
+
+  IF v_wp_id IS NOT NULL THEN
+    INSERT INTO workpaper_findings (workpaper_id, title, description, severity, source_ref) VALUES
+      (v_wp_id, 'Eksik Teminat Değerlemesi', '2 kredi dosyasında teminat değerlemesinin 6 aydan eski olduğu tespit edilmiştir. BDDK düzenlemelerine göre yıllık güncelleme zorunludur.', 'HIGH', 'Test Step 2'),
+      (v_wp_id, 'Dosya Eksikliği', 'İncelenen 25 dosyanın 2 tanesinde zorunlu kredi başvuru formlarının eksik olduğu görülmüştür.', 'MEDIUM', 'Test Step 1');
+  END IF;
+END $$;
+
+-- -----------------------------------------------------------------------------
+-- G8. BOARD BRIEFING İÇİN KABUL EDİLEN RİSKLER (WAIVED) SENARYOSU
+-- -----------------------------------------------------------------------------
+INSERT INTO public.audit_findings (id, engagement_id, title, severity, status, state, details, impact_score, likelihood_score, gias_category, financial_impact) VALUES
+  (
+    'f8000000-0000-0000-0000-000000000003',
+    '52d72f07-e813-4cff-8218-4a64f7a3baf1',
+    'Legacy Sistem Sunucu Versiyonu',
+    'MEDIUM', 'FINAL', 'FINAL',
+    '{"condition":"Hazine tarafında kullanılan legacy raporlama modülünde 10 yıllık sunucu versiyonu kullanılmaktadır.","recommendation":"Sunucu versiyonunun acilen güncellenmesi gerekmektedir."}'::jsonb,
+    3, 3, 'Teknolojik Risk', 0
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.actions (
+  id, tenant_id, finding_id, finding_snapshot, title, description,
+  original_due_date, current_due_date, status, priority, created_by
+) VALUES
+  (
+    'a8000000-0000-0000-0000-000000000003'::uuid,
+    '11111111-1111-1111-1111-111111111111'::uuid,
+    'f8000000-0000-0000-0000-000000000003'::uuid,
+    '{"title":"Legacy Sistem Sunucu Versiyonu","severity":"MEDIUM","gias_category":"Teknolojik Risk"}'::jsonb,
+    'Sunucu yükseltme maliyeti nedeniyle risk kabulü',
+    'Yönetim Kurulu kararı ile sistemin 2 yıl sonra tamamen yenilenmesi planlandığından, mevcut sunucu riski kabul edilmiştir.',
+    (CURRENT_DATE - 30), (CURRENT_DATE - 30), 'WAIVED', 'MEDIUM',
+    '00000000-0000-0000-0000-000000000003'::uuid
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- 15. TALENT-OS USER MAPPINGS AND CERTIFICATIONS
+-- =============================================================================
+-- Update talent_profiles with matching user_ids for certifications to work
+UPDATE talent_profiles SET user_id = '00000000-0000-0000-0000-000000000004' WHERE full_name = 'Elif Kaya';
+UPDATE talent_profiles SET user_id = '00000000-0000-0000-0000-000000000003' WHERE full_name = 'Mert Demir';
+UPDATE talent_profiles SET user_id = '00000000-0000-0000-0000-000000000005' WHERE full_name = 'Zeynep Arslan';
+UPDATE talent_profiles SET user_id = '00000000-0000-0000-0000-000000000010' WHERE full_name = 'Burak Yilmaz';
+UPDATE talent_profiles SET user_id = '00000000-0000-0000-0000-000000000011' WHERE full_name = 'Selin Ozturk';
+
+-- Insert realistic certifications
+INSERT INTO user_certifications (id, user_id, name, issuer, status, issue_date, expiry_date, credential_url) VALUES 
+(gen_random_uuid(), '00000000-0000-0000-0000-000000000004', 'CIA (Certified Internal Auditor)', 'IIA', 'VERIFIED', '2020-05-15', '2026-05-15', 'https://credential.net/cia'),
+(gen_random_uuid(), '00000000-0000-0000-0000-000000000004', 'CISA (Certified Information Systems Auditor)', 'ISACA', 'VERIFIED', '2021-08-20', '2027-08-20', 'https://credential.net/cisa'),
+(gen_random_uuid(), '00000000-0000-0000-0000-000000000003', 'CRISC (Certified in Risk and Information Systems Control)', 'ISACA', 'VERIFIED', '2019-11-10', '2025-11-10', 'https://credential.net/crisc'),
+(gen_random_uuid(), '00000000-0000-0000-0000-000000000003', 'SMMM (Serbest Muhasebeci Mali Müşavir)', 'TÜRMOB', 'VERIFIED', '2018-04-05', '2030-01-01', 'https://credential.net/smmm'),
+(gen_random_uuid(), '00000000-0000-0000-0000-000000000005', 'CFE (Certified Fraud Examiner)', 'ACFE', 'VERIFIED', '2022-09-30', '2026-09-30', 'https://credential.net/cfe'),
+(gen_random_uuid(), '00000000-0000-0000-0000-000000000010', 'SPK Düzey 3 Lisansı', 'SPL', 'VERIFIED', '2017-02-14', '2030-01-01', 'https://credential.net/spk'),
+(gen_random_uuid(), '00000000-0000-0000-0000-000000000010', 'TKBB Sertifikası', 'TKBB', 'VERIFIED', '2023-01-20', '2028-01-20', 'https://credential.net/tkbb'),
+(gen_random_uuid(), '00000000-0000-0000-0000-000000000011', 'CIA (Certified Internal Auditor)', 'IIA', 'VERIFIED', '2016-10-10', '2026-10-10', 'https://credential.net/cia2')
+ON CONFLICT DO NOTHING;
+
+-- =============================================================================
+-- 16. CCM (PREDATOR COCKPIT) SEED DATA
+-- =============================================================================
+
+INSERT INTO ccm_alerts (id, rule_triggered, risk_score, severity, title, description, status, evidence_data, related_entity_id) VALUES
+(gen_random_uuid(), 'UNUSUAL_HOURS', 95, 'CRITICAL', 'Gece Yarısı Yetkisiz Şifre Değişikliği ve Giriş', 'Normal çalışma saatleri dışında (03:15 AM) kritik finans modülüne admin girişi ve şifre değişikliği tespit edildi.', 'OPEN', '{"ip": "192.168.1.105", "action": "password_reset", "time": "03:15:00"}', 'USR-0992'),
+(gen_random_uuid(), 'BENFORD_VIOLATION', 88, 'HIGH', 'Benford Kanununa Uymayan Şüpheli Ters Bakiye', 'Tedarikçi ödemelerinde (SAP_ERP) baş harf dağılımı Benford Kanunu beklentilerinden %45 sapma gösterdi. Suni olarak bölünmüş (Structuring) işlemler?', 'OPEN', '{"chi_square": 156.4, "p_value": 0.0001, "expected_1": "30%", "actual_1": "11%"}', 'VND-3011'),
+(gen_random_uuid(), 'GHOST_EMPLOYEE', 92, 'CRITICAL', 'Hayalet Çalışan Maaş Ödemesi (Ghost Employee)', 'T24 Core Banking üzerinden pasif statüdeki/işten ayrılmış bir personele düzenli maaş ödemesi çıkışı tespit edildi.', 'INVESTIGATING', '{"employee_id": "HR-9921", "status": "TERMINATED", "salary_paid": 45000}', 'HR-9921'),
+(gen_random_uuid(), 'DUPLICATE_PAYMENT', 75, 'MEDIUM', 'Mükerrer Fatura Ödemesi', 'Aynı gün içinde aynı tedarikçiye kuruşu kuruşuna eşit iki farklı ödeme çıkışı.', 'OPEN', '{"amount": 125000.50, "vendor": "TechSupply A.Ş.", "tx_1": "TXN-881", "tx_2": "TXN-882"}', 'VND-1055'),
+(gen_random_uuid(), 'STRUCTURING', 85, 'HIGH', 'Şüpheli Yapılandırma (Smurfing)', 'Kimlik bildirimi eşiğinin (50,000 TL) hemen altında (49,850 TL) arka arkaya 4 adet yapılandırılmış transfer işlemi.', 'OPEN', '{"threshold": 50000, "tx_count": 4, "total_amount": 199400}', 'CUST-8812')
+ON CONFLICT DO NOTHING;
+
+INSERT INTO ccm_transactions (id, source_system, transaction_date, amount, currency, user_id, beneficiary, transaction_type) VALUES
+(gen_random_uuid(), 'SAP_ERP', (CURRENT_TIMESTAMP - interval '2 hours'), 49850.00, 'TRY', 'USR-109', 'CUST-8812', 'TRANSFER'),
+(gen_random_uuid(), 'SAP_ERP', (CURRENT_TIMESTAMP - interval '3 hours'), 49800.00, 'TRY', 'USR-109', 'CUST-8812', 'TRANSFER'),
+(gen_random_uuid(), 'SAP_ERP', (CURRENT_TIMESTAMP - interval '4 hours'), 49900.00, 'TRY', 'USR-109', 'CUST-8812', 'TRANSFER'),
+(gen_random_uuid(), 'T24', (CURRENT_TIMESTAMP - interval '1 day'), 125000.50, 'TRY', 'SYS-AUTO', 'TechSupply A.Ş.', 'PAYMENT'),
+(gen_random_uuid(), 'T24', (CURRENT_TIMESTAMP - interval '1 day'), 125000.50, 'TRY', 'SYS-AUTO', 'TechSupply A.Ş.', 'PAYMENT'),
+(gen_random_uuid(), 'HR_SYSTEM', (CURRENT_TIMESTAMP - interval '5 days'), 45000.00, 'TRY', 'HR-ADMIN', 'HR-9921', 'PAYMENT')
+ON CONFLICT DO NOTHING;
+
+
+-- =============================================================================
+-- 17. WAVE 17: SHARIAH RULINGS (AAOIFI STANDARDS FATWA-GPT RAG MOTORU)
+-- =============================================================================
+
+INSERT INTO public.shariah_rulings (id, standard_no, standard_name, section, article_no, text, ruling, risk_level, keywords, "references") VALUES
+('a0000000-0000-0000-0000-000000000001', '8', 'Murabaha', 'Geçerlilik Şartları', '2/1/3', 'Kurum, emtiayı (varlığı) müşteriye satmadan önce mülkiyetine almalı ve fiili veya hükmi zilyetliği ele geçirmelidir. Mülkiyetten önce satış, akdi batıl (geçersiz) kılar.', 'mandatory', 'critical', '{"mülkiyet", "zilyetlik", "emtia", "satış", "batıl", "geçersiz"}', '{"Hadis: ''Sahip olmadığın şeyi satma'' (Tirmizi 1232)"}'),
+('a0000000-0000-0000-0000-000000000002', '8', 'Murabaha', 'Satın Alma Vaadi', '3/1', 'Müşterinin tek taraflı satın alma vaadi (va''d), çoğunluk görüşüne göre vaad vereni bağlar. Kurum, müşteri haklı sebep olmaksızın vaadinden dönerse fiili zararlarının tazminini talep edebilir.', 'permissible', 'medium', '{"vaad", "va''d", "bağlayıcı", "ihlal", "zarar", "tazminat"}', '{"İslam Fıkıh Akademisi Kararı 40-41"}'),
+('a0000000-0000-0000-0000-000000000003', '8', 'Murabaha', 'Risk ve Sorumluluk', '4/2', 'Kurum, satın alma ile müşteriye teslimat arasındaki dönemde emtiaya ilişkin tüm riskleri üstlenir. Bu, tahribat, ayıp veya piyasa fiyat dalgalanmasını içerir.', 'mandatory', 'high', '{"risk", "sorumluluk", "tahribat", "ayıp", "fiyat dalgalanması"}', '{}'),
+('a0000000-0000-0000-0000-000000000004', '8', 'Murabaha', 'Fiyat Bileşimi', '5/3/1', 'Satış fiyatı açıkça belirtilmelidir; maliyet fiyatı artı kar marjından oluşur. Gizli masraflar veya belirsiz maliyet unsurları, şeffaflık gereksinimini (garar) ihlal eder.', 'mandatory', 'high', '{"fiyat", "maliyet", "kar", "marj", "şeffaflık", "garar", "açıklama"}', '{}'),
+
+('a0000000-0000-0000-0000-000000000005', '30', 'Teverruk', 'Organize Teverruk', '2/2', 'Organize Teverruk (Teverruk Munazzam), emtia asıl satıcıya geri dönerse veya kurum tüm zinciri düzenlerse CAİZ DEĞİLDİR. Bu, faiz yasağını dolanmak için bir hukuki hile (hile) teşkil eder.', 'prohibited', 'critical', '{"organize teverruk", "munazzam", "yasaklanmış", "hile", "faiz", "dolanma", "döngüsel"}', '{"İİT Fıkıh Akademisi Kararı 179 (19/5)"}'),
+('a0000000-0000-0000-0000-000000000006', '30', 'Teverruk', 'Klasik Teverruk', '3/1', 'Klasik Teverruk şu şartlarda caizdir: (1) müşteri emtiayı bağımsız olarak tedarik eder, (2) gerçek zilyetliği ele geçirir ve (3) kurumsal düzenleme olmaksızın üçüncü tarafa satar. Kurum ikinci satışa dahil olmamalıdır.', 'permissible', 'low', '{"klasik", "bağımsız", "zilyetlik", "üçüncü taraf", "caiz"}', '{}'),
+
+('a0000000-0000-0000-0000-000000000007', '17', 'Sukuk', 'Varlık Mülkiyeti', '2/1/1', 'Sukuk sahipleri, dayanak varlıkların GERÇEK ve ORANTILI mülkiyetine sahip olmalıdır. Gerçek risk paylaşımı olmaksızın hükmi veya nominal mülkiyet caiz değildir. Varlıklar şer''i uyumlu ve tanımlanabilir olmalıdır.', 'mandatory', 'critical', '{"sukuk", "mülkiyet", "gerçek", "orantılı", "hükmi", "risk paylaşımı", "varlıklar"}', '{"AAOIFI Şer''i Standart No. 17"}'),
+('a0000000-0000-0000-0000-000000000008', '17', 'Sukuk', 'İtfa Koşulları', '4/3', 'İhraççı, vade sonunda anapara tutarını garanti edemez. Piyasa değeri veya net varlık değeri üzerinden satın alma taahhüdü (va''d) caizdir, ancak nominal değer üzerinden garantili geri alım, sukuku bir borç enstrümanına (Faiz) dönüştürür.', 'prohibited', 'critical', '{"itfa", "garanti", "anapara", "geri alım", "nominal değer", "borç", "faiz"}', '{}'),
+('a0000000-0000-0000-0000-000000000009', '17', 'Sukuk', 'Kar Dağıtımı', '5/2', 'Kar dağıtımı, dayanak varlıkların fiili performansını yansıtmalıdır. Varlık performansına bağlı olmayan önceden belirlenmiş sabit getiriler, konvansiyonel faize (Riba al-Nesie) benzediği için yasaktır.', 'prohibited', 'critical', '{"kar", "dağıtım", "sabit", "getiri", "önceden belirlenmiş", "faiz", "riba"}', '{}'),
+
+('a0000000-0000-0000-0000-000000000010', '9', 'İcara', 'Mülkiyet ve Bakım', '3/1/2', 'Kiraya veren (kurum), kiralanan varlığın mülkiyetini elinde tutmalı ve büyük bakım maliyetlerini üstlenmelidir. Mülkiyet unvanını korurken mülkiyet risklerini kiracıya devretmek caiz değildir.', 'mandatory', 'high', '{"icara", "kiraya veren", "mülkiyet", "bakım", "büyük onarımlar", "kiracı"}', '{}'),
+('a0000000-0000-0000-0000-000000000011', '9', 'İcara', 'Kira Belirleme', '4/5', 'Kira tutarları sabit veya değişken (kıyaslamalı) olabilir, ancak faiz oranlarına (LIBOR, SOFR) bağlanamaz çünkü bu faiz riski yaratır. Varlık performansına dayalı alternatif kıyaslamalar kabul edilebilir.', 'prohibited', 'high', '{"kira", "sabit", "değişken", "kıyaslama", "libor", "faiz", "riba"}', '{}'),
+('a0000000-0000-0000-0000-000000000012', '9', 'İcara', 'İcara Müntehiye Bi''t-Temlik', '6/1', 'Mülkiyet devri ile sonuçlanan kiralama (İcara Müntehiye Bi''t-Temlik), mülkiyet devrinin şu yollarla gerçekleşmesi halinde caizdir: (1) son ödeme sonrası hibe, (2) sembolik/piyasa değerinde satış veya (3) kademeli mülkiyet devri. Sıfır maliyetle otomatik devir hoş karşılanmaz.', 'permissible', 'low', '{"mülkiyete dönüşen kiralama", "müntehiye bi''t-temlik", "mülkiyet devri", "hibe", "satış"}', '{}'),
+
+('a0000000-0000-0000-0000-000000000013', '13', 'Mudarebe', 'Kar Paylaşım Oranı', '2/1/4', 'Kar, fiili karın BİR YÜZDESI olarak paylaşılmalıdır, sabit bir tutar olarak değil. Yatırımcıya (Rabbü''l-Mal) sabit getiri garantisi veren herhangi bir şart, sözleşmeyi geçersiz kılar ve onu faize dönüştürür.', 'mandatory', 'critical', '{"mudarebe", "kar paylaşımı", "yüzde", "sabit getiri", "garanti", "faiz"}', '{}'),
+('a0000000-0000-0000-0000-000000000014', '13', 'Mudarebe', 'Zarar Paylaşımı', '3/2', 'Mali zararlar, yöneticinin (Müdarib) ihmali veya sözleşme ihlalinden kaynaklanmadıkça, tamamen sermaye sağlayıcı (Rabbü''l-Mal) tarafından karşılanır. Müdarib sadece zamanını ve emeğini kaybeder.', 'mandatory', 'high', '{"zarar", "sermaye sağlayıcı", "rabbü''l-mal", "müdarib", "ihmal", "ihlal"}', '{}'),
+
+('a0000000-0000-0000-0000-000000000015', '0', 'Genel Yasaklar', 'Riba (Faiz)', 'GEN-1', 'Ribanın (faiz) tüm şekilleri kesinlikle yasaktır; bunlar: (1) Riba al-Fadl (takasdaki fazlalık), (2) Riba al-Nesie (borç üzerindeki faiz) ve (3) gerçek risk paylaşımı olmaksızın anapara artı önceden belirlenmiş getiriyi garanti eden sözleşme şartlarıdır.', 'prohibited', 'critical', '{"riba", "faiz", "tefecilik", "yasak", "borç", "fazlalık"}', '{"Kuran 2:275", "Hadis Sahih Müslim 1598"}'),
+('a0000000-0000-0000-0000-000000000016', '0', 'Genel Yasaklar', 'Garar (Aşırı Belirsizlik)', 'GEN-2', 'Aşırı belirsizlik içeren sözleşmeler (Garar Fahiş) batıldır. Bu şunları içerir: tanımsız fiyat, belirsiz teslimat, var olmayan malların satışı veya muğlak sözleşme şartları. Küçük belirsizlik (Garar Yesir) tolere edilir.', 'prohibited', 'high', '{"garar", "belirsizlik", "tanımsız", "muğlak", "batıl", "var olmayan"}', '{}'),
+('a0000000-0000-0000-0000-000000000017', '0', 'Genel Yasaklar', 'Meysir (Kumar)', 'GEN-3', 'Kumara benzeyen spekülatif sözleşmeler (Meysir) yasaktır. Bu, kazancın dayanak ekonomik faaliyetten veya gerçek ticaretten ziyade tamamen şansa dayalı olduğu türevleri içerir.', 'prohibited', 'critical', '{"meysir", "kumar", "spekülasyon", "türevler", "şans"}', '{}')
+ON CONFLICT DO NOTHING;
+
+-- ============================================================================
+-- WAVE 19 SEED: BDDK Uyum Raporu (Zen Editor & AI Copilot Test Data)
+-- ============================================================================
+INSERT INTO public.reports (
+  id,
+  tenant_id,
+  title,
+  status,
+  engagement_id,
+  theme_config,
+  executive_summary,
+  created_at,
+  updated_at
+) VALUES (
+  'b0000000-0000-0000-0000-000000000001',
+  '11111111-1111-1111-1111-111111111111',
+  '2026 Q1 BDDK Kredi Riski Konsolide Denetim Raporu',
+  'draft',
+  NULL,
+  '{"paperStyle": "zen_paper", "typography": "merriweather_inter"}',
+  '{
+    "score": 68.5,
+    "grade": "C+",
+    "assuranceLevel": "Sınırlı Güvence (Limited Assurance)",
+    "trend": -5.2,
+    "previousGrade": "B-",
+    "findingCounts": {"critical": 2, "high": 5, "medium": 12, "low": 4, "observation": 1},
+    "briefingNote": "BDDK 5411 sayılı kanun 43. madde kapsamında yapılan konsolide risk değerlendirmesi sonucunda, NPL oranlarında artış ve teminatlandırma süreçlerinde yapısal zafiyetler tespit edilmiştir.",
+    "sections": {
+      "auditOpinion": "Kurumun kredi tahsis süreçleri genel olarak BDDK rasyolarıyla uyumlu olsa da, Yüksek Riskli Portföy sınıflandırmasında ciddi gecikmeler yaşanmaktadır.",
+      "criticalRisks": "1. Organize Teverruk işlemlerinde fıkhi uyumsuzluk riski.\n2. Teminat değerlemelerinde bağımsız denetim eksikliği.",
+      "strategicRecommendations": "Risk iştahı tablosunun acilen güncellenmesi ve sorunlu krediler için erken uyarı sisteminin (EWS) devreye alınması.",
+      "managementAction": "Yönetim kurulu kararı ile risk komitesinin toplanma frekansı artırılmıştır."
+    }
+  }',
+  now(),
+  now()
+) ON CONFLICT DO NOTHING;
+
+
+INSERT INTO public.report_blocks (
+  id,
+  tenant_id,
+  report_id,
+  position_index,
+  parent_block_id,
+  depth_level,
+  block_type,
+  content
+) VALUES 
+-- SECTION 1: YÖNETİCİ ÖZETİ
+('b0000000-0000-0000-0000-000000000002', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 0, NULL, 0, 'heading', '{"text": "1. Yönetici Özeti ve Temel Bulgular", "level": 1}'),
+('b0000000-0000-0000-0000-000000000003', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 1, 'b0000000-0000-0000-0000-000000000002', 1, 'paragraph', '{"html": "Bu rapor, <b>Bankacılık Düzenleme ve Denetleme Kurumu (BDDK)</b> 5411 sayılı Bankacılık Kanunu uyarınca, bankanın konsolide kredi riski, piyasa riski ve operasyonel risk profillerinin bağımsız bir değerlendirmesini sunmaktadır. İnceleme dönemi 1 Ocak 2026 - 31 Mart 2026 tarihlerini kapsamaktadır."}'),
+('b0000000-0000-0000-0000-000000000004', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 2, 'b0000000-0000-0000-0000-000000000002', 1, 'paragraph', '{"html": "<p><b>Sentinel Copilot Analizi:</b> Önceki çeyreğe kıyasla sorunlu kredi (NPL) oranlarında kritik bir artış gözlemlenmiştir. Kurumun strese dayanıklılık testleri (Stress Test) senaryoları mevcut ekonomik dalgalanmaları kapsamakta yetersiz kalmıştır. 2 adet kritik bulgu tespit edilmiştir.</p>"}'),
+
+-- SECTION 2: BULGU ANALİZİ (Live Finding Blocks)
+('b0000000-0000-0000-0000-000000000005', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 3, NULL, 0, 'heading', '{"text": "2. Riske Maruz Değer (VaR) ve Kritik Bulgular", "level": 1}'),
+('b0000000-0000-0000-0000-000000000006', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 4, 'b0000000-0000-0000-0000-000000000005', 1, 'paragraph', '{"html": "Aşağıdaki tablolar, BDDK denetimi sırasında Sentinel Anomaly Motoru tarafından tespit edilen doğrudan bulguları canlı olarak listelemektedir."}'),
+('b0000000-0000-0000-0000-000000000007', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 5, 'b0000000-0000-0000-0000-000000000005', 1, 'finding_ref', '{"findingId": "FIN-2026-BDDK-01", "displayMode": "full_card", "kerdData": {"score": 98.5, "severity": "CRITICAL", "exposure": 45000000}, "title": "Teminat Değerleme Uzmanlarında Bağımsızlık İhlali", "finding_type": "Kredi Riski", "status": "open"}'),
+('b0000000-0000-0000-0000-000000000008', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 6, 'b0000000-0000-0000-0000-000000000005', 1, 'finding_ref', '{"findingId": "FIN-2026-BDDK-02", "displayMode": "compact_row", "kerdData": {"score": 75.0, "severity": "HIGH", "exposure": 12000000}, "title": "Türev İşlemlerde (Swap) Kur Riski Limit Aşımı", "finding_type": "Piyasa Riski", "status": "action_plan_submitted"}'),
+
+-- SECTION 3: EKLER VE FİNANSAL TABLOLAR
+('b0000000-0000-0000-0000-000000000009', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 7, NULL, 0, 'heading', '{"text": "3. Finansal Dayanak ve Matris", "level": 1}'),
+('b0000000-0000-0000-0000-000000000010', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 8, 'b0000000-0000-0000-0000-000000000009', 1, 'table', '{"dataset": [{"Aylar": "Ocak", "NPL": "3.1%", "CAR": "15.4%"}, {"Aylar": "Şubat", "NPL": "3.3%", "CAR": "15.2%"}, {"Aylar": "Mart", "NPL": "3.42%", "CAR": "14.9%"}], "title": "2026 İlk Çeyrek Sermaye Yeterlilik (CAR) ve Sorunlu Kredi (NPL) Gelişimi"}'),
+('b0000000-0000-0000-0000-000000000011', '11111111-1111-1111-1111-111111111111', 'b0000000-0000-0000-0000-000000000001', 9, 'b0000000-0000-0000-0000-000000000009', 1, 'paragraph', '{"html": "<b>Müfettişin Notu:</b> Sermaye Yeterlilik Rasyosundaki (CAR) düşüş yasal sınıfın (minimum %12) hala üzerindedir ancak trend endişe vericidir."}')
+ON CONFLICT DO NOTHING;
+
+-- =============================================================================
+-- WAVE 20: PBC REQUESTS SEED DATA
+-- =============================================================================
+INSERT INTO public.pbc_requests (id, engagement_id, title, description, requested_from, assigned_to, status, priority, due_date) VALUES
+  ('c0000000-0000-0000-0000-000000000001', '42d72f07-e813-4cff-8218-4a64f7a3baab', 'Kredi Tahsis Dosyaları', 'Son 3 ay içinde onaylanan 50 milyon TL üzeri ticari kredilerin komite karar tutanakları.', 'Ticari Krediler Tahsis Bölümü', '00000000-0000-0000-0000-000000000010', 'PENDING', 'HIGH', '2026-05-01'),
+  ('c0000000-0000-0000-0000-000000000002', '42d72f07-e813-4cff-8218-4a64f7a3baab', 'Hazine Onay Dekontları', 'Şubat 2026 dönemine ait günlük hazine işlem dekontları ve swift mesajları.', 'Hazine Operasyonları', '00000000-0000-0000-0000-000000000013', 'IN_PROGRESS', 'CRITICAL', '2026-04-25'),
+  ('c0000000-0000-0000-0000-000000000003', '42d72f07-e813-4cff-8218-4a64f7a3baac', 'Mizan ve Muavin Defterler', '2025 Yılsonu itibarıyla mizan dökümü ve IT harcamaları muavin defteri.', 'Mali İşler', '00000000-0000-0000-0000-000000000012', 'SUBMITTED', 'MEDIUM', '2026-04-20')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.pbc_evidence (id, pbc_request_id, file_name, file_path, file_size_bytes, uploaded_by) VALUES
+  ('e0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000003', 'mizan_2025_son.pdf', 'evidence/c0000000-0000-0000-0000-000000000003/mizan_2025_son.pdf', 1048576, '00000000-0000-0000-0000-000000000012')
+ON CONFLICT (id) DO NOTHING;
+
+-- =============================================================================
+-- WAVE 21: WHISTLEBLOWER PORTAL — İhbar Uçları (Bankacılık Bağlamı)
+-- =============================================================================
+
+-- incidents tablosunu doğru tenant_id ile güncelle
+UPDATE public.incidents
+SET tenant_id = '11111111-1111-1111-1111-111111111111'
+WHERE tenant_id = '00000000-0000-0000-0000-000000000000';
+
+-- Ek bankacılık bağlamı ihbar olayları (doğru tenant ile)
+INSERT INTO public.incidents (title, description, category, is_anonymous, status, tenant_id) VALUES
+  ('Kredi Tahsisinde Usulsüzlük Şüphesi', 'Kurumsal kredi komitesinde onay almadan 2.5M TL tutar tahsis edildiği gözlemlenmiştir. İlgili yönetici süreçleri atlamış görünüyor.', 'Dolandırıcılık', true, 'INVESTIGATING', '11111111-1111-1111-1111-111111111111'),
+  ('Müşteri Verisi Yetkisiz Erişim', 'Sistemde yetkisi olmayan bir çalışanın 500+ müşteri hesabını sorguladığı log kayıtlarından tespit edilmiştir.', 'IT', true, 'NEW', '11111111-1111-1111-1111-111111111111'),
+  ('Çalışanlar Arası Mobbing İddiası', 'Kadıköy Şubesinde bir müfettiş tarafından yapılan sistematik baskı ve dışlama iddiaları mevcuttur.', 'İK', false, 'INVESTIGATING', '11111111-1111-1111-1111-111111111111'),
+  ('MASAK Bildirimi Atlandı', 'Eşik değerin üzerindeki bir işlem için gerekli MASAK bildirimi yapılmamış. Yasal zorunluluk ihlali söz konusu.', 'Dolandırıcılık', true, 'RESOLVED', '11111111-1111-1111-1111-111111111111')
+ON CONFLICT DO NOTHING;
+
+-- Wave 21: Whistleblower Tips (anonim portal üzerinden gelen ihbarlar)
+INSERT INTO public.whistleblower_tips (tracking_code, content, channel, ai_credibility_score, triage_category, status, assigned_unit)
+VALUES
+  (
+    'WB-2026-CRIT-001',
+    'Hazine Müdürlüğü''nde gerçekleştirilen repo işlemlerinde belgelenmeyen kayıt dışı komisyon ödemeleri tespit ettim. İşlem tarihleri: Ocak-Mart 2026. Tahmini tutar: 850.000 TL. Yetkilendirme belgelerinde imzalar tutarsız.',
+    'WEB',
+    94.5,
+    'CRITICAL_FRAUD',
+    'INVESTIGATING',
+    'Mali Suçlar Araştırma Birimi'
+  ),
+  (
+    'WB-2026-ETIK-002',
+    'Bir üst yöneticinin, rakip firmadan iş teklifi aldıktan sonra banka müşterilerinin portföy bilgilerini o firmaya sızdırdığına dair ciddi şüphelerim var. İlgili kişi son 2 haftadır KVKK kapsamındaki verilerle yoğun şekilde çalışıyor.',
+    'WEB',
+    78.2,
+    'ETHICS_VIOLATION',
+    'NEW',
+    'Hukuk ve Uyum Birimi'
+  ),
+  (
+    'WB-2026-IK-003',
+    'Performans değerlendirme sürecinde belirli bir gruba sistemli olarak düşük puan verildiğini gösteren e-postalara ulaştım. Bu durum terfilerini engellemek amacıyla yapılandırılmış görünüyor.',
+    'WEB',
+    62.0,
+    'HR_CULTURE',
+    'NEW',
+    NULL
+  ),
+  (
+    'WB-2026-IT-004',
+    'Core Banking sisteminde bir açık tespit ettim. API katmanında object-level yetkilendirme kontrolü eksik; herhangi bir hesap numarasıyla müşteri bakiyelerine erişilebiliyor. CVE benzeri kritik bir güvenlik açığı.',
+    'TOR_ONION',
+    88.7,
+    'IT_SECURITY',
+    'ESCALATED',
+    'Bilgi Güvenliği ve Siber Risk'
+  ),
+  (
+    'WB-2026-MASAK-005',
+    'Birden fazla müşterinin 49.900 TL tutarda art arda işlem gerçekleştirdiğini gördüm. Yapılandırma (smurfing) gibi görünen bu işlemler için MASAK bildirimi yapılmadı. İşlem tarihleri: Şubat 2026 başı.',
+    'WEB',
+    71.3,
+    'CRITICAL_FRAUD',
+    'INVESTIGATING',
+    'MASAK Uyum Birimi'
+  )
+ON CONFLICT (tracking_code) DO NOTHING;
+
+
+
+-- ============================================================
+-- Wave 22 Seed: Bankacılık Stres Testi Senaryoları
+-- ============================================================
+
+INSERT INTO simulation_scenarios (id, title, description, type, severity, quarter_slot, parameters) VALUES
+  (
+    '11111111-2200-0000-0000-000000000001',
+    'Enflasyon Şoku',
+    'TCMB faiz koridorunun 500 baz puan yükseltilmesi. Kredi maliyetleri ve operasyonel gider baskısı simüle edilmektedir.',
+    'MACRO',
+    'HIGH',
+    0.25,
+    '{"inflation_rate": 0.62, "interest_rate_shock": 5.0, "gdp_impact": -0.03}'
+  ),
+  (
+    '11111111-2200-0000-0000-000000000002',
+    'BDDK Regülasyon Daralması',
+    'Sermaye yeterlilik oranı (SYO) minimum eşiğinin %12''den %16''ya çıkarılması zorunluluğu. Bankaların kredi hacimlerini kısması beklenmektedir.',
+    'REGULATORY',
+    'CRITICAL',
+    0.50,
+    '{"capital_adequacy_min": 0.16, "credit_growth_cap": -0.08, "provision_increase": 0.15}'
+  ),
+  (
+    '11111111-2200-0000-0000-000000000003',
+    'Likidite Krizi',
+    'Repo piyasalarında ani likidite daralması. Kısa vadeli borçlanma maliyetleri kritik eşiği geçmektedir.',
+    'LIQUIDITY',
+    'CRITICAL',
+    0.50,
+    '{"liquidity_coverage_ratio": 0.92, "short_term_funding_stress": 0.25, "interbank_spread": 3.5}'
+  ),
+  (
+    '11111111-2200-0000-0000-000000000004',
+    'Döviz Kuru Baskısı',
+    'USD/TRY kurunda %30 değer kaybı senaryosu. Döviz açık pozisyonları ve yabancı para kredilerde temerrüt riski artmaktadır.',
+    'MACRO',
+    'HIGH',
+    0.75,
+    '{"usd_try_shock": 0.30, "fx_position_impact": 0.18, "export_credit_benefit": 0.05}'
+  ),
+  (
+    '11111111-2200-0000-0000-000000000005',
+    'Kredi Temerrüt Dalgası',
+    'KGF destekli kredilerde temerrüt oranının %3.5''ten %9.2''ye yükselmesi. Takipteki alacak karşılıklarının artırılması gerekmektedir.',
+    'CREDIT',
+    'CRITICAL',
+    1.00,
+    '{"npl_ratio": 0.092, "provision_coverage": 0.85, "loan_loss_rate": 0.065}'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+-- Senaryo Etki Vektörleri (Entity Tipi Bazında Risk Delta'ları)
+INSERT INTO scenario_impacts (scenario_id, entity_type, base_score_delta, total_assets_delta, notes) VALUES
+  -- Enflasyon Şoku
+  ('11111111-2200-0000-0000-000000000001', '*',         8.5,  -0.03, 'Genel enflasyon etkisi'),
+  ('11111111-2200-0000-0000-000000000001', 'BANK',      12.0, -0.05, 'Faiz marjı sıkışması + mevduat maliyeti artışı'),
+  ('11111111-2200-0000-0000-000000000001', 'INSURANCE',  6.0, -0.02, 'Hasar artış etkisi'),
+  -- BDDK Regülasyon Daralması
+  ('11111111-2200-0000-0000-000000000002', '*',         15.0, -0.08, 'Sermaye tamponu artışı zorundası'),
+  ('11111111-2200-0000-0000-000000000002', 'BANK',      22.0, -0.12, 'Kredi durdurma + SYO baskısı + provizyon artışı'),
+  ('11111111-2200-0000-0000-000000000002', 'LEASING',   18.0, -0.09, 'Fonlama maliyeti + kira portföyü değer kaybı'),
+  -- Likidite Krizi
+  ('11111111-2200-0000-0000-000000000003', '*',         18.0, -0.11, 'Likidite tampon zorunluluğu'),
+  ('11111111-2200-0000-0000-000000000003', 'BANK',      25.0, -0.15, 'LCR altında işlem yasağı riski'),
+  -- Döviz Kuru Baskısı
+  ('11111111-2200-0000-0000-000000000004', '*',         10.0, -0.06, 'FX açık pozisyon etkisi'),
+  ('11111111-2200-0000-0000-000000000004', 'BANK',      16.0, -0.09, 'Kur riskli kredi stoku + swap maliyeti'),
+  ('11111111-2200-0000-0000-000000000004', 'INSURANCE',  7.0, -0.03, 'Dövizli hasar portföyü değer kaybı'),
+  -- Kredi Temerrüt Dalgası
+  ('11111111-2200-0000-0000-000000000005', '*',         20.0, -0.14, 'Genel kredi kalitesi bozulması'),
+  ('11111111-2200-0000-0000-000000000005', 'BANK',      30.0, -0.18, 'Yüksek NPL → provizyon zorunluluğu → SYO düşüşü'),
+  ('11111111-2200-0000-0000-000000000005', 'LEASING',   22.0, -0.15, 'KGF portföyü + takip edilen kira alacakları')
+ON CONFLICT DO NOTHING;

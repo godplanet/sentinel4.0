@@ -59,31 +59,31 @@ export function BestFitPanel({ profiles, templates }: BestFitPanelProps) {
                 className="w-full px-3 py-2.5 bg-canvas border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
               >
                 <option value="">Denetim tipi secin...</option>
-                {templates.map((t) => (
-                  <option key={t.id} value={t.id}>{t.service_name}</option>
+                {(templates || []).map((t) => (
+                  <option key={t?.id} value={t?.id}>{t?.service_name}</option>
                 ))}
               </select>
 
               {template && (
                 <div className="mb-4 flex flex-wrap gap-2">
-                  {Object.entries(template.required_skills).map(([skill, level]) => (
+                  {Object.entries(template?.required_skills || {}).map(([skill, level]) => (
                     <span
                       key={skill}
                       className="inline-flex items-center gap-1 px-2.5 py-1 bg-teal-50 text-teal-700 text-xs font-medium rounded-lg border border-teal-200"
                     >
-                      {SKILL_LABELS[skill] || skill}: Svy {level}+
+                      {SKILL_LABELS[skill] || skill}: Svy {level as number}+
                     </span>
                   ))}
                   <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 text-slate-600 text-xs rounded-lg">
-                    {template.standard_duration_sprints} Sprint
+                    {template?.standard_duration_sprints ?? 0} Sprint
                   </span>
                 </div>
               )}
 
-              {results.length > 0 && (
+              {(results || []).length > 0 && (
                 <div className="space-y-2">
-                  {results.map((r, i) => (
-                    <FitResultRow key={r.auditor.id} result={r} rank={i + 1} />
+                  {(results || []).map((r, i) => (
+                    <FitResultRow key={r?.auditor?.id ?? i} result={r} rank={i + 1} />
                   ))}
                 </div>
               )}
@@ -102,7 +102,11 @@ export function BestFitPanel({ profiles, templates }: BestFitPanelProps) {
 }
 
 function FitResultRow({ result, rank }: { result: FitResult; rank: number }) {
-  const { auditor, fitScore, blocked, blockReason, matchedSkills } = result;
+  const auditor = result?.auditor;
+  const fitScore = result?.fitScore ?? 0;
+  const blocked = result?.blocked ?? false;
+  const blockReason = result?.blockReason;
+  const matchedSkills = result?.matchedSkills ?? {};
 
   return (
     <div
@@ -123,23 +127,27 @@ function FitResultRow({ result, rank }: { result: FitResult; rank: number }) {
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-primary truncate">{auditor.full_name}</span>
+          <span className="text-sm font-semibold text-primary truncate">{auditor?.full_name ?? 'Bilinmeyen'}</span>
           {blocked && <AlertTriangle size={13} className="text-red-500 flex-shrink-0" />}
         </div>
         <div className="flex flex-wrap gap-1 mt-1">
-          {Object.entries(matchedSkills).map(([skill, { required, actual }]) => (
-            <span
-              key={skill}
-              className={clsx(
-                'text-[10px] px-1.5 py-0.5 rounded font-medium',
-                actual >= required
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-red-100 text-red-700'
-              )}
-            >
-              {SKILL_LABELS[skill]?.substring(0, 6) || skill}: {actual}/{required}
-            </span>
-          ))}
+          {Object.entries(matchedSkills || {}).map(([skill, skillData]) => {
+            const req = (skillData as any)?.required ?? 0;
+            const act = (skillData as any)?.actual ?? 0;
+            return (
+              <span
+                key={skill}
+                className={clsx(
+                  'text-[10px] px-1.5 py-0.5 rounded font-medium',
+                  act >= req
+                    ? 'bg-emerald-100 text-emerald-700'
+                    : 'bg-red-100 text-red-700'
+                )}
+              >
+                {SKILL_LABELS[skill]?.substring(0, 6) || skill}: {act}/{req}
+              </span>
+            );
+          })}
         </div>
         {blocked && blockReason && (
           <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1">

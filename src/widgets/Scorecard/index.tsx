@@ -18,18 +18,10 @@ import { WaterfallChart } from './WaterfallChart';
 interface Props {
   engagementId?: string;
   engagementTitle?: string;
-  demoMode?: boolean;
+  derivedCounts?: FindingSeverityCounts;
 }
 
-const DEMO_COUNTS: FindingSeverityCounts = {
-  count_critical: 1,
-  count_high: 2,
-  count_medium: 4,
-  count_low: 3,
-  total: 10,
-};
-
-export function Scorecard({ engagementId, engagementTitle, demoMode = false }: Props) {
+export function Scorecard({ engagementId, engagementTitle, derivedCounts }: Props) {
   const [gradingRules, setGradingRules] = useState<GradingRules | null>(null);
   const { constitution } = useRiskConstitution();
   const [counts, setCounts] = useState<FindingSeverityCounts | null>(null);
@@ -39,8 +31,11 @@ export function Scorecard({ engagementId, engagementTitle, demoMode = false }: P
   const [activeView, setActiveView] = useState<'scorecard' | 'consolidation'>('scorecard');
 
   useEffect(() => {
+    if (derivedCounts) {
+      setCounts(derivedCounts);
+    }
     loadData();
-  }, [engagementId, demoMode, constitution]);
+  }, [engagementId, constitution, derivedCounts]);
 
   const loadData = async () => {
     setLoading(true);
@@ -49,8 +44,8 @@ export function Scorecard({ engagementId, engagementTitle, demoMode = false }: P
     const constitutionRules = constitutionToGradingRules(constitution);
     setGradingRules(methodologyRules || constitutionRules);
 
-    if (demoMode) {
-      setCounts(DEMO_COUNTS);
+    if (derivedCounts) {
+      setCounts(derivedCounts);
     } else if (engagementId) {
       const c = await fetchFindingCounts(engagementId);
       setCounts(c);

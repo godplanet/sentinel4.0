@@ -87,3 +87,24 @@ export interface Stakeholder {
   created_at: string;
   updated_at: string;
 }
+
+export interface Escalation {
+  id: string;
+  finding_id: string;
+  title: string;
+  description: string;
+  risk_score: number | null;
+  board_decision: string | null;
+  status: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'REJECTED';
+  created_at: string;
+  updated_at: string;
+  tenant_id: string;
+  metadata?: Record<string, any> | null;
+}
+
+export interface CreateEscalationInput {
+  finding_id: string;
+  title: string;
+  description: string;
+  risk_score?: number;
+}

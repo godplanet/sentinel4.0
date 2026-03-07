@@ -3,14 +3,48 @@ import { PageHeader } from '@/shared/ui';
 import { AgileBoard } from '@/widgets/AgileBoard';
 import { AuditStepsList } from '@/widgets/AuditStepsList';
 import { ExecutionGrid } from '@/widgets/ExecutionGrid';
-import { LayoutList, LayoutGrid, Table2 } from 'lucide-react';
+import { LayoutList, LayoutGrid, Table2, Lock } from 'lucide-react';
+import { useIronGate } from '@/features/independence';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/shared/api/supabase';
 
 type ViewMode = 'list' | 'kanban' | 'grid';
 
 export default function ExecutionPage() {
-  const { engagementId } = useParams<{ engagementId: string }>();
+  const params = useParams<{ id: string, engagementId?: string }>();
+  const engagementId = params.id || params.engagementId;
   const [searchParams, setSearchParams] = useSearchParams();
   const viewMode = (searchParams.get('view') as ViewMode) || 'list';
+  const [gatePassed, setGatePassed] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const { triggerGate, isCheckingGate, gateModal } = useIronGate({
+    onGateCleared: () => setGatePassed(true),
+  });
+
+  useEffect(() => {
+    const userStr = localStorage.getItem('sentinel_user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        setUserId(user.id);
+      } catch (e) {
+        console.error('Failed to parse user', e);
+      }
+    } else {
+      supabase.auth.getUser().then(({ data }) => {
+        if (data.user) {
+          setUserId(data.user.id);
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (engagementId && userId && !gatePassed && !isCheckingGate) {
+      triggerGate(engagementId, 'Denetim İcrası', userId);
+    }
+  }, [engagementId, userId, gatePassed, triggerGate]);
 
   const setViewMode = (mode: ViewMode) => {
     setSearchParams({ view: mode });
@@ -27,7 +61,16 @@ export default function ExecutionPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-canvas">
+    <div className="h-screen flex flex-col bg-canvas relative">
+      {gateModal}
+      
+      {!gatePassed && (
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm">
+           <Lock className="w-12 h-12 text-slate-400 mb-4 animate-pulse" />
+           <p className="text-slate-600 font-medium">Bağımsızlık protokolü doğrulanıyor...</p>
+        </div>
+      )}
+
       <PageHeader
         title="Denetim İcrası"
         subtitle="Çalışma kağıtları ve denetim adımlarını yönetin"

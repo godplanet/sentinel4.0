@@ -149,16 +149,16 @@ export class DualBrainEngine {
     const total = data.length;
     const observedDistribution = Object.entries(digitCounts).map(([digit, count]) => ({
       digit: parseInt(digit),
-      observed: count / total,
+      observed: count / (total || 1),
       expected: this.benfordExpected(parseInt(digit)),
       count,
     }));
 
     let chiSquare = 0;
     observedDistribution.forEach((d) => {
-      const observedCount = d.count;
-      const expectedCount = d.expected * total;
-      chiSquare += Math.pow(observedCount - expectedCount, 2) / expectedCount;
+      const observedCount = d?.count || 0;
+      const expectedCount = (d?.expected || 0) * total;
+      chiSquare += Math.pow(observedCount - expectedCount, 2) / (expectedCount || 1);
     });
 
     const anomalyDetected = chiSquare > 15.51;
@@ -174,7 +174,7 @@ data.forEach(value => {
 const chiSquare = Object.keys(digitCounts).reduce((sum, digit) => {
   const observed = digitCounts[digit];
   const expected = benfordExpected(parseInt(digit)) * data.length;
-  return sum + Math.pow(observed - expected, 2) / expected;
+  return sum + Math.pow(observed - expected, 2) / (expected || 1);
 }, 0);
 
 // Chi-square critical value (8 df, 95% confidence) = 15.51
@@ -319,8 +319,8 @@ const riskLevel =
     const p = 0.5;
 
     const sampleSize = Math.ceil(
-      (z * z * p * (1 - p)) / Math.pow(marginOfError / 100, 2) /
-      (1 + (z * z * p * (1 - p)) / (Math.pow(marginOfError / 100, 2) * populationSize))
+      (z * z * p * (1 - p)) / (Math.pow(marginOfError / 100, 2) || 1) /
+      (1 + (z * z * p * (1 - p)) / ((Math.pow(marginOfError / 100, 2) * populationSize) || 1))
     );
 
     const code = `
@@ -335,7 +335,7 @@ const sampleSize = Math.ceil(
   (1 + (z * z * p * (1 - p)) / ((e * e) * N))
 );
 
-const samplingRate = (sampleSize / N) * 100;
+const samplingRate = (sampleSize / (N || 1)) * 100;
 `;
 
     return {
@@ -345,7 +345,7 @@ const samplingRate = (sampleSize / N) * 100;
         confidenceLevel,
         marginOfError,
         recommendedSampleSize: sampleSize,
-        samplingRate: ((sampleSize / populationSize) * 100).toFixed(2) + '%',
+        samplingRate: ((sampleSize / (populationSize || 1)) * 100).toFixed(2) + '%',
       },
       code,
     };
@@ -366,7 +366,7 @@ const samplingRate = (sampleSize / N) * 100;
       denominator += Math.pow(x - xMean, 2);
     });
 
-    const slope = numerator / denominator;
+    const slope = numerator / (denominator || 1);
     const intercept = yMean - slope * xMean;
 
     const trend = slope > 5 ? 'INCREASING' : slope < -5 ? 'DECREASING' : 'STABLE';
@@ -429,12 +429,12 @@ const predictions = [1, 2, 3].map(i =>
   }
 
   private mean(data: number[]): number {
-    return data.reduce((sum, val) => sum + val, 0) / data.length;
+    return (data || []).reduce((sum, val) => sum + val, 0) / (data?.length || 1);
   }
 
   private stdDev(data: number[]): number {
     const avg = this.mean(data);
-    const squaredDiffs = data.map((val) => Math.pow(val - avg, 2));
+    const squaredDiffs = (data || []).map((val) => Math.pow(val - avg, 2));
     return Math.sqrt(this.mean(squaredDiffs));
   }
 
