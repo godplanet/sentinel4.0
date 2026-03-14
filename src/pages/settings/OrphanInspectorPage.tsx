@@ -1,7 +1,7 @@
 import { AlertCircle, AlertTriangle, LayoutDashboard, PlaySquare } from 'lucide-react';
 import React, { Suspense, useState } from 'react';
 
-const componentModules = import.meta.glob('/src/**/*.tsx');
+const componentModules = import.meta.glob('../../**/*.tsx');
 
 const ORPHAN_COMPONENTS = [
   "pages/reporting/index.tsx",
