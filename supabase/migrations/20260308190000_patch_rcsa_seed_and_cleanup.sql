@@ -35,18 +35,9 @@ DROP POLICY IF EXISTS "rcsa_questions_select_anon" ON public.rcsa_questions;
 CREATE POLICY "rcsa_questions_select_anon" ON public.rcsa_questions
   FOR SELECT USING (true);
 
--- 3. Timesheets: seed some sample data
-INSERT INTO public.timesheets (user_id, engagement_id, activity_type, hours, logged_date)
-SELECT 
-  up.id,
-  ae.id,
-  'FIELDWORK',
-  8.0,
-  CURRENT_DATE - (FLOOR(RANDOM() * 30))::int
-FROM public.user_profiles up, public.audit_engagements ae
-WHERE up.role IN ('auditor', 'manager')
-LIMIT 5
-ON CONFLICT DO NOTHING;
+-- 3. Timesheets: skip seed (column mismatch - activity_type/logged_date columns not in schema)
+-- INSERT skipped intentionally
+
 
 -- 4. Verify fix result
 SELECT 

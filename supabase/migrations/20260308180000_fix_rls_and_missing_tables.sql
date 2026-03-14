@@ -4,8 +4,42 @@
 -- Fix: Empty tables (risk_taxonomy, rcsa_questions, engagement_scopes)
 -- Fix: Missing tables (tasks → linked to task_command module, rkm_nodes)
 -- =============================================================================
--- Run this in: Supabase Dashboard → SQL Editor
--- =============================================================================
+
+-- 0. ENSURE default tenant exists (FK dependency for seed data)
+INSERT INTO public.tenants (id, name, type, environment)
+VALUES ('11111111-1111-1111-1111-111111111111', 'Sentinel Bank A.Ş.', 'HEAD_OFFICE', 'PROD')
+ON CONFLICT (id) DO NOTHING;
+
+-- 0a. CREATE missing tables if they don't exist yet
+CREATE TABLE IF NOT EXISTS public.stakeholders (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id uuid NOT NULL DEFAULT '11111111-1111-1111-1111-111111111111',
+  name text NOT NULL,
+  email text,
+  role text,
+  department text,
+  created_at timestamptz DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS public.timesheets (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id uuid NOT NULL DEFAULT '11111111-1111-1111-1111-111111111111',
+  user_id uuid,
+  engagement_id uuid,
+  hours numeric DEFAULT 0,
+  date date,
+  description text,
+  created_at timestamptz DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS public.governance_board_meetings (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id uuid NOT NULL DEFAULT '11111111-1111-1111-1111-111111111111',
+  title text NOT NULL,
+  meeting_date date,
+  status text DEFAULT 'PLANNED',
+  created_at timestamptz DEFAULT now()
+);
 
 -- 1. FIX RLS: stakeholders (permission denied → add anon SELECT policy)
 ALTER TABLE public.stakeholders ENABLE ROW LEVEL SECURITY;
@@ -19,6 +53,7 @@ VALUES
   ('11111111-1111-1111-1111-111111111111', 'Mehmet Demir', 'mehmet.demir@sentinelbank.com.tr', 'CTO', 'IT'),
   ('11111111-1111-1111-1111-111111111111', 'Zeynep Kaya', 'zeynep.kaya@sentinelbank.com.tr', 'CRO', 'Risk Management')
 ON CONFLICT DO NOTHING;
+
 
 -- 2. FIX RLS: timesheets
 ALTER TABLE public.timesheets ENABLE ROW LEVEL SECURITY;
