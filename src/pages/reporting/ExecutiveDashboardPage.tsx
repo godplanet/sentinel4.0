@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { cn } from '@/shared/utils/cn';
 import { ShieldAlert, AlertTriangle, FileText, Download, Target, Activity, CheckCircle2, ChevronDown, FileText as WordIcon } from 'lucide-react';
 import { usePublishedReports, useCriticalFindings } from '@/features/reporting/api/useBoardBriefing';
@@ -149,13 +149,17 @@ export default function ExecutiveDashboardPage() {
                                {new Date(report.report_date).toLocaleDateString('tr-TR')}
                              </span>
                            </div>
-                           <h3 className="text-sm font-bold text-slate-700 mb-1">{report.title}</h3>
-                           <span className="text-[10px] text-slate-400">Versiyon: {report.version}.0</span>
+                           <h3 className="text-sm font-bold text-slate-700 mb-1">
+                             {typeof report.title === 'string' ? report.title : JSON.stringify(report.title)}
+                           </h3>
+                           <span className="text-[10px] text-slate-400">Versiyon: {String(report.version)}.0</span>
 
                            {/* AI Executive Summary */}
                            {report.executive_summary && (
                              <p className="mt-2 text-xs text-slate-600 leading-relaxed line-clamp-3">
-                               {report.executive_summary}
+                               {typeof report.executive_summary === 'string' 
+                                 ? report.executive_summary 
+                                 : JSON.stringify(report.executive_summary)}
                              </p>
                            )}
                          </div>
@@ -225,18 +229,22 @@ export default function ExecutiveDashboardPage() {
                   {safeFindings.map((finding) => (
                      <div key={finding.id} className="p-4 bg-rose-50/50 rounded-2xl border border-rose-100 hover:border-rose-300 transition-colors flex flex-col gap-2">
                        <div className="flex items-start justify-between">
-                         <h3 className="text-sm font-bold text-rose-900 leading-snug pr-4">{finding.title}</h3>
-                         <span className="shrink-0 text-[10px] font-black px-2 py-1 bg-rose-600 text-white rounded-md shadow-sm">
-                           {finding.severity}
-                         </span>
-                       </div>
-                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-rose-100/50">
-                          <span className="text-[10px] font-semibold text-rose-700 uppercase">
-                            {finding.institution || finding.engagement_title || 'Kurum Bilgisi Yok'}
+                          <h3 className="text-sm font-bold text-rose-900 leading-snug pr-4">
+                            {typeof finding.title === 'string' ? finding.title : JSON.stringify(finding.title)}
+                          </h3>
+                          <span className="shrink-0 text-[10px] font-black px-2 py-1 bg-rose-600 text-white rounded-md shadow-sm">
+                            {typeof finding.severity === 'string' ? finding.severity : JSON.stringify(finding.severity)}
                           </span>
-                          <span className="text-[10px] text-rose-500 bg-rose-100 px-1.5 py-0.5 rounded font-bold">
-                            Durum: {finding.status}
-                          </span>
+                        </div>
+                        <div className="flex items-center justify-between mt-2 pt-2 border-t border-rose-100/50">
+                           <span className="text-[10px] font-semibold text-rose-700 uppercase truncate max-w-[200px]">
+                             {typeof (finding.institution || finding.engagement_title) === 'string' 
+                               ? (finding.institution || finding.engagement_title) 
+                               : JSON.stringify(finding.institution || finding.engagement_title || 'Kurum Bilgisi Yok')}
+                           </span>
+                           <span className="text-[10px] text-rose-500 bg-rose-100 px-1.5 py-0.5 rounded font-bold">
+                             Durum: {typeof finding.status === 'string' ? finding.status : JSON.stringify(finding.status)}
+                           </span>
                        </div>
                      </div>
                   ))}
