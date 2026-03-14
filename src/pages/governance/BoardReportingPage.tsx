@@ -296,8 +296,8 @@ export default function BoardReportingPage() {
  const { data: resolutions = [] } = useResolutions();
 
  const totalEngagements = (executionStats || []).reduce((s, x) => s + x.count, 0);
- const criticalCount = criticalFindings.length;
- const escalationCount = escalations.length;
+ const criticalCount = criticalFindings?.length ?? 0;
+ const escalationCount = escalations?.length ?? 0;
  const openResolutionCount = (resolutions || []).filter(r => r?.status === 'OPEN').length;
 
  return (
@@ -307,7 +307,6 @@ export default function BoardReportingPage() {
  <PageHeader
  title="Yönetim Kurulu Raporlama"
  description="YK'ya sunulan icra özeti, kritik bulgular ve eskalasyonlar — C-Level panel"
- badge="GIAS 2024 / BDDK"
  />
 
  <div className="flex flex-wrap items-center gap-4 mt-4 py-3 px-4 rounded-xl bg-surface border border-slate-200 shadow-sm">
