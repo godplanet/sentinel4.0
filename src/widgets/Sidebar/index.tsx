@@ -295,21 +295,21 @@ export const Sidebar = () => {
   <div className="ml-3 fade-in overflow-hidden flex flex-col gap-1">
   <h1 className={clsx("font-bold text-lg tracking-tight drop-shadow-md", textLogo)}>SENTINEL</h1>
   <div className="flex items-center gap-2">
+  {environment !== 'PROD' && (
  <span className={clsx(
  'inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm ring-1 ring-black/20',
- environment === 'PROD' && 'bg-emerald-500/90 text-white',
  environment === 'UAT' && 'bg-amber-500 text-slate-900',
  environment === 'DEV' && 'bg-rose-500 text-white'
  )}>
  <span className={clsx(
  'w-1.5 h-1.5 rounded-full mr-1.5',
- environment === 'PROD' && 'bg-white',
  environment === 'UAT' && 'bg-slate-900',
  environment === 'DEV' && 'bg-white'
  )} />
   {environment === 'UAT' ? 'TEST' : environment}
   </span>
-  <span className={clsx("text-[9px] font-mono opacity-80", textMuted)}>{t('common.version')}3.0</span>
+  )}
+  <span className={clsx("text-[9px] font-mono opacity-80", textMuted)}>{t('common.version')}v 4.0</span>
   </div>
  </div>
  )}

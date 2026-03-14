@@ -119,69 +119,75 @@ const ORPHAN_COMPONENTS = [
 ];
 
 const DynamicComponentPreview = ({ path }: { path: string }) => {
- const [error, setError] = useState<string | null>(null);
+  const [Component, setComponent] = useState<React.ComponentType<any> | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
- const loaderPath = `/src/${path}`;
- const loader = componentModules[loaderPath];
+  React.useEffect(() => {
+    let isMounted = true;
+    const loaderPath = `/src/${path}`;
+    const loader = componentModules[loaderPath] as () => Promise<any>;
 
- if (!loader) {
- return (
- <div className="p-8 text-center text-slate-500 bg-slate-50 rounded-xl border border-dashed border-slate-300">
- Bileşen import edilemedi: <b>{loaderPath}</b>
- </div>
- );
- }
+    if (!loader) {
+      if (isMounted) setError('Bileşen import edilemedi: ' + loaderPath);
+      return;
+    }
 
- const LazyComponent = React.lazy(async () => {
- try {
- const module = await loader();
- // Assume default export, or the first exported component if no default exists
- const Component = (module as any).default || Object.values(module as Record<string, any>)[0];
- 
- if (!Component) {
- throw new Error('Bir React bileşeni export edilmemiş.');
- }
- return { default: Component };
- } catch (err: any) {
- console.error(err);
- setError(err.message);
- return { default: () => null };
- }
- });
+    setError(null);
+    setComponent(null);
 
- if (error) {
- return (
- <div className="p-6 bg-red-50 text-red-700 rounded-xl border border-red-200">
- <h3 className="font-bold flex items-center gap-2">
- <AlertCircle className="w-5 h-5" />
- Render Hatası
- </h3>
- <p className="mt-2 text-sm text-red-600">
- Bu bileşen tamamen yapılandırılmamış veya eksik proplar bekliyor.
- <br /><code>{error}</code>
- </p>
- </div>
- );
- }
+    loader()
+      .then((module: any) => {
+        if (!isMounted) return;
+        const Comp = module.default || Object.values(module)[0];
+        if (!Comp) throw new Error('Bir React bileşeni export edilmemiş.');
+        setComponent(() => Comp);
+      })
+      .catch((err: any) => {
+        if (isMounted) setError(err.message);
+      });
 
- return (
- <Suspense fallback={
- <div className="p-12 flex items-center justify-center">
- <div className="w-8 h-8 rounded-full border-2 border-slate-300 border-t-slate-900 animate-spin" />
- </div>
- }>
- <ErrorBoundary>
- <div className="border border-slate-200 rounded-xl overflow-hidden shadow-sm relative isolate bg-white">
- <div className="absolute top-0 right-0 px-3 py-1 bg-slate-900 text-white text-[10px] font-bold rounded-bl-lg z-50 opacity-50 hover:opacity-100 transition-opacity">
- PREVIEW MODE
- </div>
- <div className="p-4" style={{ minHeight: '300px' }}>
- <LazyComponent />
- </div>
- </div>
- </ErrorBoundary>
- </Suspense>
- );
+    return () => {
+      isMounted = false;
+    };
+  }, [path]);
+
+  if (error) {
+    return (
+      <div className="p-6 bg-red-50 text-red-700 rounded-xl border border-red-200">
+        <h3 className="font-bold flex items-center gap-2">
+          <AlertCircle className="w-5 h-5" />
+          Render Hatası
+        </h3>
+        <p className="mt-2 text-sm text-red-600">
+          Bu bileşen tamamen yapılandırılmamış veya eksik proplar bekliyor.
+          <br /><code>{error}</code>
+        </p>
+      </div>
+    );
+  }
+
+  if (!Component) {
+    return (
+      <div className="p-12 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-2 border-slate-300 border-t-slate-900 animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <ErrorBoundary>
+      <div className="border border-slate-200 rounded-xl overflow-hidden shadow-sm relative isolate bg-white">
+        <div className="absolute top-0 right-0 px-3 py-1 bg-slate-900 text-white text-[10px] font-bold rounded-bl-lg z-50 opacity-50 hover:opacity-100 transition-opacity">
+          PREVIEW MODE
+        </div>
+        <div className="p-4" style={{ minHeight: '300px' }}>
+          <Suspense fallback={<div className="p-4 text-center">Yükleniyor...</div>}>
+            <Component />
+          </Suspense>
+        </div>
+      </div>
+    </ErrorBoundary>
+  );
 };
 
 // Simple error boundary to catch hook errors from incomplete components

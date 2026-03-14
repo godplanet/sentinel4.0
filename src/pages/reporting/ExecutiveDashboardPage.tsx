@@ -30,7 +30,7 @@ export default function ExecutiveDashboardPage() {
     if (!criticalFindings) return { score: 0, level: 'Düşük Risk', openCritical: 0 };
     
     // Sadece kapanmamışlar
-    const openFindings = criticalFindings.filter(f => f.status.toUpperCase() !== 'CLOSED' && f.status.toUpperCase() !== 'RESOLVED');
+    const openFindings = criticalFindings.filter(f => f.status?.toUpperCase() !== 'CLOSED' && f.status?.toUpperCase() !== 'RESOLVED');
     const openCritCount = openFindings.length;
     
     // Basit Skorlama
@@ -57,7 +57,7 @@ export default function ExecutiveDashboardPage() {
 
   // Güvenli empty-state haritalama kalkanı (Safe mapping arrays)
   const safeReports = publishedReports || [];
-  const safeFindings = (criticalFindings || []).filter(f => f.status.toUpperCase() !== 'CLOSED' && f.status.toUpperCase() !== 'RESOLVED');
+  const safeFindings = (criticalFindings || []).filter(f => f.status?.toUpperCase() !== 'CLOSED' && f.status?.toUpperCase() !== 'RESOLVED');
 
   return (
     <div className="min-h-screen bg-slate-50 p-8 overflow-y-auto relative">

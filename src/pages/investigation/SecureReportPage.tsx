@@ -15,8 +15,10 @@ import {
  Send,
  Shield,
  ShieldCheck,
+ ArrowLeft
 } from 'lucide-react';
 import { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 type Phase = 'form' | 'submitting' | 'success';
 
@@ -69,6 +71,14 @@ export default function SecureReportPage() {
 
  return (
  <div className="min-h-screen flex items-center justify-center p-4">
+ {/* Back Button */}
+ <div className="absolute top-4 left-4 z-50">
+ <Link to="/" className="flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm font-medium bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur-sm shadow-md">
+ <ArrowLeft size={16} />
+ Ana Sayfaya Dön
+ </Link>
+ </div>
+ 
  <div className="absolute inset-0 overflow-hidden pointer-events-none">
  <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-900/10 rounded-full blur-3xl" />
  <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-900/10 rounded-full blur-3xl" />
@@ -282,7 +292,7 @@ export default function SecureReportPage() {
 
  <div className="text-center mt-6">
  <span className="text-[10px] text-slate-700">
- Sentinel GRC v3.0 - Gizli Bildirim Altyapisi
+ Sentinel GRC v 4.0 - Gizli Bildirim Altyapisi
  </span>
  </div>
  </motion.div>
