@@ -24,3 +24,32 @@ dist-ssr
 # Gizli API Anahtarı Barındıran Seed Scriptleri
 scripts/diagnose_sentinel.ts
 scripts/seed_dashboard.ts
+
+# Build outputs
+build/
+.cache/
+coverage/
+
+# Test artifacts
+playwright-report/
+test-results/
+
+# Temporary logs
+build_output*.txt
+eslint_output.txt
+eslint-tmp.txt
+post_clean_*.txt
+tsc_output.txt
+db_reset_output.txt
+proje_yapisi.txt
+*_tables.txt
+bg_pid_*.txt
+audit_fix.txt
+audit_report.txt
+
+# Legacy/temp scripts
+fix_*.mjs
+fluid_layout.mjs
+
+# Supabase disabled dumps
+*.sql.skip
