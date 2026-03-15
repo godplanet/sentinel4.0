@@ -76,6 +76,9 @@ export function SentinelChatPanel() {
  if (!chatOpen) return null;
 
  return (
+  <>
+   {/* Backdrop — click outside to close */}
+   <div className="fixed inset-0 z-40" onClick={() => setChatOpen(false)} />
  <div
  className={clsx(
  'fixed z-50 bg-surface border border-slate-200 shadow-2xl flex flex-col transition-all duration-300',
@@ -257,5 +260,6 @@ export function SentinelChatPanel() {
  </div>
  </div>
  </div>
+  </>
  );
 }
