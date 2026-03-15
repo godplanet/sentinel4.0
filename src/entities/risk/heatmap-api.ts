@@ -65,6 +65,25 @@ export function useRiskAssessments() {
  });
 }
 
+function pathToImpact(path: string): number {
+  if (/^org\.(vk|hq)\.(kredi|hazine|it)/.test(path)) return 5;
+  if (/^org\.(vk|hq)\./.test(path)) return 4;
+  if (/^proc\.kredi/.test(path)) return 5;
+  if (/^proc\./.test(path)) return 4;
+  if (/^prod\./.test(path)) return 3;
+  if (/^sub\./.test(path)) return 3;
+  if (/^tp\./.test(path)) return 4;
+  return 3;
+}
+
+function scoreToLikelihood(score: number): number {
+  if (score >= 81) return 1;
+  if (score >= 61) return 2;
+  if (score >= 41) return 3;
+  if (score >= 21) return 4;
+  return 5;
+}
+
 export function useHeatmapData() {
  return useQuery({
  queryKey: KEYS.heatmap,
@@ -77,11 +96,37 @@ export function useHeatmapData() {
 
  const { data: entities, error: eErr } = await supabase
  .from('audit_entities')
- .select('id, name, type')
+ .select('id, name, type, path, risk_score')
  .eq('tenant_id', TENANT);
  if (eErr) throw eErr;
 
- const entityMap = new Map((entities || []).map((e: { id: string; name: string; type: string }) => [e.id, e]));
+ const entityMap = new Map((entities || []).map((e: { id: string; name: string; type: string; path: string; risk_score: number }) => [e.id, e]));
+
+ if ((assessments || []).length === 0 && (entities || []).length > 0) {
+   const synthetic: AssessmentWithDetails[] = (entities || []).map((e: { id: string; name: string; type: string; path: string; risk_score: number }) => {
+     const impact = pathToImpact(e.path || '');
+     const likelihood = scoreToLikelihood(e.risk_score ?? 50);
+     const ctrl = Math.max(0.1, Math.min(0.9, 1 - (e.risk_score ?? 50) / 100));
+     return {
+       id: e.id,
+       tenant_id: TENANT,
+       entity_id: e.id,
+       risk_id: 'synthetic',
+       impact,
+       likelihood,
+       inherent_risk_score: impact * likelihood,
+       control_effectiveness: ctrl,
+       residual_score: Math.round(impact * likelihood * (1 - ctrl) * 10) / 10,
+       justification: '',
+       assessed_at: new Date().toISOString(),
+       risk_title: 'Genel Operasyonel Risk',
+       risk_category: e.type || 'Diger',
+       entity_name: e.name,
+       entity_type: e.type,
+     };
+   });
+   return synthetic;
+ }
 
  const enriched: AssessmentWithDetails[] = (assessments || []).map((a: RiskAssessment & { entity_id: string; risk_definition_id: string }) => {
  const entity = entityMap.get(a.entity_id);

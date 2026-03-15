@@ -21,30 +21,35 @@ import {
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-// ── Statik Varlık Risk Verileri ──────────────────────────────────────────────
-const STATIC_ENTITY_RISKS = [
-  { id: '1',  name: 'Kredi Bölümü',         category: 'org',  impact: 5, likelihood: 4, control: 60, trend: 'up' },
-  { id: '2',  name: 'Hazine Bölümü',         category: 'org',  impact: 5, likelihood: 3, control: 70, trend: 'stable' },
-  { id: '3',  name: 'IT / Dijital Dönüşüm',  category: 'org',  impact: 4, likelihood: 4, control: 55, trend: 'up' },
-  { id: '4',  name: 'Operasyon Bölümü',      category: 'org',  impact: 3, likelihood: 3, control: 75, trend: 'stable' },
-  { id: '5',  name: 'Uyum & Hukuk',          category: 'org',  impact: 4, likelihood: 2, control: 80, trend: 'down' },
-  { id: '6',  name: 'İnsan Kaynakları',      category: 'org',  impact: 2, likelihood: 2, control: 85, trend: 'stable' },
-  { id: '7',  name: 'Kredi Tahsis Süreci',   category: 'proc', impact: 5, likelihood: 4, control: 55, trend: 'up' },
-  { id: '8',  name: 'Kredi Takip Süreci',    category: 'proc', impact: 4, likelihood: 4, control: 50, trend: 'up' },
-  { id: '9',  name: 'Fon Yönetimi Süreci',   category: 'proc', impact: 5, likelihood: 3, control: 65, trend: 'stable' },
-  { id: '10', name: 'Müşteri Şikayetleri',   category: 'proc', impact: 2, likelihood: 3, control: 70, trend: 'down' },
-  { id: '11', name: 'KOBİ Finansmanı',       category: 'prod', impact: 4, likelihood: 3, control: 65, trend: 'stable' },
-  { id: '12', name: 'Bireysel Bankacılık',   category: 'prod', impact: 3, likelihood: 3, control: 75, trend: 'down' },
-  { id: '13', name: 'Kurumsal Finansman',    category: 'prod', impact: 5, likelihood: 3, control: 60, trend: 'stable' },
-  { id: '14', name: 'Şişli Şubesi',          category: 'sub',  impact: 3, likelihood: 3, control: 70, trend: 'up' },
-  { id: '15', name: 'Trabzon Şubesi',        category: 'sub',  impact: 2, likelihood: 2, control: 80, trend: 'stable' },
-  { id: '16', name: 'Kadıköy Şubesi',        category: 'sub',  impact: 3, likelihood: 2, control: 78, trend: 'down' },
-  { id: '17', name: 'BBT (Yazılım)',         category: 'tp',   impact: 4, likelihood: 3, control: 60, trend: 'stable' },
-  { id: '18', name: 'Mastercard',            category: 'tp',   impact: 3, likelihood: 2, control: 72, trend: 'down' },
-] as const;
-
 type RiskCat = 'org' | 'proc' | 'prod' | 'sub' | 'tp';
 type SortCol = 'name' | 'inherent' | 'residual' | 'control';
+
+function pathToImpact(path: string): number {
+  if (/^org\.(vk|hq)\.(kredi|hazine|it)/.test(path)) return 5;
+  if (/^org\.(vk|hq)\./.test(path)) return 4;
+  if (/^proc\.kredi/.test(path)) return 5;
+  if (/^proc\./.test(path)) return 4;
+  if (/^prod\./.test(path)) return 3;
+  if (/^sub\./.test(path)) return 3;
+  if (/^tp\./.test(path)) return 4;
+  return 3;
+}
+
+function scoreToLikelihood(score: number): number {
+  if (score >= 81) return 1;
+  if (score >= 61) return 2;
+  if (score >= 41) return 3;
+  if (score >= 21) return 4;
+  return 5;
+}
+
+function pathToCategory(path: string): RiskCat {
+  if (path.startsWith('proc.')) return 'proc';
+  if (path.startsWith('prod.')) return 'prod';
+  if (path.startsWith('sub.')) return 'sub';
+  if (path.startsWith('tp.')) return 'tp';
+  return 'org';
+}
 
 const CAT_META: Record<RiskCat, { label: string; cls: string }> = {
   org:  { label: 'Organizasyon', cls: 'bg-sky-100 text-sky-700' },
@@ -66,14 +71,25 @@ function riskLevel(score: number) {
 }
 
 function EntityRiskTable() {
+  const { data: entities = [], isLoading: entLoading } = useAuditEntities();
   const [sortCol, setSortCol] = useState<SortCol>('inherent');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
   const [filterCat, setFilterCat] = useState<RiskCat | 'all'>('all');
 
+  const allRows = useMemo(() => entities.map(e => ({
+    id: e.id,
+    name: e.name,
+    category: pathToCategory(e.path || ''),
+    impact: pathToImpact(e.path || ''),
+    likelihood: scoreToLikelihood(e.risk_score ?? 50),
+    control: Math.round(Math.max(10, Math.min(90, 100 - (e.risk_score ?? 50)))),
+    trend: 'stable' as const,
+  })), [entities]);
+
   const rows = useMemo(() => {
     const filtered = filterCat === 'all'
-      ? [...STATIC_ENTITY_RISKS]
-      : STATIC_ENTITY_RISKS.filter(r => r.category === filterCat);
+      ? [...allRows]
+      : allRows.filter(r => r.category === filterCat);
     return filtered.sort((a, b) => {
       let va = 0, vb = 0;
       if (sortCol === 'name') return sortDir === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
@@ -82,7 +98,7 @@ function EntityRiskTable() {
       if (sortCol === 'control')  { va = a.control; vb = b.control; }
       return sortDir === 'asc' ? va - vb : vb - va;
     });
-  }, [sortCol, sortDir, filterCat]);
+  }, [sortCol, sortDir, filterCat, allRows]);
 
   const toggle = (col: SortCol) => {
     if (sortCol === col) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
@@ -90,6 +106,12 @@ function EntityRiskTable() {
   };
   const SortIco = ({ col }: { col: SortCol }) =>
     sortCol === col ? (sortDir === 'desc' ? <ChevronDown size={11} className="inline ml-0.5" /> : <ChevronUp size={11} className="inline ml-0.5" />) : null;
+
+  if (entLoading) return (
+    <div className="bg-surface border border-slate-200 rounded-xl shadow-sm flex items-center justify-center py-8">
+      <Loader2 className="animate-spin text-slate-400" size={20} />
+    </div>
+  );
 
   return (
     <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
