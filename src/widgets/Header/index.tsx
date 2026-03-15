@@ -58,7 +58,7 @@ export const Header = () => {
   const initials = getInitials(persona.name);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-surface/95 backdrop-blur-xl h-11 print:hidden">
+    <header className="relative z-50 w-full border-b border-slate-200 bg-surface/95 backdrop-blur-xl h-11 shrink-0 print:hidden">
       <div className="flex h-full items-center px-3 gap-1.5">
 
         <button

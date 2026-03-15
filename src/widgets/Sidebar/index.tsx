@@ -278,23 +278,11 @@ export const Sidebar = () => {
  )}
  </div>
 
- {/* ── Ana Navigasyon (Standart 11 modül) ───────────────────────── */}
- <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
- {(filteredStandard || []).map((module) => renderNavModule(module, false))}
- </nav>
-
- {/* ── Sentinel Brain Bölümü (12. öğe — Sürekli Denetim & AI) ─── */}
- {sentinelBrainItem && (
- <div className="px-3 pt-1 pb-2 shrink-0">
- {/* Ambient glow backdrop */}
-
-
-
- <div className="relative">
- {renderNavModule(sentinelBrainItem as NavigationItem, false)}
- </div>
- </div>
- )}
+  {/* ── Navigasyon ────────────────────────────────────────────────── */}
+  <nav className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-3 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
+  {(filteredStandard || []).map((module) => renderNavModule(module, false))}
+  {sentinelBrainItem && renderNavModule(sentinelBrainItem as NavigationItem, false)}
+  </nav>
 
   </aside>
   );

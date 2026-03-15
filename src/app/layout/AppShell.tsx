@@ -28,7 +28,7 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
 
  return (
  <div className={cn(
- "flex min-h-screen bg-background text-foreground font-sans selection:bg-blue-100 selection:text-blue-900 overflow-hidden transition-colors duration-500 print:overflow-visible",
+ "flex h-screen bg-background text-foreground font-sans selection:bg-blue-100 selection:text-blue-900 overflow-hidden transition-colors duration-500 print:overflow-visible print:h-auto",
  isVDI && "perf-low"
  )}>
  <div className="print:hidden">
@@ -36,7 +36,7 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
  </div>
 
  <main className={cn(
- "flex-1 flex flex-col relative min-w-0 transition-all duration-300",
+ "flex-1 flex flex-col h-screen overflow-hidden relative min-w-0 transition-all duration-300",
  isSidebarOpen ? "ml-52 print:ml-0" : "ml-16 print:ml-0"
  )}>
  <div className="print:hidden">
