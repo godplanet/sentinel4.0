@@ -19,8 +19,7 @@ import {
  Eye,
  LogOut,
  Package,
- Shield,
- ShieldCheck,
+ Shield
  Sparkles,
  User,
  UserCog,
@@ -163,7 +162,7 @@ export const Sidebar = () => {
  to={module.path || '/'}
  title={module.label}
  className={clsx(
- 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[10px] transition-all',
+ 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[9px] transition-all',
  isActive
  ? `${bgActive} ${textActive}`
  : `${textMuted} ${bgHover} hover:${textActive}`,
@@ -171,8 +170,8 @@ export const Sidebar = () => {
  )}
  >
  <div className="flex items-center gap-3">
- {Icon && <Icon size={18} className="shrink-0" />}
- {isSidebarOpen && <span className="tracking-wide uppercase truncate max-w-[120px]">{module.label}</span>}
+ {Icon && <Icon size={14} className="shrink-0" />}
+ {isSidebarOpen && <span className="tracking-wide uppercase truncate max-w-[110px]">{module.label}</span>}
  </div>
  {isSidebarOpen && module.badge && (
  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold', getBadgeColors(module.badgeColor))}>
@@ -190,7 +189,7 @@ export const Sidebar = () => {
  onClick={() => toggleModule(module.id)}
  title={module.label}
  className={clsx(
- 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[10px] transition-all duration-200',
+ 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[9px] transition-all duration-200',
   isBrainSection
   ? isActive
   ? 'bg-indigo-500/25 text-indigo-700 shadow-[0_0_20px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40 backdrop-blur-sm'
@@ -213,7 +212,7 @@ export const Sidebar = () => {
  )}
  {isSidebarOpen && (
  <div className="flex items-center gap-2">
- <span className="tracking-wide uppercase truncate max-w-[120px]">{module.label}</span>
+ <span className="tracking-wide uppercase truncate max-w-[110px]">{module.label}</span>
  {module.badge && (
  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold', getBadgeColors(module.badgeColor))}>
  {module.badge}
@@ -224,8 +223,8 @@ export const Sidebar = () => {
  </div>
  {isSidebarOpen && (
  isExpanded
- ? <ChevronDown size={16} className="shrink-0 opacity-60" />
- : <ChevronRight size={16} className="shrink-0 opacity-60" />
+ ? <ChevronDown size={13} className="shrink-0 opacity-60" />
+ : <ChevronRight size={13} className="shrink-0 opacity-60" />
  )}
  </button>
 
@@ -250,7 +249,7 @@ export const Sidebar = () => {
  key={subItem.path}
  to={subItem.path}
  className={clsx(
- 'flex items-center gap-2 px-2 py-1 rounded-md text-[10px] font-medium transition-all',
+ 'flex items-center gap-2 px-2 py-1 rounded-md text-[9px] font-medium transition-all',
   isBrainSection
   ? isSubActive
   ? 'bg-indigo-500/20 text-indigo-700 shadow-[0_0_10px_rgba(99,102,241,0.2)] ring-1 ring-indigo-500/25 backdrop-blur-sm'
@@ -260,7 +259,7 @@ export const Sidebar = () => {
   : `${iconMuted} ${bgHover} hover:${textActive}`
   )}
  >
- {SubIcon && <SubIcon size={14} className="shrink-0" />}
+ {SubIcon && <SubIcon size={12} className="shrink-0" />}
  <span className="flex-1 truncate">{subItem.label}</span>
  {subItem.badge && (
  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold shrink-0', getBadgeColors(subItem.badgeColor))}>
@@ -279,7 +278,7 @@ export const Sidebar = () => {
   return (
   <aside
   className={clsx(
-  'fixed left-0 top-0 h-screen flex flex-col border-r transition-all duration-300 z-50 border-slate-700/30 shadow-xl print:hidden',
+  'fixed left-0 top-0 h-screen flex flex-col border-r transition-all duration-300 z-50 border-slate-700/30 shadow-xl print:hidden overflow-x-hidden',
   isSidebarOpen ? 'w-52' : 'w-16',
   textMain
   )}
@@ -287,9 +286,7 @@ export const Sidebar = () => {
   >
   {/* ── Logo / Başlık + Ortam Rozeti ───────────────────────────────── */}
   <div className={clsx("h-12 flex items-center px-4 border-b shrink-0 bg-black/5 backdrop-blur-sm", borderInner)}>
-  <div className="min-w-[32px] h-8 rounded-lg bg-surface/20 flex items-center justify-center backdrop-blur-md shadow-lg ring-1 ring-black/10">
-  <ShieldCheck className={clsx("w-4 h-4 drop-shadow-md", textLogo)} />
-  </div>
+  <img src={import.meta.env.BASE_URL + "logo.png"} alt="V-Sentinel" className="w-8 h-8 rounded object-contain shrink-0" />
   {isSidebarOpen && (
   <div className="ml-3 fade-in overflow-hidden flex flex-col gap-1">
   <h1 className={clsx("font-bold text-sm tracking-tight drop-shadow-md", textLogo)}>SENTINEL</h1>
@@ -315,7 +312,7 @@ export const Sidebar = () => {
  </div>
 
  {/* ── Ana Navigasyon (Standart 11 modül) ───────────────────────── */}
- <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
+ <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
  {(filteredStandard || []).map((module) => renderNavModule(module, false))}
  </nav>
 
