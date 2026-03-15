@@ -12,7 +12,6 @@ import { useUIStore } from '@/shared/stores/ui-store';
 import clsx from 'clsx';
 import {
  Brain,
- BrainCircuit,
  Building,
  CheckCircle,
  ChevronDown,
@@ -164,7 +163,7 @@ export const Sidebar = () => {
  to={module.path || '/'}
  title={module.label}
  className={clsx(
- 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition-all',
+ 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[10px] transition-all',
  isActive
  ? `${bgActive} ${textActive}`
  : `${textMuted} ${bgHover} hover:${textActive}`,
@@ -173,7 +172,7 @@ export const Sidebar = () => {
  >
  <div className="flex items-center gap-3">
  {Icon && <Icon size={18} className="shrink-0" />}
- {isSidebarOpen && <span className="tracking-wide uppercase">{module.label}</span>}
+ {isSidebarOpen && <span className="tracking-wide uppercase truncate max-w-[120px]">{module.label}</span>}
  </div>
  {isSidebarOpen && module.badge && (
  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold', getBadgeColors(module.badgeColor))}>
@@ -191,7 +190,7 @@ export const Sidebar = () => {
  onClick={() => toggleModule(module.id)}
  title={module.label}
  className={clsx(
- 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition-all duration-200',
+ 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[10px] transition-all duration-200',
   isBrainSection
   ? isActive
   ? 'bg-indigo-500/25 text-indigo-700 shadow-[0_0_20px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40 backdrop-blur-sm'
@@ -214,7 +213,7 @@ export const Sidebar = () => {
  )}
  {isSidebarOpen && (
  <div className="flex items-center gap-2">
- <span className="tracking-wide uppercase">{module.label}</span>
+ <span className="tracking-wide uppercase truncate max-w-[120px]">{module.label}</span>
  {module.badge && (
  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold', getBadgeColors(module.badgeColor))}>
  {module.badge}
@@ -251,7 +250,7 @@ export const Sidebar = () => {
  key={subItem.path}
  to={subItem.path}
  className={clsx(
- 'flex items-center gap-2 px-2 py-1 rounded-md text-[11px] font-medium transition-all',
+ 'flex items-center gap-2 px-2 py-1 rounded-md text-[10px] font-medium transition-all',
   isBrainSection
   ? isSubActive
   ? 'bg-indigo-500/20 text-indigo-700 shadow-[0_0_10px_rgba(99,102,241,0.2)] ring-1 ring-indigo-500/25 backdrop-blur-sm'
@@ -322,39 +321,13 @@ export const Sidebar = () => {
 
  {/* ── Sentinel Brain Bölümü (12. öğe — Sürekli Denetim & AI) ─── */}
  {sentinelBrainItem && (
- <div className="border-t border-indigo-500/20 px-3 pt-3 pb-2 shrink-0 relative">
+ <div className="px-3 pt-1 pb-2 shrink-0">
  {/* Ambient glow backdrop */}
- <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/40 via-transparent to-transparent pointer-events-none rounded-t-none" />
- <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
 
- {isSidebarOpen && (
- <div className="flex items-center gap-2 px-1 mb-2 relative">
- <div className="flex-1 h-px bg-gradient-to-r from-indigo-500/50 via-violet-500/30 to-transparent" />
- <div className="flex items-center gap-1.5">
- <BrainCircuit
- size={10}
- className="text-indigo-400 drop-shadow-[0_0_6px_rgba(99,102,241,1)]"
- />
- <span className="text-[8px] font-bold text-indigo-300/80 uppercase tracking-[0.2em] whitespace-nowrap">
- Sentinel AI
- </span>
- </div>
- <div className="flex-1 h-px bg-gradient-to-l from-indigo-500/50 via-violet-500/30 to-transparent" />
- </div>
- )}
- {!isSidebarOpen && (
- <div className="flex justify-center mb-2">
+
+
  <div className="relative">
- <div className="absolute inset-0 blur-md bg-indigo-500/40 rounded-full animate-pulse" />
- <BrainCircuit
- size={16}
- className="relative text-indigo-300 drop-shadow-[0_0_8px_rgba(99,102,241,1)]"
- />
- </div>
- </div>
- )}
- <div className="relative">
- {renderNavModule(sentinelBrainItem as NavigationItem, true)}
+ {renderNavModule(sentinelBrainItem as NavigationItem, false)}
  </div>
  </div>
  )}
