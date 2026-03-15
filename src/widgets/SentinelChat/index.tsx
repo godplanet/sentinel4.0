@@ -138,11 +138,11 @@ export function SentinelChatPanel() {
  <Settings size={14} />
  </button>
  <button
- onClick={() => setChatOpen(false)}
- className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md hover:bg-surface/10"
+  onClick={() => setChatOpen(false)}
+  className="ml-1 p-1.5 bg-rose-500 hover:bg-rose-600 text-white transition-colors rounded-md"
+  title="Kapat"
  >
- <X size={14} />
- </button>
+  <X size={15} />
  </div>
  </div>
 
