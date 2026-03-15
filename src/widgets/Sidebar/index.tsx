@@ -19,7 +19,7 @@ import {
  Eye,
  LogOut,
  Package,
- Shield
+ Shield,
  Sparkles,
  User,
  UserCog,
