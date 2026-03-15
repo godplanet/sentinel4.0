@@ -10,14 +10,163 @@ import { StrategicHeatmap } from '@/widgets/StrategicHeatmap';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import {
- Filter,
- Grid3x3,
- Loader2,
- Plus,
- Shield,
- X
+  ChevronDown,
+  ChevronUp,
+  Filter,
+  Grid3x3,
+  Loader2,
+  Plus,
+  Shield,
+  X,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
+
+// ── Statik Varlık Risk Verileri ──────────────────────────────────────────────
+const STATIC_ENTITY_RISKS = [
+  { id: '1',  name: 'Kredi Bölümü',         category: 'org',  impact: 5, likelihood: 4, control: 60, trend: 'up' },
+  { id: '2',  name: 'Hazine Bölümü',         category: 'org',  impact: 5, likelihood: 3, control: 70, trend: 'stable' },
+  { id: '3',  name: 'IT / Dijital Dönüşüm',  category: 'org',  impact: 4, likelihood: 4, control: 55, trend: 'up' },
+  { id: '4',  name: 'Operasyon Bölümü',      category: 'org',  impact: 3, likelihood: 3, control: 75, trend: 'stable' },
+  { id: '5',  name: 'Uyum & Hukuk',          category: 'org',  impact: 4, likelihood: 2, control: 80, trend: 'down' },
+  { id: '6',  name: 'İnsan Kaynakları',      category: 'org',  impact: 2, likelihood: 2, control: 85, trend: 'stable' },
+  { id: '7',  name: 'Kredi Tahsis Süreci',   category: 'proc', impact: 5, likelihood: 4, control: 55, trend: 'up' },
+  { id: '8',  name: 'Kredi Takip Süreci',    category: 'proc', impact: 4, likelihood: 4, control: 50, trend: 'up' },
+  { id: '9',  name: 'Fon Yönetimi Süreci',   category: 'proc', impact: 5, likelihood: 3, control: 65, trend: 'stable' },
+  { id: '10', name: 'Müşteri Şikayetleri',   category: 'proc', impact: 2, likelihood: 3, control: 70, trend: 'down' },
+  { id: '11', name: 'KOBİ Finansmanı',       category: 'prod', impact: 4, likelihood: 3, control: 65, trend: 'stable' },
+  { id: '12', name: 'Bireysel Bankacılık',   category: 'prod', impact: 3, likelihood: 3, control: 75, trend: 'down' },
+  { id: '13', name: 'Kurumsal Finansman',    category: 'prod', impact: 5, likelihood: 3, control: 60, trend: 'stable' },
+  { id: '14', name: 'Şişli Şubesi',          category: 'sub',  impact: 3, likelihood: 3, control: 70, trend: 'up' },
+  { id: '15', name: 'Trabzon Şubesi',        category: 'sub',  impact: 2, likelihood: 2, control: 80, trend: 'stable' },
+  { id: '16', name: 'Kadıköy Şubesi',        category: 'sub',  impact: 3, likelihood: 2, control: 78, trend: 'down' },
+  { id: '17', name: 'BBT (Yazılım)',         category: 'tp',   impact: 4, likelihood: 3, control: 60, trend: 'stable' },
+  { id: '18', name: 'Mastercard',            category: 'tp',   impact: 3, likelihood: 2, control: 72, trend: 'down' },
+] as const;
+
+type RiskCat = 'org' | 'proc' | 'prod' | 'sub' | 'tp';
+type SortCol = 'name' | 'inherent' | 'residual' | 'control';
+
+const CAT_META: Record<RiskCat, { label: string; cls: string }> = {
+  org:  { label: 'Organizasyon', cls: 'bg-sky-100 text-sky-700' },
+  proc: { label: 'Süreç',        cls: 'bg-amber-100 text-amber-700' },
+  prod: { label: 'Ürün',         cls: 'bg-emerald-100 text-emerald-700' },
+  sub:  { label: 'Şube',         cls: 'bg-rose-100 text-rose-700' },
+  tp:   { label: 'Üçüncü Taraf', cls: 'bg-violet-100 text-violet-700' },
+};
+
+function inherent(impact: number, lh: number) { return impact * lh; }
+function residual(impact: number, lh: number, ctrl: number) {
+  return Math.round(impact * lh * (1 - ctrl / 100) * 10) / 10;
+}
+function riskLevel(score: number) {
+  if (score >= 15) return { label: 'Kritik', cls: 'bg-red-100 text-red-800 border-red-300' };
+  if (score >= 10) return { label: 'Yüksek', cls: 'bg-orange-100 text-orange-800 border-orange-300' };
+  if (score >= 5)  return { label: 'Orta',   cls: 'bg-amber-100 text-amber-800 border-amber-300' };
+  return               { label: 'Düşük',  cls: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
+}
+
+function EntityRiskTable() {
+  const [sortCol, setSortCol] = useState<SortCol>('inherent');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
+  const [filterCat, setFilterCat] = useState<RiskCat | 'all'>('all');
+
+  const rows = useMemo(() => {
+    const filtered = filterCat === 'all'
+      ? [...STATIC_ENTITY_RISKS]
+      : STATIC_ENTITY_RISKS.filter(r => r.category === filterCat);
+    return filtered.sort((a, b) => {
+      let va = 0, vb = 0;
+      if (sortCol === 'name') return sortDir === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+      if (sortCol === 'inherent') { va = inherent(a.impact, a.likelihood); vb = inherent(b.impact, b.likelihood); }
+      if (sortCol === 'residual') { va = residual(a.impact, a.likelihood, a.control); vb = residual(b.impact, b.likelihood, b.control); }
+      if (sortCol === 'control')  { va = a.control; vb = b.control; }
+      return sortDir === 'asc' ? va - vb : vb - va;
+    });
+  }, [sortCol, sortDir, filterCat]);
+
+  const toggle = (col: SortCol) => {
+    if (sortCol === col) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+    else { setSortCol(col); setSortDir('desc'); }
+  };
+  const SortIco = ({ col }: { col: SortCol }) =>
+    sortCol === col ? (sortDir === 'desc' ? <ChevronDown size={11} className="inline ml-0.5" /> : <ChevronUp size={11} className="inline ml-0.5" />) : null;
+
+  return (
+    <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100 bg-slate-50/60 flex-wrap gap-2">
+        <div className="flex items-center gap-2">
+          <Shield size={14} className="text-blue-600" />
+          <span className="text-sm font-bold text-slate-800">Varlık Risk Skorları</span>
+          <span className="text-xs text-slate-400">({rows.length} varlık)</span>
+        </div>
+        <div className="flex items-center gap-1 flex-wrap">
+          {(['all', 'org', 'proc', 'prod', 'sub', 'tp'] as const).map(cat => (
+            <button key={cat} onClick={() => setFilterCat(cat)}
+              className={clsx('px-2 py-0.5 rounded text-[10px] font-bold border transition-all',
+                filterCat === cat
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'bg-white text-slate-500 border-slate-200 hover:border-blue-300'
+              )}>
+              {cat === 'all' ? 'Tümü' : CAT_META[cat].label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="border-b border-slate-100 bg-slate-50/40 text-slate-500">
+              <th className="text-left px-3 py-2 font-semibold cursor-pointer hover:text-slate-700" onClick={() => toggle('name')}>Varlık <SortIco col="name" /></th>
+              <th className="text-left px-3 py-2 font-semibold">Kategori</th>
+              <th className="text-center px-3 py-2 font-semibold">Etki</th>
+              <th className="text-center px-3 py-2 font-semibold">Olasılık</th>
+              <th className="text-center px-3 py-2 font-semibold cursor-pointer hover:text-slate-700" onClick={() => toggle('inherent')}>Ham Risk <SortIco col="inherent" /></th>
+              <th className="text-center px-3 py-2 font-semibold cursor-pointer hover:text-slate-700" onClick={() => toggle('control')}>Kontrol % <SortIco col="control" /></th>
+              <th className="text-center px-3 py-2 font-semibold cursor-pointer hover:text-slate-700" onClick={() => toggle('residual')}>Kalıntı <SortIco col="residual" /></th>
+              <th className="text-center px-3 py-2 font-semibold">Seviye</th>
+              <th className="text-center px-3 py-2 font-semibold">Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, i) => {
+              const inh = inherent(row.impact, row.likelihood);
+              const res = residual(row.impact, row.likelihood, row.control);
+              const lvl = riskLevel(inh);
+              const cat = CAT_META[row.category as RiskCat];
+              return (
+                <tr key={row.id} className={clsx('border-b border-slate-50 hover:bg-blue-50/30 transition-colors', i % 2 !== 0 && 'bg-slate-50/30')}>
+                  <td className="px-3 py-2 font-medium text-slate-700">{row.name}</td>
+                  <td className="px-3 py-2"><span className={clsx('px-1.5 py-0.5 rounded text-[10px] font-bold', cat.cls)}>{cat.label}</span></td>
+                  <td className="px-3 py-2 text-center font-bold text-slate-700">{row.impact}<span className="text-slate-300">/5</span></td>
+                  <td className="px-3 py-2 text-center font-bold text-slate-700">{row.likelihood}<span className="text-slate-300">/5</span></td>
+                  <td className="px-3 py-2 text-center">
+                    <span className={clsx('font-black text-sm', inh >= 15 ? 'text-red-600' : inh >= 10 ? 'text-orange-600' : inh >= 5 ? 'text-amber-600' : 'text-emerald-600')}>{inh}</span>
+                    <span className="text-slate-300">/25</span>
+                  </td>
+                  <td className="px-3 py-2">
+                    <div className="flex items-center gap-1.5 justify-center">
+                      <div className="w-14 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-blue-500 rounded-full" style={{ width: row.control + '%' }} />
+                      </div>
+                      <span className="font-medium text-slate-600">%{row.control}</span>
+                    </div>
+                  </td>
+                  <td className="px-3 py-2 text-center">
+                    <span className={clsx('font-bold text-sm', res >= 7 ? 'text-red-600' : res >= 4 ? 'text-amber-600' : 'text-emerald-600')}>{res.toFixed(1)}</span>
+                  </td>
+                  <td className="px-3 py-2 text-center"><span className={clsx('px-1.5 py-0.5 rounded border text-[10px] font-bold', lvl.cls)}>{lvl.label}</span></td>
+                  <td className="px-3 py-2 text-center text-base leading-none">
+                    {row.trend === 'up' ? <span className="text-red-500">↑</span> : row.trend === 'down' ? <span className="text-emerald-500">↓</span> : <span className="text-slate-400">→</span>}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
 
 export default function RiskHeatmapPage() {
  const { data: assessments = [], isLoading } = useHeatmapData();
@@ -80,6 +229,10 @@ export default function RiskHeatmapPage() {
  </div>
 
  <StrategicHeatmap />
+
+ <div className="mt-4">
+  <EntityRiskTable />
+ </div>
  </div>
 
  {showNewModal && (

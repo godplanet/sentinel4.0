@@ -214,10 +214,12 @@ export const calculateEntityGrade = (entity: AuditEntity) => {
  rawScore -= (entity.findings.kizil * SCORING.DEDUCTIONS.KIZIL);
  rawScore -= (entity.findings.turuncu * SCORING.DEDUCTIONS.TURUNCU);
  rawScore -= (entity.findings.sari * SCORING.DEDUCTIONS.SARI);
- // Gözlem bonusu: yalnızca düşük/orta bulgu varsa puanı hafifçe iyileştirir, asla 100'ü geçmez (clamp aşağıda)
- rawScore += Math.min(entity.findings.gozlem * SCORING.BONUS.GOZLEM_MULTIPLIER, SCORING.BONUS.GOZLEM_MAX);
-
- let finalScore = Math.min(100, Math.max(0, rawScore)); // Skor her zaman [0,100] aralığında kalmalı
+  // Gözlem bonusunu yalnızca mevcut skor 100 altındaysa uygula
+  if (rawScore < 100) {
+    rawScore += Math.min(entity.findings.gozlem * SCORING.BONUS.GOZLEM_MULTIPLIER, SCORING.BONUS.GOZLEM_MAX);
+  }
+  rawScore = Math.min(100, Math.max(0, rawScore)); // rawScore da [0,100] içinde kalmalı
+  let finalScore = rawScore;
  let vetoReason = null;
 
  if (entity.findings.shariah_systemic > 0) {
