@@ -138,7 +138,7 @@ export const Sidebar = () => {
  >
  <div className="flex items-center gap-3">
  {Icon && <Icon size={14} className="shrink-0" />}
- {isSidebarOpen && <span className="tracking-wide uppercase truncate max-w-[110px]">{module.label}</span>}
+ {isSidebarOpen && <span className="tracking-wide uppercase leading-tight break-words">{module.label}</span>}
  </div>
  {isSidebarOpen && module.badge && (
  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold', getBadgeColors(module.badgeColor))}>
@@ -179,7 +179,7 @@ export const Sidebar = () => {
  )}
  {isSidebarOpen && (
  <div className="flex items-center gap-2">
- <span className="tracking-wide uppercase truncate max-w-[110px]">{module.label}</span>
+ <span className="tracking-wide uppercase leading-tight break-words">{module.label}</span>
  {module.badge && (
  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold', getBadgeColors(module.badgeColor))}>
  {module.badge}
@@ -227,7 +227,7 @@ export const Sidebar = () => {
   )}
  >
  {SubIcon && <SubIcon size={12} className="shrink-0" />}
- <span className="flex-1 truncate">{subItem.label}</span>
+ <span className="flex-1 break-words leading-tight">{subItem.label}</span>
  {subItem.badge && (
  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold shrink-0', getBadgeColors(subItem.badgeColor))}>
  {subItem.badge}
