@@ -24,7 +24,7 @@ function App() {
  return (
  <ThemeProvider>
  <QueryClientProvider client={queryClient}>
- <BrowserRouter>
+ <BrowserRouter basename={import.meta.env.BASE_URL}>
  {!isComplete && (
  <SystemInitOverlay progress={progress} error={error} />
  )}
