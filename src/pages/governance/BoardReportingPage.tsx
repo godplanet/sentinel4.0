@@ -301,9 +301,9 @@ export default function BoardReportingPage() {
  const openResolutionCount = (resolutions || []).filter(r => r?.status === 'OPEN').length;
 
  return (
- <div className="min-h-screen bg-canvas w-full">
+ <div className="w-full overflow-x-hidden">
  <div className="w-full px-3 py-2">
- <div className="sticky top-0 z-20 bg-canvas/95 backdrop-blur-md border-b border-slate-200 -mx-3 px-3 pt-1 pb-2">
+ <div className="sticky top-0 z-20 bg-canvas/95 backdrop-blur-md border-b border-slate-200 pt-1 pb-2">
  <PageHeader
  title="Yönetim Kurulu Raporlama"
  description="YK'ya sunulan icra özeti, kritik bulgular ve eskalasyonlar — C-Level panel"
