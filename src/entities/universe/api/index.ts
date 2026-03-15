@@ -99,7 +99,7 @@ export function useCreateEntity() {
  if (error) throw error;
  return data as AuditEntity;
  },
- onSuccess: () => qc.invalidateQueries({ queryKey: KEYS.all }),
+ onSuccess: () => { qc.invalidateQueries({ queryKey: KEYS.all }); qc.invalidateQueries({ queryKey: ['audit-universe-live'] }); },
  });
 }
 
@@ -116,7 +116,7 @@ export function useUpdateEntity() {
  if (error) throw error;
  return data as AuditEntity;
  },
- onSuccess: () => qc.invalidateQueries({ queryKey: KEYS.all }),
+ onSuccess: () => { qc.invalidateQueries({ queryKey: KEYS.all }); qc.invalidateQueries({ queryKey: ['audit-universe-live'] }); },
  });
 }
 
@@ -130,7 +130,7 @@ export function useDeleteEntity() {
  .eq('id', id);
  if (error) throw error;
  },
- onSuccess: () => qc.invalidateQueries({ queryKey: KEYS.all }),
+ onSuccess: () => { qc.invalidateQueries({ queryKey: KEYS.all }); qc.invalidateQueries({ queryKey: ['audit-universe-live'] }); },
  });
 }
 export * from './taxonomy-api';
