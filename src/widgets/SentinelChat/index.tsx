@@ -143,9 +143,9 @@ export function SentinelChatPanel() {
   title="Kapat"
  >
   <X size={15} />
+ </button>
  </div>
  </div>
-
  <div className="flex items-center justify-between px-4 py-2 border-b border-slate-100 bg-canvas text-xs">
  <div className="flex items-center gap-2 text-slate-500">
  <MapPin size={12} />
