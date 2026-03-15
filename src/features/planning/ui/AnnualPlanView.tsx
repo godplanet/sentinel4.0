@@ -267,7 +267,7 @@ function SummaryView({ engagements, year }: { engagements: EngagementRow[]; year
  ];
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
  {[
  { label: 'Toplam Denetim', value: total, sub: `${year} yılı`, icon: Users, iconClass: 'bg-indigo-100', iconColor: 'text-indigo-600' },

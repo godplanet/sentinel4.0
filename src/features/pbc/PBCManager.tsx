@@ -140,7 +140,7 @@ Ornek: Kredi portfoy raporu, Yetki matrisi, Surec akis semasi gibi.`;
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div>
  <h2 className="text-lg font-bold text-primary flex items-center gap-2">

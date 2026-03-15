@@ -116,14 +116,14 @@ export default function SettingsConsolidatedPage() {
  </div>
  </div>
 
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  {activeTab === 'parameters' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <Database size={20} className="text-blue-600" />
  Sistem Parametreleri
  </h3>
- <p className="text-slate-600 mb-6">
+ <p className="text-slate-600 mb-4">
  Risk ağırlıkları, derecelendirme eşikleri ve iş akışı kuralları.
  </p>
 
@@ -132,7 +132,7 @@ export default function SettingsConsolidatedPage() {
  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
  </div>
  ) : (
- <div className="space-y-6">
+ <div className="space-y-4">
  {['risk', 'grading', 'workflow', 'notifications'].map((category) => {
  const categoryParams = (parameters || []).filter((p) => p.category === category);
  if (categoryParams.length === 0) return null;
@@ -169,7 +169,7 @@ export default function SettingsConsolidatedPage() {
  );
  })}
 
- <div className="border-2 border-red-200 bg-red-50 rounded-lg p-6 mt-8">
+ <div className="border-2 border-red-200 bg-red-50 rounded-lg p-4 mt-8">
  <div className="flex items-start gap-3 mb-4">
  <AlertTriangle className="text-red-600 mt-0.5" size={24} />
  <div className="flex-1">
@@ -237,13 +237,13 @@ export default function SettingsConsolidatedPage() {
  )}
 
  {activeTab === 'signals' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
  <DataSignalsPanel />
  </div>
  )}
 
  {activeTab === 'methodology' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
  <MethodologySettings />
  </div>
  )}
@@ -258,12 +258,12 @@ export default function SettingsConsolidatedPage() {
  )}
 
  {activeTab === 'appearance' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-5">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <Palette size={20} className="text-purple-600" />
  Görünüm Ayarları
  </h3>
- <p className="text-slate-600 mb-6">
+ <p className="text-slate-600 mb-4">
  Sidebar rengi ve tema ayarlarını özelleştirin.
  </p>
  <div className="max-w-2xl">
@@ -273,7 +273,7 @@ export default function SettingsConsolidatedPage() {
  )}
 
  {activeTab === 'users' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-5">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <UsersIcon size={20} className="text-green-600" />
  Kullanıcı ve Rol Yönetimi
@@ -290,7 +290,7 @@ export default function SettingsConsolidatedPage() {
  )}
 
  {activeTab === 'logs' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-5">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <FileText size={20} className="text-purple-600" />
  Sistem İşlem Logları

@@ -83,7 +83,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
  </div>
  </header>
 
- <main className="flex-1 flex flex-col items-center px-4 py-8">
+ <main className="flex-1 flex flex-col items-center px-4 py-5">
  <div className="w-full max-w-3xl flex flex-col lg:flex-row gap-6">
  <div className="flex-1 min-w-0">
  <div className="rounded-2xl border border-white/[0.07] bg-surface/[0.03] p-6 md:p-8 mb-6">
@@ -111,7 +111,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
  </button>
  </div>
 
- <p className="text-white text-base md:text-lg leading-relaxed font-medium mb-8">
+ <p className="text-white text-base md:text-lg leading-relaxed font-medium mb-4">
  {question.question_text}
  </p>
 

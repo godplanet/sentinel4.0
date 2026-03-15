@@ -73,9 +73,9 @@ export default function AuditStartPage() {
  icon={Rocket}
  />
 
- <div className="flex-1 overflow-auto p-6">
- <div className="w-full px-4 sm:px-6 lg:px-8">
- <div className="text-center mb-8">
+ <div className="flex-1 overflow-auto p-4">
+ <div className="w-full px-4 sm:px-6 lg:px-6">
+ <div className="text-center mb-4">
  <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
  <Rocket size={28} className="text-white" />
  </div>
@@ -109,7 +109,7 @@ export default function AuditStartPage() {
  </div>
  )}
 
- <div className={clsx('bg-gradient-to-br p-6 text-white', path.color)}>
+ <div className={clsx('bg-gradient-to-br p-4 text-white', path.color)}>
  <div className="w-14 h-14 bg-surface/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4">
  <Icon size={28} />
  </div>
@@ -117,7 +117,7 @@ export default function AuditStartPage() {
  <p className="text-sm opacity-90 mt-1">{path.subtitle}</p>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  <p className="text-sm text-slate-600 leading-relaxed">{path.description}</p>
 
  <div className="mt-4 space-y-2">

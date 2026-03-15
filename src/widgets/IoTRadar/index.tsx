@@ -231,7 +231,7 @@ export function IoTRadar() {
  </div>
 
  {/* Body */}
- <div className="flex-1 overflow-y-auto p-4 bg-slate-50/50 flex flex-col gap-6">
+ <div className="flex-1 overflow-y-auto p-4 bg-slate-50/50 flex flex-col gap-4">
  
  {/* Canlı Sensör Ağı Mapi (Mini Temsil) */}
  <div>
@@ -252,11 +252,11 @@ export function IoTRadar() {
  {/* İhlaller ve Alarmlar */}
  <div>
  {isLoadingBreaches ? (
- <div className="flex justify-center py-6">
+ <div className="flex justify-center py-4">
  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-teal-600"></div>
  </div>
  ) : activeBreaches.length === 0 ? (
- <div className="text-center py-6">
+ <div className="text-center py-4">
  <CheckCircle2 size={32} className="text-emerald-400 mx-auto mb-2" />
  <p className="text-xs font-semibold text-slate-500">Sistem odaları ve kasalar güvende.</p>
  </div>

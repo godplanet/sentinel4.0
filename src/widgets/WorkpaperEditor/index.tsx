@@ -195,7 +195,7 @@ export function WorkpaperEditor() {
  </div>
 
  {/* Content */}
- <div className="flex-1 overflow-y-auto p-6 space-y-6">
+ <div className="flex-1 overflow-y-auto p-4 space-y-6">
  {/* Objective */}
  <div className="glass-card p-4">
  <label className="block text-sm font-bold text-primary mb-2">Amaç</label>
@@ -275,7 +275,7 @@ export function WorkpaperEditor() {
  ))}
  </div>
  ) : (
- <div className="p-8 border-2 border-dashed border-slate-300 rounded-lg text-center">
+ <div className="p-5 border-2 border-dashed border-slate-300 rounded-lg text-center">
  <Paperclip size={32} className="mx-auto mb-2 text-slate-400" />
  <p className="text-sm text-slate-500">Dosya yükleme (TODO)</p>
  </div>

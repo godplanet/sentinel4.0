@@ -187,7 +187,7 @@ export function RKMLibrary() {
 
  <div className="flex-1 overflow-y-auto">
  {!selectedProcess ? (
- <div className="p-8 text-center text-slate-500">
+ <div className="p-5 text-center text-slate-500">
  <AlertCircle className="w-12 h-12 mx-auto mb-2 text-slate-300" />
  <p>Select a process to view risks</p>
  </div>
@@ -294,7 +294,7 @@ export function RKMLibrary() {
 
  <div className="flex-1 overflow-y-auto">
  {!selectedRisk ? (
- <div className="p-8 text-center text-slate-500">
+ <div className="p-5 text-center text-slate-500">
  <Shield className="w-12 h-12 mx-auto mb-2 text-slate-300" />
  <p>Select a risk to view controls</p>
  </div>
@@ -447,7 +447,7 @@ export function RKMLibrary() {
  </button>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  <ComplianceMapper
  controlId={selectedControlForMapping.id}
  controlTitle={selectedControlForMapping.title}
@@ -486,10 +486,10 @@ function ProcessModal({
  return (
  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
  <div className="bg-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h3 className="text-lg font-semibold text-primary">Add Process</h3>
  </div>
- <form onSubmit={handleSubmit} className="p-6 space-y-4">
+ <form onSubmit={handleSubmit} className="p-4 space-y-4">
  <div>
  <label className="block text-sm font-medium text-slate-700 mb-1">
  Code *
@@ -601,10 +601,10 @@ function RiskModal({
  return (
  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
  <div className="bg-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h3 className="text-lg font-semibold text-primary">Add Risk</h3>
  </div>
- <form onSubmit={handleSubmit} className="p-6 space-y-4">
+ <form onSubmit={handleSubmit} className="p-4 space-y-4">
  <div>
  <label className="block text-sm font-medium text-slate-700 mb-1">
  Risk Code
@@ -722,10 +722,10 @@ function ControlModal({
  return (
  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
  <div className="bg-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h3 className="text-lg font-semibold text-primary">Add Control</h3>
  </div>
- <form onSubmit={handleSubmit} className="p-6 space-y-4">
+ <form onSubmit={handleSubmit} className="p-4 space-y-4">
  <div>
  <label className="block text-sm font-medium text-slate-700 mb-1">
  Control Code *
@@ -900,13 +900,13 @@ function ImportModal({
  return (
  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
  <div className="bg-surface rounded-lg shadow-xl w-full max-w-md">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h3 className="text-lg font-semibold text-primary">Denetim Görevine İçe Aktar</h3>
  <p className="text-sm text-slate-500 mt-1">
  <strong>{controlCount}</strong> kontrol seçili
  </p>
  </div>
- <form onSubmit={handleSubmit} className="p-6 space-y-4">
+ <form onSubmit={handleSubmit} className="p-4 space-y-4">
  <div>
  <label className="block text-sm font-medium text-slate-700 mb-1">
  Denetim Görevi *

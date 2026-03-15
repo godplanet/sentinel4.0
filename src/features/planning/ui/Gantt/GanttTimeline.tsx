@@ -182,7 +182,7 @@ export function GanttTimeline({ planId, year, onEngagementClick }: GanttTimeline
  </div>
 
  <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
- <div className="flex items-center gap-6">
+ <div className="flex items-center gap-4">
  <div className="flex items-center gap-2">
  <div className="w-3 h-3 rounded bg-gradient-to-r from-blue-500/80 to-blue-600/80 border border-blue-400/30" />
  <span>Planlandı</span>

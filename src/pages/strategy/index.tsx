@@ -50,7 +50,7 @@ export default function StrategyPage() {
  </div>
  </div>
 
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  {activeTab === 'universe' && (
  <div className="space-y-4">
  <div className="flex items-center justify-between">
@@ -95,7 +95,7 @@ export default function StrategyPage() {
  {universeView === 'tree' && <UniverseTree />}
  {universeView === 'list' && <UniverseListView />}
  {universeView === 'scoring' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-5">
  <UniverseScoring />
  </div>
  )}
@@ -105,7 +105,7 @@ export default function StrategyPage() {
  {activeTab === 'risk' && <StrategicHeatmap />}
 
  {activeTab === 'plan' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-8">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-5">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <Calendar size={20} className="text-green-600" />
  Yillik Denetim Plani

@@ -68,7 +68,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
  className="fixed right-0 top-0 h-full w-[480px] backdrop-blur-2xl bg-surface/80 border-l border-white/30 shadow-2xl z-50 overflow-y-auto"
  >
  {/* Header */}
- <div className="sticky top-0 backdrop-blur-xl bg-surface/90 border-b border-white/30 p-6 z-10">
+ <div className="sticky top-0 backdrop-blur-xl bg-surface/90 border-b border-white/30 p-4 z-10">
  <div className="flex items-start justify-between">
  <div>
  <h3 className="text-xl font-bold text-slate-800">{entity.name}</h3>
@@ -88,7 +88,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
  initial={{ scale: 0.95 }}
  animate={{ scale: 1 }}
  className={`
- mt-4 p-6 rounded-2xl
+ mt-4 p-4 rounded-2xl
  backdrop-blur-xl border-2
  ${getNeonGlowClass(riskResult.risk_zone)}
  ${getPulseClass(riskResult.risk_zone)}
@@ -102,7 +102,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
  <div className="flex items-center justify-between">
  <div>
  <div className="text-sm text-slate-600 font-medium">Inherent Risk Score</div>
- <div className="text-4xl font-bold mt-1" style={{ color: riskResult.risk_color }}>
+ <div className="text-3xl font-bold mt-1" style={{ color: riskResult.risk_color }}>
  {riskResult.inherent_risk_score.toFixed(1)}
  </div>
  <div className="text-sm mt-1" style={{ color: riskResult.risk_color }}>
@@ -126,7 +126,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
  </div>
 
  {/* Parameters */}
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-6">
  {/* Impact Slider */}
  <div className="backdrop-blur-lg bg-surface/60 rounded-xl p-4 border border-white/30">
  <div className="flex items-center gap-2 mb-3">
@@ -295,7 +295,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
  </div>
 
  {/* Action Buttons */}
- <div className="sticky bottom-0 backdrop-blur-xl bg-surface/90 border-t border-white/30 p-6">
+ <div className="sticky bottom-0 backdrop-blur-xl bg-surface/90 border-t border-white/30 p-4">
  <div className="flex gap-3">
  <button
  onClick={onClose}

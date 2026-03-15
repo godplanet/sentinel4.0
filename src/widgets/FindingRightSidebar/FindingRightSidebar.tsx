@@ -85,7 +85,7 @@ export const FindingRightSidebar = ({ finding, isOpen: isOpenProp, onClose }: Fi
  </div>
 
  {/* Content */}
- <div className="h-[calc(100vh-4rem)] overflow-y-auto p-6">
+ <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
  {activeTab === 'detay' && <DetayTab finding={finding} />}
  {activeTab === 'tarihce' && <TarihceTab finding={finding} />}
  {activeTab === 'ai' && <AITab finding={finding} />}
@@ -99,7 +99,7 @@ export const FindingRightSidebar = ({ finding, isOpen: isOpenProp, onClose }: Fi
 
 const DetayTab = ({ finding }: { finding: ComprehensiveFinding }) => {
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div>
  <h3 className="text-sm font-semibold text-primary mb-3">Genel Bilgiler</h3>
  <div className="space-y-3">
@@ -322,9 +322,9 @@ const TarihceTab = ({ finding }: { finding: ComprehensiveFinding }) => {
 
 const AITab = () => {
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* Benzerlik Analizi */}
- <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-6 border border-purple-200">
+ <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
  <Sparkles className="w-5 h-5 text-white" />
@@ -432,7 +432,7 @@ const NotlarTab = () => {
  const [notes, setNotes] = useState('');
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div>
  <h3 className="text-sm font-semibold text-primary mb-3">Müfettiş Notları</h3>
  <p className="text-xs text-gray-600 mb-4">
@@ -489,10 +489,10 @@ const YorumTab = ({ finding }: { finding: ComprehensiveFinding }) => {
  const comments = finding.comments || [];
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div>
  <h3 className="text-sm font-semibold text-primary mb-3">Müzakere Yorumları</h3>
- <div className="space-y-4 mb-6">
+ <div className="space-y-4 mb-4">
  {comments.length > 0 ? (
  (comments || []).map((comment) => (
  <div key={comment.id} className="border-l-2 border-blue-200 pl-4">
@@ -518,7 +518,7 @@ const YorumTab = ({ finding }: { finding: ComprehensiveFinding }) => {
  </div>
  ))
  ) : (
- <div className="text-center py-8">
+ <div className="text-center py-5">
  <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-3" />
  <p className="text-sm text-gray-500">Henüz yorum eklenmedi</p>
  </div>

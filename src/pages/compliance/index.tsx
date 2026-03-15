@@ -4,14 +4,14 @@ import { FileCheck, Globe, Scale, Shield } from 'lucide-react';
 
 export default function CompliancePage() {
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Uyum Haritasi (CrossComply)"
  description="Regulasyonlar, cerceveler ve kontrol eslemelerini yonetin"
  icon={Shield}
  />
 
- <div className="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-xl p-6 text-white">
+ <div className="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-xl p-4 text-white">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
  <Scale className="w-6 h-6" />

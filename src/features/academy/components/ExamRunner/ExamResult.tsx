@@ -58,7 +58,7 @@ export function ExamResult({ onRetry, onBack }: ExamResultProps) {
 
  <div className="min-h-screen bg-[#070c18] flex items-center justify-center p-6">
  <div className="w-full max-w-2xl">
- <div className="text-center mb-8">
+ <div className="text-center mb-4">
  {passed ? (
  <>
  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full

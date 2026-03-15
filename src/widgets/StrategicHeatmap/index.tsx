@@ -91,7 +91,7 @@ export function StrategicHeatmap() {
  // ─── BDDK CİDDİYETİNDE HATA STATE ────────────────────────────────────────────
  if (assessmentsError || cometsError) {
  return (
- <div className="bg-red-50 border border-red-200 rounded-xl p-8">
+ <div className="bg-red-50 border border-red-200 rounded-xl p-5">
  <div className="flex flex-col items-center text-center max-w-sm mx-auto">
  <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4">
  <AlertTriangle className="text-red-500" size={28} />
@@ -126,7 +126,7 @@ export function StrategicHeatmap() {
  <AlertTriangle className="text-slate-400" size={32} />
  </div>
  <h3 className="text-lg font-bold text-slate-700 mb-2">Henuz Risk Degerlendirmesi Yok</h3>
- <p className="text-sm text-slate-500 mb-6">
+ <p className="text-sm text-slate-500 mb-4">
  Risk isi haritasini goruntulemek icin once varlik bazinda risk degerlendirmesi yapmaniz gerekiyor.
  </p>
  <div className="flex gap-3">
@@ -202,7 +202,7 @@ export function StrategicHeatmap() {
  </div>
 
  <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
- <div className="xl:col-span-2 bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="xl:col-span-2 bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  {viewMode === 'classic' ? (
  <ClassicGrid
  assessments={assessments}

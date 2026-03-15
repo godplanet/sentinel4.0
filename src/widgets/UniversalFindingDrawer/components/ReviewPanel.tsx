@@ -82,7 +82,7 @@ export function ReviewPanel({ findingId, currentUserId = '', isReviewer = false 
  const reviewerSignoff = signoffs.find((s) => s.role === 'REVIEWER');
 
  return (
- <div className="h-full flex flex-col space-y-6 animate-in fade-in duration-300">
+ <div className="h-full flex flex-col space-y-4 animate-in fade-in duration-300">
 
  {/* ALT SEKMELER */}
  <div className="flex items-center gap-2 bg-slate-200/50 p-1 rounded-lg shrink-0">
@@ -100,7 +100,7 @@ export function ReviewPanel({ findingId, currentUserId = '', isReviewer = false 
  {/* SEKME 1: GÖZDEN GEÇİRME NOTLARI */}
  {/* ======================================================================= */}
  {activeTab === 'notes' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <p className="text-xs font-medium text-slate-500">Müfettişin düzeltmesi gereken kalite sorunları.</p>
  {isReviewer && (
@@ -208,7 +208,7 @@ export function ReviewPanel({ findingId, currentUserId = '', isReviewer = false 
  {/* SEKME 2: ONAY KATMANI (4-Eyes) */}
  {/* ======================================================================= */}
  {activeTab === 'signoff' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
  <ShieldCheck className="text-blue-600 w-6 h-6 shrink-0 mt-0.5" />
  <div>

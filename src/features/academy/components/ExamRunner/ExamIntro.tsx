@@ -42,7 +42,7 @@ export function ExamIntro({ attemptCount }: ExamIntroProps) {
  return (
  <div className="min-h-screen bg-[#070c18] flex items-center justify-center p-6">
  <div className="w-full max-w-2xl">
- <div className="mb-8 text-center">
+ <div className="mb-4 text-center">
  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium mb-4"
  style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#94a3b8' }}>
  <BookOpen size={12} />
@@ -63,7 +63,7 @@ export function ExamIntro({ attemptCount }: ExamIntroProps) {
  )}
  </div>
 
- <div className="grid grid-cols-3 gap-3 mb-8">
+ <div className="grid grid-cols-3 gap-3 mb-4">
  <StatCard
  label="Süre"
  value={`${exam.time_limit_minutes} dk`}

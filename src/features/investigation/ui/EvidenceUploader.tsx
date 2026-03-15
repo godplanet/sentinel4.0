@@ -335,7 +335,7 @@ export function EvidenceUploader({ caseId, uploadedBy = '' }: EvidenceUploaderPr
  </div>
 
  {isLoading && (
- <div className="flex items-center justify-center py-8">
+ <div className="flex items-center justify-center py-5">
  <Loader2 size={22} className="animate-spin text-slate-600" />
  </div>
  )}
@@ -362,7 +362,7 @@ export function EvidenceUploader({ caseId, uploadedBy = '' }: EvidenceUploaderPr
  )}
 
  {!isLoading && !isError && (evidenceList || []).length === 0 && (
- <div className="text-center py-8">
+ <div className="text-center py-5">
  <CheckCircle2 size={24} className="mx-auto text-slate-700 mb-2" />
  <p className="text-xs text-slate-600">Henüz kanıt yüklenmemiş.</p>
  </div>

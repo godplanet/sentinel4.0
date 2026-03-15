@@ -263,7 +263,7 @@ function BiometricAuditRow({ audit: a }: { audit: BiometricAudit }) {
  <p className="text-[10px] text-slate-500">{a.channel} · User: {a.customer_id}</p>
  </div>
  </div>
- <div className="flex gap-6 text-center">
+ <div className="flex gap-4 text-center">
  <div>
  <p className="text-[10px] text-slate-400 uppercase font-bold mb-0.5">Canlılık (Liveliness)</p>
  <p className={clsx("text-sm font-black", Number(a.liveliness_score) < 50 ? 'text-red-600' : 'text-emerald-600')}>%{a.liveliness_score}</p>

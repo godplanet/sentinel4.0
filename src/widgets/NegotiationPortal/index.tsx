@@ -125,8 +125,8 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  return (
  <div className="grid grid-cols-12 h-screen overflow-hidden">
  <div className="col-span-7 bg-gradient-to-br from-white to-slate-50 overflow-auto">
- <div className="p-8 max-w-4xl mx-auto">
- <div className="backdrop-blur-xl bg-surface/95 rounded-2xl border border-gray-200/50 shadow-xl p-8 space-y-8">
+ <div className="p-5 max-w-4xl mx-auto">
+ <div className="backdrop-blur-xl bg-surface/95 rounded-2xl border border-gray-200/50 shadow-xl p-5 space-y-5">
  <div className="text-center pb-6 border-b border-gray-200">
  <div className="flex justify-center mb-4">{getRiskIcon(finding.risk_rating)}</div>
  <h1 className="text-3xl font-bold text-primary mb-2">{finding.title}</h1>
@@ -152,7 +152,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  <FileText className="h-5 w-5 text-blue-600" />
  <h2 className="text-xl font-semibold text-primary">Finding Description</h2>
  </div>
- <div className="bg-blue-50/50 rounded-lg p-6 border border-blue-100">
+ <div className="bg-blue-50/50 rounded-lg p-4 border border-blue-100">
  <p className="text-gray-700 leading-relaxed">
  {finding.description_public || finding.description || 'No description available'}
  </p>
@@ -165,7 +165,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  <AlertTriangle className="h-5 w-5 text-orange-600" />
  <h2 className="text-xl font-semibold text-primary">Impact</h2>
  </div>
- <div className="bg-orange-50/50 rounded-lg p-6 border border-orange-100">
+ <div className="bg-orange-50/50 rounded-lg p-4 border border-orange-100">
  <div
  className="prose prose-sm max-w-none text-gray-700"
  dangerouslySetInnerHTML={{ __html: finding.impact_html }}
@@ -180,7 +180,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  <CheckCircle className="h-5 w-5 text-green-600" />
  <h2 className="text-xl font-semibold text-primary">Recommendations</h2>
  </div>
- <div className="bg-green-50/50 rounded-lg p-6 border border-green-100">
+ <div className="bg-green-50/50 rounded-lg p-4 border border-green-100">
  <div
  className="prose prose-sm max-w-none text-gray-700"
  dangerouslySetInnerHTML={{ __html: finding.recommendation_html }}
@@ -216,15 +216,15 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  </div>
 
  <div className="col-span-5 bg-canvas border-l border-slate-200 overflow-auto">
- <div className="p-8">
- <div className="mb-8">
+ <div className="p-5">
+ <div className="mb-4">
  <h2 className="text-2xl font-bold text-primary mb-4">Your Response</h2>
  <WorkflowStepper currentStage={workflowStage} />
  </div>
 
  {workflowStage === 'REVIEW' && (
  <div className="space-y-4">
- <p className="text-gray-600 mb-6">
+ <p className="text-gray-600 mb-4">
  Please review the finding and choose your response:
  </p>
  <button
@@ -245,8 +245,8 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  )}
 
  {workflowStage === 'RESPONDING' && isAccepting && (
- <div className="space-y-6">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="space-y-4">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <h3 className="text-lg font-semibold text-primary mb-4">
  Action Plan Details
  </h3>
@@ -343,8 +343,8 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  )}
 
  {workflowStage === 'RESPONDING' && isDisputing && (
- <div className="space-y-6">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="space-y-4">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <h3 className="text-lg font-semibold text-primary mb-4">Dispute Reason</h3>
 
  <div>
@@ -393,10 +393,10 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  )}
 
  {workflowStage === 'SUBMITTED' && (
- <div className="bg-surface rounded-lg border border-slate-200 p-8 shadow-sm text-center">
+ <div className="bg-surface rounded-lg border border-slate-200 p-5 shadow-sm text-center">
  <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
  <h3 className="text-2xl font-bold text-primary mb-2">Response Submitted</h3>
- <p className="text-gray-600 mb-6">
+ <p className="text-gray-600 mb-4">
  Your response has been successfully submitted to the audit team.
  </p>
  {isAccepting && (
@@ -437,7 +437,7 @@ function WorkflowStepper({ currentStage }: WorkflowStepperProps) {
  const currentIndex = steps.findIndex((s) => s.id === currentStage);
 
  return (
- <div className="flex items-center justify-between mb-8">
+ <div className="flex items-center justify-between mb-4">
  {(steps || []).map((step, index) => (
  <div key={step.id} className="flex items-center flex-1">
  <div className="flex flex-col items-center flex-1">

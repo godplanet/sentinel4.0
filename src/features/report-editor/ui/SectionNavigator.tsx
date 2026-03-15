@@ -27,7 +27,7 @@ export function SectionNavigator() {
 
  <nav className="flex-1 py-2">
  {!activeReport ? (
- <div className="px-4 py-8 text-center text-sm font-sans text-slate-400">
+ <div className="px-4 py-5 text-center text-sm font-sans text-slate-400">
  Rapor yükleniyor...
  </div>
  ) : (

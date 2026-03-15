@@ -37,9 +37,9 @@ export default function DashboardGrid({ data }: DashboardGridProps) {
  const [activeTab, setActiveTab] = useState<TabType>('action');
 
  return (
- <div className="flex-1 bg-canvas p-8 overflow-y-auto">
- <div className="w-full px-4 sm:px-6 lg:px-8">
- <div className="mb-6">
+ <div className="flex-1 bg-canvas p-5 overflow-y-auto">
+ <div className="w-full px-4 sm:px-6 lg:px-6">
+ <div className="mb-4">
  <h1 className="text-3xl font-bold text-primary mb-2">
  Yönetim Kokpiti
  </h1>
@@ -48,7 +48,7 @@ export default function DashboardGrid({ data }: DashboardGridProps) {
  </p>
  </div>
 
- <div className="flex gap-2 mb-6 border-b border-gray-200">
+ <div className="flex gap-2 mb-4 border-b border-gray-200">
  <TabButton
  active={activeTab === 'action'}
  onClick={() => setActiveTab('action')}
@@ -132,8 +132,8 @@ function ActionAnalysisTab({ data }: { data: ExecutiveDashboardRow[] }) {
  ];
 
  return (
- <div className="space-y-6">
- <div className="grid grid-cols-3 gap-6">
+ <div className="space-y-4">
+ <div className="grid grid-cols-3 gap-4">
  <ChartCard title="Aksiyon Durumu">
  <div className="relative">
  <ResponsiveContainer width="100%" height={250}>
@@ -157,7 +157,7 @@ function ActionAnalysisTab({ data }: { data: ExecutiveDashboardRow[] }) {
  </ResponsiveContainer>
  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
  <div className="text-center" style={{ marginTop: '-15px' }}>
- <div className="text-4xl font-bold" style={{ color: '#ec4899' }}>{totalActions}</div>
+ <div className="text-3xl font-bold" style={{ color: '#ec4899' }}>{totalActions}</div>
  <div className="text-sm text-gray-600">Toplam</div>
  </div>
  </div>
@@ -193,7 +193,7 @@ function ActionAnalysisTab({ data }: { data: ExecutiveDashboardRow[] }) {
  </ChartCard>
  </div>
 
- <div className="grid grid-cols-2 gap-6">
+ <div className="grid grid-cols-2 gap-4">
  <ChartCard title="BDDK Madde 32: Aksiyon Statüsü (Kritik Analiz)">
  <ResponsiveContainer width="100%" height={300}>
  <BarChart data={regulatoryChartData} layout="vertical">
@@ -222,7 +222,7 @@ function ActionAnalysisTab({ data }: { data: ExecutiveDashboardRow[] }) {
  </ChartCard>
  </div>
 
- <div className="grid grid-cols-2 gap-6">
+ <div className="grid grid-cols-2 gap-4">
  <ChartCard title="Aksiyon Erteleme Dağılımı">
  <ResponsiveContainer width="100%" height={280}>
  <BarChart data={actionsByExtension}>
@@ -278,8 +278,8 @@ function FindingTrackingTab({ data }: { data: ExecutiveDashboardRow[] }) {
  }));
 
  return (
- <div className="space-y-6">
- <div className="grid grid-cols-2 gap-6">
+ <div className="space-y-4">
+ <div className="grid grid-cols-2 gap-4">
  <ChartCard title="Bulgu Yaşlandırma (Mutabakat Tarihinden İtibaren)">
  <ResponsiveContainer width="100%" height={300}>
  <AreaChart data={findingAging}>
@@ -372,7 +372,7 @@ function FindingTrackingTab({ data }: { data: ExecutiveDashboardRow[] }) {
 
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
  return (
- <div className="bg-surface rounded-xl shadow-sm border border-gray-200 p-6">
+ <div className="bg-surface rounded-xl shadow-sm border border-gray-200 p-4">
  <h3 className="text-lg font-semibold text-primary mb-4">{title}</h3>
  {children}
  </div>

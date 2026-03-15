@@ -43,7 +43,7 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
  <Header />
  </div>
 
- <div className="flex-1 overflow-auto px-4 py-5 lg:px-6 relative scroll-smooth print:overflow-visible print:p-0">
+ <div className="flex-1 overflow-auto px-4 py-3 lg:px-5 relative scroll-smooth print:overflow-visible print:p-0">
  <div className="relative z-10 w-full animate-in fade-in slide-in-from-bottom-4 duration-500 print:animate-none">
  {children}
  </div>

@@ -51,7 +51,7 @@ export function RuleAlertFeed({ alerts, onStatusChange }: Props) {
 
  if (alerts.length === 0) {
  return (
- <div className="bg-surface border border-slate-200 rounded-xl p-8 text-center">
+ <div className="bg-surface border border-slate-200 rounded-xl p-5 text-center">
  <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-3">
  <AlertTriangle size={20} className="text-emerald-600" />
  </div>

@@ -77,9 +77,9 @@ export function PolicyLibrary() {
  const pendingCount = policies.length - attestedCount;
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam Politika</span>
  <FileText className="w-5 h-5 text-slate-500" />
@@ -87,7 +87,7 @@ export function PolicyLibrary() {
  <p className="text-3xl font-bold text-primary">{policies.length}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Onaylandı</span>
  <CheckCircle2 className="w-5 h-5 text-green-500" />
@@ -95,7 +95,7 @@ export function PolicyLibrary() {
  <p className="text-3xl font-bold text-green-600">{attestedCount}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Bekleyen</span>
  <Shield className="w-5 h-5 text-amber-500" />
@@ -117,7 +117,7 @@ export function PolicyLibrary() {
  : 'border-slate-200 hover:border-blue-300'
  }`}
  >
- <div className="p-6">
+ <div className="p-4">
  <div className="flex items-start justify-between mb-4">
  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
  <FileText className="w-6 h-6 text-blue-600" />
@@ -230,8 +230,8 @@ export function PolicyLibrary() {
  </button>
  </div>
 
- <div className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
- <div className="bg-canvas border-2 border-dashed border-slate-300 rounded-lg p-12 text-center mb-6">
+ <div className="p-5 overflow-y-auto max-h-[calc(90vh-200px)]">
+ <div className="bg-canvas border-2 border-dashed border-slate-300 rounded-lg p-12 text-center mb-4">
  <Download className="w-16 h-16 mx-auto text-slate-400 mb-4" />
  <h3 className="text-lg font-semibold text-slate-700 mb-2">
  PDF Görüntüleyici (Mock)
@@ -246,7 +246,7 @@ export function PolicyLibrary() {
  )}
  </div>
 
- <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+ <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
  <h4 className="font-semibold text-blue-900 mb-2">Politika İçeriği (Özet)</h4>
  <div className="text-sm text-blue-800 space-y-2">
  <p>

@@ -52,7 +52,7 @@ export default function DashboardPage() {
 
  return (
  <>
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Yönetim Özeti"
  description="Sentinel GRC v3.0 - AI-Native Banking Audit Platform"
@@ -66,13 +66,13 @@ export default function DashboardPage() {
  />
 
  <div className="border-b border-slate-200 bg-surface rounded-xl shadow-sm">
- <div className="flex gap-1 px-6">
+ <div className="flex gap-1 px-4">
  {TABS.map((tab) => (
  <button
  key={tab.key}
  onClick={() => setActiveTab(tab.key)}
  className={clsx(
- 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
+ 'flex items-center gap-2 px-4 py-2 font-medium text-sm transition-all relative',
  activeTab === tab.key
  ? 'text-blue-600 border-b-2 border-blue-600'
  : 'text-slate-600 hover:text-primary hover:bg-canvas'
@@ -86,17 +86,17 @@ export default function DashboardPage() {
  </div>
 
  {activeTab === 'mission-control' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <MissionControlHero welcome={welcome} aiBrief={aiBrief} />
 
  <KPITicker kpis={kpiCards} />
 
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
  <div className="lg:col-span-2">
  <TaskWorkbench tasks={tasks} />
  </div>
 
- <div className="space-y-6">
+ <div className="space-y-4">
  <SystemHealthWidget />
  <LivePulse activities={activities} />
  <TeamPulseWidget />

@@ -160,7 +160,7 @@ export function BurnoutRadar() {
 
  if (isError || !data) {
  return (
- <div className="p-6 rounded-xl border border-red-200 bg-red-50 flex items-center gap-3">
+ <div className="p-4 rounded-xl border border-red-200 bg-red-50 flex items-center gap-3">
  <AlertTriangle className="text-red-500 w-6 h-6" />
  <p className="text-red-800 text-sm">İK ve tükenmişlik verileri yüklenirken bir iletişim hatası oluştu.</p>
  </div>
@@ -174,10 +174,10 @@ export function BurnoutRadar() {
  : scores;
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* Overview Banner (Glassmorphism) */}
- <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row gap-6 md:items-center justify-between border border-slate-700/50">
+ <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-4 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row gap-6 md:items-center justify-between border border-slate-700/50">
  <div className="absolute right-0 top-0 opacity-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
  <HeartPulse size={250} />
  </div>

@@ -15,7 +15,7 @@ export default function ProcessCanvasPage() {
  </div>
 
  {/* Kanvas — geri kalan alanı tam kaplar */}
- <div className="flex-1 min-h-0 mx-6 mb-6 rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm">
+ <div className="flex-1 min-h-0 mx-6 mb-4 rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm">
  <ProcessFlowEditor />
  </div>
  </div>

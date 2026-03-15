@@ -109,7 +109,7 @@ export function CharterViewer() {
  const archivedCharters = (charters || []).filter(c => c.approval_status === 'ARCHIVED');
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
  <div className="flex items-center justify-between mb-1">
@@ -158,7 +158,7 @@ export function CharterViewer() {
 
  <div className="space-y-2">
  {charters.length === 0 && (
- <div className="text-center py-8 border-2 border-dashed border-slate-200 rounded-lg">
+ <div className="text-center py-5 border-2 border-dashed border-slate-200 rounded-lg">
  <ScrollText className="mx-auto text-slate-300 mb-3" size={40} />
  <p className="text-sm text-slate-500 font-medium">Henuz yonetmelik eklenmedi</p>
  <button
@@ -263,7 +263,7 @@ export function CharterViewer() {
  </div>
  </div>
 
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-6">
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
  <div className="bg-canvas rounded-lg p-3">
  <p className="text-xs text-slate-500 font-medium">Durum</p>
@@ -305,7 +305,7 @@ export function CharterViewer() {
  <Eye size={16} />
  Belge Onizleme
  </h4>
- <div className="bg-canvas border border-slate-200 rounded-lg p-8 min-h-[300px]">
+ <div className="bg-canvas border border-slate-200 rounded-lg p-5 min-h-[300px]">
  {selected.content_url ? (
  <div className="flex flex-col items-center justify-center gap-4">
  <FileText size={48} className="text-blue-500" />
@@ -423,7 +423,7 @@ export function CharterViewer() {
  </button>
  </div>
 
- <div className="p-6 space-y-4">
+ <div className="p-4 space-y-4">
  <div>
  <label className="block text-sm font-semibold text-slate-700 mb-2">
  Baslik <span className="text-red-500">*</span>

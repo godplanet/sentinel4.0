@@ -117,7 +117,7 @@ function PurificationPanel() {
 
  if (!ncis || ncis.length === 0) {
  return (
- <div className="text-center py-6 text-emerald-600/60 bg-emerald-50/50 rounded-2xl border border-dashed border-emerald-200/60">
+ <div className="text-center py-4 text-emerald-600/60 bg-emerald-50/50 rounded-2xl border border-dashed border-emerald-200/60">
  <ShieldAlert className="w-8 h-8 mx-auto mb-2 opacity-30" />
  <p className="text-xs font-semibold">Arındırılması gereken gayri-İslami (Non-Compliant) gelir bulunmamaktadır.</p>
  </div>
@@ -170,7 +170,7 @@ function DisbursementsPanel({ obligationId }: { obligationId?: string }) {
 
  if (!filtered || filtered.length === 0) {
  return (
- <div className="text-center py-6 text-slate-400 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
+ <div className="text-center py-4 text-slate-400 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
  <Receipt className="w-8 h-8 mx-auto mb-2 opacity-30" />
  <p className="text-xs font-semibold">Bu döneme ait ödeme / bağış kaydı bulunamadı.</p>
  </div>
@@ -221,8 +221,8 @@ export default function ZakatLedgerPage() {
  const draftCount = (obligations || []).filter(o => o.status === 'Draft' || o.status === 'Pending Approval').length;
 
  return (
- <div className="min-h-screen p-6">
- <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+ <div className="min-h-screen p-4">
+ <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
  <div className="flex items-center gap-3 mb-1">
  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-800 to-teal-900 flex items-center justify-center shadow-sm border border-emerald-900/50">
  <Calculator className="w-5 h-5 text-emerald-100" />

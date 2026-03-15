@@ -144,11 +144,11 @@ export function BlockchainLedger() {
 
  {/* 2. Network Mock Tab */}
  {activeTab === 'network' && (
- <div className="p-8 h-[500px] flex items-center justify-center bg-slate-50">
+ <div className="p-5 h-[500px] flex items-center justify-center bg-slate-50">
  <div className="text-center">
  <Cpu size={48} className="mx-auto text-indigo-300 mb-4 animate-pulse" />
  <p className="text-base font-bold text-slate-700">Sentinel On-Premise Quorum Network</p>
- <p className="text-sm text-slate-500 mt-2 mb-6">Blok süresi: 5 Saniye · Konsensüs: IBFT · Node Sayısı: 4 (Validators)</p>
+ <p className="text-sm text-slate-500 mt-2 mb-4">Blok süresi: 5 Saniye · Konsensüs: IBFT · Node Sayısı: 4 (Validators)</p>
  <div className="inline-block border border-emerald-200 bg-emerald-50 text-emerald-700 font-mono text-xs px-3 py-1.5 rounded-lg">
  LATEST_BLOCK: 15501248
  </div>

@@ -157,7 +157,7 @@ export default function MissionControlPage() {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Ajan Komuta Merkezi"
  description="Sentinel Probes 2.0 -- Otonom Denetim Orkestrasyonu (ReAct Paradigmasi)"

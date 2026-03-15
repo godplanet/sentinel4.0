@@ -227,7 +227,7 @@ Kisa, kararlı ve aksiyon odakli yaz. Turkce yanit ver.`;
 
  if (loading) {
  return (
- <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-8">
+ <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-5">
  <div className="flex items-center justify-center">
  <Loader2 className="w-6 h-6 text-slate-400 animate-spin" />
  <span className="ml-2 text-sm text-slate-600">Risk verileri yükleniyor...</span>
@@ -238,7 +238,7 @@ Kisa, kararlı ve aksiyon odakli yaz. Turkce yanit ver.`;
 
  if (forecasts.length === 0) {
  return (
- <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-8">
+ <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-5">
  <div className="text-center text-slate-600">
  <Radar className="w-12 h-12 text-slate-400 mx-auto mb-2" />
  <p className="text-sm">Risk verisi bulunamadı</p>

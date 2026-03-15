@@ -59,7 +59,7 @@ export const TPRMDashboard = ({ onVendorClick }: Props) => {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
  <MetricCard icon={Building2} label="Toplam Tedarikcier" value={metrics.total} color="bg-slate-600" />
  <MetricCard icon={AlertTriangle} label="Tier 1 (Kritik)" value={metrics.tier1} color="bg-red-600" />
@@ -69,7 +69,7 @@ export const TPRMDashboard = ({ onVendorClick }: Props) => {
  </div>
 
  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
- <div className="bg-surface rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+ <div className="bg-surface rounded-2xl border border-slate-200/80 p-4 shadow-sm">
  <h3 className="text-sm font-bold text-slate-700 mb-1">Risk Tier Dagilimi</h3>
  <p className="text-xs text-slate-400 mb-4">Tedarikciler seviyeye gore</p>
  <div className="relative w-36 h-36 mx-auto">

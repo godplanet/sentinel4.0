@@ -190,7 +190,7 @@ export function AlgoTradingMonitor() {
  ) : (
  <div>
  {activeAlerts.length > 0 && (
- <div className="mb-6">
+ <div className="mb-4">
  <p className="text-[10px] font-black text-red-600 uppercase tracking-wider mb-2 ml-1 flex items-center gap-1.5">
  <Activity size={12} className="animate-pulse" /> Aksiyon Bekleyen Alarmlar
  </p>

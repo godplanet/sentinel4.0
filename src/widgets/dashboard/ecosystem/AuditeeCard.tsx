@@ -38,7 +38,7 @@ export function AuditeeCard() {
 
  if (loading) {
  return (
- <div className="bg-surface border-2 border-slate-200 rounded-2xl p-6 flex items-center justify-center min-h-[320px]">
+ <div className="bg-surface border-2 border-slate-200 rounded-2xl p-4 flex items-center justify-center min-h-[320px]">
  <Loader2 size={20} className="animate-spin text-slate-400" />
  </div>
  );

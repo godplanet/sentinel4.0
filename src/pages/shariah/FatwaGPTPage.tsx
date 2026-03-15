@@ -57,8 +57,8 @@ export default function FatwaGPTPage() {
  const suggestedQuestions = getSuggestedQuestions();
 
  return (
- <div className="min-h-screen p-6">
- <div className="w-full w-full px-4 sm:px-6 lg:px-8 mb-6">
+ <div className="min-h-screen p-4">
+ <div className="w-full w-full px-4 sm:px-6 lg:px-6 mb-4">
  <div className="flex items-center gap-3 mb-2">
  <BookOpen className="w-8 h-8 text-emerald-600" />
  <div>
@@ -71,9 +71,9 @@ export default function FatwaGPTPage() {
  </div>
  </div>
 
- <div className="w-full w-full px-4 sm:px-6 lg:px-8 space-y-6">
+ <div className="w-full w-full px-4 sm:px-6 lg:px-6 space-y-6">
  {/* Islamic Pattern Header */}
- <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 p-8 text-white">
+ <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 p-5 text-white">
  <div className="absolute inset-0 opacity-10" style={{
  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
  }} />
@@ -85,7 +85,7 @@ export default function FatwaGPTPage() {
  <p className="text-emerald-100">Halüsinasyon Yok • Sadece Kaynaklı Bilgi • Şer'i Uyumlu</p>
  </div>
  </div>
- <div className="flex items-center gap-6 text-sm">
+ <div className="flex items-center gap-4 text-sm">
  <div className="flex items-center gap-2">
  <BookOpen className="w-4 h-4" />
  <span>{isStandardsLoading ? '...' : standards.length} Standart</span>
@@ -105,8 +105,8 @@ export default function FatwaGPTPage() {
  <div className="grid lg:grid-cols-3 gap-6">
  {/* Main Chat Interface */}
  <div className="lg:col-span-2 space-y-6">
- <GlassCard className="p-6">
- <div className="flex items-center gap-3 mb-6">
+ <GlassCard className="p-4">
+ <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
  <Sparkles className="w-5 h-5 text-white" />
  </div>
@@ -117,7 +117,7 @@ export default function FatwaGPTPage() {
  </div>
 
  {/* Query Input */}
- <div className="relative mb-6">
+ <div className="relative mb-4">
  <textarea
  value={query}
  onChange={(e) => setQuery(e.target.value)}
@@ -169,7 +169,7 @@ export default function FatwaGPTPage() {
 
  {/* Response Display */}
  {response && (
- <GlassCard className="p-6 space-y-6">
+ <GlassCard className="p-4 space-y-6">
  {/* Ruling Badge */}
  <div className="flex items-start gap-4">
  <div className={`p-3 rounded-xl ${
@@ -246,7 +246,7 @@ export default function FatwaGPTPage() {
  </div>
 
  {/* Sidebar */}
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* Quick Stats */}
  <GlassCard className="p-4">
  <h3 className="font-semibold text-primary mb-4">Bilgi Bankası</h3>

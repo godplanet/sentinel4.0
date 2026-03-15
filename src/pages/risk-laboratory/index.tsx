@@ -95,7 +95,7 @@ export default function RiskLaboratoryPage() {
  icon={FlaskConical}
  />
 
- <div className="flex-1 overflow-auto p-6 space-y-6">
+ <div className="flex-1 overflow-auto p-4 space-y-6">
  <div className="grid grid-cols-4 gap-4">
  <StatBox label="MAE (Ort. Mutlak Hata)" value={stats.mae} color={Number(stats.mae) <= 10 ? 'green' : 'red'} />
  <StatBox label="Dogruluk (+-10 puan)" value={`${stats.accuracy}%`} color={Number(stats.accuracy) >= 70 ? 'green' : 'red'} />

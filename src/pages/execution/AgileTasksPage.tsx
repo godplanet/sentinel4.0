@@ -133,7 +133,7 @@ export default function AgileTasksPage() {
  />
 
  {showList && (
- <div className="flex-1 p-6">
+ <div className="flex-1 p-4">
  {engagementsLoading ? (
  <div className="flex items-center justify-center h-48">
  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
@@ -213,7 +213,7 @@ export default function AgileTasksPage() {
  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600" />
  </div>
  ) : !selectedEngagement ? (
- <div className="flex-1 flex items-center justify-center p-6">
+ <div className="flex-1 flex items-center justify-center p-4">
  <div className="text-center">
  <Briefcase size={48} className="mx-auto text-slate-300 mb-4" />
  <p className="text-slate-600 font-medium">Denetim bulunamadı</p>
@@ -227,7 +227,7 @@ export default function AgileTasksPage() {
  </div>
  ) : (
  <div className="flex-1 flex gap-0 min-h-0">
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  <div className="mb-4 flex items-center justify-between flex-wrap gap-3">
  <div className="flex items-center gap-3 flex-wrap">
  <button
@@ -285,7 +285,7 @@ export default function AgileTasksPage() {
 
  {/* Kanban seçili, id yok, denetim var: hangi denetimin panosunu açacağını seç */}
  {viewMode === 'kanban' && !engagementId && engagements.length > 0 && (
- <div className="flex-1 p-6">
+ <div className="flex-1 p-4">
  <p className="text-sm text-slate-500 mb-4">Kanban için bir denetim seçin:</p>
  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
  {engagements.slice(0, 6).map((eng) => (
@@ -306,7 +306,7 @@ export default function AgileTasksPage() {
 
  {/* Kanban seçili ama hiç denetim yok: boş durum */}
  {viewMode === 'kanban' && !engagementId && engagements.length === 0 && !engagementsLoading && (
- <div className="flex-1 p-6 flex items-center justify-center">
+ <div className="flex-1 p-4 flex items-center justify-center">
  <div className="text-center py-16 border-2 border-dashed border-slate-200 rounded-xl bg-surface max-w-md">
  <Kanban className="mx-auto text-slate-300 mb-4" size={48} />
  <p className="text-slate-600 font-medium mb-2">Kanban için denetim gerekli</p>

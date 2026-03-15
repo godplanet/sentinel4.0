@@ -128,7 +128,7 @@ export default function CustomFieldsPage() {
  icon={Settings2}
  />
 
- <div className="flex-1 overflow-auto p-6 space-y-6">
+ <div className="flex-1 overflow-auto p-4 space-y-6">
  <div className="flex items-center justify-between">
  <div className="flex bg-surface border border-slate-200 p-0.5 rounded-lg shadow-sm">
  {(Object.keys(MODULE_CONFIG) as EntityModule[]).map(m => (
@@ -241,7 +241,7 @@ export default function CustomFieldsPage() {
  <X size={16} className="text-white" />
  </button>
  </div>
- <div className="p-6 space-y-4">
+ <div className="p-4 space-y-4">
  <div className="grid grid-cols-2 gap-4">
  <div>
  <label className="block text-sm font-semibold text-slate-700 mb-1">Alan Adi (key)</label>

@@ -20,7 +20,7 @@ export function DelayRiskTable({ delayRisks }: DelayRiskTableProps) {
 
  if (delayRisks.length === 0) {
  return (
- <div className="bg-surface/90 backdrop-blur-xl rounded-xl border border-slate-200 p-8 shadow-sm">
+ <div className="bg-surface/90 backdrop-blur-xl rounded-xl border border-slate-200 p-5 shadow-sm">
  <div className="text-center">
  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
  <Clock size={32} className="text-green-600" />

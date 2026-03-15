@@ -151,7 +151,7 @@ export function ActionSuperDrawer({
  isBddk={action.is_bddk_breach}
  />
 
- <div className="p-6 bg-[#FDFBF7]">
+ <div className="p-4 bg-[#FDFBF7]">
  {activeTab === 'context' && (
  <TraceabilityGoldenThread action={action} />
  )}

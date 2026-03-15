@@ -162,7 +162,7 @@ function PenaltyPredictorPanel({ referenceId }: { referenceId: string }) {
 
  if (isLoading) {
  return (
- <div className="flex items-center gap-2 py-8 justify-center text-slate-400">
+ <div className="flex items-center gap-2 py-5 justify-center text-slate-400">
  <div className="w-4 h-4 border-2 border-red-300 border-t-red-700 rounded-full animate-spin" />
  <span className="text-xs">AI Risk Motoru çalışıyor...</span>
  </div>
@@ -179,7 +179,7 @@ function PenaltyPredictorPanel({ referenceId }: { referenceId: string }) {
 
  if (!penalties || penalties.length === 0) {
  return (
- <div className="text-center py-6 text-emerald-600/60 bg-emerald-50/50 rounded-2xl border border-dashed border-emerald-200/60">
+ <div className="text-center py-4 text-emerald-600/60 bg-emerald-50/50 rounded-2xl border border-dashed border-emerald-200/60">
  <CheckCircle2 className="w-8 h-8 mx-auto mb-2 opacity-30" />
  <p className="text-xs font-semibold">Bu dosya için henüz AI tahminlemesi (Provision) çıkarılmamış.</p>
  <p className="text-[10px] mt-1 text-emerald-600/50">Risksiz kabul ediliyor.</p>
@@ -300,8 +300,8 @@ export default function LitigationPage() {
  const hasSelection = selectedCaseId !== null || selectedInvId !== null;
 
  return (
- <div className="min-h-screen p-6">
- <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+ <div className="min-h-screen p-4">
+ <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
  <div className="flex items-center gap-3 mb-1">
  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-800 to-rose-900 flex items-center justify-center shadow-sm border border-red-900/50">
  <Scale className="w-5 h-5 text-red-100" />
@@ -330,7 +330,7 @@ export default function LitigationPage() {
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
  
  {/* Sol Kolon: Listeler */}
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* Investigations (Soruşturmalar) - Üstte */}
  <div>

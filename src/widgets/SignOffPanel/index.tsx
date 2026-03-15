@@ -32,8 +32,8 @@ export const SignOffPanel = ({
  const canPrepare = !isPrepared && !isReviewer;
 
  return (
- <div className="bg-surface/80 backdrop-blur-xl border border-gray-200 rounded-lg shadow-xl p-6">
- <div className="flex items-center gap-2 mb-6">
+ <div className="bg-surface/80 backdrop-blur-xl border border-gray-200 rounded-lg shadow-xl p-4">
+ <div className="flex items-center gap-2 mb-4">
  <ShieldCheck className="w-5 h-5 text-blue-600" />
  <h3 className="font-semibold text-primary">İmza Katmanı</h3>
  <span className="text-xs text-gray-500">(Four Eyes Principle)</span>

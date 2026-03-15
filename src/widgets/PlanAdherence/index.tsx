@@ -85,7 +85,7 @@ export function PlanAdherence({ data = DEMO_DATA }: { data?: AdherenceData }) {
  }));
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
  <GaugeCard
  label="Plan Uyum Orani"

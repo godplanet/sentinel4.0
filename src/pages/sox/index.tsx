@@ -10,7 +10,7 @@ export default function SoxPage() {
  const [view, setView] = useState<ViewMode>('president');
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="SOX / ICFR Uyum Modulu"
  description="Yonetici beyanlari, kontrol etkinlik testleri ve Cryo-Chamber degismezlik kayitlari"

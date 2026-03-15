@@ -51,10 +51,10 @@ export function ApexDashboard() {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* 1. Hero / God's Eye Metric */}
- <div className="bg-gradient-to-br from-indigo-900 to-slate-900 rounded-3xl p-8 relative overflow-hidden shadow-2xl border border-indigo-500/30">
+ <div className="bg-gradient-to-br from-indigo-900 to-slate-900 rounded-3xl p-5 relative overflow-hidden shadow-2xl border border-indigo-500/30">
  
  {/* Background Decorative Rings */}
  <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -102,8 +102,8 @@ export function ApexDashboard() {
  </div>
 
  {/* 2. Historical Trend Chart */}
- <div className="bg-white/70 backdrop-blur border border-slate-200 rounded-3xl p-6 shadow-sm">
- <h3 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
+ <div className="bg-white/70 backdrop-blur border border-slate-200 rounded-3xl p-4 shadow-sm">
+ <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
  <Activity size={18} className="text-indigo-500" /> Sağlık Skoru Trendi
  </h3>
  <div className="h-64 w-full">

@@ -280,7 +280,7 @@ export function ThreatRadar() {
  }
  if (isError) {
  return (
- <div className="rounded-xl border border-amber-200 bg-amber-50 p-6 text-center">
+ <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-center">
  <AlertTriangle className="mx-auto w-8 h-8 text-amber-400 mb-2" />
  <p className="text-sm text-amber-800">Tehdit verileri yüklenirken hata oluştu.</p>
  </div>

@@ -147,7 +147,7 @@ export function ExcelImportModal({
 
  <div className="flex-1 overflow-auto p-6">
  {step === 'upload' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center gap-3">
  <span className="text-sm font-semibold text-slate-700">Hedef Modul:</span>
  <div className="flex gap-2">
@@ -273,7 +273,7 @@ export function ExcelImportModal({
  )}
  </div>
  <p className="text-lg font-bold text-primary">Aktarim Tamamlandi</p>
- <div className="flex items-center justify-center gap-6">
+ <div className="flex items-center justify-center gap-4">
  <div className="text-center">
  <p className="text-2xl font-black text-green-600">{importResult.success}</p>
  <p className="text-xs text-slate-500">Basarili</p>

@@ -325,7 +325,7 @@ export default function AuditUniversePage() {
  const selectedEntities = (universe || []).filter(e => selectedIds.has(e.id));
 
  return (
- <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6 bg-canvas min-h-screen font-sans">
+ <div className="w-full px-4 sm:px-6 lg:px-6 py-5 space-y-6 bg-canvas min-h-screen font-sans">
 
  {/* HEADER */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -380,7 +380,7 @@ export default function AuditUniversePage() {
 
  {/* KPI CARDS */}
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 xl:grid-cols-3 gap-6">
- <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl p-6 shadow-md border border-slate-700 relative overflow-hidden flex flex-col justify-between">
+ <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl p-4 shadow-md border border-slate-700 relative overflow-hidden flex flex-col justify-between">
  <div className="absolute -right-6 -top-6 text-white/5"><Scale size={160} /></div>
  <div className="relative z-10">
  <h2 className="text-slate-300 text-xs font-bold uppercase tracking-widest mb-1 flex items-center gap-2">
@@ -399,7 +399,7 @@ export default function AuditUniversePage() {
  </div>
  </div>
 
- <div className="xl:col-span-2 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 shadow-md border border-slate-700/50 flex flex-col justify-center relative overflow-hidden">
+ <div className="xl:col-span-2 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-4 shadow-md border border-slate-700/50 flex flex-col justify-center relative overflow-hidden">
  <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-500 rounded-full opacity-10 blur-3xl pointer-events-none"></div>
  <div className="flex items-start gap-4 relative z-10">
  <div className="p-3 bg-blue-500/20 rounded-xl border border-blue-500/30 shrink-0"><BrainCircuit className="w-6 h-6 text-blue-300" /></div>
@@ -826,7 +826,7 @@ export default function AuditUniversePage() {
  initial={{ opacity: 0, y: 60 }}
  animate={{ opacity: 1, y: 0 }}
  exit={{ opacity: 0, y: 60 }}
- className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 bg-slate-900 text-white rounded-2xl shadow-2xl px-6 py-4 flex items-center gap-6 border border-slate-700"
+ className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 bg-slate-900 text-white rounded-2xl shadow-2xl px-6 py-4 flex items-center gap-4 border border-slate-700"
  >
  <div className="flex items-center gap-2 text-sm">
  <CheckSquare size={18} className="text-blue-400" />
@@ -867,7 +867,7 @@ export default function AuditUniversePage() {
  exit={{ opacity: 0, scale: 0.95, y: 20 }}
  className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[90vh] overflow-hidden relative z-10"
  >
- <div className="flex items-center justify-between p-6 border-b border-slate-100 shrink-0">
+ <div className="flex items-center justify-between p-4 border-b border-slate-100 shrink-0">
  <div>
  <h3 className="text-xl font-bold text-primary">Denetim Görevi Oluştur</h3>
  <p className="text-sm text-slate-500 mt-1">Risk bazlı otomatik kapsam ve bütçe hesaplanır</p>
@@ -880,7 +880,7 @@ export default function AuditUniversePage() {
  </button>
  </div>
 
- <div className="p-6 overflow-y-auto flex-1 bg-canvas">
+ <div className="p-4 overflow-y-auto flex-1 bg-canvas">
  <div className="bg-surface rounded-xl border border-slate-200 p-4 mb-5">
  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Seçili Varlıklar</div>
  <div className="space-y-2">
@@ -905,7 +905,7 @@ export default function AuditUniversePage() {
  </div>
  </div>
 
- <div className="flex gap-3 p-6 border-t border-slate-100 shrink-0 bg-surface">
+ <div className="flex gap-3 p-4 border-t border-slate-100 shrink-0 bg-surface">
  <button
  onClick={() => !isBulkCreating && setShowBulkModal(false)}
  disabled={isBulkCreating}

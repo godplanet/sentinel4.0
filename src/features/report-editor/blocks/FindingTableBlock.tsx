@@ -148,7 +148,7 @@ export function FindingTableBlock({
 
  if (activeFindings.length === 0) {
  return (
- <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-8">
+ <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-5">
  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
  <div className="relative flex items-start gap-4">
  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">

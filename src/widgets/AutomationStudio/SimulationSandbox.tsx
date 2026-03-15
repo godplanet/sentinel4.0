@@ -121,7 +121,7 @@ export const SimulationSandbox = () => {
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200/60 p-5">
  <div className="flex items-start gap-3">
  <FlaskConical className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />

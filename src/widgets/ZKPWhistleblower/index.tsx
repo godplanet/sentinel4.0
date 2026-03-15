@@ -208,10 +208,10 @@ function DecryptionPanel({ report }: { report: ZkpEncryptedReport }) {
  </div>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  
  {/* Payload Section */}
- <div className="mb-8">
+ <div className="mb-4">
  <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
  <FileText size={14} /> İhbar Metni (Payload)
  </h4>

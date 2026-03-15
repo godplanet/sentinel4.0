@@ -46,14 +46,14 @@ export default function StakeholderManagementPage() {
  return ENGAGEMENT_TYPES[level || 'MEDIUM'] || ENGAGEMENT_TYPES.MEDIUM;
  };
  return (
- <div className="p-8 space-y-6">
+ <div className="p-5 space-y-6">
  <PageHeader
  title="Paydaş Yönetimi"
  description="İç ve dış paydaşlarla etkileşim ve iletişim yönetimi"
  badge="MODÜL 3: YÖNETİŞİM & ETİK"
  />
 
- <div className="bg-gradient-to-br from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl p-6 shadow-sm">
+ <div className="bg-gradient-to-br from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shrink-0">
  <Users className="w-6 h-6 text-white" />
@@ -75,7 +75,7 @@ export default function StakeholderManagementPage() {
  { label: 'Düzenleyiciler', value: (stakeholders || []).filter(s => s.type === 'REGULATOR').length.toString(), icon: Building, color: 'red' },
  { label: 'Yüksek Etkileşim', value: (stakeholders || []).filter(s => s.influence_level === 'HIGH').length.toString(), icon: MessageCircle, color: 'green' },
  ].map((stat, i) => (
- <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <div className="flex items-center justify-between mb-4">
  <div className={`w-10 h-10 rounded-lg bg-${stat.color}-100 flex items-center justify-center`}>
  <stat.icon size={20} className={`text-${stat.color}-600`} />
@@ -88,7 +88,7 @@ export default function StakeholderManagementPage() {
  </div>
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Users size={20} className="text-blue-600" />
  Paydaş Listesi
@@ -121,13 +121,13 @@ export default function StakeholderManagementPage() {
  <tbody className="divide-y divide-slate-200">
  {loading ? (
  <tr>
- <td colSpan={6} className="px-6 py-8 text-center text-slate-600">
+ <td colSpan={6} className="px-6 py-5 text-center text-slate-600">
  Yükleniyor...
  </td>
  </tr>
  ) : stakeholders.length === 0 ? (
  <tr>
- <td colSpan={6} className="px-6 py-8 text-center text-slate-600">
+ <td colSpan={6} className="px-6 py-5 text-center text-slate-600">
  Paydaş bulunamadı
  </td>
  </tr>
@@ -191,7 +191,7 @@ export default function StakeholderManagementPage() {
  </div>
 
  <div className="grid lg:grid-cols-2 gap-6">
- <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-slate-800 mb-4">Etkileşim Haritası</h3>
  <div className="space-y-4">
  {Object.entries(STAKEHOLDER_TYPES).map(([key, type]) => {
@@ -212,7 +212,7 @@ export default function StakeholderManagementPage() {
  </div>
  </div>
 
- <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-slate-800 mb-4">Yaklaşan Toplantılar</h3>
  <div className="space-y-3">
  {[

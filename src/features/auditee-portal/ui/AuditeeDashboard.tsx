@@ -183,7 +183,7 @@ export const AuditeeDashboard = () => {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* Stats Cards */}
  <div className="grid grid-cols-4 gap-4">
  <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">

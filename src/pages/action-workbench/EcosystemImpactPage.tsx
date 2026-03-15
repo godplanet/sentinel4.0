@@ -8,8 +8,8 @@ import React from 'react';
 
 const EcosystemImpactPage: React.FC = () => {
  return (
- <div className="min-h-screen bg-[#FDFBF7] p-8">
- <div className="w-full px-4 sm:px-6 lg:px-8 space-y-8">
+ <div className="min-h-screen bg-[#FDFBF7] p-5">
+ <div className="w-full px-4 sm:px-6 lg:px-6 space-y-5">
  <motion.div
  initial={{ opacity: 0, y: -10 }}
  animate={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ const EcosystemImpactPage: React.FC = () => {
  initial={{ opacity: 0, y: 12 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.3 }}
- className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-6 space-y-4"
+ className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-4 space-y-4"
  >
  <div>
  <h3 className="font-sans text-sm font-semibold text-primary">Autonomous Remediation Engine</h3>

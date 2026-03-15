@@ -83,8 +83,8 @@ const Module7HubPage: React.FC = () => {
  const navigate = useNavigate();
 
  return (
- <div className="min-h-screen bg-[#FDFBF7] p-8 md:p-12">
- <div className="w-full px-4 sm:px-6 lg:px-8 space-y-12">
+ <div className="min-h-screen bg-[#FDFBF7] p-5 md:p-12">
+ <div className="w-full px-4 sm:px-6 lg:px-6 space-y-12">
 
  <motion.div
  initial={{ opacity: 0, y: -12 }}
@@ -99,7 +99,7 @@ const Module7HubPage: React.FC = () => {
  <span className="font-mono text-xs text-slate-500 tracking-widest uppercase">Sentinel v3.0 — Module 7</span>
  </div>
 
- <h1 className="font-serif text-4xl md:text-5xl text-primary leading-tight max-w-3xl">
+ <h1 className="font-serif text-3xl md:text-5xl text-primary leading-tight max-w-3xl">
  Action Tracking &amp; Governance
  </h1>
  <p className="text-base text-slate-500 font-sans max-w-2xl leading-relaxed">
@@ -124,7 +124,7 @@ const Module7HubPage: React.FC = () => {
  initial="hidden"
  animate="visible"
  onClick={() => navigate(zone.route)}
- className={`group relative text-left bg-surface/70 backdrop-blur-md border-2 ${zone.accent} shadow-sm rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5`}
+ className={`group relative text-left bg-surface/70 backdrop-blur-md border-2 ${zone.accent} shadow-sm rounded-2xl p-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5`}
  >
  <div className="space-y-4">
  <div className="flex items-start justify-between">
@@ -169,7 +169,7 @@ const Module7HubPage: React.FC = () => {
  </div>
 
  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
- <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-6 flex flex-col justify-between">
+ <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-4 flex flex-col justify-between">
  <div className="space-y-3">
  <p className="font-mono text-[10px] text-slate-400 uppercase tracking-widest">Nihai Mühürleme</p>
  <h3 className="font-serif text-xl text-primary">Rapor Mühürleme (4 Göz)</h3>
@@ -187,7 +187,7 @@ const Module7HubPage: React.FC = () => {
  </button>
  </div>
  </div>
- <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-6 flex flex-col justify-between">
+ <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-4 flex flex-col justify-between">
  <div className="space-y-3">
  <p className="font-mono text-[10px] text-slate-400 uppercase tracking-widest">Legal Record</p>
  <h3 className="font-serif text-xl text-primary">Official Remediation Dossier</h3>

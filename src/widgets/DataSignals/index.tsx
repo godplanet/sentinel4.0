@@ -109,7 +109,7 @@ export function DataSignalsPanel() {
  const activeCount = (configs || []).filter(c => c.is_active).length;
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div>
  <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
@@ -237,9 +237,9 @@ export function DataSignalsPanel() {
  initial={{ opacity: 0, scale: 0.95 }}
  animate={{ opacity: 1, scale: 1 }}
  exit={{ opacity: 0, scale: 0.95 }}
- className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-6"
+ className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-4"
  >
- <div className="flex items-center justify-between mb-6">
+ <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
  <Radio size={18} className="text-blue-600" />

@@ -298,7 +298,7 @@ export default function CognitiveEnginePage() {
         </div>
       </div>
 
-      <div className="p-6 space-y-5">
+      <div className="p-4 space-y-5">
         {tab === 'connection' && (
           <>
             {/* Provider Seçimi */}

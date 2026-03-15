@@ -63,7 +63,7 @@ export function TemplatePicker({ templates, onSelect, onBlank, onClose }: Templa
  </button>
 
  {templates.length === 0 ? (
- <div className="text-center py-8 text-sm text-slate-400">
+ <div className="text-center py-5 text-sm text-slate-400">
  Henuz sablon bulunmuyor
  </div>
  ) : (

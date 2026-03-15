@@ -30,8 +30,8 @@ export const QAPhase: React.FC<QAPhaseProps> = ({ finding, onUpdate }) => {
   const isComplete = checklist.length === QA_CHECKLIST.length;
 
   return (
-    <div className="space-y-6">
-      <div className="p-6 bg-white/70 backdrop-blur-lg border border-slate-200 shadow-sm rounded-xl hover:shadow-[0_0_15px_rgba(79,70,229,0.05)] transition-shadow">
+    <div className="space-y-4">
+      <div className="p-4 bg-white/70 backdrop-blur-lg border border-slate-200 shadow-sm rounded-xl hover:shadow-[0_0_15px_rgba(79,70,229,0.05)] transition-shadow">
         <div className="flex items-center gap-2 mb-4">
           <CheckCircle2 size={20} className="text-indigo-600" />
           <h3 className="text-sm font-bold text-slate-800">QAIP Kontrol Listesi</h3>
@@ -68,7 +68,7 @@ export const QAPhase: React.FC<QAPhaseProps> = ({ finding, onUpdate }) => {
         </div>
       </div>
 
-      <div className="p-6 bg-white/70 backdrop-blur-lg border border-slate-200 shadow-sm rounded-xl">
+      <div className="p-4 bg-white/70 backdrop-blur-lg border border-slate-200 shadow-sm rounded-xl">
         <div className="flex items-center gap-2 mb-4">
           <FileText size={20} className="text-slate-600" />
           <h3 className="text-sm font-bold text-slate-800">İnceleme Notları</h3>

@@ -119,7 +119,7 @@ export default function PredatorCockpit() {
  description="Continuous Control Monitoring with AI-Powered Anomaly Detection"
  />
 
- <div className="w-full px-4 sm:px-6 lg:px-8 p-6 space-y-6">
+ <div className="w-full px-4 sm:px-6 lg:px-6 p-4 space-y-6">
  {/* İstatistik Kartları */}
  <div className="grid grid-cols-4 gap-4">
  <motion.div
@@ -283,14 +283,14 @@ export default function PredatorCockpit() {
  <tbody>
  {isLoading ? (
  <tr>
- <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
+ <td colSpan={7} className="px-4 py-5 text-center text-slate-500">
  <Activity className="w-5 h-5 animate-pulse mx-auto mb-2 text-blue-400" />
  Uyarılar yükleniyor...
  </td>
  </tr>
  ) : rawAlerts.length === 0 ? (
  <tr>
- <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
+ <td colSpan={7} className="px-4 py-5 text-center text-slate-500">
  Uyarı bulunamadı. Anomali tespit etmek için tarama başlatın.
  </td>
  </tr>

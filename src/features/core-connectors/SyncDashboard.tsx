@@ -286,7 +286,7 @@ export function SyncDashboard() {
 
  <div className="space-y-2">
  {(recentLogs || []).length === 0 ? (
- <p className="text-xs text-slate-400 text-center py-8">Henüz aktivite yok.</p>
+ <p className="text-xs text-slate-400 text-center py-5">Henüz aktivite yok.</p>
  ) : (
  (recentLogs || []).map((log) => {
  const isOk = log.status === 'SUCCESS';

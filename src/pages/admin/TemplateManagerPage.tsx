@@ -11,7 +11,7 @@ export default function TemplateManagerPage() {
  icon={LayoutTemplate}
  />
 
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  <TemplateBuilder />
  </div>
  </div>

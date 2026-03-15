@@ -87,11 +87,11 @@ export const PlanetPulse = () => {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <motion.div
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
- className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-800 via-teal-900 to-slate-950 p-8 text-white"
+ className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-800 via-teal-900 to-slate-950 p-5 text-white"
  >
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/15 via-transparent to-transparent" />
  <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-cyan-400/10 to-transparent rounded-full blur-3xl" />
@@ -139,7 +139,7 @@ export const PlanetPulse = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.1 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
  <Zap size={14} className="text-emerald-600" />
@@ -157,7 +157,7 @@ export const PlanetPulse = () => {
  </AreaChart>
  </ResponsiveContainer>
  ) : (
- <p className="text-xs text-slate-400 text-center py-8">Veri bulunamadi</p>
+ <p className="text-xs text-slate-400 text-center py-5">Veri bulunamadi</p>
  )}
  <div className="flex items-center gap-4 mt-3">
  <div className="flex items-center gap-1.5">
@@ -175,7 +175,7 @@ export const PlanetPulse = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.2 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
  <Leaf size={14} className="text-teal-600" />
@@ -192,7 +192,7 @@ export const PlanetPulse = () => {
  </LineChart>
  </ResponsiveContainer>
  ) : (
- <p className="text-xs text-slate-400 text-center py-8">Veri bulunamadi</p>
+ <p className="text-xs text-slate-400 text-center py-5">Veri bulunamadi</p>
  )}
  {garData.length > 0 && (
  <div className="grid grid-cols-2 gap-3 mt-3">
@@ -214,7 +214,7 @@ export const PlanetPulse = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.3 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
  <Users size={14} className="text-cyan-600" />
@@ -241,7 +241,7 @@ export const PlanetPulse = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.35 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
  <TrendingDown size={14} className="text-blue-600" />
@@ -260,7 +260,7 @@ export const PlanetPulse = () => {
  </LineChart>
  </ResponsiveContainer>
  ) : (
- <p className="text-xs text-slate-400 text-center py-8">Veri bulunamadi</p>
+ <p className="text-xs text-slate-400 text-center py-5">Veri bulunamadi</p>
  )}
  </motion.div>
  </div>
@@ -270,7 +270,7 @@ export const PlanetPulse = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.4 }}
- className="bg-red-50/80 backdrop-blur-xl rounded-2xl border border-red-200/60 shadow-lg p-6"
+ className="bg-red-50/80 backdrop-blur-xl rounded-2xl border border-red-200/60 shadow-lg p-4"
  >
  <h3 className="text-sm font-bold text-red-700 mb-4 flex items-center gap-2">
  <AlertTriangle size={14} />
@@ -304,7 +304,7 @@ export const PlanetPulse = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.5 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
  <Lock size={14} className="text-slate-400" />

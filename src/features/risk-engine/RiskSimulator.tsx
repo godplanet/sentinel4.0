@@ -49,7 +49,7 @@ export const RiskSimulator = () => {
  };
 
  return (
- <div className="glass-panel p-6 rounded-2xl space-y-6 border-l-4 border-l-indigo-500 transition-all">
+ <div className="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-indigo-500 transition-all">
  {/* HEADER */}
  <div className="flex justify-between items-center border-b border-slate-100 pb-4">
  <h3 className="font-bold text-lg flex items-center gap-2 text-slate-800">
@@ -64,7 +64,7 @@ export const RiskSimulator = () => {
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
  
  {/* SOL PANEL: GİRDİLER */}
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* Hacim Slider */}
  <div>

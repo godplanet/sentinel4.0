@@ -101,7 +101,7 @@ export default function RiskSimulationPage() {
  const activeRisks = selectedCell ? getRisksForCell(selectedCell.i, selectedCell.l) : calculatedRisks;
 
  return (
- <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6 bg-canvas min-h-screen font-sans">
+ <div className="w-full px-4 sm:px-6 lg:px-6 py-5 space-y-6 bg-canvas min-h-screen font-sans">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
  <PageHeader
  title="Stratejik Risk Haritası"
@@ -117,7 +117,7 @@ export default function RiskSimulationPage() {
 
  {/* 1. VİTRİN: SENTINEL AI & VELOCITY STRES TESTİ */}
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <div className="bg-surface rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-center">
+ <div className="bg-surface rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-center">
  <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-1 flex items-center gap-2">
  <Zap size={16} className="text-amber-500" /> Kriz Senaryosu (Hız Çarpanı)
  </h3>
@@ -143,7 +143,7 @@ export default function RiskSimulationPage() {
  </div>
  </div>
 
- <div className="lg:col-span-2 bg-gradient-to-br from-indigo-950 to-slate-900 rounded-xl p-6 shadow-md border border-indigo-900/50 flex flex-col justify-center relative overflow-hidden">
+ <div className="lg:col-span-2 bg-gradient-to-br from-indigo-950 to-slate-900 rounded-xl p-4 shadow-md border border-indigo-900/50 flex flex-col justify-center relative overflow-hidden">
  <div className="absolute -left-20 -top-20 w-64 h-64 bg-indigo-500 rounded-full opacity-10 blur-3xl pointer-events-none"></div>
  <div className="flex items-start gap-4 relative z-10">
  <div className="p-3 bg-indigo-500/20 rounded-xl border border-indigo-500/30 shrink-0">
@@ -178,7 +178,7 @@ export default function RiskSimulationPage() {
  <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
 
  {/* Sol Taraf: 5x5 Grid Matris */}
- <div className="xl:col-span-2 bg-surface p-6 rounded-xl shadow-sm border border-slate-200">
+ <div className="xl:col-span-2 bg-surface p-4 rounded-xl shadow-sm border border-slate-200">
  {isLoading ? (
  <div className="flex items-center justify-center h-64 text-slate-400">
  <Loader2 size={24} className="animate-spin mr-2" />
@@ -310,7 +310,7 @@ export default function RiskSimulationPage() {
  ))}
  {activeRisks.length === 0 && (
  <tr>
- <td colSpan={4} className="px-4 py-8 text-center text-slate-400 text-sm italic">
+ <td colSpan={4} className="px-4 py-5 text-center text-slate-400 text-sm italic">
  {risks.length === 0 ? 'Denetim evreninde kayıt bulunamadı.' : 'Seçili alanda risk bulunmuyor.'}
  </td>
  </tr>

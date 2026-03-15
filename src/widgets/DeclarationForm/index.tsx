@@ -93,8 +93,8 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
  const colors = getColorClasses(currentDeclaration.color);
 
  return (
- <div className="space-y-6">
- <div className="bg-surface rounded-lg border border-slate-200 shadow-sm p-6">
+ <div className="space-y-4">
+ <div className="bg-surface rounded-lg border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
  <FileSignature className="w-5 h-5 text-slate-700" />
  Beyan Türü Seçimi
@@ -150,7 +150,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
  exit={{ opacity: 0, y: -20 }}
  className="bg-surface rounded-lg border-2 border-slate-200 shadow-lg overflow-hidden"
  >
- <div className={`bg-gradient-to-r ${colors.split(' ')[0]} ${colors.split(' ')[1]} p-6 text-white`}>
+ <div className={`bg-gradient-to-r ${colors.split(' ')[0]} ${colors.split(' ')[1]} p-4 text-white`}>
  <div className="flex items-center gap-3">
  <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
  <currentDeclaration.icon className="w-6 h-6" />
@@ -162,14 +162,14 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
  </div>
  </div>
 
- <div className="p-8">
- <div className="bg-canvas rounded-lg p-6 mb-6 border border-slate-200">
+ <div className="p-5">
+ <div className="bg-canvas rounded-lg p-4 mb-4 border border-slate-200">
  <pre className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap font-sans">
  {currentDeclaration.content}
  </pre>
  </div>
 
- <div className="flex items-center justify-between p-4 bg-amber-50 border border-amber-200 rounded-lg mb-6">
+ <div className="flex items-center justify-between p-4 bg-amber-50 border border-amber-200 rounded-lg mb-4">
  <div className="flex items-start gap-3">
  <Clock className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
  <div>
@@ -182,7 +182,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
  </div>
  </div>
 
- <label className="flex items-start gap-3 cursor-pointer p-4 rounded-lg border-2 border-slate-200 hover:border-slate-300 transition-all mb-6">
+ <label className="flex items-start gap-3 cursor-pointer p-4 rounded-lg border-2 border-slate-200 hover:border-slate-300 transition-all mb-4">
  <input
  type="checkbox"
  checked={agreed}
@@ -233,7 +233,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
  <motion.div
  initial={{ y: 50 }}
  animate={{ y: 0 }}
- className="bg-surface rounded-xl p-8 max-w-md w-full text-center shadow-2xl"
+ className="bg-surface rounded-xl p-5 max-w-md w-full text-center shadow-2xl"
  >
  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
  <CheckCircle2 className="w-8 h-8 text-green-600" />

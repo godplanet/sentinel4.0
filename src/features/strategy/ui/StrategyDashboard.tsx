@@ -162,7 +162,7 @@ export const StrategyDashboard = () => {
  <p className="text-sm text-slate-500 mt-1">Banka hedefi veya denetim hedefi ekleyerek başlayın.</p>
  </div>
  ) : viewMode === 'map' ? (
- <div className="bg-surface/40 backdrop-blur-xl border border-white/50 p-8 rounded-3xl shadow-sm overflow-x-auto">
+ <div className="bg-surface/40 backdrop-blur-xl border border-white/50 p-5 rounded-3xl shadow-sm overflow-x-auto">
  <AlignmentMap />
  </div>
  ) : (

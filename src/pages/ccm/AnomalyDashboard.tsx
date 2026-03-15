@@ -50,7 +50,7 @@ function ScoreCard({ icon: Icon, label, score, detail, color, bgColor }: ScoreCa
 function GhostEmployeeCards({ ghosts }: { ghosts: AnomalyScanResult['ghosts'] }) {
  if (ghosts.length === 0) {
  return (
- <div className="bg-surface border border-slate-200 rounded-xl p-6 text-center">
+ <div className="bg-surface border border-slate-200 rounded-xl p-4 text-center">
  <Ghost size={24} className="text-emerald-500 mx-auto mb-2" />
  <p className="text-sm text-slate-600">Hayalet calisan tespit edilmedi</p>
  </div>
@@ -91,7 +91,7 @@ function GhostEmployeeCards({ ghosts }: { ghosts: AnomalyScanResult['ghosts'] })
 function StructuringCards({ clusters }: { clusters: AnomalyScanResult['structuring'] }) {
  if (clusters.length === 0) {
  return (
- <div className="bg-surface border border-slate-200 rounded-xl p-6 text-center">
+ <div className="bg-surface border border-slate-200 rounded-xl p-4 text-center">
  <Layers size={24} className="text-emerald-500 mx-auto mb-2" />
  <p className="text-sm text-slate-600">Yapilandirma deseni tespit edilmedi</p>
  </div>
@@ -206,7 +206,7 @@ export default function AnomalyDashboard() {
  : 0;
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <PageHeader
  title="Anomali Kokpiti"

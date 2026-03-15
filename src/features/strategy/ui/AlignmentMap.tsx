@@ -82,7 +82,7 @@ export const AlignmentMap = () => {
  return (
  <div className="w-full relative">
  {/* Header Info */}
- <div className="flex items-center justify-between mb-8 px-2">
+ <div className="flex items-center justify-between mb-4 px-2">
  <div className="flex items-center gap-2">
  <div className="p-2 bg-indigo-100 text-indigo-600 rounded-lg">
  <GitMerge size={20} />
@@ -104,12 +104,12 @@ export const AlignmentMap = () => {
  </div>
 
  {/* KOLON 1: KURUMSAL HEDEFLER */}
- <div className="col-span-4 space-y-6 z-10">
+ <div className="col-span-4 space-y-4 z-10">
  <div className="flex items-center gap-2 mb-4">
  <span className="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-1 rounded border border-slate-200">KAYNAK</span>
  <h4 className="text-sm font-bold text-slate-700">Kurumsal Stratejik Hedefler</h4>
  </div>
- <div className="space-y-6">
+ <div className="space-y-4">
  {(goals || []).map((goal) => (
  <div
  key={goal.id} 

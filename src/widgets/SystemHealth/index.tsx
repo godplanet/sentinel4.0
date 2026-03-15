@@ -133,7 +133,7 @@ export function SystemHealthWidget() {
 
  if (isLoading) {
  return (
- <div className="bg-surface border border-slate-200 rounded-lg p-6">
+ <div className="bg-surface border border-slate-200 rounded-lg p-4">
  <div className="flex items-center justify-center h-40">
  <Activity className="w-8 h-8 text-blue-500 animate-pulse" />
  </div>

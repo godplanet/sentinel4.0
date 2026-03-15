@@ -80,7 +80,7 @@ export function AuditeeActionWorkbench() {
  <DetailHeader action={selected} />
  <IronVault action={selected} />
  <TabBar tab={tab} onChange={setTab} isBddk={selected.is_bddk_breach} />
- <div className="flex-1 overflow-y-auto p-6 bg-[#FDFBF7]">
+ <div className="flex-1 overflow-y-auto p-4 bg-[#FDFBF7]">
  {tab === 'evidence' ? (
  <EvidenceUploader actionId={selected.id} onSuccess={refresh} />
  ) : (

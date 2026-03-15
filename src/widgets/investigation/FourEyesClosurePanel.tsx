@@ -104,7 +104,7 @@ export function FourEyesClosurePanel({ caseId, caseTitle, casePayload }: Props) 
  <div className="space-y-6 max-w-2xl mx-auto">
 
  {/* Başlık */}
- <div className="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+ <div className="bg-slate-900 rounded-2xl border border-slate-700 p-4">
  <div className="flex items-center gap-3 mb-3">
  <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
  <Eye size={18} className="text-purple-400" />
@@ -128,7 +128,7 @@ export function FourEyesClosurePanel({ caseId, caseTitle, casePayload }: Props) 
  <motion.div
  initial={{ opacity: 0, scale: 0.95 }}
  animate={{ opacity: 1, scale: 1 }}
- className="bg-slate-900 border border-emerald-700/50 rounded-2xl p-6 text-center space-y-4"
+ className="bg-slate-900 border border-emerald-700/50 rounded-2xl p-4 text-center space-y-4"
  >
  <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
  <Lock size={28} className="text-emerald-400" />

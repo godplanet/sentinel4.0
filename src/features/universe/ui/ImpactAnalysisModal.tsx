@@ -75,7 +75,7 @@ export function ImpactAnalysisModal({ entityId, entityName, onClose }: ImpactAna
  {/* İçerik */}
  <div className="px-6 py-5">
  {isLoading && (
- <div className="flex flex-col items-center gap-3 py-8">
+ <div className="flex flex-col items-center gap-3 py-5">
  <div className="w-8 h-8 border-2 border-slate-200 border-t-red-500 rounded-full animate-spin" />
  <p className="text-sm text-slate-500">Etki analizi hesaplanıyor…</p>
  </div>

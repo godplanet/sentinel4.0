@@ -133,8 +133,8 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
  </button>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6">
- <div className="space-y-6">
+ <div className="flex-1 overflow-y-auto p-4">
+ <div className="space-y-4">
  <div>
  <label className="block text-sm font-semibold text-slate-700 mb-2">
  Probe Başlığı

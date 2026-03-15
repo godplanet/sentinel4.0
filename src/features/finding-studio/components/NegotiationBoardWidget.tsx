@@ -215,7 +215,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
         
         {/* SCENARIO A: ACTION PLAN (GREEN PATH) */}
         {activeTab === 'plan' && decision === 'accept' && (
-          <div className="p-6 space-y-8 animate-in slide-in-from-bottom-2 duration-300">
+          <div className="p-6 space-y-5 animate-in slide-in-from-bottom-2 duration-300">
             
             {/* Responsible */}
             <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
@@ -308,7 +308,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
 
         {/* SCENARIO B: RISK ACCEPTANCE (RED PATH) */}
         {activeTab === 'plan' && decision === 'reject' && (
-          <div className="p-6 space-y-6 animate-in slide-in-from-bottom-2 duration-300">
+          <div className="p-6 space-y-4 animate-in slide-in-from-bottom-2 duration-300">
             
             {/* Warning Box */}
             <div className="bg-rose-50 border border-rose-100 rounded-lg p-4 flex items-start gap-3">

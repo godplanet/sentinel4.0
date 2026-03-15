@@ -5,12 +5,12 @@ export default function NotFoundPage() {
  const navigate = useNavigate();
 
  return (
- <div className="min-h-screen flex items-center justify-center p-6">
+ <div className="min-h-screen flex items-center justify-center p-4">
  <div className="text-center max-w-2xl">
- <div className="mb-8">
+ <div className="mb-4">
  <div className="relative inline-block">
  <div className="absolute inset-0 bg-slate-200 rounded-full blur-3xl opacity-50" />
- <div className="relative bg-surface/60 backdrop-blur-xl border-2 border-white/40 rounded-full p-8 shadow-2xl">
+ <div className="relative bg-surface/60 backdrop-blur-xl border-2 border-white/40 rounded-full p-5 shadow-2xl">
  <SearchX className="text-slate-400" size={80} />
  </div>
  </div>
@@ -18,7 +18,7 @@ export default function NotFoundPage() {
 
  <h1 className="text-8xl font-black text-primary mb-4">404</h1>
  <h2 className="text-3xl font-bold text-slate-800 mb-3">Sayfa Bulunamadı</h2>
- <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+ <p className="text-slate-600 text-lg mb-4 leading-relaxed">
  Aradığınız sayfa taşınmış, silinmiş veya hiç var olmamış olabilir.
  <br />
  Lütfen URL'yi kontrol edin veya ana sayfaya dönün.

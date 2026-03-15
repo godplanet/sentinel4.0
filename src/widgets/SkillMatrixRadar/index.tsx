@@ -77,12 +77,12 @@ export function SkillMatrixRadar() {
  const selectedMember = members.find(m => m.id === selectedMemberId);
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* 1. KPI Scores Grid */}
  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  {scores.length === 0 ? (
- <div className="col-span-3 text-center py-6 text-slate-500 border border-dashed rounded-lg">Kayıtlı performans ölçümü yok.</div>
+ <div className="col-span-3 text-center py-4 text-slate-500 border border-dashed rounded-lg">Kayıtlı performans ölçümü yok.</div>
  ) : scores.slice(0, 3).map(score => (
  <div key={score.id} className="bg-indigo-50 border border-indigo-100 p-4 rounded-xl flex items-center justify-between">
  <div>
@@ -145,8 +145,8 @@ export function SkillMatrixRadar() {
 
  {/* Right Col: Spider Matrix Radar */}
  <div className="lg:col-span-2">
- <div className="bg-white border border-slate-200 rounded-xl p-6 h-full min-h-[450px] flex flex-col">
- <h3 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
+ <div className="bg-white border border-slate-200 rounded-xl p-4 h-full min-h-[450px] flex flex-col">
+ <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
  <BookOpen size={18} className="text-indigo-500" /> 
  {selectedMember ? `${selectedMember.full_name} — Bireysel Yetkinlik Matrisi` : 'Kolektif Yönetim Kurulu Matrisi'}
  </h3>

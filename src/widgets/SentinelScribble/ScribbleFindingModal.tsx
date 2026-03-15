@@ -148,7 +148,7 @@ export function ScribbleFindingModal() {
  </button>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6 space-y-5">
+ <div className="flex-1 overflow-y-auto p-4 space-y-5">
  <div className="bg-canvas rounded-xl p-5">
  <h3 className="text-sm font-bold text-slate-800 mb-3">Temel Bilgiler</h3>
  <div className="grid grid-cols-2 gap-3">

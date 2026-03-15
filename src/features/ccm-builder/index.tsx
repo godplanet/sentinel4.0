@@ -172,7 +172,7 @@ export function CCMBuilderPage() {
  <Loader2 size={18} className="animate-spin text-slate-400" />
  </div>
  ) : (rules || []).length === 0 ? (
- <p className="text-xs text-slate-400 text-center py-8">Henüz kural yok.</p>
+ <p className="text-xs text-slate-400 text-center py-5">Henüz kural yok.</p>
  ) : (
  (rules || []).map((rule) => (
  <RuleCard

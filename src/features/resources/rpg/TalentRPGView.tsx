@@ -87,7 +87,7 @@ function KudosModal({ profiles, defaultReceiver, onClose }: KudosModalProps) {
  <motion.div
  initial={{ scale: 0.8, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
- className="text-center py-8"
+ className="text-center py-5"
  >
  <div className="w-16 h-16 bg-amber-50 border border-amber-200 rounded-full flex items-center justify-center mx-auto mb-3">
  <Zap className="w-8 h-8 text-amber-500" />
@@ -388,7 +388,7 @@ export function TalentRPGView() {
 
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between gap-3 flex-wrap">
  {decayData.size > 0 && (() => {
  const allSummaries = Array.from(decayData.values());

@@ -71,14 +71,14 @@ export default function ResourcesPage() {
  </div>
  </div>
 
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  {activeTab === 'talent' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <Users size={20} className="text-blue-600" />
  Denetçi Yetenek Matrisi
  </h3>
- <p className="text-slate-600 mb-6">
+ <p className="text-slate-600 mb-4">
  Ekip üyelerinin yetkinlik ve sertifika bilgileri.
  </p>
  <SkillMatrix />
@@ -86,12 +86,12 @@ export default function ResourcesPage() {
  )}
 
  {activeTab === 'cpe' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <GraduationCap size={20} className="text-green-600" />
  Sürekli Mesleki Eğitim (CPE)
  </h3>
- <p className="text-slate-600 mb-6">
+ <p className="text-slate-600 mb-4">
  Denetçilerin katıldığı eğitimler ve kazanılan CPE puanları.
  </p>
 

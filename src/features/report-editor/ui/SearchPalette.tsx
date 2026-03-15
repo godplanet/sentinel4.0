@@ -203,7 +203,7 @@ export function SearchPalette({ open, onClose }: SearchPaletteProps) {
  )}
 
  {query.trim() && !loading && results.length === 0 && (
- <div className="py-8 text-center">
+ <div className="py-5 text-center">
  <p className="text-sm font-sans text-slate-400">Sonuç bulunamadı</p>
  <p className="text-xs font-sans text-slate-300 mt-1">"{query}" için eşleşme yok</p>
  </div>

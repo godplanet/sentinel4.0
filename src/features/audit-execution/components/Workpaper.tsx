@@ -13,7 +13,7 @@ export const Workpaper = ({ control }: { control: RiskNode }) => {
 
  return (
  <div className="h-full flex flex-col bg-surface overflow-hidden">
- <div className="px-8 py-6 border-b border-slate-100 bg-canvas/50">
+ <div className="px-6 py-6 border-b border-slate-100 bg-canvas/50">
  <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 mb-2 uppercase tracking-wider">
  <ShieldCheck size={14} /> Kontrol Testi
  </div>
@@ -21,9 +21,9 @@ export const Workpaper = ({ control }: { control: RiskNode }) => {
  <div className="text-sm text-slate-500 mt-1 font-mono">{control.path}</div>
  </div>
 
- <div className="flex-1 overflow-y-auto p-8 space-y-8 bg-canvas/30">
+ <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-canvas/30">
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="bg-surface p-6 rounded-xl border border-slate-200 shadow-sm">
  <h3 className="font-bold text-primary mb-4 uppercase text-xs">Test Sonucu</h3>
  <div className="flex gap-3">

@@ -207,7 +207,7 @@ export function EvidenceVault({ evidence, queryKey }: EvidenceVaultProps) {
 
  if (evidence.length === 0) {
  return (
- <div className="text-center py-8 text-sm text-slate-400">
+ <div className="text-center py-5 text-sm text-slate-400">
  Henuz dijital kanit bulunmuyor. Dondurma protokolunu baslatın.
  </div>
  );

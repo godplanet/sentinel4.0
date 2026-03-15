@@ -131,7 +131,7 @@ export default function DataMonitorPage() {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <PageHeader
  title="Surekli Izleme Merkezi"
@@ -199,7 +199,7 @@ export default function DataMonitorPage() {
  </div>
 
  {tab === 'overview' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div>
  <h3 className="text-sm font-bold text-primary mb-3">Veri Kaynaklari</h3>
  <SourceCards sources={sources} />

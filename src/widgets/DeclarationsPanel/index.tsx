@@ -65,7 +65,7 @@ export function DeclarationsPanel() {
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 p-5 shadow-sm">
  <div className="flex items-center justify-between mb-1">
@@ -163,7 +163,7 @@ export function DeclarationsPanel() {
  </div>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  {loading ? (
  <div className="flex items-center justify-center py-12">
  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />

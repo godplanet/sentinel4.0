@@ -4,14 +4,14 @@ import { BookOpen, FileText, Shield } from 'lucide-react';
 
 export default function PolicyPage() {
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Politika ve Prosedür Kütüphanesi"
  subtitle="Kurumsal politikaları okuyun ve onaylayın"
  />
 
- <div className="space-y-8">
- <div className="mb-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
+ <div className="space-y-5">
+ <div className="mb-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-4 text-white">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
  <Shield className="w-6 h-6" />

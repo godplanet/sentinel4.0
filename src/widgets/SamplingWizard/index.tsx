@@ -110,10 +110,10 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
  };
 
  return (
- <div className="h-full overflow-y-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+ <div className="h-full overflow-y-auto p-4 bg-gradient-to-br from-blue-50 to-indigo-50">
  <div className="max-w-4xl mx-auto space-y-6">
  {/* Header */}
- <div className="flex items-center gap-3 mb-6">
+ <div className="flex items-center gap-3 mb-4">
  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
  <Calculator className="text-white" size={24} />
  </div>
@@ -124,7 +124,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
  </div>
 
  {/* Input Section */}
- <div className="glass-card p-6 space-y-6">
+ <div className="glass-card p-4 space-y-6">
  <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
  <Info className="text-blue-600 mt-0.5" size={20} />
  <div className="flex-1">
@@ -261,8 +261,8 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
  {/* Result Section */}
  {result && (
  <>
- <div className="glass-card p-8 bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
- <div className="flex items-center gap-4 mb-6">
+ <div className="glass-card p-5 bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
+ <div className="flex items-center gap-4 mb-4">
  <Sparkles className="text-yellow-300" size={32} />
  <div>
  <p className="text-sm font-medium opacity-90">Önerilen Örneklem Büyüklüğü</p>
@@ -292,7 +292,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
  </div>
 
  {/* Justification */}
- <div className="glass-card p-6">
+ <div className="glass-card p-4">
  <div className="flex items-start gap-3 mb-4">
  <TrendingUp className="text-blue-600 mt-0.5" size={20} />
  <div>
@@ -338,7 +338,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
 
  {/* Sample Indices Display */}
  {showSampleIndices && sampleIndices.length > 0 && (
- <div className="glass-card p-6 border-purple-200">
+ <div className="glass-card p-4 border-purple-200">
  <div className="flex items-start gap-3 mb-4">
  <CheckCircle2 className="text-purple-600 mt-0.5" size={20} />
  <div className="flex-1">

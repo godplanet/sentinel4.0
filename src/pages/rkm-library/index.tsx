@@ -70,7 +70,7 @@ export default function RkmLibraryPage() {
  ];
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Risk Kontrol Matrisi (RKM) Kutuphanesi"
  description="Süreç Bazlı Risk Kontrol Matrisi Yönetimi"
@@ -140,28 +140,28 @@ export default function RkmLibraryPage() {
  {viewMode === 'overview' && (
  <>
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow">
  <div className="flex items-center justify-between mb-2">
  <div className="text-xs uppercase text-slate-600 font-bold tracking-wider">Toplam Risk</div>
  <Shield size={20} className="text-slate-400" />
  </div>
- <div className="text-4xl font-bold text-primary">{totalRisks}</div>
+ <div className="text-3xl font-bold text-primary">{totalRisks}</div>
  <p className="text-xs text-slate-500 mt-1">Tum surecler</p>
  </div>
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow">
  <div className="flex items-center justify-between mb-2">
  <div className="text-xs uppercase text-slate-600 font-bold tracking-wider">Surec Kategorisi</div>
  <Layers size={20} className="text-slate-400" />
  </div>
- <div className="text-4xl font-bold text-primary">{categories.length}</div>
+ <div className="text-3xl font-bold text-primary">{categories.length}</div>
  <p className="text-xs text-slate-500 mt-1">Ana kategori</p>
  </div>
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow">
  <div className="flex items-center justify-between mb-2">
  <div className="text-xs uppercase text-red-600 font-bold tracking-wider">Kritik Riskler</div>
  <AlertTriangle size={20} className="text-red-500" />
  </div>
- <div className="text-4xl font-bold text-red-700">
+ <div className="text-3xl font-bold text-red-700">
  {Array.isArray(categories) ? (categories || []).reduce((sum, cat) => sum + (cat?.critical_risks || 0), 0) : 0}
  </div>
  <p className="text-xs text-red-500 mt-1">Acil mudahale gerekli</p>
@@ -181,7 +181,7 @@ export default function RkmLibraryPage() {
  <button
  key={category.id}
  onClick={() => setViewMode('library')}
- className="group relative overflow-hidden bg-surface border border-slate-200 rounded-2xl p-6 text-left hover:shadow-xl transition-all hover:-translate-y-1"
+ className="group relative overflow-hidden bg-surface border border-slate-200 rounded-2xl p-4 text-left hover:shadow-xl transition-all hover:-translate-y-1"
  >
  <div className={`w-14 h-14 bg-gradient-to-br ${iconConfig.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
  <Icon className="text-white" size={28} />

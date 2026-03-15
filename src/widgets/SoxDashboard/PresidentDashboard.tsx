@@ -44,11 +44,11 @@ export const PresidentDashboard = () => {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <motion.div
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
- className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 p-8 text-white"
+ className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 p-5 text-white"
  >
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent" />
  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-teal-500/10 to-transparent rounded-full blur-3xl" />
@@ -113,7 +113,7 @@ export const PresidentDashboard = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.2 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4">Kategori Bazli Durum</h3>
  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -145,7 +145,7 @@ export const PresidentDashboard = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.3 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4">Son Beyanlar (Cryo-Chamber)</h3>
  <div className="space-y-2">
@@ -180,7 +180,7 @@ export const PresidentDashboard = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.4 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
  <Zap size={14} className="text-amber-500" />
@@ -214,7 +214,7 @@ export const PresidentDashboard = () => {
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.5 }}
- className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-6"
+ className="bg-surface/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg shadow-slate-200/30 p-4"
  >
  <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
  <AlertTriangle size={14} className="text-red-500" />

@@ -4,7 +4,7 @@ import { Crosshair, ShieldAlert, Terminal } from 'lucide-react';
 
 export default function RedTeamPage() {
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Red Team & BAS Tracker"
  description="Sızma testleri, Oltalama (Phishing) simülasyonları ve Breach and Attack Simulation (BAS) operasyonları izleme kokpiti."

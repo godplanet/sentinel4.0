@@ -161,7 +161,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
  </div>
 
  {actionSteps.length === 0 ? (
- <div className="text-center py-8 text-slate-500 bg-canvas rounded-lg border border-dashed border-slate-300">
+ <div className="text-center py-5 text-slate-500 bg-canvas rounded-lg border border-dashed border-slate-300">
  Aksiyon adımı eklemek için yukarıdaki butona tıklayın
  </div>
  ) : (

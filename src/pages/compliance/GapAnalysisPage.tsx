@@ -17,11 +17,11 @@ export default function GapAnalysisPage() {
  icon={Target}
  />
 
- <div className="flex-1 p-6 overflow-auto">
- <div className="w-full px-4 sm:px-6 lg:px-8">
+ <div className="flex-1 p-4 overflow-auto">
+ <div className="w-full px-4 sm:px-6 lg:px-6">
 
  {/* Metrik Kartları */}
- <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+ <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
  <MetricCard
  icon={AlertTriangle}
  iconBg="bg-red-50"
@@ -86,7 +86,7 @@ export default function GapAnalysisPage() {
  : 'bg-red-500';
 
  return (
- <div key={fw.framework_id} className="px-6 py-4 flex items-center gap-6">
+ <div key={fw.framework_id} className="px-6 py-4 flex items-center gap-4">
  <div className="w-28 shrink-0">
  <p className="text-xs font-bold text-slate-800 truncate">{fw.short_code || fw.name}</p>
  <p className="text-[10px] text-slate-500">{fw.authority}</p>
@@ -140,7 +140,7 @@ function MetricCard({
  subtitle: string;
 }) {
  return (
- <div className="bg-surface rounded-xl p-6 shadow-sm border border-slate-200">
+ <div className="bg-surface rounded-xl p-4 shadow-sm border border-slate-200">
  <div className="flex items-center gap-3 mb-4">
  <div className={`p-3 ${iconBg} rounded-lg`}>
  <Icon className={`w-6 h-6 ${iconColor}`} />

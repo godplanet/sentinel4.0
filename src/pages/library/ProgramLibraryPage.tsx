@@ -58,7 +58,7 @@ export default function ProgramLibraryPage() {
  };
 
  return (
- <div className="min-h-screen p-6">
+ <div className="min-h-screen p-4">
  <PageHeader
  title="Program Library"
  subtitle="Pre-built audit programs ready to deploy"
@@ -73,7 +73,7 @@ export default function ProgramLibraryPage() {
  }
  />
 
- <div className="mb-6">
+ <div className="mb-4">
  <GlassCard className="p-4">
  <div className="flex items-center gap-3 flex-wrap">
  <span className="text-sm font-medium text-slate-700 ">
@@ -133,7 +133,7 @@ export default function ProgramLibraryPage() {
  </div>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  <h3 className="text-lg font-bold text-primary mb-2 line-clamp-2">
  {template.title}
  </h3>

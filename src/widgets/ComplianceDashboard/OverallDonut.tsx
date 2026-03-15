@@ -32,7 +32,7 @@ export const OverallDonut = ({ stats }: Props) => {
  };
 
  return (
- <div className="bg-surface rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+ <div className="bg-surface rounded-2xl border border-slate-200/80 p-4 shadow-sm">
  <h3 className="text-sm font-bold text-slate-700 mb-1">Genel Uyum Skoru</h3>
  <p className="text-xs text-slate-400 mb-4">Tum cerceveler genelinde</p>
 

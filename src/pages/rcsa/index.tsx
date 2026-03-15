@@ -10,7 +10,7 @@ export default function RCSAPage() {
  subtitle="İş birimlerinden Risk & Control Self-Assessment verisini dalga bazlı toplayın."
  icon={ShieldAlert}
  />
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  <RCSACampaignManager />
  </div>
  </div>

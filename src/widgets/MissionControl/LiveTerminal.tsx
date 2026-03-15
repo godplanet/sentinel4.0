@@ -52,7 +52,7 @@ export function LiveTerminal({ lines, isRunning, agentName }: LiveTerminalProps)
 
  <div ref={scrollRef} className="p-4 h-80 overflow-y-auto font-mono text-xs space-y-1.5">
  {lines.length === 0 && !isRunning && (
- <div className="text-slate-600 text-center py-8">
+ <div className="text-slate-600 text-center py-5">
  <p>$ Bir ajani gorevlendirin veya mevcut calismayi secin...</p>
  <p className="mt-1 text-slate-700">$ _</p>
  </div>

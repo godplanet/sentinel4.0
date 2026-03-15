@@ -150,7 +150,7 @@ export function PADMonitor() {
 
  if (isError || !data) {
  return (
- <div className="p-6 rounded-xl border border-red-200 bg-red-50 flex items-center gap-3">
+ <div className="p-4 rounded-xl border border-red-200 bg-red-50 flex items-center gap-3">
  <AlertTriangle className="text-red-500 w-6 h-6" />
  <p className="text-red-800 text-sm">Insider Trading uyarısı: Veriler alınırken bir hata oluştu veya yetki bulunmuyor.</p>
  </div>
@@ -160,10 +160,10 @@ export function PADMonitor() {
  const { dealings, restrictedList, alerts, criticalAlertsCount, totalFlaggedTransactions } = data;
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* Overview Banner (Apple Glass) */}
- <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden border border-slate-700/50">
+ <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-4 text-white shadow-xl relative overflow-hidden border border-slate-700/50">
  <div className="absolute right-0 top-0 opacity-[0.05] pointer-events-none transform translate-x-1/4 -translate-y-1/4">
  <ShieldAlert size={280} />
  </div>
@@ -179,7 +179,7 @@ export function PADMonitor() {
  </p>
  </div>
 
- <div className="flex gap-6">
+ <div className="flex gap-4">
  <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50 min-w-[120px]">
  <div className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Kısıtlı Varlık</div>
  <div className="flex items-baseline gap-2">

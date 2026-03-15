@@ -99,7 +99,7 @@ export function QaipHealthWidget({ engagementId, compact = false }: QaipHealthWi
  if (isLoading) {
  return (
  <div
- className="rounded-2xl p-8 flex flex-col items-center justify-center gap-3"
+ className="rounded-2xl p-5 flex flex-col items-center justify-center gap-3"
  style={{ background: 'rgba(15,23,42,0.6)', border: '1px solid rgba(148,163,184,0.1)' }}
  >
  <Loader2 size={28} className="animate-spin text-slate-500" />

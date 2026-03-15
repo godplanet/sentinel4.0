@@ -90,7 +90,7 @@ function RwaRow({ row, index }: { row: RwaCalculation; index: number }) {
  exit={{ height: 0, opacity: 0 }}
  className="pt-2"
  >
- <div className="bg-white rounded-lg border border-slate-200 p-3 flex gap-6 shadow-sm">
+ <div className="bg-white rounded-lg border border-slate-200 p-3 flex gap-4 shadow-sm">
  <div className="flex-1">
  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 items-center gap-1 flex">
  <Calculator size={10} /> Basel IV RWA Formülü

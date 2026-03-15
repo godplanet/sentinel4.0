@@ -295,15 +295,15 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 20, nightMod
  const displayRiskLevel = activeReport?.risk_level;
 
  return (
- <div className="min-h-full bg-slate-50 overflow-y-auto py-8 px-4 lg:px-8">
+ <div className="min-h-full bg-slate-50 overflow-y-auto py-5 px-4 lg:px-6">
  <div className="max-w-4xl mx-auto">
  <div
           id="executive-summary-content"
           data-report-content="true"
- className="w-full rounded-sm shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] ring-1 ring-black/5 transition-colors duration-300 px-8 lg:px-14 py-10"
+ className="w-full rounded-sm shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] ring-1 ring-black/5 transition-colors duration-300 px-6 lg:px-14 py-10"
  style={{ ...paperStyle, transition: "background-color 0.3s ease" }}
  >
- <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+ <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
  <div>
  <h2 className="font-serif text-2xl font-bold text-primary">Yönetici Özeti Stüdyosu</h2>
  <p className="text-sm text-slate-500 mt-1 font-sans">GIAS 2024 · Standart 2400 uyumlu</p>

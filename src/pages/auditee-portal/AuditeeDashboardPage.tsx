@@ -95,7 +95,7 @@ export function AuditeeDashboardPage() {
  }
 
  return (
- <div className="space-y-8">
+ <div className="space-y-5">
  <div className="flex items-start justify-between">
  <div>
  <h1 className="text-2xl font-bold text-slate-800">Hosgeldiniz</h1>
@@ -350,7 +350,7 @@ export function AuditeeDashboardPage() {
 
  {uploadMutation.isPending && (
  <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
- <div className="bg-surface rounded-2xl p-8 shadow-2xl flex items-center gap-4">
+ <div className="bg-surface rounded-2xl p-5 shadow-2xl flex items-center gap-4">
  <Loader2 size={24} className="animate-spin text-blue-600" />
  <span className="text-sm font-bold text-slate-700">Kanit yukleniyor...</span>
  </div>
@@ -363,7 +363,7 @@ export function AuditeeDashboardPage() {
 
  {extensionId && (
  <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
- <div className="bg-surface rounded-2xl p-6 max-w-md w-full shadow-2xl">
+ <div className="bg-surface rounded-2xl p-4 max-w-md w-full shadow-2xl">
  <h3 className="text-lg font-bold text-slate-800 mb-1">Sure Uzatimi Talebi</h3>
  <p className="text-sm text-slate-500 mb-4">Mevcut son tarihe +7 gun eklenecektir.</p>
 

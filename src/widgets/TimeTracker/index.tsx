@@ -196,7 +196,7 @@ export function TimeTracker({ workpaperId }: TimeTrackerProps) {
  </div>
 
  {timeLogs.length === 0 ? (
- <div className="p-8 text-center text-slate-500">
+ <div className="p-5 text-center text-slate-500">
  <Clock className="w-12 h-12 mx-auto mb-2 text-slate-300" />
  <p className="text-sm">No time logs recorded yet</p>
  <button

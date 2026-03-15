@@ -77,7 +77,7 @@ export function ApprovalCenter() {
 
  if (pending.length === 0) {
  return (
- <div className="flex flex-col items-center justify-center min-h-[320px] rounded-2xl border border-slate-700/60 bg-slate-900/40 backdrop-blur-sm p-8">
+ <div className="flex flex-col items-center justify-center min-h-[320px] rounded-2xl border border-slate-700/60 bg-slate-900/40 backdrop-blur-sm p-5">
  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-slate-800/80 border border-slate-600/60">
  <CheckCircle2 size={28} className="text-emerald-500/80" />
  </div>

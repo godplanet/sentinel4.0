@@ -60,16 +60,16 @@ export const MissionControlHero = ({ welcome, aiBrief }: MissionControlHeroProps
  });
 
  return (
- <div className="space-y-4">
+ <div className="space-y-3">
  <div
- className="relative overflow-hidden rounded-2xl px-8 py-6 shadow-lg"
+ className="relative overflow-hidden rounded-2xl px-6 py-4 shadow-lg"
  style={{
  background: `linear-gradient(135deg, ${sidebarColor} 0%, ${adjustColor(sidebarColor, -15)} 100%)`,
  }}
  >
  <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDMpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30" />
 
- <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+ <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
  <div className="flex-1">
  <div className="flex items-center gap-2 mb-2">
  <Calendar className="text-white/50" size={14} />
@@ -77,18 +77,18 @@ export const MissionControlHero = ({ welcome, aiBrief }: MissionControlHeroProps
  </div>
 
  <p className="text-white/60 text-xs font-medium mb-1">{welcome.welcomeMessage}</p>
- <h1 className="text-2xl font-bold text-white tracking-tight">
+ <h1 className="text-xl font-bold text-white tracking-tight">
  {welcome.userName}
  </h1>
  <p className="text-white/70 text-sm mt-0.5">{welcome.role}</p>
  </div>
 
- <div className="flex items-center gap-3 bg-surface/10 backdrop-blur-md border border-white/20 rounded-xl px-5 py-3">
+ <div className="flex items-center gap-2 bg-surface/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2.5">
  <Activity className="text-emerald-400" size={22} />
  <div>
  <p className="text-[10px] text-white/60 font-medium mb-0.5">Sistem Sagligi</p>
  <div className="flex items-center gap-2">
- <p className="text-2xl font-bold text-white">{welcome.systemHealth}%</p>
+ <p className="text-xl font-bold text-white">{welcome.systemHealth}%</p>
  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50" />
  </div>
  </div>
@@ -98,20 +98,20 @@ export const MissionControlHero = ({ welcome, aiBrief }: MissionControlHeroProps
 
  <div
  className={clsx(
- 'bg-gradient-to-br border-2 rounded-2xl p-5 shadow-sm transition-all duration-300 hover:shadow-md',
+ 'bg-gradient-to-br border-2 rounded-2xl p-4 shadow-sm transition-all duration-300 hover:shadow-md',
  config.gradient,
  config.border,
  )}
  >
- <div className="flex items-start gap-4">
+ <div className="flex items-start gap-3">
  <div className="shrink-0">
- <div className={clsx('p-3 rounded-xl', config.iconBg)}>
- <Brain className={config.iconColor} size={24} />
+ <div className={clsx('p-2.5 rounded-xl', config.iconBg)}>
+ <Brain className={config.iconColor} size={20} />
  </div>
  </div>
 
  <div className="flex-1 min-w-0">
- <div className="flex items-center gap-2 mb-2 flex-wrap">
+ <div className="flex items-center gap-2 mb-1.5 flex-wrap">
  <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 bg-surface/80 px-2 py-1 rounded-md border border-slate-200">
  {aiBrief.context}
  </span>

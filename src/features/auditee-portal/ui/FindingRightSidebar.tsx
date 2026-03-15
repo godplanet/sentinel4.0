@@ -178,7 +178,7 @@ export const FindingRightSidebar = ({ findingId, onClose }: FindingRightSidebarP
  ))}
 
  {assignedMembers.length === 0 && (
- <div className="text-center py-8 text-sm text-gray-500">
+ <div className="text-center py-5 text-sm text-gray-500">
  Henüz ekip üyesi atanmadı
  </div>
  )}

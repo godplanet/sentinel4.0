@@ -90,7 +90,7 @@ export function FindingDataGrid({ findings, onRowClick }: FindingDataGridProps) 
 
  if (constitutionLoading) {
  return (
- <div className="bg-surface/80 backdrop-blur-xl rounded-xl border border-slate-200 p-8 text-center">
+ <div className="bg-surface/80 backdrop-blur-xl rounded-xl border border-slate-200 p-5 text-center">
  <div className="animate-spin w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-2" />
  <span className="text-sm text-slate-600">Anayasa yukleniyor...</span>
  </div>

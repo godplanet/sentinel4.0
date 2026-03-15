@@ -95,7 +95,7 @@ export function SentinelDocs({
  },
  editorProps: {
  attributes: {
- class: 'tiptap focus:outline-none min-h-[400px] px-10 py-8',
+ class: 'tiptap focus:outline-none min-h-[400px] px-10 py-5',
  },
  handleDrop: (view, event) => {
  const varData = event.dataTransfer?.getData('application/smart-variable');

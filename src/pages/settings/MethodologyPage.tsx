@@ -351,7 +351,7 @@ function ParameterListManager({ title, description, items, onAdd, onRemove, icon
 
  <div className="flex-1 p-2 bg-surface min-h-[200px] max-h-[300px] overflow-y-auto">
  {items.length === 0 ? (
- <div className="p-8 text-center text-slate-400 text-sm italic">Henüz bir kategori eklenmemiş.</div>
+ <div className="p-5 text-center text-slate-400 text-sm italic">Henüz bir kategori eklenmemiş.</div>
  ) : (
  <div className="space-y-1">
  {(items || []).map((item: any) => (
@@ -662,7 +662,7 @@ function SimulatorPanel({
  animate={{ y: 0, opacity: 1 }}
  exit={{ y: 8, opacity: 0 }}
  transition={{ duration: 0.2 }}
- className="text-4xl font-black tabular-nums"
+ className="text-3xl font-black tabular-nums"
  style={{ color: liveZone.color }}
  >
  {liveScore.toFixed(2)}

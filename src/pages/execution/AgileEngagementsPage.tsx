@@ -42,7 +42,7 @@ export function AgileEngagementsPage() {
 
  return (
  <div>
- <div className="flex items-center justify-between mb-6">
+ <div className="flex items-center justify-between mb-4">
  <div>
  <h2 className="text-lg font-bold text-primary">Agile Denetimler</h2>
  <p className="text-sm text-slate-500">Sprint tabanli denetim gorevleriniz</p>

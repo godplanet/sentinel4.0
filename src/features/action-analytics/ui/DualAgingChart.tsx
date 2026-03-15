@@ -66,7 +66,7 @@ function GlassTooltip({ active, payload, label }: CustomTipProps) {
  </p>
  <div className="space-y-1.5 text-xs">
  {op && (
- <div className="flex items-center justify-between gap-6">
+ <div className="flex items-center justify-between gap-4">
  <span className="flex items-center gap-1.5 text-slate-500">
  <span className="w-2.5 h-2.5 rounded-sm bg-[#ff960a] shrink-0" />
  Yönetim raporları
@@ -75,7 +75,7 @@ function GlassTooltip({ active, payload, label }: CustomTipProps) {
  </div>
  )}
  {perf && (
- <div className="flex items-center justify-between gap-6">
+ <div className="flex items-center justify-between gap-4">
  <span className="flex items-center gap-1.5 text-slate-500">
  <span className="w-2.5 h-2.5 rounded-sm bg-[#700000] shrink-0" />
  Gerçek gecikme

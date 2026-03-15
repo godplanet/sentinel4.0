@@ -153,7 +153,7 @@ const DynamicComponentPreview = ({ path }: { path: string }) => {
 
   if (error) {
     return (
-      <div className="p-6 bg-red-50 text-red-700 rounded-xl border border-red-200">
+      <div className="p-4 bg-red-50 text-red-700 rounded-xl border border-red-200">
         <h3 className="font-bold flex items-center gap-2">
           <AlertCircle className="w-5 h-5" />
           Render Hatası
@@ -204,7 +204,7 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
  render() {
  if (this.state.hasError) {
  return (
- <div className="p-6 bg-amber-50 rounded-xl border border-amber-200">
+ <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
  <h3 className="text-amber-800 font-bold flex items-center gap-2 mb-2">
  <AlertTriangle className="w-5 h-5" />
  Eksik Bağlam Hatası
@@ -272,14 +272,14 @@ export default function OrphanInspectorPage() {
  </div>
 
  {/* Main Preview Area */}
- <div className="flex-1 overflow-y-auto bg-slate-50 p-8 h-full">
+ <div className="flex-1 overflow-y-auto bg-slate-50 p-5 h-full">
  {!selectedPath ? (
  <div className="h-full flex flex-col items-center justify-center text-slate-400 space-y-4">
  <LayoutDashboard className="w-16 h-16 opacity-30" />
  <p className="font-medium">Önizlemek için soldan bir bileşen seçin</p>
  </div>
  ) : (
- <div className="w-full px-4 sm:px-6 lg:px-8 space-y-6">
+ <div className="w-full px-4 sm:px-6 lg:px-6 space-y-6">
  <div className="bg-white px-6 py-4 rounded-xl border border-slate-200 shadow-sm flex items-start justify-between">
  <div>
  <h2 className="text-xl font-bold text-slate-900">{selectedPath.split('/').pop()}</h2>

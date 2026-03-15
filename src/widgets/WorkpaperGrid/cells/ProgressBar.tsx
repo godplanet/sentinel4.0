@@ -12,7 +12,7 @@ export function ProgressBar({ tested, total, effective, ineffective }: ProgressB
  const ineffectivePct = total > 0 ? Math.round((ineffective / total) * 100) : 0;
 
  return (
- <div className="flex items-center gap-6">
+ <div className="flex items-center gap-4">
  <div className="flex-1">
  <div className="flex items-center justify-between mb-1.5">
  <span className="text-sm font-bold text-slate-800">

@@ -62,12 +62,12 @@ export const LivePulse = ({ activities }: LivePulseProps) => {
  ];
 
  return (
- <div className="space-y-4">
+ <div className="space-y-3">
  <div className="bg-surface rounded-xl border-2 border-slate-200 shadow-lg">
- <div className="border-b-2 border-slate-200 p-6 bg-gradient-to-r from-slate-50 to-white">
+ <div className="border-b-2 border-slate-200 p-4 bg-gradient-to-r from-slate-50 to-white">
  <div className="flex items-center justify-between">
  <div>
- <h3 className="text-2xl font-bold text-primary mb-1">Canlı Sistem Akışı</h3>
+ <h3 className="text-lg font-bold text-primary mb-0.5">Canlı Sistem Akışı</h3>
  <p className="text-sm text-slate-600">Ekip aktiviteleri</p>
  </div>
  <div className="relative">
@@ -77,7 +77,7 @@ export const LivePulse = ({ activities }: LivePulseProps) => {
  </div>
  </div>
 
- <div className="p-4 space-y-2 max-h-[500px] overflow-y-auto">
+ <div className="p-3 space-y-1.5 max-h-[400px] overflow-y-auto">
  {activities.slice(0, 8).map((activity, index) => (
  <div key={activity.id} className="relative">
  {index < activities.length - 1 && (
@@ -105,7 +105,7 @@ export const LivePulse = ({ activities }: LivePulseProps) => {
  ))}
  </div>
 
- <div className="border-t-2 border-slate-200 p-4 bg-canvas">
+ <div className="border-t-2 border-slate-200 p-3 bg-canvas">
  <button className="w-full text-center text-sm font-bold text-slate-600 hover:text-primary hover:bg-surface py-2.5 rounded-lg transition-all border-2 border-transparent hover:border-slate-300">
  Tüm Aktiviteleri Görüntüle →
  </button>
@@ -120,15 +120,15 @@ export const LivePulse = ({ activities }: LivePulseProps) => {
  key={action.id}
  to={action.path}
  className={clsx(
- 'group relative overflow-hidden rounded-xl p-6 text-center transition-all hover:-translate-y-1 hover:shadow-xl',
+ 'group relative overflow-hidden rounded-xl p-4 text-center transition-all hover:-translate-y-1 hover:shadow-xl',
  `bg-gradient-to-br ${action.gradient}`
  )}
  >
  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
 
- <div className="relative flex flex-col items-center gap-3">
- <div className="bg-surface/20 backdrop-blur-sm rounded-lg p-3 group-hover:scale-110 transition-transform">
- <Icon className="text-white" size={28} />
+ <div className="relative flex flex-col items-center gap-2">
+ <div className="bg-surface/20 backdrop-blur-sm rounded-lg p-2 group-hover:scale-110 transition-transform">
+ <Icon className="text-white" size={22} />
  </div>
  <span className="text-sm font-bold text-white">{action.label}</span>
  </div>

@@ -234,7 +234,7 @@ export const FindingStudioPage: React.FC = () => {
         
         {/* --- MOD A: EDIT (GLASS COCKPIT) --- */}
         {mode === 'edit' && (
-          <main className="flex-1 flex gap-6 p-6 h-full overflow-hidden">
+          <main className="flex-1 flex gap-4 p-4 h-full overflow-hidden">
             
             {/* LEFT: Tabbed Editor */}
             <div className="flex-1 bg-white/60 backdrop-blur-lg rounded-2xl border border-white/40 shadow-sm flex flex-col overflow-hidden relative group">
@@ -267,11 +267,11 @@ export const FindingStudioPage: React.FC = () => {
               </div>
 
               {/* Editor Canvas */}
-              <div className="flex-1 overflow-y-auto p-8 bg-white/40 z-10 custom-scrollbar">
-                 <div className="max-w-4xl mx-auto min-h-full space-y-8">
+              <div className="flex-1 overflow-y-auto p-5 bg-white/40 z-10 custom-scrollbar">
+                 <div className="max-w-4xl mx-auto min-h-full space-y-5">
                     
                     {/* 1. Rich Text Editor Card */}
-                    <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-8 min-h-[400px]">
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-5 min-h-[400px]">
                       {EDITOR_TABS.map((tab) => (
                         <div key={tab.id} className={cn(activeTab === tab.id ? "block" : "hidden", "animate-in fade-in slide-in-from-bottom-2 duration-300")}>
                           <div className="mb-4 flex items-center gap-2 text-slate-400 text-xs bg-slate-50 p-2 rounded-lg border border-slate-100">
@@ -289,7 +289,7 @@ export const FindingStudioPage: React.FC = () => {
                     </div>
 
                     {/* 2. Evidence Uploader Card */}
-                    <div className="bg-slate-50/50 rounded-xl border border-slate-200 border-dashed p-6">
+                    <div className="bg-slate-50/50 rounded-xl border border-slate-200 border-dashed p-4">
                        <div className="flex items-center gap-2 mb-4 text-slate-500 font-bold text-xs uppercase tracking-wide">
                          <Paperclip size={16} /> Kanıt Dokümanları & Ekler
                        </div>
@@ -337,7 +337,7 @@ export const FindingStudioPage: React.FC = () => {
                 {finding?.status === 'review' ? (
                   // REVIEW MODE - Gözden Geçirme Paneli
                   <div className="w-full bg-slate-50 flex flex-col h-full">
-                    <div className="p-6 border-b border-slate-200 bg-amber-50">
+                    <div className="p-4 border-b border-slate-200 bg-amber-50">
                       <div className="flex items-center gap-2 mb-2">
                         <AlertTriangle size={18} className="text-amber-600" />
                         <h3 className="text-sm font-bold text-amber-900 uppercase tracking-wide">
@@ -349,7 +349,7 @@ export const FindingStudioPage: React.FC = () => {
                       </p>
                     </div>
 
-                    <div className="flex-1 p-6 space-y-4 overflow-y-auto">
+                    <div className="flex-1 p-4 space-y-4 overflow-y-auto">
                       <button
                         onClick={() => {
                           updateField('status', 'approved');
@@ -419,8 +419,8 @@ export const FindingStudioPage: React.FC = () => {
 
         {/* --- MOD C: NEGOTIATION --- */}
         {mode === 'negotiation' && (
-           <main className="flex-1 flex gap-6 p-6 h-full overflow-hidden bg-slate-50/50">
-             <div className="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-y-auto p-8">
+           <main className="flex-1 flex gap-4 p-4 h-full overflow-hidden bg-slate-50/50">
+             <div className="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-y-auto p-5">
                 <ZenReaderWidget data={finding} layout="flow" warmth={0} />
              </div>
              

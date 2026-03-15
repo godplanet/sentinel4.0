@@ -21,7 +21,7 @@ export function VetoStatusCards({ findingCounts }: Props) {
 
  if (activeVetos.length === 0) {
  return (
- <div className="bg-green-500/10 border border-green-400/30 rounded-xl p-6">
+ <div className="bg-green-500/10 border border-green-400/30 rounded-xl p-4">
  <div className="flex items-center gap-3">
  <div className="p-3 bg-green-500/20 rounded-xl">
  <Shield className="w-6 h-6 text-green-400" />

@@ -88,8 +88,8 @@ export default function EntityScorecardPage() {
 
  return (
  <div className="min-h-screen ">
- <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
- <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border border-white/10 rounded-2xl p-8">
+ <div className="w-full px-4 sm:px-6 lg:px-6 py-5 space-y-6">
+ <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border border-white/10 rounded-2xl p-5">
  <div className="flex items-start justify-between">
  <div className="flex-1">
  <div className="flex items-center gap-3 mb-4">
@@ -129,7 +129,7 @@ export default function EntityScorecardPage() {
  </div>
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+ <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
  <div className="flex items-center gap-2 mb-4">
  <Building2 className="w-5 h-5 text-slate-400" />
  <h3 className="text-sm font-bold text-slate-400 uppercase">Birim Bilgisi</h3>
@@ -146,7 +146,7 @@ export default function EntityScorecardPage() {
  </div>
  </div>
 
- <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+ <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
  <div className="flex items-center gap-2 mb-4">
  <AlertCircle className="w-5 h-5 text-orange-400" />
  <h3 className="text-sm font-bold text-slate-400 uppercase">Bulgu Özeti</h3>
@@ -171,7 +171,7 @@ export default function EntityScorecardPage() {
  </div>
  </div>
 
- <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+ <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
  <div className="flex items-center gap-2 mb-4">
  <TrendingUp className="w-5 h-5 text-green-400" />
  <h3 className="text-sm font-bold text-slate-400 uppercase">Performans</h3>
@@ -191,19 +191,19 @@ export default function EntityScorecardPage() {
  </div>
  </div>
 
- <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+ <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
  <GradingWaterfall findingCounts={selectedEntity.findings} />
  </div>
 
- <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+ <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
  <VetoStatusCards findingCounts={selectedEntity.findings} />
  </div>
 
- <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+ <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
  <GradingScaleTable currentScore={finalScore} />
  </div>
 
- <div className="bg-blue-500/10 border border-blue-400/30 rounded-xl p-6">
+ <div className="bg-blue-500/10 border border-blue-400/30 rounded-xl p-4">
  <div className="flex items-start gap-4">
  <div className="p-3 bg-blue-500/20 rounded-xl flex-shrink-0">
  <Award className="w-6 h-6 text-blue-400" />

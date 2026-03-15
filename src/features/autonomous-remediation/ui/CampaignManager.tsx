@@ -107,11 +107,11 @@ export const CampaignManager: React.FC = () => {
 
  <div className="divide-y divide-slate-100">
  {isLoading ? (
- <div className="px-6 py-8 flex items-center justify-center">
+ <div className="px-6 py-5 flex items-center justify-center">
  <Loader2 size={20} className="animate-spin text-slate-400" />
  </div>
  ) : (campaigns ?? []).length === 0 ? (
- <div className="px-6 py-8 text-center text-sm text-slate-400">
+ <div className="px-6 py-5 text-center text-sm text-slate-400">
  Henüz kampanya bulunmuyor.
  </div>
  ) : (

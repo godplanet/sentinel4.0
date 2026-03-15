@@ -110,7 +110,7 @@ export const ManagerView = () => {
  }
 
  if (!activeCampaign) {
- return <div className="p-8 text-center text-sm text-slate-500">Aktif kampanya yok</div>;
+ return <div className="p-5 text-center text-sm text-slate-500">Aktif kampanya yok</div>;
  }
 
  const pending = (controls || []).filter((c) => !c.attestation);
@@ -189,7 +189,7 @@ export const ManagerView = () => {
  </tr>
  ))}
  {pending.length === 0 && (
- <tr><td colSpan={7} className="text-center py-6 text-xs text-slate-400">Tum beyanlar tamamlanmis</td></tr>
+ <tr><td colSpan={7} className="text-center py-4 text-xs text-slate-400">Tum beyanlar tamamlanmis</td></tr>
  )}
  </tbody>
  </table>

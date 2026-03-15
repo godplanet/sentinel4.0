@@ -34,14 +34,14 @@ export const Phase3Negotiation: React.FC<Phase3Props> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex flex-col md:flex-row gap-4">
         {/* Mutabıkım Button */}
         <button
           onClick={handleAgree}
           disabled={isReadOnly}
           className={cn(
-            "flex-1 p-6 rounded-2xl border transition-all duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-md shadow-sm",
+            "flex-1 p-4 rounded-2xl border transition-all duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-md shadow-sm",
             status === 'AGREED' 
               ? "bg-emerald-50/70 border-emerald-400 ring-2 ring-emerald-100" 
               : "bg-surface/50 border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/30",
@@ -60,7 +60,7 @@ export const Phase3Negotiation: React.FC<Phase3Props> = ({
           onClick={() => { if (!isReadOnly) setStatus('DISAGREED'); }}
           disabled={isReadOnly}
           className={cn(
-            "flex-1 p-6 rounded-2xl border transition-all duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-md shadow-sm",
+            "flex-1 p-4 rounded-2xl border transition-all duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-md shadow-sm",
             status === 'DISAGREED' 
               ? "bg-rose-50/70 border-rose-400 ring-2 ring-rose-100" 
               : "bg-surface/50 border-slate-200 hover:border-rose-300 hover:bg-rose-50/30",
@@ -77,7 +77,7 @@ export const Phase3Negotiation: React.FC<Phase3Props> = ({
 
       {/* Risk Kabul Formu (Apple Glass) */}
       {status === 'DISAGREED' && (
-        <div className="bg-red-50/50 backdrop-blur-md border border-red-200 rounded-2xl p-6 shadow-sm animate-in slide-in-from-top-2 fade-in duration-300">
+        <div className="bg-red-50/50 backdrop-blur-md border border-red-200 rounded-2xl p-4 shadow-sm animate-in slide-in-from-top-2 fade-in duration-300">
           <div className="flex items-center gap-2 mb-4">
             <FileText className="text-red-600" size={20} />
             <h4 className="font-bold text-red-900">Risk Kabul Gerekçesi</h4>

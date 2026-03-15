@@ -114,10 +114,10 @@ export const DraftPhase: React.FC<DraftPhaseProps> = ({ finding, onUpdate }) => 
     }
   };
 
-  if (isTaxonomyLoading) return <div className="p-6 flex items-center justify-center"><span className="text-sm font-medium text-slate-500 animate-pulse">Taksonomi yükleniyor...</span></div>;
+  if (isTaxonomyLoading) return <div className="p-4 flex items-center justify-center"><span className="text-sm font-medium text-slate-500 animate-pulse">Taksonomi yükleniyor...</span></div>;
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-5 pb-12">
       
       {/* 1. Başlık */}
       <div className="space-y-2">
@@ -176,10 +176,10 @@ export const DraftPhase: React.FC<DraftPhaseProps> = ({ finding, onUpdate }) => 
       </div>
 
       {/* 3. Risk Motoru */}
-      <div className="p-6 bg-white/70 backdrop-blur-lg border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-xl relative overflow-hidden group">
+      <div className="p-4 bg-white/70 backdrop-blur-lg border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-xl relative overflow-hidden group">
         <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 block border-b border-slate-100 pb-2">Denetim Çerçevesi & Puanlama</label>
         
-        <div className="flex bg-slate-100 p-1 mb-6 rounded-lg max-w-xs">
+        <div className="flex bg-slate-100 p-1 mb-4 rounded-lg max-w-xs">
           <button
             onClick={() => handleFrameworkChange('STANDARD')}
             className={cn("flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-[10px] font-bold transition-all uppercase tracking-wider", auditFramework === 'STANDARD' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700")}
@@ -194,7 +194,7 @@ export const DraftPhase: React.FC<DraftPhaseProps> = ({ finding, onUpdate }) => 
           </button>
         </div>
 
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Activity size={18} className="text-slate-400" />
             <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Risk Motoru</h3>
@@ -232,7 +232,7 @@ export const DraftPhase: React.FC<DraftPhaseProps> = ({ finding, onUpdate }) => 
             )}
 
             {auditFramework === 'STANDARD' && finding.severity !== 'OBSERVATION' && (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs font-bold text-slate-600"><span>Etki (Impact)</span><span className="text-indigo-600 text-sm">{impact}/5</span></div>
                   <input type="range" min="1" max="5" value={impact} onChange={(e) => onUpdate('impact', parseInt(e.target.value))} className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-200 accent-indigo-600" />
@@ -290,11 +290,11 @@ export const DraftPhase: React.FC<DraftPhaseProps> = ({ finding, onUpdate }) => 
       {isLinkModalOpen && (
         <div className="fixed inset-0 z-[201] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-md">
-            <div className="p-6 border-b border-slate-200 flex justify-between bg-slate-50 rounded-t-2xl">
+            <div className="p-4 border-b border-slate-200 flex justify-between bg-slate-50 rounded-t-2xl">
               <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2"><Link size={16} className="text-indigo-600"/> İlişkili Kayıt Ekle</h3>
               <button onClick={() => setIsLinkModalOpen(false)} className="p-1 rounded bg-white border border-slate-200 shadow-sm hover:bg-slate-50"><X size={16} /></button>
             </div>
-            <div className="p-6">
+            <div className="p-4">
                <input type="text" value={linkSearchQuery} onChange={(e) => setLinkSearchQuery(e.target.value)} placeholder="Bağlantı ara..." className="w-full p-3 text-sm font-medium border border-slate-200 rounded-xl bg-slate-50" disabled />
             </div>
           </div>

@@ -111,9 +111,9 @@ export default function WorkflowSettingsPage() {
  };
 
  return (
- <div className="min-h-screen bg-canvas p-6 pb-24 font-sans">
+ <div className="min-h-screen bg-canvas p-4 pb-24 font-sans">
 
- <div className="w-full max-w-[98%] mx-auto mb-6 flex items-center justify-between">
+ <div className="w-full max-w-[98%] mx-auto mb-4 flex items-center justify-between">
  <div className="flex items-center gap-4">
  <div className="p-3 bg-slate-900 text-white rounded-xl shadow-lg shadow-slate-900/20">
  <Scale size={28} />
@@ -129,8 +129,8 @@ export default function WorkflowSettingsPage() {
  <div className="w-full max-w-[98%] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
 
  {/* 1. ONAY HİYERARŞİSİ */}
- <GlassCard className="p-8 h-full" neonGlow="blue">
- <div className="flex items-center gap-4 mb-6 border-b border-slate-100 pb-4">
+ <GlassCard className="p-5 h-full" neonGlow="blue">
+ <div className="flex items-center gap-4 mb-4 border-b border-slate-100 pb-4">
  <div className="p-3 bg-blue-100 text-blue-600 rounded-xl"><GitMerge size={24} /></div>
  <div>
  <h3 className="font-bold text-slate-800 text-lg">Onay Zinciri Kuralları</h3>
@@ -138,7 +138,7 @@ export default function WorkflowSettingsPage() {
  </div>
  </div>
 
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex justify-between items-center p-4 bg-surface/50 rounded-xl border border-slate-200 shadow-sm transition-all hover:border-blue-300 group">
  <div className="flex gap-3">
  <Users className="text-blue-500 mt-1 transition-transform group-hover:scale-110" size={20} />
@@ -209,8 +209,8 @@ export default function WorkflowSettingsPage() {
  </GlassCard>
 
  {/* 2. RİSK KABUL YETKİSİ */}
- <GlassCard className="p-8 h-full" neonGlow="red">
- <div className="flex items-center gap-4 mb-6 border-b border-slate-100 pb-4">
+ <GlassCard className="p-5 h-full" neonGlow="red">
+ <div className="flex items-center gap-4 mb-4 border-b border-slate-100 pb-4">
  <div className="p-3 bg-red-100 text-red-600 rounded-xl"><ShieldAlert size={24} /></div>
  <div>
  <h3 className="font-bold text-slate-800 text-lg">Risk Kabul Yetkisi</h3>
@@ -218,7 +218,7 @@ export default function WorkflowSettingsPage() {
  </div>
  </div>
 
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="p-4 bg-orange-50/80 border border-orange-100 rounded-xl text-xs text-orange-900 leading-relaxed flex gap-3 shadow-sm">
  <Lock size={32} className="shrink-0 text-orange-600 mt-1" />
  <div>
@@ -321,7 +321,7 @@ export default function WorkflowSettingsPage() {
  <button
  onClick={() => save()}
  disabled={saving}
- className="px-8 py-2.5 bg-slate-900 text-white rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 shadow-lg shadow-slate-300 transition-all active:scale-95 text-sm disabled:opacity-60"
+ className="px-6 py-2.5 bg-slate-900 text-white rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 shadow-lg shadow-slate-300 transition-all active:scale-95 text-sm disabled:opacity-60"
  >
  {saving ? (
  <>

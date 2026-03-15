@@ -109,7 +109,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
  {/* Content */}
  <div className="p-6">
  {status === 'idle' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-4">
  <h3 className="mb-2 font-semibold text-primary">Paket İçeriği</h3>
  <ul className="space-y-2 text-sm text-gray-700">
@@ -153,7 +153,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
  )}
 
  {status === 'generating' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="space-y-3">
  {(steps || []).map((step) => (
  <div

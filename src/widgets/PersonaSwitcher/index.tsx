@@ -134,7 +134,7 @@ export const PersonaSwitcher = ({ compact = false, className }: PersonaSwitcherP
 
  // Full card view
  return (
- <div className={clsx('bg-surface rounded-xl shadow-lg p-6 border border-slate-200 ', className)}>
+ <div className={clsx('bg-surface rounded-xl shadow-lg p-4 border border-slate-200 ', className)}>
  <div className="flex items-center justify-between mb-4">
  <h3 className="text-lg font-bold text-primary ">
  Aktif Persona

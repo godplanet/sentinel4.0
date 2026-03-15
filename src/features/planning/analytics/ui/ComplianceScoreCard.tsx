@@ -36,7 +36,7 @@ export function ComplianceScoreCard({
 
  return (
  <div className={`
- bg-surface/90 backdrop-blur-xl rounded-xl border-2 p-8 transition-all
+ bg-surface/90 backdrop-blur-xl rounded-xl border-2 p-5 transition-all
  ${getGlowClass()}
  `}>
  <div className="text-center mb-6">
@@ -47,7 +47,7 @@ export function ComplianceScoreCard({
  <p className="text-sm text-slate-600">Overall audit plan realization metric</p>
  </div>
 
- <div className="text-center mb-8">
+ <div className="text-center mb-4">
  <div className={`text-7xl font-bold mb-2 ${complianceStatus.color}`}>
  {planRealizationRate.toFixed(1)}%
  </div>

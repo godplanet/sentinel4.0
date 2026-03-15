@@ -160,7 +160,7 @@ export default function ActionWorkbenchPage() {
  icon={ListTodo}
  />
 
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* Stats Overview */}
  <div className="grid grid-cols-7 gap-3">
  <StatsCard title="Total" value={stats.total} icon={ListTodo} color="blue" />

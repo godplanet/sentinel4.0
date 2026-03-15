@@ -79,7 +79,7 @@ export function ExamRunner({ examId, userId, onBack }: ExamRunnerProps) {
  if (error) {
  return (
  <div className="min-h-screen bg-[#070c18] flex items-center justify-center p-6">
- <div className="max-w-md w-full rounded-2xl border border-rose-500/20 bg-rose-500/5 p-8 text-center">
+ <div className="max-w-md w-full rounded-2xl border border-rose-500/20 bg-rose-500/5 p-5 text-center">
  <AlertCircle size={40} className="text-rose-400 mx-auto mb-4" />
  <h2 className="text-white font-semibold text-lg mb-2">Sınav Yüklenemedi</h2>
  <p className="text-slate-400 text-sm mb-6">{error}</p>

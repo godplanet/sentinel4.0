@@ -157,7 +157,7 @@ export function ExecutionGrid() {
  onClick={() => setAddNoteModal(false)}
  />
  <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
- <div className="bg-surface rounded-lg shadow-2xl max-w-lg w-full p-6">
+ <div className="bg-surface rounded-lg shadow-2xl max-w-lg w-full p-4">
  <h3 className="text-lg font-semibold text-primary mb-4">
  Yeni İnceleme Notu
  </h3>
@@ -205,8 +205,8 @@ export function ExecutionGrid() {
  )}
 
  {/* Grid Content */}
- <div className="flex-1 overflow-auto p-6">
- <div className="glass-card p-6">
+ <div className="flex-1 overflow-auto p-4">
+ <div className="glass-card p-4">
  <h3 className="text-lg font-semibold text-primary mb-4">Test Alanları</h3>
 
  <div className="space-y-4">

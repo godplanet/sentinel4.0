@@ -146,7 +146,7 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
  };
 
  return (
- <div className="h-full flex flex-col space-y-6 animate-in fade-in duration-300">
+ <div className="h-full flex flex-col space-y-4 animate-in fade-in duration-300">
  
  {/* BAŞLIK VE AÇIKLAMA */}
  <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-start gap-3 shrink-0">
@@ -183,7 +183,7 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
 
  {/* İÇERİK ALANI */}
  <div className="flex-1 overflow-y-auto custom-scrollbar pb-20 pr-2">
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* 1. METOT: 5-WHYS */}
  {activeMethod === '5whys' && (

@@ -8,14 +8,14 @@ export default function GovernanceVaultPage() {
  const [activeTab, setActiveTab] = useState<'vault' | 'declarations'>('vault');
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Governance Vault - Yönetişim Kasası"
  subtitle="Yönetmelik, politika ve bağımsızlık beyanları"
  />
 
- <div className="space-y-8">
- <div className="mb-8 bg-gradient-to-r from-slate-700 to-slate-800 rounded-xl p-6 text-white">
+ <div className="space-y-5">
+ <div className="mb-4 bg-gradient-to-r from-slate-700 to-slate-800 rounded-xl p-4 text-white">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
  <Shield className="w-6 h-6" />
@@ -44,7 +44,7 @@ export default function GovernanceVaultPage() {
  </div>
  </div>
 
- <div className="mb-6 bg-surface rounded-lg border border-slate-200 p-1 inline-flex shadow-sm">
+ <div className="mb-4 bg-surface rounded-lg border border-slate-200 p-1 inline-flex shadow-sm">
  <button
  onClick={() => setActiveTab('vault')}
  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${

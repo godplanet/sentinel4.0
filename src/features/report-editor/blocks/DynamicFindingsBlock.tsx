@@ -214,7 +214,7 @@ export function DynamicFindingsBlock({
 
  if (!engagementId) {
  return (
- <div className="border-2 border-dashed border-slate-300 bg-canvas rounded-xl p-8 text-center">
+ <div className="border-2 border-dashed border-slate-300 bg-canvas rounded-xl p-5 text-center">
  <Database className="w-12 h-12 text-slate-400 mx-auto mb-3" />
  <h3 className="text-lg font-semibold text-slate-600 mb-2">Veri Kaynağı Bekleniyor</h3>
  <p className="text-sm text-slate-500">
@@ -226,7 +226,7 @@ export function DynamicFindingsBlock({
 
  if (error) {
  return (
- <div className="border-2 border-dashed border-rose-300 bg-rose-50 rounded-xl p-8 text-center">
+ <div className="border-2 border-dashed border-rose-300 bg-rose-50 rounded-xl p-5 text-center">
  <AlertCircle className="w-12 h-12 text-rose-600 mx-auto mb-3" />
  <h3 className="text-lg font-semibold text-rose-900 mb-2">Hata Oluştu</h3>
  <p className="text-sm text-rose-700 mb-4">{error}</p>
@@ -370,7 +370,7 @@ export function DynamicStatisticsBlock({ engagementId }: { engagementId?: string
 
  if (loading) {
  return (
- <div className="text-center py-8 bg-surface/50 rounded-xl border border-slate-200">
+ <div className="text-center py-5 bg-surface/50 rounded-xl border border-slate-200">
  <RefreshCw className="w-6 h-6 text-blue-600 animate-spin mx-auto" />
  </div>
  );
@@ -387,19 +387,19 @@ export function DynamicStatisticsBlock({ engagementId }: { engagementId?: string
  return (
  <div className="grid grid-cols-4 gap-4 my-6">
  <div className="bg-rose-50 border-2 border-rose-200 rounded-xl p-5 text-center shadow-sm">
- <div className="text-4xl font-bold text-rose-700 mb-1">{stats.critical}</div>
+ <div className="text-3xl font-bold text-rose-700 mb-1">{stats.critical}</div>
  <div className="text-xs text-rose-600 font-semibold uppercase tracking-wide">Kritik</div>
  </div>
  <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-5 text-center shadow-sm">
- <div className="text-4xl font-bold text-orange-700 mb-1">{stats.high}</div>
+ <div className="text-3xl font-bold text-orange-700 mb-1">{stats.high}</div>
  <div className="text-xs text-orange-600 font-semibold uppercase tracking-wide">Yüksek</div>
  </div>
  <div className="bg-amber-50 border-2 border-amber-200 rounded-xl p-5 text-center shadow-sm">
- <div className="text-4xl font-bold text-amber-700 mb-1">{stats.medium}</div>
+ <div className="text-3xl font-bold text-amber-700 mb-1">{stats.medium}</div>
  <div className="text-xs text-amber-600 font-semibold uppercase tracking-wide">Orta</div>
  </div>
  <div className="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-5 text-center shadow-sm">
- <div className="text-4xl font-bold text-emerald-700 mb-1">{stats.low}</div>
+ <div className="text-3xl font-bold text-emerald-700 mb-1">{stats.low}</div>
  <div className="text-xs text-emerald-600 font-semibold uppercase tracking-wide">Düşük</div>
  </div>
  </div>

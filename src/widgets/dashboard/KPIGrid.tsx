@@ -34,7 +34,7 @@ export const KPIGrid = ({ kpis }: KPIGridProps) => {
  {(kpis || []).map((kpi) => (
  <div
  key={kpi.id}
- className="bg-surface rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+ className="bg-surface rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
  >
  <div className="flex items-start justify-between mb-4">
  <p className="text-sm font-medium text-slate-600 leading-snug">{kpi.label}</p>
@@ -48,7 +48,7 @@ export const KPIGrid = ({ kpis }: KPIGridProps) => {
  </span>
  </div>
 
- <p className="text-4xl font-bold text-primary tracking-tight">{kpi.value}</p>
+ <p className="text-3xl font-bold text-primary tracking-tight">{kpi.value}</p>
  </div>
  ))}
  </div>

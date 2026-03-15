@@ -117,7 +117,7 @@ export default function StrategicPlanningPage() {
  }
  />
 
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* Tab Navigation */}
  <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-slate-200 p-2 flex gap-2">
  {(tabs || []).map((tab) => {
@@ -156,8 +156,8 @@ export default function StrategicPlanningPage() {
  {/* Tab Content */}
  <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-slate-200 overflow-hidden shadow-lg">
  {activeTab === 'universe' && (
- <div className="p-6">
- <div className="mb-6">
+ <div className="p-4">
+ <div className="mb-4">
  <h2 className="text-2xl font-bold text-primary mb-2">Risk Evreni Skorlaması</h2>
  <p className="text-slate-600">
  Denetim evrenindeki varlıkları etki ve olasılık bazında puanlayarak risk odaklı planlama yapın.
@@ -212,7 +212,7 @@ export default function StrategicPlanningPage() {
  </div>
 
  {/* Mode Content */}
- <div className="p-6 flex flex-col gap-8">
+ <div className="p-4 flex flex-col gap-8">
  {planMode === 'mode1_core' ? (
  <PlanListView />
  ) : (
@@ -230,8 +230,8 @@ export default function StrategicPlanningPage() {
  )}
 
  {activeTab === 'adherence' && (
- <div className="p-6">
- <div className="mb-6">
+ <div className="p-4">
+ <div className="mb-4">
  <h2 className="text-2xl font-bold text-primary mb-2">Plan Uyumu Takibi</h2>
  <p className="text-slate-600">
  Yıllık denetim planının gerçekleşme oranı, sapma analizi ve performans izleme
@@ -242,8 +242,8 @@ export default function StrategicPlanningPage() {
  )}
 
  {activeTab === 'list' && (
- <div className="p-6">
- <div className="flex items-center justify-between mb-6">
+ <div className="p-4">
+ <div className="flex items-center justify-between mb-4">
  <div>
  <h2 className="text-2xl font-bold text-primary mb-2">Denetim Görevleri Listesi</h2>
  <p className="text-slate-600">
@@ -410,7 +410,7 @@ export default function StrategicPlanningPage() {
  <div>
  Toplam: <span className="font-semibold text-primary">{engagements.length}</span> denetim görevi
  </div>
- <div className="flex items-center gap-6">
+ <div className="flex items-center gap-4">
  <div className="flex items-center gap-2">
  <div className="w-2 h-2 rounded-full bg-blue-500" />
  <span>
@@ -439,7 +439,7 @@ export default function StrategicPlanningPage() {
 
  {showAddEngagementModal && isLoadingPlan && (
  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
- <div className="bg-surface rounded-xl shadow-2xl p-6 max-w-md flex flex-col items-center gap-4">
+ <div className="bg-surface rounded-xl shadow-2xl p-4 max-w-md flex flex-col items-center gap-4">
  <Loader2 className="animate-spin text-blue-600" size={32} />
  <p className="text-slate-600 font-medium">Yıllık plan yükleniyor...</p>
  </div>
@@ -457,7 +457,7 @@ export default function StrategicPlanningPage() {
 
  {showAddEngagementModal && !isLoadingPlan && !activePlan && (
  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
- <div className="bg-surface rounded-xl shadow-2xl p-6 max-w-md">
+ <div className="bg-surface rounded-xl shadow-2xl p-4 max-w-md">
  <h3 className="text-lg font-bold text-red-600 mb-2">Onaylı Plan Bulunamadı</h3>
  <p className="text-slate-600">
  Denetim görevi oluşturmak için önce onaylanmış bir yıllık plan (APPROVED durumunda) oluşturulmalıdır.

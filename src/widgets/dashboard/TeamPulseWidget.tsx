@@ -70,7 +70,7 @@ export function TeamPulseWidget() {
  return (
  <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
  {/* Header */}
- <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+ <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
  <div className="flex items-center gap-2.5">
  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
  <Zap size={14} className="text-white" />
@@ -90,13 +90,13 @@ export function TeamPulseWidget() {
  </div>
 
  {loading && (
- <div className="flex items-center justify-center py-12 text-slate-400">
+ <div className="flex items-center justify-center py-5 text-slate-400">
  <RefreshCw size={20} className="animate-spin" />
  </div>
  )}
 
  {!loading && rows.length === 0 && (
- <div className="flex flex-col items-center justify-center py-12 gap-2 text-center px-6">
+ <div className="flex flex-col items-center justify-center py-5 gap-2 text-center px-4">
  <Users size={24} className="text-slate-300" />
  <p className="text-sm font-medium text-slate-500">Bu hafta henüz yanıt yok</p>
  <p className="text-xs text-slate-400">Ekip üyeleri nabız kontrolünü tamamladığında veriler burada görünecek</p>
@@ -104,7 +104,7 @@ export function TeamPulseWidget() {
  )}
 
  {!loading && rows.length > 0 && (
- <div className="p-5 space-y-5">
+ <div className="p-4 space-y-4">
  {/* ── Quiet Quitting Risk Banner ─────────────────── */}
  {qqRisk > 0 && (
  <motion.div

@@ -87,8 +87,8 @@ export function QuantDashboard() {
  }
 
  return (
- <div className="space-y-6">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="space-y-4">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <label className="block text-sm font-semibold text-slate-700 mb-3">
  Risk Senaryosu Seçin
  </label>
@@ -111,7 +111,7 @@ export function QuantDashboard() {
  <motion.div
  initial={{ scale: 0.9, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
- className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg"
+ className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-4 text-white shadow-lg"
  >
  <div className="flex items-center justify-between mb-3">
  <span className="text-sm font-medium text-blue-100">
@@ -129,7 +129,7 @@ export function QuantDashboard() {
  initial={{ scale: 0.9, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
  transition={{ delay: 0.1 }}
- className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg p-6 text-white shadow-lg"
+ className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg p-4 text-white shadow-lg"
  >
  <div className="flex items-center justify-between mb-3">
  <span className="text-sm font-medium text-amber-100">
@@ -147,7 +147,7 @@ export function QuantDashboard() {
  initial={{ scale: 0.9, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
  transition={{ delay: 0.2 }}
- className="bg-gradient-to-br from-red-500 to-red-600 rounded-lg p-6 text-white shadow-lg"
+ className="bg-gradient-to-br from-red-500 to-red-600 rounded-lg p-4 text-white shadow-lg"
  >
  <div className="flex items-center justify-between mb-3">
  <span className="text-sm font-medium text-red-100">
@@ -165,7 +165,7 @@ export function QuantDashboard() {
  initial={{ scale: 0.9, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
  transition={{ delay: 0.3 }}
- className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-lg"
+ className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-4 text-white shadow-lg"
  >
  <div className="flex items-center justify-between mb-3">
  <span className="text-sm font-medium text-green-100">
@@ -180,8 +180,8 @@ export function QuantDashboard() {
  </motion.div>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
- <div className="flex items-center justify-between mb-6">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
+ <div className="flex items-center justify-between mb-4">
  <div>
  <h3 className="text-lg font-bold text-primary mb-1">
  Zarar Olasılık Dağılımı
@@ -289,7 +289,7 @@ export function QuantDashboard() {
  </div>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <h3 className="text-lg font-bold text-primary mb-4">Senaryo Detayları</h3>
  <div className="grid md:grid-cols-2 gap-6">
  <div>

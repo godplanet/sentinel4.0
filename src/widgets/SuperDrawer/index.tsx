@@ -196,7 +196,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
  </div>
 
  {/* Content */}
- <div className="flex-1 overflow-y-auto p-6 space-y-6" style={{ maxHeight: 'calc(100vh - 250px)' }}>
+ <div className="flex-1 overflow-y-auto p-4 space-y-6" style={{ maxHeight: 'calc(100vh - 250px)' }}>
  {activeTab === 'details' && (
  <DetailsTab action={action} aging={aging} onStatusUpdate={handleStatusUpdate} />
  )}
@@ -248,7 +248,7 @@ function DetailsTab({ action, aging }: {
  onStatusUpdate: (status: string) => void;
 }) {
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* Finding Snapshot */}
  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
  <h3 className="text-sm font-semibold text-blue-900 mb-3 flex items-center gap-2">

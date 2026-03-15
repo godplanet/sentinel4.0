@@ -336,12 +336,12 @@ export default function BoardResolutionPage() {
  };
 
  return (
- <div className="min-h-screen p-6">
+ <div className="min-h-screen p-4">
  {/* Header */}
  <motion.div
  initial={{ opacity: 0, y: -10 }}
  animate={{ opacity: 1, y: 0 }}
- className="mb-6"
+ className="mb-4"
  >
  <div className="flex items-center gap-3 mb-1">
  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center shadow-sm">

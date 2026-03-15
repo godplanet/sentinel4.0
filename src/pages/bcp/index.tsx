@@ -26,7 +26,7 @@ export default function BCPCrisisPage() {
  ];
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="BCP & Kriz Yönetimi"
  description="İş Sürekliliği Planı — Aktif Kriz İzleme ve Kurtarma Koordinasyonu"

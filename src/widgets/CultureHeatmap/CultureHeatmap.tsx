@@ -147,7 +147,7 @@ export function CultureHeatmap() {
 
  if (isError || !data) {
  return (
- <div className="p-6 rounded-xl border border-amber-200 bg-amber-50 flex items-center gap-3">
+ <div className="p-4 rounded-xl border border-amber-200 bg-amber-50 flex items-center gap-3">
  <AlertTriangle className="text-amber-500 w-6 h-6" />
  <p className="text-amber-800 text-sm">Risk kültürü anket verileri yüklenirken bir sorun oluştu.</p>
  </div>
@@ -162,7 +162,7 @@ export function CultureHeatmap() {
  const categories: CultureCategory[] = ['ETHICS', 'SPEAK_UP', 'TONE_AT_THE_TOP', 'ACCOUNTABILITY', 'RISK_AWARENESS'];
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* 1. Özet Şeridi */}
  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
  <div className="col-span-1 md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-5 rounded-2xl shadow-lg relative overflow-hidden">

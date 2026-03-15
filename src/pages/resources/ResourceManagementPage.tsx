@@ -198,7 +198,7 @@ export default function ResourceManagementPage() {
 
  {/* Main content: single uniform container, no double-padding */}
  <div className="flex-1 overflow-auto">
- <div className="w-full px-4 sm:px-6 lg:px-8 w-full px-6 py-6">
+ <div className="w-full px-4 sm:px-6 lg:px-6 w-full px-6 py-4">
  {renderTabContent()}
  </div>
  </div>

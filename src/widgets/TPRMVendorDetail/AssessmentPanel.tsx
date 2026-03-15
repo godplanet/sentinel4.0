@@ -180,7 +180,7 @@ export const AssessmentPanel = ({ assessment }: Props) => {
  </div>
 
  {isLoading ? (
- <div className="flex justify-center py-8">
+ <div className="flex justify-center py-5">
  <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
  </div>
  ) : (

@@ -10,7 +10,7 @@ export default function NewEngagementPage() {
  description="Hizmet katalogundan denetim urunu secin, sprint plani ve ekip olusturun"
  icon={Rocket}
  />
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  <EngagementWizard />
  </div>
  </div>

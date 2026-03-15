@@ -14,7 +14,7 @@ export function VersionHistory({ documentId, currentVersionId, onRestore }: Prop
 
  if (isLoading) {
  return (
- <div className="flex items-center justify-center py-8">
+ <div className="flex items-center justify-center py-5">
  <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
  </div>
  );
@@ -22,7 +22,7 @@ export function VersionHistory({ documentId, currentVersionId, onRestore }: Prop
 
  if (!versions?.length) {
  return (
- <div className="text-center py-8 text-xs text-slate-400">
+ <div className="text-center py-5 text-xs text-slate-400">
  Versiyon gecmisi bulunamadi
  </div>
  );

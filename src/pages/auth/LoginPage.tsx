@@ -54,10 +54,10 @@ export default function LoginPage() {
       <div className="absolute top-0 left-0 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl" />
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
+      <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-6">
+          <div className="text-center mb-4">
+            <div className="flex items-center justify-center mb-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-600 rounded-2xl blur-2xl opacity-50 animate-pulse" />
                 <div className="relative bg-gradient-to-br from-blue-500 to-purple-600 p-4 rounded-2xl shadow-2xl">
@@ -66,7 +66,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <h1 className="text-4xl font-black text-white mb-2 tracking-tight">
+            <h1 className="text-3xl font-black text-white mb-2 tracking-tight">
               SENTINEL v3.0
             </h1>
             <p className="text-slate-300 text-lg font-medium">
@@ -80,8 +80,8 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="bg-surface/10 backdrop-blur-xl border-2 border-white/20 rounded-2xl p-8 shadow-2xl">
-            <div className="mb-6">
+          <div className="bg-surface/10 backdrop-blur-xl border-2 border-white/20 rounded-2xl p-5 shadow-2xl">
+            <div className="mb-4">
               <h2 className="text-2xl font-bold text-white mb-1">Hoş Geldiniz</h2>
               <p className="text-slate-300 text-sm">Devam etmek için giriş yapın</p>
             </div>

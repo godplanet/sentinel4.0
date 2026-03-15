@@ -10,10 +10,10 @@ export default function CreditMonitoringPage() {
  icon={CreditCard}
  />
 
- <div className="flex-1 p-6 overflow-auto">
- <div className="w-full px-4 sm:px-6 lg:px-8">
- <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
- <div className="bg-surface rounded-xl p-6 shadow-sm border border-slate-200">
+ <div className="flex-1 p-4 overflow-auto">
+ <div className="w-full px-4 sm:px-6 lg:px-6">
+ <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
+ <div className="bg-surface rounded-xl p-4 shadow-sm border border-slate-200">
  <div className="flex items-center gap-3 mb-4">
  <div className="p-3 bg-blue-50 rounded-lg">
  <CreditCard className="w-6 h-6 text-blue-600" />
@@ -24,7 +24,7 @@ export default function CreditMonitoringPage() {
  <p className="text-sm text-slate-500 mt-1">TRY</p>
  </div>
 
- <div className="bg-surface rounded-xl p-6 shadow-sm border border-slate-200">
+ <div className="bg-surface rounded-xl p-4 shadow-sm border border-slate-200">
  <div className="flex items-center gap-3 mb-4">
  <div className="p-3 bg-green-50 rounded-lg">
  <CheckCircle className="w-6 h-6 text-green-600" />
@@ -35,7 +35,7 @@ export default function CreditMonitoringPage() {
  <p className="text-sm text-slate-500 mt-1">Portföy oranı</p>
  </div>
 
- <div className="bg-surface rounded-xl p-6 shadow-sm border border-slate-200">
+ <div className="bg-surface rounded-xl p-4 shadow-sm border border-slate-200">
  <div className="flex items-center gap-3 mb-4">
  <div className="p-3 bg-amber-50 rounded-lg">
  <AlertTriangle className="w-6 h-6 text-amber-600" />
@@ -46,7 +46,7 @@ export default function CreditMonitoringPage() {
  <p className="text-sm text-slate-500 mt-1">İzleme gerekli</p>
  </div>
 
- <div className="bg-surface rounded-xl p-6 shadow-sm border border-slate-200">
+ <div className="bg-surface rounded-xl p-4 shadow-sm border border-slate-200">
  <div className="flex items-center gap-3 mb-4">
  <div className="p-3 bg-red-50 rounded-lg">
  <TrendingDown className="w-6 h-6 text-red-600" />
@@ -58,7 +58,7 @@ export default function CreditMonitoringPage() {
  </div>
  </div>
 
- <div className="bg-surface rounded-xl p-8 shadow-sm border border-slate-200">
+ <div className="bg-surface rounded-xl p-5 shadow-sm border border-slate-200">
  <h2 className="text-xl font-bold text-slate-800 mb-4">Kredi İzleme Sistemi</h2>
  <p className="text-slate-600">
  Bu sayfa kredi portföyü izleme, risk analizi ve erken uyarı sistemlerini içerecektir.

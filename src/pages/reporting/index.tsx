@@ -44,11 +44,11 @@ export default function ReportingPage() {
  </div>
  </div>
 
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  {activeTab === 'reports' && (
- <div className="space-y-6">
- <div className="bg-surface/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200/60 p-6">
- <div className="flex items-center justify-between mb-6">
+ <div className="space-y-4">
+ <div className="bg-surface/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200/60 p-4">
+ <div className="flex items-center justify-between mb-4">
  <div>
  <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <FileText size={20} className="text-blue-600" />
@@ -73,7 +73,7 @@ export default function ReportingPage() {
  {activeTab === 'qa' && <QualityAssuranceWidget />}
 
  {activeTab === 'actions' && (
- <div className="bg-surface/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200/60 p-8">
+ <div className="bg-surface/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200/60 p-5">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <ListChecks size={20} className="text-green-600" />
  Aksiyon Plani Takibi

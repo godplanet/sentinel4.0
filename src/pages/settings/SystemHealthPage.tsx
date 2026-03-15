@@ -166,7 +166,7 @@ export default function SystemHealthPage() {
  errorCount > 2 ? 'critical' : warningCount > 3 ? 'warning' : 'healthy';
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Sistem Sagligi & Veri Yonetimi"
  description="Veritabani durumu ve demo veri yukleme"
@@ -186,7 +186,7 @@ export default function SystemHealthPage() {
  {/* Canlı Teşhis — Gerçek zamanlı Supabase metrikleri */}
  <div
  className={clsx(
- 'rounded-xl p-6 border-2',
+ 'rounded-xl p-4 border-2',
  diagnosticsError || diagnostics?.status === 'Down'
  ? 'bg-red-50 border-red-300'
  : diagnostics?.status === 'Degraded'
@@ -261,7 +261,7 @@ export default function SystemHealthPage() {
  {/* Overall Health Card */}
  <div
  className={clsx(
- 'rounded-xl p-6 border-2',
+ 'rounded-xl p-4 border-2',
  overallHealth === 'healthy' && 'bg-green-50 border-green-200',
  overallHealth === 'warning' && 'bg-yellow-50 border-yellow-200',
  overallHealth === 'critical' && 'bg-red-50 border-red-200'
@@ -303,7 +303,7 @@ export default function SystemHealthPage() {
  <div className="lg:col-span-1">
  <PersonaSwitcher />
  </div>
- <div className="lg:col-span-2 bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
+ <div className="lg:col-span-2 bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
  <div className="flex items-start gap-4">
  <AlertCircle className="w-6 h-6 text-blue-600 shrink-0 mt-0.5" />
  <div>
@@ -333,7 +333,7 @@ export default function SystemHealthPage() {
  <div
  key={stat.name}
  className={clsx(
- 'bg-surface rounded-lg border-2 p-6 transition-all',
+ 'bg-surface rounded-lg border-2 p-4 transition-all',
  stat.status === 'healthy' && 'border-green-200 hover:shadow-lg',
  stat.status === 'warning' && 'border-yellow-200 hover:shadow-lg',
  stat.status === 'error' && 'border-red-200 hover:shadow-lg'

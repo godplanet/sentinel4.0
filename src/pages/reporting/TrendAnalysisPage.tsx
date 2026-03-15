@@ -21,14 +21,14 @@ const SEVERITY_TREND = [
 
 export default function TrendAnalysisPage() {
  return (
- <div className="p-8 space-y-6">
+ <div className="p-5 space-y-6">
  <PageHeader
  title="Trend Analizi"
  description="Zaman serisi analizi ve öngörücü trend raporları"
  badge="MODÜL 6: RAPORLAMA"
  />
 
- <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6 shadow-sm">
+ <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shrink-0">
  <TrendingUp className="w-6 h-6 text-white" />
@@ -50,7 +50,7 @@ export default function TrendAnalysisPage() {
  { label: 'Çözüm Oranı', value: '82%', change: '+12%', icon: TrendingUp, color: 'purple' },
  { label: 'Aksiyon Süresi', value: '18gün', change: '-5 gün', icon: Activity, color: 'amber' },
  ].map((stat, i) => (
- <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div key={i} className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <div className="flex items-center justify-between mb-4">
  <div className={`w-10 h-10 rounded-lg bg-${stat.color}-100 flex items-center justify-center`}>
  <stat.icon size={20} className={`text-${stat.color}-600`} />
@@ -64,7 +64,7 @@ export default function TrendAnalysisPage() {
  </div>
 
  <div className="grid lg:grid-cols-2 gap-6">
- <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
  <Activity size={20} className="text-blue-600" />
  Aylık Bulgu Trendi
@@ -83,7 +83,7 @@ export default function TrendAnalysisPage() {
  </ResponsiveContainer>
  </div>
 
- <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
  <BarChart3 size={20} className="text-purple-600" />
  Çeyreklik Şiddet Dağılımı
@@ -104,20 +104,20 @@ export default function TrendAnalysisPage() {
  </div>
  </div>
 
- <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-slate-800 mb-4">Monte Carlo Simülasyon Sonuçları</h3>
  <div className="grid md:grid-cols-3 gap-6">
- <div className="text-center p-6 bg-red-50 rounded-lg border border-red-200">
+ <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
  <div className="text-3xl font-bold text-red-600 mb-2">%15</div>
  <div className="text-sm text-slate-700 font-semibold">Kötümser Senaryo</div>
  <div className="text-xs text-slate-600 mt-2">Önümüzdeki 3 ayda 20+ kritik bulgu</div>
  </div>
- <div className="text-center p-6 bg-amber-50 rounded-lg border border-amber-200">
+ <div className="text-center p-4 bg-amber-50 rounded-lg border border-amber-200">
  <div className="text-3xl font-bold text-amber-600 mb-2">%65</div>
  <div className="text-sm text-slate-700 font-semibold">Normal Senaryo</div>
  <div className="text-xs text-slate-600 mt-2">10-15 kritik bulgu bekleniyor</div>
  </div>
- <div className="text-center p-6 bg-green-50 rounded-lg border border-green-200">
+ <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
  <div className="text-3xl font-bold text-green-600 mb-2">%20</div>
  <div className="text-sm text-slate-700 font-semibold">İyimser Senaryo</div>
  <div className="text-xs text-slate-600 mt-2">5'ten az kritik bulgu</div>

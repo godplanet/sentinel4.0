@@ -369,9 +369,9 @@ export const Sidebar = () => {
  <div className="text-xs font-bold text-white uppercase tracking-wider">Rol Simülasyonu</div>
  </div>
                   {profiles.length === 0 && isLoadingProfiles ? (
-                    <div className="px-4 py-8 text-sm text-slate-400 text-center animate-pulse">Profiller yükleniyor...</div>
+                    <div className="px-4 py-5 text-sm text-slate-400 text-center animate-pulse">Profiller yükleniyor...</div>
                   ) : profiles.length === 0 ? (
-                    <div className="px-4 py-8 text-sm text-red-400 text-center">
+                    <div className="px-4 py-5 text-sm text-red-400 text-center">
                       <div className="font-semibold mb-1">Profil Bulunamadı</div>
                       <div className="text-xs opacity-80">Veritabanına bağlanılamadı veya RLS hatası. Sadece aktif kullanıcı görüntüleniyor.</div>
                       <button

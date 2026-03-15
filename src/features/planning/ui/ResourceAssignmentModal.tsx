@@ -331,7 +331,7 @@ export function ResourceAssignmentModal({
  </p>
 
  {loadingProfiles ? (
- <div className="flex items-center justify-center py-8 text-slate-400">
+ <div className="flex items-center justify-center py-5 text-slate-400">
  <Loader2 size={18} className="animate-spin mr-2" />
  <span className="text-sm">Denetçiler yükleniyor...</span>
  </div>

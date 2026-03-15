@@ -343,7 +343,7 @@ export const WorkpaperDrawer = ({ isOpen, onClose, workpaperId, stepId }: Workpa
  transition={{ type: 'spring', damping: 30, stiffness: 300 }}
  className="fixed right-0 top-0 h-screen w-[600px] bg-surface/90 backdrop-blur-xl border-l border-gray-200 shadow-2xl z-50 flex flex-col"
  >
- <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-surface/50 backdrop-blur-md">
+ <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-surface/50 backdrop-blur-md">
  <div className="flex items-center gap-3">
  <div className="flex items-center justify-center w-10 h-10 bg-indigo-100 rounded-lg">
  <Shield className="w-5 h-5 text-indigo-600" />
@@ -384,9 +384,9 @@ export const WorkpaperDrawer = ({ isOpen, onClose, workpaperId, stepId }: Workpa
  ))}
  </div>
 
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  {activeTab === 'evidence' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="bg-surface/80 backdrop-blur-sm border border-gray-200 rounded-lg p-4">
  <h3 className="text-sm font-semibold text-primary mb-2">
  Kontrol Prosedürü
@@ -424,7 +424,7 @@ export const WorkpaperDrawer = ({ isOpen, onClose, workpaperId, stepId }: Workpa
  )}
 
  {activeTab === 'finding' && isFailed && (
- <div className="space-y-6">
+ <div className="space-y-4">
  {findingSaved ? (
  <div className="flex flex-col items-center justify-center py-12 space-y-4">
  <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
@@ -710,7 +710,7 @@ Sentinel Prime bu notları analiz edip profesyonel bulguya dönüştürecek."
 
  <div className="flex-1 space-y-3 mb-4 overflow-y-auto">
  {aiMessages.length === 0 ? (
- <div className="text-center py-8">
+ <div className="text-center py-5">
  <div className="flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mx-auto mb-3">
  <Sparkles className="w-8 h-8 text-indigo-600" />
  </div>

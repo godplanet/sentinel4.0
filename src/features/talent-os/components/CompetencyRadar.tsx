@@ -165,7 +165,7 @@ export function CompetencyRadar({ profileName, snapshot, decayMap }: Props) {
  )}
 
  {!hasRealData && (
- <div className="flex flex-col items-center justify-center flex-1 py-8 text-center">
+ <div className="flex flex-col items-center justify-center flex-1 py-5 text-center">
  <div className="w-12 h-12 rounded-xl bg-slate-800/60 border border-white/8 flex items-center justify-center mb-3">
  <GitCompare className="w-6 h-6 text-slate-600" />
  </div>

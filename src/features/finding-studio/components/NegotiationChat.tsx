@@ -87,7 +87,7 @@ export function NegotiationChat({
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
         {messages.length === 0 ? (
-          <div className="text-center text-gray-400 py-8">
+          <div className="text-center text-gray-400 py-5">
             <FileText className="w-12 h-12 mx-auto mb-2 opacity-50" />
             <div className="text-sm">Henüz mesaj yok</div>
             <div className="text-xs">Müzakereyi başlatmak için mesaj gönderin</div>

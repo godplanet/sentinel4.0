@@ -60,15 +60,15 @@ export default function ExecutiveDashboardPage() {
   const safeFindings = (criticalFindings || []).filter(f => f.status?.toUpperCase() !== 'CLOSED' && f.status?.toUpperCase() !== 'RESOLVED');
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8 overflow-y-auto relative">
+    <div className="min-h-screen bg-slate-50 p-5 overflow-y-auto relative">
       {/* Background Orbs */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none translate-x-1/2 translate-y-1/2" />
       
-      <div className="w-full space-y-8 relative z-10">
+      <div className="w-full space-y-5 relative z-10">
         
         {/* Header */}
-        <header className="flex items-center justify-between mb-8">
+        <header className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
               <ShieldAlert className="text-indigo-600" size={32} />
@@ -83,12 +83,12 @@ export default function ExecutiveDashboardPage() {
         </header>
 
         {/* --- PANEL 1: Bank-wide Risk Heatmap / Score --- */}
-        <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-8 rounded-3xl shadow-xl">
-          <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-5 rounded-3xl shadow-xl">
+          <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
             <Activity className="text-rose-500" /> Banka Geneli Risk Görünümü
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 bg-slate-50/50 rounded-2xl border border-slate-100 flex flex-col items-center justify-center text-center">
+            <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 flex flex-col items-center justify-center text-center">
               <span className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Banka Sağlık Skoru</span>
               <span className={cn(
                 "text-6xl font-black tracking-tighter drop-shadow-sm",
@@ -99,7 +99,7 @@ export default function ExecutiveDashboardPage() {
               <span className="text-xs text-slate-400 mt-2 font-medium">100 üzerinden</span>
             </div>
 
-            <div className="p-6 bg-slate-50/50 rounded-2xl border border-slate-100 flex flex-col justify-center">
+            <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 flex flex-col justify-center">
               <span className="text-sm font-bold text-slate-500 mb-4">Risk Dağılımı</span>
               <div className="w-full h-4 bg-slate-200 rounded-full overflow-hidden flex shadow-inner">
                 <div className="h-full bg-rose-500 transition-all duration-1000" style={{ width: `${Math.min(openCritical * 10, 80)}%` }} />
@@ -112,7 +112,7 @@ export default function ExecutiveDashboardPage() {
               </div>
             </div>
 
-            <div className="p-6 bg-indigo-600 rounded-2xl border border-indigo-500 flex flex-col items-center justify-center text-center shadow-lg shadow-indigo-200 text-white relative overflow-hidden group">
+            <div className="p-4 bg-indigo-600 rounded-2xl border border-indigo-500 flex flex-col items-center justify-center text-center shadow-lg shadow-indigo-200 text-white relative overflow-hidden group">
               <Target className="absolute -right-4 -bottom-4 w-32 h-32 text-indigo-500/30 group-hover:scale-110 transition-transform duration-500" />
               <span className="text-sm font-bold text-indigo-200 uppercase tracking-wider mb-2 relative z-10">Açık Kritik Bulgu</span>
               <span className="text-6xl font-black tracking-tighter drop-shadow-md relative z-10">
@@ -125,8 +125,8 @@ export default function ExecutiveDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           {/* --- PANEL 2: Recently Published Reports --- */}
-          <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-8 rounded-3xl shadow-xl flex flex-col h-[500px]">
-            <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center justify-between">
+          <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-5 rounded-3xl shadow-xl flex flex-col h-[500px]">
+            <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <FileText className="text-indigo-600" /> Nihai Yayınlanmış Raporlar
               </div>
@@ -208,7 +208,7 @@ export default function ExecutiveDashboardPage() {
                   ))}
                 </div>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 border-dashed">
+                <div className="h-full flex flex-col items-center justify-center p-4 bg-slate-50/50 rounded-2xl border border-slate-100 border-dashed">
                   <CheckCircle2 size={48} className="text-slate-300 mb-4" />
                   <h3 className="text-sm font-bold text-slate-600 mb-1">Henüz rapor bulunmamaktadır</h3>
                   <p className="text-xs text-slate-400 text-center">Şu an için yayınlanmış veya kapanmış nihai bir rapor sisteme yansımamıştır.</p>
@@ -218,8 +218,8 @@ export default function ExecutiveDashboardPage() {
           </section>
 
           {/* --- PANEL 3: Unclosed Critical Findings Alert --- */}
-          <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-8 rounded-3xl shadow-xl flex flex-col h-[500px]">
-            <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+          <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-5 rounded-3xl shadow-xl flex flex-col h-[500px]">
+            <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
               <AlertTriangle className="text-rose-600" /> Kritik Bulgu Alarmları
             </h2>
 
@@ -250,7 +250,7 @@ export default function ExecutiveDashboardPage() {
                   ))}
                 </div>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center p-6 bg-emerald-50/50 rounded-2xl border border-emerald-100 border-dashed">
+                <div className="h-full flex flex-col items-center justify-center p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100 border-dashed">
                   <ShieldAlert size={48} className="text-emerald-300 mb-4" />
                   <h3 className="text-sm font-bold text-emerald-700 mb-1">Tebrikler, Açık Kritik Bulgu Yok</h3>
                   <p className="text-xs text-emerald-600/70 text-center">Sistemde takip edilen aktif bir kırmızı kodlu bulgu tespit edilmemiştir.</p>

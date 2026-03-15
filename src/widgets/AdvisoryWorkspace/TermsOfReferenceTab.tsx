@@ -86,11 +86,11 @@ export function TermsOfReferenceTab({ engagement }: Props) {
  };
 
  return (
- <div className="max-w-4xl mx-auto p-8 space-y-8">
+ <div className="max-w-4xl mx-auto p-5 space-y-5">
 
  {/* ── SERT GEÇİT: Yönetim Feragatnamesi (GIAS 11.1) ── */}
  <div className={clsx(
- 'rounded-2xl border-2 p-6 transition-all',
+ 'rounded-2xl border-2 p-4 transition-all',
  isConfirmed
  ? 'border-emerald-200 bg-emerald-50/60'
  : 'border-amber-300 bg-amber-50 shadow-lg shadow-amber-100',

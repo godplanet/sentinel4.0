@@ -201,7 +201,7 @@ export function KanbanBoard({ engagements }: KanbanBoardProps) {
  ))}
 
  {columnEngagements.length === 0 && (
- <div className="glass-card p-8 text-center">
+ <div className="glass-card p-5 text-center">
  <Briefcase className="mx-auto mb-2 text-slate-300" size={32} />
  <p className="text-sm text-slate-500">Görev yok</p>
  </div>

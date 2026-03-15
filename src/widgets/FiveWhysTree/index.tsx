@@ -145,7 +145,7 @@ export function FiveWhysTree({ analysisId, levels = 5 }: FiveWhysTreeProps) {
 
  {/* Empty state */}
  {safeSteps.length === 0 && (
- <div className="text-center py-6 text-slate-400 text-sm">
+ <div className="text-center py-4 text-slate-400 text-sm">
  Henüz adım eklenmedi. Aşağıdan ilk "Neden?"i ekleyin.
  </div>
  )}

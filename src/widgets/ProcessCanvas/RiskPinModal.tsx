@@ -102,11 +102,11 @@ export function RiskPinModal({ nodeId, nodeLabel, onPin, onClose }: RiskPinModal
 
  <div className="flex-1 overflow-y-auto px-5 py-3 min-h-0">
  {loading ? (
- <div className="flex items-center justify-center py-8">
+ <div className="flex items-center justify-center py-5">
  <Loader2 size={20} className="animate-spin text-slate-400" />
  </div>
  ) : filtered.length === 0 ? (
- <p className="text-center text-xs text-slate-400 py-8">Risk bulunamadi.</p>
+ <p className="text-center text-xs text-slate-400 py-5">Risk bulunamadi.</p>
  ) : (
  <div className="space-y-1.5">
  {(filtered || []).map((risk) => (

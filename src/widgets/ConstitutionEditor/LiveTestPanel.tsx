@@ -149,7 +149,7 @@ export function LiveTestPanel({ dimensions, vetoRules, ranges, testInputs, onInp
  }}
  >
  <div
- className="text-4xl font-black mb-1"
+ className="text-3xl font-black mb-1"
  style={{ color: result.zone?.color || '#64748b' }}
  >
  {result.score}

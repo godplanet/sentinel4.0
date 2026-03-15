@@ -14,7 +14,7 @@ export default function DataPrivacyPage() {
  const breachRatio = totalCon > 0 ? ((totalRevoked / totalCon) * 100).toFixed(1) : '0.0';
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="KVKK & GDPR Veri Mahremiyeti"
  description="Kişisel veri akış (PII) haritası, ihlal yönetimi ve açık rıza onay istatistikleri."

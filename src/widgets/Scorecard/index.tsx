@@ -180,7 +180,7 @@ function ScorecardView({
  </div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
  <div className="flex flex-col items-center justify-center">
  <GradeGauge
  score={result.finalScore}

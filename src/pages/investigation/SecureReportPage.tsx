@@ -89,7 +89,7 @@ export default function SecureReportPage() {
  animate={{ opacity: 1, y: 0 }}
  className="relative w-full max-w-2xl"
  >
- <div className="flex items-center justify-center gap-3 mb-6">
+ <div className="flex items-center justify-center gap-3 mb-4">
  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
  <Shield size={20} className="text-emerald-400" />
  </div>
@@ -99,7 +99,7 @@ export default function SecureReportPage() {
  </div>
  </div>
 
- <div className="flex flex-wrap justify-center gap-2 mb-6">
+ <div className="flex flex-wrap justify-center gap-2 mb-4">
  {(SECURITY_BADGES || []).map((badge) => {
  const Icon = badge.icon;
  return (
@@ -121,7 +121,7 @@ export default function SecureReportPage() {
  initial={{ opacity: 0 }}
  animate={{ opacity: 1 }}
  exit={{ opacity: 0 }}
- className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 space-y-5"
+ className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-4 space-y-5"
  >
  <div>
  <label className="text-xs font-bold text-slate-400 mb-2 block">Bildirim Kanali</label>
@@ -234,7 +234,7 @@ export default function SecureReportPage() {
  key="success"
  initial={{ opacity: 0, scale: 0.95 }}
  animate={{ opacity: 1, scale: 1 }}
- className="bg-slate-900/80 backdrop-blur-xl border border-emerald-800/30 rounded-2xl p-8 text-center space-y-5"
+ className="bg-slate-900/80 backdrop-blur-xl border border-emerald-800/30 rounded-2xl p-5 text-center space-y-5"
  >
  <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
  <ShieldCheck size={28} className="text-emerald-400" />

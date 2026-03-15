@@ -126,10 +126,10 @@ export default function RiskConstitutionPage() {
  }
  />
 
- <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
- <div className="flex gap-6">
+ <div className="w-full px-4 sm:px-6 lg:px-6 py-4">
+ <div className="flex gap-4">
  <div className="flex-1 min-w-0">
- <div className="flex items-center gap-1 mb-6 bg-surface border border-slate-200 rounded-xl p-1">
+ <div className="flex items-center gap-1 mb-4 bg-surface border border-slate-200 rounded-xl p-1">
  {TABS.map(tab => {
  const Icon = tab.icon;
  const isActive = activeTab === tab.id;
@@ -150,7 +150,7 @@ export default function RiskConstitutionPage() {
  })}
  </div>
 
- <div className="bg-surface/70 backdrop-blur-xl border border-slate-200 rounded-2xl p-6 shadow-sm">
+ <div className="bg-surface/70 backdrop-blur-xl border border-slate-200 rounded-2xl p-4 shadow-sm">
  {activeTab === 'dimensions' && (
  <DimensionsTab dimensions={draftDimensions} onChange={handleDimensionsChange} />
  )}

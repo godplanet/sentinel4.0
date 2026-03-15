@@ -55,7 +55,7 @@ export function OracleBoard() {
  </span>
  </div>
 
- <div className="mb-8">
+ <div className="mb-4">
  <span className="inline-block text-[11px] font-semibold tracking-widest text-slate-400 uppercase mb-3">
  Tur {round} &mdash; {currentRisk.category}
  </span>
@@ -67,7 +67,7 @@ export function OracleBoard() {
  </p>
  </div>
 
- <div className="bg-surface rounded-2xl border border-slate-100 shadow-sm p-7 space-y-7 mb-8">
+ <div className="bg-surface rounded-2xl border border-slate-100 shadow-sm p-7 space-y-7 mb-4">
  <ZenSlider
  label="Etki"
  subLabel="Impact"
@@ -96,7 +96,7 @@ export function OracleBoard() {
  </div>
  <button
  onClick={handleSubmit}
- className="inline-flex items-center gap-2.5 bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 active:scale-95 rounded-full px-8 py-3 transition-all duration-150"
+ className="inline-flex items-center gap-2.5 bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 active:scale-95 rounded-full px-6 py-3 transition-all duration-150"
  >
  {currentRiskIndex < risks.length - 1 ? 'Onayla & Sonraki' : 'Tamamla'}
  <ArrowRight size={15} />

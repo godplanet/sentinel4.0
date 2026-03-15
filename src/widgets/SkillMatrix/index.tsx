@@ -98,9 +98,9 @@ export function SkillMatrix() {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="bg-surface rounded-lg border border-slate-200 shadow-sm overflow-hidden">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h3 className="text-lg font-bold text-primary flex items-center gap-2">
  <Star className="w-5 h-5 text-amber-500" />
  Yetenek Matrisi - Ekip Geneli
@@ -224,9 +224,9 @@ export function SkillMatrix() {
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
- className="bg-surface rounded-lg border border-slate-200 shadow-sm p-6"
+ className="bg-surface rounded-lg border border-slate-200 shadow-sm p-4"
  >
- <div className="flex items-center justify-between mb-6">
+ <div className="flex items-center justify-between mb-4">
  <div>
  <h3 className="text-lg font-bold text-primary flex items-center gap-2">
  <TrendingUp className="w-5 h-5 text-blue-600" />

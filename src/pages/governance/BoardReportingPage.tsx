@@ -58,14 +58,14 @@ function ExecutionTab() {
  }
  if (isError) {
  return (
- <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-6 text-center">
+ <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-center">
  <p className="text-sm text-amber-800">Denetim istatistikleri yüklenirken bir hata oluştu.</p>
  </div>
  );
  }
  if (stats.length === 0) {
  return (
- <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-8 text-center">
+ <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 text-center">
  <ClipboardCheck className="mx-auto w-10 h-10 text-slate-300 mb-3" />
  <p className="text-sm text-slate-600">Bu dönem için raporlanacak denetim icra verisi bulunmamaktadır.</p>
  </div>
@@ -129,14 +129,14 @@ function FindingsTab() {
  }
  if (isError) {
  return (
- <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-6 text-center">
+ <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-center">
  <p className="text-sm text-amber-800">Kritik bulgular yüklenirken bir hata oluştu.</p>
  </div>
  );
  }
  if (findings.length === 0) {
  return (
- <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-8 text-center">
+ <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 text-center">
  <CheckCircle2 className="mx-auto w-10 h-10 text-emerald-400 mb-3" />
  <p className="text-sm text-slate-600 font-medium">
  Bu dönem için raporlanacak kritik bulgu bulunmamaktadır.
@@ -204,14 +204,14 @@ function EscalationsTab() {
  }
  if (isError) {
  return (
- <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-6 text-center">
+ <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-center">
  <p className="text-sm text-amber-800">Eskalasyon verileri yüklenirken bir hata oluştu.</p>
  </div>
  );
  }
  if (escalations.length === 0) {
  return (
- <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-8 text-center">
+ <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 text-center">
  <ArrowUpCircle className="mx-auto w-10 h-10 text-slate-300 mb-3" />
  <p className="text-sm text-slate-600 font-medium">
  Başdenetçi tarafından kurula arz edilen aksiyon gecikmesi bulunmamaktadır.
@@ -265,14 +265,14 @@ const INDEPENDENCE_STATEMENT = `
 
 function QaipTab() {
  return (
- <div className="space-y-6">
- <div className="rounded-xl border border-slate-200 bg-surface p-6 shadow-sm">
+ <div className="space-y-4">
+ <div className="rounded-xl border border-slate-200 bg-surface p-4 shadow-sm">
  <h3 className="text-base font-semibold text-slate-800 mb-3">İç Denetim Bağımsızlık Beyanı</h3>
  <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
  {INDEPENDENCE_STATEMENT}
  </p>
  </div>
- <div className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-6 flex items-start gap-4">
+ <div className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 flex items-start gap-4">
  <div className="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
  <CheckCircle2 className="w-6 h-6 text-white" />
  </div>
@@ -302,7 +302,7 @@ export default function BoardReportingPage() {
 
  return (
  <div className="min-h-screen bg-canvas w-full">
- <div className="w-full px-4 py-6">
+ <div className="w-full px-4 py-4">
  <div className="sticky top-0 z-20 bg-canvas/95 backdrop-blur-md border-b border-slate-200 -mx-4 px-4 pt-2 pb-4">
  <PageHeader
  title="Yönetim Kurulu Raporlama"
@@ -381,7 +381,7 @@ export default function BoardReportingPage() {
  role="tabpanel"
  aria-labelledby={`tab-${activeTab}`}
  id="board-panel"
- className="rounded-b-xl border border-t-0 border-slate-200 bg-surface shadow-sm p-6 min-h-[320px] w-full"
+ className="rounded-b-xl border border-t-0 border-slate-200 bg-surface shadow-sm p-4 min-h-[320px] w-full"
  >
  {activeTab === 'execution' && <ExecutionTab />}
  {activeTab === 'findings' && <FindingsTab />}

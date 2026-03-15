@@ -65,12 +65,12 @@ export const KPITicker = ({ kpis }: KPITickerProps) => {
  >
  <div className={clsx('h-1', config.accentColor)} />
 
- <div className="p-6">
- <div className="flex items-start justify-between mb-4">
+ <div className="p-4">
+ <div className="flex items-start justify-between mb-3">
  <div className="flex-1">
- <p className="text-sm font-semibold text-slate-600 leading-snug mb-2">{kpi.label}</p>
+ <p className="text-sm font-semibold text-slate-600 leading-snug mb-1">{kpi.label}</p>
  <div className="flex items-baseline gap-2">
- <p className="text-4xl font-bold text-primary tracking-tight">{kpi.value}</p>
+ <p className="text-3xl font-bold text-primary tracking-tight">{kpi.value}</p>
  <span className={clsx('inline-flex items-center gap-1 text-xs font-bold', config.textColor)}>
  <TrendIcon size={14} />
  </span>

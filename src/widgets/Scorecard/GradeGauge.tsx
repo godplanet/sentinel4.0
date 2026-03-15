@@ -60,7 +60,7 @@ export function GradeGauge({ score, grade, opinion, capped }: Props) {
  </svg>
 
  <div className="absolute inset-0 flex flex-col items-center justify-center">
- <span className="text-4xl font-black text-slate-800 tabular-nums">{score}</span>
+ <span className="text-3xl font-black text-slate-800 tabular-nums">{score}</span>
  <span
  className="text-2xl font-black mt--1"
  style={{ color }}

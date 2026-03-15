@@ -141,7 +141,7 @@ function PlanPanel({ assetId }: { assetId: string }) {
 
  if (isLoading) {
  return (
- <div className="flex items-center gap-2 py-6 justify-center text-slate-400">
+ <div className="flex items-center gap-2 py-4 justify-center text-slate-400">
  <div className="w-4 h-4 border-2 border-indigo-300 border-t-indigo-600 rounded-full animate-spin" />
  <span className="text-xs">Geçiş planları yükleniyor...</span>
  </div>
@@ -159,7 +159,7 @@ function PlanPanel({ assetId }: { assetId: string }) {
 
  if (!assetPlans || assetPlans.length === 0) {
  return (
- <div className="text-center py-8 text-slate-400 bg-white/50 rounded-2xl border border-dashed border-slate-200">
+ <div className="text-center py-5 text-slate-400 bg-white/50 rounded-2xl border border-dashed border-slate-200">
  <GitCommit className="w-8 h-8 mx-auto mb-2 opacity-30" />
  <p className="text-xs">Bu varlık için henüz PQC geçiş planı oluşturulmamış.</p>
  </div>
@@ -238,9 +238,9 @@ export default function PqcRadarPage() {
  };
 
  return (
- <div className="min-h-screen p-6">
+ <div className="min-h-screen p-4">
  {/* Header */}
- <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+ <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
  <div className="flex items-center gap-3 mb-1">
  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-900 to-slate-900 flex items-center justify-center shadow-sm">
  <ShieldAlert className="w-5 h-5 text-indigo-100" />

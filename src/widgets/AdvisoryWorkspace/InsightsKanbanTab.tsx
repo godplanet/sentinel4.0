@@ -68,7 +68,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
  }
 
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-6">
  <div className="flex items-center justify-between">
  <div>
  <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -127,7 +127,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
 
  {showForm && (
  <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
- <div className="bg-surface rounded-2xl p-6 max-w-lg w-full shadow-2xl">
+ <div className="bg-surface rounded-2xl p-4 max-w-lg w-full shadow-2xl">
  <div className="flex items-center justify-between mb-5">
  <h3 className="text-base font-bold text-slate-800">Yeni Gozlem Ekle</h3>
  <button onClick={() => setShowForm(false)} className="p-1 rounded hover:bg-slate-100">

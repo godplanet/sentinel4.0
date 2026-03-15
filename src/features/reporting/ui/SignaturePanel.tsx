@@ -199,7 +199,7 @@ export function SignaturePanel({
  return (
  <div className="border-t border-slate-200 bg-canvas p-6 print:bg-surface print:border-t-2 print:border-black print:pt-8">
  <div className="max-w-4xl mx-auto">
- <div className="flex items-center gap-3 mb-6 print:mb-8 print:justify-center">
+ <div className="flex items-center gap-3 mb-6 print:mb-4 print:justify-center">
  <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center print:hidden">
  <Lock size={18} className="text-emerald-600" />
  </div>
@@ -272,7 +272,7 @@ export function SignaturePanel({
  return (
  <div className="border-t border-slate-200 bg-canvas p-6 print:bg-surface print:border-t-2 print:border-black print:pt-8">
  <div className="max-w-4xl mx-auto">
- <div className="flex items-center gap-3 mb-6 print:mb-8 print:justify-center">
+ <div className="flex items-center gap-3 mb-6 print:mb-4 print:justify-center">
  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center print:hidden">
  <Shield size={18} className="text-blue-600" />
  </div>

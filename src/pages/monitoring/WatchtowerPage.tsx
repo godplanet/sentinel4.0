@@ -208,7 +208,7 @@ export default function WatchtowerPage() {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="p-3 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700">
@@ -295,7 +295,7 @@ export default function WatchtowerPage() {
  </div>
 
  {viewMode === 'dashboard' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <Seismograph data={seismoData} loading={false} />
 
  <AIAnomalyPanel onCreateProbe={handleAICreateProbe} />

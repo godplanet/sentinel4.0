@@ -134,7 +134,7 @@ export const FindingWorkflowProgress = ({
  </div>
 
  {/* Workflow Steps */}
- <div className="px-6 py-6">
+ <div className="px-6 py-4">
  <div className="relative">
  {/* Progress Line */}
  <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-200" />

@@ -103,7 +103,7 @@ export function DataFlowMap() {
  return (
  <div className="space-y-4">
  {/* Quick Stats Overlay */}
- <div className="grid grid-cols-3 gap-4 mb-6">
+ <div className="grid grid-cols-3 gap-4 mb-4">
  <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
  <div className="text-2xl font-black text-slate-700">{stats.total}</div>
  <div className="text-[10px] font-bold text-slate-500 uppercase">Aktif Veri Akışı</div>

@@ -127,7 +127,7 @@ export function UniversalFindingDrawer({
  "flex-1 overflow-y-auto custom-scrollbar relative",
  currentViewMode === 'glass' ? "bg-transparent text-slate-200" : "bg-surface text-slate-800"
  )}>
- <div className="p-6 h-full">
+ <div className="p-4 h-full">
  
  {/* 1. SENTINEL AI PANELİ */}
  {activeTab === 'ai' && (

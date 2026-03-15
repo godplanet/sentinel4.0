@@ -184,9 +184,9 @@ export default function FieldAgentPage() {
  </div>
 
  {/* Microphone Button Area */}
- <div className="flex-1 flex flex-col items-center justify-center w-full mb-8">
+ <div className="flex-1 flex flex-col items-center justify-center w-full mb-4">
  {/* Status Text */}
- <div className="mb-6 text-center">
+ <div className="mb-4 text-center">
  <p className="text-2xl font-bold text-primary mb-2">
  {status === 'idle' && 'Hazır'}
  {status === 'listening' && 'Dinliyorum...'}

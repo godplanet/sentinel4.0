@@ -7,7 +7,7 @@ export default function AuditeePortalPage() {
  <div className="min-h-screen bg-[#FDFBF7] p-4 md:p-8 flex flex-col">
  <MagicLinkHeader />
  <main className="flex-1 mt-6 min-h-0">
- <div className="w-full px-4 sm:px-6 lg:px-8 h-full" style={{ minHeight: '70vh' }}>
+ <div className="w-full px-4 sm:px-6 lg:px-6 h-full" style={{ minHeight: '70vh' }}>
  <motion.div
  initial={{ opacity: 0, y: 12 }}
  animate={{ opacity: 1, y: 0 }}
@@ -38,7 +38,7 @@ function MagicLinkHeader() {
  <motion.header
  initial={{ opacity: 0, y: -8 }}
  animate={{ opacity: 1, y: 0 }}
- className="w-full px-4 sm:px-6 lg:px-8 w-full"
+ className="w-full px-4 sm:px-6 lg:px-6 w-full"
  >
  <div className="bg-surface/70 backdrop-blur-md border border-slate-200 rounded-2xl px-6 py-4 shadow-sm flex items-center justify-between">
  <div className="flex items-center gap-3">

@@ -163,8 +163,8 @@ export default function AcademyPage() {
  icon={BookOpen}
  />
 
- <div className="w-full px-4 sm:px-6 lg:px-8 sm:px-6 py-6">
- <div className="grid grid-cols-3 gap-4 mb-6">
+ <div className="w-full px-4 sm:px-6 lg:px-6 sm:px-6 py-4">
+ <div className="grid grid-cols-3 gap-4 mb-4">
  <StatCard icon={<Trophy size={18} className="text-amber-500" />} label="Total XP Earned" value={totalXP.toLocaleString()} sub="from passed exams" color="amber" />
  <StatCard icon={<Award size={18} className="text-emerald-500" />} label="Certificates" value={String(attempts.length)} sub="exams passed" color="emerald" />
  <StatCard icon={<Zap size={18} className="text-blue-500" />} label="CPE Hours" value={`${earnedHours.toFixed(1)} / ${cpeGoal}`} sub={`${currentYear} approved`} color="blue" />
@@ -191,7 +191,7 @@ export default function AcademyPage() {
  </nav>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  {activeTab === 'learning' && (
  <LearningTab courses={courses} loading={loadingCourses} />
  )}
@@ -325,7 +325,7 @@ function ExamCenterTab({
  if (loading) return <LoadingSkeleton rows={4} />;
 
  return (
- <div className="space-y-8">
+ <div className="space-y-5">
  <div>
  <h3 className="text-sm font-semibold text-slate-700 mb-3">Available Exams</h3>
  {exams.length === 0 ? (
@@ -458,7 +458,7 @@ function CPEWalletTab({
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <CPEProgressBar
  earnedHours={earnedHours}
  pendingHours={pendingHours}

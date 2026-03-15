@@ -43,7 +43,7 @@ export default function OraclePage() {
 
  if (isLoading) {
  return (
- <div className="bg-canvas min-h-screen flex items-center justify-center p-6">
+ <div className="bg-canvas min-h-screen flex items-center justify-center p-4">
  <div className="flex items-center gap-3 text-slate-500 text-sm">
  <Loader2 className="w-5 h-5 animate-spin" />
  Risk listesi yükleniyor…
@@ -54,20 +54,20 @@ export default function OraclePage() {
 
  if (isComplete) {
  return (
- <div className="bg-canvas min-h-screen flex items-center justify-center p-6">
+ <div className="bg-canvas min-h-screen flex items-center justify-center p-4">
  <div className="w-full max-w-md text-center">
- <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mx-auto mb-6">
+ <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mx-auto mb-4">
  <CheckCircle size={28} className="text-emerald-500" />
  </div>
 
  <h2 className="text-2xl font-light tracking-tight text-primary mb-2">
  Tur {round} Tamamlandı
  </h2>
- <p className="text-sm text-slate-500 mb-8 leading-relaxed">
+ <p className="text-sm text-slate-500 mb-4 leading-relaxed">
  Tüm oylar alındı. Konsensüsü veritabanına kaydetmek için aşağıdaki düğmeyi kullanın.
  </p>
 
- <div className="bg-surface rounded-2xl border border-slate-100 shadow-sm p-6 mb-6 text-left space-y-4">
+ <div className="bg-surface rounded-2xl border border-slate-100 shadow-sm p-4 mb-4 text-left space-y-4">
  <p className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">
  Oy Özeti
  </p>
@@ -90,7 +90,7 @@ export default function OraclePage() {
  })}
  </div>
 
- <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+ <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
  <button
  onClick={handleSealConsensus}
  disabled={saveConsensus.isPending || Object.keys(votes).length === 0}
@@ -117,7 +117,7 @@ export default function OraclePage() {
  }
 
  return (
- <div className="bg-canvas min-h-screen flex items-center justify-center p-6">
+ <div className="bg-canvas min-h-screen flex items-center justify-center p-4">
  <div className="w-full max-w-2xl">
  <div className="text-center mb-12">
  <p className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase mb-2">

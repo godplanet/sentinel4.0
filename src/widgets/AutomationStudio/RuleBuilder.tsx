@@ -128,7 +128,7 @@ export const RuleBuilder = ({ onCreated, onCancel }: Props) => {
  })}
  </div>
 
- <div className="p-6 min-h-[340px]">
+ <div className="p-4 min-h-[340px]">
  <AnimatePresence mode="wait">
  <motion.div
  key={step}
@@ -186,7 +186,7 @@ export const RuleBuilder = ({ onCreated, onCancel }: Props) => {
  <span className="font-bold text-blue-600">{triggerLabel}</span> tetiklendikten sonra hangi kosullar saglanmali?
  </p>
  {conditionFields.length === 0 ? (
- <div className="text-center py-8 text-sm text-slate-400">
+ <div className="text-center py-5 text-sm text-slate-400">
  Bu tetikleyici icin ek kosul gerekmemektedir.
  </div>
  ) : (

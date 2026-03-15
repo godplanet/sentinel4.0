@@ -15,7 +15,7 @@ export default function ChaosLabPage() {
  const [tab, setTab] = useState<TabId>('chaos');
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Kaos Laboratuvari & Aktif Iyilestirme"
  description="Kontrol etkinligini sentetik saldirilarla test edin ve altyapi aciklarina aninda mudahale edin."

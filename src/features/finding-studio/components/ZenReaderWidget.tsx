@@ -49,7 +49,7 @@ const getRiskBadge = (data: any) => {
 const SectionBlock = ({ title, icon: Icon, content, colorClass }: any) => {
   if (!content || content === '<p><br></p>') return null;
   return (
-    <section className="mb-8 group">
+    <section className="mb-4 group">
       <div className="flex items-center gap-2 mb-3 border-b border-black/5 pb-1">
         <Icon size={16} className={cn("opacity-70", colorClass)} />
         <h3 className="font-sans text-[10px] font-bold uppercase tracking-widest opacity-50">
@@ -104,7 +104,7 @@ export const ZenReaderWidget: React.FC<ZenReaderWidgetProps> = ({
         </div>
         
         {/* Font küçültüldü: text-3xl */}
-        <h1 className="font-serif text-3xl md:text-4xl font-bold leading-tight mb-4 text-slate-900">
+        <h1 className="font-serif text-3xl md:text-3xl font-bold leading-tight mb-4 text-slate-900">
           {data.title || 'Başlıksız Bulgu'}
         </h1>
         
@@ -186,7 +186,7 @@ export const ZenReaderWidget: React.FC<ZenReaderWidgetProps> = ({
   if (layout === 'book') {
     return (
       // Outer scroll container — fills the entire zen main panel, centers the book
-      <div className="flex items-start justify-center w-full min-h-full py-10 px-8 xl:px-16">
+      <div className="flex items-start justify-center w-full min-h-full py-10 px-6 xl:px-16">
         {/*
           A4 Two-Page Book Spread:
             A4 portrait = 210×297mm → ratio = 1:√2 (height = width × √2)

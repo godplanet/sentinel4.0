@@ -349,7 +349,7 @@ export function ExecutiveSummaryBlock({
 
         {/* Boş durum — henüz özet yok */}
         {!summary && !isGenerating && (
-          <div className="border border-dashed border-slate-700/60 rounded-xl p-8 text-center">
+          <div className="border border-dashed border-slate-700/60 rounded-xl p-5 text-center">
             <div className="w-10 h-10 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-3">
               <Sparkles size={16} className="text-slate-500" />
             </div>
@@ -370,7 +370,7 @@ export function ExecutiveSummaryBlock({
 
         {/* Üretim yükleme animasyonu */}
         {isGenerating && (
-          <div className="border border-indigo-500/30 rounded-xl p-8 bg-indigo-500/5 text-center">
+          <div className="border border-indigo-500/30 rounded-xl p-5 bg-indigo-500/5 text-center">
             <Brain size={28} className="text-indigo-400 animate-pulse mx-auto mb-3" />
             <p className="text-sm font-medium text-slate-300">Sentinel AI Analiz Ediyor...</p>
             <p className="text-xs text-slate-500 mt-1">

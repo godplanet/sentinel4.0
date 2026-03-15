@@ -135,7 +135,7 @@ export const MappingModal = ({ requirement, onClose }: Props) => {
  </button>
  </div>
 
- <div className="p-6 space-y-5">
+ <div className="p-4 space-y-5">
  <button
  onClick={handleAISuggest}
  disabled={aiLoading}

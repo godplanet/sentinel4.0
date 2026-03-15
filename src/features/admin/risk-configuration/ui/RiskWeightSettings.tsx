@@ -5,7 +5,7 @@ export const RiskWeightSettings = () => {
  const { weights, thresholds, updateWeight, updateThreshold } = useRiskConfigStore();
 
  return (
- <div className="space-y-8">
+ <div className="space-y-5">
  <div className="glass-panel p-6 rounded-xl">
  <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
  <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
@@ -62,7 +62,7 @@ export const RiskWeightSettings = () => {
  <div className="glass-panel p-6 rounded-xl border-l-4 border-l-rose-500">
  <h3 className="font-bold text-lg text-slate-800 mb-6">Risk Seviye Eşikleri (Thresholds)</h3>
 
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="relative pt-6 pb-2">
  <div className="h-4 bg-slate-100 rounded-full w-full flex overflow-hidden">
  <div style={{ width: `${(thresholds.medium / 20) * 100}%` }} className="bg-emerald-400 transition-all" />

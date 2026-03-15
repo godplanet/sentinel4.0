@@ -94,7 +94,7 @@ export function AdvisoryCanvasTab({ engagementId }: { engagementId: string }) {
 
  if (isLoading) {
  return (
- <div className="p-8 flex items-center justify-center min-h-[200px]">
+ <div className="p-5 flex items-center justify-center min-h-[200px]">
  <div className="flex items-center gap-3 text-slate-500 text-sm">
  <Loader2 size={18} className="animate-spin text-blue-500" />
  Çalışma alanı blokları yükleniyor...
@@ -104,7 +104,7 @@ export function AdvisoryCanvasTab({ engagementId }: { engagementId: string }) {
  }
 
  return (
- <div className="p-8 space-y-6 max-w-4xl mx-auto">
+ <div className="p-5 space-y-4 max-w-4xl mx-auto">
  {/* Header */}
  <div className="flex items-center justify-between">
  <div>

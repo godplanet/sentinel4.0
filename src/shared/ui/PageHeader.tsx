@@ -27,7 +27,7 @@ export const PageHeader = ({
  return (
  <div
  className={clsx(
- 'relative overflow-hidden rounded-2xl px-6 py-4 mb-6',
+ 'relative overflow-hidden rounded-xl px-5 py-3 mb-3',
  'bg-surface/70 backdrop-blur-xl border border-slate-200/80 shadow-sm',
  className
  )}

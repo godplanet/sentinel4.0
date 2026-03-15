@@ -154,7 +154,7 @@ export default function WorkpapersPage() {
  );
 
  return (
- <div className="p-6 space-y-6 bg-canvas min-h-screen">
+ <div className="p-4 space-y-4 bg-canvas min-h-screen">
  <PageHeader
  title="Çalışma Kağıtları"
  description="Kontrol test matrisi ve denetim çalışma kağıtları yönetimi"

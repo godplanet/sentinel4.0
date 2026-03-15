@@ -33,7 +33,7 @@ export function WorkpaperList({ onSelectWorkpaper }: WorkpaperListProps) {
 
  if (workpapers.length === 0) {
  return (
- <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-8">
+ <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-5">
  <div className="text-center">
  <svg
  className="w-16 h-16 mx-auto text-gray-300 mb-3"

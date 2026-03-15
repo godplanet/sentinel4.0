@@ -112,8 +112,8 @@ export default function ExecutionConsolidatedPage() {
 
  <div className="flex-1 overflow-auto">
  {activeTab === 'audits' && (
- <div className="p-6">
- <div className="mb-6">
+ <div className="p-4">
+ <div className="mb-4">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
  <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
  <div className="flex items-center justify-between mb-2">
@@ -191,7 +191,7 @@ export default function ExecutionConsolidatedPage() {
  <button
  key={engagement.id}
  onClick={() => navigate(`/execution/my-engagements/${engagement.id}`)}
- className="w-full bg-surface rounded-lg shadow-sm border border-slate-200 p-6 hover:shadow-md transition-all text-left group"
+ className="w-full bg-surface rounded-lg shadow-sm border border-slate-200 p-4 hover:shadow-md transition-all text-left group"
  >
  <div className="flex items-start justify-between mb-4">
  <div className="flex-1">
@@ -261,13 +261,13 @@ export default function ExecutionConsolidatedPage() {
  )}
 
  {activeTab === 'investigations' && (
- <div className="p-6">
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
+ <div className="p-4">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <Shield size={20} className="text-red-600" />
  Soruşturma Dosyaları
  </h3>
- <p className="text-slate-600 mb-6">
+ <p className="text-slate-600 mb-4">
  Gizlilik dereceli soruşturma vakalarının takibi.
  </p>
 

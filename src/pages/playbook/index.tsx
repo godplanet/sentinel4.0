@@ -139,7 +139,7 @@ function NewEntryModal({ onClose }: { onClose: () => void }) {
  <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors text-lg leading-none">×</button>
  </div>
 
- <form onSubmit={handleSubmit} className="p-6 space-y-4">
+ <form onSubmit={handleSubmit} className="p-4 space-y-4">
  <div>
  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Başlık</label>
  <input
@@ -259,9 +259,9 @@ export default function PlaybookPage() {
  }, {});
 
  return (
- <div className="min-h-screen text-white p-6">
+ <div className="min-h-screen text-white p-4">
  {/* Header */}
- <div className="flex items-start justify-between mb-8">
+ <div className="flex items-start justify-between mb-4">
  <div className="flex items-center gap-4">
  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg shadow-sky-500/20">
  <BookOpen className="w-6 h-6 text-white" />
@@ -281,7 +281,7 @@ export default function PlaybookPage() {
  </div>
 
  {/* Stats bar */}
- <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+ <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
  <button
  onClick={() => setFilterCat('ALL')}
  className={`col-span-2 md:col-span-1 flex flex-col items-center justify-center px-4 py-3 rounded-xl border transition-all ${filterCat === 'ALL' ? 'bg-surface/10 border-white/20' : 'bg-slate-900/40 border-white/6 hover:bg-surface/5'}`}

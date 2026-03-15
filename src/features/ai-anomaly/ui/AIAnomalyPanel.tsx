@@ -241,7 +241,7 @@ export function AIAnomalyPanel({ onCreateProbe }: AIAnomalyPanelProps) {
  )}
 
  {!isLoading && alerts.length === 0 && (
- <div className="text-center py-8">
+ <div className="text-center py-5">
  <motion.div
  animate={{ y: [0, -5, 0] }}
  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}

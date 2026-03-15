@@ -197,7 +197,7 @@ function TranscriptPanel({ sessionId }: { sessionId: string }) {
  </h4>
 
  {isLoading && (
- <div className="flex items-center gap-2 py-6 text-slate-400 justify-center">
+ <div className="flex items-center gap-2 py-4 text-slate-400 justify-center">
  <div className="w-4 h-4 border-2 border-blue-300 border-t-blue-600 rounded-full animate-spin" />
  <span className="text-xs">Transkript yükleniyor...</span>
  </div>
@@ -277,7 +277,7 @@ function TranscriptPanel({ sessionId }: { sessionId: string }) {
  })}
 
  {!isLoading && (lines || []).length === 0 && (
- <div className="text-center py-8 text-slate-400">
+ <div className="text-center py-5 text-slate-400">
  <Volume2 className="w-8 h-8 mx-auto mb-2 opacity-30" />
  <p className="text-xs">Bu oturum için transkript kaydı bulunamadı</p>
  </div>
@@ -304,12 +304,12 @@ export default function CognitiveInterviewPage() {
  };
 
  return (
- <div className="min-h-screen p-6">
+ <div className="min-h-screen p-4">
  {/* Header */}
  <motion.div
  initial={{ opacity: 0, y: -10 }}
  animate={{ opacity: 1, y: 0 }}
- className="mb-6"
+ className="mb-4"
  >
  <div className="flex items-center gap-3 mb-1">
  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-700 to-purple-800 flex items-center justify-center shadow-sm">

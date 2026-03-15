@@ -161,7 +161,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
  )}
 
  {step === 1 && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <ScoreSlider label="Etki" value={form.impact} onChange={v => setForm(p => ({ ...p, impact: v }))} />
  <ScoreSlider label="Olasilik" value={form.likelihood} onChange={v => setForm(p => ({ ...p, likelihood: v }))} />
  <ScoreSlider label="Hacim" value={form.volume} onChange={v => setForm(p => ({ ...p, volume: v }))} />

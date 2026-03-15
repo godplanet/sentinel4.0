@@ -191,7 +191,7 @@ export function SentimentOracle() {
  ) : (
  <div>
  {activeAlerts.length > 0 && (
- <div className="mb-6">
+ <div className="mb-4">
  <p className="text-[10px] font-black text-rose-700 uppercase tracking-wider mb-2 ml-1 flex items-center gap-1.5">
  <AlertTriangle size={12} className={activeAlerts.some(a => a.severity === 'CRITICAL') ? 'animate-pulse' : ''} /> 
  Kriz / Potansiyel Riskler

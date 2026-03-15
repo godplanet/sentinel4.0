@@ -20,7 +20,7 @@ export const RiskWeightSimulator = () => {
  </div>
  </div>
 
- <div className="space-y-6">
+ <div className="space-y-4">
  {[
  { label: 'Etki (Impact)', key: 'impact', color: 'accent-rose-500' },
  { label: 'Olasılık (Likelihood)', key: 'likelihood', color: 'accent-orange-500' },

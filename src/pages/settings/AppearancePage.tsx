@@ -47,7 +47,7 @@ export default function AppearancePage() {
  const { environment, setEnvironment, setSidebarColor } = useUIStore();
  const { mode, setMode } = useThemeStore();
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-6">
  <PageHeader
  title="Görünüm"
  description="Sidebar renkleri, tema ve görsel özelleştirme ayarları"
@@ -67,12 +67,12 @@ export default function AppearancePage() {
  </p>
  </div>
  </div>
- <div className="p-6">
+ <div className="p-4">
  <ThemeSelector />
  </div>
  </div>
 
- <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-6 shadow-sm">
+ <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shrink-0">
  <Palette className="w-6 h-6 text-white" />
@@ -89,7 +89,7 @@ export default function AppearancePage() {
 
  <div className="grid lg:grid-cols-3 gap-6">
  <div className="lg:col-span-2 bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Paintbrush size={20} className="text-purple-600" />
  Sidebar Renk Özelleştirme
@@ -98,14 +98,14 @@ export default function AppearancePage() {
  Sidebar rengini kurum kimliğinize göre özelleştirin
  </p>
  </div>
- <div className="p-8">
+ <div className="p-5">
  <SidebarColorPicker />
  </div>
  </div>
 
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Server size={20} className="text-slate-600" />
  Ortam Seçimi
@@ -114,7 +114,7 @@ export default function AppearancePage() {
  Aktif ortam sidebar rengini ve sistem davranışını belirler.
  </p>
  </div>
- <div className="p-6 space-y-3">
+ <div className="p-4 space-y-3">
  {(Object.keys(ENV_META) as (keyof typeof ENV_META)[]).map((env) => {
  const meta = ENV_META[env];
  const theme = THEME_CONFIG.environments[env];
@@ -153,13 +153,13 @@ export default function AppearancePage() {
  </div>
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Monitor size={20} className="text-blue-600" />
  Tema Modu
  </h2>
  </div>
- <div className="p-6 space-y-3">
+ <div className="p-4 space-y-3">
  <button 
    onClick={() => setMode('light')}
    className={clsx("w-full flex items-center justify-between p-4 border-2 transition-all rounded-lg", mode === 'light' ? "border-blue-500 bg-blue-50" : "border-slate-200 hover:border-slate-300")}
@@ -213,13 +213,13 @@ export default function AppearancePage() {
  </div>
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Palette size={20} className="text-green-600" />
  Renk Profilleri
  </h2>
  </div>
- <div className="p-6 space-y-3">
+ <div className="p-4 space-y-3">
  <div className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
  Hazır Renkler
  </div>
@@ -244,7 +244,7 @@ export default function AppearancePage() {
  </div>
  </div>
 
- <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+ <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
  <div className="flex items-start gap-3">
  <Monitor className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
  <div>

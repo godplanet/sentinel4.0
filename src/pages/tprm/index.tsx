@@ -8,7 +8,7 @@ export default function TPRMPage() {
  const [selectedVendorId, setSelectedVendorId] = useState<string | null>(null);
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Tedarikcier Risk Yonetimi (TPRM)"
  description="Ucuncu taraf risk degerlendirmesi ve tedarikcier izleme"
@@ -16,7 +16,7 @@ export default function TPRMPage() {
  />
 
  {!selectedVendorId && (
- <div className="bg-gradient-to-r from-slate-700 to-slate-900 rounded-xl p-6 text-white">
+ <div className="bg-gradient-to-r from-slate-700 to-slate-900 rounded-xl p-4 text-white">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
  <ShieldAlert className="w-6 h-6" />

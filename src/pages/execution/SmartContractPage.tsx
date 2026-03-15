@@ -121,7 +121,7 @@ function VulnerabilityPanel({ contractId }: { contractId: string }) {
 
  if (isLoading) {
  return (
- <div className="flex items-center gap-2 py-6 justify-center text-slate-400">
+ <div className="flex items-center gap-2 py-4 justify-center text-slate-400">
  <div className="w-4 h-4 border-2 border-indigo-300 border-t-indigo-600 rounded-full animate-spin" />
  <span className="text-xs">Zafiyet analizi yükleniyor...</span>
  </div>
@@ -138,7 +138,7 @@ function VulnerabilityPanel({ contractId }: { contractId: string }) {
 
  if (!vulns || vulns.length === 0) {
  return (
- <div className="text-center py-6 text-emerald-600/60 bg-emerald-50/50 rounded-2xl border border-dashed border-emerald-200/60">
+ <div className="text-center py-4 text-emerald-600/60 bg-emerald-50/50 rounded-2xl border border-dashed border-emerald-200/60">
  <ShieldCheck className="w-8 h-8 mx-auto mb-2 opacity-30" />
  <p className="text-xs font-semibold">Bu akıllı sözleşmede bilinen bir güvenlik zafiyeti bulunamadı.</p>
  <p className="text-[10px] mt-1 text-emerald-600/50">Denetim standartları karşılanmaktadır.</p>
@@ -231,8 +231,8 @@ export default function SmartContractPage() {
  };
 
  return (
- <div className="min-h-screen p-6">
- <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+ <div className="min-h-screen p-4">
+ <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
  <div className="flex items-center gap-3 mb-1">
  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-800 to-slate-900 flex items-center justify-center shadow-sm">
  <Code2 className="w-5 h-5 text-indigo-200" />

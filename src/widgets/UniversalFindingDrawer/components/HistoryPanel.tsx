@@ -18,7 +18,7 @@ export function HistoryPanel({ findingId }: HistoryPanelProps) {
  return (
  <div className="h-full flex flex-col animate-in fade-in duration-300">
 
- <div className="bg-canvas border border-slate-200 rounded-xl p-4 mb-6 shrink-0 flex items-center gap-3">
+ <div className="bg-canvas border border-slate-200 rounded-xl p-4 mb-4 shrink-0 flex items-center gap-3">
  <History className="text-slate-500 w-6 h-6" />
  <div>
  <h3 className="font-bold text-slate-800 text-sm">Denetim İzi (Audit Trail)</h3>

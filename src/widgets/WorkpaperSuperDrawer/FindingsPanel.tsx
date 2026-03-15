@@ -189,7 +189,7 @@ export function FindingsPanel({
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  {workpaperDrafts.length > 0 && (
  <div className="space-y-3">
  <div className="flex items-center justify-between">

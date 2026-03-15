@@ -48,8 +48,8 @@ export default function RiskHeatmapPage() {
  icon={Grid3x3}
  />
 
- <div className="flex-1 overflow-auto p-6">
- <div className="flex flex-wrap items-center gap-4 mb-6">
+ <div className="flex-1 overflow-auto p-4">
+ <div className="flex flex-wrap items-center gap-4 mb-4">
  <div className="flex items-center gap-2">
  <Filter size={14} className="text-slate-500" />
  <div className="flex bg-surface border border-slate-200 p-0.5 rounded-lg shadow-sm flex-wrap">
@@ -123,9 +123,9 @@ function NewAssessmentModal({
  <motion.div
  initial={{ opacity: 0, scale: 0.95 }}
  animate={{ opacity: 1, scale: 1 }}
- className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-6"
+ className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-4"
  >
- <div className="flex items-center justify-between mb-6">
+ <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
  <Shield size={18} className="text-blue-600" />

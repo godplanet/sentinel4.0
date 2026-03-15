@@ -138,7 +138,7 @@ export const EvidenceUploader = ({ workpaperId }: EvidenceUploaderProps) => {
  onDragOver={handleDragOver}
  onDragLeave={handleDragLeave}
  className={`
- relative border-2 border-dashed rounded-lg p-8 transition-all duration-200
+ relative border-2 border-dashed rounded-lg p-5 transition-all duration-200
  ${isDragging
  ? 'border-emerald-500 bg-emerald-50/50'
  : 'border-gray-300 hover:border-gray-400 bg-surface/50'

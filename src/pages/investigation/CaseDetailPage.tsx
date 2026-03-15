@@ -167,7 +167,7 @@ export default function CaseDetailPage() {
  )}
 
  {tab === 'closure' && (
- <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 min-h-[400px]">
+ <div className="bg-slate-950 rounded-2xl border border-slate-800 p-4 min-h-[400px]">
  <FourEyesClosurePanel
  caseId={caseData.id}
  caseTitle={caseData.title}

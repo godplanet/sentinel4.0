@@ -171,7 +171,7 @@ export function StressCorrelation() {
 
  if (isError || !data) {
  return (
- <div className="p-6 rounded-xl border border-red-200 bg-red-50 flex items-center gap-3">
+ <div className="p-4 rounded-xl border border-red-200 bg-red-50 flex items-center gap-3">
  <AlertTriangle className="text-red-500 w-6 h-6" />
  <p className="text-red-800 text-sm">Finansal stres veya Fraud motoruna erişilirken ağ hatası oluştu.</p>
  </div>
@@ -181,10 +181,10 @@ export function StressCorrelation() {
  const { stressLogs, triangleScores, alerts, averageFraudRisk, totalCriticalAlerts } = data;
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* Overview Banner (Apple Glass) */}
- <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden border border-slate-700/50">
+ <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-4 text-white shadow-xl relative overflow-hidden border border-slate-700/50">
  <div className="absolute left-0 bottom-0 opacity-[0.05] pointer-events-none transform -translate-x-1/4 translate-y-1/4">
  <Eye size={280} />
  </div>

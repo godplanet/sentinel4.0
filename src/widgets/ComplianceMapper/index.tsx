@@ -98,7 +98,7 @@ export function ComplianceMapper({ controlId, controlTitle, controlDescription }
  return (
  <div className="flex h-full gap-4">
  <div className="w-2/5 flex flex-col">
- <div className="bg-surface border border-slate-200 rounded-lg p-6 shadow-sm">
+ <div className="bg-surface border border-slate-200 rounded-lg p-4 shadow-sm">
  <div className="flex items-start gap-3 mb-4">
  <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
  <Shield className="w-5 h-5 text-blue-600" />
@@ -177,7 +177,7 @@ export function ComplianceMapper({ controlId, controlTitle, controlDescription }
  exit={{ opacity: 0, scale: 0.95, y: 20 }}
  className="fixed inset-0 z-50 flex items-center justify-center p-4"
  >
- <div className="bg-surface rounded-xl shadow-2xl max-w-lg w-full p-6" onClick={(e) => e.stopPropagation()}>
+ <div className="bg-surface rounded-xl shadow-2xl max-w-lg w-full p-4" onClick={(e) => e.stopPropagation()}>
  <h3 className="text-lg font-semibold text-primary mb-4">Kontrol Esle</h3>
 
  <div className="space-y-4">

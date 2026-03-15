@@ -144,7 +144,7 @@ export function EngagementWizard() {
 
  return (
  <div className="max-w-4xl mx-auto">
- <div className="flex items-center justify-center gap-2 mb-8">
+ <div className="flex items-center justify-center gap-2 mb-4">
  {(STEP_LABELS || []).map((label, i) => {
  const stepNum = (i + 1) as 1 | 2 | 3;
  const isActive = wizard.step === stepNum;

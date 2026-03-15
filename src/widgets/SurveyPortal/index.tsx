@@ -108,7 +108,7 @@ export function SurveyPortal() {
  animate={{ opacity: 1, y: 0 }}
  className="bg-surface rounded-xl border-2 border-slate-200 shadow-lg overflow-hidden"
  >
- <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
+ <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white">
  <div className="flex items-center gap-3 mb-2">
  <ClipboardList className="w-8 h-8" />
  <h2 className="text-2xl font-bold">{selectedSurvey.title}</h2>
@@ -118,7 +118,7 @@ export function SurveyPortal() {
  )}
  </div>
 
- <div className="p-8 space-y-8">
+ <div className="p-5 space-y-5">
  {(selectedSurvey.form_schema || []).map((question, index) => (
  <div key={question.id} className="space-y-3">
  <label className="block text-base font-semibold text-slate-800">
@@ -175,7 +175,7 @@ export function SurveyPortal() {
  ))}
  </div>
 
- <div className="bg-canvas px-8 py-5 flex items-center justify-between border-t border-slate-200">
+ <div className="bg-canvas px-6 py-5 flex items-center justify-between border-t border-slate-200">
  <button
  onClick={() => setSelectedSurvey(null)}
  className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
@@ -223,8 +223,8 @@ export function SurveyPortal() {
  }
 
  return (
- <div className="space-y-6">
- <div className="flex items-center justify-between mb-6">
+ <div className="space-y-4">
+ <div className="flex items-center justify-between mb-4">
  <div>
  <h2 className="text-2xl font-bold text-primary">Aktif Anketler</h2>
  <p className="text-sm text-slate-600 mt-1">Geri bildirim toplama ve değerlendirme sistemi</p>
@@ -251,7 +251,7 @@ export function SurveyPortal() {
  className="bg-surface rounded-lg border-2 border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all overflow-hidden cursor-pointer"
  onClick={() => setSelectedSurvey(survey)}
  >
- <div className="p-6">
+ <div className="p-4">
  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
  <ClipboardList className="w-6 h-6 text-blue-600" />
  </div>
@@ -339,7 +339,7 @@ export function SurveyPortal() {
  </button>
  </div>
 
- <div className="p-6 space-y-4">
+ <div className="p-4 space-y-4">
  <div>
  <label className="block text-sm font-semibold text-slate-700 mb-2">
  Anket Başlığı <span className="text-red-500">*</span>

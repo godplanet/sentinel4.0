@@ -15,12 +15,12 @@ export default function AuditorWorkbenchPage() {
  const normalActions = (actions || []).filter((a) => !a.is_bddk_breach);
 
  return (
- <div className="min-h-screen bg-[#FDFBF7] p-8">
+ <div className="min-h-screen bg-[#FDFBF7] p-5">
  <div className="max-w-4xl mx-auto">
  <motion.div
  initial={{ opacity: 0, y: -8 }}
  animate={{ opacity: 1, y: 0 }}
- className="mb-8"
+ className="mb-4"
  >
  <div className="flex items-center gap-3 mb-2">
  <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center">
@@ -79,7 +79,7 @@ export default function AuditorWorkbenchPage() {
  )}
 
  {actions.length === 0 && (
- <div className="p-8 text-center text-sm font-medium text-slate-500 bg-surface rounded-xl border border-slate-200">
+ <div className="p-5 text-center text-sm font-medium text-slate-500 bg-surface rounded-xl border border-slate-200">
  Şu an için atanmış bir aksiyon bulunmamaktadır.
  </div>
  )}

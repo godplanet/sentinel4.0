@@ -66,11 +66,11 @@ export function FindingPool({ onInsertFinding }: FindingPoolProps) {
 
  <div className="flex-1 overflow-auto p-2 space-y-1.5">
  {loading ? (
- <div className="flex items-center justify-center py-8">
+ <div className="flex items-center justify-center py-5">
  <Loader2 size={18} className="animate-spin text-slate-400" />
  </div>
  ) : filtered.length === 0 ? (
- <div className="text-center py-8 text-xs text-slate-400">
+ <div className="text-center py-5 text-xs text-slate-400">
  {search ? 'Sonuc bulunamadi' : 'Bulgu yok'}
  </div>
  ) : (

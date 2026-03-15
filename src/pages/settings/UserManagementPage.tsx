@@ -130,14 +130,14 @@ export default function UserManagementPage() {
  };
 
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-6">
  <PageHeader
  title="Kullanıcı & Roller"
  description="Kullanıcı yönetimi ve rol bazlı erişim kontrolü (RBAC)"
  badge="MODÜL 8: AYARLAR"
  />
 
- <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 shadow-sm">
+ <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center shrink-0">
  <Shield className="w-6 h-6 text-white" />
@@ -163,7 +163,7 @@ export default function UserManagementPage() {
  </div>
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <div className="flex items-center justify-between gap-4 mb-4">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Users size={20} className="text-blue-600" />
@@ -304,7 +304,7 @@ export default function UserManagementPage() {
 
  {showAddModal && (
  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
- <div className="bg-surface rounded-xl shadow-2xl max-w-md w-full p-6">
+ <div className="bg-surface rounded-xl shadow-2xl max-w-md w-full p-4">
  <h3 className="text-xl font-bold text-slate-800 mb-4">Yeni Kullanıcı Ekle</h3>
  <div className="space-y-4">
  <div>

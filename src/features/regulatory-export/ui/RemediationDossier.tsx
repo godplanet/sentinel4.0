@@ -32,7 +32,7 @@ export const RemediationDossier: React.FC = () => {
  const isOverdue = new Date(d.actualClosureDate) > new Date(d.originalDueDate);
 
  return (
- <div className="min-h-screen py-8 px-4 print:bg-surface print:py-0 print:px-0">
+ <div className="min-h-screen py-5 px-4 print:bg-surface print:py-0 print:px-0">
  <div className="print:hidden fixed top-6 right-6 z-50">
  <button
  onClick={() => window.print()}

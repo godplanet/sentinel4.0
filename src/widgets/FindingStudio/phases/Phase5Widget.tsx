@@ -20,8 +20,8 @@ export const Phase5Followup: React.FC<Phase5Props> = ({
   const progressPct = Math.round((completedActions * 100) / (actions.length || 1));
 
   return (
-    <div className="space-y-6">
-      <div className="bg-surface/70 backdrop-blur-lg border border-slate-200/50 rounded-2xl p-6 shadow-sm flex items-center gap-6">
+    <div className="space-y-4">
+      <div className="bg-surface/70 backdrop-blur-lg border border-slate-200/50 rounded-2xl p-4 shadow-sm flex items-center gap-4">
         <div className="w-16 h-16 relative flex items-center justify-center shrink-0">
           <svg className="w-full h-full transform -rotate-90">
             <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="transparent" className="text-slate-100" />
@@ -52,7 +52,7 @@ export const Phase5Followup: React.FC<Phase5Props> = ({
 
       <div className="space-y-3">
         {actions.length === 0 ? (
-          <div className="p-8 text-center text-slate-400 border border-dashed border-slate-200 rounded-xl bg-surface/30">
+          <div className="p-5 text-center text-slate-400 border border-dashed border-slate-200 rounded-xl bg-surface/30">
             Henüz bir aksiyon planı bulunmuyor.
           </div>
         ) : (

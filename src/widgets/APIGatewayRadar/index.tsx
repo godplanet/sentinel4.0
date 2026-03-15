@@ -104,7 +104,7 @@ export function APIGatewayRadar() {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* Metrics Row */}
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -141,7 +141,7 @@ export function APIGatewayRadar() {
  
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  {breaches.length === 0 ? (
- <div className="col-span-2 text-center py-8 border border-dashed border-emerald-200 bg-emerald-50 rounded-xl">
+ <div className="col-span-2 text-center py-5 border border-dashed border-emerald-200 bg-emerald-50 rounded-xl">
  <ShieldCheck size={32} className="mx-auto text-emerald-500 mb-2"/>
  <p className="font-bold text-emerald-700">Güvenlik İhlali Bulunmuyor</p>
  <p className="text-xs text-emerald-600 mt-1">Tüm API Gateway trafiği güvenli parametreler içinde.</p>

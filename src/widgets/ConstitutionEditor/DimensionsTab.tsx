@@ -52,7 +52,7 @@ export function DimensionsTab({ dimensions, onChange }: Props) {
  const barColors = ['bg-blue-500', 'bg-emerald-500', 'bg-amber-500', 'bg-rose-500', 'bg-cyan-500', 'bg-teal-500'];
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
  <Scale className="w-5 h-5 text-slate-600" />

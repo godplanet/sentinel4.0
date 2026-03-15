@@ -10,7 +10,7 @@ export default function PBCPage() {
  subtitle="Provided-by-Client belge talepleri ve takibi"
  icon={ClipboardList}
  />
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  <PBCManager />
  </div>
  </div>

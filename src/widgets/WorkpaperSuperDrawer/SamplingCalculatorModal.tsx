@@ -176,7 +176,7 @@ export function SamplingCalculatorModal({ open, onClose, onApply }: SamplingCalc
  <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-1">
  Hesaplanan Orneklem
  </p>
- <p className="text-4xl font-black text-emerald-800">{result}</p>
+ <p className="text-3xl font-black text-emerald-800">{result}</p>
  <p className="text-xs text-emerald-600 mt-1">
  / {population} populasyondan
  </p>

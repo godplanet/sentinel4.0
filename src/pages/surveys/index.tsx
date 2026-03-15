@@ -8,14 +8,14 @@ export default function SurveysPage() {
  const [activeTab, setActiveTab] = useState<'portal' | 'assessments'>('assessments');
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Anket ve Geri Bildirim"
  subtitle="Denetim süreçlerini değerlendirin ve geri bildirim verin"
  />
 
- <div className="space-y-6">
- <div className="mb-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
+ <div className="space-y-4">
+ <div className="mb-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-4 text-white">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 bg-surface/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
  <ClipboardList className="w-6 h-6" />

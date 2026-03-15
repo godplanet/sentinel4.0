@@ -127,7 +127,7 @@ export function HuntersGuildBoard() {
  </thead>
  <tbody className="divide-y divide-slate-100 text-slate-700 font-medium">
  {leaderboard.length === 0 ? (
- <tr><td colSpan={4} className="text-center py-8 text-slate-400 italic">Lig tablosunda kayıt bulunmuyor.</td></tr>
+ <tr><td colSpan={4} className="text-center py-5 text-slate-400 italic">Lig tablosunda kayıt bulunmuyor.</td></tr>
  ) : (leaderboard || []).map((prof, index) => {
  // MATH GUARD: Math.min() & (prof.xp_to_next_level || 1) prevents zero division crash
  const progressPct = Math.min((prof.total_xp / (prof.xp_to_next_level || 1)) * 100, 100);
@@ -180,11 +180,11 @@ export function HuntersGuildBoard() {
  </div>
 
  {/* 2. RIGHT COL: Global XP Log Feed */}
- <div className="lg:col-span-4 flex flex-col h-full bg-slate-900 rounded-3xl p-6 shadow-2xl relative overflow-hidden border border-slate-700">
+ <div className="lg:col-span-4 flex flex-col h-full bg-slate-900 rounded-3xl p-4 shadow-2xl relative overflow-hidden border border-slate-700">
  
  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
- <h3 className="text-sm font-bold text-white mb-6 flex items-center gap-2 relative z-10">
+ <h3 className="text-sm font-bold text-white mb-4 flex items-center gap-2 relative z-10">
  <Zap size={18} className="text-amber-400 fill-amber-400" /> Küresel Avcı Logları
  </h3>
 

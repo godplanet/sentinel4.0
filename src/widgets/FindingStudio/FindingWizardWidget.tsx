@@ -55,7 +55,7 @@ export const FindingWizardWidget: React.FC<FindingWizardWidgetProps> = ({ findin
       </div>
 
       {/* Phase Content */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar p-6 bg-slate-50">
+      <div className="flex-1 overflow-y-auto custom-scrollbar p-4 bg-slate-50">
         <div className="max-w-5xl mx-auto relative min-h-full">
           {activePhase === '1' && (
             <div className="animate-in slide-in-from-left-4 fade-in duration-300">

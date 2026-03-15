@@ -55,7 +55,7 @@ export function CAEEscalationDesk() {
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* C-Level Karar Masası — Tetikleyici */}
  <div className="flex flex-wrap items-center justify-end gap-3">
  <button
@@ -194,7 +194,7 @@ export function CAEEscalationDesk() {
  <div className="relative w-[600px] h-full bg-white/80 backdrop-blur-2xl border-l border-slate-200/50 shadow-[0_0_40px_rgba(0,0,0,0.1)] pointer-events-auto transform transition-transform duration-300 flex flex-col">
  
  {/* Header / Yaldızlı Rozetler */}
- <div className="px-8 py-6 border-b border-slate-200/60 bg-gradient-to-br from-slate-50/50 via-white/50 to-amber-50/30">
+ <div className="px-6 py-6 border-b border-slate-200/60 bg-gradient-to-br from-slate-50/50 via-white/50 to-amber-50/30">
  <div className="flex items-start justify-between">
  <div>
  <div className="flex items-center gap-3 mb-3">
@@ -222,7 +222,7 @@ export function CAEEscalationDesk() {
  </div>
 
  {/* Body */}
- <div className="flex-1 overflow-y-auto p-8 space-y-8">
+ <div className="flex-1 overflow-y-auto p-5 space-y-5">
  
  {/* Context Section */}
  <section>

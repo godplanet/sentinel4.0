@@ -6,7 +6,7 @@ import { VendorCard } from './ecosystem/VendorCard';
 
 export function EcosystemView() {
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center gap-3 bg-gradient-to-r from-slate-800 to-slate-700 rounded-2xl px-6 py-4 shadow-lg">
  <div className="w-10 h-10 bg-surface/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/10">
  <Radar size={20} className="text-white" />

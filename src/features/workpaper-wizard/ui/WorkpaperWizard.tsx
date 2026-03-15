@@ -147,7 +147,7 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
  const currentIndex = steps.findIndex((s) => s.id === currentStep);
 
  return (
- <div className="flex items-center justify-center gap-2 mb-8">
+ <div className="flex items-center justify-center gap-2 mb-4">
  {(steps || []).map((step, idx) => (
  <div key={step.id} className="flex items-center">
  <div className={`flex items-center gap-2 ${idx <= currentIndex ? 'opacity-100' : 'opacity-40'}`}>
@@ -234,7 +234,7 @@ export function WorkpaperWizard({ isOpen, onClose, auditSteps, onCreateWorkpaper
 
  {/* Step 2: AI Suggestions */}
  {currentStep === 'ai-suggestions' && selectedStep && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="glass-card p-6 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
  <div className="flex items-start gap-3 mb-4">
  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0">

@@ -120,7 +120,7 @@ export function DataPipelineMonitor({ pipeline }: DataPipelineMonitorProps) {
  </div>
 
  {logs.length === 0 && !isLoading ? (
- <p className="text-sm text-slate-400 text-center py-8">Henüz log kaydı yok.</p>
+ <p className="text-sm text-slate-400 text-center py-5">Henüz log kaydı yok.</p>
  ) : (
  <div className="space-y-2">
  {(logs || []).map((log, i) => {

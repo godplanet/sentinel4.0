@@ -110,7 +110,7 @@ export default function SprintBoardPage() {
  />
 
  <div className="bg-surface border-b border-slate-200 px-6 py-3">
- <div className="flex items-center gap-6 text-sm text-slate-600">
+ <div className="flex items-center gap-4 text-sm text-slate-600">
  <span className="flex items-center gap-1.5">
  <Calendar size={14} className="text-slate-400" />
  {engagement.start_date} - {engagement.end_date}
@@ -129,7 +129,7 @@ export default function SprintBoardPage() {
  </div>
 
  <div className="flex-1 overflow-hidden flex gap-0">
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  <SprintMissionHeader />
  <SprintBoard engagementId={engagement.id} />
  </div>

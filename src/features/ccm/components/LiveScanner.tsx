@@ -177,7 +177,7 @@ export function LiveScanner({ onAnomalyDetected, onScanComplete }: LiveScannerPr
  </div>
  </div>
 
- <div className="flex items-center gap-6 px-4 py-2 bg-slate-800 border-b border-slate-700">
+ <div className="flex items-center gap-4 px-4 py-2 bg-slate-800 border-b border-slate-700">
  <div className="flex items-center gap-2">
  <span className="text-slate-400 text-xs font-mono">SCANNED:</span>
  <span className="text-white font-mono text-sm font-bold">{stats.scanned}</span>

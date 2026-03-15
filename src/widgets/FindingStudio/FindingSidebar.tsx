@@ -78,7 +78,7 @@ export function FindingSidebar({
 
 function DetayTab({ finding }: { finding: any }) {
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div className="text-2xl font-bold text-primary">AA</div>
  <div className="w-1 h-1 rounded-full bg-green-500"></div>
@@ -202,8 +202,8 @@ function TarihceTab({ finding }: { finding: any }) {
 
 function AITab({ finding }: { finding: any }) {
  return (
- <div className="space-y-6">
- <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl p-6 text-white shadow-lg">
+ <div className="space-y-4">
+ <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl p-4 text-white shadow-lg">
  <div className="flex items-center gap-2 mb-3">
  <Sparkles size={20} />
  <h3 className="font-bold text-sm uppercase tracking-wide">Benzerlik Analizi</h3>

@@ -90,7 +90,7 @@ export const RCSACampaignManager = () => {
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  {/* Özet Metrikler */}
  <div className="grid gap-4 md:grid-cols-3">
  <div className="rounded-2xl border border-slate-200 bg-surface p-4 shadow-sm">

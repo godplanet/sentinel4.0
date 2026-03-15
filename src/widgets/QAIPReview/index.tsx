@@ -73,7 +73,7 @@ export function QAIPReviewWidget() {
  animate={{ opacity: 1, y: 0 }}
  className="bg-surface rounded-xl border-2 border-slate-200 shadow-lg"
  >
- <div className="bg-gradient-to-r from-green-600 to-green-700 p-6 text-white">
+ <div className="bg-gradient-to-r from-green-600 to-green-700 p-4 text-white">
  <div className="flex items-center gap-3 mb-2">
  <Shield className="w-8 h-8" />
  <h2 className="text-2xl font-bold">{selectedChecklist.title}</h2>
@@ -83,7 +83,7 @@ export function QAIPReviewWidget() {
  )}
  </div>
 
- <div className="p-8 space-y-6">
+ <div className="p-5 space-y-6">
  {(selectedChecklist.criteria || []).map((criterion, index) => (
  <div key={criterion.id} className="space-y-3">
  <div className="flex items-start justify-between">
@@ -152,7 +152,7 @@ export function QAIPReviewWidget() {
  )}
  </div>
 
- <div className="bg-canvas px-8 py-5 flex items-center justify-between border-t border-slate-200">
+ <div className="bg-canvas px-6 py-5 flex items-center justify-between border-t border-slate-200">
  <button
  onClick={() => setSelectedChecklist(null)}
  className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
@@ -173,9 +173,9 @@ export function QAIPReviewWidget() {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam Kontrol Listesi</span>
  <ClipboardCheck className="w-5 h-5 text-slate-500" />
@@ -183,7 +183,7 @@ export function QAIPReviewWidget() {
  <p className="text-3xl font-bold text-primary">{checklists.length}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Tamamlanan İnceleme</span>
  <FileCheck className="w-5 h-5 text-green-500" />
@@ -204,7 +204,7 @@ export function QAIPReviewWidget() {
  className="bg-surface rounded-lg border-2 border-slate-200 shadow-sm hover:shadow-md hover:border-green-300 transition-all overflow-hidden cursor-pointer"
  onClick={() => setSelectedChecklist(checklist)}
  >
- <div className="p-6">
+ <div className="p-4">
  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
  <ClipboardCheck className="w-6 h-6 text-green-600" />
  </div>

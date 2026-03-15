@@ -106,7 +106,7 @@ export default function ActivityReportsPage() {
  });
 
  return (
- <div className="p-6 space-y-6" style={{ background: '#FDFBF7', minHeight: '100vh' }}>
+ <div className="p-4 space-y-6" style={{ background: '#FDFBF7', minHeight: '100vh' }}>
  <PageHeader
  title="Faaliyet Raporları"
  description="Denetim Komitesi Sunumları ve Dönemsel Faaliyet Raporları"

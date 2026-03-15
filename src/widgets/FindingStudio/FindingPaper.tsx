@@ -31,10 +31,10 @@ export function FindingPaper({ finding }: FindingPaperProps) {
  </div>
 
  {/* 2. KAĞIT İÇERİĞİ */}
- <div className="p-[20mm] space-y-8 font-serif text-primary">
+ <div className="p-[20mm] space-y-5 font-serif text-primary">
  
  {/* Başlık Alanı */}
- <div className="border-b-4 border-slate-900 pb-6 mb-8">
+ <div className="border-b-4 border-slate-900 pb-6 mb-4">
  <div className="flex justify-between items-start mb-4">
  <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">İç Denetim Raporu</span>
  <span className="text-xs font-mono text-slate-400">{new Date(finding.created_at).toLocaleDateString('tr-TR')}</span>
@@ -60,14 +60,14 @@ export function FindingPaper({ finding }: FindingPaperProps) {
 
  {/* Detaylı Analiz (Condition, Criteria, Cause, Effect) */}
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
- <section className="bg-canvas p-6 rounded-xl border border-slate-100">
+ <section className="bg-canvas p-4 rounded-xl border border-slate-100">
  <h3 className="text-xs font-bold text-slate-500 uppercase mb-2 font-sans">Mevcut Durum (Condition)</h3>
  <p className="text-sm leading-relaxed text-slate-700">
  {finding.detailed_observation || "Detaylı gözlem verisi bulunamadı."}
  </p>
  </section>
 
- <section className="bg-canvas p-6 rounded-xl border border-slate-100">
+ <section className="bg-canvas p-4 rounded-xl border border-slate-100">
  <h3 className="text-xs font-bold text-slate-500 uppercase mb-2 font-sans">Olması Gereken (Criteria)</h3>
  <p className="text-sm leading-relaxed text-slate-700">
  {finding.criteria || "İlgili mevzuat ve prosedür referansları."}
@@ -96,7 +96,7 @@ export function FindingPaper({ finding }: FindingPaperProps) {
  </section>
 
  {/* Öneri (Recommendation) */}
- <section className="bg-emerald-50/50 p-6 rounded-xl border border-emerald-100 break-inside-avoid">
+ <section className="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 break-inside-avoid">
  <h2 className="text-sm font-bold text-emerald-700 uppercase tracking-wider mb-3 font-sans flex items-center gap-2">
  Denetçi Önerisi
  </h2>
@@ -108,7 +108,7 @@ export function FindingPaper({ finding }: FindingPaperProps) {
  </div>
 
  {/* Footer */}
- <div className="absolute bottom-0 w-full p-8 border-t border-slate-100 text-center text-[10px] text-slate-400 font-mono uppercase tracking-widest">
+ <div className="absolute bottom-0 w-full p-5 border-t border-slate-100 text-center text-[10px] text-slate-400 font-mono uppercase tracking-widest">
  Sentinel v3.0 • Confidential Audit Document • {finding.id}
  </div>
  </div>

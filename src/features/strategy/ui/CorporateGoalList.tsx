@@ -142,7 +142,7 @@ export const CorporateGoalList = () => {
  toast.error(`Stratejik hedefler yüklenemedi: ${errMsg}`, { id: 'goals-error' });
 
  return (
- <div className="w-full bg-red-50 border border-red-200 rounded-2xl p-8 flex flex-col items-center text-center">
+ <div className="w-full bg-red-50 border border-red-200 rounded-2xl p-5 flex flex-col items-center text-center">
  <AlertTriangle className="text-red-400 mb-3" size={32} />
  <h4 className="text-sm font-bold text-red-700 mb-1">Stratejik Hedefler Yüklenemedi</h4>
  <p className="text-xs text-red-500 mb-4 max-w-xs">{errMsg}</p>

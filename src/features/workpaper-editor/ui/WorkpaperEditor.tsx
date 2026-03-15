@@ -106,7 +106,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
  <div className="flex items-start justify-between mb-6">
  <div className="flex-1">

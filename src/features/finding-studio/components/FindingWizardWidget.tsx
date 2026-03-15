@@ -50,9 +50,9 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
   return (
     <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
       {/* Wizard Header / Progress */}
-      <div className="shrink-0 p-8 border-b border-slate-200 bg-white shadow-sm z-10">
+      <div className="shrink-0 p-5 border-b border-slate-200 bg-white shadow-sm z-10">
         <h2 className="text-2xl font-black text-slate-800 mb-2">Bulgu Asistanı</h2>
-        <p className="text-slate-500 mb-8 max-w-2xl">Rehberli adımları takip ederek eksiksiz ve güçlü bir denetim bulgusu oluşturun. Her adım bulgunuzun kalitesini artıracaktır.</p>
+        <p className="text-slate-500 mb-4 max-w-2xl">Rehberli adımları takip ederek eksiksiz ve güçlü bir denetim bulgusu oluşturun. Her adım bulgunuzun kalitesini artıracaktır.</p>
         
         <div className="flex items-center gap-2">
           {STEPS.map((s, idx) => {
@@ -85,11 +85,11 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
       </div>
 
       {/* Editor Content Area */}
-      <div className="flex-1 p-8 overflow-y-auto flex flex-col items-center bg-slate-50/50">
+      <div className="flex-1 p-5 overflow-y-auto flex flex-col items-center bg-slate-50/50">
         <div className="w-full max-w-5xl flex gap-8">
           {/* MAIN EDITOR FORM */}
-          <div className="flex-1 bg-white rounded-2xl shadow-xl border border-slate-100 p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col min-h-[500px]">
-            <div className="flex items-center justify-between mb-8 pb-6 border-b border-slate-100">
+          <div className="flex-1 bg-white rounded-2xl shadow-xl border border-slate-100 p-5 animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col min-h-[500px]">
+            <div className="flex items-center justify-between mb-4 pb-6 border-b border-slate-100">
               <div className="flex items-center gap-4">
                 <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shadow-inner">
                   <step.icon size={28} />
@@ -150,7 +150,7 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
                 </h3>
               </div>
 
-              <div className="flex justify-center mb-8 relative">
+              <div className="flex justify-center mb-4 relative">
                 <div 
                   className={cn(
                     "w-32 h-32 rounded-full border-[6px] flex flex-col items-center justify-center transition-all duration-500",
@@ -167,7 +167,7 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
                 </div>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Impact Slider */}
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs font-medium text-slate-600">
@@ -222,14 +222,14 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
         {currentStep === STEPS.length - 1 ? (
           <button
             onClick={saveFinding}
-            className="px-8 py-3 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 flex items-center gap-2 transition-all active:scale-95"
+            className="px-6 py-3 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 flex items-center gap-2 transition-all active:scale-95"
           >
             <Save size={18} /> Kaydet ve Tamamla
           </button>
         ) : (
           <button
             onClick={handleNext}
-            className="px-8 py-3 rounded-xl font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xl shadow-slate-300 flex items-center gap-2 transition-all active:scale-95"
+            className="px-6 py-3 rounded-xl font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xl shadow-slate-300 flex items-center gap-2 transition-all active:scale-95"
           >
             Sonraki Adım <ChevronRight size={18} />
           </button>

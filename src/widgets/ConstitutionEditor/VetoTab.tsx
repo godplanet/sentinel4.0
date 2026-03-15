@@ -35,7 +35,7 @@ export function VetoTab({ rules, onChange }: Props) {
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
  <ShieldAlert className="w-5 h-5 text-red-500" />
@@ -122,7 +122,7 @@ export function VetoTab({ rules, onChange }: Props) {
  ))}
 
  {rules.length === 0 && (
- <div className="text-center py-8 text-slate-400 text-sm">
+ <div className="text-center py-5 text-slate-400 text-sm">
  Henuz veto kurali eklenmedi.
  </div>
  )}

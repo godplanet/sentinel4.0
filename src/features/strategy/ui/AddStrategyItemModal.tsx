@@ -74,14 +74,14 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
  </div>
  
  {/* Scrollable Form Body */}
- <div className="p-8 overflow-y-auto flex-1 custom-scrollbar">
- <form id="strategyForm" onSubmit={handleSubmit} className="space-y-8">
+ <div className="p-5 overflow-y-auto flex-1 custom-scrollbar">
+ <form id="strategyForm" onSubmit={handleSubmit} className="space-y-5">
  
  {/* 1. Kısım: Temel Tanımlar */}
  <div className="space-y-5">
  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider border-b pb-2 mb-4">Genel Bilgiler</h4>
  
- <div className="grid grid-cols-1 gap-6">
+ <div className="grid grid-cols-1 gap-4">
  <div>
  <label className="block text-sm font-bold text-slate-700 mb-1.5">Hedef Başlığı <span className="text-rose-500">*</span></label>
  <input 
@@ -115,7 +115,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
  <BarChart3 size={16} /> Performans & Sahiplik
  </h4>
 
- <div className="grid grid-cols-2 gap-6">
+ <div className="grid grid-cols-2 gap-4">
  {/* Sol Kolon */}
  <div className="space-y-5">
  <div>
@@ -260,7 +260,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
  form.reportValidity();
  }
  }}
- className="flex items-center gap-2 px-8 py-2.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg shadow-indigo-200 hover:shadow-indigo-300 hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all"
+ className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg shadow-indigo-200 hover:shadow-indigo-300 hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all"
  >
  <Save size={18} />
  Kaydet

@@ -143,7 +143,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  </div>
 
  <div className="flex-1 p-6 overflow-y-auto">
- <div className="flex justify-between mb-8">
+ <div className="flex justify-between mb-4">
  {(STEPS || []).map((step, index) => (
  <div key={step.id} className="flex items-center flex-1">
  <div className="flex flex-col items-center flex-1">
@@ -181,10 +181,10 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  </div>
 
  {currentStep === 1 && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <h3 className="text-lg font-bold text-primary mb-4">Risk Tanımlama</h3>
 
- <div className="grid grid-cols-2 gap-6">
+ <div className="grid grid-cols-2 gap-4">
  <div>
  <label className="block text-sm font-semibold text-slate-700 mb-2">
  Risk Kodu *
@@ -257,7 +257,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  )}
 
  {currentStep === 5 && (
- <div className="space-y-6">
+ <div className="space-y-4">
  <h3 className="text-lg font-bold text-primary mb-4">Özet ve Onay</h3>
 
  <div className="bg-canvas p-6 rounded-xl space-y-4">
@@ -282,14 +282,14 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  className={`p-6 rounded-xl border-2 ${inherentZone.color} text-center`}
  >
  <div className="text-sm font-semibold mb-2">İçsel Risk</div>
- <div className="text-4xl font-bold mb-1">{inherentScore}</div>
+ <div className="text-3xl font-bold mb-1">{inherentScore}</div>
  <div className="text-sm font-bold">{inherentZone.label}</div>
  </div>
  <div
  className={`p-6 rounded-xl border-2 ${residualZone.color} text-center`}
  >
  <div className="text-sm font-semibold mb-2">Artık Risk</div>
- <div className="text-4xl font-bold mb-1">{residualScore}</div>
+ <div className="text-3xl font-bold mb-1">{residualScore}</div>
  <div className="text-sm font-bold">{residualZone.label}</div>
  </div>
  </div>
@@ -298,7 +298,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  <div className="text-sm font-semibold text-emerald-700 mb-2">
  Risk Azaltma Oranı
  </div>
- <div className="text-4xl font-bold text-emerald-700">
+ <div className="text-3xl font-bold text-emerald-700">
  {riskReduction.toFixed(1)}%
  </div>
  </div>

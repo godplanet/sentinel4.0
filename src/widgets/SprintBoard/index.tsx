@@ -369,7 +369,7 @@ export function SprintBoard({ engagementId }: SprintBoardProps) {
  animate={{ scale: 1, opacity: 1 }}
  exit={{ scale: 0.95, opacity: 0 }}
  onClick={(e) => e.stopPropagation()}
- className="bg-surface rounded-xl shadow-xl border border-slate-200 w-full max-w-md p-6"
+ className="bg-surface rounded-xl shadow-xl border border-slate-200 w-full max-w-md p-4"
  >
  <div className="flex items-center justify-between mb-4">
  <h3 className="text-lg font-bold text-primary">Yeni Görev</h3>
@@ -451,7 +451,7 @@ export function SprintBoard({ engagementId }: SprintBoardProps) {
  animate={{ scale: 1, opacity: 1 }}
  exit={{ scale: 0.95, opacity: 0 }}
  onClick={(e) => e.stopPropagation()}
- className="bg-surface rounded-xl shadow-xl border border-slate-200 w-full max-w-md p-6"
+ className="bg-surface rounded-xl shadow-xl border border-slate-200 w-full max-w-md p-4"
  >
  <div className="flex items-center justify-between mb-4">
  <h3 className="text-lg font-bold text-primary">Görevi Düzenle</h3>
@@ -547,7 +547,7 @@ export function SprintBoard({ engagementId }: SprintBoardProps) {
  animate={{ scale: 1, opacity: 1 }}
  exit={{ scale: 0.95, opacity: 0 }}
  onClick={(e) => e.stopPropagation()}
- className="bg-surface rounded-xl shadow-xl border border-slate-200 w-full max-w-sm p-6"
+ className="bg-surface rounded-xl shadow-xl border border-slate-200 w-full max-w-sm p-4"
  >
  <h3 className="text-lg font-bold text-primary mb-2">Görevi Sil</h3>
  <p className="text-sm text-slate-600 mb-4">

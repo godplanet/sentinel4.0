@@ -90,7 +90,7 @@ export function BudgetTrackerCard({
  if (!budget && !auditorCosts.length) {
  return (
  <div className="bg-surface shadow-sm border border-slate-200 rounded-xl p-6">
- <div className="flex flex-col items-center justify-center py-8 text-slate-500">
+ <div className="flex flex-col items-center justify-center py-5 text-slate-500">
  <Activity className="w-8 h-8 mb-2 opacity-50" />
  <p className="text-sm font-medium">Bütçe verisi yok</p>
  <p className="text-xs">Bir denetim seçin veya zaman girişi yapın.</p>

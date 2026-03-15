@@ -97,7 +97,7 @@ export function CapitalAdequacyGauge({ period }: { period?: string }) {
 
  if (!car) {
  return (
- <div className="h-full bg-white/70 backdrop-blur-lg border border-slate-200 rounded-2xl flex flex-col items-center justify-center p-6 text-center">
+ <div className="h-full bg-white/70 backdrop-blur-lg border border-slate-200 rounded-2xl flex flex-col items-center justify-center p-4 text-center">
  <ShieldCheck size={40} className="text-slate-300 mb-3" />
  <p className="text-sm font-bold text-slate-500">CAR Raporu Bulunamadı</p>
  <p className="text-[10px] text-slate-400 mt-1">Seçili dönem için sermaye rasyosu verisi yok.</p>

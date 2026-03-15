@@ -176,7 +176,7 @@ export const SentinelOmnibar: React.FC = () => {
 
  <div className="max-h-[60vh] overflow-y-auto py-2">
  {filtered.length === 0 ? (
- <div className="px-5 py-8 text-center text-sm text-slate-400 font-sans">
+ <div className="px-5 py-5 text-center text-sm text-slate-400 font-sans">
  No results for &ldquo;{query}&rdquo;
  </div>
  ) : (

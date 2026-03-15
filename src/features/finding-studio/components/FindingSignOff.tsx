@@ -64,7 +64,7 @@ export function FindingSignOff({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border-2 border-slate-200 p-8 mt-8">
+    <div className="bg-white rounded-2xl shadow-xl border-2 border-slate-200 p-5 mt-8">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-slate-200">
         <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center">
@@ -88,7 +88,7 @@ export function FindingSignOff({
       )}
 
       {/* Signature Grid */}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-4">
         {/* PREPARER */}
         <SignatureSlot
           title="Hazırlayan"

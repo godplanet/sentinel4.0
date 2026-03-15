@@ -119,7 +119,7 @@ export default function VendorPortalPage() {
  return (
  <div className="min-h-screen ">
  <div className="border-b border-slate-200 bg-surface/80 backdrop-blur-sm">
- <div className="w-full px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+ <div className="w-full px-4 sm:px-6 lg:px-6 py-4 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center">
  <Shield size={18} className="text-white" />
@@ -136,7 +136,7 @@ export default function VendorPortalPage() {
  </div>
  </div>
 
- <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
+ <div className="w-full px-4 sm:px-6 lg:px-6 py-5">
  <AnimatePresence mode="wait">
  {step === 'token' && (
  <TokenGate
@@ -185,7 +185,7 @@ function TokenGate({
  exit={{ opacity: 0, y: -20 }}
  className="max-w-md mx-auto pt-16"
  >
- <div className="text-center mb-8">
+ <div className="text-center mb-4">
  <div className="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-4">
  <KeyRound size={28} className="text-slate-600" />
  </div>
@@ -195,7 +195,7 @@ function TokenGate({
  </p>
  </div>
 
- <div className="bg-surface border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+ <div className="bg-surface border border-slate-200 rounded-xl p-4 shadow-sm space-y-4">
  <div>
  <label className="text-xs font-bold text-slate-600 block mb-1.5">Erisim Anahtari</label>
  <input
@@ -247,7 +247,7 @@ function AssessmentForm({
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
  exit={{ opacity: 0, y: -20 }}
- className="space-y-6"
+ className="space-y-4"
  >
  <div className="bg-surface border border-slate-200 rounded-xl p-5 shadow-sm">
  <div className="flex items-start gap-4">
@@ -337,12 +337,12 @@ function SubmissionConfirmation({ vendorName }: { vendorName?: string }) {
  initial={{ scale: 0 }}
  animate={{ scale: 1 }}
  transition={{ type: 'spring', stiffness: 200 }}
- className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-6"
+ className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4"
  >
  <CheckCircle2 size={36} className="text-emerald-600" />
  </motion.div>
  <h2 className="text-xl font-bold text-slate-800 mb-2">Yanitlariniz Alindi</h2>
- <p className="text-sm text-slate-500 mb-6">
+ <p className="text-sm text-slate-500 mb-4">
  {vendorName || 'Tedarikci'} olarak degerlendirme yanitlariniz basariyla gonderildi.
  Denetim ekibi inceleme sonrasinda sizinle iletisime gececektir.
  </p>

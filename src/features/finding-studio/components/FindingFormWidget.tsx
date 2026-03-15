@@ -245,7 +245,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
         </div>
 
         {/* Dynamic Gauge */}
-        <div className="flex justify-center mb-8 relative">
+        <div className="flex justify-center mb-4 relative">
           <div 
             className={cn(
               "w-32 h-32 rounded-full border-[6px] flex flex-col items-center justify-center transition-all duration-500",
@@ -373,7 +373,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
       </div>
 
       {/* --- 2. METADATA FORM --- */}
-      <div className="p-6 space-y-6 flex-1">
+      <div className="p-6 space-y-4 flex-1">
         
         {/* Category */}
         <div className="space-y-1.5">

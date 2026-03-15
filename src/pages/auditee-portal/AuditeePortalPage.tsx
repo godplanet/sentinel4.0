@@ -156,7 +156,7 @@ export const AuditeePortalPage = () => {
  />
 
  {/* Üst Bar (Geri Dön ve Ayarlar) */}
- <div className="h-16 px-8 flex items-center justify-between border-b border-white/10 shrink-0 z-10 bg-black/10">
+ <div className="h-16 px-6 flex items-center justify-between border-b border-white/10 shrink-0 z-10 bg-black/10">
  <button onClick={() => navigate('/auditee')} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
  <ArrowLeft size={18} />
  <span className="font-semibold text-sm">Gösterge Paneline Dön</span>
@@ -178,12 +178,12 @@ export const AuditeePortalPage = () => {
  <div className="flex-1 overflow-y-auto p-12 z-10 custom-scrollbar">
  <div className="max-w-2xl mx-auto">
  {/* Neon Badge */}
- <div className={clsx("inline-flex items-center gap-2 px-3 py-1 rounded border bg-black/40 backdrop-blur-md mb-6", sevStyle.border, sevStyle.shadow)}>
+ <div className={clsx("inline-flex items-center gap-2 px-3 py-1 rounded border bg-black/40 backdrop-blur-md mb-4", sevStyle.border, sevStyle.shadow)}>
  <div className={clsx("w-2 h-2 rounded-full", sevStyle.color.replace('text-', 'bg-'))} />
  <span className={clsx("text-xs font-black tracking-widest uppercase", sevStyle.color)}>{sevStyle.label}</span>
  </div>
 
- <h1 className="text-4xl font-black text-white leading-tight mb-4 drop-shadow-md">
+ <h1 className="text-3xl font-black text-white leading-tight mb-4 drop-shadow-md">
  {finding.title}
  </h1>
  
@@ -204,7 +204,7 @@ export const AuditeePortalPage = () => {
 
  {/* Eğer varsa Düzeltici Öneriyi göster */}
  {(finding as any).details?.recommendation_text && (
- <section className="bg-blue-900/20 border border-blue-500/20 p-6 rounded-2xl shadow-inner">
+ <section className="bg-blue-900/20 border border-blue-500/20 p-4 rounded-2xl shadow-inner">
  <h3 className="text-xs font-black text-blue-400 uppercase tracking-widest mb-4 flex items-center gap-2">
  <Lightbulb size={16} /> Beklenen Aksiyon (Recommendation)
  </h3>
@@ -233,7 +233,7 @@ export const AuditeePortalPage = () => {
  className="absolute inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-sm"
  >
  <div className="text-center">
- <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(16,185,129,0.5)]">
+ <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(16,185,129,0.5)]">
  <CheckCircle className="w-12 h-12 text-white" />
  </div>
  <h2 className="text-3xl font-black text-white mb-2">Aksiyon Alındı!</h2>
@@ -243,14 +243,14 @@ export const AuditeePortalPage = () => {
  )}
  </AnimatePresence>
 
- <div className="h-16 px-8 flex items-center border-b border-slate-800 shrink-0 bg-slate-900 shadow-md z-10">
+ <div className="h-16 px-6 flex items-center border-b border-slate-800 shrink-0 bg-slate-900 shadow-md z-10">
  <h2 className="text-lg font-bold text-white flex items-center gap-2">
  <ShieldCheck className="text-blue-500" /> Operasyon & Aksiyon Üssü
  </h2>
  </div>
 
- <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
- <div className="max-w-xl mx-auto space-y-8 pb-12">
+ <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+ <div className="max-w-xl mx-auto space-y-5 pb-12">
  
  {/* EĞER ÖNCEDEN GİRİLMİŞ AKSİYON PLANLARI VARSA LİSTELE */}
  {finding.action_plans && finding.action_plans.length > 0 && (
@@ -288,8 +288,8 @@ export const AuditeePortalPage = () => {
  )}
 
  {/* YENİ AKSİYON GİRİŞ FORMU */}
- <div className="bg-slate-800/40 border border-slate-700 rounded-2xl p-6 shadow-lg">
- <div className="flex items-center gap-3 mb-6 border-b border-slate-700 pb-4">
+ <div className="bg-slate-800/40 border border-slate-700 rounded-2xl p-4 shadow-lg">
+ <div className="flex items-center gap-3 mb-4 border-b border-slate-700 pb-4">
  <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
  <Send className="w-5 h-5 text-blue-400 ml-0.5" />
  </div>

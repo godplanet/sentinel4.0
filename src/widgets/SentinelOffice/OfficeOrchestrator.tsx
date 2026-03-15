@@ -124,7 +124,7 @@ export function OfficeOrchestrator({ workpaperId, isOpen, onClose }: Props) {
  <div className="flex-1 flex overflow-hidden">
  <div className="flex-1 overflow-hidden">
  {!activeDoc ? (
- <div className="p-6 overflow-y-auto h-full">
+ <div className="p-4 overflow-y-auto h-full">
  <DocumentList workpaperId={workpaperId} onOpen={handleOpen} />
  </div>
  ) : versionLoading ? (

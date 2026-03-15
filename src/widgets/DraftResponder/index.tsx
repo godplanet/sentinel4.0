@@ -122,11 +122,11 @@ export function DraftResponder() {
  </div>
 
  {/* Editor Canvas */}
- <div className="flex-1 p-8 bg-[#fafafa] overflow-y-auto relative">
+ <div className="flex-1 p-5 bg-[#fafafa] overflow-y-auto relative">
  
  <div className="max-w-3xl mx-auto bg-white border border-slate-200 shadow-sm p-10 min-h-[500px] text-justify">
  {/* Sentinel Meta Tags */}
- <div className="border-b-2 border-slate-800 pb-4 mb-6 flex justify-between items-end">
+ <div className="border-b-2 border-slate-800 pb-4 mb-4 flex justify-between items-end">
  <div>
  <h1 className="text-2xl font-serif font-bold text-slate-900 mb-1">KURUMSAL GÖRÜŞ BİLDİRİMİ</h1>
  <div className="text-sm text-slate-500 font-serif">Konu: {selectedDraft.draft_title}</div>

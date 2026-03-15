@@ -32,7 +32,7 @@ export function ColorScaleTab({ ranges, onChange }: Props) {
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
  <Palette className="w-5 h-5 text-slate-600" />

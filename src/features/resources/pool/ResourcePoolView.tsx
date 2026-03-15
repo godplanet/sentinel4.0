@@ -28,7 +28,7 @@ export function ResourcePoolView() {
  </p>
  </div>
 
- <div className="flex gap-6">
+ <div className="flex gap-4">
  <div className={clsx('flex-1 min-w-0', selectedProfile && 'hidden xl:block max-w-[60%]')}>
  <ResourcePoolGrid
  profiles={profiles}

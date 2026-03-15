@@ -197,7 +197,7 @@ function DocumentUploadModal({ regulation, onClose }: UploadModalProps) {
  </button>
  </div>
 
- <div className="p-6 space-y-5">
+ <div className="p-4 space-y-5">
  {/* Drag & Drop Yükleme Alanı */}
  <div>
  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2 font-sans">
@@ -209,7 +209,7 @@ function DocumentUploadModal({ regulation, onClose }: UploadModalProps) {
  onDrop={handleDrop}
  onClick={() => fileInputRef.current?.click()}
  className={clsx(
- 'border-2 border-dashed rounded-xl p-8 cursor-pointer text-center transition-colors',
+ 'border-2 border-dashed rounded-xl p-5 cursor-pointer text-center transition-colors',
  dragOver
  ? 'border-blue-400 bg-blue-50'
  : 'border-slate-200 hover:border-blue-300 hover:bg-canvas/60',
@@ -448,7 +448,7 @@ function RegFormModal({ existing, onClose }: RegFormModalProps) {
  </button>
  </div>
 
- <form onSubmit={handleSubmit} className="p-6 space-y-4">
+ <form onSubmit={handleSubmit} className="p-4 space-y-4">
  {serverError && (
  <div className="flex items-center gap-2 p-3 rounded-xl bg-red-50 border border-red-200">
  <AlertCircle size={14} className="text-red-600" />
@@ -790,8 +790,8 @@ export default function RegulationsPage() {
  icon={BookOpen}
  />
 
- <div className="flex-1 p-6 overflow-auto">
- <div className="w-full px-4 sm:px-6 lg:px-8 space-y-6">
+ <div className="flex-1 p-4 overflow-auto">
+ <div className="w-full px-4 sm:px-6 lg:px-6 space-y-6">
 
  {/* İstatistik Kartları */}
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

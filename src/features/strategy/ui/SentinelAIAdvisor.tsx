@@ -10,7 +10,7 @@ export const SentinelAIAdvisor = () => {
  const coverageScore = Math.round((objectives.length / (goals.length || 1)) * 100);
 
  return (
- <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-700 p-6 text-white shadow-xl shadow-indigo-500/20 mb-8">
+ <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-700 p-6 text-white shadow-xl shadow-indigo-500/20 mb-4">
  {/* Decorative Background Elements */}
  <div className="absolute top-0 right-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-surface/10 blur-3xl pointer-events-none" />
  <div className="absolute bottom-0 left-0 -mb-10 -ml-10 h-40 w-40 rounded-full bg-indigo-400/20 blur-2xl pointer-events-none" />

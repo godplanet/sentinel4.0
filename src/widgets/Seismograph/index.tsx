@@ -41,7 +41,7 @@ export function Seismograph({ data, loading }: SeismographProps) {
 
  if (loading) {
  return (
- <div className="bg-slate-900 rounded-2xl p-6 animate-pulse h-[320px]" />
+ <div className="bg-slate-900 rounded-2xl p-4 animate-pulse h-[320px]" />
  );
  }
 
@@ -54,7 +54,7 @@ export function Seismograph({ data, loading }: SeismographProps) {
  }} />
  </div>
 
- <div className="relative z-10 p-6">
+ <div className="relative z-10 p-4">
  <div className="flex items-center justify-between mb-5">
  <div className="flex items-center gap-3">
  <div className="p-2.5 bg-emerald-500/20 rounded-xl border border-emerald-500/30">

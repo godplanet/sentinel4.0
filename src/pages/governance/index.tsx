@@ -47,7 +47,7 @@ export default function GovernancePage() {
  </div>
  </div>
 
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  {activeTab === 'charter' && <CharterViewer />}
 
  {activeTab === 'declarations' && <DeclarationsPanel />}
@@ -55,12 +55,12 @@ export default function GovernancePage() {
  {activeTab === 'committee' && <GovernanceVault />}
 
  {activeTab === 'policies' && (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-6">
+ <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
  <BookOpen size={20} className="text-orange-600" />
  Kurumsal Politika Kutuphanesi
  </h3>
- <p className="text-slate-600 mb-6">
+ <p className="text-slate-600 mb-4">
  Sirket politika, prosedur ve talimatlarinin merkezi deposu.
  </p>
  <PolicyLibrary />

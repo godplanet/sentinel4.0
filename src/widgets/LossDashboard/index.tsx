@@ -311,7 +311,7 @@ export function LossDashboard() {
  </div>
 
  {/* Tablo */}
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  {activeTab === 'LOSSES' ? (
  lossLoading ? (
  <div className="flex items-center justify-center py-20">

@@ -16,7 +16,7 @@ export const MethodologySettings = () => {
  ] as const;
 
  return (
- <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+ <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
  <div className="glass-panel p-6 rounded-xl">
  <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">

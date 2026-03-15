@@ -150,7 +150,7 @@ function BoardChatterPanel({ strategyId }: { strategyId: string }) {
 
  if (!responses || responses.length === 0) {
  return (
- <div className="text-center py-6 text-slate-400 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
+ <div className="text-center py-4 text-slate-400 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
  <Users className="w-8 h-8 mx-auto mb-2 opacity-30" />
  <p className="text-xs font-semibold">Simülasyon sonuçları henüz konseye sunulmadı.</p>
  </div>
@@ -215,8 +215,8 @@ export default function ShadowBoardPage() {
  const selected = (strategies || []).find(s => s.id === selectedId) ?? null;
 
  return (
- <div className="min-h-screen p-6">
- <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+ <div className="min-h-screen p-4">
+ <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
  <div className="flex items-center gap-3 mb-1">
  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-800 to-indigo-900 flex items-center justify-center shadow-sm border border-purple-900/50">
  <BrainCircuit className="w-5 h-5 text-purple-100" />

@@ -82,12 +82,12 @@ export function ActivityTimeline({ logs, loading, open, onClose }: ActivityTimel
 
  <div className="max-h-[400px] overflow-y-auto p-4">
  {loading ? (
- <div className="flex items-center justify-center py-8">
+ <div className="flex items-center justify-center py-5">
  <Loader2 className="animate-spin text-blue-600 mr-2" size={16} />
  <span className="text-xs text-slate-500">Yukleniyor...</span>
  </div>
  ) : logs.length === 0 ? (
- <div className="text-center py-8">
+ <div className="text-center py-5">
  <Clock className="mx-auto text-slate-300 mb-2" size={28} />
  <p className="text-xs text-slate-500">Henuz aktivite kaydi yok</p>
  </div>

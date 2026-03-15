@@ -135,7 +135,7 @@ export function FindingDetailPage() {
  </div>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  {activeLeftTab === 'tespit' && <TespitTab finding={finding} />}
  {activeLeftTab === 'risk' && <RiskTab finding={finding} secret={spyMode ? secret : null} />}
  {activeLeftTab === 'oneri' && <OneriTab finding={finding} />}

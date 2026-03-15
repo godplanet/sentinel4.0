@@ -341,7 +341,7 @@ export function LiveChartBlockView({ block }: { block: LiveChartBlock }) {
 
  if (total === 0) {
  return (
- <div className="border border-dashed border-slate-300 bg-canvas rounded-xl p-8 flex items-center justify-center mb-4">
+ <div className="border border-dashed border-slate-300 bg-canvas rounded-xl p-5 flex items-center justify-center mb-4">
  <p className="text-sm font-sans text-slate-400">Görüntülenecek bulgu verisi yok</p>
  </div>
  );

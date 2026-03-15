@@ -127,7 +127,7 @@ export default function ProgramBuilderPage() {
  if (!template && id !== 'new') {
  return (
  <div className="flex items-center justify-center min-h-screen">
- <GlassCard className="p-8 text-center">
+ <GlassCard className="p-5 text-center">
  <AlertTriangle className="w-16 h-16 text-amber-500 mx-auto mb-4" />
  <h2 className="text-2xl font-bold mb-2">Template Not Found</h2>
  <p className="text-slate-600 mb-4">The requested program template does not exist.</p>
@@ -143,7 +143,7 @@ export default function ProgramBuilderPage() {
  }
 
  return (
- <div className="min-h-screen p-6">
+ <div className="min-h-screen p-4">
  <PageHeader
  title={template?.title || 'Program Builder'}
  subtitle="Design and customize audit programs with GIAS 2024 risk linkage"
@@ -240,7 +240,7 @@ export default function ProgramBuilderPage() {
  </div>
 
  {steps.length === 0 && (
- <div className="text-center py-8 text-slate-500">
+ <div className="text-center py-5 text-slate-500">
  <p className="mb-3">No test steps yet</p>
  <button
  onClick={handleAddStep}
@@ -257,8 +257,8 @@ export default function ProgramBuilderPage() {
  {/* RIGHT PANEL: Step Editor */}
  <div className="lg:col-span-2">
  {selectedStep ? (
- <GlassCard className="p-6">
- <div className="space-y-6">
+ <GlassCard className="p-4">
+ <div className="space-y-4">
  <div>
  <label className="block text-sm font-bold text-slate-700 mb-2">
  Control ID

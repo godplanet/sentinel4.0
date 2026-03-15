@@ -37,7 +37,7 @@ export default function WhistleblowerPage() {
  ];
 
  return (
- <div className="p-8 space-y-6">
+ <div className="p-5 space-y-6">
  <PageHeader
  title="İhbar Hattı (Voice)"
  description="Etik ihlaller ve uygunsuzluklar için gizli bildirim kanalı"
@@ -45,7 +45,7 @@ export default function WhistleblowerPage() {
  />
 
  {/* AI Banner */}
- <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-xl p-6 shadow-sm">
+ <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shrink-0">
  <Shield className="w-6 h-6 text-white" />
@@ -65,7 +65,7 @@ export default function WhistleblowerPage() {
  {(statCards || []).map((stat, i) => (
  <div
  key={i}
- className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6"
+ className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4"
  data-testid="incident-stats-card"
  >
  <div className="flex items-center justify-between mb-4">
@@ -81,7 +81,7 @@ export default function WhistleblowerPage() {
 
  {/* İhbar Formu */}
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Shield size={20} className="text-red-600" />
  İhbar Yönetim Sistemi
@@ -90,7 +90,7 @@ export default function WhistleblowerPage() {
  Tüm ihbarlar şifrelenmiş ve anonim olarak saklanır
  </p>
  </div>
- <div className="p-6">
+ <div className="p-4">
  <IncidentPortal />
  </div>
  </div>
@@ -98,7 +98,7 @@ export default function WhistleblowerPage() {
  {/* Açık Olaylar Listesi (CAE / Yönetim Görünümü) */}
  {(incidents?.length ?? 0) > 0 && (
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm" data-testid="incident-list">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <AlertTriangle size={20} className="text-amber-500" />
  Açık Olaylar
@@ -133,7 +133,7 @@ export default function WhistleblowerPage() {
 
  {/* Alt Bilgi Kartları */}
  <div className="grid lg:grid-cols-3 gap-6">
- <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
  <Lock size={20} className="text-purple-600" />
@@ -153,7 +153,7 @@ export default function WhistleblowerPage() {
  </div>
  </div>
 
- <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
  <AlertTriangle size={20} className="text-blue-600" />
@@ -176,7 +176,7 @@ export default function WhistleblowerPage() {
  </div>
  </div>
 
- <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-6">
+ <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
  <Phone size={20} className="text-green-600" />

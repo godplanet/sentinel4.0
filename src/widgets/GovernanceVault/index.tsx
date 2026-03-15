@@ -80,9 +80,9 @@ export function GovernanceVault() {
  };
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam Doküman</span>
  <FileText className="w-5 h-5 text-slate-500" />
@@ -90,7 +90,7 @@ export function GovernanceVault() {
  <p className="text-3xl font-bold text-primary">{stats.total_docs}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Onaylı</span>
  <CheckCircle2 className="w-5 h-5 text-green-500" />
@@ -98,7 +98,7 @@ export function GovernanceVault() {
  <p className="text-3xl font-bold text-green-600">{stats.approved_docs}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Bağımsızlık Beyanı</span>
  <Shield className="w-5 h-5 text-indigo-500" />
@@ -106,7 +106,7 @@ export function GovernanceVault() {
  <p className="text-3xl font-bold text-indigo-600">{stats.declarations_this_year}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Uyum Oranı</span>
  <FileCheck className="w-5 h-5 text-purple-500" />
@@ -115,8 +115,8 @@ export function GovernanceVault() {
  </div>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6">
- <div className="flex items-center justify-between mb-6">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4">
+ <div className="flex items-center justify-between mb-4">
  <h3 className="text-lg font-bold text-primary">Yönetişim Dokümanları</h3>
  <div className="flex items-center gap-3">
  <div className="flex gap-2">
@@ -236,7 +236,7 @@ export function GovernanceVault() {
  </div>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4">
  <h3 className="text-lg font-bold text-primary mb-4">2026 Bağımsızlık Beyanları</h3>
 
  <div className="space-y-3">
@@ -296,7 +296,7 @@ export function GovernanceVault() {
  </button>
  </div>
 
- <div className="p-6 space-y-4">
+ <div className="p-4 space-y-4">
  <div>
  <label className="block text-sm font-semibold text-slate-700 mb-2">
  Doküman Başlığı <span className="text-red-500">*</span>

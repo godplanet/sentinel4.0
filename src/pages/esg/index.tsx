@@ -10,7 +10,7 @@ export default function EsgPage() {
  const [view, setView] = useState<ViewMode>('pulse');
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="ESG & Surdurulebilirlik"
  description="Cevre, sosyal ve yonetisim metrikleri - Green Skeptic AI ile greenwashing koruması"

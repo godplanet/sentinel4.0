@@ -451,9 +451,9 @@ export default function ReportLibraryPage() {
  </div>
 
  <main className="flex flex-col flex-1 overflow-hidden">
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  {error && (
- <div className="mb-6 flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 font-sans">
+ <div className="mb-4 flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 font-sans">
  <AlertCircle size={16} className="flex-shrink-0" />
  {typeof error === 'string' ? error : (error as Error)?.message ?? String(error)}
  </div>

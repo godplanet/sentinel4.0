@@ -53,7 +53,7 @@ export default function InvestigationHubPage() {
  }, []);
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <PageHeader
  title="Inceleme Merkezi"
  description="Aktif inceleme dosyalari, dijital dondurma ve Sherlock analiz araclari"

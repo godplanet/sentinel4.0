@@ -78,10 +78,10 @@ export const StrategicAnalyticsView = () => {
  ];
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
  <div className="relative neon-border-blue group">
- <div className="relative z-10 glass-card p-6">
+ <div className="relative z-10 glass-card p-4">
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-slate-600">Toplam Risk</p>
@@ -95,7 +95,7 @@ export const StrategicAnalyticsView = () => {
  </div>
 
  <div className="relative neon-border-emerald group">
- <div className="relative z-10 glass-card p-6">
+ <div className="relative z-10 glass-card p-4">
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-slate-600">Aktif Denetim</p>
@@ -109,7 +109,7 @@ export const StrategicAnalyticsView = () => {
  </div>
 
  <div className="relative neon-border-orange group">
- <div className="relative z-10 glass-card p-6">
+ <div className="relative z-10 glass-card p-4">
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-slate-600">Açık Bulgu</p>
@@ -123,7 +123,7 @@ export const StrategicAnalyticsView = () => {
  </div>
 
  <div className="relative neon-border-purple group">
- <div className="relative z-10 glass-card p-6">
+ <div className="relative z-10 glass-card p-4">
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-slate-600">Plan Uyum</p>
@@ -146,7 +146,7 @@ export const StrategicAnalyticsView = () => {
  <Link
  key={card.path}
  to={card.path}
- className="group relative overflow-hidden rounded-xl glass-card p-6 transition-all hover:-translate-y-1"
+ className="group relative overflow-hidden rounded-xl glass-card p-4 transition-all hover:-translate-y-1"
  >
  <div
  className={`absolute right-0 top-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full bg-gradient-to-br ${card.color} opacity-10 transition-transform group-hover:scale-150`}
@@ -192,7 +192,7 @@ export const StrategicAnalyticsView = () => {
  <Link
  key={card.path}
  to={card.path}
- className="group relative overflow-hidden rounded-xl glass-card p-6 transition-all hover:-translate-y-1"
+ className="group relative overflow-hidden rounded-xl glass-card p-4 transition-all hover:-translate-y-1"
  >
  <div
  className={`absolute right-0 top-0 h-24 w-24 translate-x-6 -translate-y-6 rounded-full bg-gradient-to-br ${card.color} opacity-10 transition-transform group-hover:scale-150`}

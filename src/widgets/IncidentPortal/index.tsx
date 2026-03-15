@@ -70,16 +70,16 @@ export function IncidentPortal() {
  <motion.div
  initial={{ opacity: 0, scale: 0.9 }}
  animate={{ opacity: 1, scale: 1 }}
- className="bg-surface rounded-2xl shadow-2xl p-8 max-w-2xl mx-auto text-center"
+ className="bg-surface rounded-2xl shadow-2xl p-5 max-w-2xl mx-auto text-center"
  data-testid="incident-success-screen"
  >
- <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+ <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
  <CheckCircle2 className="w-12 h-12 text-green-600" />
  </div>
  <h2 className="text-2xl font-bold text-primary mb-3">
  Bildiriminiz Alındı
  </h2>
- <p className="text-slate-600 mb-6">
+ <p className="text-slate-600 mb-4">
  Güvenli bir şekilde kayıt altına alındı. Bildiriminiz en kısa sürede değerlendirilecektir.
  </p>
  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -100,7 +100,7 @@ export function IncidentPortal() {
  animate={{ opacity: 1, y: 0 }}
  className="bg-surface rounded-2xl shadow-2xl overflow-hidden max-w-2xl mx-auto"
  >
- <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6">
+ <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
  <div className="flex items-center gap-4">
  <div className="w-16 h-16 bg-surface/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
  <Shield className="w-9 h-9 text-white" />
@@ -116,7 +116,7 @@ export function IncidentPortal() {
  </div>
  </div>
 
- <form onSubmit={handleSubmit} className="p-8 space-y-6">
+ <form onSubmit={handleSubmit} className="p-5 space-y-6">
  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
  <Lock className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
  <div className="text-sm text-blue-900">

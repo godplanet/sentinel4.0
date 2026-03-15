@@ -47,9 +47,9 @@ export function TalentDashboard() {
  }
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam Denetçi</span>
  <Users className="w-5 h-5 text-slate-500" />
@@ -57,7 +57,7 @@ export function TalentDashboard() {
  <p className="text-3xl font-bold text-primary">{stats.totalAuditors}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam CPE Kredisi</span>
  <Award className="w-5 h-5 text-purple-500" />
@@ -65,7 +65,7 @@ export function TalentDashboard() {
  <p className="text-3xl font-bold text-purple-600">{stats.totalCPE}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Eğitim Saati</span>
  <GraduationCap className="w-5 h-5 text-blue-500" />
@@ -73,7 +73,7 @@ export function TalentDashboard() {
  <p className="text-3xl font-bold text-blue-600">{stats.totalTrainingHours}</p>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Ort. Sertifika</span>
  <Star className="w-5 h-5 text-amber-500" />
@@ -83,7 +83,7 @@ export function TalentDashboard() {
  </div>
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <h3 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
  <Users className="w-5 h-5" />
  Denetçi Profilleri
@@ -130,7 +130,7 @@ export function TalentDashboard() {
  </div>
  </div>
 
- <div className="bg-surface rounded-lg border border-slate-200 p-6 shadow-sm">
+ <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <h3 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
  <BookOpen className="w-5 h-5" />
  Son Eğitimler
@@ -179,7 +179,7 @@ export function TalentDashboard() {
  <motion.div
  initial={{ scale: 0.9 }}
  animate={{ scale: 1 }}
- className="bg-surface rounded-xl p-6 max-w-2xl w-full"
+ className="bg-surface rounded-xl p-4 max-w-2xl w-full"
  onClick={(e) => e.stopPropagation()}
  >
  <h3 className="text-xl font-bold text-primary mb-4">

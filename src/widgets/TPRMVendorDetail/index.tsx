@@ -50,7 +50,7 @@ export const TPRMVendorDetail = ({ vendorId, onBack }: Props) => {
  const scoreColor = vendor.criticality_score >= 80 ? 'text-red-600' : vendor.criticality_score >= 50 ? 'text-amber-600' : 'text-emerald-600';
 
  return (
- <div className="space-y-6">
+ <div className="space-y-4">
  <button
  onClick={onBack}
  className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors"
@@ -60,7 +60,7 @@ export const TPRMVendorDetail = ({ vendorId, onBack }: Props) => {
  </button>
 
  <div className="bg-surface rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
- <div className="bg-gradient-to-r from-slate-700 to-slate-800 p-6 text-white">
+ <div className="bg-gradient-to-r from-slate-700 to-slate-800 p-4 text-white">
  <div className="flex items-start justify-between">
  <div className="flex items-center gap-4">
  <div className="w-14 h-14 rounded-xl bg-surface/10 backdrop-blur-sm flex items-center justify-center">
@@ -88,7 +88,7 @@ export const TPRMVendorDetail = ({ vendorId, onBack }: Props) => {
  </div>
  </div>
 
- <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-canvas/50 border-b border-slate-100">
+ <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-canvas/50 border-b border-slate-100">
  <InfoItem icon={User} label="Ilgili Kisi" value={vendor.contact_person} />
  <InfoItem icon={Mail} label="E-posta" value={vendor.email} />
  <InfoItem icon={Calendar} label="Sozlesme Bitis" value={vendor.contract_end ? new Date(vendor.contract_end).toLocaleDateString('tr-TR') : null} />
@@ -122,7 +122,7 @@ export const TPRMVendorDetail = ({ vendorId, onBack }: Props) => {
  </h3>
 
  {!assessments?.length ? (
- <div className="bg-surface rounded-xl border border-dashed border-slate-200 p-8 text-center">
+ <div className="bg-surface rounded-xl border border-dashed border-slate-200 p-5 text-center">
  <FileText className="w-8 h-8 mx-auto mb-2 text-slate-300" />
  <p className="text-sm text-slate-400">Henuz degerlendirme olusturulmamis</p>
  </div>

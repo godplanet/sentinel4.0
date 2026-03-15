@@ -592,10 +592,10 @@ function AddEngagementModal({
  return (
  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
  <div className="bg-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h3 className="text-lg font-semibold text-primary">Add Audit Engagement</h3>
  </div>
- <form onSubmit={handleSubmit} className="p-6 space-y-4">
+ <form onSubmit={handleSubmit} className="p-4 space-y-4">
  <div>
  <label className="block text-sm font-medium text-slate-700 mb-1">
  Audit Plan *

@@ -52,7 +52,7 @@ export function AIPanel({ onApplyDraft }: AIPanelProps) {
  };
 
  return (
- <div className="h-full flex flex-col space-y-6 animate-in fade-in duration-300">
+ <div className="h-full flex flex-col space-y-4 animate-in fade-in duration-300">
  
  {/* ALT SEKMELER (Notlar vs Analiz) */}
  <div className="flex items-center gap-2 bg-slate-200/50 p-1 rounded-lg shrink-0">
@@ -76,7 +76,7 @@ export function AIPanel({ onApplyDraft }: AIPanelProps) {
  {/* SEKME 1: MÜFETTİŞ NOTLARI VE AI İLE BULGU ÜRETİMİ (Eski NotlarTab) */}
  {/* ======================================================================= */}
  {activeTab === 'notes' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* AI Prompt Alanı */}
  <div>
@@ -196,10 +196,10 @@ export function AIPanel({ onApplyDraft }: AIPanelProps) {
  {/* SEKME 2: AKILLI ANALİZ VE KALİTE KONTROL (Eski AITab) */}
  {/* ======================================================================= */}
  {activeTab === 'analysis' && (
- <div className="space-y-6">
+ <div className="space-y-4">
  
  {/* ORİJİNAL KOD: Benzerlik Analizi */}
- <div className="bg-gradient-to-br from-purple-50 to-fuchsia-50 rounded-xl p-6 border border-purple-100 shadow-sm relative overflow-hidden">
+ <div className="bg-gradient-to-br from-purple-50 to-fuchsia-50 rounded-xl p-4 border border-purple-100 shadow-sm relative overflow-hidden">
  <div className="absolute top-0 right-0 p-4 opacity-10">
  <Sparkles className="w-24 h-24 text-purple-600" />
  </div>
@@ -214,7 +214,7 @@ export function AIPanel({ onApplyDraft }: AIPanelProps) {
  </div>
  </div>
  
- <div className="text-center mb-6 relative z-10">
+ <div className="text-center mb-4 relative z-10">
  <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-fuchsia-600 mb-2 drop-shadow-sm">%85</div>
  <p className="text-xs font-medium text-purple-800 leading-relaxed max-w-[200px] mx-auto">
  Son 3 yıl içinde 5 farklı şubede tespit edilen benzer bulgularla eşleşti.

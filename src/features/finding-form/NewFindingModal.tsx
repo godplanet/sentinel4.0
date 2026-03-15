@@ -330,7 +330,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
 
  {/* MAIN CONTENT AREA */}
  <div className="flex-1 overflow-y-auto p-6 bg-canvas">
- <div className="w-full px-4 sm:px-6 lg:px-8 space-y-6">
+ <div className="w-full px-4 sm:px-6 lg:px-6 space-y-6">
 
  {/* TEMEL BİLGİLER */}
  <div className="bg-surface rounded-xl p-4 border border-slate-200 shadow-sm">
@@ -419,7 +419,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
  </div>
 
  {/* TABS CONTENT */}
- <div className="space-y-6">
+ <div className="space-y-4">
 
  {/* KRİTER (önce, tek sütun) */}
  {activeSection === 'kriter' && (
@@ -544,7 +544,7 @@ export const NewFindingModal = ({ isOpen, onClose, onSave, workpaperId, engageme
  </div>
 
  {/* MOTOR VE VETOLAR */}
- <div className="flex flex-col gap-6">
+ <div className="flex flex-col gap-4">
  <div className="bg-surface rounded-xl p-6 border border-orange-100 shadow-sm ring-1 ring-inset ring-orange-50">
  <h3 className="text-sm font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">Etki Motoru (WIF)</h3>
 

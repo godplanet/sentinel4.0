@@ -60,7 +60,7 @@ export default function AdvisoryHubPage() {
  const isLoading = loadingReqs || loadingEngs;
 
  return (
- <div className="space-y-8 p-6">
+ <div className="space-y-5 p-4">
  <PageHeader
  title="Rehberlik Hizmetleri"
  subtitle="Danismanlik talepleri ve gorev yonetimi - GIAS 2024 Uyumlu"

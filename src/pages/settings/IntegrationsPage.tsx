@@ -105,14 +105,14 @@ export default function IntegrationsPage() {
  };
 
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-6">
  <PageHeader
  title="Entegrasyon"
  description="Kurumsal sistemler ile API entegrasyonları (SAP, LDAP, E-posta)"
  badge="MODÜL 8: AYARLAR"
  />
 
- <div className="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-6 shadow-sm">
+ <div className="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center shrink-0">
  <Globe className="w-6 h-6 text-white" />
@@ -129,7 +129,7 @@ export default function IntegrationsPage() {
 
  <div className="grid lg:grid-cols-2 gap-6">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Database size={20} className="text-blue-600" />
  Sistem Entegrasyonları
@@ -138,7 +138,7 @@ export default function IntegrationsPage() {
  Kurumsal sistemlerle veri alışverişi ve senkronizasyon
  </p>
  </div>
- <div className="p-6 space-y-4">
+ <div className="p-4 space-y-4">
  {(INTEGRATIONS || []).map((integration) => {
  const Icon = integration.icon;
  return (
@@ -184,15 +184,15 @@ export default function IntegrationsPage() {
  </div>
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Settings size={20} className="text-purple-600" />
  Entegrasyon Detayları
  </h2>
  </div>
- <div className="p-6">
+ <div className="p-4">
  {selectedIntegration ? (
- <div className="space-y-6">
+ <div className="space-y-4">
  <div className="flex items-center gap-4">
  <div className={clsx('w-16 h-16 rounded-xl bg-gradient-to-br flex items-center justify-center', selectedIntegration.color)}>
  <selectedIntegration.icon className="w-8 h-8 text-white" />
@@ -343,7 +343,7 @@ export default function IntegrationsPage() {
  </div>
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="p-6 border-b border-slate-200 flex items-center justify-between">
+ <div className="p-4 border-b border-slate-200 flex items-center justify-between">
  <div>
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <Key size={20} className="text-green-600" />
@@ -358,7 +358,7 @@ export default function IntegrationsPage() {
  Yeni API Key
  </button>
  </div>
- <div className="p-6">
+ <div className="p-4">
  <div className="space-y-4">
  {(apiKeys || []).map((key) => (
  <div key={key.id} className="flex items-center gap-4 p-4 border border-slate-200 rounded-lg hover:shadow-sm transition-shadow">

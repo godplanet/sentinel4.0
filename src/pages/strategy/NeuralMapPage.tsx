@@ -179,8 +179,8 @@ export default function NeuralMapPage() {
  description="Risk Bulaşma Ağı - Denetim Evreni Hiyerarşisi"
  icon={Network}
  />
- <div className="flex-1 flex items-center justify-center p-8">
- <div className="max-w-md w-full bg-surface border border-red-200 rounded-xl p-6 shadow-sm">
+ <div className="flex-1 flex items-center justify-center p-5">
+ <div className="max-w-md w-full bg-surface border border-red-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-center gap-3 text-red-700 mb-2">
  <AlertCircle className="w-8 h-8 shrink-0" />
  <h3 className="font-semibold text-lg">Veri yüklenemedi</h3>
@@ -206,7 +206,7 @@ export default function NeuralMapPage() {
  description="Risk Bulaşma Ağı - Denetim Evreni Hiyerarşisi"
  icon={Network}
  />
- <div className="flex-1 flex items-center justify-center p-8">
+ <div className="flex-1 flex items-center justify-center p-5">
  <div className="text-center text-slate-500">
  <Network className="w-16 h-16 mx-auto mb-4 opacity-40" />
  <p className="font-medium">Henüz denetim evreni kaydı yok</p>
@@ -297,7 +297,7 @@ export default function NeuralMapPage() {
  </div>
 
  {selectedNode && (
- <div className="w-96 bg-surface rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
+ <div className="w-96 bg-surface rounded-xl border border-slate-200 shadow-sm p-4 space-y-6">
  <div>
  <div className="flex items-center justify-between mb-2">
  <h3 className="text-lg font-bold text-primary">Birim Detayı</h3>
@@ -396,7 +396,7 @@ export default function NeuralMapPage() {
  </div>
  </div>
  ) : (
- <div className="text-center py-8 text-slate-500">
+ <div className="text-center py-5 text-slate-500">
  <Network className="w-12 h-12 mx-auto mb-2 opacity-50" />
  <p className="text-sm">Bu birime gelen risk bulaşması yok</p>
  </div>

@@ -57,11 +57,11 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
 
  return (
  <div className="bg-surface rounded-xl border-2 border-slate-200 shadow-lg">
- <div className="border-b-2 border-slate-200 p-6 bg-gradient-to-r from-slate-50 to-white">
+ <div className="border-b-2 border-slate-200 p-4 bg-gradient-to-r from-slate-50 to-white">
  <div className="flex items-center justify-between">
  <div>
- <h3 className="text-2xl font-bold text-primary mb-1">Günün Ajandası & Bekleyen İşler</h3>
- <div className="flex items-center gap-4 text-sm text-slate-600">
+ <h3 className="text-lg font-bold text-primary mb-0.5">Günün Ajandası & Bekleyen İşler</h3>
+ <div className="flex items-center gap-3 text-sm text-slate-600">
  <span className="flex items-center gap-1.5">
  <AlertCircle size={16} className="text-red-500" />
  <strong>{(tasks || []).filter((t) => t.priority === 'high').length}</strong> yüksek öncelik
@@ -76,14 +76,14 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
  </div>
  </div>
 
- <div className="p-6 space-y-3">
+ <div className="p-4 space-y-2">
  {(tasks || []).map((task) => {
  const statusConfig = getStatusConfig(task.status);
  return (
  <div
  key={task.id}
  className={clsx(
- 'group flex items-start gap-4 p-5 rounded-xl border-2 transition-all cursor-pointer',
+ 'group flex items-start gap-3 p-3 rounded-xl border-2 transition-all cursor-pointer',
  task.status === 'in-progress'
  ? 'border-blue-200 bg-blue-50/50 hover:border-blue-300 hover:shadow-md'
  : 'border-slate-200 bg-surface hover:border-blue-300 hover:bg-blue-50/50 hover:shadow-md'
@@ -92,7 +92,7 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
  <div className="shrink-0 mt-0.5">{getTaskIcon(task.type)}</div>
 
  <div className="flex-1 min-w-0">
- <div className="flex items-center gap-2 mb-2 flex-wrap">
+ <div className="flex items-center gap-2 mb-1.5 flex-wrap">
  <span className={clsx('text-xs font-bold px-2.5 py-1 rounded-md border', getTypeBgColor(task.type))}>
  {getTypeLabel(task.type)}
  </span>
@@ -107,7 +107,7 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
  )}
  </div>
 
- <p className="text-base font-bold text-primary mb-2 group-hover:text-blue-600 transition-colors leading-snug">
+ <p className="text-sm font-bold text-primary mb-1.5 group-hover:text-blue-600 transition-colors leading-snug">
  {task.title}
  </p>
 
@@ -130,8 +130,8 @@ export const TaskWorkbench = ({ tasks }: TaskWorkbenchProps) => {
  })}
  </div>
 
- <div className="border-t-2 border-slate-200 p-5 bg-canvas">
- <button className="w-full text-center text-sm font-bold text-blue-600 hover:text-white bg-surface hover:bg-blue-600 py-3 rounded-lg transition-all border-2 border-blue-600 shadow-sm hover:shadow-md">
+ <div className="border-t-2 border-slate-200 p-3 bg-canvas">
+ <button className="w-full text-center text-sm font-bold text-blue-600 hover:text-white bg-surface hover:bg-blue-600 py-2 rounded-lg transition-all border-2 border-blue-600 shadow-sm hover:shadow-md">
  Tüm Görevleri Görüntüle →
  </button>
  </div>
