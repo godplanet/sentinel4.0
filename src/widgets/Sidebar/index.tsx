@@ -39,7 +39,7 @@ interface UserData {
 export const Sidebar = () => {
  const { t } = useTranslation();
  const { isSidebarOpen, environment, sidebarColor } = useUIStore();
- const { setChatOpen } = useChatStore();
+ const { chatOpen, setChatOpen } = useChatStore();
   const { currentPersona, setPersona, isPathAllowed, getCurrentPersonaConfig, activeProfile } = usePersonaStore();
   const { data: profiles = [], isLoading: isLoadingProfiles } = useUserProfiles();
  const location = useLocation();
@@ -164,7 +164,7 @@ export const Sidebar = () => {
  to={module.path || '/'}
  title={module.label}
  className={clsx(
- 'flex items-center gap-3 w-full px-3 py-2.5 rounded-lg font-bold text-xs transition-all',
+ 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-xs transition-all',
  isActive
  ? `${bgActive} ${textActive}`
  : `${textMuted} ${bgHover} hover:${textActive}`,
@@ -191,7 +191,7 @@ export const Sidebar = () => {
  onClick={() => toggleModule(module.id)}
  title={module.label}
  className={clsx(
- 'flex items-center gap-3 w-full px-3 py-2.5 rounded-lg font-bold text-xs transition-all duration-200',
+ 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-xs transition-all duration-200',
   isBrainSection
   ? isActive
   ? 'bg-indigo-500/25 text-indigo-700 shadow-[0_0_20px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40 backdrop-blur-sm'
@@ -251,7 +251,7 @@ export const Sidebar = () => {
  key={subItem.path}
  to={subItem.path}
  className={clsx(
- 'flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium transition-all',
+ 'flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all',
   isBrainSection
   ? isSubActive
   ? 'bg-indigo-500/20 text-indigo-700 shadow-[0_0_10px_rgba(99,102,241,0.2)] ring-1 ring-indigo-500/25 backdrop-blur-sm'
@@ -281,19 +281,19 @@ export const Sidebar = () => {
   <aside
   className={clsx(
   'fixed left-0 top-0 h-screen flex flex-col border-r transition-all duration-300 z-50 border-slate-700/30 shadow-xl print:hidden',
-  isSidebarOpen ? 'w-64' : 'w-20',
+  isSidebarOpen ? 'w-52' : 'w-16',
   textMain
   )}
   style={{ backgroundColor: sidebarColor }}
   >
   {/* ── Logo / Başlık + Ortam Rozeti ───────────────────────────────── */}
-  <div className={clsx("h-16 flex items-center px-6 border-b shrink-0 bg-black/5 backdrop-blur-sm", borderInner)}>
+  <div className={clsx("h-12 flex items-center px-4 border-b shrink-0 bg-black/5 backdrop-blur-sm", borderInner)}>
   <div className="min-w-[32px] h-8 rounded-lg bg-surface/20 flex items-center justify-center backdrop-blur-md shadow-lg ring-1 ring-black/10">
-  <ShieldCheck className={clsx("w-5 h-5 drop-shadow-md", textLogo)} />
+  <ShieldCheck className={clsx("w-4 h-4 drop-shadow-md", textLogo)} />
   </div>
   {isSidebarOpen && (
   <div className="ml-3 fade-in overflow-hidden flex flex-col gap-1">
-  <h1 className={clsx("font-bold text-lg tracking-tight drop-shadow-md", textLogo)}>SENTINEL</h1>
+  <h1 className={clsx("font-bold text-sm tracking-tight drop-shadow-md", textLogo)}>SENTINEL</h1>
   <div className="flex items-center gap-2">
   {environment !== 'PROD' && (
  <span className={clsx(
@@ -360,12 +360,12 @@ export const Sidebar = () => {
  )}
 
   {/* ── Sentinel Asistan Butonu + Kullanıcı Menüsü ───────────────── */}
-  <div className={clsx("border-t p-3 space-y-3 shrink-0", borderInner)}>
+  <div className={clsx("border-t p-2 space-y-2 shrink-0", borderInner)}>
   {/* Sentinel AI Chat butonu */}
  <button
- onClick={() => setChatOpen(true)}
+ onClick={() => setChatOpen(!chatOpen)}
  className={clsx(
- 'w-full relative overflow-hidden rounded-xl p-4 transition-all hover:scale-105 group',
+ 'w-full relative overflow-hidden rounded-xl p-2.5 transition-all hover:scale-105 group',
  'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600',
  'shadow-[0_0_20px_rgba(124,58,237,0.6)] hover:shadow-[0_0_30px_rgba(124,58,237,0.8)]'
  )}
@@ -374,12 +374,12 @@ export const Sidebar = () => {
  <div className="relative flex items-center justify-center gap-3">
  <div className="relative">
  <div className="absolute inset-0 bg-surface rounded-full blur-md opacity-50 animate-pulse" />
- <Brain className="relative text-white" size={24} />
+ <Brain className="relative text-white" size={18} />
  </div>
  {isSidebarOpen && (
  <div className="flex-1 text-left">
  <div className="flex items-center gap-2 mb-0.5">
- <span className="text-sm font-black text-white tracking-tight">Sentinel Asistan</span>
+ <span className="text-xs font-black text-white tracking-tight">Sentinel Asistan</span>
  <Sparkles size={14} className="text-yellow-300 animate-pulse" />
  </div>
  <div className="text-[10px] text-white/80 font-medium uppercase tracking-wider">Zeka Çekirdeği</div>
@@ -500,10 +500,10 @@ export const Sidebar = () => {
 
   <button
   onClick={() => setShowUserMenu(!showUserMenu)}
-  className={clsx("flex items-center gap-3 w-full p-3 rounded-lg transition-colors group", bgHover)}
+  className={clsx("flex items-center gap-2 w-full p-2 rounded-lg transition-colors group", bgHover)}
   >
- <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center shrink-0 ring-2 ring-white/20 group-hover:ring-white/40 transition-all">
- <User size={18} className="text-white" />
+ <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center shrink-0 ring-2 ring-white/20 group-hover:ring-white/40 transition-all">
+ <User size={14} className="text-white" />
  </div>
   {isSidebarOpen && (
   <div className="flex-1 text-left overflow-hidden">

@@ -8,7 +8,7 @@ import { SentinelChatPanel } from '@/widgets/SentinelChat';
 import { SentinelScribble } from '@/widgets/SentinelScribble';
 import { ScribbleFindingModal } from '@/widgets/SentinelScribble/ScribbleFindingModal';
 import { Sidebar } from '@/widgets/Sidebar';
-import { Brain } from 'lucide-react';
+
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { MasterSuperDrawer } from './MasterSuperDrawer'; // YENİ MİMARİ
@@ -16,7 +16,7 @@ import { MasterSuperDrawer } from './MasterSuperDrawer'; // YENİ MİMARİ
 const CHROMELESS_ROUTES = ['/secure-report', '/login'];
 
 export const AppShell = ({ children }: { children: React.ReactNode }) => {
- const { isSidebarOpen, isVDI, drawer } = useUIStore();
+ const { isSidebarOpen, isVDI } = useUIStore();
  const { chatOpen, setChatOpen } = useChatStore();
  const location = useLocation();
 
@@ -37,7 +37,7 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
 
  <main className={cn(
  "flex-1 flex flex-col relative min-w-0 transition-all duration-300",
- isSidebarOpen ? "ml-64 print:ml-0" : "ml-20 print:ml-0"
+ isSidebarOpen ? "ml-52 print:ml-0" : "ml-16 print:ml-0"
  )}>
  <div className="print:hidden">
  <Header />
@@ -49,16 +49,6 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
  </div>
  </div>
  </main>
-
- {!chatOpen && !drawer.isOpen && (
- <button
- onClick={() => setChatOpen(true)}
- className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-2xl shadow-lg shadow-blue-300/40 flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all print:hidden"
- title="Sentinel AI Asistan"
- >
- <Brain size={24} />
- </button>
- )}
 
  {/* 🛡️ SİSTEMİN YENİ KALBİ: THE SUPER DRAWER KONTEYNERİ */}
  <MasterSuperDrawer />
