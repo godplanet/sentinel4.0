@@ -146,7 +146,7 @@ export function SentinelChatPanel() {
  </button>
  </div>
  </div>
- <div className="flex items-center justify-between px-4 py-2 border-b border-slate-100 bg-canvas text-xs">
+  <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-100 bg-canvas text-xs">
  <div className="flex items-center gap-2 text-slate-500">
  <MapPin size={12} />
  <span className="truncate max-w-[180px]">{pageCtx.label}</span>
@@ -164,6 +164,14 @@ export function SentinelChatPanel() {
  {includeContext ? <ToggleRight size={14} /> : <ToggleLeft size={14} />}
  <span>Baglam</span>
  </button>
+  <button
+   onClick={() => setChatOpen(false)}
+   className="flex items-center gap-1 px-2 py-1 rounded-md bg-rose-500 hover:bg-rose-600 text-white font-semibold transition-colors"
+   title="Kapat"
+  >
+   <X size={12} />
+   <span>Kapat</span>
+  </button>
  </div>
 
  {!isConfigured && (
