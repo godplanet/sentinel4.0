@@ -46,9 +46,9 @@ export default function ExecutiveDashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-50">
+      <div className="flex items-center justify-center py-12 bg-slate-50">
         <div className="flex flex-col items-center animate-pulse">
-          <ShieldAlert className="w-12 h-12 text-slate-300 mb-4" />
+          <ShieldAlert className="w-8 h-8 text-slate-300 mb-2" />
           <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">Kokpit Yükleniyor...</p>
         </div>
       </div>
@@ -60,21 +60,18 @@ export default function ExecutiveDashboardPage() {
   const safeFindings = (criticalFindings || []).filter(f => f.status?.toUpperCase() !== 'CLOSED' && f.status?.toUpperCase() !== 'RESOLVED');
 
   return (
-    <div className="min-h-screen bg-slate-50 p-5 overflow-y-auto relative">
-      {/* Background Orbs */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none translate-x-1/2 translate-y-1/2" />
+    <div className="w-full bg-slate-50 p-3 overflow-x-hidden">
       
-      <div className="w-full space-y-5 relative z-10">
+      <div className="w-full space-y-3">
         
         {/* Header */}
-        <header className="flex items-center justify-between mb-4">
+        <header className="flex items-center justify-between mb-2">
           <div>
-            <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-              <ShieldAlert className="text-indigo-600" size={32} />
+            <h1 className="text-base font-bold text-slate-800 tracking-tight flex items-center gap-2">
+              <ShieldAlert className="text-indigo-600" size={18} />
               Yönetim Kurulu Kokpiti
             </h1>
-            <p className="text-slate-500 mt-2 text-sm">Banka geneli güncel risk panoraması ve yayınlanmış nihai raporlar.</p>
+            <p className="text-slate-500 mt-0.5 text-xs">Banka geneli güncel risk panoraması ve yayınlanmış nihai raporlar.</p>
           </div>
           <div className="px-4 py-2 bg-white/70 backdrop-blur-md rounded-xl border border-white/50 shadow-sm flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -83,24 +80,24 @@ export default function ExecutiveDashboardPage() {
         </header>
 
         {/* --- PANEL 1: Bank-wide Risk Heatmap / Score --- */}
-        <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-5 rounded-3xl shadow-xl">
-          <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-            <Activity className="text-rose-500" /> Banka Geneli Risk Görünümü
+        <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-3 rounded-xl shadow-sm">
+          <h2 className="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
+            <Activity className="text-rose-500" size={14} /> Banka Geneli Risk Görünümü
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 flex flex-col items-center justify-center text-center">
-              <span className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Banka Sağlık Skoru</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="p-3 bg-slate-50/50 rounded-xl border border-slate-100 flex flex-col items-center justify-center text-center">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Banka Sağlık Skoru</span>
               <span className={cn(
-                "text-6xl font-black tracking-tighter drop-shadow-sm",
+                "text-4xl font-black tracking-tighter",
                 score >= 80 ? "text-emerald-500" : score >= 50 ? "text-amber-500" : "text-rose-600"
               )}>
                 {score}
               </span>
-              <span className="text-xs text-slate-400 mt-2 font-medium">100 üzerinden</span>
+              <span className="text-[10px] text-slate-400 mt-1 font-medium">100 üzerinden</span>
             </div>
 
-            <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 flex flex-col justify-center">
-              <span className="text-sm font-bold text-slate-500 mb-4">Risk Dağılımı</span>
+            <div className="p-3 bg-slate-50/50 rounded-xl border border-slate-100 flex flex-col justify-center">
+              <span className="text-xs font-bold text-slate-500 mb-2">Risk Dağılımı</span>
               <div className="w-full h-4 bg-slate-200 rounded-full overflow-hidden flex shadow-inner">
                 <div className="h-full bg-rose-500 transition-all duration-1000" style={{ width: `${Math.min(openCritical * 10, 80)}%` }} />
                 <div className="h-full bg-amber-400 transition-all duration-1000" style={{ width: `20%` }} />
@@ -112,32 +109,32 @@ export default function ExecutiveDashboardPage() {
               </div>
             </div>
 
-            <div className="p-4 bg-indigo-600 rounded-2xl border border-indigo-500 flex flex-col items-center justify-center text-center shadow-lg shadow-indigo-200 text-white relative overflow-hidden group">
-              <Target className="absolute -right-4 -bottom-4 w-32 h-32 text-indigo-500/30 group-hover:scale-110 transition-transform duration-500" />
-              <span className="text-sm font-bold text-indigo-200 uppercase tracking-wider mb-2 relative z-10">Açık Kritik Bulgu</span>
-              <span className="text-6xl font-black tracking-tighter drop-shadow-md relative z-10">
+            <div className="p-3 bg-indigo-600 rounded-xl border border-indigo-500 flex flex-col items-center justify-center text-center shadow-sm text-white relative overflow-hidden group">
+              <Target className="absolute -right-2 -bottom-2 w-16 h-16 text-indigo-500/30" />
+              <span className="text-xs font-bold text-indigo-200 uppercase tracking-wider mb-1 relative z-10">Açık Kritik Bulgu</span>
+              <span className="text-4xl font-black tracking-tighter relative z-10">
                 {openCritical}
               </span>
             </div>
           </div>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           
           {/* --- PANEL 2: Recently Published Reports --- */}
-          <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-5 rounded-3xl shadow-xl flex flex-col h-[500px]">
-            <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center justify-between">
+          <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-3 rounded-xl shadow-sm flex flex-col max-h-72">
+            <h2 className="text-sm font-bold text-slate-800 mb-2 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <FileText className="text-indigo-600" /> Nihai Yayınlanmış Raporlar
+                <FileText className="text-indigo-600" size={14} /> Nihai Yayınlanmış Raporlar
               </div>
               <span className="text-xs font-semibold px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded">Salt Okunur</span>
             </h2>
             
             <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
               {safeReports.length > 0 ? (
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {safeReports.map((report) => (
-                     <div key={report.id} className="p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-indigo-200 transition-colors group">
+                     <div key={report.id} className="p-2.5 bg-slate-50 rounded-lg border border-slate-100 hover:border-indigo-200 transition-colors group">
                        <div className="flex items-start justify-between gap-3">
                          {/* Left: metadata + title + AI summary */}
                          <div className="flex-1 min-w-0">
@@ -209,7 +206,7 @@ export default function ExecutiveDashboardPage() {
                 </div>
               ) : (
                 <div className="h-full flex flex-col items-center justify-center p-4 bg-slate-50/50 rounded-2xl border border-slate-100 border-dashed">
-                  <CheckCircle2 size={48} className="text-slate-300 mb-4" />
+                  <CheckCircle2 size={24} className="text-slate-300 mb-2" />
                   <h3 className="text-sm font-bold text-slate-600 mb-1">Henüz rapor bulunmamaktadır</h3>
                   <p className="text-xs text-slate-400 text-center">Şu an için yayınlanmış veya kapanmış nihai bir rapor sisteme yansımamıştır.</p>
                 </div>
@@ -218,16 +215,16 @@ export default function ExecutiveDashboardPage() {
           </section>
 
           {/* --- PANEL 3: Unclosed Critical Findings Alert --- */}
-          <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-5 rounded-3xl shadow-xl flex flex-col h-[500px]">
-            <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <AlertTriangle className="text-rose-600" /> Kritik Bulgu Alarmları
+          <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-3 rounded-xl shadow-sm flex flex-col max-h-72">
+            <h2 className="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
+              <AlertTriangle className="text-rose-600" size={14} /> Kritik Bulgu Alarmları
             </h2>
 
             <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
               {safeFindings.length > 0 ? (
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {safeFindings.map((finding) => (
-                     <div key={finding.id} className="p-4 bg-rose-50/50 rounded-2xl border border-rose-100 hover:border-rose-300 transition-colors flex flex-col gap-2">
+                     <div key={finding.id} className="p-2.5 bg-rose-50/50 rounded-lg border border-rose-100 hover:border-rose-300 transition-colors flex flex-col gap-1.5">
                        <div className="flex items-start justify-between">
                           <h3 className="text-sm font-bold text-rose-900 leading-snug pr-4">
                             {typeof finding.title === 'string' ? finding.title : JSON.stringify(finding.title)}
@@ -251,7 +248,7 @@ export default function ExecutiveDashboardPage() {
                 </div>
               ) : (
                 <div className="h-full flex flex-col items-center justify-center p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100 border-dashed">
-                  <ShieldAlert size={48} className="text-emerald-300 mb-4" />
+                  <ShieldAlert size={24} className="text-emerald-300 mb-4" />
                   <h3 className="text-sm font-bold text-emerald-700 mb-1">Tebrikler, Açık Kritik Bulgu Yok</h3>
                   <p className="text-xs text-emerald-600/70 text-center">Sistemde takip edilen aktif bir kırmızı kodlu bulgu tespit edilmemiştir.</p>
                 </div>
