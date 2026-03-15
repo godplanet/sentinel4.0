@@ -1,7 +1,4 @@
 import { usePersonaStore, type PersonaRole } from '@/entities/user/model/persona-store';
-import { useChatStore } from '@/features/ai-agents/model/chat-store';
-import { useUserProfiles } from '@/features/auth/api';
-import toast from 'react-hot-toast';
 import {
  sentinelBrainItem,
  standardNavItems,
@@ -10,36 +7,16 @@ import {
 import { getContrastYIQ } from '@/shared/lib/utils';
 import { useUIStore } from '@/shared/stores/ui-store';
 import clsx from 'clsx';
-import {
- Brain,
- Building,
- CheckCircle,
- ChevronDown,
- ChevronRight,
- Eye,
- LogOut,
- Package,
- Shield,
- Sparkles,
- User,
- UserCog,
-} from 'lucide-react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-
-interface UserData {
- name: string;
- role: string;
- title: string;
-}
+import { Link, useLocation } from 'react-router-dom';
 
 export const Sidebar = () => {
  const { t } = useTranslation();
  const { isSidebarOpen, environment, sidebarColor } = useUIStore();
  const { chatOpen, setChatOpen } = useChatStore();
-  const { currentPersona, setPersona, isPathAllowed, getCurrentPersonaConfig, activeProfile } = usePersonaStore();
-  const { data: profiles = [], isLoading: isLoadingProfiles } = useUserProfiles();
+  const { isPathAllowed } = usePersonaStore();
  const location = useLocation();
  const navigate = useNavigate();
  const [expandedModule, setExpandedModule] = useState<string | null>(null);
@@ -47,14 +24,6 @@ export const Sidebar = () => {
  const [showPersonaMenu, setShowPersonaMenu] = useState(false);
  const [userData, setUserData] = useState<UserData | null>(null);
 
-  useEffect(() => {
-    const config = getCurrentPersonaConfig();
-    setUserData({
-      name: config.name,
-      role: config.title,
-      title: config.title,
-    });
-  }, [currentPersona, getCurrentPersonaConfig, activeProfile]);
 
   const isLightBg = getContrastYIQ(sidebarColor) === 'light';
   const textMain = isLightBg ? 'text-slate-800' : 'text-slate-100';
@@ -329,165 +298,6 @@ export const Sidebar = () => {
  </div>
  )}
 
-  {/* ── Sentinel Asistan Butonu + Kullanıcı Menüsü ───────────────── */}
-  <div className={clsx("border-t p-2 space-y-2 shrink-0", borderInner)}>
-  {/* Sentinel AI Chat butonu */}
- <button
- onClick={() => setChatOpen(!chatOpen)}
- className={clsx(
- 'w-full relative overflow-hidden rounded-xl p-2 transition-all hover:scale-105 group',
- 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600',
- 'shadow-[0_0_20px_rgba(124,58,237,0.6)] hover:shadow-[0_0_30px_rgba(124,58,237,0.8)]'
- )}
- >
- <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
- <div className="relative flex items-center justify-center gap-3">
- <div className="relative">
- <div className="absolute inset-0 bg-surface rounded-full blur-md opacity-50 animate-pulse" />
- <Brain className="relative text-white" size={14} />
- </div>
- {isSidebarOpen && (
- <div className="flex-1 text-left">
- <div className="flex items-center gap-2 mb-0.5">
- <span className="text-[10px] font-black text-white tracking-tight">Sentinel Asistan</span>
- <Sparkles size={14} className="text-yellow-300 animate-pulse" />
- </div>
- <div className="text-[9px] text-white/80 font-medium uppercase tracking-wider">Zeka Çekirdeği</div>
- </div>
- )}
- </div>
- <div className="absolute inset-0 border-2 border-white/20 rounded-xl pointer-events-none" />
- </button>
-
- {/* Kullanıcı & Persona Menüsü */}
- <div className="relative">
- {showPersonaMenu && (
- <>
- <div className="fixed inset-0 z-40" onClick={() => setShowPersonaMenu(false)} />
- <div className="absolute bottom-full left-0 right-0 mb-2 z-50 bg-slate-800 border border-white/20 rounded-lg shadow-2xl overflow-hidden max-h-96 overflow-y-auto">
- <div className="px-4 py-2 bg-surface/5 border-b border-white/10">
- <div className="text-xs font-bold text-white uppercase tracking-wider">Rol Simülasyonu</div>
- </div>
-                  {profiles.length === 0 && isLoadingProfiles ? (
-                    <div className="px-4 py-5 text-sm text-slate-400 text-center animate-pulse">Profiller yükleniyor...</div>
-                  ) : profiles.length === 0 ? (
-                    <div className="px-4 py-5 text-sm text-red-400 text-center">
-                      <div className="font-semibold mb-1">Profil Bulunamadı</div>
-                      <div className="text-xs opacity-80">Veritabanına bağlanılamadı veya RLS hatası. Sadece aktif kullanıcı görüntüleniyor.</div>
-                      <button
-                        onClick={() => {
-                          const me = { id: 'me', full_name: userData?.name || 'Mevcut Kullanıcı', title: userData?.role || 'Kullanıcı', role: 'auditor' };
-                          setPersona('AUDITOR', me as any);
-                          setShowPersonaMenu(false);
-                          setShowUserMenu(false);
-                        }}
-                        className="mt-3 px-3 py-1.5 bg-surface/20 hover:bg-surface/30 rounded text-xs text-white transition-colors"
-                      >
-                        Mevcut Kullanıcıyla Devam Et
-                      </button>
-                    </div>
-                  ) : (profiles || []).map((profile) => {
-                    let mappedRole: PersonaRole = 'AUDITOR';
-                    if (profile.role === 'admin' || profile.role === 'cae') mappedRole = 'CAE';
-                    else if (profile.role === 'auditor') mappedRole = 'AUDITOR';
-                    else if (profile.role === 'executive' || profile.role === 'gmy') mappedRole = 'EXECUTIVE';
-                    else if (profile.role === 'auditee') mappedRole = 'AUDITEE';
-                    else if (profile.role === 'guest' || profile.role === 'vendor' || profile.role === 'supplier') mappedRole = 'SUPPLIER';
-
-                    const Icon = getPersonaIcon(mappedRole);
-                    const isActive = activeProfile ? activeProfile.id === profile.id : currentPersona === mappedRole;
-
-                    return (
-                      <button
-                        key={profile.id}
-                        onClick={() => {
-                          const targetRoute = mappedRole === 'AUDITEE' ? '/auditee' : '/dashboard';
-                          // Önce güvenli bir rotaya git, sonra rolü değiştir (Race condition/403 önlemi)
-                          navigate(targetRoute, { replace: true });
-                          
-                          setTimeout(() => {
-                            setPersona(mappedRole, profile);
-                            toast.success(`Aktif Rol Değiştirildi: ${profile.full_name} - ${profile.title}`);
-                          }, 50);
-
-                          setShowPersonaMenu(false);
-                          setShowUserMenu(false);
-                        }}
-                        className={clsx(
-                          'w-full flex items-center gap-3 px-4 py-3 text-left text-sm transition-colors',
-                          isActive
-                            ? 'bg-blue-500/20 text-blue-300 border-l-4 border-blue-500'
-                            : 'text-white hover:bg-surface/10'
-                        )}
-                      >
-                        <Icon size={18} className={getPersonaColor(mappedRole)} />
-                        <div className="flex-1 overflow-hidden">
-                          <div className="font-semibold truncate">{profile.full_name}</div>
-                          <div className="text-xs opacity-70 truncate">{profile.title}</div>
-                        </div>
-                        {isActive && <CheckCircle className="text-blue-500 shrink-0" size={16} />}
-                      </button>
-                    );
-                  })}
- </div>
- </>
- )}
-
- {showUserMenu && (
- <>
- <div className="fixed inset-0 z-40" onClick={() => setShowUserMenu(false)} />
- <div className="absolute bottom-full left-0 right-0 mb-2 z-50 bg-slate-800 border border-white/20 rounded-lg shadow-2xl overflow-hidden">
- <button
- onClick={() => { navigate('/resources/profiles'); setShowUserMenu(false); }}
- className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm text-white hover:bg-surface/10 transition-colors"
- >
- <User size={16} />
- <span>Profilim</span>
- </button>
- <div className="border-t border-white/10" />
- <button
- onClick={() => { setShowPersonaMenu(true); setShowUserMenu(false); }}
- className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm text-purple-300 hover:bg-purple-500/10 transition-colors"
- >
- <UserCog size={16} />
- <span>Rol Değiştir</span>
- </button>
- <div className="border-t border-white/10" />
- <button
- onClick={() => {
- localStorage.removeItem('sentinel_user');
- navigate('/login');
- setShowUserMenu(false);
- }}
- className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm text-red-400 hover:bg-red-500/10 transition-colors"
- >
- <LogOut size={16} />
- <span>Çıkış Yap</span>
- </button>
- </div>
- </>
- )}
-
-  <button
-  onClick={() => setShowUserMenu(!showUserMenu)}
-  className={clsx("flex items-center gap-2 w-full p-2 rounded-lg transition-colors group", bgHover)}
-  >
- <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center shrink-0 ring-2 ring-white/20 group-hover:ring-white/40 transition-all">
- <User size={14} className="text-white" />
- </div>
-  {isSidebarOpen && (
-  <div className="flex-1 text-left overflow-hidden">
-  <div className={clsx("font-semibold text-[11px] truncate", textMain)}>
-  {userData?.name || 'Sentinel Kullanıcısı'}
-  </div>
-  <div className={clsx("text-[9px] truncate uppercase tracking-wider", textMuted)}>
-  {userData?.role || 'Kıdemli Müfettiş'}
-  </div>
- </div>
- )}
- </button>
- </div>
- </div>
- </aside>
- );
+  </aside>
+  );
 };

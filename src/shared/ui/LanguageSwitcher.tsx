@@ -23,12 +23,12 @@ export function LanguageSwitcher() {
  <div className="relative">
  <button
  onClick={() => setIsOpen(!isOpen)}
- className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/90 hover:bg-surface border border-slate-200 hover:border-indigo-300 transition-all backdrop-blur-xl shadow-sm hover:shadow-md"
+ className="flex items-center gap-1 px-1.5 py-1 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors"
  title="Change Language"
  >
- <Languages size={18} className="text-slate-600" />
- <span className="text-sm font-medium text-slate-700">{currentLanguage.flag}</span>
- <span className="text-xs font-semibold text-slate-600 uppercase">{currentLanguage.code}</span>
+ <Languages size={14} className="text-slate-500" />
+ <span className="text-sm">{currentLanguage.flag}</span>
+ 
  </button>
 
  {isOpen && (
