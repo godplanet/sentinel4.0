@@ -84,7 +84,7 @@ const Module7HubPage: React.FC = () => {
 
  return (
  <div className="min-h-screen bg-[#FDFBF7] p-5 md:p-12">
- <div className="w-full px-4 sm:px-6 lg:px-6 space-y-12">
+ <div className="w-full px-4 sm:px-4 lg:px-4 space-y-12">
 
  <motion.div
  initial={{ opacity: 0, y: -12 }}
@@ -168,7 +168,7 @@ const Module7HubPage: React.FC = () => {
  <div className="h-px flex-1 bg-slate-200" />
  </div>
 
- <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
  <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-4 flex flex-col justify-between">
  <div className="space-y-3">
  <p className="font-mono text-[10px] text-slate-400 uppercase tracking-widest">Nihai Mühürleme</p>
@@ -206,7 +206,7 @@ const Module7HubPage: React.FC = () => {
  </div>
  <button
  onClick={() => navigate('/dossier-demo')}
- className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium font-sans
+ className="mt-3 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium font-sans
  bg-surface/70 backdrop-blur-md border border-slate-300 text-slate-700
  hover:bg-canvas hover:border-slate-400 hover:shadow-md transition-all shadow-sm"
  >

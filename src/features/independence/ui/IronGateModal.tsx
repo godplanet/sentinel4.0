@@ -94,7 +94,7 @@ export function IronGateModal({ engagementId, engagementTitle, onSuccess, onGate
  <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-red-800 via-rose-700 to-amber-500" />
  
  {/* Heraldic Badge / Rozet Tasarımı */}
- <div className="px-6 pt-10 pb-6 border-b border-slate-100 bg-slate-50/50 relative overflow-hidden">
+ <div className="px-4 pt-10 pb-4 border-b border-slate-100 bg-slate-50/50 relative overflow-hidden">
  {/* Arka plan silüeti */}
  <div className="absolute right-0 top-0 opacity-5 pointer-events-none transform translate-x-1/3 -translate-y-1/4">
  <Shield size={240} />
@@ -130,8 +130,8 @@ export function IronGateModal({ engagementId, engagementTitle, onSuccess, onGate
  </div>
 
  {/* Adli Metin Alanı */}
- <div className="px-6 py-5 space-y-4 bg-white">
- <div className="p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-inner">
+ <div className="px-4 py-5 space-y-4 bg-white">
+ <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-inner">
  <div className="flex items-start gap-4">
  <FileSignature className="w-6 h-6 text-slate-400 mt-1 flex-shrink-0" />
  <div className="space-y-4">
@@ -168,7 +168,7 @@ export function IronGateModal({ engagementId, engagementTitle, onSuccess, onGate
  </div>
 
  {/* Footer Aksiyonları */}
- <div className="px-6 py-5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+ <div className="px-4 py-5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
  <div className="flex flex-col gap-1">
  <p className="text-[11px] text-slate-400 max-w-[280px] leading-tight font-medium">
  Mühür işlemi sistem loglarına IP adresiniz ve zaman damgası ile <strong className="text-slate-500">Değiştirilemez (Immutable)</strong> olarak kaydedilecektir.
@@ -182,7 +182,7 @@ export function IronGateModal({ engagementId, engagementTitle, onSuccess, onGate
  onClick={handleSign}
  disabled={signDeclaration.isPending}
  className={`
- relative overflow-hidden group px-6 py-3 rounded-lg flex items-center gap-3 font-bold text-[13px] tracking-wide uppercase transition-all
+ relative overflow-hidden group px-4 py-3 rounded-lg flex items-center gap-3 font-bold text-[13px] tracking-wide uppercase transition-all
  ${isChecked && !signDeclaration.isPending
  ? 'bg-rose-800 text-white shadow-md hover:bg-rose-900 hover:shadow-lg hover:-translate-y-0.5' 
  : 'bg-slate-200 text-slate-400 cursor-not-allowed'

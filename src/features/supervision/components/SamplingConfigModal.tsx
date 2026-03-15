@@ -80,7 +80,7 @@ export const SamplingConfigModal = ({
  />
  <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
  <div className="bg-surface rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
- <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+ <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
  <div className="flex items-center gap-3">
  <div className="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-lg">
  <Calculator className="w-5 h-5 text-white" />
@@ -100,7 +100,7 @@ export const SamplingConfigModal = ({
  </button>
  </div>
 
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
  <div className="flex items-start gap-3">
  <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
@@ -203,7 +203,7 @@ export const SamplingConfigModal = ({
  </div>
  </div>
 
- <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-canvas">
+ <div className="flex items-center justify-end gap-3 p-4 border-t border-gray-200 bg-canvas">
  <button
  onClick={onClose}
  className="px-4 py-2 text-sm font-medium text-gray-700 bg-surface border border-gray-300 rounded-lg hover:bg-canvas transition-colors"
@@ -213,7 +213,7 @@ export const SamplingConfigModal = ({
  <button
  onClick={handleSave}
  disabled={!isValid}
- className="flex items-center gap-2 px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+ className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
  >
  <CheckCircle className="w-4 h-4" />
  Kaydet

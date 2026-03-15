@@ -158,7 +158,7 @@ function ValidationModal({ errors, warnings, onClose }: ValidationModalProps) {
  return (
  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
  <div className="bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl max-w-md w-full mx-4">
- <div className="p-6">
+ <div className="p-4">
  <div className="flex items-start justify-between mb-5">
  <div className="flex items-center gap-3">
  <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${isBlocked ? 'bg-rose-500/20' : 'bg-amber-500/20'}`}>

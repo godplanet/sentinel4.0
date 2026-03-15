@@ -78,7 +78,7 @@ export function PolicyLibrary() {
 
  return (
  <div className="space-y-4">
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam Politika</span>
@@ -104,7 +104,7 @@ export function PolicyLibrary() {
  </div>
  </div>
 
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {(policies || []).map((policy, index) => (
  <motion.div
  key={policy.id}
@@ -209,7 +209,7 @@ export function PolicyLibrary() {
  className="bg-surface rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
  onClick={(e) => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex items-center justify-between">
+ <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-4 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-surface/20 rounded-lg flex items-center justify-center">
  <FileText className="w-6 h-6 text-white" />
@@ -278,10 +278,10 @@ export function PolicyLibrary() {
  )}
  </div>
 
- <div className="bg-canvas px-6 py-4 flex items-center justify-between border-t border-slate-200">
+ <div className="bg-canvas px-4 py-4 flex items-center justify-between border-t border-slate-200">
  <button
  onClick={() => !attesting && setShowPDFModal(false)}
- className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
+ className="px-4 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
  disabled={attesting}
  >
  Kapat
@@ -291,7 +291,7 @@ export function PolicyLibrary() {
  <button
  onClick={handleAttest}
  disabled={attesting}
- className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold shadow-sm hover:shadow"
+ className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold shadow-sm hover:shadow"
  >
  {attesting ? (
  <>
@@ -308,7 +308,7 @@ export function PolicyLibrary() {
  )}
 
  {selectedPolicy.is_attested && (
- <div className="flex items-center gap-2 px-6 py-2.5 bg-green-100 text-green-700 rounded-lg font-semibold">
+ <div className="flex items-center gap-2 px-4 py-2.5 bg-green-100 text-green-700 rounded-lg font-semibold">
  <CheckCircle2 className="w-5 h-5" />
  Onaylandı
  </div>

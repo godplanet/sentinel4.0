@@ -96,7 +96,7 @@ export function RegulationSelectorModal({ isOpen, onClose, onSelect }: Regulatio
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[85vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200">
+        <div className="flex items-center justify-between p-4 border-b border-slate-200">
           <div>
             <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
               <BookOpen className="text-blue-600" />
@@ -115,7 +115,7 @@ export function RegulationSelectorModal({ isOpen, onClose, onSelect }: Regulatio
         </div>
 
         {/* Search & Filters */}
-        <div className="p-6 border-b border-slate-200 space-y-4">
+        <div className="p-4 border-b border-slate-200 space-y-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
             <input
@@ -161,7 +161,7 @@ export function RegulationSelectorModal({ isOpen, onClose, onSelect }: Regulatio
         </div>
 
         {/* Regulations List */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-3">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {loading ? (
             <div className="text-center py-12">
               <Loader2 className="mx-auto text-slate-400 mb-3 animate-spin" size={48} />

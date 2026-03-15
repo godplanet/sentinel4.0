@@ -28,7 +28,7 @@ export function ResourceAllocationView() {
  };
 
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div>
  <h2 className="text-2xl font-bold text-primary">Kaynak Tahsisi</h2>
  <p className="text-slate-600 mt-1">
@@ -94,9 +94,9 @@ export function ResourceAllocationView() {
  </div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <div className="bg-surface rounded-lg border border-slate-200">
- <div className="px-6 py-4 border-b border-slate-200">
+ <div className="px-4 py-4 border-b border-slate-200">
  <h3 className="font-semibold text-primary flex items-center gap-2">
  <CalendarCheck size={18} className="text-blue-600" />
  Atama Bekleyen Denetimler
@@ -155,7 +155,7 @@ export function ResourceAllocationView() {
  </div>
 
  <div className="bg-surface rounded-lg border border-slate-200">
- <div className="px-6 py-4 border-b border-slate-200">
+ <div className="px-4 py-4 border-b border-slate-200">
  <h3 className="font-semibold text-primary flex items-center gap-2">
  <Users size={18} className="text-green-600" />
  Denetçi Kapasite Durumu

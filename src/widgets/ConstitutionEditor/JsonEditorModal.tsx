@@ -37,7 +37,7 @@ export function JsonEditorModal({ constitution, onApply, onClose }: Props) {
  return (
  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
  <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col mx-4">
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200">
  <div className="flex items-center gap-2">
  <Code2 className="w-5 h-5 text-slate-600" />
  <h2 className="text-lg font-semibold text-slate-800">JSON Editor - Risk Anayasasi</h2>
@@ -63,7 +63,7 @@ export function JsonEditorModal({ constitution, onApply, onClose }: Props) {
  </div>
  )}
 
- <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200">
+ <div className="flex items-center justify-end gap-3 px-4 py-4 border-t border-slate-200">
  <button
  onClick={onClose}
  className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors"

@@ -41,7 +41,7 @@ export const CorporateGoalCard = ({ goal }: Props) => {
 
  return (
  <div className={clsx(
- "group relative rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border flex flex-col h-full",
+ "group relative rounded-2xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 border flex flex-col h-full",
  theme.bg, theme.border
  )}>
  
@@ -59,7 +59,7 @@ export const CorporateGoalCard = ({ goal }: Props) => {
  <h3 className="text-lg font-bold text-slate-800 mb-2 leading-tight group-hover:text-indigo-900 transition-colors">
  {goal.title}
  </h3>
- <p className="text-sm text-slate-500 mb-6 flex-1">
+ <p className="text-sm text-slate-500 mb-3 flex-1">
  {goal.description}
  </p>
 
@@ -78,7 +78,7 @@ export const CorporateGoalCard = ({ goal }: Props) => {
  </div>
 
  {/* Footer Stats */}
- <div className="mt-6 pt-4 border-t border-slate-200/50 flex items-center justify-between text-xs">
+ <div className="mt-3 pt-4 border-t border-slate-200/50 flex items-center justify-between text-xs">
  <div className="flex items-center gap-1 text-slate-500">
  <ShieldCheck size={14} className="text-indigo-500" />
  <span className="font-medium">{goal.linkedAuditObjectives?.length || 0} Denetim Hedefi</span>

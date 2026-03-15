@@ -47,7 +47,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
 
   if (isLoading) {
     return (
-      <div className="space-y-4 animate-pulse p-6">
+      <div className="space-y-4 animate-pulse p-4">
         {[1, 2, 3].map((i) => (
           <div key={i} className="h-32 bg-slate-100 rounded-lg"></div>
         ))}
@@ -219,7 +219,7 @@ export const ZenEditor: React.FC<ZenEditorProps> = ({ finding, readOnly = false 
        </div>
 
        {/* Akış Sonu İndikatörü */}
-       <div className="flex items-center gap-3 pl-4 opacity-50 mt-8">
+       <div className="flex items-center gap-3 pl-4 opacity-50 mt-4">
           <div className="w-10 h-10 rounded-full border border-slate-200 bg-slate-50 flex items-center justify-center">
             <div className="w-3 h-3 bg-slate-300 rounded-full" />
           </div>

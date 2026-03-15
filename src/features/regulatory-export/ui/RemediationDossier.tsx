@@ -44,7 +44,7 @@ export const RemediationDossier: React.FC = () => {
  </div>
 
  <div className="max-w-4xl mx-auto bg-surface p-12 shadow-sm border border-slate-300 print:shadow-none print:border-none print:max-w-full">
- <header className="flex items-start justify-between pb-8 border-b-2 border-slate-900 mb-10">
+ <header className="flex items-start justify-between pb-5 border-b-2 border-slate-900 mb-10">
  <div>
  <p className="font-mono text-[10px] text-slate-500 tracking-widest uppercase mb-2">
  {d.tenantName}
@@ -163,7 +163,7 @@ export const RemediationDossier: React.FC = () => {
  </p>
  </div>
 
- <div className="border border-slate-300 rounded-lg px-6 py-5 bg-canvas">
+ <div className="border border-slate-300 rounded-lg px-4 py-5 bg-canvas">
  <div className="flex items-start justify-between">
  <div>
  <p className="text-xs font-medium text-slate-400 uppercase tracking-widest mb-2">Digital Signature</p>
@@ -181,7 +181,7 @@ export const RemediationDossier: React.FC = () => {
  </div>
  </section>
 
- <footer className="border-t border-slate-200 pt-6 mt-8">
+ <footer className="border-t border-slate-200 pt-4 mt-4">
  <p className="text-[10px] font-mono text-slate-400 text-center leading-relaxed tracking-wide">
  This document constitutes an official record of the Sentinel GRC v3.0 platform. It is legally binding under the
  organisation&apos;s internal audit charter. Unauthorised alteration is prohibited and cryptographically detectable.

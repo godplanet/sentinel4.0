@@ -177,7 +177,7 @@ export function BurnoutRadar() {
  <div className="space-y-4">
  
  {/* Overview Banner (Glassmorphism) */}
- <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-4 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row gap-6 md:items-center justify-between border border-slate-700/50">
+ <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-4 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row gap-4 md:items-center justify-between border border-slate-700/50">
  <div className="absolute right-0 top-0 opacity-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
  <HeartPulse size={250} />
  </div>
@@ -192,7 +192,7 @@ export function BurnoutRadar() {
  </p>
  </div>
 
- <div className="z-10 flex gap-4 md:gap-8">
+ <div className="z-10 flex gap-4 md:gap-5">
  <div className="flex flex-col">
  <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Ortalama Fazla Mesai</span>
  <div className="flex items-baseline gap-1">

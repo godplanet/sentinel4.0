@@ -107,7 +107,7 @@ export function RiskFormModal({ isOpen, onClose, editRisk }: RiskFormModalProps)
 
  <div className="relative w-full max-w-3xl bg-surface rounded-xl shadow-2xl max-h-[92vh] flex flex-col">
  {/* Header */}
- <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200 flex-shrink-0">
+ <div className="flex items-center justify-between px-4 py-5 border-b border-slate-200 flex-shrink-0">
  <div>
  <h2 className="text-2xl font-bold text-primary">
  {editRisk ? 'Risk Düzenle' : 'Yeni Risk Ekle'}
@@ -121,7 +121,7 @@ export function RiskFormModal({ isOpen, onClose, editRisk }: RiskFormModalProps)
 
  {/* Sekmeler — sadece edit modunda Tarihçe sekmesi görünür */}
  {editRisk && (
- <div className="flex items-center gap-1 px-6 pt-4 flex-shrink-0 border-b border-slate-100">
+ <div className="flex items-center gap-1 px-4 pt-4 flex-shrink-0 border-b border-slate-100">
  <TabButton
  active={activeTab === 'form'}
  onClick={() => setActiveTab('form')}
@@ -140,8 +140,8 @@ export function RiskFormModal({ isOpen, onClose, editRisk }: RiskFormModalProps)
  {/* İçerik */}
  <div className="flex-1 overflow-y-auto">
  {activeTab === 'form' && (
- <form onSubmit={handleSubmit} className="p-6 space-y-6">
- <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+ <form onSubmit={handleSubmit} className="p-4 space-y-4">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  <div>
  <label className="block text-sm font-semibold text-slate-700 mb-2">Risk Kodu *</label>
  <input
@@ -192,7 +192,7 @@ export function RiskFormModal({ isOpen, onClose, editRisk }: RiskFormModalProps)
  />
  </div>
 
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  <ScoreField
  label="Etki Skoru (0-100)"
  value={formData.impact_score}
@@ -216,7 +216,7 @@ export function RiskFormModal({ isOpen, onClose, editRisk }: RiskFormModalProps)
  />
  </div>
 
- <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-canvas rounded-lg border border-slate-200">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-canvas rounded-lg border border-slate-200">
  <div>
  <div className="text-xs text-slate-600 mb-1">Doğal Risk Skoru</div>
  <div className="text-2xl font-bold text-red-600">{inherentScore.toFixed(1)}</div>
@@ -257,10 +257,10 @@ export function RiskFormModal({ isOpen, onClose, editRisk }: RiskFormModalProps)
  </div>
 
  <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
- <button type="button" onClick={onClose} className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-canvas transition-colors">
+ <button type="button" onClick={onClose} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-canvas transition-colors">
  İptal
  </button>
- <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors">
+ <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors">
  {editRisk ? 'Güncelle' : 'Kaydet'}
  </button>
  </div>
@@ -363,7 +363,7 @@ function VersionHistoryTab({ riskId }: { riskId: string }) {
 
  if (error) {
  return (
- <div className="p-6">
+ <div className="p-4">
  <div className="bg-red-50 rounded-xl p-4 text-sm text-red-700">
  Tarihçe yüklenemedi: {(error as Error).message}
  </div>
@@ -382,7 +382,7 @@ function VersionHistoryTab({ riskId }: { riskId: string }) {
  }
 
  return (
- <div className="p-6">
+ <div className="p-4">
  <div className="mb-4">
  <h3 className="text-sm font-semibold text-slate-700">Zaman Makinesi</h3>
  <p className="text-xs text-slate-500 mt-0.5">

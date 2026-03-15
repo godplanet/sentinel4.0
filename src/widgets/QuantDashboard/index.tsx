@@ -107,7 +107,7 @@ export function QuantDashboard() {
 
  {selectedScenario && simulationResults && (
  <>
- <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
  <motion.div
  initial={{ scale: 0.9, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
@@ -291,7 +291,7 @@ export function QuantDashboard() {
 
  <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <h3 className="text-lg font-bold text-primary mb-4">Senaryo Detayları</h3>
- <div className="grid md:grid-cols-2 gap-6">
+ <div className="grid md:grid-cols-2 gap-4">
  <div>
  <h4 className="text-sm font-semibold text-slate-700 mb-3">Girdiler</h4>
  <div className="space-y-2">

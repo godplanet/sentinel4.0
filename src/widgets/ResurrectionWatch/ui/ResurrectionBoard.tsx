@@ -50,7 +50,7 @@ export const ResurrectionBoard: React.FC = () => {
  return (
  <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl overflow-hidden h-full flex flex-col">
  {/* Başlık */}
- <div className="px-6 pt-6 pb-4 border-b border-slate-100">
+ <div className="px-4 pt-4 pb-4 border-b border-slate-100">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center">
  <RefreshCw size={15} className="text-amber-700" />
@@ -131,7 +131,7 @@ export const ResurrectionBoard: React.FC = () => {
  initial={{ opacity: 0, x: -8 }}
  animate={{ opacity: 1, x: 0 }}
  transition={{ delay: i * 0.07 }}
- className={`px-6 py-4 space-y-2 ${colors.bg}`}
+ className={`px-4 py-4 space-y-2 ${colors.bg}`}
  >
  <div className="flex items-start justify-between gap-3">
  <div className="flex-1 min-w-0">
@@ -187,7 +187,7 @@ export const ResurrectionBoard: React.FC = () => {
  initial={{ opacity: 0, x: -8 }}
  animate={{ opacity: 1, x: 0 }}
  transition={{ delay: i * 0.1 }}
- className={`px-6 py-5 space-y-3 ${rowBg}`}
+ className={`px-4 py-5 space-y-3 ${rowBg}`}
  >
  <div className="flex items-start justify-between gap-3">
  <div className="flex-1 min-w-0">
@@ -248,7 +248,7 @@ export const ResurrectionBoard: React.FC = () => {
  initial={{ opacity: 0, x: -8 }}
  animate={{ opacity: 1, x: 0 }}
  transition={{ delay: i * 0.08 }}
- className={`px-6 py-4 space-y-2 ${colors.bg}`}
+ className={`px-4 py-4 space-y-2 ${colors.bg}`}
  >
  <div className="flex items-start justify-between gap-3">
  <div className="flex-1 min-w-0">

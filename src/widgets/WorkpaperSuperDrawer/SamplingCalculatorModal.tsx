@@ -84,7 +84,7 @@ export function SamplingCalculatorModal({ open, onClose, onApply }: SamplingCalc
  className="fixed inset-0 flex items-center justify-center z-[110] p-4"
  >
  <div className="bg-surface rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden">
- <div className="px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-700 flex items-center justify-between">
+ <div className="px-4 py-4 bg-gradient-to-r from-slate-800 to-slate-700 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="p-2 bg-surface/10 rounded-lg">
  <Calculator size={18} className="text-white" />
@@ -99,7 +99,7 @@ export function SamplingCalculatorModal({ open, onClose, onApply }: SamplingCalc
  </button>
  </div>
 
- <div className="px-6 py-5 space-y-5">
+ <div className="px-4 py-5 space-y-5">
  <div>
  <label className="block text-xs font-bold text-slate-600 mb-1.5">
  Populasyon Buyuklugu

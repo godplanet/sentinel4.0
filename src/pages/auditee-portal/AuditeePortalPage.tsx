@@ -127,7 +127,7 @@ export const AuditeePortalPage = () => {
   <div className="text-center">
   <AlertTriangle className="text-red-500 mx-auto mb-4" size={48} />
   <p className="text-lg text-white font-semibold mb-4">Bulgu bulunamadı veya erişim yetkiniz yok.</p>
-  <button onClick={() => navigate('/auditee')} className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold transition-colors">
+  <button onClick={() => navigate('/auditee')} className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold transition-colors">
   Gösterge Paneline Dön
   </button>
   </div>
@@ -156,7 +156,7 @@ export const AuditeePortalPage = () => {
  />
 
  {/* Üst Bar (Geri Dön ve Ayarlar) */}
- <div className="h-16 px-6 flex items-center justify-between border-b border-white/10 shrink-0 z-10 bg-black/10">
+ <div className="h-16 px-4 flex items-center justify-between border-b border-white/10 shrink-0 z-10 bg-black/10">
  <button onClick={() => navigate('/auditee')} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
  <ArrowLeft size={18} />
  <span className="font-semibold text-sm">Gösterge Paneline Dön</span>
@@ -187,7 +187,7 @@ export const AuditeePortalPage = () => {
  {finding.title}
  </h1>
  
- <div className="flex flex-wrap items-center gap-4 text-white/60 text-sm font-medium mb-10 border-b border-white/10 pb-6">
+ <div className="flex flex-wrap items-center gap-4 text-white/60 text-sm font-medium mb-10 border-b border-white/10 pb-4">
  <span className="flex items-center gap-1"><FileText size={16} /> Referans: {finding.finding_code || finding.code}</span>
  {finding.gias_category && <span className="flex items-center gap-1"><Briefcase size={16} /> Kategori: {finding.gias_category}</span>}
  <span className="flex items-center gap-1"><Clock size={16} /> Tarih: {finding.published_at ? new Date(finding.published_at).toLocaleDateString() : 'Belirtilmedi'}</span>
@@ -243,7 +243,7 @@ export const AuditeePortalPage = () => {
  )}
  </AnimatePresence>
 
- <div className="h-16 px-6 flex items-center border-b border-slate-800 shrink-0 bg-slate-900 shadow-md z-10">
+ <div className="h-16 px-4 flex items-center border-b border-slate-800 shrink-0 bg-slate-900 shadow-md z-10">
  <h2 className="text-lg font-bold text-white flex items-center gap-2">
  <ShieldCheck className="text-blue-500" /> Operasyon & Aksiyon Üssü
  </h2>
@@ -393,7 +393,7 @@ export const AuditeePortalPage = () => {
 
  {/* SOHBET (MÜZAKERE) MODÜLÜ */}
  <div className="bg-slate-800/40 border border-slate-700 rounded-2xl overflow-hidden flex flex-col h-[400px] shadow-lg">
- <div className="px-6 py-4 border-b border-slate-700 bg-slate-800/80 flex items-center gap-3">
+ <div className="px-4 py-4 border-b border-slate-700 bg-slate-800/80 flex items-center gap-3">
  <MessageSquare className="text-slate-400 w-5 h-5" />
  <h3 className="text-sm font-bold text-white">Denetçi ile Müzakere & Soru Cevap</h3>
  </div>

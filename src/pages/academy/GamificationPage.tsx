@@ -9,7 +9,7 @@ export default function GamificationPage() {
  description="Denetçilerin bulgu kalitesi ve risk keşiflerine dayalı olarak XP kazandıkları, seviye atladıkları ve rozet topladıkları konsolide performans panosu."
  />
 
- <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 lg:p-6">
+ <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 lg:p-4">
  <HuntersGuildBoard />
  </div>
  </div>

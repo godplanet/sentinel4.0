@@ -101,7 +101,7 @@ export function FourEyesClosurePanel({ caseId, caseTitle, casePayload }: Props) 
  }
 
  return (
- <div className="space-y-6 max-w-2xl mx-auto">
+ <div className="space-y-4 max-w-2xl mx-auto">
 
  {/* Başlık */}
  <div className="bg-slate-900 rounded-2xl border border-slate-700 p-4">

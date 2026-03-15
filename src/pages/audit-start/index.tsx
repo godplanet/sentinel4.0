@@ -74,7 +74,7 @@ export default function AuditStartPage() {
  />
 
  <div className="flex-1 overflow-auto p-4">
- <div className="w-full px-4 sm:px-6 lg:px-6">
+ <div className="w-full px-4 sm:px-4 lg:px-4">
  <div className="text-center mb-4">
  <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
  <Rocket size={28} className="text-white" />
@@ -86,7 +86,7 @@ export default function AuditStartPage() {
  </p>
  </div>
 
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  {PATHS.map((path, idx) => {
  const Icon = path.icon;
  const isSelected = selected === path.key;
@@ -132,7 +132,7 @@ export default function AuditStartPage() {
  <button
  onClick={(e) => { e.stopPropagation(); handleLaunch(path.key); }}
  className={clsx(
- 'mt-6 w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-sm transition-all',
+ 'mt-3 w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-sm transition-all',
  isSelected
  ? 'bg-blue-600 text-white hover:bg-blue-700'
  : 'bg-slate-100 text-slate-700 hover:bg-slate-200 group-hover:bg-blue-600 group-hover:text-white'

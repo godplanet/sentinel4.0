@@ -218,10 +218,10 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
       </div>
 
       {/* --- 1. RISK ENGINE COCKPIT --- */}
-      <div className="p-6 border-b border-slate-200 bg-white relative overflow-hidden group">
+      <div className="p-4 border-b border-slate-200 bg-white relative overflow-hidden group">
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <Activity size={18} className="text-slate-400" />
             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest">
@@ -300,7 +300,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
 
         {/* SCENARIO B: STANDARD MODE (Sliders) */}
         {auditFramework === 'STANDARD' && finding.severity !== 'OBSERVATION' && (
-          <div className="space-y-6 animate-in slide-in-from-left-4 duration-300">
+          <div className="space-y-4 animate-in slide-in-from-left-4 duration-300">
             {/* Impact Slider */}
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-medium text-slate-600">
@@ -373,7 +373,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
       </div>
 
       {/* --- 2. METADATA FORM --- */}
-      <div className="p-6 space-y-4 flex-1">
+      <div className="p-4 space-y-4 flex-1">
         
         {/* Category */}
         <div className="space-y-1.5">
@@ -505,7 +505,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
       </div>
 
       {/* === GÖREV 2: ÇAPRAZ BAĞLANTILAR === */}
-      <div className="px-6 pb-6 space-y-3">
+      <div className="px-4 pb-4 space-y-3">
         <div className="flex items-center justify-between">
           <label className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
             <Link size={14} /> İlişkili Kayıtlar
@@ -625,7 +625,7 @@ export const FindingFormWidget: React.FC<FindingFormWidgetProps> = ({ finding, o
           />
           <div className="fixed inset-0 flex items-center justify-center z-[201] p-4 pointer-events-none">
             <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md pointer-events-auto">
-              <div className="p-6 border-b border-slate-200">
+              <div className="p-4 border-b border-slate-200">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-bold text-slate-800">İlişkili Kayıt Ekle</h3>
                   <button onClick={() => setIsLinkModalOpen(false)} className="p-1 rounded hover:bg-slate-100">

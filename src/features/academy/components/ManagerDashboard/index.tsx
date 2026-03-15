@@ -65,7 +65,7 @@ function SummaryCards({ rows }: { rows: EnrichedROIRow[] }) {
  : 0;
 
  return (
- <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+ <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
  <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4">
  <div className="flex items-center gap-2 mb-1">
  <TrendingUp size={14} className="text-emerald-600" />

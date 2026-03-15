@@ -74,11 +74,11 @@ export default function NewEngagementModal({
  if (!isOpen) return null;
 
  return (
- <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/50 backdrop-blur-sm">
+ <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-4 bg-black/50 backdrop-blur-sm">
  <div className="bg-surface rounded-xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[90vh] overflow-hidden">
  
  {/* HEADER */}
- <div className="shrink-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 flex items-center justify-between">
+ <div className="shrink-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <Target className="w-6 h-6" />
  <h2 className="text-xl font-bold">Yeni Denetim Görevi Oluştur</h2>
@@ -95,7 +95,7 @@ export default function NewEngagementModal({
  <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
  
  {/* SCROLLABLE CONTENT */}
- <div className="p-6 space-y-6 overflow-y-auto flex-1 bg-canvas/30">
+ <div className="p-4 space-y-4 overflow-y-auto flex-1 bg-canvas/30">
  <div>
  <label className="block text-sm font-medium text-gray-700 mb-2">
  Denetlenecek Birim *
@@ -198,7 +198,7 @@ export default function NewEngagementModal({
  </div>
 
  {/* FIXED FOOTER */}
- <div className="flex gap-3 p-6 border-t shrink-0 bg-surface">
+ <div className="flex gap-3 p-4 border-t shrink-0 bg-surface">
  <button
  type="button"
  onClick={onClose}

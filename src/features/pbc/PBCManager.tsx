@@ -296,7 +296,7 @@ Ornek: Kredi portfoy raporu, Yetki matrisi, Surec akis semasi gibi.`;
  className="bg-surface rounded-2xl shadow-2xl max-w-lg w-full"
  onClick={e => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 rounded-t-2xl flex items-center justify-between">
+ <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-4 rounded-t-2xl flex items-center justify-between">
  <h2 className="text-lg font-bold text-white flex items-center gap-2">
  <FileDown size={20} />
  Yeni PBC Talebi
@@ -310,7 +310,7 @@ Ornek: Kredi portfoy raporu, Yetki matrisi, Surec akis semasi gibi.`;
  </button>
  </div>
 
- <div className="p-6 space-y-4">
+ <div className="p-4 space-y-4">
  <div className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-4">
  <div className="flex items-center gap-2 mb-3">
  <Brain size={16} className="text-blue-400" />
@@ -438,7 +438,7 @@ Ornek: Kredi portfoy raporu, Yetki matrisi, Surec akis semasi gibi.`;
  </div>
  </div>
 
- <div className="bg-canvas px-6 py-4 flex justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
+ <div className="bg-canvas px-4 py-4 flex justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
  <button
  onClick={() => !createMutation.isPending && setShowCreate(false)}
  className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm"

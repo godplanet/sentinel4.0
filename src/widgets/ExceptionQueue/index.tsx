@@ -104,7 +104,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
 
  return (
  <div className="bg-surface rounded-2xl border border-slate-200 overflow-hidden">
- <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+ <div className="px-4 py-4 border-b border-slate-200 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="p-2 bg-red-100 rounded-xl">
  <AlertTriangle size={18} className="text-red-600" />
@@ -165,7 +165,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
  >
  <div
  onClick={() => setExpandedId(isExpanded ? null : exc.id)}
- className="px-6 py-3.5 flex items-center gap-4 cursor-pointer hover:bg-canvas/80 transition-colors"
+ className="px-4 py-3.5 flex items-center gap-4 cursor-pointer hover:bg-canvas/80 transition-colors"
  >
  <div className={clsx('p-1.5 rounded-lg', cfg.bg)}>
  <StatusIcon size={14} className={cfg.color} />
@@ -221,7 +221,7 @@ export function ExceptionQueue({ exceptions, probes, loading, onStatusChange, on
  transition={{ duration: 0.2 }}
  className="overflow-hidden"
  >
- <div className="px-6 pb-4 pt-1 space-y-3 bg-canvas/50">
+ <div className="px-4 pb-4 pt-1 space-y-3 bg-canvas/50">
  <div className="bg-slate-900 text-slate-300 font-mono text-xs p-3 rounded-lg overflow-x-auto">
  <pre>{JSON.stringify(payload, null, 2)}</pre>
  </div>

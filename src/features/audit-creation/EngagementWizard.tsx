@@ -202,7 +202,7 @@ export function EngagementWizard() {
  </motion.div>
  </AnimatePresence>
 
- <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-200">
+ <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-200">
  <button
  onClick={() => setWizard((prev) => ({ ...prev, step: Math.max(1, prev.step - 1) as 1 | 2 | 3 }))}
  disabled={wizard.step === 1}
@@ -215,7 +215,7 @@ export function EngagementWizard() {
  <button
  onClick={() => setWizard((prev) => ({ ...prev, step: Math.min(3, prev.step + 1) as 1 | 2 | 3 }))}
  disabled={!canProceed()}
- className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed"
+ className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed"
  >
  Devam <ChevronRight size={16} />
  </button>
@@ -223,7 +223,7 @@ export function EngagementWizard() {
  <button
  onClick={handleCreate}
  disabled={!canProceed() || creating}
- className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-700 disabled:opacity-40 disabled:cursor-not-allowed"
+ className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-700 disabled:opacity-40 disabled:cursor-not-allowed"
  >
  {creating ? (
  <><div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" /> Olusturuluyor...</>
@@ -256,7 +256,7 @@ function Step1Templates({
  return (
  <div>
  <h2 className="text-lg font-bold text-primary mb-1">Denetim Urunu Secin</h2>
- <p className="text-sm text-slate-500 mb-6">Hizmet katalogundan bir denetim tipi secin. Sprint yapisi otomatik olusturulacak.</p>
+ <p className="text-sm text-slate-500 mb-3">Hizmet katalogundan bir denetim tipi secin. Sprint yapisi otomatik olusturulacak.</p>
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  {(templates || []).map((t) => (
@@ -310,9 +310,9 @@ function Step2Sprints({
  return (
  <div>
  <h2 className="text-lg font-bold text-primary mb-1">Sprint Plani</h2>
- <p className="text-sm text-slate-500 mb-6">Denetim detaylarini ayarlayin. Sprintler otomatik olusturuldu.</p>
+ <p className="text-sm text-slate-500 mb-3">Denetim detaylarini ayarlayin. Sprintler otomatik olusturuldu.</p>
 
- <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
  <div>
  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Denetim Adi</label>
  <input
@@ -396,7 +396,7 @@ function Step3Team({
  return (
  <div>
  <h2 className="text-lg font-bold text-primary mb-1">Ekip Secimi</h2>
- <p className="text-sm text-slate-500 mb-6">
+ <p className="text-sm text-slate-500 mb-3">
  Best-Fit motoru denetim gereksinimlerine gore en uygun denetcileri siraladi. Ekibinizi secin.
  </p>
 

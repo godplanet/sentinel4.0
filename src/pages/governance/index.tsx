@@ -27,14 +27,14 @@ export default function GovernancePage() {
  icon={Shield}
  />
 
- <div className="border-b border-slate-200 bg-surface px-6">
+ <div className="border-b border-slate-200 bg-surface px-4">
  <div className="flex gap-1">
  {TABS.map((tab) => (
  <button
  key={tab.key}
  onClick={() => setActiveTab(tab.key)}
  className={clsx(
- 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
+ 'flex items-center gap-2 px-4 py-3 font-medium text-sm transition-all relative',
  activeTab === tab.key
  ? 'text-blue-600 border-b-2 border-blue-600'
  : 'text-slate-600 hover:text-primary hover:bg-canvas'

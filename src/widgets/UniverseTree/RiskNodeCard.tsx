@@ -126,7 +126,7 @@ export function RiskNodeCard({ entity, onClose }: RiskNodeCardProps) {
  </div>
 
  {/* Parameters */}
- <div className="p-4 space-y-6">
+ <div className="p-4 space-y-4">
  {/* Impact Slider */}
  <div className="backdrop-blur-lg bg-surface/60 rounded-xl p-4 border border-white/30">
  <div className="flex items-center gap-2 mb-3">

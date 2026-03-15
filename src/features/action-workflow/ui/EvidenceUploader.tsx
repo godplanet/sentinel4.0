@@ -228,7 +228,7 @@ export function EvidenceUploader({ actionId, onSuccess }: Props) {
  key="success"
  initial={{ opacity: 0, scale: 0.95 }}
  animate={{ opacity: 1, scale: 1 }}
- className="flex flex-col items-center gap-3 py-10 px-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center"
+ className="flex flex-col items-center gap-3 py-10 px-4 bg-emerald-50 border border-emerald-200 rounded-xl text-center"
  >
  <CheckCircle2 size={40} className="text-emerald-500" />
  <div>

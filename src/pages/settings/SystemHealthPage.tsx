@@ -212,7 +212,7 @@ export default function SystemHealthPage() {
  )}
  </div>
  ) : diagnostics ? (
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  <div>
  <div className="text-sm font-medium text-slate-600 mb-1">Veritabanı Durumu</div>
  <div
@@ -299,7 +299,7 @@ export default function SystemHealthPage() {
  </div>
 
  {/* Persona Switcher */}
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
  <div className="lg:col-span-1">
  <PersonaSwitcher />
  </div>

@@ -92,7 +92,7 @@ export function TimesheetView() {
  };
 
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="flex items-center justify-between">
  <div>
  <h2 className="text-2xl font-bold text-primary">Zaman Çizelgeleri</h2>
@@ -165,7 +165,7 @@ export function TimesheetView() {
  </div>
 
  <div className="bg-surface rounded-lg border border-slate-200">
- <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+ <div className="px-4 py-4 border-b border-slate-200 flex items-center justify-between">
  <div className="flex items-center gap-4">
  <button
  onClick={previousWeek}
@@ -195,7 +195,7 @@ export function TimesheetView() {
  </div>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  {loading ? (
  <div className="flex items-center justify-center py-12">
  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>

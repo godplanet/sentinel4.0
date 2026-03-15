@@ -75,7 +75,7 @@ export function MarketRiskPage() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50">
  {/* Header */}
- <div className="px-6 pt-6 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10">
+ <div className="px-4 pt-4 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-slate-800 flex items-center justify-center shadow-lg shadow-indigo-500/20">
  <BarChart4 size={22} className="text-white" />
@@ -109,7 +109,7 @@ export function MarketRiskPage() {
  {/* Main Content */}
  <div className="flex-1 overflow-hidden flex gap-0">
  {/* Left: HFT Order Book / Terminal */}
- <div className="flex-1 overflow-auto bg-slate-100/50 p-6 flex flex-col">
+ <div className="flex-1 overflow-auto bg-slate-100/50 p-4 flex flex-col">
  <div className="flex items-center justify-between mb-4">
  <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
  <Zap size={14} className="text-amber-500" /> Canlı Emir Akışı (Son 100)

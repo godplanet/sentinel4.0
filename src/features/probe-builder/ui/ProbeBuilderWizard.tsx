@@ -147,7 +147,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
  exit={{ opacity: 0, scale: 0.95 }}
  className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden"
  >
- <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-5 flex items-center justify-between">
+ <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-5 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="p-2.5 bg-blue-500/20 border border-blue-500/30 rounded-xl">
  <Zap size={20} className="text-blue-400" />
@@ -162,7 +162,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
  </button>
  </div>
 
- <div className="px-6 py-3 bg-canvas border-b border-slate-200">
+ <div className="px-4 py-3 bg-canvas border-b border-slate-200">
  <div className="flex items-center gap-2">
  {(STEPS || []).map((s, i) => {
  const SIcon = s.icon;
@@ -189,7 +189,7 @@ export function ProbeBuilderWizard({ onSave, onClose }: ProbeBuilderWizardProps)
  </div>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  <AnimatePresence mode="wait">
  {step === 0 && (
  <motion.div
@@ -462,7 +462,7 @@ WHERE ${(conditions || []).map((c, i) =>
  </AnimatePresence>
  </div>
 
- <div className="px-6 py-4 bg-canvas border-t border-slate-200 flex items-center justify-between">
+ <div className="px-4 py-4 bg-canvas border-t border-slate-200 flex items-center justify-between">
  <button
  onClick={() => step > 0 ? setStep(step - 1) : onClose()}
  className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors"

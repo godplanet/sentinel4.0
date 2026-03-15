@@ -83,7 +83,7 @@ export function QAIPReviewWidget() {
  )}
  </div>
 
- <div className="p-5 space-y-6">
+ <div className="p-5 space-y-4">
  {(selectedChecklist.criteria || []).map((criterion, index) => (
  <div key={criterion.id} className="space-y-3">
  <div className="flex items-start justify-between">
@@ -152,17 +152,17 @@ export function QAIPReviewWidget() {
  )}
  </div>
 
- <div className="bg-canvas px-6 py-5 flex items-center justify-between border-t border-slate-200">
+ <div className="bg-canvas px-4 py-5 flex items-center justify-between border-t border-slate-200">
  <button
  onClick={() => setSelectedChecklist(null)}
- className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
+ className="px-4 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
  >
  İptal
  </button>
  <button
  onClick={handleSubmitReview}
  disabled={!allAnswered || submitting}
- className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold"
+ className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold"
  >
  {submitting ? 'Kaydediliyor...' : 'İncelemeyi Tamamla'}
  </button>
@@ -174,7 +174,7 @@ export function QAIPReviewWidget() {
 
  return (
  <div className="space-y-4">
- <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam Kontrol Listesi</span>
@@ -194,7 +194,7 @@ export function QAIPReviewWidget() {
  </div>
  </div>
 
- <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  {(checklists || []).map((checklist, index) => (
  <motion.div
  key={checklist.id}

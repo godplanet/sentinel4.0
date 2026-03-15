@@ -135,7 +135,7 @@ export function AuditorDecisionBar({ action, onDecision }: Props) {
  transition={{ duration: 0.25, ease: 'easeInOut' }}
  className="overflow-hidden"
  >
- <div className="px-6 pt-5 pb-3 border-b border-slate-100">
+ <div className="px-4 pt-5 pb-3 border-b border-slate-100">
  <div className="flex items-center gap-2 mb-2">
  <FileText size={14} className="text-slate-500" />
  <p className="text-xs font-black text-slate-700 uppercase tracking-wider">
@@ -177,7 +177,7 @@ export function AuditorDecisionBar({ action, onDecision }: Props) {
  transition={{ duration: 0.25, ease: 'easeInOut' }}
  className="overflow-hidden"
  >
- <div className="px-6 pt-5 pb-3 border-b border-orange-100 bg-orange-50/40">
+ <div className="px-4 pt-5 pb-3 border-b border-orange-100 bg-orange-50/40">
  {/* BDDK 365 Gün Uyarısı */}
  {isBddk365Triggered && (
  <div className="flex items-start gap-3 bg-orange-100 border border-orange-300 rounded-xl p-3 mb-3">
@@ -230,7 +230,7 @@ export function AuditorDecisionBar({ action, onDecision }: Props) {
  )}
  </AnimatePresence>
 
- <div className="px-6 py-4 flex items-center gap-3">
+ <div className="px-4 py-4 flex items-center gap-3">
  {mode === 'idle' ? (
  <>
  {hasNoEvidence && (

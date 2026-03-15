@@ -423,7 +423,7 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
 
  if (isPublished && hasSnapshot) {
  return (
- <div className="border border-slate-200 rounded-xl bg-surface shadow-sm mb-6 overflow-hidden">
+ <div className="border border-slate-200 rounded-xl bg-surface shadow-sm mb-3 overflow-hidden">
  <div className="flex items-center gap-2 px-4 py-2 bg-canvas border-b border-slate-100">
  <Lock size={12} className="text-slate-400" />
  <span className="text-xs font-sans text-slate-400 uppercase tracking-wider font-semibold">
@@ -441,7 +441,7 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
 
  if (!finding) {
  return (
- <div className="flex items-start gap-3 border border-slate-200 rounded-xl bg-surface p-5 mb-6 shadow-sm">
+ <div className="flex items-start gap-3 border border-slate-200 rounded-xl bg-surface p-5 mb-3 shadow-sm">
  <ShieldAlert size={20} className="text-slate-400 mt-0.5 flex-shrink-0" />
  <div>
  <p className="font-sans text-sm font-semibold text-slate-600">Bulgu Bulunamadı</p>
@@ -474,7 +474,7 @@ export function LiveFindingRefBlock({ block }: { block: FindingRefBlock }) {
 
  return (
  <div
- className={`${borderClass} report-finding-block print:break-inside-avoid border border-slate-200 rounded-r-xl bg-surface shadow-sm mb-6 overflow-hidden`}
+ className={`${borderClass} report-finding-block print:break-inside-avoid border border-slate-200 rounded-r-xl bg-surface shadow-sm mb-3 overflow-hidden`}
  >
  {/* ── HEADER ──────────────────────────────────────────────── */}
  <div className="px-5 pt-5 pb-4">

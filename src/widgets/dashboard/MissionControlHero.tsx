@@ -62,7 +62,7 @@ export const MissionControlHero = ({ welcome, aiBrief }: MissionControlHeroProps
  return (
  <div className="space-y-3">
  <div
- className="relative overflow-hidden rounded-2xl px-6 py-4 shadow-lg"
+ className="relative overflow-hidden rounded-2xl px-4 py-4 shadow-lg"
  style={{
  background: `linear-gradient(135deg, ${sidebarColor} 0%, ${adjustColor(sidebarColor, -15)} 100%)`,
  }}

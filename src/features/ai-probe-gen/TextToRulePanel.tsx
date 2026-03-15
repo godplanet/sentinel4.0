@@ -120,7 +120,7 @@ export function TextToRulePanel({ onCreateProbe }: TextToRulePanelProps) {
 
  return (
  <div className="bg-surface rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
- <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-4">
+ <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-4 py-4">
  <div className="flex items-center gap-3">
  <div className="p-2 bg-blue-500/20 border border-blue-500/30 rounded-xl">
  <Sparkles size={18} className="text-blue-400" />

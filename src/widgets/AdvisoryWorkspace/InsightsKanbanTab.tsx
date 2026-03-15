@@ -68,7 +68,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
  }
 
  return (
- <div className="p-4 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="flex items-center justify-between">
  <div>
  <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -189,7 +189,7 @@ export function InsightsKanbanTab({ engagementId }: { engagementId: string }) {
  </div>
  </div>
 
- <div className="flex gap-3 mt-6">
+ <div className="flex gap-3 mt-3">
  <button
  onClick={() => setShowForm(false)}
  className="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-200 transition-colors"

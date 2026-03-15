@@ -134,7 +134,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
  className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 w-full max-w-3xl max-h-[85vh] flex flex-col"
  onClick={e => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-6 py-5 rounded-t-2xl flex items-center justify-between">
+ <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-4 py-5 rounded-t-2xl flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
  <FileText size={20} className="text-blue-400" />
@@ -165,7 +165,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
  </div>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6 space-y-5">
+ <div className="flex-1 overflow-y-auto p-4 space-y-5">
  <div className="grid grid-cols-4 gap-3">
  <SummaryStatCard label="Toplam Bulgu" value={findingsList.length.toString()} color="bg-slate-600" />
  <SummaryStatCard label="Kritik" value={criticalCount.toString()} color="bg-red-600" />
@@ -245,7 +245,7 @@ Ton: Profesyonel, kararsiz degil kesin, veriye dayali. Turkce yaz.`;
  )}
 
  {summary && !loading && (
- <div className="bg-surface border border-slate-200 rounded-xl p-6 shadow-sm">
+ <div className="bg-surface border border-slate-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-200">
  <FileText size={16} className="text-slate-600" />
  <h3 className="text-sm font-bold text-slate-800">Yonetim Kuruluna Sunulacak Ozet</h3>

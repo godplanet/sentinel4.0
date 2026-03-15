@@ -240,7 +240,7 @@ export function SkillMatrix() {
  </div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <div>
  <h4 className="text-sm font-semibold text-slate-700 mb-3">Radar Analizi</h4>
  <ResponsiveContainer width="100%" height={300}>
@@ -288,7 +288,7 @@ export function SkillMatrix() {
  </div>
 
  {selectedProfile.certifications.length > 0 && (
- <div className="mt-6 pt-6 border-t border-slate-200">
+ <div className="mt-3 pt-4 border-t border-slate-200">
  <h4 className="text-sm font-semibold text-slate-700 mb-3">Sertifikalar</h4>
  <div className="flex flex-wrap gap-2">
  {(selectedProfile.certifications || []).map((cert) => (

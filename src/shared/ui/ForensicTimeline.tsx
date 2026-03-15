@@ -43,7 +43,7 @@ export function ForensicTimeline({ events, emptyMessage = 'Kayıt bulunamadı.' 
  const Icon = event.icon;
 
  return (
- <li key={event.id} className="relative flex gap-4 pb-6">
+ <li key={event.id} className="relative flex gap-4 pb-4">
  <div className="flex flex-col items-center">
  <div className={clsx(
  'w-9 h-9 rounded-full ring-2 flex items-center justify-center shrink-0 z-10',

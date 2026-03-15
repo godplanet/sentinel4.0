@@ -116,7 +116,7 @@ export default function ExecutionPage() {
  />
 
  <div className="flex-1 overflow-hidden">
- <div className="h-full px-6 py-4">
+ <div className="h-full px-4 py-4">
  {viewMode === 'kanban' ? (
  <AgileBoard engagementId={engagementId} />
  ) : viewMode === 'grid' ? (

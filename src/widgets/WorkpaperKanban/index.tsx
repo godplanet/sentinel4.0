@@ -55,7 +55,7 @@ export function WorkpaperKanban({ data, onUpdateStatus, onOpenDrawer }: Workpape
   return (
     <div className="overflow-x-auto pb-4 custom-scrollbar">
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex items-start gap-6 min-w-[900px]">
+        <div className="flex items-start gap-4 min-w-[900px]">
           {COLUMNS.map((col) => {
             const items = columnsData[col.id];
             

@@ -48,7 +48,7 @@ export function TalentDashboard() {
 
  return (
  <div className="space-y-4">
- <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
  <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam Denetçi</span>
@@ -82,7 +82,7 @@ export function TalentDashboard() {
  </div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <h3 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
  <Users className="w-5 h-5" />
@@ -217,7 +217,7 @@ export function TalentDashboard() {
  </div>
  <button
  onClick={() => setSelectedProfile(null)}
- className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors"
+ className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors"
  >
  Kapat
  </button>

@@ -201,7 +201,7 @@ export function StrategicHeatmap() {
  )}
  </div>
 
- <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
  <div className="xl:col-span-2 bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  {viewMode === 'classic' ? (
  <ClassicGrid

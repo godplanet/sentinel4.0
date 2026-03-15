@@ -85,7 +85,7 @@ export const PresidentDashboard = () => {
  </div>
 
  {stats && (
- <div className="relative mt-6">
+ <div className="relative mt-3">
  <div className="w-full h-2.5 bg-surface/10 rounded-full overflow-hidden backdrop-blur-sm">
  <motion.div
  initial={{ width: 0 }}
@@ -140,7 +140,7 @@ export const PresidentDashboard = () => {
  </motion.div>
  )}
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <motion.div
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}

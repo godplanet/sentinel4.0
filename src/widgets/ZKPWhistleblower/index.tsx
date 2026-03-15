@@ -187,7 +187,7 @@ function DecryptionPanel({ report }: { report: ZkpEncryptedReport }) {
  return (
  <div className="flex flex-col h-full bg-white">
  {/* Header */}
- <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+ <div className="px-4 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
  <div>
  <div className="flex items-center gap-2 mb-1">
  <span className="p-1 px-2 bg-indigo-100 text-indigo-700 text-[10px] font-bold rounded uppercase">
@@ -231,7 +231,7 @@ function DecryptionPanel({ report }: { report: ZkpEncryptedReport }) {
  <p className="text-[11px] font-mono text-emerald-400 break-all leading-relaxed opacity-80">
  {report.encrypted_payload.repeat(3)}
  </p>
- <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent flex items-end justify-center pb-6">
+ <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent flex items-end justify-center pb-4">
  <div className="bg-slate-800/80 backdrop-blur border border-slate-700 rounded-xl p-4 w-3/4 max-w-sm flex flex-col items-center">
  <Key size={24} className="text-amber-400 mb-2" />
  <p className="text-xs text-slate-300 font-medium mb-3 text-center">İçeriği görmek için Private Key (Özel Anahtar) gereklidir.</p>

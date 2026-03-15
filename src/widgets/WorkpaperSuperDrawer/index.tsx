@@ -430,7 +430,7 @@ export function WorkpaperSuperDrawer({ row, workpaperId, onClose, onStatusChange
  <>
  <div className="flex flex-col h-full bg-surface border-l border-slate-200 overflow-hidden">
  <div className="shrink-0 bg-surface border-b border-slate-200">
- <div className="px-6 pt-5 pb-4">
+ <div className="px-4 pt-5 pb-4">
  <div className="flex items-start justify-between gap-3 mb-3">
  <div className="flex-1 min-w-0">
  <div className="flex items-center gap-2 mb-2">
@@ -496,7 +496,7 @@ export function WorkpaperSuperDrawer({ row, workpaperId, onClose, onStatusChange
  onUnsignPrepared={handleUnsignPrepared}
  />
 
- <div className="px-6 pb-0">
+ <div className="px-4 pb-0">
  <div className="bg-slate-100 rounded-xl p-1 flex gap-1">
  {TABS.map((tab) => {
  const TabIcon = tab.icon;
@@ -549,7 +549,7 @@ export function WorkpaperSuperDrawer({ row, workpaperId, onClose, onStatusChange
  <div className="h-3" />
  </div>
 
- <div className="flex-1 overflow-y-auto px-6 py-5">
+ <div className="flex-1 overflow-y-auto px-4 py-5">
  {activeTab === 'steps' && (
  <TestStepsPanel
  steps={testSteps}

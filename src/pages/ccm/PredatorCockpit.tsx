@@ -119,7 +119,7 @@ export default function PredatorCockpit() {
  description="Continuous Control Monitoring with AI-Powered Anomaly Detection"
  />
 
- <div className="w-full px-4 sm:px-6 lg:px-6 p-4 space-y-6">
+ <div className="w-full px-4 sm:px-4 lg:px-4 p-4 space-y-4">
  {/* İstatistik Kartları */}
  <div className="grid grid-cols-4 gap-4">
  <motion.div
@@ -210,7 +210,7 @@ export default function PredatorCockpit() {
 
   {/* Aktif Uyarılar Tablosu */}
   <div className="bg-slate-900 rounded-lg border border-slate-800 shadow-2xl">
-  <div className="px-6 py-4 border-b border-slate-800/60 flex items-center justify-between">
+  <div className="px-4 py-4 border-b border-slate-800/60 flex items-center justify-between">
   <div>
   <h2 className="text-lg font-bold text-white">Aktif Uyarılar</h2>
   <p className="text-sm text-slate-400 mt-0.5">

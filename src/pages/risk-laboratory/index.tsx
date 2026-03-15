@@ -95,7 +95,7 @@ export default function RiskLaboratoryPage() {
  icon={FlaskConical}
  />
 
- <div className="flex-1 overflow-auto p-4 space-y-6">
+ <div className="flex-1 overflow-auto p-4 space-y-4">
  <div className="grid grid-cols-4 gap-4">
  <StatBox label="MAE (Ort. Mutlak Hata)" value={stats.mae} color={Number(stats.mae) <= 10 ? 'green' : 'red'} />
  <StatBox label="Dogruluk (+-10 puan)" value={`${stats.accuracy}%`} color={Number(stats.accuracy) >= 70 ? 'green' : 'red'} />
@@ -103,7 +103,7 @@ export default function RiskLaboratoryPage() {
  <StatBox label="Korelasyon" value={stats.correlation} color={Number(stats.correlation) >= 0.7 ? 'green' : 'red'} />
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
  <div className="lg:col-span-1 space-y-4">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-5">
  <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">

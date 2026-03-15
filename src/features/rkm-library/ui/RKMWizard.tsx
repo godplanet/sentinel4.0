@@ -127,7 +127,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  return (
  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
  <div className="relative w-full max-w-4xl glass-card max-h-[90vh] overflow-hidden flex flex-col">
- <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+ <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
  <div>
  <h2 className="text-2xl font-bold">AI Risk Sihirbazı</h2>
  <p className="text-sm text-blue-100 mt-1">
@@ -142,7 +142,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  </button>
  </div>
 
- <div className="flex-1 p-6 overflow-y-auto">
+ <div className="flex-1 p-4 overflow-y-auto">
  <div className="flex justify-between mb-4">
  {(STEPS || []).map((step, index) => (
  <div key={step.id} className="flex items-center flex-1">
@@ -260,7 +260,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  <div className="space-y-4">
  <h3 className="text-lg font-bold text-primary mb-4">Özet ve Onay</h3>
 
- <div className="bg-canvas p-6 rounded-xl space-y-4">
+ <div className="bg-canvas p-4 rounded-xl space-y-4">
  <div>
  <div className="text-xs text-slate-600 mb-1">Risk Kodu</div>
  <div className="font-bold text-primary">{formData.risk_code}</div>
@@ -279,14 +279,14 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
 
  <div className="grid grid-cols-2 gap-4">
  <div
- className={`p-6 rounded-xl border-2 ${inherentZone.color} text-center`}
+ className={`p-4 rounded-xl border-2 ${inherentZone.color} text-center`}
  >
  <div className="text-sm font-semibold mb-2">İçsel Risk</div>
  <div className="text-3xl font-bold mb-1">{inherentScore}</div>
  <div className="text-sm font-bold">{inherentZone.label}</div>
  </div>
  <div
- className={`p-6 rounded-xl border-2 ${residualZone.color} text-center`}
+ className={`p-4 rounded-xl border-2 ${residualZone.color} text-center`}
  >
  <div className="text-sm font-semibold mb-2">Artık Risk</div>
  <div className="text-3xl font-bold mb-1">{residualScore}</div>
@@ -294,7 +294,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  </div>
  </div>
 
- <div className="bg-emerald-50 border-2 border-emerald-300 p-6 rounded-xl text-center">
+ <div className="bg-emerald-50 border-2 border-emerald-300 p-4 rounded-xl text-center">
  <div className="text-sm font-semibold text-emerald-700 mb-2">
  Risk Azaltma Oranı
  </div>
@@ -306,7 +306,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  )}
  </div>
 
- <div className="flex items-center justify-between p-6 bg-canvas border-t border-slate-200">
+ <div className="flex items-center justify-between p-4 bg-canvas border-t border-slate-200">
  <button
  onClick={handlePrevious}
  disabled={currentStep === 1}
@@ -330,7 +330,7 @@ export function RKMWizard({ isOpen, onClose }: RKMWizardProps) {
  ) : (
  <button
  onClick={handleSubmit}
- className="flex items-center gap-2 px-6 py-2 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-700 transition-colors"
+ className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-700 transition-colors"
  >
  <Check size={20} />
  Kaydet

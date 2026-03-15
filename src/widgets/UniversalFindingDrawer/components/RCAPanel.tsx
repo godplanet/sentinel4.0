@@ -285,7 +285,7 @@ export function RCAPanel({ findingId, onApplyAnalysis }: RCAPanelProps) {
  )}
 
  {/* CANLI ÖNİZLEME KARTI */}
- <div className="bg-canvas rounded-xl p-4 border border-slate-200 mt-6">
+ <div className="bg-canvas rounded-xl p-4 border border-slate-200 mt-3">
  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-200 pb-2">Rapor Çıktısı (Önizleme)</h4>
  <div 
  className="prose prose-sm prose-slate max-w-none bg-surface p-4 rounded-lg border border-slate-200 shadow-sm text-sm"

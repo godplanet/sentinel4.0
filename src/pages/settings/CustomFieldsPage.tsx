@@ -128,7 +128,7 @@ export default function CustomFieldsPage() {
  icon={Settings2}
  />
 
- <div className="flex-1 overflow-auto p-4 space-y-6">
+ <div className="flex-1 overflow-auto p-4 space-y-4">
  <div className="flex items-center justify-between">
  <div className="flex bg-surface border border-slate-200 p-0.5 rounded-lg shadow-sm">
  {(Object.keys(MODULE_CONFIG) as EntityModule[]).map(m => (
@@ -235,7 +235,7 @@ export default function CustomFieldsPage() {
  className="bg-surface rounded-2xl shadow-2xl max-w-lg w-full"
  onClick={e => e.stopPropagation()}
  >
- <div className="bg-slate-800 px-6 py-4 rounded-t-2xl flex items-center justify-between">
+ <div className="bg-slate-800 px-4 py-4 rounded-t-2xl flex items-center justify-between">
  <h2 className="text-lg font-bold text-white">{editingField ? 'Alan Duzenle' : 'Yeni Alan Ekle'}</h2>
  <button onClick={() => setShowForm(false)} className="w-8 h-8 bg-surface/20 rounded-lg flex items-center justify-center hover:bg-surface/30">
  <X size={16} className="text-white" />
@@ -292,7 +292,7 @@ export default function CustomFieldsPage() {
  </div>
  </div>
  </div>
- <div className="bg-canvas px-6 py-4 flex justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
+ <div className="bg-canvas px-4 py-4 flex justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
  <button onClick={() => setShowForm(false)} className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">Iptal</button>
  <button onClick={handleSave} disabled={!form.name.trim() || !form.label.trim()}
  className="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold text-sm disabled:bg-slate-400">

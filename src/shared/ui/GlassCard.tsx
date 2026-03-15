@@ -56,7 +56,7 @@ const boxShadow =
 
 return (
  <div
- className={`rounded-2xl p-6 transition-all duration-300 ${className}`}
+ className={`rounded-2xl p-4 transition-all duration-300 ${className}`}
  style={{
  ...glassStyles,
  boxShadow,

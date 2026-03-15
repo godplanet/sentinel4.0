@@ -136,7 +136,7 @@ export const SimulationSandbox = () => {
  </div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <div className="space-y-4">
  <div className="bg-surface rounded-xl border border-slate-200/80 shadow-sm p-5">
  <h4 className="text-xs font-bold text-slate-600 mb-3 uppercase tracking-wider">1. Kural Secin</h4>

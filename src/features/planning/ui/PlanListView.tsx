@@ -130,7 +130,7 @@ export function PlanListView() {
 
  return (
  <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
- <div className="px-6 py-4 bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200 flex items-center gap-3">
+ <div className="px-4 py-4 bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200 flex items-center gap-3">
  <div className="w-8 h-8 rounded-lg bg-surface border border-slate-200 shadow-sm flex items-center justify-center">
  <FileText size={14} className="text-slate-600" />
  </div>

@@ -46,7 +46,7 @@ export default function StakeholderManagementPage() {
  return ENGAGEMENT_TYPES[level || 'MEDIUM'] || ENGAGEMENT_TYPES.MEDIUM;
  };
  return (
- <div className="p-5 space-y-6">
+ <div className="p-5 space-y-4">
  <PageHeader
  title="Paydaş Yönetimi"
  description="İç ve dış paydaşlarla etkileşim ve iletişim yönetimi"
@@ -68,7 +68,7 @@ export default function StakeholderManagementPage() {
  </div>
  </div>
 
- <div className="grid md:grid-cols-4 gap-6">
+ <div className="grid md:grid-cols-4 gap-4">
  {[
  { label: 'Toplam Paydaş', value: stakeholders.length.toString(), icon: Users, color: 'blue' },
  { label: 'Üst Yönetim', value: (stakeholders || []).filter(s => s.type === 'EXECUTIVE').length.toString(), icon: Star, color: 'purple' },
@@ -98,22 +98,22 @@ export default function StakeholderManagementPage() {
  <table className="w-full">
  <thead className="bg-canvas border-b border-slate-200">
  <tr>
- <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase">
+ <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">
  Paydaş
  </th>
- <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase">
+ <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">
  Departman
  </th>
- <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase">
+ <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">
  Tip
  </th>
- <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase">
+ <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">
  Etkileşim
  </th>
- <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase">
+ <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">
  Son İletişim
  </th>
- <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase">
+ <th className="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase">
  İletişim
  </th>
  </tr>
@@ -121,13 +121,13 @@ export default function StakeholderManagementPage() {
  <tbody className="divide-y divide-slate-200">
  {loading ? (
  <tr>
- <td colSpan={6} className="px-6 py-5 text-center text-slate-600">
+ <td colSpan={6} className="px-4 py-5 text-center text-slate-600">
  Yükleniyor...
  </td>
  </tr>
  ) : stakeholders.length === 0 ? (
  <tr>
- <td colSpan={6} className="px-6 py-5 text-center text-slate-600">
+ <td colSpan={6} className="px-4 py-5 text-center text-slate-600">
  Paydaş bulunamadı
  </td>
  </tr>
@@ -139,7 +139,7 @@ export default function StakeholderManagementPage() {
 
  return (
  <tr key={stakeholder.id} className="hover:bg-canvas transition-colors">
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
  {stakeholder.name[0]}
@@ -150,24 +150,24 @@ export default function StakeholderManagementPage() {
  </div>
  </div>
  </td>
- <td className="px-6 py-4 text-sm text-slate-600">{stakeholder.organization || '-'}</td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4 text-sm text-slate-600">{stakeholder.organization || '-'}</td>
+ <td className="px-4 py-4">
  <span className={`px-3 py-1 bg-${typeInfo.color}-100 text-${typeInfo.color}-700 rounded-full text-xs font-semibold inline-flex items-center gap-1`}>
  <TypeIcon size={12} />
  {typeInfo.label}
  </span>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <span className={`px-3 py-1 bg-${engagementInfo.color}-100 text-${engagementInfo.color}-700 rounded-full text-xs font-semibold`}>
  {engagementInfo.label}
  </span>
  </td>
- <td className="px-6 py-4 text-sm text-slate-600">
+ <td className="px-4 py-4 text-sm text-slate-600">
  {stakeholder.last_engagement_date
  ? new Date(stakeholder.last_engagement_date).toLocaleDateString('tr-TR')
  : '-'}
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center gap-2">
  {stakeholder.email && (
  <button className="p-2 hover:bg-blue-50 rounded-lg transition-colors group">
@@ -190,7 +190,7 @@ export default function StakeholderManagementPage() {
  </div>
  </div>
 
- <div className="grid lg:grid-cols-2 gap-6">
+ <div className="grid lg:grid-cols-2 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-slate-800 mb-4">Etkileşim Haritası</h3>
  <div className="space-y-4">

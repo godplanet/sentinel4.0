@@ -51,10 +51,10 @@ export function HuntersGuildBoard() {
  }
 
  return (
- <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full min-h-[600px]">
+ <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-full min-h-[600px]">
  
  {/* 1. LEFT COL: Leaderboard */}
- <div className="lg:col-span-8 flex flex-col gap-6">
+ <div className="lg:col-span-8 flex flex-col gap-4">
  
  {/* Top 3 Podium (Visual) */}
  {topHunters.length > 0 && (
@@ -65,7 +65,7 @@ export function HuntersGuildBoard() {
  <div className="w-16 h-16 rounded-full bg-slate-200 border-4 border-white shadow-xl flex items-center justify-center mb-[-16px] z-10 relative">
  {getRankBadge(1)}
  </div>
- <div className="w-full bg-white border border-slate-200 rounded-2xl pt-6 pb-4 px-2 text-center shadow-sm relative overflow-hidden">
+ <div className="w-full bg-white border border-slate-200 rounded-2xl pt-4 pb-4 px-2 text-center shadow-sm relative overflow-hidden">
  <div className="absolute top-0 left-0 w-full h-1 bg-slate-400"/>
  <div className="font-bold text-slate-800 text-sm truncate">{topHunters[1].full_name}</div>
  <div className="text-slate-500 text-[10px] mt-1">Sviye {topHunters[1].current_level}</div>
@@ -80,7 +80,7 @@ export function HuntersGuildBoard() {
  <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 border-4 border-white shadow-2xl flex items-center justify-center mb-[-20px] z-10 relative">
  {getRankBadge(0)}
  </div>
- <div className="w-full bg-white border border-amber-200 rounded-2xl pt-8 pb-4 px-2 text-center shadow-lg relative overflow-hidden">
+ <div className="w-full bg-white border border-amber-200 rounded-2xl pt-5 pb-4 px-2 text-center shadow-lg relative overflow-hidden">
  <div className="absolute top-0 left-0 w-full h-1 bg-amber-400"/>
  <div className="font-bold text-slate-900 text-base truncate">{topHunters[0].full_name}</div>
  <div className="text-amber-600 text-xs font-bold mt-1 uppercase tracking-wider">{topHunters[0].rank_name}</div>
@@ -108,7 +108,7 @@ export function HuntersGuildBoard() {
 
  {/* Extended Leaderboard List */}
  <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex-1 flex flex-col">
- <div className="px-6 py-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
+ <div className="px-4 py-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
  <h3 className="font-bold text-slate-800 flex items-center gap-2">
  <Trophy size={18} className="text-indigo-600" />
  Genişletilmiş Denetçi Ligi
@@ -119,10 +119,10 @@ export function HuntersGuildBoard() {
  <table className="w-full text-left text-sm">
  <thead className="bg-[#fafafa] text-slate-400 uppercase text-[10px] font-bold sticky top-0 z-10">
  <tr>
- <th className="px-6 py-3 font-medium">Sıra</th>
- <th className="px-6 py-3 font-medium">Denetçi</th>
- <th className="px-6 py-3 font-medium">İlerleme (XP)</th>
- <th className="px-6 py-3 font-medium hidden md:table-cell">Rozetler</th>
+ <th className="px-4 py-3 font-medium">Sıra</th>
+ <th className="px-4 py-3 font-medium">Denetçi</th>
+ <th className="px-4 py-3 font-medium">İlerleme (XP)</th>
+ <th className="px-4 py-3 font-medium hidden md:table-cell">Rozetler</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -135,14 +135,14 @@ export function HuntersGuildBoard() {
  
  return (
  <tr key={prof.id} className="hover:bg-slate-50 transition-colors">
- <td className="px-6 py-4 font-black">
+ <td className="px-4 py-4 font-black">
  {isTop3 ? getRankBadge(index) : <span className="text-slate-400">#{index + 1}</span>}
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className={clsx("font-bold", isTop3 ? "text-slate-900" : "text-slate-700")}>{prof.full_name}</div>
  <div className="text-[10px] text-slate-500">{prof.title} - Seviye {prof.current_level}</div>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center gap-3">
  <div className="w-24 bg-slate-100 rounded-full h-1.5 overflow-hidden">
  <div 
@@ -153,7 +153,7 @@ export function HuntersGuildBoard() {
  <span className="text-xs font-bold w-12 text-right">{prof.total_xp} xp</span>
  </div>
  </td>
- <td className="px-6 py-4 hidden md:table-cell">
+ <td className="px-4 py-4 hidden md:table-cell">
  <div className="flex gap-1.5">
  {prof.badges.slice(0,3).map(b => {
  const IconNode = ICON_MAP[b.badge_icon] || Award;

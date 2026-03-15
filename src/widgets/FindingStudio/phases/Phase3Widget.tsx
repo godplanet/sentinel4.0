@@ -97,7 +97,7 @@ export const Phase3Negotiation: React.FC<Phase3Props> = ({
               <button 
                 onClick={handleRiskAccept}
                 disabled={reason.length < 10}
-                className="px-6 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white font-bold text-sm rounded-xl transition-all shadow-sm"
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white font-bold text-sm rounded-xl transition-all shadow-sm"
               >
                 Gerekçeyi Yönetime İlet
               </button>

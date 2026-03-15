@@ -290,7 +290,7 @@ export default function SecureReportPage() {
  )}
  </AnimatePresence>
 
- <div className="text-center mt-6">
+ <div className="text-center mt-3">
  <span className="text-[10px] text-slate-700">
  Sentinel GRC v 4.0 - Gizli Bildirim Altyapisi
  </span>

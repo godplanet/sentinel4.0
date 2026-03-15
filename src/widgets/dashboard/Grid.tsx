@@ -38,7 +38,7 @@ export default function DashboardGrid({ data }: DashboardGridProps) {
 
  return (
  <div className="flex-1 bg-canvas p-5 overflow-y-auto">
- <div className="w-full px-4 sm:px-6 lg:px-6">
+ <div className="w-full px-4 sm:px-4 lg:px-4">
  <div className="mb-4">
  <h1 className="text-3xl font-bold text-primary mb-2">
  Yönetim Kokpiti
@@ -82,7 +82,7 @@ function TabButton({
  return (
  <button
  onClick={onClick}
- className={`px-6 py-3 font-semibold text-sm transition-colors relative ${
+ className={`px-4 py-3 font-semibold text-sm transition-colors relative ${
  active
  ? 'text-pink-600 border-b-2 border-pink-600'
  : 'text-gray-600 hover:text-primary'

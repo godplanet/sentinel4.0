@@ -36,7 +36,7 @@ export function TemplatePicker({ templates, onSelect, onBlank, onClose }: Templa
  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
  className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden"
  >
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-100">
  <div>
  <h2 className="text-lg font-bold text-primary">Sablon Galerisi</h2>
  <p className="text-xs text-slate-500 mt-0.5">Rapor sablonu secin veya sifirdan baslayin</p>
@@ -46,7 +46,7 @@ export function TemplatePicker({ templates, onSelect, onBlank, onClose }: Templa
  </button>
  </div>
 
- <div className="p-6 overflow-auto max-h-[calc(80vh-80px)]">
+ <div className="p-4 overflow-auto max-h-[calc(80vh-80px)]">
  <button
  onClick={onBlank}
  className="w-full mb-5 p-4 rounded-xl border-2 border-dashed border-slate-300 hover:border-blue-400 hover:bg-blue-50/50 transition-all group flex items-center gap-4"

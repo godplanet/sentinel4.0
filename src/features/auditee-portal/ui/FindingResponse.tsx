@@ -75,13 +75,13 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
 
  return (
  <form onSubmit={handleSubmit} className="bg-surface rounded-lg border border-slate-200 overflow-hidden">
- <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200">
+ <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-4 py-4 border-b border-slate-200">
  <h3 className="text-lg font-semibold text-primary">
  {isLocked ? 'Yanıt (Kilitli)' : 'Yanıtınız'}
  </h3>
  </div>
 
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="flex gap-4">
  <button
  type="button"
@@ -147,7 +147,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
  )}
 
  {responseType === 'AGREED' && !isLocked && (
- <div className="space-y-4 border-t border-slate-200 pt-6">
+ <div className="space-y-4 border-t border-slate-200 pt-4">
  <div className="flex items-center justify-between">
  <h4 className="text-sm font-semibold text-slate-700">Aksiyon Planı</h4>
  <button
@@ -205,7 +205,7 @@ export function FindingResponse({ assignment, onSave, onCancel }: FindingRespons
  )}
  </div>
 
- <div className="bg-canvas px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
+ <div className="bg-canvas px-4 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
  <button
  type="button"
  onClick={onCancel}

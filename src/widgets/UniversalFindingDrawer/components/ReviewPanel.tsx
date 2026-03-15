@@ -258,7 +258,7 @@ export function ReviewPanel({ findingId, currentUserId = '', isReviewer = false 
  </div>
 
  {/* İnceleyen (Reviewer) */}
- <div className={clsx("relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mt-8", reviewerSignoff?.status === 'SIGNED' ? "" : "opacity-70")}>
+ <div className={clsx("relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mt-4", reviewerSignoff?.status === 'SIGNED' ? "" : "opacity-70")}>
  <div className={clsx("flex items-center justify-center w-14 h-14 rounded-full border-4 border-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2", reviewerSignoff?.status === 'SIGNED' ? "bg-blue-600" : "bg-slate-300")}>
  {reviewerSignoff?.status === 'SIGNED' ? <ShieldCheck className="text-white w-6 h-6" /> : <Shield className="text-white w-6 h-6" />}
  </div>

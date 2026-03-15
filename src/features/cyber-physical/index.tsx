@@ -88,7 +88,7 @@ export function CyberPhysicalPage() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50 overflow-auto">
  {/* Header */}
- <div className="px-6 pt-6 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10 flex justify-between items-end">
+ <div className="px-4 pt-4 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10 flex justify-between items-end">
  <div className="flex items-center gap-3">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-800 to-teal-900 flex items-center justify-center shadow-lg shadow-teal-500/20">
  <Server size={22} className="text-white" />
@@ -101,7 +101,7 @@ export function CyberPhysicalPage() {
  </div>
 
  {/* C-Level KPI Bant */}
- <div className="grid grid-cols-6 gap-3 p-6 pb-2">
+ <div className="grid grid-cols-6 gap-3 p-4 pb-2">
  {[
  { label: 'Aktif Sensör', value: kpi.totalSensors, icon: Activity, color: 'text-teal-700', bg: 'bg-teal-50' },
  { label: 'Çevrimdışı', value: kpi.offlineSensors, icon: AlertTriangle,color: kpi.offlineSensors > 0 ? 'text-amber-600' : 'text-slate-400', bg: kpi.offlineSensors > 0 ? 'bg-amber-50' : 'bg-slate-50' },
@@ -120,10 +120,10 @@ export function CyberPhysicalPage() {
  ))}
  </div>
 
- <div className="flex-1 overflow-hidden flex gap-0 px-6 pb-6">
+ <div className="flex-1 overflow-hidden flex gap-0 px-4 pb-4">
  
  {/* Left: Vault & DC Access Logs */}
- <div className="flex-1 flex flex-col mr-6">
+ <div className="flex-1 flex flex-col mr-3">
  <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-1.5 mt-2">
  <Fingerprint size={16} className="text-indigo-500" />
  Erişim Kontrol Günlüğü (Access Control Layer)

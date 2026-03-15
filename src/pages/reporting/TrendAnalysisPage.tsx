@@ -21,7 +21,7 @@ const SEVERITY_TREND = [
 
 export default function TrendAnalysisPage() {
  return (
- <div className="p-5 space-y-6">
+ <div className="p-5 space-y-4">
  <PageHeader
  title="Trend Analizi"
  description="Zaman serisi analizi ve öngörücü trend raporları"
@@ -43,7 +43,7 @@ export default function TrendAnalysisPage() {
  </div>
  </div>
 
- <div className="grid md:grid-cols-4 gap-6">
+ <div className="grid md:grid-cols-4 gap-4">
  {[
  { label: 'Ortalama Bulgu/Ay', value: '14.8', change: '-8%', icon: BarChart3, color: 'blue' },
  { label: 'Kritik Bulgu Trendi', value: '2.5', change: '-35%', icon: AlertTriangle, color: 'green' },
@@ -63,7 +63,7 @@ export default function TrendAnalysisPage() {
  ))}
  </div>
 
- <div className="grid lg:grid-cols-2 gap-6">
+ <div className="grid lg:grid-cols-2 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
  <Activity size={20} className="text-blue-600" />
@@ -106,7 +106,7 @@ export default function TrendAnalysisPage() {
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-lg font-bold text-slate-800 mb-4">Monte Carlo Simülasyon Sonuçları</h3>
- <div className="grid md:grid-cols-3 gap-6">
+ <div className="grid md:grid-cols-3 gap-4">
  <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
  <div className="text-3xl font-bold text-red-600 mb-2">%15</div>
  <div className="text-sm text-slate-700 font-semibold">Kötümser Senaryo</div>

@@ -73,7 +73,7 @@ export function AIAnomalyPanel({ onCreateProbe }: AIAnomalyPanelProps) {
 
  return (
  <div className="bg-gradient-to-br from-slate-900 via-[#0f172a] to-slate-900 rounded-2xl border border-slate-700/50 overflow-hidden">
- <div className="p-6">
+ <div className="p-4">
  <div className="flex items-center justify-between mb-5">
  <div className="flex items-center gap-3">
  <div className="p-2.5 bg-blue-500/20 border border-blue-500/30 rounded-xl">

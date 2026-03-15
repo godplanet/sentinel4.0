@@ -6,11 +6,12 @@ import {
 } from '@/shared/config/navigation';
 import { getContrastYIQ } from '@/shared/lib/utils';
 import { useUIStore } from '@/shared/stores/ui-store';
+import { useChatStore } from '@/features/ai-agents/model/chat-store';
 import clsx from 'clsx';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export const Sidebar = () => {
  const { t } = useTranslation();
@@ -20,9 +21,6 @@ export const Sidebar = () => {
  const location = useLocation();
  const navigate = useNavigate();
  const [expandedModule, setExpandedModule] = useState<string | null>(null);
- const [showUserMenu, setShowUserMenu] = useState(false);
- const [showPersonaMenu, setShowPersonaMenu] = useState(false);
- const [userData, setUserData] = useState<UserData | null>(null);
 
 
   const isLightBg = getContrastYIQ(sidebarColor) === 'light';

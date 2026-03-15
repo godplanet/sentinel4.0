@@ -111,7 +111,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
 
  return (
  <div className="h-full overflow-y-auto p-4 bg-gradient-to-br from-blue-50 to-indigo-50">
- <div className="max-w-4xl mx-auto space-y-6">
+ <div className="max-w-4xl mx-auto space-y-4">
  {/* Header */}
  <div className="flex items-center gap-3 mb-4">
  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -124,7 +124,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
  </div>
 
  {/* Input Section */}
- <div className="glass-card p-4 space-y-6">
+ <div className="glass-card p-4 space-y-4">
  <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
  <Info className="text-blue-600 mt-0.5" size={20} />
  <div className="flex-1">
@@ -311,7 +311,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
  <div className="flex items-center gap-3">
  <button
  onClick={handleGenerateSample}
- className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-md hover:shadow-lg font-medium"
+ className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-md hover:shadow-lg font-medium"
  >
  <Sparkles size={18} />
  <span>Rastgele Örneklem Oluştur</span>
@@ -320,7 +320,7 @@ export function SamplingWizard({ workpaperId, onSave }: SamplingWizardProps) {
  <button
  onClick={handleSave}
  disabled={isSaving}
- className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+ className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
  >
  {isSaving ? (
  <>

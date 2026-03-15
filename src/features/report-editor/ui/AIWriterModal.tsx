@@ -65,7 +65,7 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
  return (
  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
  <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] flex flex-col">
- <div className="flex items-center justify-between p-6 border-b border-slate-200">
+ <div className="flex items-center justify-between p-4 border-b border-slate-200">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center">
  <Sparkles className="text-white" size={20} />
@@ -85,10 +85,10 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
  </button>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  {!generatedContent ? (
  <>
- <div className="mb-6">
+ <div className="mb-3">
  <div className="flex items-center gap-2 mb-3">
  <h3 className="text-lg font-semibold text-primary">Hangi bölümü yazayım?</h3>
  {findingCount > 0 && (
@@ -102,7 +102,7 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
  </p>
  </div>
 
- <div className="grid grid-cols-2 gap-4 mb-6">
+ <div className="grid grid-cols-2 gap-4 mb-3">
  {(SECTIONS || []).map((section) => {
  const Icon = section.icon;
  return (
@@ -154,7 +154,7 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
  onClick={handleGenerate}
  disabled={!selectedSection || generating}
  className={clsx(
- 'w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl font-semibold transition-all',
+ 'w-full flex items-center justify-center gap-3 px-4 py-4 rounded-xl font-semibold transition-all',
  selectedSection && !generating
  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:shadow-lg hover:scale-[1.02]'
  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
@@ -180,7 +180,7 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
  <h3 className="text-lg font-semibold text-primary">İçerik Hazır!</h3>
  </div>
 
- <div className="border border-slate-200 rounded-xl p-6 bg-canvas max-h-96 overflow-y-auto">
+ <div className="border border-slate-200 rounded-xl p-4 bg-canvas max-h-96 overflow-y-auto">
  <div
  className="prose prose-slate max-w-none"
  dangerouslySetInnerHTML={{ __html: generatedContent }}
@@ -190,14 +190,14 @@ export function AIWriterModal({ onClose, onInsert, findingCount = 0 }: AIWriterM
  <div className="flex items-center gap-3">
  <button
  onClick={handleInsert}
- className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+ className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
  >
  <CheckCircle2 size={20} />
  Rapora Ekle
  </button>
  <button
  onClick={() => setGeneratedContent('')}
- className="px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition-colors"
+ className="px-4 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition-colors"
  >
  Yeniden Oluştur
  </button>

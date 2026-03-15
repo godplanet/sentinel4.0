@@ -112,7 +112,7 @@ export function CapacityPlanningView() {
  : 0;
 
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="flex items-center justify-between">
  <div>
  <h2 className="text-2xl font-bold text-primary">Kapasite Planlama</h2>
@@ -184,14 +184,14 @@ export function CapacityPlanningView() {
  </div>
 
  <div className="bg-surface rounded-lg border border-slate-200">
- <div className="px-6 py-4 border-b border-slate-200">
+ <div className="px-4 py-4 border-b border-slate-200">
  <h3 className="font-semibold text-primary flex items-center gap-2">
  <Calendar size={18} className="text-blue-600" />
  Aylık Kapasite Dağılımı - {selectedYear}
  </h3>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  {loading ? (
  <div className="flex items-center justify-center py-12">
  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -279,7 +279,7 @@ export function CapacityPlanningView() {
  </div>
  </div>
 
- <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6">
+ <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-4">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
  <TrendingUp className="text-blue-600" size={24} />

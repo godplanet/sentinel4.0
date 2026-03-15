@@ -112,7 +112,7 @@ export function QaipHealthWidget({ engagementId, compact = false }: QaipHealthWi
  console.error('[SENTINEL][QAIP] Health widget error:', error);
  return (
  <div
- className="rounded-2xl p-6 flex flex-col items-center text-center gap-3"
+ className="rounded-2xl p-4 flex flex-col items-center text-center gap-3"
  style={{ background: 'rgba(127,29,29,0.15)', border: '1px solid rgba(239,68,68,0.2)' }}
  >
  <AlertTriangle size={24} className="text-red-400" />
@@ -144,7 +144,7 @@ export function QaipHealthWidget({ engagementId, compact = false }: QaipHealthWi
  >
  {/* Header */}
  <div
- className="px-6 py-4 flex items-center justify-between"
+ className="px-4 py-4 flex items-center justify-between"
  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
  >
  <div className="flex items-center gap-3">
@@ -179,7 +179,7 @@ export function QaipHealthWidget({ engagementId, compact = false }: QaipHealthWi
  </div>
 
  {/* Skor Gauging */}
- <div className="px-6 py-5">
+ <div className="px-4 py-5">
  <div className="flex items-center justify-between mb-3">
  <div>
  <div className="flex items-end gap-2">
@@ -224,7 +224,7 @@ export function QaipHealthWidget({ engagementId, compact = false }: QaipHealthWi
 
  {/* Komponentler */}
  {!compact && (
- <div className="px-6 pb-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+ <div className="px-4 pb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
  {(data?.components ?? []).map((comp) => (
  <ComponentCard key={comp?.key ?? Math.random()} comp={comp} />
  ))}
@@ -233,7 +233,7 @@ export function QaipHealthWidget({ engagementId, compact = false }: QaipHealthWi
 
  {/* Footer */}
  <div
- className="px-6 py-3 flex items-center justify-between"
+ className="px-4 py-3 flex items-center justify-between"
  style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
  >
  <span className="text-[10px] text-slate-600">

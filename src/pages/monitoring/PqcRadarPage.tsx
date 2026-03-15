@@ -88,7 +88,7 @@ function AssetCard({ asset, onSelect, isSelected }: { asset: CryptoAsset, onSele
  )}
  >
  <div className="flex items-start justify-between gap-3 mb-3">
- <div className="flex flex-col mb-1 gap-2 w-full pr-6">
+ <div className="flex flex-col mb-1 gap-2 w-full pr-4">
  <div className="flex items-center gap-1.5 flex-wrap">
  <span className={clsx('text-[10px] font-bold px-2 py-0.5 rounded-full border', st.color)}>
  {st.label}
@@ -184,7 +184,7 @@ function PlanPanel({ assetId }: { assetId: string }) {
  initial={{ opacity: 0, x: 10 }}
  animate={{ opacity: 1, x: 0 }}
  transition={{ delay: idx * 0.1 }}
- className="relative pl-6"
+ className="relative pl-4"
  >
  <div className={clsx(
  "absolute left-[-5px] top-1.5 w-3 h-3 rounded-full border-2 bg-white",

@@ -86,10 +86,10 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
 
       {/* Editor Content Area */}
       <div className="flex-1 p-5 overflow-y-auto flex flex-col items-center bg-slate-50/50">
-        <div className="w-full max-w-5xl flex gap-8">
+        <div className="w-full max-w-5xl flex gap-5">
           {/* MAIN EDITOR FORM */}
           <div className="flex-1 bg-white rounded-2xl shadow-xl border border-slate-100 p-5 animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col min-h-[500px]">
-            <div className="flex items-center justify-between mb-4 pb-6 border-b border-slate-100">
+            <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
               <div className="flex items-center gap-4">
                 <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shadow-inner">
                   <step.icon size={28} />
@@ -142,8 +142,8 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
 
           {/* RIGHT SIDEBAR (For Risk Engine in Consequence Step) */}
           {step.id === 'consequence' && (
-            <div className="w-80 shrink-0 bg-white rounded-2xl shadow-xl border border-slate-100 p-6 animate-in fade-in slide-in-from-right-4 duration-500">
-              <div className="flex items-center gap-2 mb-6">
+            <div className="w-80 shrink-0 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 animate-in fade-in slide-in-from-right-4 duration-500">
+              <div className="flex items-center gap-2 mb-3">
                 <Activity size={18} className="text-slate-400" />
                 <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest">
                   Risk Motoru
@@ -210,11 +210,11 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
       </div>
 
       {/* Footer / Controls */}
-      <div className="shrink-0 p-6 bg-white border-t border-slate-200 flex justify-between items-center z-10">
+      <div className="shrink-0 p-4 bg-white border-t border-slate-200 flex justify-between items-center z-10">
         <button
           onClick={handlePrev}
           disabled={currentStep === 0}
-          className="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-transparent flex items-center gap-2 transition-all"
+          className="px-4 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-transparent flex items-center gap-2 transition-all"
         >
           <ChevronLeft size={18} /> Önceki Adım
         </button>
@@ -222,14 +222,14 @@ export const FindingWizardWidget: React.FC<Props> = ({ finding, updateField, sav
         {currentStep === STEPS.length - 1 ? (
           <button
             onClick={saveFinding}
-            className="px-6 py-3 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 flex items-center gap-2 transition-all active:scale-95"
+            className="px-4 py-3 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 flex items-center gap-2 transition-all active:scale-95"
           >
             <Save size={18} /> Kaydet ve Tamamla
           </button>
         ) : (
           <button
             onClick={handleNext}
-            className="px-6 py-3 rounded-xl font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xl shadow-slate-300 flex items-center gap-2 transition-all active:scale-95"
+            className="px-4 py-3 rounded-xl font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xl shadow-slate-300 flex items-center gap-2 transition-all active:scale-95"
           >
             Sonraki Adım <ChevronRight size={18} />
           </button>

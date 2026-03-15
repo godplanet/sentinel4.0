@@ -94,7 +94,7 @@ export const AlignmentMap = () => {
  </div>
  </div>
 
- <div className="relative grid grid-cols-12 gap-8 min-w-[1200px] min-h-[600px]">
+ <div className="relative grid grid-cols-12 gap-5 min-w-[1200px] min-h-[600px]">
  
  {/* SVG BACKGROUND LAYER */}
  <div className="absolute inset-0 pointer-events-none">

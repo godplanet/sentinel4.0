@@ -62,7 +62,7 @@ export const FindingWizardWidget: React.FC<FindingWizardWidgetProps> = ({ findin
               <DraftPhase finding={finding} onUpdate={onUpdate} />
               <button
                 onClick={() => setActivePhase('2')}
-                className="w-full mt-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_15px_rgba(79,70,229,0.3)] transition-all active:scale-95 group"
+                className="w-full mt-4 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_15px_rgba(79,70,229,0.3)] transition-all active:scale-95 group"
               >
                 Kalite Kontrolüne Geç (Faz 2)
                 <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -81,7 +81,7 @@ export const FindingWizardWidget: React.FC<FindingWizardWidgetProps> = ({ findin
                 }}
                 disabled={finding?.qa_checklist?.length !== 5}
                 className={cn(
-                  "w-full mt-8 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md group border",
+                  "w-full mt-4 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md group border",
                   finding?.qa_checklist?.length === 5
                     ? "bg-emerald-600 hover:bg-emerald-700 text-white border-transparent shadow-[0_4px_20px_rgba(16,185,129,0.3)] active:scale-95"
                     : "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
@@ -98,7 +98,7 @@ export const FindingWizardWidget: React.FC<FindingWizardWidgetProps> = ({ findin
               <Phase3Negotiation finding={finding} onUpdate={onUpdate} />
               <button
                 onClick={() => setActivePhase('4')}
-                className="w-full mt-8 py-3.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 group"
+                className="w-full mt-4 py-3.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 group"
               >
                 Onay Aşamasına Geç (Faz 4)
                 <ChevronRight size={18} />
@@ -111,7 +111,7 @@ export const FindingWizardWidget: React.FC<FindingWizardWidgetProps> = ({ findin
               <Phase4Approval finding={finding} onUpdate={onUpdate} />
               <button
                 onClick={() => setActivePhase('5')}
-                className="w-full mt-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 group"
+                className="w-full mt-4 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 group"
               >
                 Aksiyon Takibine Geç (Faz 5)
                 <ChevronRight size={18} />

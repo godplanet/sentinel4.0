@@ -81,7 +81,7 @@ export function GovernanceVault() {
 
  return (
  <div className="space-y-4">
- <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
  <div className="bg-surface rounded-lg border border-slate-200 p-4 shadow-sm">
  <div className="flex items-center justify-between mb-2">
  <span className="text-sm font-medium text-slate-600">Toplam Doküman</span>
@@ -282,7 +282,7 @@ export function GovernanceVault() {
  className="bg-surface rounded-2xl shadow-2xl max-w-2xl w-full"
  onClick={(e) => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+ <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 px-4 py-4 flex items-center justify-between rounded-t-2xl">
  <div className="flex items-center gap-3">
  <Upload className="w-6 h-6 text-white" />
  <h2 className="text-xl font-bold text-white">Yeni Doküman Ekle</h2>
@@ -367,10 +367,10 @@ export function GovernanceVault() {
  </div>
  </div>
 
- <div className="bg-canvas px-6 py-4 flex items-center justify-between border-t border-slate-200 rounded-b-2xl">
+ <div className="bg-canvas px-4 py-4 flex items-center justify-between border-t border-slate-200 rounded-b-2xl">
  <button
  onClick={() => !submitting && setShowUploadModal(false)}
- className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
+ className="px-4 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
  disabled={submitting}
  >
  İptal
@@ -378,7 +378,7 @@ export function GovernanceVault() {
  <button
  onClick={handleUploadDoc}
  disabled={submitting || !newDoc.title.trim()}
- className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-lg hover:from-indigo-700 hover:to-indigo-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold shadow-sm hover:shadow"
+ className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-lg hover:from-indigo-700 hover:to-indigo-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold shadow-sm hover:shadow"
  >
  {submitting ? (
  <>

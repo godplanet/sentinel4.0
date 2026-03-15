@@ -101,7 +101,7 @@ export default function RiskSimulationPage() {
  const activeRisks = selectedCell ? getRisksForCell(selectedCell.i, selectedCell.l) : calculatedRisks;
 
  return (
- <div className="w-full px-4 sm:px-6 lg:px-6 py-5 space-y-6 bg-canvas min-h-screen font-sans">
+ <div className="w-full px-4 sm:px-4 lg:px-4 py-5 space-y-4 bg-canvas min-h-screen font-sans">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
  <PageHeader
  title="Stratejik Risk Haritası"
@@ -116,7 +116,7 @@ export default function RiskSimulationPage() {
  </div>
 
  {/* 1. VİTRİN: SENTINEL AI & VELOCITY STRES TESTİ */}
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
  <div className="bg-surface rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-center">
  <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-1 flex items-center gap-2">
  <Zap size={16} className="text-amber-500" /> Kriz Senaryosu (Hız Çarpanı)
@@ -175,7 +175,7 @@ export default function RiskSimulationPage() {
  </div>
 
  {/* 2. MUTFAK: ENTERPRISE CLEAN MATRİS VE LİSTE */}
- <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+ <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
 
  {/* Sol Taraf: 5x5 Grid Matris */}
  <div className="xl:col-span-2 bg-surface p-4 rounded-xl shadow-sm border border-slate-200">

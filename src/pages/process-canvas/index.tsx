@@ -6,7 +6,7 @@ export default function ProcessCanvasPage() {
  return (
  <div className="flex flex-col bg-canvas" style={{ height: 'calc(100vh - 4rem)' }}>
  {/* Başlık */}
- <div className="px-6 pt-5 pb-0 shrink-0">
+ <div className="px-4 pt-5 pb-0 shrink-0">
  <PageHeader
  title="Süreç ve Risk Haritası"
  description="İnteraktif denetim evreni ve risk bulaşıcılık ağları modelleme kanvası."

@@ -75,9 +75,9 @@ function SectionView({ section, readOnly, collabCtx }: SectionViewProps) {
  <section
  key={section.id}
  id={`section-${section.id}`}
- className="mb-16 scroll-mt-8"
+ className="mb-16 scroll-mt-4"
  >
- <h2 className="font-serif text-3xl font-bold mb-6 text-primary pb-3 border-b border-slate-200">
+ <h2 className="font-serif text-3xl font-bold mb-3 text-primary pb-3 border-b border-slate-200">
  {section.title}
  </h2>
  <div>
@@ -173,7 +173,7 @@ export function ZenCanvas({ readOnly = false, warmth = 20, externalCollabCtx }: 
 
  if (!activeReport) {
  return (
- <main className="flex-1 bg-canvas overflow-y-auto p-6 lg:p-10 flex items-center justify-center">
+ <main className="flex-1 bg-canvas overflow-y-auto p-4 lg:p-10 flex items-center justify-center">
  <div className="text-center space-y-2">
  <div className="w-10 h-10 rounded-full bg-slate-200 animate-pulse mx-auto" />
  <p className="text-sm font-sans text-slate-400">Rapor yükleniyor...</p>
@@ -187,7 +187,7 @@ export function ZenCanvas({ readOnly = false, warmth = 20, externalCollabCtx }: 
  return (
  <main
  ref={scrollRef as React.RefObject<HTMLElement>}
- className="flex-1 bg-canvas overflow-y-auto p-6 lg:p-10"
+ className="flex-1 bg-canvas overflow-y-auto p-4 lg:p-10"
  >
  <div
  className="max-w-4xl mx-auto min-h-[1056px] p-10 lg:p-16 rounded-sm
@@ -213,7 +213,7 @@ export function ZenCanvas({ readOnly = false, warmth = 20, externalCollabCtx }: 
  ))
  )}
 
- <div className="mt-16 pt-8 border-t border-slate-200 text-center">
+ <div className="mt-16 pt-5 border-t border-slate-200 text-center">
  <p className="text-xs font-sans text-slate-400">
  Son güncelleme:{' '}
  {new Date(activeReport.updatedAt).toLocaleDateString('tr-TR', {
@@ -225,7 +225,7 @@ export function ZenCanvas({ readOnly = false, warmth = 20, externalCollabCtx }: 
  </div>
 
  {activeReport.status === 'published' && activeReport.hashSeal && (
- <div className="mt-6 flex items-center justify-center gap-2 text-xs text-emerald-700 bg-emerald-50 p-4 rounded-lg border border-emerald-200 font-mono shadow-sm">
+ <div className="mt-3 flex items-center justify-center gap-2 text-xs text-emerald-700 bg-emerald-50 p-4 rounded-lg border border-emerald-200 font-mono shadow-sm">
  <ShieldCheck size={18} className="flex-shrink-0" />
  <span className="break-all">HUKUKİ BÜTÜNLÜK MÜHRÜ (SHA-256): {activeReport.hashSeal}</span>
  </div>

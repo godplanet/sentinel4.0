@@ -100,7 +100,7 @@ export function AuditorDetailPanel({ profile, onClose }: AuditorDetailPanelProps
  </button>
  </div>
 
- <div className="p-5 space-y-6">
+ <div className="p-5 space-y-4">
  <div>
  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-2">
  <Activity size={13} /> Yorgunluk Analizi

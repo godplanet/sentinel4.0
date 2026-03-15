@@ -188,7 +188,7 @@ export const AutoFixButton: React.FC<AutoFixButtonProps> = ({
  disabled={isRunning}
  whileTap={{ scale: 0.97 }}
  className={clsx(
- 'relative flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-semibold transition-all w-full overflow-hidden shadow-sm',
+ 'relative flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl text-sm font-semibold transition-all w-full overflow-hidden shadow-sm',
  phase === 'success'
  ? 'bg-emerald-50 border border-emerald-300 text-emerald-800 hover:bg-emerald-100'
  : phase === 'error'

@@ -40,10 +40,10 @@ export function DraftResponder() {
  }
 
  return (
- <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full min-h-[600px]">
+ <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-full min-h-[600px]">
  
  {/* 1. LEFT COL: List of Incoming Regulatory Drafts */}
- <div className="lg:col-span-4 flex flex-col gap-4 border-r border-slate-200 pr-6">
+ <div className="lg:col-span-4 flex flex-col gap-4 border-r border-slate-200 pr-4">
  <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
  <Scale size={18} className="text-indigo-600" />
  Regülatif Taslak Gelen Kutusu
@@ -107,7 +107,7 @@ export function DraftResponder() {
  <div className="bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col h-full overflow-hidden">
  
  {/* Header */}
- <div className="px-6 py-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+ <div className="px-4 py-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
  <div>
  <div className="text-xs font-bold text-slate-500 uppercase mb-1">Yanıt Editörü</div>
  <h2 className="text-base font-bold text-slate-800">{selectedDraft.draft_title}</h2>
@@ -150,7 +150,7 @@ export function DraftResponder() {
  </div>
 
  {/* Signatures */}
- <div className="mt-16 pt-8 border-t border-slate-200 grid grid-cols-2 gap-8 text-center">
+ <div className="mt-16 pt-5 border-t border-slate-200 grid grid-cols-2 gap-5 text-center">
  <div>
  <div className="h-16"></div>
  <div className="border-t border-slate-800 mx-8 pt-2 text-sm font-bold font-serif">Baş Hukuk Müşaviri (CLO)</div>

@@ -96,14 +96,14 @@ export default function SettingsConsolidatedPage() {
  icon={Settings}
  />
 
- <div className="border-b border-slate-200 bg-surface px-6">
+ <div className="border-b border-slate-200 bg-surface px-4">
  <div className="flex gap-1">
  {TABS.map((tab) => (
  <button
  key={tab.key}
  onClick={() => setActiveTab(tab.key)}
  className={clsx(
- 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
+ 'flex items-center gap-2 px-4 py-3 font-medium text-sm transition-all relative',
  activeTab === tab.key
  ? 'text-blue-600 border-b-2 border-blue-600'
  : 'text-slate-600 hover:text-primary hover:bg-canvas'
@@ -169,7 +169,7 @@ export default function SettingsConsolidatedPage() {
  );
  })}
 
- <div className="border-2 border-red-200 bg-red-50 rounded-lg p-4 mt-8">
+ <div className="border-2 border-red-200 bg-red-50 rounded-lg p-4 mt-4">
  <div className="flex items-start gap-3 mb-4">
  <AlertTriangle className="text-red-600 mt-0.5" size={24} />
  <div className="flex-1">
@@ -202,7 +202,7 @@ export default function SettingsConsolidatedPage() {
  onClick={handleFactoryReset}
  disabled={isResetting}
  className={clsx(
- 'flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all',
+ 'flex items-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all',
  isResetting
  ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
  : 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm hover:shadow-md'

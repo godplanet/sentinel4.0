@@ -105,7 +105,7 @@ export default function FindingCenterPage() {
     <div className="flex h-[calc(100vh-4rem)] overflow-hidden bg-canvas">
       {/* ANA İÇERİK ALANI */}
       <div className="flex-1 overflow-y-auto">
-        <div className="space-y-6 p-4">
+        <div className="space-y-4 p-4">
           {/* HEADER */}
           <PageHeader
             title="Bulgu Merkezi & Müzakere"

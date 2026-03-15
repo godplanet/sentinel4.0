@@ -175,10 +175,10 @@ export function SurveyPortal() {
  ))}
  </div>
 
- <div className="bg-canvas px-6 py-5 flex items-center justify-between border-t border-slate-200">
+ <div className="bg-canvas px-4 py-5 flex items-center justify-between border-t border-slate-200">
  <button
  onClick={() => setSelectedSurvey(null)}
- className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
+ className="px-4 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
  disabled={submitting}
  >
  İptal
@@ -186,7 +186,7 @@ export function SurveyPortal() {
  <button
  onClick={handleSubmit}
  disabled={submitting || Object.keys(answers).length === 0}
- className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold shadow-sm hover:shadow"
+ className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold shadow-sm hover:shadow"
  >
  {submitting ? (
  <>
@@ -238,7 +238,7 @@ export function SurveyPortal() {
  </button>
  </div>
 
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {(surveys || []).map((survey, index) => {
  const surveyStats = stats[survey.id] || { count: 0, averageScore: null };
 
@@ -328,7 +328,7 @@ export function SurveyPortal() {
  className="bg-surface rounded-2xl shadow-2xl max-w-2xl w-full"
  onClick={(e) => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+ <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-4 flex items-center justify-between rounded-t-2xl">
  <h2 className="text-xl font-bold text-white">Yeni Anket Oluştur</h2>
  <button
  onClick={() => !submitting && setShowCreateModal(false)}
@@ -392,10 +392,10 @@ export function SurveyPortal() {
  </div>
  </div>
 
- <div className="bg-canvas px-6 py-4 flex items-center justify-between border-t border-slate-200 rounded-b-2xl">
+ <div className="bg-canvas px-4 py-4 flex items-center justify-between border-t border-slate-200 rounded-b-2xl">
  <button
  onClick={() => !submitting && setShowCreateModal(false)}
- className="px-6 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
+ className="px-4 py-2.5 bg-surface border-2 border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
  disabled={submitting}
  >
  İptal
@@ -403,7 +403,7 @@ export function SurveyPortal() {
  <button
  onClick={handleCreateSurvey}
  disabled={submitting || !newSurvey.title.trim()}
- className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold shadow-sm hover:shadow"
+ className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 disabled:from-slate-400 disabled:to-slate-500 transition-all font-semibold shadow-sm hover:shadow"
  >
  {submitting ? (
  <>

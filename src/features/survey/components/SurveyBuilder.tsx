@@ -237,7 +237,7 @@ export function SurveyBuilder({ initialTitle = '', initialModule = 'GENERAL', in
  </div>
 
  {previewMode ? (
- <pre className="flex-1 overflow-auto p-6 text-[11px] text-emerald-300 font-mono bg-slate-950">
+ <pre className="flex-1 overflow-auto p-4 text-[11px] text-emerald-300 font-mono bg-slate-950">
  {JSON.stringify(buildSchema(), null, 2)}
  </pre>
  ) : (

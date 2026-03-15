@@ -14,7 +14,7 @@ export const Phase4Approval: React.FC<Phase4Props> = ({
 }) => {
   return (
     <div className="bg-surface/60 backdrop-blur-xl border border-slate-200/50 rounded-2xl p-5 shadow-sm">
-      <div className="flex items-center gap-3 mb-4 pb-6 border-b border-slate-200/50">
+      <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-200/50">
         <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center">
           <FileSignature size={24} className="text-indigo-600" />
         </div>
@@ -24,7 +24,7 @@ export const Phase4Approval: React.FC<Phase4Props> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-4 bg-emerald-50/50 backdrop-blur-md border border-emerald-200/50 rounded-2xl flex flex-col items-center text-center">
           <ShieldCheck size={40} className="text-emerald-500 mb-4" />
           <h3 className="text-lg font-bold text-emerald-900 mb-2">Taslağı Onayla</h3>

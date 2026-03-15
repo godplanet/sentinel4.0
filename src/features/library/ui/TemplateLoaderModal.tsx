@@ -118,9 +118,9 @@ export function TemplateLoaderModal({
  };
 
  return (
- <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+ <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
  <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
- <div className="flex items-center justify-between p-6 border-b border-slate-200">
+ <div className="flex items-center justify-between p-4 border-b border-slate-200">
  <div>
  <h2 className="text-2xl font-bold text-primary flex items-center gap-3">
  <FileText className="w-7 h-7 text-blue-600" />
@@ -196,7 +196,7 @@ export function TemplateLoaderModal({
  )}
  </div>
 
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  {selectedCategoryData ? (
  <>
  <div className="flex items-center justify-between mb-4">
@@ -256,7 +256,7 @@ export function TemplateLoaderModal({
  </div>
  </div>
 
- <div className="border-t border-slate-200 p-6 flex items-center justify-between bg-canvas">
+ <div className="border-t border-slate-200 p-4 flex items-center justify-between bg-canvas">
  <div className="text-sm text-slate-600">
  <span className="font-semibold text-primary">
  {selectedProcedures.size}
@@ -266,14 +266,14 @@ export function TemplateLoaderModal({
  <div className="flex items-center gap-3">
  <button
  onClick={onClose}
- className="px-6 py-3 bg-surface border border-slate-300 text-slate-700 rounded-xl font-semibold hover:bg-canvas transition-colors"
+ className="px-4 py-3 bg-surface border border-slate-300 text-slate-700 rounded-xl font-semibold hover:bg-canvas transition-colors"
  >
  Cancel
  </button>
  <button
  onClick={handleApply}
  disabled={isApplying || selectedProcedures.size === 0}
- className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+ className="px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
  >
  {isApplying ? (
  <>
@@ -293,7 +293,7 @@ export function TemplateLoaderModal({
  ) : (
  <div className="flex-1 flex items-center justify-center p-12">
  <div className="text-center">
- <CheckCircle2 className="w-20 h-20 text-green-500 mx-auto mb-6" />
+ <CheckCircle2 className="w-20 h-20 text-green-500 mx-auto mb-3" />
  <h3 className="text-2xl font-bold text-primary mb-2">
  {result.count} Steps Loaded
  </h3>

@@ -279,8 +279,8 @@ export default function OrphanInspectorPage() {
  <p className="font-medium">Önizlemek için soldan bir bileşen seçin</p>
  </div>
  ) : (
- <div className="w-full px-4 sm:px-6 lg:px-6 space-y-6">
- <div className="bg-white px-6 py-4 rounded-xl border border-slate-200 shadow-sm flex items-start justify-between">
+ <div className="w-full px-4 sm:px-4 lg:px-4 space-y-4">
+ <div className="bg-white px-4 py-4 rounded-xl border border-slate-200 shadow-sm flex items-start justify-between">
  <div>
  <h2 className="text-xl font-bold text-slate-900">{selectedPath.split('/').pop()}</h2>
  <p className="text-sm text-slate-500 mt-1 font-mono">{selectedPath}</p>

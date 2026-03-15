@@ -168,7 +168,7 @@ export function PADMonitor() {
  <ShieldAlert size={280} />
  </div>
  
- <div className="flex flex-col md:flex-row gap-6 md:items-center justify-between relative z-10">
+ <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between relative z-10">
  <div>
  <div className="flex items-center gap-2 mb-2">
  <ArrowRightLeft className="text-blue-400" />

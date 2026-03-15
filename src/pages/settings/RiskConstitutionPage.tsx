@@ -126,7 +126,7 @@ export default function RiskConstitutionPage() {
  }
  />
 
- <div className="w-full px-4 sm:px-6 lg:px-6 py-4">
+ <div className="w-full px-4 sm:px-4 lg:px-4 py-4">
  <div className="flex gap-4">
  <div className="flex-1 min-w-0">
  <div className="flex items-center gap-1 mb-4 bg-surface border border-slate-200 rounded-xl p-1">

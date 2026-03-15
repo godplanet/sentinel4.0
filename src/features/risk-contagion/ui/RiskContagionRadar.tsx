@@ -63,7 +63,7 @@ const ArrowLine: React.FC<{ delay?: number }> = ({ delay = 0 }) => (
 
 export const RiskContagionRadar: React.FC = () => {
  return (
- <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-6 h-full">
+ <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl p-4 h-full">
  <div className="mb-5">
  <h3 className="font-sans text-sm font-semibold text-primary">Risk Contagion Radar</h3>
  <p className="text-xs text-slate-500 mt-0.5">Threat propagation from overdue action to enterprise risk</p>

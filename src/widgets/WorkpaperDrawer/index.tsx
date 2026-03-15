@@ -365,7 +365,7 @@ export const WorkpaperDrawer = ({ isOpen, onClose, workpaperId, stepId }: Workpa
  </button>
  </div>
 
- <div className="flex border-b border-gray-200 bg-surface/30 backdrop-blur-sm px-6">
+ <div className="flex border-b border-gray-200 bg-surface/30 backdrop-blur-sm px-4">
  {(tabs || []).filter(tab => tab.visible).map((tab) => (
  <button
  key={tab.id}
@@ -636,7 +636,7 @@ Sentinel Prime bu notları analiz edip profesyonel bulguya dönüştürecek."
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
  onClick={handleConvertToFinding}
- className="mt-4 w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl group"
+ className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl group"
  >
  <Sparkles className="w-5 h-5 group-hover:animate-pulse" />
  <span>AI ile Bulguya Dönüştür</span>

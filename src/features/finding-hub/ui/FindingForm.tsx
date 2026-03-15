@@ -77,7 +77,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
 
  return (
  <form onSubmit={handleSubmit} className="bg-surface rounded-lg border border-slate-200 overflow-hidden">
- <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+ <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-4 py-4 border-b border-slate-200 flex items-center justify-between">
  <h2 className="text-lg font-semibold text-primary">
  {finding?.id ? 'Bulgu Düzenle' : 'Yeni Bulgu'}
  </h2>
@@ -90,7 +90,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
  </button>
  </div>
 
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
  <label className="text-sm font-medium text-slate-700">Kod</label>
@@ -192,7 +192,7 @@ export function FindingForm({ finding, auditId, onSave, onCancel }: FindingFormP
  </div>
  </div>
 
- <div className="bg-canvas px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
+ <div className="bg-canvas px-4 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
  <button
  type="button"
  onClick={onCancel}

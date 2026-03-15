@@ -119,7 +119,7 @@ export default function VendorPortalPage() {
  return (
  <div className="min-h-screen ">
  <div className="border-b border-slate-200 bg-surface/80 backdrop-blur-sm">
- <div className="w-full px-4 sm:px-6 lg:px-6 py-4 flex items-center justify-between">
+ <div className="w-full px-4 sm:px-4 lg:px-4 py-4 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center">
  <Shield size={18} className="text-white" />
@@ -136,7 +136,7 @@ export default function VendorPortalPage() {
  </div>
  </div>
 
- <div className="w-full px-4 sm:px-6 lg:px-6 py-5">
+ <div className="w-full px-4 sm:px-4 lg:px-4 py-5">
  <AnimatePresence mode="wait">
  {step === 'token' && (
  <TokenGate
@@ -224,7 +224,7 @@ function TokenGate({
  </button>
  </div>
 
- <p className="text-center text-[10px] text-slate-400 mt-6">
+ <p className="text-center text-[10px] text-slate-400 mt-3">
  Erisim anahtari tek kullanimliktir ve suresi sinirlidir.
  </p>
  </motion.div>

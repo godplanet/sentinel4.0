@@ -85,7 +85,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in">
  <div className="relative w-full max-w-xl rounded-2xl bg-surface shadow-2xl animate-in slide-in-from-bottom-4">
  {/* Header */}
- <div className="relative overflow-hidden rounded-t-2xl bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-5">
+ <div className="relative overflow-hidden rounded-t-2xl bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-5">
  <div className="relative flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface/20 backdrop-blur-sm">
@@ -107,7 +107,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
  </div>
 
  {/* Content */}
- <div className="p-6">
+ <div className="p-4">
  {status === 'idle' && (
  <div className="space-y-4">
  <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-4">
@@ -142,7 +142,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
  <div className="text-center">
  <button
  onClick={handleStartGeneration}
- className="flex items-center gap-2 rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition-all hover:bg-emerald-700"
+ className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 font-semibold text-white transition-all hover:bg-emerald-700"
  >
  <Package className="h-5 w-5" />
  Paketi Oluştur
@@ -189,7 +189,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
  )}
 
  {status === 'completed' && (
- <div className="space-y-6 text-center">
+ <div className="space-y-4 text-center">
  <div className="flex justify-center">
  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
  <CheckCircle2 className="h-8 w-8 text-green-600" />
@@ -212,7 +212,7 @@ export const BDDKPackageModal = ({ isOpen, onClose }: BDDKPackageModalProps) => 
 
  <button
  onClick={handleClose}
- className="rounded-lg bg-gray-600 px-6 py-2 font-semibold text-white transition-all hover:bg-gray-700"
+ className="rounded-lg bg-gray-600 px-4 py-2 font-semibold text-white transition-all hover:bg-gray-700"
  >
  Kapat
  </button>

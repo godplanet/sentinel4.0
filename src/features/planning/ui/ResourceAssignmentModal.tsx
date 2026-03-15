@@ -223,7 +223,7 @@ export function ResourceAssignmentModal({
  <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
 
  <div className="relative w-full max-w-lg bg-surface rounded-2xl shadow-2xl max-h-[92vh] overflow-y-auto border border-slate-200">
- <div className="sticky top-0 bg-surface/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex items-center justify-between z-10 rounded-t-2xl">
+ <div className="sticky top-0 bg-surface/95 backdrop-blur-sm border-b border-slate-100 px-4 py-4 flex items-center justify-between z-10 rounded-t-2xl">
  <div>
  <h2 className="text-lg font-bold text-primary">Denetçi Ata</h2>
  <p className="text-xs text-slate-500 mt-0.5">Maliyet & Yetkinlik Analizi</p>
@@ -233,7 +233,7 @@ export function ResourceAssignmentModal({
  </button>
  </div>
 
- <div className="p-6 space-y-4">
+ <div className="p-4 space-y-4">
  <div className="p-4 bg-canvas border border-slate-200 rounded-xl">
  <div className="text-sm font-semibold text-primary mb-1 truncate">{engagement.title}</div>
  <div className="flex items-center gap-3 text-[11px] text-slate-500">
@@ -336,7 +336,7 @@ export function ResourceAssignmentModal({
  <span className="text-sm">Denetçiler yükleniyor...</span>
  </div>
  ) : profiles.length === 0 ? (
- <p className="text-sm text-slate-400 text-center py-6">Denetçi bulunamadı.</p>
+ <p className="text-sm text-slate-400 text-center py-4">Denetçi bulunamadı.</p>
  ) : (
  <div className="space-y-2">
  {(profiles || []).map((profile) => {

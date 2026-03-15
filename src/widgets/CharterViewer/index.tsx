@@ -141,7 +141,7 @@ export function CharterViewer() {
  </div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
  <div className="lg:col-span-1 space-y-4">
  <div className="flex items-center justify-between">
  <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">
@@ -219,7 +219,7 @@ export function CharterViewer() {
  <div className="lg:col-span-2">
  {selected ? (
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden">
- <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 text-white">
+ <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-4 py-5 text-white">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-surface/20 rounded-lg flex items-center justify-center">
@@ -263,7 +263,7 @@ export function CharterViewer() {
  </div>
  </div>
 
- <div className="p-4 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
  <div className="bg-canvas rounded-lg p-3">
  <p className="text-xs text-slate-500 font-medium">Durum</p>
@@ -326,7 +326,7 @@ export function CharterViewer() {
  Ic Denetim Baskanligi yetki, sorumluluk ve faaliyetlerini
  tanimlayan ana yonetmelik belgesi.
  </p>
- <div className="mt-6 text-left max-w-lg mx-auto space-y-3 text-sm text-slate-600">
+ <div className="mt-3 text-left max-w-lg mx-auto space-y-3 text-sm text-slate-600">
  <div className="flex items-start gap-2">
  <span className="w-5 h-5 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</span>
  <span>Ic Denetim faaliyetlerinin amac, yetki ve sorumluluk cercevesi</span>
@@ -409,7 +409,7 @@ export function CharterViewer() {
  className="bg-surface rounded-2xl shadow-2xl max-w-lg w-full"
  onClick={(e) => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+ <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-4 py-4 flex items-center justify-between rounded-t-2xl">
  <div className="flex items-center gap-3">
  <Upload className="w-5 h-5 text-white" />
  <h2 className="text-lg font-bold text-white">Yeni Yonetmelik Surumu</h2>
@@ -453,7 +453,7 @@ export function CharterViewer() {
  </div>
  </div>
 
- <div className="bg-canvas px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
+ <div className="bg-canvas px-4 py-4 flex items-center justify-end gap-3 border-t border-slate-200 rounded-b-2xl">
  <button
  onClick={() => !submitting && setShowNewModal(false)}
  className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium text-sm"

@@ -76,7 +76,7 @@ function ZakatCard({ item, onSelect, isSelected }: { item: CorporateZakatObligat
  )}
  >
  <div className="flex items-start justify-between gap-3 mb-2">
- <div className="flex flex-col gap-1.5 flex-1 pr-6">
+ <div className="flex flex-col gap-1.5 flex-1 pr-4">
  <div className="flex items-center gap-1.5 flex-wrap">
  <span className={clsx('text-[9px] font-bold px-1.5 py-0.5 rounded border border-current', stColor.bg, stColor.color, stColor.border)}>
  {item?.status}

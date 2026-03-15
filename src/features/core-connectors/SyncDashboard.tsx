@@ -200,7 +200,7 @@ export function SyncDashboard() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50">
  {/* Üst Başlık */}
- <div className="px-6 pt-6 pb-5 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm">
+ <div className="px-4 pt-4 pb-5 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm">
  <div className="flex items-center gap-3 mb-5">
  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
  <Server size={20} className="text-white" />
@@ -236,7 +236,7 @@ export function SyncDashboard() {
  {/* İçerik */}
  <div className="flex-1 overflow-hidden flex gap-0">
  {/* Sol: Pipeline Listesi */}
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  {/* Kaynak Filtreleri */}
  <div className="flex items-center gap-2 mb-5 flex-wrap">
  {(sources || []).map((src) => (
@@ -327,7 +327,7 @@ export function SyncDashboard() {
  initial={{ opacity: 0 }}
  animate={{ opacity: 1 }}
  exit={{ opacity: 0 }}
- className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-6"
+ className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4"
  onClick={() => setSelectedPipeline(null)}
  >
  <motion.div

@@ -34,7 +34,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
  <div className="bg-surface rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
  {/* Header */}
- <div className="sticky top-0 bg-gradient-to-r from-emerald-600 to-teal-600 p-6 flex items-center justify-between text-white z-10">
+ <div className="sticky top-0 bg-gradient-to-r from-emerald-600 to-teal-600 p-4 flex items-center justify-between text-white z-10">
  <div className="flex items-center gap-3">
  <Shield className="w-6 h-6" />
  <div>
@@ -51,7 +51,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
  </div>
 
  {/* Content */}
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  {/* Input Section */}
  <div className="space-y-3">
  <label className="block text-sm font-medium text-gray-700 ">
@@ -67,7 +67,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
  <button
  onClick={handleAnalyze}
  disabled={!description.trim() || loading || isStandardsLoading}
- className="w-full py-3 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+ className="w-full py-3 px-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
  >
  {loading || isStandardsLoading ? (
  <>
@@ -87,7 +87,7 @@ export default function ComplianceCheckerModal({ isOpen, onClose, findingDescrip
  {result && (
  <div className="space-y-4">
  {/* Status Card */}
- <GlassCard className={`p-6 border-2 ${
+ <GlassCard className={`p-4 border-2 ${
  result.complianceStatus === 'non_compliant' ? 'border-red-500 bg-red-50 ' :
  result.complianceStatus === 'compliant' ? 'border-green-500 bg-green-50 ' :
  'border-yellow-500 bg-yellow-50 '

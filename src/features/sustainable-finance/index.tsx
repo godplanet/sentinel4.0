@@ -128,7 +128,7 @@ export function SustainableFinance() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50">
  {/* Header */}
- <div className="px-6 pt-6 pb-5 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10">
+ <div className="px-4 pt-4 pb-5 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10">
  <div className="flex items-center gap-3 mb-5">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
  <Leaf size={22} className="text-white" />
@@ -162,7 +162,7 @@ export function SustainableFinance() {
  {/* Main Content */}
  <div className="flex-1 overflow-hidden flex gap-0">
  {/* Left: Green Bonds Portfolio */}
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  <div className="flex items-center justify-between mb-5">
  <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">İhraç Edilen Yeşil Tahviller / Krediler</h2>
  <div className="flex gap-1.5">

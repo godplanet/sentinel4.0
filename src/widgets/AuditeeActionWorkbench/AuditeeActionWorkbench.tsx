@@ -221,7 +221,7 @@ function ActionInboxItem({
 function DetailHeader({ action }: { action: ActionAgingMetrics }) {
  const snapshot = action.finding_snapshot;
  return (
- <div className="px-6 py-4 bg-surface/70 backdrop-blur-md border-b border-slate-200 shadow-sm flex items-center gap-4">
+ <div className="px-4 py-4 bg-surface/70 backdrop-blur-md border-b border-slate-200 shadow-sm flex items-center gap-4">
  <div className={clsx(
  'w-10 h-10 rounded-xl flex items-center justify-center shrink-0',
  action.is_bddk_breach
@@ -257,7 +257,7 @@ function DetailHeader({ action }: { action: ActionAgingMetrics }) {
 function IronVault({ action }: { action: ActionAgingMetrics }) {
  const snapshot = action.finding_snapshot;
  return (
- <div className="px-6 py-5 bg-[#FDFBF7] border-b border-slate-200">
+ <div className="px-4 py-5 bg-[#FDFBF7] border-b border-slate-200">
  <div className="flex items-center gap-2 mb-3">
  <FileText size={14} className="text-slate-500" />
  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">

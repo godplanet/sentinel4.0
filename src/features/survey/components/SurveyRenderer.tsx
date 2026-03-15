@@ -361,9 +361,9 @@ export function SurveyRenderer({ schema, templateTitle, showScore = false, onSub
  animate="center"
  exit="exit"
  transition={{ duration: 0.25, ease: 'easeInOut' }}
- className="p-6 space-y-4"
+ className="p-4 space-y-4"
  >
- <div className="mb-6">
+ <div className="mb-3">
  <div className="text-[10px] text-slate-500 uppercase tracking-widest mb-1">
  Bölüm {sectionIdx + 1} / {sections.length}
  </div>
@@ -386,7 +386,7 @@ export function SurveyRenderer({ schema, templateTitle, showScore = false, onSub
  </AnimatePresence>
  </div>
 
- <div className="border-t border-white/6 px-6 py-4 bg-slate-900/60 flex items-center justify-between gap-3">
+ <div className="border-t border-white/6 px-4 py-4 bg-slate-900/60 flex items-center justify-between gap-3">
  <button
  onClick={onCancel}
  className="text-xs text-slate-500 hover:text-slate-300 transition-colors"

@@ -104,7 +104,7 @@ export const ActivityLogPanel: React.FC<ActivityLogPanelProps> = ({ findingId })
  return (
  <div
  key={log.id}
- className="relative pl-12 pb-6 animate-in slide-in-from-left-2 fade-in duration-300"
+ className="relative pl-12 pb-4 animate-in slide-in-from-left-2 fade-in duration-300"
  style={{ animationDelay: `${index * 50}ms` }}
  >
  {/* Icon */}

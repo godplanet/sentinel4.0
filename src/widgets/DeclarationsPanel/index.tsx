@@ -132,7 +132,7 @@ export function DeclarationsPanel() {
 
  {view === 'history' && (
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+ <div className="px-4 py-4 border-b border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
  <h3 className="text-lg font-bold text-primary">Imzalanan Beyanlar</h3>
  <div className="flex items-center gap-3">
  <div className="flex items-center gap-2">

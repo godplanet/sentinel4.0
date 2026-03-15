@@ -37,7 +37,7 @@ export default function WhistleblowerPage() {
  ];
 
  return (
- <div className="p-5 space-y-6">
+ <div className="p-5 space-y-4">
  <PageHeader
  title="İhbar Hattı (Voice)"
  description="Etik ihlaller ve uygunsuzluklar için gizli bildirim kanalı"
@@ -61,7 +61,7 @@ export default function WhistleblowerPage() {
  </div>
 
  {/* Canlı İstatistik Kartları */}
- <div className="grid md:grid-cols-4 gap-6">
+ <div className="grid md:grid-cols-4 gap-4">
  {(statCards || []).map((stat, i) => (
  <div
  key={i}
@@ -112,7 +112,7 @@ export default function WhistleblowerPage() {
  const status = STATUS_MAP[incident?.status ?? 'NEW'] ?? { label: incident?.status ?? '-', color: 'slate' };
  const emoji = CATEGORY_MAP[incident?.category ?? ''] ?? '📋';
  return (
- <div key={incident.id} className="px-6 py-4 flex items-center gap-4 hover:bg-canvas transition-colors">
+ <div key={incident.id} className="px-4 py-4 flex items-center gap-4 hover:bg-canvas transition-colors">
  <span className="text-xl">{emoji}</span>
  <div className="flex-1 min-w-0">
  <p className="text-sm font-semibold text-slate-800 truncate">{incident?.title ?? '-'}</p>
@@ -132,7 +132,7 @@ export default function WhistleblowerPage() {
  )}
 
  {/* Alt Bilgi Kartları */}
- <div className="grid lg:grid-cols-3 gap-6">
+ <div className="grid lg:grid-cols-3 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">

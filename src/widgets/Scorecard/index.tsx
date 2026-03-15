@@ -180,7 +180,7 @@ function ScorecardView({
  </div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
  <div className="flex flex-col items-center justify-center">
  <GradeGauge
  score={result.finalScore}
@@ -189,7 +189,7 @@ function ScorecardView({
  capped={result.capping.triggered}
  />
 
- <div className="grid grid-cols-4 gap-3 mt-6 w-full max-w-xs">
+ <div className="grid grid-cols-4 gap-3 mt-3 w-full max-w-xs">
  <CountBadge label="Kritik" count={result.counts.count_critical} color="#800000" />
  <CountBadge label="Yuksek" count={result.counts.count_high} color="#dc2626" />
  <CountBadge label="Orta" count={result.counts.count_medium} color="#f97316" />

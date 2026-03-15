@@ -343,7 +343,7 @@ export default function ReportLibraryPage() {
  return (
  <div className="flex flex-col h-full bg-canvas">
  {/* ── Başlık + Sekmeler + Arama ── */}
- <div className="flex-shrink-0 bg-white/80 backdrop-blur-sm border-b border-slate-200 shadow-sm px-6 py-5 print:hidden">
+ <div className="flex-shrink-0 bg-white/80 backdrop-blur-sm border-b border-slate-200 shadow-sm px-4 py-5 print:hidden">
  <div className="flex items-center justify-between gap-4 flex-wrap">
  <div className="flex items-center gap-3">
  <div className="p-2.5 bg-slate-100 rounded-xl shadow-inner">
@@ -549,7 +549,7 @@ export default function ReportLibraryPage() {
 
  {/* ── KART görünümü ── */}
  {viewMode === 'grid' && (
- <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
  {(paginatedReports || []).map((report) => (
  <ReportCard
  key={report.id}
@@ -566,7 +566,7 @@ export default function ReportLibraryPage() {
 
  {/* ── Sayfalama barı ── */}
  {filteredReports.length > 0 && (
- <div className="flex-shrink-0 border-t border-slate-200 bg-surface/90 backdrop-blur-sm px-6 py-3">
+ <div className="flex-shrink-0 border-t border-slate-200 bg-surface/90 backdrop-blur-sm px-4 py-3">
  <div className="flex items-center justify-between gap-4 flex-wrap">
  {/* Sol: kayıt bilgisi */}
  <p className="text-xs font-sans text-slate-500 whitespace-nowrap">

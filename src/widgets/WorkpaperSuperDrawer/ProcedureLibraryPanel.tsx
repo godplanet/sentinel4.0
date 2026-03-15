@@ -128,7 +128,7 @@ export function ProcedureLibraryPanel({ open, onClose, onAddStep }: ProcedureLib
  transition={{ type: 'spring', damping: 30, stiffness: 350 }}
  className="fixed inset-y-8 inset-x-8 md:inset-y-12 md:inset-x-24 lg:inset-x-48 bg-surface rounded-2xl shadow-2xl border border-slate-200 z-[110] flex flex-col overflow-hidden"
  >
- <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-700 flex items-center justify-between">
+ <div className="shrink-0 px-4 py-4 bg-gradient-to-r from-slate-800 to-slate-700 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="p-2.5 bg-surface/10 rounded-xl">
  <Library size={18} className="text-white" />

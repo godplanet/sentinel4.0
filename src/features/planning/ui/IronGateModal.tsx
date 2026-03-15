@@ -231,7 +231,7 @@ function AssignedSuccessPanel({
  key="launched"
  initial={{ opacity: 0, scale: 0.96 }}
  animate={{ opacity: 1, scale: 1 }}
- className="p-6 space-y-4"
+ className="p-4 space-y-4"
  >
  <div className="flex flex-col items-center text-center gap-3">
  <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shadow-[0_0_24px_rgba(16,185,129,0.25)]">

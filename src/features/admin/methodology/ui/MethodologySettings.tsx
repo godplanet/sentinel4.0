@@ -18,8 +18,8 @@ export const MethodologySettings = () => {
  return (
  <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
- <div className="glass-panel p-6 rounded-xl">
- <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+ <div className="glass-panel p-4 rounded-xl">
+ <div className="flex items-center gap-3 mb-3 border-b border-slate-100 pb-4">
  <div className="p-2 bg-purple-50 rounded-lg text-purple-600">
  <Gauge size={20} />
  </div>
@@ -53,9 +53,9 @@ export const MethodologySettings = () => {
  </div>
  </div>
 
- <div className="glass-panel p-6 rounded-xl">
- <h3 className="font-bold text-lg text-slate-800 mb-6">Not Aralıkları (Thresholds)</h3>
- <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+ <div className="glass-panel p-4 rounded-xl">
+ <h3 className="font-bold text-lg text-slate-800 mb-3">Not Aralıkları (Thresholds)</h3>
+ <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
  <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-100">
  <label className="text-xs font-bold text-emerald-700 uppercase">A (Mükemmel)</label>
  <div className="mt-2 flex items-center gap-2">

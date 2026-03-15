@@ -249,7 +249,7 @@ Kisa, kararlı ve aksiyon odakli yaz. Turkce yanit ver.`;
 
  return (
  <div className="bg-surface rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
- <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-6 py-4 flex items-center justify-between">
+ <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-4 py-4 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 bg-blue-500/20 rounded-xl flex items-center justify-center">
  <Radar size={18} className="text-blue-400" />

@@ -67,10 +67,10 @@ export const Phase5Followup: React.FC<Phase5Props> = ({
                       {action.title || 'İsimsiz Aksiyon'}
                     </h3>
                   </div>
-                  <p className="text-xs text-slate-500 pl-6 leading-relaxed line-clamp-2">
+                  <p className="text-xs text-slate-500 pl-4 leading-relaxed line-clamp-2">
                     {action.description || 'Açıklama girilmemiş.'}
                   </p>
-                  <div className="flex items-center gap-4 pl-6 mt-3 text-[10px] uppercase font-bold text-slate-400">
+                  <div className="flex items-center gap-4 pl-4 mt-3 text-[10px] uppercase font-bold text-slate-400">
                     <span className="flex items-center gap-1"><Clock size={12}/> Vade: {action.due_date || '-'}</span>
                     <span>Sorumlu: {action.owner_name || 'Atanmadı'}</span>
                   </div>

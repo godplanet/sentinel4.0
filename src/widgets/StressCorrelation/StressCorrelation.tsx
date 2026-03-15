@@ -189,7 +189,7 @@ export function StressCorrelation() {
  <Eye size={280} />
  </div>
  
- <div className="flex flex-col md:flex-row gap-6 md:items-center justify-between relative z-10">
+ <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between relative z-10">
  <div className="flex-1">
  <div className="flex items-center gap-2 mb-2">
  <ShieldAlert className="text-blue-400" />
@@ -200,7 +200,7 @@ export function StressCorrelation() {
  </p>
  </div>
 
- <div className="flex gap-4 md:gap-8">
+ <div className="flex gap-4 md:gap-5">
  <div className="flex flex-col">
  <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1 flex items-center gap-1">Ort. Risk Faktörü</span>
  <div className="flex items-baseline gap-1">

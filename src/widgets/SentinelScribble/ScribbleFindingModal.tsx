@@ -133,7 +133,7 @@ export function ScribbleFindingModal() {
  exit={{ scale: 0.9, opacity: 0, y: 20 }}
  className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col"
  >
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white rounded-t-2xl shrink-0">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white rounded-t-2xl shrink-0">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl flex items-center justify-center shadow-sm">
  <Sparkles size={18} className="text-white" />
@@ -315,7 +315,7 @@ export function ScribbleFindingModal() {
  </AnimatePresence>
  </div>
 
- <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 bg-canvas rounded-b-2xl shrink-0">
+ <div className="flex items-center justify-between px-4 py-4 border-t border-slate-200 bg-canvas rounded-b-2xl shrink-0">
  <button
  onClick={closeFindingModal}
  className="px-5 py-2 text-slate-600 text-sm font-medium hover:bg-slate-200 rounded-lg transition-colors"
@@ -325,7 +325,7 @@ export function ScribbleFindingModal() {
  <button
  onClick={handleSave}
  disabled={!formData.title.trim() || saveMutation.isPending}
- className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-slate-800 to-slate-900 text-white text-sm font-bold rounded-xl hover:from-slate-700 hover:to-slate-800 disabled:opacity-40 transition-all shadow-md"
+ className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-slate-800 to-slate-900 text-white text-sm font-bold rounded-xl hover:from-slate-700 hover:to-slate-800 disabled:opacity-40 transition-all shadow-md"
  >
  {saveMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
  Bulguyu Kaydet

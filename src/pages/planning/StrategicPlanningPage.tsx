@@ -129,7 +129,7 @@ export default function StrategicPlanningPage() {
  key={tab.id}
  onClick={() => setActiveTab(tab.id)}
  className={`
- flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-lg
+ flex-1 flex items-center justify-center gap-3 px-4 py-4 rounded-lg
  font-semibold text-sm transition-all
  ${
  isActive
@@ -170,7 +170,7 @@ export default function StrategicPlanningPage() {
  {activeTab === 'rolling' && (
  <div className="flex flex-col">
  {/* Mode Toggle Action Bar */}
- <div className="px-6 py-4 bg-gradient-to-r from-canvas to-surface border-b border-slate-200 flex items-center justify-between gap-4">
+ <div className="px-4 py-4 bg-gradient-to-r from-canvas to-surface border-b border-slate-200 flex items-center justify-between gap-4">
  <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200">
  <button
  onClick={() => setPlanMode('mode1_core')}
@@ -212,7 +212,7 @@ export default function StrategicPlanningPage() {
  </div>
 
  {/* Mode Content */}
- <div className="p-4 flex flex-col gap-8">
+ <div className="p-4 flex flex-col gap-5">
  {planMode === 'mode1_core' ? (
  <PlanListView />
  ) : (

@@ -299,7 +299,7 @@ export function ExecutionGrid() {
  {!isPrepared && (
  <button
  onClick={handlePrepareWorkpaper}
- className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+ className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
  >
  <FileCheck className="w-5 h-5" />
  Tamamladım, İncelemeye Gönder
@@ -350,7 +350,7 @@ export function ExecutionGrid() {
  onClick={handleApproveReview}
  disabled={openNotesCount > 0}
  className={clsx(
- 'flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-colors',
+ 'flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-colors',
  openNotesCount > 0
  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
  : 'bg-green-600 text-white hover:bg-green-700'

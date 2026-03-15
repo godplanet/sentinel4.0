@@ -42,7 +42,7 @@ export const RiskSimulator = () => {
  };
 
  return (
- <div className="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-indigo-500 transition-all">
+ <div className="glass-panel p-4 rounded-2xl space-y-4 border-l-4 border-l-indigo-500 transition-all">
  <div className="flex justify-between items-center border-b border-slate-100 pb-4">
  <h3 className="font-bold text-lg flex items-center gap-2 text-slate-800">
  <ShieldAlert className="text-indigo-600" />
@@ -53,7 +53,7 @@ export const RiskSimulator = () => {
  </span>
  </div>
 
- <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
  <div className="space-y-4">
 
@@ -152,7 +152,7 @@ export const RiskSimulator = () => {
  </div>
  </div>
 
- <div className="bg-canvas/50 rounded-xl p-6 flex flex-col items-center justify-center text-center relative overflow-hidden border border-slate-200">
+ <div className="bg-canvas/50 rounded-xl p-4 flex flex-col items-center justify-center text-center relative overflow-hidden border border-slate-200">
 
  <div className={cn(
  "w-36 h-36 rounded-full flex flex-col items-center justify-center border-4 shadow-xl transition-all duration-500 mb-4 bg-surface relative z-10",
@@ -174,7 +174,7 @@ export const RiskSimulator = () => {
  </div>
 
  {auditResult.isLimited && (
- <div className="mb-6 flex items-center gap-2 text-xs font-bold text-rose-600 bg-rose-100 px-3 py-1.5 rounded-full animate-pulse border border-rose-200">
+ <div className="mb-3 flex items-center gap-2 text-xs font-bold text-rose-600 bg-rose-100 px-3 py-1.5 rounded-full animate-pulse border border-rose-200">
  <TrendingDown className="w-3 h-3" />
  {auditResult.limitReason}
  </div>

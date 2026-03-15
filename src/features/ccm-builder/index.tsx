@@ -125,7 +125,7 @@ export function CCMBuilderPage() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50">
  {/* Başlık */}
- <div className="px-6 pt-6 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm">
+ <div className="px-4 pt-4 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm">
  <div className="flex items-center justify-between gap-3 mb-4">
  <div className="flex items-center gap-3">
  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center shadow-lg shadow-purple-500/20">

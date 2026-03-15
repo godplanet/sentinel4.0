@@ -143,7 +143,7 @@ export function WorkpaperEditor() {
  return (
  <div className="h-full flex flex-col bg-surface/80 backdrop-blur-sm rounded-2xl border border-slate-200/50 shadow-xl">
  {/* Header */}
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200/50">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200/50">
  <div className="flex items-center gap-4">
  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
  <FileText className="text-white" size={20} />
@@ -195,7 +195,7 @@ export function WorkpaperEditor() {
  </div>
 
  {/* Content */}
- <div className="flex-1 overflow-y-auto p-4 space-y-6">
+ <div className="flex-1 overflow-y-auto p-4 space-y-4">
  {/* Objective */}
  <div className="glass-card p-4">
  <label className="block text-sm font-bold text-primary mb-2">Amaç</label>

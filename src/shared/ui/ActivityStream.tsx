@@ -58,7 +58,7 @@ export function ActivityStream({ events, maxItems, compact = false }: ActivitySt
 
  if (displayed.length === 0) {
  return (
- <div className="text-center py-8">
+ <div className="text-center py-5">
  <Clock className="mx-auto text-slate-300 mb-2" size={32} />
  <p className="text-sm text-slate-500">Henuz aktivite yok</p>
  </div>

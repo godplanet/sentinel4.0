@@ -56,7 +56,7 @@ export function ExamResult({ onRetry, onBack }: ExamResultProps) {
  <>
  {passed && <ConfettiCanvas />}
 
- <div className="min-h-screen bg-[#070c18] flex items-center justify-center p-6">
+ <div className="min-h-screen bg-[#070c18] flex items-center justify-center p-4">
  <div className="w-full max-w-2xl">
  <div className="text-center mb-4">
  {passed ? (
@@ -80,7 +80,7 @@ export function ExamResult({ onRetry, onBack }: ExamResultProps) {
  )}
  </div>
 
- <div className="rounded-2xl border border-white/[0.07] bg-surface/[0.03] p-6 md:p-8 mb-6">
+ <div className="rounded-2xl border border-white/[0.07] bg-surface/[0.03] p-4 md:p-5 mb-3">
  <div className="flex items-center justify-center gap-10 md:gap-16">
  <ScoreGauge
  score={result.score}

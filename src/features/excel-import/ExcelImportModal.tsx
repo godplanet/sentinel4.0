@@ -113,7 +113,7 @@ export function ExcelImportModal({
  className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col"
  onClick={e => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 px-6 py-4 rounded-t-2xl flex items-center justify-between">
+ <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 px-4 py-4 rounded-t-2xl flex items-center justify-between">
  <div className="flex items-center gap-3">
  <FileSpreadsheet size={22} className="text-white" />
  <div>
@@ -126,7 +126,7 @@ export function ExcelImportModal({
  </button>
  </div>
 
- <div className="flex items-center gap-2 px-6 py-3 bg-canvas border-b border-slate-200">
+ <div className="flex items-center gap-2 px-4 py-3 bg-canvas border-b border-slate-200">
  {(['upload', 'preview', 'import'] as Step[]).map((s, i) => (
  <div key={s} className="flex items-center gap-2">
  <div className={clsx(
@@ -145,7 +145,7 @@ export function ExcelImportModal({
  ))}
  </div>
 
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  {step === 'upload' && (
  <div className="space-y-4">
  <div className="flex items-center gap-3">
@@ -291,7 +291,7 @@ export function ExcelImportModal({
  )}
  </div>
 
- <div className="bg-canvas px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+ <div className="bg-canvas px-4 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
  <button onClick={step === 'upload' ? onClose : handleReset} className="px-5 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm">
  {step === 'upload' ? 'Kapat' : step === 'import' && !importing ? 'Kapat' : 'Geri'}
  </button>

@@ -89,7 +89,7 @@ export function RegulatorPortalPage() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50 overflow-auto">
  {/* C-Level Header */}
- <div className="px-6 pt-6 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10 flex justify-between items-start">
+ <div className="px-4 pt-4 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10 flex justify-between items-start">
  <div className="flex items-center gap-4">
  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-900 via-slate-800 to-black flex items-center justify-center border border-slate-300 shadow-lg relative">
  <Lock size={24} className="text-indigo-300 relative z-10" />
@@ -125,7 +125,7 @@ export function RegulatorPortalPage() {
  </div>
  </div>
 
- <div className="flex-1 overflow-hidden flex flex-col xl:flex-row gap-6 p-6">
+ <div className="flex-1 overflow-hidden flex flex-col xl:flex-row gap-4 p-4">
  
  {/* Left: Assurance Board Widget */}
  <div className="flex-1 xl:w-2/3 h-full overflow-hidden">

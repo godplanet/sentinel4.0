@@ -111,7 +111,7 @@ export function UniversalFindingDrawer({
 
  {/* OPSİYONEL: GÖRÜNÜM DEĞİŞTİRİCİ (VIEW SWITCHER) */}
  {onViewModeChange && currentViewMode && (
- <div className={clsx("px-6 py-2 flex items-center justify-between border-b", currentViewMode === 'glass' ? "bg-surface/5 border-white/10" : "bg-blue-50/50 border-blue-100")}>
+ <div className={clsx("px-4 py-2 flex items-center justify-between border-b", currentViewMode === 'glass' ? "bg-surface/5 border-white/10" : "bg-blue-50/50 border-blue-100")}>
  <span className={clsx("text-xs font-bold flex items-center gap-1", currentViewMode === 'glass' ? "text-blue-300" : "text-blue-800")}>
  <SlidersHorizontal size={14} /> Okuma Modu Değiştir
  </span>

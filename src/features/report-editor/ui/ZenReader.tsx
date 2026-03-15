@@ -150,10 +150,10 @@ export function ZenReader({ content, title, onClose }: ZenReaderProps) {
  )}
 
  <div className={clsx('h-full overflow-auto', fontClass)}>
- <div className="max-w-3xl mx-auto px-6 py-16">
+ <div className="max-w-3xl mx-auto px-4 py-16">
  <h1
  className={clsx(
- 'text-3xl font-bold mb-4 pb-6 border-b leading-tight',
+ 'text-3xl font-bold mb-4 pb-4 border-b leading-tight',
  theme === 'dark' ? 'border-white/10' : 'border-slate-200',
  font === 'serif' ? 'font-[Merriweather]' : ''
  )}

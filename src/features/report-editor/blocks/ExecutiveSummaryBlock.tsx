@@ -288,7 +288,7 @@ export function ExecutiveSummaryBlock({
 
         {/* İstatistik kartları */}
         {total === 0 ? (
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-6 flex items-start gap-4">
+          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 flex items-start gap-4">
             <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
               <CheckCircle2 size={18} className="text-emerald-400" />
             </div>

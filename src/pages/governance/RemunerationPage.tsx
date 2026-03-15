@@ -94,7 +94,7 @@ function BonusCard({ bonus, onSelect, isSelected }: { bonus: ExecutiveBonus, onS
  )}
 
  <div className="relative z-10 flex items-start justify-between gap-3 mb-3">
- <div className="flex flex-col mb-1 gap-2 w-full pr-6">
+ <div className="flex flex-col mb-1 gap-2 w-full pr-4">
  <div className="flex items-center gap-1.5 flex-wrap">
  <span className={clsx('text-[10px] font-bold px-2 py-0.5 rounded-full border flex items-center gap-1', st.color)}>
  <StatusIcon size={10} /> {st.label}

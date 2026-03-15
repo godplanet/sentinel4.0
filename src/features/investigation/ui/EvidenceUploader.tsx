@@ -216,7 +216,7 @@ export function EvidenceUploader({ caseId, uploadedBy = '' }: EvidenceUploaderPr
  onDrop={handleDrop}
  onClick={() => fileInputRef.current?.click()}
  className={clsx(
- 'relative rounded-xl border-2 border-dashed cursor-pointer transition-all p-6 text-center',
+ 'relative rounded-xl border-2 border-dashed cursor-pointer transition-all p-4 text-center',
  isDragging
  ? 'border-amber-500/60 bg-amber-500/5'
  : 'border-slate-700 hover:border-slate-500 hover:bg-white/2'

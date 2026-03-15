@@ -122,7 +122,7 @@ export function PulseCheckModal({ userId, onClose }: PulseCheckModalProps) {
  />
 
  {/* Header */}
- <div className="flex items-center justify-between px-6 pt-5 pb-3">
+ <div className="flex items-center justify-between px-4 pt-5 pb-3">
  <div className="flex items-center gap-2.5">
  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-sm">
  <Zap size={15} className="text-white" />
@@ -160,7 +160,7 @@ export function PulseCheckModal({ userId, onClose }: PulseCheckModalProps) {
  )}
 
  {/* Slide content */}
- <div className="px-6 pb-6 min-h-[280px] relative overflow-hidden">
+ <div className="px-4 pb-4 min-h-[280px] relative overflow-hidden">
  <AnimatePresence mode="wait" custom={direction}>
 
  {/* ── Step 1: Energy Level ─────────────────── */}
@@ -298,7 +298,7 @@ export function PulseCheckModal({ userId, onClose }: PulseCheckModalProps) {
  initial={{ scale: 0.8, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
  transition={{ type: 'spring', stiffness: 300, damping: 22 }}
- className="flex flex-col items-center justify-center pt-8 pb-4 gap-4"
+ className="flex flex-col items-center justify-center pt-5 pb-4 gap-4"
  >
  <motion.div
  animate={{ rotate: [0, -10, 10, -6, 6, 0] }}
@@ -313,7 +313,7 @@ export function PulseCheckModal({ userId, onClose }: PulseCheckModalProps) {
  </p>
  <button
  onClick={onClose}
- className="mt-2 px-6 py-2.5 rounded-2xl bg-slate-900 text-white text-sm font-semibold hover:bg-slate-700 transition-colors"
+ className="mt-2 px-4 py-2.5 rounded-2xl bg-slate-900 text-white text-sm font-semibold hover:bg-slate-700 transition-colors"
  >
  Kapat
  </button>

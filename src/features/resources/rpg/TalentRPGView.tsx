@@ -65,7 +65,7 @@ function KudosModal({ profiles, defaultReceiver, onClose }: KudosModalProps) {
  animate={{ scale: 1, y: 0 }}
  exit={{ scale: 0.92, y: 10 }}
  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
- className="bg-surface border border-slate-200 rounded-2xl p-6 w-full max-w-md shadow-xl"
+ className="bg-surface border border-slate-200 rounded-2xl p-4 w-full max-w-md shadow-xl"
  onClick={(e) => e.stopPropagation()}
  >
  <div className="flex items-center justify-between mb-5">
@@ -376,7 +376,7 @@ export function TalentRPGView() {
 
  if (error) {
  return (
- <div className="min-h-[200px] flex items-center justify-center p-6">
+ <div className="min-h-[200px] flex items-center justify-center p-4">
  <div className="flex items-center gap-2 text-rose-600 bg-rose-50 border border-rose-200 rounded-xl px-4 py-3 shadow-sm">
  <AlertTriangle className="w-5 h-5 flex-shrink-0" />
  <span className="text-sm font-medium">{error}</span>
@@ -468,7 +468,7 @@ export function TalentRPGView() {
  sub: 'Aktif & doğrulanmış',
  },
  ].map(({ icon: Icon, label, value, sub }) => (
- <div key={label} className="px-6 py-5 flex items-center gap-4">
+ <div key={label} className="px-4 py-5 flex items-center gap-4">
  <div className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
  <Icon className="w-5 h-5 text-white" />
  </div>
@@ -481,7 +481,7 @@ export function TalentRPGView() {
  ))}
  </div>
  {teamStats.topPerformer && (
- <div className="border-t border-white/20 px-6 py-2.5 flex items-center gap-2 bg-white/5">
+ <div className="border-t border-white/20 px-4 py-2.5 flex items-center gap-2 bg-white/5">
  <Zap className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
  <span className="text-white/70 text-xs">En Yüksek Seviye:</span>
  <span className="text-white font-semibold text-xs">{teamStats.topPerformer}</span>

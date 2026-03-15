@@ -166,7 +166,7 @@ export function SignOffPanel({
 
  if (isLoading) {
  return (
- <div className="bg-surface rounded-xl border border-slate-200 p-6 flex items-center justify-center">
+ <div className="bg-surface rounded-xl border border-slate-200 p-4 flex items-center justify-center">
  <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
  </div>
  );
@@ -217,7 +217,7 @@ export function SignOffPanel({
  </div>
  </div>
 
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="space-y-4">
  <div className="flex items-start gap-3">
  <div className={`p-2 rounded-lg ${approvalStatus !== 'in_progress' ? 'bg-green-100' : 'bg-slate-100'}`}>
@@ -368,15 +368,15 @@ export function SignOffPanel({
  </div>
 
  {showRejectModal && (
- <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+ <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
  <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg">
- <div className="p-6 border-b border-slate-200">
+ <div className="p-4 border-b border-slate-200">
  <h3 className="text-xl font-bold text-primary flex items-center gap-2">
  <XCircle className="w-6 h-6 text-red-600" />
  Reject Workpaper
  </h3>
  </div>
- <div className="p-6">
+ <div className="p-4">
  <label className="block text-sm font-medium text-slate-700 mb-2">
  Rejection Reason *
  </label>
@@ -396,20 +396,20 @@ export function SignOffPanel({
  </div>
  </div>
  </div>
- <div className="p-6 border-t border-slate-200 flex items-center justify-end gap-3">
+ <div className="p-4 border-t border-slate-200 flex items-center justify-end gap-3">
  <button
  onClick={() => {
  setShowRejectModal(false);
  setRejectReason('');
  }}
- className="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors"
+ className="px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors"
  >
  Cancel
  </button>
  <button
  onClick={handleReject}
  disabled={!rejectReason.trim() || isSigning}
- className="px-6 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+ className="px-4 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
  >
  {isSigning ? (
  <>

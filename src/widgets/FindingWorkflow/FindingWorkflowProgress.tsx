@@ -111,7 +111,7 @@ export const FindingWorkflowProgress = ({
  return (
  <div className={clsx('bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200', className)}>
  {/* Current Status Header */}
- <div className="px-6 py-4 border-b border-gray-200">
+ <div className="px-4 py-4 border-b border-gray-200">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
@@ -134,7 +134,7 @@ export const FindingWorkflowProgress = ({
  </div>
 
  {/* Workflow Steps */}
- <div className="px-6 py-4">
+ <div className="px-4 py-4">
  <div className="relative">
  {/* Progress Line */}
  <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-200" />
@@ -195,7 +195,7 @@ export const FindingWorkflowProgress = ({
 
  {/* Action Required Notice (if in review stage) */}
  {currentStage === 'AUDITEE_REVIEWING' && (
- <div className="px-6 py-4 bg-blue-50 border-t border-blue-100">
+ <div className="px-4 py-4 bg-blue-50 border-t border-blue-100">
  <div className="flex items-center gap-3">
  <Clock className="w-5 h-5 text-blue-600 flex-shrink-0" />
  <div className="flex-1">
@@ -210,7 +210,7 @@ export const FindingWorkflowProgress = ({
 
  {/* Objection Notice */}
  {currentStage === 'AUDITEE_OBJECTED' && (
- <div className="px-6 py-4 bg-red-50 border-t border-red-100">
+ <div className="px-4 py-4 bg-red-50 border-t border-red-100">
  <div className="flex items-center gap-3">
  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
  <div className="flex-1">

@@ -17,8 +17,8 @@ export function ResourceMatcherView() {
  }
 
  return (
- <div className="max-w-4xl mx-auto space-y-6">
- <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-xl p-6 text-white shadow-sm">
+ <div className="max-w-4xl mx-auto space-y-4">
+ <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-xl p-4 text-white shadow-sm">
  <div className="flex items-start gap-4">
  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0 shadow-inner">
  <Target className="w-6 h-6 text-white" />

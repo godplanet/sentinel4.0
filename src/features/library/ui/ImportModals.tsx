@@ -106,7 +106,7 @@ export function ImportModal({ isOpen, onClose, onImport, mode, title }: ImportMo
  className="bg-surface rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col"
  onClick={e => e.stopPropagation()}
  >
- <div className={clsx('bg-gradient-to-r px-6 py-4 rounded-t-2xl flex items-center justify-between', config.color)}>
+ <div className={clsx('bg-gradient-to-r px-4 py-4 rounded-t-2xl flex items-center justify-between', config.color)}>
  <div className="flex items-center gap-3">
  <config.icon size={22} className="text-white" />
  <div>
@@ -190,7 +190,7 @@ export function ImportModal({ isOpen, onClose, onImport, mode, title }: ImportMo
  )}
  </div>
 
- <div className="bg-canvas px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+ <div className="bg-canvas px-4 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
  <p className="text-xs text-slate-500">
  {selected.size} kayit secildi
  </p>

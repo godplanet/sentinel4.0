@@ -72,7 +72,7 @@ export function RiskCardGrid({ risks, onEdit, onDelete }: RiskCardGridProps) {
  }
 
  return (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {(risks || []).map((risk) => {
  const inherentZone = getRiskZone(risk.inherent_score);
  const residualZone = getRiskZone(risk.residual_score);
@@ -83,7 +83,7 @@ export function RiskCardGrid({ risks, onEdit, onDelete }: RiskCardGridProps) {
 
  return (
  <div key={risk.id} className={`relative ${inherentZone.neonClass} group`}>
- <div className="relative z-10 glass-card p-6 h-full">
+ <div className="relative z-10 glass-card p-4 h-full">
  <div className="flex items-start justify-between mb-4">
  <div className="flex-1">
  <div className="flex items-center gap-2 mb-3">

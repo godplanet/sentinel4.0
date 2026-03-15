@@ -96,7 +96,7 @@ export function OracleBoard() {
  </div>
  <button
  onClick={handleSubmit}
- className="inline-flex items-center gap-2.5 bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 active:scale-95 rounded-full px-6 py-3 transition-all duration-150"
+ className="inline-flex items-center gap-2.5 bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 active:scale-95 rounded-full px-4 py-3 transition-all duration-150"
  >
  {currentRiskIndex < risks.length - 1 ? 'Onayla & Sonraki' : 'Tamamla'}
  <ArrowRight size={15} />

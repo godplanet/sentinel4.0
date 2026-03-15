@@ -153,7 +153,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
     <div className="flex flex-col h-full bg-white border-l border-slate-200 shadow-xl overflow-hidden">
       
       {/* --- HEADER: DECISION SWITCH --- */}
-      <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+      <div className="p-4 border-b border-slate-100 bg-slate-50/50">
         <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
           Mutabakat Kararı
         </h2>
@@ -215,7 +215,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
         
         {/* SCENARIO A: ACTION PLAN (GREEN PATH) */}
         {activeTab === 'plan' && decision === 'accept' && (
-          <div className="p-6 space-y-5 animate-in slide-in-from-bottom-2 duration-300">
+          <div className="p-4 space-y-5 animate-in slide-in-from-bottom-2 duration-300">
             
             {/* Responsible */}
             <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
@@ -308,7 +308,7 @@ export const NegotiationBoardWidget: React.FC<{ id: string }> = ({ id }) => {
 
         {/* SCENARIO B: RISK ACCEPTANCE (RED PATH) */}
         {activeTab === 'plan' && decision === 'reject' && (
-          <div className="p-6 space-y-4 animate-in slide-in-from-bottom-2 duration-300">
+          <div className="p-4 space-y-4 animate-in slide-in-from-bottom-2 duration-300">
             
             {/* Warning Box */}
             <div className="bg-rose-50 border border-rose-100 rounded-lg p-4 flex items-start gap-3">

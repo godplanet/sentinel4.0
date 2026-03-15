@@ -88,7 +88,7 @@ export default function EntityScorecardPage() {
 
  return (
  <div className="min-h-screen ">
- <div className="w-full px-4 sm:px-6 lg:px-6 py-5 space-y-6">
+ <div className="w-full px-4 sm:px-4 lg:px-4 py-5 space-y-4">
  <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border border-white/10 rounded-2xl p-5">
  <div className="flex items-start justify-between">
  <div className="flex-1">
@@ -128,7 +128,7 @@ export default function EntityScorecardPage() {
  </div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
  <div className="bg-surface/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
  <div className="flex items-center gap-2 mb-4">
  <Building2 className="w-5 h-5 text-slate-400" />

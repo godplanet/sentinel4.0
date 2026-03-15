@@ -44,7 +44,7 @@ export function AdvisoryRequestModal({ onClose }: Props) {
  return (
  <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
  <div className="bg-surface rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden">
- <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-between">
+ <div className="px-4 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-between">
  <h3 className="text-sm font-bold text-white flex items-center gap-2">
  <Handshake size={16} />
  Danismanlik Hizmeti Talep Et
@@ -102,7 +102,7 @@ export function AdvisoryRequestModal({ onClose }: Props) {
  </div>
  </div>
 
- <div className="px-6 py-4 border-t border-slate-200 flex gap-3">
+ <div className="px-4 py-4 border-t border-slate-200 flex gap-3">
  <button
  onClick={onClose}
  className="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-200 transition-colors"

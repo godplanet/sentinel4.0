@@ -170,7 +170,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-6 pt-6 border-t border-white/10">
+            <div className="mt-3 pt-4 border-t border-white/10">
               <p className="text-center text-xs text-slate-400">
                 Şifrenizi mi unuttunuz?{' '}
                 <button className="text-blue-400 hover:text-blue-300 font-semibold transition-colors">
@@ -180,7 +180,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="mt-6 text-center">
+          <div className="mt-3 text-center">
             <p className="text-xs text-slate-500">
               Sentinel v3.0 - Cognitive Banking Audit Platform
             </p>

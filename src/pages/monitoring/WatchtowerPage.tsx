@@ -300,7 +300,7 @@ export default function WatchtowerPage() {
 
  <AIAnomalyPanel onCreateProbe={handleAICreateProbe} />
 
- <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
  <div>
  <h3 className="text-base font-bold text-primary mb-3 flex items-center gap-2">
  <Radar size={18} className="text-blue-600" />

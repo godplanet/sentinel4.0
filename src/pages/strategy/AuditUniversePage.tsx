@@ -325,7 +325,7 @@ export default function AuditUniversePage() {
  const selectedEntities = (universe || []).filter(e => selectedIds.has(e.id));
 
  return (
- <div className="w-full px-4 sm:px-6 lg:px-6 py-5 space-y-6 bg-canvas min-h-screen font-sans">
+ <div className="w-full px-4 sm:px-4 lg:px-4 py-5 space-y-4 bg-canvas min-h-screen font-sans">
 
  {/* HEADER */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -379,7 +379,7 @@ export default function AuditUniversePage() {
  </div>
 
  {/* KPI CARDS */}
- <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+ <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 xl:grid-cols-3 gap-4">
  <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl p-4 shadow-md border border-slate-700 relative overflow-hidden flex flex-col justify-between">
  <div className="absolute -right-6 -top-6 text-white/5"><Scale size={160} /></div>
  <div className="relative z-10">
@@ -388,7 +388,7 @@ export default function AuditUniversePage() {
  </h2>
  <p className="text-slate-500 text-xs font-medium">Risk Ağırlıklı Ortalama (RWA)</p>
  </div>
- <div className="mt-6 flex items-end gap-4 relative z-10">
+ <div className="mt-3 flex items-end gap-4 relative z-10">
  <div className="text-6xl font-black text-white tracking-tighter">{rwaScore}</div>
  <div className="mb-2">
  <div className={clsx("inline-flex px-2.5 py-0.5 rounded text-sm font-bold border", Number(rwaScore) < 50 ? 'bg-fuchsia-900/50 text-fuchsia-300 border-fuchsia-800' : Number(rwaScore) < 70 ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30')}>
@@ -765,7 +765,7 @@ export default function AuditUniversePage() {
    );
   };
   if (filteredUniverse.length === 0) return (
-   <tr><td colSpan={8} className="px-6 py-16 text-center">
+   <tr><td colSpan={8} className="px-4 py-16 text-center">
     <Building2 className="w-10 h-10 text-slate-200 mx-auto mb-3" />
     <p className="text-slate-500 font-medium">Denetim evreninde varlık bulunamadı</p>
     <p className="text-slate-400 text-xs mt-1">{universe.length === 0 ? 'Henüz varlık yok.' : 'Arama kriterlerine uyan varlık bulunamadı.'}</p>
@@ -826,7 +826,7 @@ export default function AuditUniversePage() {
  initial={{ opacity: 0, y: 60 }}
  animate={{ opacity: 1, y: 0 }}
  exit={{ opacity: 0, y: 60 }}
- className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 bg-slate-900 text-white rounded-2xl shadow-2xl px-6 py-4 flex items-center gap-4 border border-slate-700"
+ className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 bg-slate-900 text-white rounded-2xl shadow-2xl px-4 py-4 flex items-center gap-4 border border-slate-700"
  >
  <div className="flex items-center gap-2 text-sm">
  <CheckSquare size={18} className="text-blue-400" />
@@ -853,7 +853,7 @@ export default function AuditUniversePage() {
  {/* BULK CREATE MODAL */}
  <AnimatePresence>
  {showBulkModal && (
- <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+ <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-4">
  <motion.div
  initial={{ opacity: 0 }}
  animate={{ opacity: 1 }}
@@ -943,7 +943,7 @@ export default function AuditUniversePage() {
      exit={{ opacity: 0, scale: 0.96, y: 16 }}
      className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[92vh] overflow-hidden relative z-10"
     >
-     <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-slate-900 to-slate-800 rounded-t-2xl shrink-0">
+     <div className="flex items-center justify-between px-4 py-4 bg-gradient-to-r from-slate-900 to-slate-800 rounded-t-2xl shrink-0">
       <div>
        <h3 className="text-base font-bold text-white">Yeni Denetim Varlığı</h3>
        <p className="text-slate-400 text-xs mt-0.5">Organizasyon ağacına yeni birim ekle</p>
@@ -1169,7 +1169,7 @@ export default function AuditUniversePage() {
      exit={{ opacity: 0, scale: 0.96, y: 16 }}
      className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[90vh] overflow-hidden relative z-10"
     >
-     <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-blue-900 to-blue-800 rounded-t-2xl shrink-0">
+     <div className="flex items-center justify-between px-4 py-4 bg-gradient-to-r from-blue-900 to-blue-800 rounded-t-2xl shrink-0">
       <div>
        <h3 className="text-base font-bold text-white">Varlığı Düzenle</h3>
        <p className="text-blue-300 text-xs mt-0.5 font-mono">{editingEntity.path}</p>

@@ -180,7 +180,7 @@ export default function MethodologyPage() {
  }
 
  return (
- <div className="space-y-6 pb-20">
+ <div className="space-y-4 pb-20">
  <PageHeader
  title="Metodoloji ve Parametreler"
  description="KERD-2026 Anayasasi: Risk Motoru ve Sistem Sınıflandırmaları"
@@ -192,7 +192,7 @@ export default function MethodologyPage() {
  <button 
  onClick={() => setActiveTab('engine')}
  className={clsx(
- "px-6 py-3.5 text-sm font-bold flex items-center gap-2 border-b-2 transition-colors",
+ "px-4 py-3.5 text-sm font-bold flex items-center gap-2 border-b-2 transition-colors",
  activeTab === 'engine' ? "border-blue-600 text-blue-700 bg-blue-50/50" : "border-transparent text-slate-500 hover:text-slate-800 hover:bg-canvas"
  )}
  >
@@ -201,7 +201,7 @@ export default function MethodologyPage() {
  <button 
  onClick={() => setActiveTab('parameters')}
  className={clsx(
- "px-6 py-3.5 text-sm font-bold flex items-center gap-2 border-b-2 transition-colors",
+ "px-4 py-3.5 text-sm font-bold flex items-center gap-2 border-b-2 transition-colors",
  activeTab === 'parameters' ? "border-indigo-600 text-indigo-700 bg-indigo-50/50" : "border-transparent text-slate-500 hover:text-slate-800 hover:bg-canvas"
  )}
  >
@@ -211,7 +211,7 @@ export default function MethodologyPage() {
 
  {/* SEKME 1: ORİJİNAL RİSK MOTORU */}
  {activeTab === 'engine' && (
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+ <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
  <div className="lg:col-span-2 space-y-4">
  <WeightsCard weights={weights} totalWeight={totalWeight} isValid={isWeightValid} onChange={handleWeightChange} />
  <VelocityCard high={velocityHigh} medium={velocityMedium} onHighChange={v => { setVelocityHigh(v); setSaveStatus('idle'); }} onMediumChange={v => { setVelocityMedium(v); setSaveStatus('idle'); }} />
@@ -244,7 +244,7 @@ function ParameterManagementTab() {
  const store = useParameterStore();
 
  return (
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <ParameterListManager 
  title="GIAS Kategorileri" 
  description="Bulgu formunda seçilebilecek ana denetim standartları."

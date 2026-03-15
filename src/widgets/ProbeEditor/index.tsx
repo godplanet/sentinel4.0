@@ -113,7 +113,7 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
  animate={{ opacity: 1, scale: 1 }}
  className="bg-surface rounded-xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col"
  >
- <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4 flex items-center justify-between">
+ <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-4 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center">
  <Zap className="w-6 h-6 text-white" />
@@ -291,11 +291,11 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
  </div>
  </div>
 
- <div className="bg-canvas px-6 py-4 flex items-center justify-between border-t border-slate-200">
+ <div className="bg-canvas px-4 py-4 flex items-center justify-between border-t border-slate-200">
  <button
  onClick={handleTestRun}
  disabled={isTesting}
- className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors font-medium"
+ className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors font-medium"
  >
  <Play className="w-4 h-4" />
  {isTesting ? 'Test Çalışıyor...' : 'Test Çalıştır'}
@@ -304,14 +304,14 @@ export function ProbeEditor({ probe, onSave, onClose }: ProbeEditorProps) {
  <div className="flex items-center gap-3">
  <button
  onClick={onClose}
- className="px-6 py-2.5 bg-surface border border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
+ className="px-4 py-2.5 bg-surface border border-slate-300 text-slate-700 rounded-lg hover:bg-canvas transition-colors font-medium"
  >
  İptal
  </button>
  <button
  onClick={handleSave}
  disabled={isSaving}
- className="flex items-center gap-2 px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors font-medium"
+ className="flex items-center gap-2 px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors font-medium"
  >
  <Save className="w-4 h-4" />
  {isSaving ? 'Kaydediliyor...' : 'Kaydet'}

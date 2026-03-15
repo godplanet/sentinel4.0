@@ -131,7 +131,7 @@ Lutfen su formatta yanit ver:
  className="bg-surface/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 w-full max-w-2xl max-h-[80vh] overflow-hidden"
  onClick={(e) => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-6 py-5 flex items-center justify-between">
+ <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 px-4 py-5 flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
  <Brain size={20} className="text-blue-400" />
@@ -151,7 +151,7 @@ Lutfen su formatta yanit ver:
  </button>
  </div>
 
- <div className="p-6 overflow-y-auto max-h-[60vh]">
+ <div className="p-4 overflow-y-auto max-h-[60vh]">
  {!configured && (
  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
  <AlertTriangle size={18} className="text-amber-600 mt-0.5 flex-shrink-0" />

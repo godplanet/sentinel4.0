@@ -212,7 +212,7 @@ function SlideCanvas({ slide: s }: { slide: SlideBlock }) {
  : 'bg-white/90 backdrop-blur-sm border-slate-200 shadow-sm'
  )}>
  {/* Slide header */}
- <div className={clsx('px-6 py-5 border-b', isCover || isClosing ? 'border-white/10' : 'border-slate-100')}>
+ <div className={clsx('px-4 py-5 border-b', isCover || isClosing ? 'border-white/10' : 'border-slate-100')}>
  <div className="flex items-start justify-between gap-4">
  <div className="flex-1 min-w-0">
  <span className={clsx(
@@ -235,7 +235,7 @@ function SlideCanvas({ slide: s }: { slide: SlideBlock }) {
  </div>
 
  {/* Slide body */}
- <div className="flex-1 px-6 py-5">
+ <div className="flex-1 px-4 py-5">
  {/* KPI grid */}
  {isKpi && (
  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

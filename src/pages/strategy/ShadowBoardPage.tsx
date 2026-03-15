@@ -74,7 +74,7 @@ function StrategyCard({ item, onSelect, isSelected }: { item: SimulatedStrategy,
  )}
  >
  <div className="flex items-start justify-between gap-3 mb-2">
- <div className="flex flex-col gap-1.5 flex-1 pr-6">
+ <div className="flex flex-col gap-1.5 flex-1 pr-4">
  <div className="flex items-center gap-1.5 flex-wrap">
  <span className={clsx('text-[9px] font-bold px-1.5 py-0.5 rounded border border-current', stColor.bg, stColor.color, stColor.border)}>
  {item?.status}
@@ -194,7 +194,7 @@ function BoardChatterPanel({ strategyId }: { strategyId: string }) {
  </div>
  </div>
  
- <p className="text-xs text-slate-600 leading-relaxed font-medium pl-8">
+ <p className="text-xs text-slate-600 leading-relaxed font-medium pl-5">
  "{resp.response}"
  </p>
  </div>

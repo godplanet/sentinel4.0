@@ -43,7 +43,7 @@ export function TalentMatrixView() {
  };
 
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div>
  <h2 className="text-2xl font-bold text-primary">Yetenek Matrisi</h2>
  <p className="text-slate-600 mt-1">
@@ -52,12 +52,12 @@ export function TalentMatrixView() {
  </div>
 
  <div className="bg-surface rounded-lg border border-slate-200">
- <div className="border-b border-slate-200 px-6">
+ <div className="border-b border-slate-200 px-4">
  <div className="flex gap-1">
  <button
  onClick={() => setActiveSubTab('matrix')}
  className={clsx(
- 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
+ 'flex items-center gap-2 px-4 py-3 font-medium text-sm transition-all relative',
  activeSubTab === 'matrix'
  ? 'text-blue-600 border-b-2 border-blue-600'
  : 'text-slate-600 hover:text-primary hover:bg-canvas'
@@ -69,7 +69,7 @@ export function TalentMatrixView() {
  <button
  onClick={() => setActiveSubTab('cpe')}
  className={clsx(
- 'flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all relative',
+ 'flex items-center gap-2 px-4 py-3 font-medium text-sm transition-all relative',
  activeSubTab === 'cpe'
  ? 'text-blue-600 border-b-2 border-blue-600'
  : 'text-slate-600 hover:text-primary hover:bg-canvas'
@@ -81,7 +81,7 @@ export function TalentMatrixView() {
  </div>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  {activeSubTab === 'matrix' && (
  <div>
  <div className="mb-4">
@@ -99,7 +99,7 @@ export function TalentMatrixView() {
 
  {activeSubTab === 'cpe' && (
  <div>
- <div className="flex items-center justify-between mb-6">
+ <div className="flex items-center justify-between mb-3">
  <div>
  <h3 className="text-lg font-semibold text-slate-800 mb-2 flex items-center gap-2">
  <Award size={20} className="text-green-600" />
@@ -155,7 +155,7 @@ export function TalentMatrixView() {
  </div>
  )}
 
- <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+ <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-4">
  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-200 p-4">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">

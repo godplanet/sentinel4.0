@@ -275,7 +275,7 @@ export default function CognitiveEnginePage() {
       />
 
       {/* Tab Navigasyon */}
-      <div className="px-6 pb-2">
+      <div className="px-4 pb-2">
         <div className="inline-flex gap-1 bg-white/60 backdrop-blur-md rounded-xl p-1 border border-white/60 shadow-sm">
           {([
             { key: 'connection', icon: Wifi, label: 'Bağlantı' },
@@ -601,7 +601,7 @@ export default function CognitiveEnginePage() {
                   <AlertTriangle size={16} className="text-amber-600 flex-shrink-0" />
                   <p className="text-sm text-amber-800 font-medium">Bağlantı kuruldu (fallback model ile)</p>
                 </div>
-                <p className="text-xs text-amber-700 ml-6">{pingWarning}</p>
+                <p className="text-xs text-amber-700 ml-3">{pingWarning}</p>
               </div>
             )}
 
@@ -611,7 +611,7 @@ export default function CognitiveEnginePage() {
                   <WifiOff size={16} className="text-red-600 flex-shrink-0" />
                   <p className="text-sm text-red-800 font-medium">Bağlantı kurulamadı</p>
                 </div>
-                <p className="text-xs text-red-700 ml-6 leading-relaxed">{pingError}</p>
+                <p className="text-xs text-red-700 ml-3 leading-relaxed">{pingError}</p>
                 {store.provider === 'gemini' && store.model !== 'gemini-1.5-flash' && (
                   <button
                     onClick={() => {
@@ -620,7 +620,7 @@ export default function CognitiveEnginePage() {
                       store.setConnectionStatus('unknown');
                       setPingError(null);
                     }}
-                    className="ml-6 mt-1 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold
+                    className="ml-3 mt-1 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold
                       text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors"
                   >
                     <RotateCcw size={12} />

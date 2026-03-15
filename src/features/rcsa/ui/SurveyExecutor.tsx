@@ -93,7 +93,7 @@ export const SurveyExecutor = ({ campaignId, auditeeId }: SurveyExecutorProps) =
 
  if (!data || data.length === 0) {
  return (
- <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-canvas px-6 py-10 text-center text-sm text-slate-500">
+ <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-canvas px-4 py-10 text-center text-sm text-slate-500">
  <AlertTriangle className="h-6 w-6 text-slate-400" />
  <p>Bu kampanya için henüz yanıtlanacak soru tanımlanmamış.</p>
  </div>
@@ -103,7 +103,7 @@ export const SurveyExecutor = ({ campaignId, auditeeId }: SurveyExecutorProps) =
  return (
  <form
  onSubmit={handleSubmit}
- className="mx-auto max-w-3xl space-y-6 rounded-2xl border border-slate-200 bg-surface/90 p-6 shadow-sm"
+ className="mx-auto max-w-3xl space-y-4 rounded-2xl border border-slate-200 bg-surface/90 p-4 shadow-sm"
  >
  <div className="flex flex-col gap-1">
  <h2 className="text-base font-semibold text-slate-900">

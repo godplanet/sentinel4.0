@@ -85,9 +85,9 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
  <motion.div
  initial={{ opacity: 0, scale: 0.95 }}
  animate={{ opacity: 1, scale: 1 }}
- className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl p-6 max-h-[90vh] overflow-y-auto"
+ className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl p-4 max-h-[90vh] overflow-y-auto"
  >
- <div className="flex items-center justify-between mb-6">
+ <div className="flex items-center justify-between mb-3">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
  <RefreshCw size={18} className="text-white" />
@@ -104,7 +104,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
 
  <div className="space-y-4">
  {!syncing && results.length === 0 && (
- <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 text-center">
+ <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
  <RefreshCw size={48} className="mx-auto mb-3 text-blue-600" />
  <p className="text-sm text-blue-900 font-semibold mb-2">
  Dış Sistemlerle Senkronizasyon
@@ -114,7 +114,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
  </p>
  <button
  onClick={handleSync}
- className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold text-sm hover:bg-blue-700 transition-colors inline-flex items-center gap-2"
+ className="px-4 py-2.5 bg-blue-600 text-white rounded-lg font-semibold text-sm hover:bg-blue-700 transition-colors inline-flex items-center gap-2"
  >
  <RefreshCw size={16} />
  Senkronize Et
@@ -165,7 +165,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
  <motion.div
  initial={{ opacity: 0, scale: 0.9 }}
  animate={{ opacity: 1, scale: 1 }}
- className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl text-center"
+ className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl text-center"
  >
  <CheckCircle2 size={56} className="mx-auto mb-3 text-green-600" />
  <p className="text-lg font-bold text-green-900 mb-1">Senkronizasyon Tamamlandı!</p>
@@ -183,7 +183,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
  </div>
  <button
  onClick={onClose}
- className="mt-6 px-6 py-2.5 bg-green-600 text-white rounded-lg font-semibold text-sm hover:bg-green-700 transition-colors"
+ className="mt-3 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold text-sm hover:bg-green-700 transition-colors"
  >
  Kapat ve Görüntüle
  </button>
@@ -191,7 +191,7 @@ export function IntegrationHubModal({ onClose }: IntegrationHubModalProps) {
  )}
  </div>
 
- <div className="mt-6 p-4 bg-canvas border border-slate-200 rounded-lg">
+ <div className="mt-3 p-4 bg-canvas border border-slate-200 rounded-lg">
  <div className="text-xs text-slate-600">
  <p className="font-semibold mb-2">Desteklenen Sistemler:</p>
  <ul className="space-y-1">

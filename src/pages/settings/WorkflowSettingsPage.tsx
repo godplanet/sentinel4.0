@@ -126,7 +126,7 @@ export default function WorkflowSettingsPage() {
  <EnvironmentBanner environment="DEVELOPMENT" />
  </div>
 
- <div className="w-full max-w-[98%] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="w-full max-w-[98%] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4">
 
  {/* 1. ONAY HİYERARŞİSİ */}
  <GlassCard className="p-5 h-full" neonGlow="blue">
@@ -290,7 +290,7 @@ export default function WorkflowSettingsPage() {
  <AlertTriangle size={14} className="text-red-500" />
  <span className="text-xs text-slate-300 font-bold uppercase group-hover:text-white transition-colors">Stratejik / Kritik Risk</span>
  </div>
- <span className="text-xs font-mono text-slate-500 ml-6 group-hover:text-slate-400 transition-colors">&gt; 10.000.000 ₺</span>
+ <span className="text-xs font-mono text-slate-500 ml-3 group-hover:text-slate-400 transition-colors">&gt; 10.000.000 ₺</span>
  </div>
  <div className="relative z-10 flex items-center gap-2 font-bold text-white text-sm bg-surface/10 px-4 py-2 rounded-lg border border-white/10 backdrop-blur-md hover:bg-surface/20 transition-colors">
  <Building size={14} className="text-red-400" />
@@ -315,13 +315,13 @@ export default function WorkflowSettingsPage() {
  {isLoading ? 'Ayarlar yükleniyor...' : 'Değişiklikler henüz kaydedilmedi.'}
  </div>
  <div className="flex gap-4">
- <button onClick={handleReset} className="px-6 py-2.5 text-slate-600 font-bold hover:bg-slate-100 rounded-lg transition-colors text-sm">
+ <button onClick={handleReset} className="px-4 py-2.5 text-slate-600 font-bold hover:bg-slate-100 rounded-lg transition-colors text-sm">
  Varsayılanlara Dön
  </button>
  <button
  onClick={() => save()}
  disabled={saving}
- className="px-6 py-2.5 bg-slate-900 text-white rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 shadow-lg shadow-slate-300 transition-all active:scale-95 text-sm disabled:opacity-60"
+ className="px-4 py-2.5 bg-slate-900 text-white rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 shadow-lg shadow-slate-300 transition-all active:scale-95 text-sm disabled:opacity-60"
  >
  {saving ? (
  <>

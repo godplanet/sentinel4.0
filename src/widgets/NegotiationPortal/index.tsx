@@ -127,7 +127,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  <div className="col-span-7 bg-gradient-to-br from-white to-slate-50 overflow-auto">
  <div className="p-5 max-w-4xl mx-auto">
  <div className="backdrop-blur-xl bg-surface/95 rounded-2xl border border-gray-200/50 shadow-xl p-5 space-y-5">
- <div className="text-center pb-6 border-b border-gray-200">
+ <div className="text-center pb-4 border-b border-gray-200">
  <div className="flex justify-center mb-4">{getRiskIcon(finding.risk_rating)}</div>
  <h1 className="text-3xl font-bold text-primary mb-2">{finding.title}</h1>
  <div className="flex items-center justify-center gap-3 text-sm text-gray-600">
@@ -189,7 +189,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  </div>
  )}
 
- <div className="pt-6 border-t border-gray-200">
+ <div className="pt-4 border-t border-gray-200">
  <div className="grid grid-cols-2 gap-4">
  <div className="flex items-center gap-3">
  <Clock className="h-5 w-5 text-gray-400" />
@@ -229,14 +229,14 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  </p>
  <button
  onClick={handleAccept}
- className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg shadow-lg"
+ className="w-full flex items-center justify-center gap-3 px-4 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg shadow-lg"
  >
  <CheckCircle className="h-6 w-6" />
  Accept Finding & Propose Action Plan
  </button>
  <button
  onClick={handleDispute}
- className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold text-lg shadow-lg"
+ className="w-full flex items-center justify-center gap-3 px-4 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold text-lg shadow-lg"
  >
  <XCircle className="h-6 w-6" />
  Dispute Finding
@@ -315,7 +315,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  <button
  onClick={handleSubmitAcceptance}
  disabled={acceptMutation.isPending}
- className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold disabled:opacity-50"
+ className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold disabled:opacity-50"
  >
  {acceptMutation.isPending ? (
  <>
@@ -334,7 +334,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  setWorkflowStage('REVIEW');
  setIsAccepting(false);
  }}
- className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+ className="px-4 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
  >
  Cancel
  </button>
@@ -365,7 +365,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  <button
  onClick={handleSubmitDispute}
  disabled={disputeMutation.isPending}
- className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold disabled:opacity-50"
+ className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold disabled:opacity-50"
  >
  {disputeMutation.isPending ? (
  <>
@@ -384,7 +384,7 @@ export function NegotiationPortal({ findingId }: NegotiationPortalProps) {
  setWorkflowStage('REVIEW');
  setIsDisputing(false);
  }}
- className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+ className="px-4 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
  >
  Cancel
  </button>

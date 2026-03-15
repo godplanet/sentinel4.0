@@ -55,7 +55,7 @@ export const FindingRightSidebar = ({ finding, isOpen: isOpenProp, onClose }: Fi
  )}
  >
  {/* Header */}
- <div className="h-16 border-b border-gray-200 flex items-center justify-between px-6">
+ <div className="h-16 border-b border-gray-200 flex items-center justify-between px-4">
  <div className="flex items-center gap-3">
  {(tabs || []).map((tab) => {
  const Icon = tab.icon;
@@ -278,7 +278,7 @@ const TarihceTab = ({ finding }: { finding: ComprehensiveFinding }) => {
  {allHistory.length > 0 ? (
  <div className="space-y-4">
  {(allHistory || []).map((item, index) => (
- <div key={item.id} className="relative pl-6 pb-4">
+ <div key={item.id} className="relative pl-4 pb-4">
  {index !== allHistory.length - 1 && (
  <div className="absolute left-2 top-6 bottom-0 w-px bg-gray-200" />
  )}

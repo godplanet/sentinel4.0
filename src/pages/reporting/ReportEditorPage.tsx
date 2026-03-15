@@ -175,7 +175,7 @@ export default function ReportEditorPage() {
  </div>
  )}
 
- <div className="bg-surface border-b border-slate-200 px-4 sm:px-6 flex-shrink-0 no-print">
+ <div className="bg-surface border-b border-slate-200 px-4 sm:px-4 flex-shrink-0 no-print">
  <div className="flex items-center justify-between">
  <div className="flex gap-1 overflow-x-auto">
  {TABS.map((tab) => (

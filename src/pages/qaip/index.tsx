@@ -77,7 +77,7 @@ export default function QAIPPage() {
 
  return (
  <div className="bg-canvas min-h-screen p-5">
- <div className="w-full px-4 sm:px-6 lg:px-6 space-y-6">
+ <div className="w-full px-4 sm:px-4 lg:px-4 space-y-4">
 
  <div className="bg-surface border border-slate-200 rounded-xl p-4 shadow-sm">
  <div className="flex items-center gap-4">
@@ -102,7 +102,7 @@ export default function QAIPPage() {
  </div>
 
  <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
- <div className="border-b border-slate-200 px-6">
+ <div className="border-b border-slate-200 px-4">
  <div className="flex gap-1">
  {TABS.map((tab) => (
  <button
@@ -136,7 +136,7 @@ export default function QAIPPage() {
  </div>
  </div>
   <QaipHealthWidget engagementId="demo-1" />
-  <div className="mt-8">
+  <div className="mt-4">
     <QAIPReviewWidget />
   </div>
  </div>
@@ -172,7 +172,7 @@ export default function QAIPPage() {
  </div>
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
- <div className="px-6 py-4 border-b border-slate-200">
+ <div className="px-4 py-4 border-b border-slate-200">
  <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
  <Activity size={16} className="text-blue-600" />
  Ana Performans Göstergeleri (KPI)
@@ -184,7 +184,7 @@ export default function QAIPPage() {
  </div>
  </div>
 
- <div className="grid lg:grid-cols-2 gap-6">
+ <div className="grid lg:grid-cols-2 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-sm font-bold text-slate-800 mb-4">Sektör Karşılaştırması</h3>
  <div className="space-y-4">
@@ -260,7 +260,7 @@ export default function QAIPPage() {
  </div>
 
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden">
- <div className="px-6 py-4 border-b border-slate-200">
+ <div className="px-4 py-4 border-b border-slate-200">
  <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
  <FileCheck size={16} className="text-blue-600" />
  Dış Değerlendirmeler
@@ -271,7 +271,7 @@ export default function QAIPPage() {
  <thead className="bg-canvas border-b border-slate-200">
  <tr>
  {['Değerlendirici', 'Tip', 'Tarih', 'Durum', 'Sonuç', 'Bulgular'].map((h) => (
- <th key={h} className="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wide">
+ <th key={h} className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wide">
  {h}
  </th>
  ))}
@@ -280,7 +280,7 @@ export default function QAIPPage() {
  <tbody className="divide-y divide-slate-100">
  {(EXTERNAL_REVIEWS || []).map((review) => (
  <tr key={review.id} className="hover:bg-canvas transition-colors">
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
  {review.reviewer[0]}
@@ -288,11 +288,11 @@ export default function QAIPPage() {
  <span className="font-semibold text-slate-800 text-sm">{review.reviewer}</span>
  </div>
  </td>
- <td className="px-6 py-4 text-sm text-slate-600">{review.type}</td>
- <td className="px-6 py-4 text-sm text-slate-600">
+ <td className="px-4 py-4 text-sm text-slate-600">{review.type}</td>
+ <td className="px-4 py-4 text-sm text-slate-600">
  {new Date(review.date).toLocaleDateString('tr-TR')}
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  {review.status === 'completed' ? (
  <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-semibold">
  Tamamlandı
@@ -303,8 +303,8 @@ export default function QAIPPage() {
  </span>
  )}
  </td>
- <td className="px-6 py-4 text-sm font-semibold text-slate-800">{review.rating}</td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4 text-sm font-semibold text-slate-800">{review.rating}</td>
+ <td className="px-4 py-4">
  <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-semibold">
  {review.findings} Bulgu
  </span>
@@ -316,7 +316,7 @@ export default function QAIPPage() {
  </div>
  </div>
 
- <div className="grid lg:grid-cols-2 gap-6">
+ <div className="grid lg:grid-cols-2 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm p-4">
  <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
  <Award size={16} className="text-amber-600" />

@@ -108,7 +108,7 @@ export const PlanetPulse = () => {
  </div>
 
  {pillars && (
- <div className="grid grid-cols-3 gap-4 mt-6">
+ <div className="grid grid-cols-3 gap-4 mt-3">
  {(pillars || []).map((p) => (
  <div key={p.pillar} className="bg-surface/5 backdrop-blur-xl rounded-xl p-4 border border-white/10">
  <div className="flex items-center gap-2 mb-2">
@@ -134,7 +134,7 @@ export const PlanetPulse = () => {
  </div>
  </motion.div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <motion.div
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
@@ -209,7 +209,7 @@ export const PlanetPulse = () => {
  </motion.div>
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <motion.div
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}

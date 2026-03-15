@@ -45,7 +45,7 @@ export function AuditorProfilesView() {
  );
 
  return (
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="flex items-center justify-between">
  <div>
  <h2 className="text-2xl font-bold text-primary">Denetçi Profilleri</h2>
@@ -60,7 +60,7 @@ export function AuditorProfilesView() {
  </div>
 
  <div className="bg-surface rounded-lg border border-slate-200 p-4">
- <div className="flex items-center gap-3 mb-6">
+ <div className="flex items-center gap-3 mb-3">
  <div className="relative flex-1">
  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
  <input

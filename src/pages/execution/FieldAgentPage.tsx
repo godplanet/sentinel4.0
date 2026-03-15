@@ -171,7 +171,7 @@ export default function FieldAgentPage() {
  icon={Mic}
  />
 
- <div className="flex-1 flex flex-col items-center justify-start p-4 pb-8 max-w-2xl mx-auto w-full">
+ <div className="flex-1 flex flex-col items-center justify-start p-4 pb-5 max-w-2xl mx-auto w-full">
  {/* Mode Indicator */}
  <div className="mb-4">
  <div className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
@@ -242,7 +242,7 @@ export default function FieldAgentPage() {
 
  {/* Transcript Display */}
  {transcript && (
- <div className="mt-8 w-full max-w-lg">
+ <div className="mt-4 w-full max-w-lg">
  <div className="bg-surface rounded-xl p-4 border border-gray-200 shadow-lg">
  <p className="text-sm font-medium text-gray-600 mb-2">Transkript:</p>
  <p className="text-primary italic">"{transcript}"</p>

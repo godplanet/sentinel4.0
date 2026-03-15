@@ -53,7 +53,7 @@ export default function AccessDeniedPage() {
       <div className="flex items-center justify-center gap-4">
  <button
  onClick={() => navigate(-1)}
- className="flex items-center gap-2 px-6 py-3 bg-surface border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-slate-300 hover:shadow-lg transition-all hover:scale-105"
+ className="flex items-center gap-2 px-4 py-3 bg-surface border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-slate-300 hover:shadow-lg transition-all hover:scale-105"
  >
  <ArrowLeft size={20} />
  <span>Geri Dön</span>
@@ -61,14 +61,14 @@ export default function AccessDeniedPage() {
 
  <button
  onClick={() => navigate('/dashboard')}
- className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-2xl transition-all hover:scale-105"
+ className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-2xl transition-all hover:scale-105"
  >
  <Home size={20} />
  <span>Dashboard'a Dön</span>
  </button>
  </div>
 
- <div className="mt-12 pt-8 border-t border-slate-200">
+ <div className="mt-12 pt-5 border-t border-slate-200">
  <p className="text-sm text-slate-500">
  Yetki talebi için{' '}
  <button className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">

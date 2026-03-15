@@ -245,7 +245,7 @@ export function BlockPalette() {
  {!effectiveSectionId ? (
  <p className="text-center text-xs font-sans text-slate-400 py-4">Önce bir bölüm seçin.</p>
  ) : filteredFindings.length === 0 ? (
- <div className="text-center py-6">
+ <div className="text-center py-4">
  <AlertTriangle size={20} className="text-slate-200 mx-auto mb-2" />
  <p className="text-xs font-sans text-slate-400">{findings.length === 0 ? 'Henüz bulgu yüklenmedi' : 'Sonuç bulunamadı'}</p>
  </div>

@@ -92,50 +92,50 @@ export function UniverseListView() {
  <table className="w-full">
  <thead className="bg-canvas border-b border-slate-200">
  <tr>
- <th className="px-6 py-3 text-left">
+ <th className="px-4 py-3 text-left">
  <SortButton field="name">
  <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
  VARLIK ADI
  </span>
  </SortButton>
  </th>
- <th className="px-6 py-3 text-left">
+ <th className="px-4 py-3 text-left">
  <SortButton field="path">
  <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
  HİYERARŞİ YOLU
  </span>
  </SortButton>
  </th>
- <th className="px-6 py-3 text-left">
+ <th className="px-4 py-3 text-left">
  <SortButton field="type">
  <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
  VARLIK TİPİ
  </span>
  </SortButton>
  </th>
- <th className="px-6 py-3 text-left">
+ <th className="px-4 py-3 text-left">
  <SortButton field="risk_score">
  <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
  RİSK PUANI
  </span>
  </SortButton>
  </th>
- <th className="px-6 py-3 text-left">
+ <th className="px-4 py-3 text-left">
  <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
  DENETİM SIKLIĞI
  </span>
  </th>
- <th className="px-6 py-3 text-left">
+ <th className="px-4 py-3 text-left">
  <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
  SON DENETİM
  </span>
  </th>
- <th className="px-6 py-3 text-left">
+ <th className="px-4 py-3 text-left">
  <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
  SONRAKİ DENETİM
  </span>
  </th>
- <th className="px-6 py-3 text-right">
+ <th className="px-4 py-3 text-right">
  <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
  İŞLEMLER
  </span>
@@ -157,7 +157,7 @@ export function UniverseListView() {
  key={entity.id}
  className="hover:bg-canvas transition-colors group"
  >
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center gap-2" style={{ paddingLeft: `${indentation}px` }}>
  {level > 0 && (
  <ChevronRight size={14} className="text-slate-400 flex-shrink-0" />
@@ -173,12 +173,12 @@ export function UniverseListView() {
  )}
  </div>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <code className="text-xs text-slate-600 bg-slate-100 px-2 py-1 rounded font-mono">
  {entity.path}
  </code>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <span
  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold ${typeColor.bg} ${typeColor.text}`}
  >
@@ -186,7 +186,7 @@ export function UniverseListView() {
  {TYPE_LABELS[entity.type]}
  </span>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center gap-2">
  <div className="group/risk relative">
  <span className={`px-2 py-1 rounded-md text-sm font-bold tabular-nums cursor-help ${getRiskColorByLevel(riskResult.level)}`}>
@@ -248,12 +248,12 @@ export function UniverseListView() {
  )}
  </div>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <span className="text-xs text-slate-600 font-medium">
  {getFrequencyLabel(entity.audit_frequency)}
  </span>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center gap-2">
  <Calendar size={12} className="text-slate-400" />
  <span className="text-xs text-slate-600">
@@ -261,7 +261,7 @@ export function UniverseListView() {
  </span>
  </div>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center gap-2">
  {auditHealth.status !== 'UNKNOWN' && (
  <>
@@ -290,7 +290,7 @@ export function UniverseListView() {
  )}
  </div>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
  <button
  onClick={() => setEditingEntity(entity)}

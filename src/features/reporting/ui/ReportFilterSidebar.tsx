@@ -45,7 +45,7 @@ export function ReportFilterSidebar({
  return (
  <aside className="w-72 flex-shrink-0 border-r border-slate-200 bg-white/70 backdrop-blur-sm h-full overflow-y-auto shadow-sm">
  <div className="p-5">
- <div className="flex items-center gap-2.5 mb-6">
+ <div className="flex items-center gap-2.5 mb-3">
  <div className="p-2 bg-slate-100 rounded-lg">
  <Filter size={16} className="text-slate-600" />
  </div>
@@ -53,7 +53,7 @@ export function ReportFilterSidebar({
  </div>
 
  {/* Yıl */}
- <div className="mb-6">
+ <div className="mb-3">
  <div className="flex items-center gap-2 mb-2.5">
  <Calendar size={14} className="text-slate-500" />
  <p className="text-[11px] font-sans font-semibold text-slate-500 uppercase tracking-wider">
@@ -80,7 +80,7 @@ export function ReportFilterSidebar({
  </div>
 
  {/* Risk bandı (engagement_risk_score) */}
- <div className="mb-6">
+ <div className="mb-3">
  <div className="flex items-center gap-2 mb-2.5">
  <BarChart2 size={14} className="text-slate-500" />
  <p className="text-[11px] font-sans font-semibold text-slate-500 uppercase tracking-wider">

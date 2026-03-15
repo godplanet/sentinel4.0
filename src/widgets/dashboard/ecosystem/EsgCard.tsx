@@ -89,7 +89,7 @@ export function EsgCard() {
 
  return (
  <div className="bg-gradient-to-br from-emerald-50/80 to-teal-50/50 border-2 border-emerald-200/60 rounded-2xl overflow-hidden transition-all hover:shadow-lg hover:shadow-emerald-100/50">
- <div className="px-6 pt-5 pb-3">
+ <div className="px-4 pt-5 pb-3">
  <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-2.5">
  <div className="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center">
@@ -163,7 +163,7 @@ export function EsgCard() {
  </div>
  </div>
 
- <div className="px-6 py-3 bg-emerald-100/40 border-t border-emerald-200/40">
+ <div className="px-4 py-3 bg-emerald-100/40 border-t border-emerald-200/40">
  <div className="flex items-start gap-2">
  {scope1Change !== null && scope1Change < 0 ? (
  <CheckCircle2 size={12} className="text-emerald-600 mt-0.5 shrink-0" />

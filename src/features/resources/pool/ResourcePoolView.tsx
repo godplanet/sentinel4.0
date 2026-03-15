@@ -21,7 +21,7 @@ export function ResourcePoolView() {
 
  return (
  <div>
- <div className="mb-6">
+ <div className="mb-3">
  <h2 className="text-xl font-bold text-primary">Kaynak Havuzu</h2>
  <p className="text-sm text-slate-500 mt-1">
  Denetçilerin yetkinlik, kapasite ve yorgunluk durumlarına göre detaylı listesi.

@@ -6,8 +6,8 @@ export const RiskWeightSettings = () => {
 
  return (
  <div className="space-y-5">
- <div className="glass-panel p-6 rounded-xl">
- <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+ <div className="glass-panel p-4 rounded-xl">
+ <div className="flex items-center gap-3 mb-3 border-b border-slate-100 pb-4">
  <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
  <Sliders size={20} />
  </div>
@@ -17,7 +17,7 @@ export const RiskWeightSettings = () => {
  </div>
  </div>
 
- <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
  <div className="space-y-2">
  <div className="flex justify-between">
  <label className="text-sm font-bold text-slate-600">Etki Çarpanı (Impact)</label>
@@ -59,11 +59,11 @@ export const RiskWeightSettings = () => {
  </div>
  </div>
 
- <div className="glass-panel p-6 rounded-xl border-l-4 border-l-rose-500">
- <h3 className="font-bold text-lg text-slate-800 mb-6">Risk Seviye Eşikleri (Thresholds)</h3>
+ <div className="glass-panel p-4 rounded-xl border-l-4 border-l-rose-500">
+ <h3 className="font-bold text-lg text-slate-800 mb-3">Risk Seviye Eşikleri (Thresholds)</h3>
 
  <div className="space-y-4">
- <div className="relative pt-6 pb-2">
+ <div className="relative pt-4 pb-2">
  <div className="h-4 bg-slate-100 rounded-full w-full flex overflow-hidden">
  <div style={{ width: `${(thresholds.medium / 20) * 100}%` }} className="bg-emerald-400 transition-all" />
  <div style={{ width: `${((thresholds.high - thresholds.medium) / 20) * 100}%` }} className="bg-yellow-400 transition-all" />
@@ -71,7 +71,7 @@ export const RiskWeightSettings = () => {
  <div className="flex-1 bg-rose-500 transition-all" />
  </div>
 
- <div className="grid grid-cols-3 gap-4 mt-6">
+ <div className="grid grid-cols-3 gap-4 mt-3">
  <div>
  <label className="text-xs font-bold text-emerald-600 uppercase block mb-1">Orta Risk Sınırı</label>
  <input

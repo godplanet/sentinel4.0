@@ -125,7 +125,7 @@ function FiveWhysTab({ data, onChange }: RootCauseEngineProps) {
             />
           </div>
           {index < 4 && (
-            <ChevronDown className="flex-shrink-0 text-slate-400 mt-8" size={20} />
+            <ChevronDown className="flex-shrink-0 text-slate-400 mt-4" size={20} />
           )}
         </div>
       ))}

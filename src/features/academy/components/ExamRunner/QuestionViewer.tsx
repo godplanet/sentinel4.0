@@ -84,10 +84,10 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
  </header>
 
  <main className="flex-1 flex flex-col items-center px-4 py-5">
- <div className="w-full max-w-3xl flex flex-col lg:flex-row gap-6">
+ <div className="w-full max-w-3xl flex flex-col lg:flex-row gap-4">
  <div className="flex-1 min-w-0">
- <div className="rounded-2xl border border-white/[0.07] bg-surface/[0.03] p-6 md:p-8 mb-6">
- <div className="flex items-start justify-between gap-4 mb-6">
+ <div className="rounded-2xl border border-white/[0.07] bg-surface/[0.03] p-4 md:p-5 mb-3">
+ <div className="flex items-start justify-between gap-4 mb-3">
  <div className="flex items-center gap-3">
  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600/20 border border-blue-500/30
  flex items-center justify-center text-blue-400 text-xs font-bold">
@@ -170,7 +170,7 @@ export function QuestionViewer({ userId }: QuestionViewerProps) {
  <button
  onClick={handleSubmit}
  disabled={isSubmitting}
- className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500
+ className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500
  text-white text-sm font-semibold transition-all duration-200
  shadow-lg shadow-emerald-600/20 disabled:opacity-60 disabled:cursor-not-allowed"
  >

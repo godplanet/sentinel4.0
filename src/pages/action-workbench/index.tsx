@@ -218,7 +218,7 @@ export default function ActionWorkbenchPage() {
  <button
  onClick={() => setViewMode('operational')}
  className={`
- flex items-center gap-2 px-6 py-4 border-b-2 font-semibold transition-colors
+ flex items-center gap-2 px-4 py-4 border-b-2 font-semibold transition-colors
  ${viewMode === 'operational'
  ? 'border-blue-600 text-blue-600 bg-blue-50'
  : 'border-transparent text-slate-600 hover:text-primary'}
@@ -231,7 +231,7 @@ export default function ActionWorkbenchPage() {
  <button
  onClick={() => setViewMode('governance')}
  className={`
- flex items-center gap-2 px-6 py-4 border-b-2 font-semibold transition-colors
+ flex items-center gap-2 px-4 py-4 border-b-2 font-semibold transition-colors
  ${viewMode === 'governance'
  ? 'border-purple-600 text-purple-600 bg-purple-50'
  : 'border-transparent text-slate-600 hover:text-primary'}
@@ -253,7 +253,7 @@ export default function ActionWorkbenchPage() {
  </div>
 
  {/* Description */}
- <div className="px-6 py-3 bg-canvas border-b border-slate-200">
+ <div className="px-4 py-3 bg-canvas border-b border-slate-200">
  <p className="text-sm text-slate-600">
  {viewMode === 'operational' ? (
  <>
@@ -268,7 +268,7 @@ export default function ActionWorkbenchPage() {
  </div>
 
  {/* Filters & Search */}
- <div className="px-6 py-4 flex items-center gap-4">
+ <div className="px-4 py-4 flex items-center gap-4">
  <div className="relative flex-1">
  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
  <input
@@ -306,7 +306,7 @@ export default function ActionWorkbenchPage() {
 
  {/* Bulk Actions Bar */}
  {showBulkActions && selectedIds.size > 0 && (
- <div className="px-6 py-3 bg-blue-50 border-y border-blue-200 flex items-center gap-3">
+ <div className="px-4 py-3 bg-blue-50 border-y border-blue-200 flex items-center gap-3">
  <span className="text-sm font-semibold text-blue-900">Bulk Actions:</span>
  <button
  onClick={() => handleBulkAction('remind')}

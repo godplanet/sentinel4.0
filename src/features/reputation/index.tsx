@@ -120,7 +120,7 @@ export function ReputationalRiskPage() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50 overflow-auto">
  {/* Header */}
- <div className="px-6 pt-6 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10">
+ <div className="px-4 pt-4 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
  <Heart size={22} className="text-white fill-white/20" />
@@ -153,7 +153,7 @@ export function ReputationalRiskPage() {
 
  <div className="flex-1 overflow-hidden flex gap-0">
  {/* Left: Social Listening Stream */}
- <div className="flex-1 overflow-y-auto p-6 flex flex-col">
+ <div className="flex-1 overflow-y-auto p-4 flex flex-col">
  <div className="flex items-center justify-between mb-4">
  <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
  <MessageSquare size={16} className="text-indigo-500" />
@@ -184,7 +184,7 @@ export function ReputationalRiskPage() {
  <p className="text-sm font-semibold text-slate-500">Bu filtrelere uygun gönderi bulunamadı.</p>
  </div>
  ) : (
- <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 pb-6">
+ <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 pb-4">
  {(safeFeeds || []).map((feed, i) => (
  <FeedCard key={feed.id} feed={feed} index={i} />
  ))}

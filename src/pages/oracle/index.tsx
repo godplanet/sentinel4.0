@@ -94,7 +94,7 @@ export default function OraclePage() {
  <button
  onClick={handleSealConsensus}
  disabled={saveConsensus.isPending || Object.keys(votes).length === 0}
- className="inline-flex items-center gap-2 bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 disabled:opacity-60 rounded-full px-6 py-3 transition-all"
+ className="inline-flex items-center gap-2 bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 disabled:opacity-60 rounded-full px-4 py-3 transition-all"
  >
  {saveConsensus.isPending ? (
  <Loader2 className="w-4 h-4 animate-spin" />

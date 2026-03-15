@@ -115,7 +115,7 @@ export default function ProgramLibraryPage() {
  </p>
  </GlassCard>
  ) : (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {(filteredTemplates || []).map((template) => {
  const badge = getFrameworkBadge(template.framework);
  return (
@@ -187,7 +187,7 @@ export default function ProgramLibraryPage() {
  </div>
  )}
 
- <div className="mt-6">
+ <div className="mt-3">
  <GlassCard className="p-4">
  <div className="flex items-start gap-3">
  <BookOpen className="text-blue-500 shrink-0 mt-0.5" size={20} />

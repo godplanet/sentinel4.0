@@ -208,7 +208,7 @@ export function TermsOfReferenceTab({ engagement }: Props) {
  onClick={() => ackMutation.mutate()}
  disabled={!canSign || ackMutation.isPending}
  className={clsx(
- 'flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all',
+ 'flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all',
  canSign
  ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-md shadow-amber-200'
  : 'bg-slate-100 text-slate-400 cursor-not-allowed',
@@ -275,7 +275,7 @@ export function TermsOfReferenceTab({ engagement }: Props) {
 
  {/* ── Görev Tanımı Formu ── */}
  <div className="bg-surface border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
- <div className="px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-blue-50 to-cyan-50 flex items-center justify-between">
+ <div className="px-4 py-4 border-b border-slate-200 bg-gradient-to-r from-blue-50 to-cyan-50 flex items-center justify-between">
  <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
  <FileText size={16} className="text-blue-600" />
  Görev Tanımı (Terms of Reference)
@@ -292,7 +292,7 @@ export function TermsOfReferenceTab({ engagement }: Props) {
  </div>
 
  <div className={clsx(
- 'p-6 space-y-6',
+ 'p-4 space-y-4',
  !canStartFieldwork && 'opacity-50 pointer-events-none select-none',
  )}>
  <div>
@@ -357,7 +357,7 @@ export function TermsOfReferenceTab({ engagement }: Props) {
  </div>
 
  {!canStartFieldwork && (
- <div className="px-6 pb-4 flex items-center gap-2 text-xs text-amber-600">
+ <div className="px-4 pb-4 flex items-center gap-2 text-xs text-amber-600">
  <Clock size={12} />
  Feragatname e-imzası tamamlanmadan bu alan düzenlenemez (GIAS 11.1).
  </div>

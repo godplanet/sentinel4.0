@@ -297,7 +297,7 @@ export default function NeuralMapPage() {
  </div>
 
  {selectedNode && (
- <div className="w-96 bg-surface rounded-xl border border-slate-200 shadow-sm p-4 space-y-6">
+ <div className="w-96 bg-surface rounded-xl border border-slate-200 shadow-sm p-4 space-y-4">
  <div>
  <div className="flex items-center justify-between mb-2">
  <h3 className="text-lg font-bold text-primary">Birim Detayı</h3>

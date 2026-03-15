@@ -69,7 +69,7 @@ export function CCMSignalSimulator() {
  };
 
  return (
- <div className="bg-surface border border-slate-200 shadow-sm rounded-xl p-6">
+ <div className="bg-surface border border-slate-200 shadow-sm rounded-xl p-4">
  <div className="flex items-center gap-3 mb-5">
  <div className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center">
  <Radio size={16} className="text-white" />

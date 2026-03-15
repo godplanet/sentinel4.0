@@ -232,7 +232,7 @@ export function RiskNetwork({
 
  {selectedNode && (
  <div className="absolute top-0 right-0 w-96 h-full backdrop-blur-xl bg-surface/10 border-l border-white/20 shadow-2xl overflow-y-auto">
- <div className="p-4 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="flex items-start justify-between">
  <div className="flex items-center gap-3">
  {(() => {

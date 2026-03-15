@@ -37,22 +37,22 @@ export function LanguageSwitcher() {
  className="fixed inset-0 z-40"
  onClick={() => setIsOpen(false)}
  />
- <div className="absolute right-0 mt-2 w-48 bg-surface/95 backdrop-blur-xl rounded-xl border-2 border-indigo-200 shadow-xl z-50 overflow-hidden">
+ <div className="absolute right-0 mt-2 w-36 bg-surface/95 backdrop-blur-xl rounded-xl border-2 border-indigo-200 shadow-xl z-50 overflow-hidden">
  {languages.map((lang) => (
  <button
  key={lang.code}
  onClick={() => changeLanguage(lang.code)}
  className={clsx(
- "w-full flex items-center gap-3 px-4 py-3 transition-all",
+ "w-full flex items-center gap-2 px-3 py-2 transition-all",
  i18n.language === lang.code
  ? "bg-indigo-50 text-indigo-700 font-semibold"
  : "text-slate-700 hover:bg-canvas"
  )}
  >
- <span className="text-xl">{lang.flag}</span>
+ <span className="text-base">{lang.flag}</span>
  <div className="flex-1 text-left">
- <div className="text-sm font-medium">{lang.label}</div>
- <div className="text-xs text-slate-500 uppercase">{lang.code}</div>
+ <div className="text-xs font-medium">{lang.label}</div>
+ <div className="text-[10px] text-slate-500 uppercase">{lang.code}</div>
  </div>
  {i18n.language === lang.code && (
  <div className="w-2 h-2 rounded-full bg-indigo-600"></div>

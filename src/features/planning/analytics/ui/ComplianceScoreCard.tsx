@@ -39,7 +39,7 @@ export function ComplianceScoreCard({
  bg-surface/90 backdrop-blur-xl rounded-xl border-2 p-5 transition-all
  ${getGlowClass()}
  `}>
- <div className="text-center mb-6">
+ <div className="text-center mb-3">
  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 mb-4">
  <Target size={40} className="text-white" />
  </div>
@@ -90,7 +90,7 @@ export function ComplianceScoreCard({
  />
  </div>
 
- <div className="mt-6 pt-6 border-t border-slate-200">
+ <div className="mt-3 pt-4 border-t border-slate-200">
  <div className="text-xs text-slate-500 space-y-1">
  <p><span className="font-semibold">SPI:</span> Earned Value / Planned Value</p>
  <p><span className="font-semibold">CPI:</span> Earned Value / Actual Cost</p>

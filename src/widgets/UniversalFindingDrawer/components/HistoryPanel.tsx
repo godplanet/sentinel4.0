@@ -38,9 +38,9 @@ export function HistoryPanel({ findingId }: HistoryPanelProps) {
  <p className="text-sm font-medium">Bu bulgu için henüz denetim izi kaydı bulunmuyor.</p>
  </div>
  ) : (
- <div className="space-y-6 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px before:h-full before:w-0.5 before:bg-slate-200">
+ <div className="space-y-4 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px before:h-full before:w-0.5 before:bg-slate-200">
  {(history || []).map((item) => (
- <div key={item.id} className="relative pl-8 group">
+ <div key={item.id} className="relative pl-5 group">
  <div className={clsx(
  "absolute left-0 top-1 w-5 h-5 rounded-full border-2 bg-surface flex items-center justify-center z-10 transition-colors",
  item.change_type === 'AI_GENERATION' ? "border-purple-500 group-hover:bg-purple-50" : "border-blue-500 group-hover:bg-blue-50"
@@ -81,7 +81,7 @@ export function HistoryPanel({ findingId }: HistoryPanelProps) {
  )}
 
  {history.length > 0 && (
- <div className="mt-8 text-center">
+ <div className="mt-4 text-center">
  <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Kayıtların Sonu</span>
  </div>
  )}

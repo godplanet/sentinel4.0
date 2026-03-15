@@ -61,7 +61,7 @@ export function QAIPGateModal({
  />
 
  <div className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-lg border border-slate-200 overflow-hidden">
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-100">
  <div className="flex items-center gap-2.5">
  <ShieldAlert size={18} className="text-blue-600" />
  <h2 className="font-sans font-semibold text-primary text-base">
@@ -76,7 +76,7 @@ export function QAIPGateModal({
  </button>
  </div>
 
- <div className="px-6 py-5">
+ <div className="px-4 py-5">
  <p className="text-xs font-sans text-slate-500 mb-5 leading-relaxed">
  <strong className="text-slate-700">"{actionLabel}"</strong> aksiyonu öncesinde GIAS 2024
  Standart 11.1 (Kalite Güvence) gereklilikleri kontrol edilmektedir.
@@ -138,7 +138,7 @@ export function QAIPGateModal({
  </div>
  </div>
 
- <div className="px-6 py-4 border-t border-slate-100 bg-canvas/60 flex justify-end gap-2">
+ <div className="px-4 py-4 border-t border-slate-100 bg-canvas/60 flex justify-end gap-2">
  <button
  onClick={handleClose}
  className="px-4 py-2 rounded-xl text-sm font-sans font-medium text-slate-600 hover:bg-slate-200 transition-colors"

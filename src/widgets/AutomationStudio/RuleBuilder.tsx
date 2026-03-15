@@ -373,7 +373,7 @@ export const RuleBuilder = ({ onCreated, onCancel }: Props) => {
  <button
  onClick={handleSubmit}
  disabled={createRule.isPending}
- className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold bg-gradient-to-r from-emerald-600 to-teal-500 text-white hover:shadow-lg hover:shadow-emerald-200/50 transition-all disabled:opacity-50"
+ className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold bg-gradient-to-r from-emerald-600 to-teal-500 text-white hover:shadow-lg hover:shadow-emerald-200/50 transition-all disabled:opacity-50"
  >
  {createRule.isPending ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle size={14} />}
  Kurali Olustur

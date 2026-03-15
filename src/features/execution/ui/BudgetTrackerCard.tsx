@@ -73,7 +73,7 @@ export function BudgetTrackerCard({
 
  if (engagementId && isLoading) {
  return (
- <div className="bg-surface shadow-sm border border-slate-200 rounded-xl p-6">
+ <div className="bg-surface shadow-sm border border-slate-200 rounded-xl p-4">
  <div className="animate-pulse flex flex-col gap-3">
  <div className="h-4 bg-slate-200 rounded w-1/2" />
  <div className="h-8 bg-slate-200 rounded w-3/4" />
@@ -89,7 +89,7 @@ export function BudgetTrackerCard({
 
  if (!budget && !auditorCosts.length) {
  return (
- <div className="bg-surface shadow-sm border border-slate-200 rounded-xl p-6">
+ <div className="bg-surface shadow-sm border border-slate-200 rounded-xl p-4">
  <div className="flex flex-col items-center justify-center py-5 text-slate-500">
  <Activity className="w-8 h-8 mb-2 opacity-50" />
  <p className="text-sm font-medium">Bütçe verisi yok</p>

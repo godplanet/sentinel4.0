@@ -164,7 +164,7 @@ export function AlgorithmicShield() {
  <ShieldX size={280} />
  </div>
  
- <div className="flex flex-col md:flex-row gap-6 md:items-center justify-between relative z-10">
+ <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between relative z-10">
  <div>
  <div className="flex items-center gap-2 mb-2">
  <Scale className="text-emerald-400" />
@@ -198,7 +198,7 @@ export function AlgorithmicShield() {
  
  {/* Progress Bar for Blocked Value */}
  {totalProposedValue > 0 && (
- <div className="mt-6 relative z-10">
+ <div className="mt-3 relative z-10">
  <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
  <span>Piyasa Hacmi: {formatCurrency(totalProposedValue)}</span>
  <span className="text-red-300">Bloke Hacim: {formatCurrency(blockedValue)}</span>

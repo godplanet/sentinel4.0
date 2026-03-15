@@ -159,7 +159,7 @@ export function ExternalAssuranceBoard() {
  const { data: dossiers = [], isLoading: dossiersLoading } = useSharedDossiers();
 
  return (
- <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 h-full">
+ <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 h-full">
  
  {/* Sol Taraf: Continuous Assurance Reports (Sürekli Denetim Sonuçları) */}
  <div className="bg-white/70 backdrop-blur-lg border border-slate-200 rounded-2xl shadow-sm flex flex-col h-full overflow-hidden">

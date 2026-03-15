@@ -92,7 +92,7 @@ export const QAIPChecklistModal: React.FC<QAIPChecklistModalProps> = ({
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-slate-200 bg-gradient-to-r from-indigo-50 to-white rounded-t-2xl">
+          <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-gradient-to-r from-indigo-50 to-white rounded-t-2xl">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
                 <Shield size={20} className="text-indigo-600" />
@@ -111,7 +111,7 @@ export const QAIPChecklistModal: React.FC<QAIPChecklistModalProps> = ({
           </div>
 
           {/* Progress Bar */}
-          <div className="px-6 pt-4">
+          <div className="px-4 pt-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold text-slate-600">
                 İlerleme: {passedCount}/{QUALITY_CHECKS.length}
@@ -135,7 +135,7 @@ export const QAIPChecklistModal: React.FC<QAIPChecklistModalProps> = ({
           </div>
 
           {/* Checklist */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-3">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {autoResults.map((check) => (
               <div
                 key={check.id}
@@ -183,7 +183,7 @@ export const QAIPChecklistModal: React.FC<QAIPChecklistModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between gap-3 p-6 border-t border-slate-200 bg-slate-50 rounded-b-2xl">
+          <div className="flex items-center justify-between gap-3 p-4 border-t border-slate-200 bg-slate-50 rounded-b-2xl">
             <button
               onClick={onClose}
               className="px-4 py-2.5 text-sm font-semibold text-slate-600 hover:text-slate-800 hover:bg-white rounded-lg transition-colors border border-slate-200"
@@ -194,7 +194,7 @@ export const QAIPChecklistModal: React.FC<QAIPChecklistModalProps> = ({
               onClick={handleSubmit}
               disabled={!allPassed}
               className={cn(
-                "flex items-center gap-2 px-6 py-2.5 text-sm font-bold rounded-lg shadow-lg transition-all active:scale-95",
+                "flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-lg shadow-lg transition-all active:scale-95",
                 allPassed
                   ? "bg-indigo-600 hover:bg-indigo-700 text-white"
                   : "bg-slate-300 text-slate-500 cursor-not-allowed"

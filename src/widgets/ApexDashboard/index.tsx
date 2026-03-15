@@ -60,7 +60,7 @@ export function ApexDashboard() {
  <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
  <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
 
- <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+ <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-5">
  
  <div className="space-y-4 max-w-lg">
  <h2 className="text-indigo-200 text-sm font-bold uppercase tracking-widest flex items-center gap-2">

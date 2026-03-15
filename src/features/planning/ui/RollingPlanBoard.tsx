@@ -7,9 +7,9 @@ export function RollingPlanBoard() {
  const qSprint = usePlanningStore((s) => s.qSprint);
 
  return (
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  {/* 9 Aylık Dinamik Havuz */}
- <div className="bg-canvas/50 p-6 rounded-2xl border border-slate-200/60 flex flex-col gap-4">
+ <div className="bg-canvas/50 p-4 rounded-2xl border border-slate-200/60 flex flex-col gap-4">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 rounded-xl bg-surface border border-slate-200 shadow-sm flex items-center justify-center">
@@ -41,7 +41,7 @@ export function RollingPlanBoard() {
  </div>
 
  {/* 3 Aylık Kilitli Q-Sprint */}
- <div className="bg-indigo-50/30 p-6 rounded-2xl border border-indigo-100 flex flex-col gap-4">
+ <div className="bg-indigo-50/30 p-4 rounded-2xl border border-indigo-100 flex flex-col gap-4">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 rounded-xl bg-indigo-600 shadow-md shadow-indigo-200 flex items-center justify-center">

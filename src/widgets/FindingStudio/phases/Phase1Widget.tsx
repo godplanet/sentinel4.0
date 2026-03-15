@@ -207,7 +207,7 @@ export const DraftPhase: React.FC<DraftPhaseProps> = ({ finding, onUpdate }) => 
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8 items-center">
+        <div className="flex flex-col md:flex-row gap-5 items-center">
           <div className="flex justify-center relative shrink-0">
             <div className={cn("w-32 h-32 rounded-full border-[6px] flex flex-col items-center justify-center transition-all duration-500 shadow-[0_0_15px_rgba(0,0,0,0.05)]", getRiskColorClass(), isVetoed && auditFramework === 'BDDK' && "animate-pulse")}>
               <span className="text-3xl font-black tracking-tighter text-center">{finding.severity === 'OBSERVATION' ? 'OBS' : (auditFramework === 'BDDK' ? getSeverityLabel() : riskScore)}</span>

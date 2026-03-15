@@ -64,9 +64,9 @@ export function FindingSignOff({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border-2 border-slate-200 p-5 mt-8">
+    <div className="bg-white rounded-2xl shadow-xl border-2 border-slate-200 p-5 mt-4">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-slate-200">
+      <div className="flex items-center gap-3 mb-3 pb-4 border-b-2 border-slate-200">
         <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center">
           <Shield className="w-6 h-6 text-white" />
         </div>
@@ -78,7 +78,7 @@ export function FindingSignOff({
 
       {/* Warning if not signed */}
       {!hasSigned('REVIEWER') && (
-        <div className="mb-6 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 flex items-start gap-3">
+        <div className="mb-3 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-amber-900">
             <strong>Onay Bekliyor:</strong> Bu bulgu henüz yönetici tarafından gözden geçirilmemiştir.
@@ -128,7 +128,7 @@ export function FindingSignOff({
 
         {/* Empty slot if no approver needed */}
         {!requiresApprover && (
-          <div className="border-2 border-dashed border-slate-200 rounded-lg p-6 flex items-center justify-center">
+          <div className="border-2 border-dashed border-slate-200 rounded-lg p-4 flex items-center justify-center">
             <div className="text-center text-slate-400">
               <Shield className="w-8 h-8 mx-auto mb-2 opacity-50" />
               <div className="text-xs font-semibold">Onay Gerekmez</div>
@@ -139,7 +139,7 @@ export function FindingSignOff({
       </div>
 
       {/* Legal Notice */}
-      <div className="mt-6 pt-4 border-t border-slate-200">
+      <div className="mt-3 pt-4 border-t border-slate-200">
         <div className="text-xs text-slate-500 text-center">
           Bu imzalar dijital olarak kaydedilmiştir ve değiştirilemez. İmza zamanı sunucu saatine göredir.
           GIAS 2024 Standardı Madde 8.3 uyarınca düzenlenmiştir.
@@ -149,7 +149,7 @@ export function FindingSignOff({
       {/* Comment Modal */}
       {showCommentModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-4">
             <h3 className="text-lg font-bold text-slate-900 mb-4">İmza Onayı</h3>
 
             <div className="mb-4">
@@ -224,7 +224,7 @@ function SignatureSlot({
   return (
     <div
       className={clsx(
-        'border-2 rounded-lg p-6 transition-all',
+        'border-2 rounded-lg p-4 transition-all',
         signoff
           ? 'border-green-500 bg-green-50/50'
           : canSign

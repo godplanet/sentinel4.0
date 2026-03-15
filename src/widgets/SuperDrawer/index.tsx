@@ -101,7 +101,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
  {/* Header */}
  <div
  className={`
- px-6 py-4 border-b border-slate-200
+ px-4 py-4 border-b border-slate-200
  ${aging?.glowClass || ''}
  `}
  >
@@ -163,7 +163,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
  </div>
 
  {/* Tabs */}
- <div className="border-b border-slate-200 px-6">
+ <div className="border-b border-slate-200 px-4">
  <div className="flex gap-1">
  {[
  { id: 'details' as const, label: 'Details', icon: FileText },
@@ -196,7 +196,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
  </div>
 
  {/* Content */}
- <div className="flex-1 overflow-y-auto p-4 space-y-6" style={{ maxHeight: 'calc(100vh - 250px)' }}>
+ <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ maxHeight: 'calc(100vh - 250px)' }}>
  {activeTab === 'details' && (
  <DetailsTab action={action} aging={aging} onStatusUpdate={handleStatusUpdate} />
  )}
@@ -209,7 +209,7 @@ export function SuperDrawer({ actionId, isOpen, onClose, onUpdate }: SuperDrawer
  </div>
 
  {/* Footer Actions */}
- <div className="absolute bottom-0 left-0 right-0 px-6 py-4 bg-canvas border-t border-slate-200">
+ <div className="absolute bottom-0 left-0 right-0 px-4 py-4 bg-canvas border-t border-slate-200">
  <div className="flex items-center justify-between gap-3">
  <AutoFixButton action={action} onSuccess={() => { loadAction(); onUpdate?.(); }} />
 

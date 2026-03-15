@@ -71,7 +71,7 @@ export const RequirementsPanel = ({ frameworkId, frameworkName, shortCode, onClo
  exit={{ opacity: 0, y: 20 }}
  className="bg-surface rounded-2xl border border-slate-200/80 shadow-md overflow-hidden"
  >
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-canvas/50">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-100 bg-canvas/50">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm">
  <Shield size={18} className="text-white" />
@@ -129,7 +129,7 @@ export const RequirementsPanel = ({ frameworkId, frameworkName, shortCode, onClo
  <div key={req.id} className="group">
  <button
  onClick={() => setExpandedReq(isExpanded ? null : req.id)}
- className="w-full text-left px-6 py-3.5 flex items-center gap-3 hover:bg-canvas/50 transition-colors"
+ className="w-full text-left px-4 py-3.5 flex items-center gap-3 hover:bg-canvas/50 transition-colors"
  >
  <div className="shrink-0">
  {isExpanded ? (
@@ -177,7 +177,7 @@ export const RequirementsPanel = ({ frameworkId, frameworkName, shortCode, onClo
  transition={{ duration: 0.2 }}
  className="overflow-hidden"
  >
- <div className="px-6 pb-4 pl-12">
+ <div className="px-4 pb-4 pl-12">
  <p className="text-xs text-slate-500 mb-3 leading-relaxed">{req.description}</p>
 
  {maps.length > 0 && (

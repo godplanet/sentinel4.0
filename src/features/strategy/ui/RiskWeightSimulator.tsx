@@ -9,8 +9,8 @@ export const RiskWeightSimulator = () => {
  };
 
  return (
- <div className="glass-panel p-6 rounded-xl border-l-4 border-l-indigo-500">
- <div className="flex items-center gap-2 mb-6">
+ <div className="glass-panel p-4 rounded-xl border-l-4 border-l-indigo-500">
+ <div className="flex items-center gap-2 mb-3">
  <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
  <Settings2 size={20} />
  </div>
@@ -45,7 +45,7 @@ export const RiskWeightSimulator = () => {
  ))}
  </div>
 
- <div className="mt-6 pt-4 border-t border-slate-200 text-[10px] text-slate-400 text-center">
+ <div className="mt-3 pt-4 border-t border-slate-200 text-[10px] text-slate-400 text-center">
  * Bu ayarlar sadece simülasyon amaçlıdır. Ana metodolojiyi etkilemez.
  </div>
  </div>

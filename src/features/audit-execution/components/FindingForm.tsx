@@ -8,7 +8,7 @@ export const FindingForm = () => {
 
  return (
  <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-full animate-in fade-in slide-in-from-bottom-4">
- <div className="px-6 py-4 border-b border-slate-100 bg-canvas/50 flex justify-between items-center">
+ <div className="px-4 py-4 border-b border-slate-100 bg-canvas/50 flex justify-between items-center">
  <h3 className="font-bold text-slate-800 flex items-center gap-2">
  <AlertTriangle className="text-rose-500" size={18} />
  Yeni Bulgu Girişi
@@ -29,7 +29,7 @@ export const FindingForm = () => {
  </div>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6 space-y-6">
+ <div className="flex-1 overflow-y-auto p-4 space-y-4">
  {activeTab === 'DETAILS' && (
  <div className="space-y-4 animate-in fade-in slide-in-from-right-4">
  <div>

@@ -54,7 +54,7 @@ export function FindingDetailPage() {
  <p className="text-slate-600 text-lg font-semibold">Bulgu bulunamadi</p>
  <button
  onClick={() => navigate('/findings')}
- className="mt-4 px-6 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm font-bold"
+ className="mt-4 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm font-bold"
  >
  Bulgu Merkezine Don
  </button>
@@ -65,7 +65,7 @@ export function FindingDetailPage() {
 
  return (
  <div className="h-full flex flex-col bg-canvas overflow-hidden">
- <div className="shrink-0 border-b border-slate-200 bg-surface px-6 py-3">
+ <div className="shrink-0 border-b border-slate-200 bg-surface px-4 py-3">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-4">
  <button
@@ -105,7 +105,7 @@ export function FindingDetailPage() {
  </div>
  </div>
 
- <div className="shrink-0 px-6 pt-4 pb-3">
+ <div className="shrink-0 px-4 pt-4 pb-3">
  <h1 className="text-xl font-bold text-slate-800 mb-2">{finding.title}</h1>
  <FindingWorkflowProgress
  currentStage={(finding.state || finding.status || 'DRAFT') as any}
@@ -113,7 +113,7 @@ export function FindingDetailPage() {
  />
  </div>
 
- <div className="shrink-0 border-b border-slate-200 bg-surface px-6">
+ <div className="shrink-0 border-b border-slate-200 bg-surface px-4">
  <div className="flex gap-1">
  {LEFT_TABS.map((tab) => (
  <button
@@ -170,7 +170,7 @@ function SeverityBadge({ severity }: { severity: string }) {
 
 function TespitTab({ finding }: { finding: any }) {
  return (
- <div className="max-w-4xl space-y-6">
+ <div className="max-w-4xl space-y-4">
  <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
  <h3 className="text-xs font-black text-blue-800 uppercase tracking-wider mb-3">
  Yonetici Ozeti
@@ -219,7 +219,7 @@ function TespitTab({ finding }: { finding: any }) {
 
 function RiskTab({ finding, secret }: { finding: any; secret: FindingSecret | null | undefined }) {
  return (
- <div className="max-w-4xl space-y-6">
+ <div className="max-w-4xl space-y-4">
  <div className="grid grid-cols-2 gap-4">
  <ScoreCard label="Etki Skoru" value={finding.impact_score ?? '-'} max={5} color="bg-orange-500" />
  <ScoreCard label="Olasilik Skoru" value={finding.likelihood_score ?? '-'} max={5} color="bg-blue-500" />
@@ -276,7 +276,7 @@ function RiskTab({ finding, secret }: { finding: any; secret: FindingSecret | nu
 
 function OneriTab({ finding }: { finding: any }) {
  return (
- <div className="max-w-4xl space-y-6">
+ <div className="max-w-4xl space-y-4">
  <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5">
  <h3 className="text-xs font-black text-emerald-800 uppercase tracking-wider mb-3">
  Iyilestirme Onerileri
@@ -336,7 +336,7 @@ function OneriTab({ finding }: { finding: any }) {
 
 function IronCurtainPanel({ secret }: { secret: FindingSecret }) {
  return (
- <div className="max-w-4xl mt-6 bg-red-50 border-2 border-red-200 rounded-xl p-5">
+ <div className="max-w-4xl mt-3 bg-red-50 border-2 border-red-200 rounded-xl p-5">
  <div className="flex items-center gap-2 mb-4">
  <Shield size={18} className="text-red-600" />
  <h2 className="text-sm font-black text-red-700 uppercase">

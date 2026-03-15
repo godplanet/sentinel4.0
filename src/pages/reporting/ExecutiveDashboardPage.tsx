@@ -87,7 +87,7 @@ export default function ExecutiveDashboardPage() {
           <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
             <Activity className="text-rose-500" /> Banka Geneli Risk Görünümü
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 flex flex-col items-center justify-center text-center">
               <span className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Banka Sağlık Skoru</span>
               <span className={cn(
@@ -122,7 +122,7 @@ export default function ExecutiveDashboardPage() {
           </div>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           
           {/* --- PANEL 2: Recently Published Reports --- */}
           <section className="bg-white/70 backdrop-blur-lg border border-white/50 p-5 rounded-3xl shadow-xl flex flex-col h-[500px]">

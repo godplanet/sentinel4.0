@@ -47,7 +47,7 @@ export default function AppearancePage() {
  const { environment, setEnvironment, setSidebarColor } = useUIStore();
  const { mode, setMode } = useThemeStore();
  return (
- <div className="p-4 space-y-6">
+ <div className="p-4 space-y-4">
  <PageHeader
  title="Görünüm"
  description="Sidebar renkleri, tema ve görsel özelleştirme ayarları"
@@ -56,7 +56,7 @@ export default function AppearancePage() {
 
  {/* ── TEMA MOTORU: Dinamik Arka Plan Seçimi ──────────────────────── */}
  <div className="bg-surface/70 backdrop-blur-xl border border-white/40 rounded-2xl shadow-sm overflow-hidden">
- <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-3">
+ <div className="px-4 py-4 border-b border-slate-100 flex items-center gap-3">
  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-sm">
  <Layers className="w-4 h-4 text-white" />
  </div>
@@ -87,7 +87,7 @@ export default function AppearancePage() {
  </div>
  </div>
 
- <div className="grid lg:grid-cols-3 gap-6">
+ <div className="grid lg:grid-cols-3 gap-4">
  <div className="lg:col-span-2 bg-surface rounded-xl border border-slate-200 shadow-sm">
  <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">

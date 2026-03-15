@@ -298,7 +298,7 @@ export const RCSACampaignManager = () => {
  aria-labelledby="rcsa-launch-title"
  >
  <div
- className="w-full max-w-lg rounded-2xl bg-surface p-6 shadow-2xl border border-slate-200"
+ className="w-full max-w-lg rounded-2xl bg-surface p-4 shadow-2xl border border-slate-200"
  onClick={(e) => e.stopPropagation()}
  >
  <div className="mb-4 flex items-center gap-3">

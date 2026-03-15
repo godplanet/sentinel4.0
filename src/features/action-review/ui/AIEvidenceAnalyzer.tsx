@@ -40,7 +40,7 @@ export function AIEvidenceAnalyzer({ actionId }: Props) {
  </div>
 
  {items.length === 0 ? (
- <div className="bg-surface border border-slate-200 rounded-xl p-6 text-center text-slate-500 text-sm">
+ <div className="bg-surface border border-slate-200 rounded-xl p-4 text-center text-slate-500 text-sm">
  Bu aksiyon için henüz kanıt yüklenmemiş.
  </div>
  ) : (

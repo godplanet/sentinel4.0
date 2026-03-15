@@ -208,7 +208,7 @@ export function DeclarationForm({ onSuccess }: DeclarationFormProps) {
  <button
  onClick={handleSign}
  disabled={!agreed || signing}
- className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
+ className={`flex items-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all ${
  !agreed || signing
  ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
  : `bg-gradient-to-r ${colors.split(' ')[0]} ${colors.split(' ')[1]} text-white hover:shadow-lg hover:scale-105`

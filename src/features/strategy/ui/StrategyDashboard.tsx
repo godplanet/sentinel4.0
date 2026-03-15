@@ -56,7 +56,7 @@ export const StrategyDashboard = () => {
  }
 
  return (
- <div className="flex flex-col gap-8 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
+ <div className="flex flex-col gap-5 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
  
  {/* 1. ÜST BİLGİ KARTLARI (Sentinel v2 Tarzı Özet) */}
  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

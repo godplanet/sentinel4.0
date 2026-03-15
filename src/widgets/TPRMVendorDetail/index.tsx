@@ -96,7 +96,7 @@ export const TPRMVendorDetail = ({ vendorId, onBack }: Props) => {
  </div>
 
  {vendor.notes && (
- <div className="px-6 py-4 border-b border-slate-100">
+ <div className="px-4 py-4 border-b border-slate-100">
  <div className="flex items-center gap-2 mb-1.5">
  <FileText size={13} className="text-slate-400" />
  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Notlar</span>
@@ -106,7 +106,7 @@ export const TPRMVendorDetail = ({ vendorId, onBack }: Props) => {
  )}
 
  {vendor.status === 'Under Review' && (
- <div className="px-6 py-3 bg-amber-50 border-b border-amber-100">
+ <div className="px-4 py-3 bg-amber-50 border-b border-amber-100">
  <div className="flex items-center gap-2 text-amber-700 text-xs font-bold">
  <AlertTriangle size={14} />
  Bu tedarikcier suanda gozden gecirme surecindedir

@@ -109,7 +109,7 @@ export default function SprintBoardPage() {
  }
  />
 
- <div className="bg-surface border-b border-slate-200 px-6 py-3">
+ <div className="bg-surface border-b border-slate-200 px-4 py-3">
  <div className="flex items-center gap-4 text-sm text-slate-600">
  <span className="flex items-center gap-1.5">
  <Calendar size={14} className="text-slate-400" />

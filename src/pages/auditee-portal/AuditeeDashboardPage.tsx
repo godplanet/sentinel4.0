@@ -119,7 +119,7 @@ export function AuditeeDashboardPage() {
 
  {/* Aktif RCSA Öz Değerlendirme Görevleri */}
  <div className="bg-surface border-2 border-slate-200 rounded-2xl shadow-sm overflow-hidden">
- <div className="px-6 py-4 border-b-2 border-slate-200 bg-canvas flex items-center justify-between">
+ <div className="px-4 py-4 border-b-2 border-slate-200 bg-canvas flex items-center justify-between">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <ShieldAlert size={18} />
  Aktif RCSA Öz Değerlendirme Görevleri
@@ -132,7 +132,7 @@ export function AuditeeDashboardPage() {
  : `${activeRCSACampaigns.length} aktif kampanya bulundu`}
  </span>
  </div>
- <div className="px-6 py-4 space-y-3">
+ <div className="px-4 py-4 space-y-3">
  {rcsaLoading && (
  <div className="flex items-center gap-2 text-xs text-slate-500">
  <Loader2 size={14} className="animate-spin" />
@@ -172,7 +172,7 @@ export function AuditeeDashboardPage() {
  </div>
 
  <div className="bg-surface border-2 border-slate-200 rounded-2xl shadow-sm overflow-hidden">
- <div className="px-6 py-4 border-b-2 border-slate-200 bg-canvas">
+ <div className="px-4 py-4 border-b-2 border-slate-200 bg-canvas">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <ClipboardList size={18} />
  Yapilacaklar Listem
@@ -199,7 +199,7 @@ export function AuditeeDashboardPage() {
  return (
  <div
  key={task.id}
- className="px-6 py-4 hover:bg-canvas transition-colors group"
+ className="px-4 py-4 hover:bg-canvas transition-colors group"
  >
  <div className="flex items-start gap-4">
  <div className={clsx('mt-0.5 w-3 h-3 rounded-full shrink-0 border-2', sev.bg)} />
@@ -273,7 +273,7 @@ export function AuditeeDashboardPage() {
  {/* WAVE 20: PBC KANIT TALEPLERİ */}
  {/* ============================================================= */}
  <div data-testid="pbc-requests-section" className="bg-surface border-2 border-slate-200 rounded-2xl shadow-sm overflow-hidden">
- <div className="px-6 py-4 border-b-2 border-slate-200 bg-canvas flex items-center justify-between">
+ <div className="px-4 py-4 border-b-2 border-slate-200 bg-canvas flex items-center justify-between">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
  <FileDown size={18} />
  Kanıt Talepleri (PBC)
@@ -307,7 +307,7 @@ export function AuditeeDashboardPage() {
  const PDOT: Record<string, string> = { LOW: 'bg-slate-400', MEDIUM: 'bg-blue-500', HIGH: 'bg-orange-500', CRITICAL: 'bg-red-500' };
 
  return (
- <div key={req.id} className="px-6 py-4 hover:bg-canvas transition-colors group">
+ <div key={req.id} className="px-4 py-4 hover:bg-canvas transition-colors group">
  <div className="flex items-start gap-4">
  <div className={clsx('mt-1.5 w-3 h-3 rounded-full shrink-0', PDOT[req.priority] ?? 'bg-slate-400')} />
  <div className="flex-1 min-w-0">

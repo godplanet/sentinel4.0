@@ -18,10 +18,10 @@ export default function GapAnalysisPage() {
  />
 
  <div className="flex-1 p-4 overflow-auto">
- <div className="w-full px-4 sm:px-6 lg:px-6">
+ <div className="w-full px-4 sm:px-4 lg:px-4">
 
  {/* Metrik Kartları */}
- <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
+ <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
  <MetricCard
  icon={AlertTriangle}
  iconBg="bg-red-50"
@@ -58,7 +58,7 @@ export default function GapAnalysisPage() {
 
  {/* Çerçeve Bazlı Gap Tablosu */}
  <div className="bg-surface rounded-xl shadow-sm border border-slate-200 overflow-hidden">
- <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+ <div className="px-4 py-4 border-b border-slate-200 flex items-center justify-between">
  <div>
  <h2 className="text-lg font-bold text-slate-800">Çerçeve Bazlı Uyum Durumu</h2>
  <p className="text-sm text-slate-500 mt-0.5">
@@ -86,7 +86,7 @@ export default function GapAnalysisPage() {
  : 'bg-red-500';
 
  return (
- <div key={fw.framework_id} className="px-6 py-4 flex items-center gap-4">
+ <div key={fw.framework_id} className="px-4 py-4 flex items-center gap-4">
  <div className="w-28 shrink-0">
  <p className="text-xs font-bold text-slate-800 truncate">{fw.short_code || fw.name}</p>
  <p className="text-[10px] text-slate-500">{fw.authority}</p>

@@ -288,7 +288,7 @@ function SummaryView({ engagements, year }: { engagements: EngagementRow[]; year
  ))}
  </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 overflow-hidden">
  <div className="px-5 py-3.5 bg-surface border-b border-slate-200">
  <h3 className="text-sm font-bold text-slate-700">Statüye Göre Dağılım</h3>
@@ -402,7 +402,7 @@ export function AnnualPlanView() {
 
  return (
  <div className="flex flex-col gap-0">
- <div className="px-6 py-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-indigo-100 flex items-center justify-between gap-4">
+ <div className="px-4 py-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-indigo-100 flex items-center justify-between gap-4">
  <div className="flex items-center gap-1 p-1 bg-surface rounded-xl border border-slate-200 shadow-sm">
  {(viewTabs || []).map(({ id, label, icon: Icon }) => (
  <button
@@ -437,7 +437,7 @@ export function AnnualPlanView() {
  </div>
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  {isLoading && viewTab !== 'gantt' ? (
  <div className="flex items-center justify-center py-20">
  <div className="w-8 h-8 rounded-full border-2 border-indigo-600 border-t-transparent animate-spin" />

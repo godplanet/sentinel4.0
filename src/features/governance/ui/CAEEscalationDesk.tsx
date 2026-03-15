@@ -71,7 +71,7 @@ export function CAEEscalationDesk() {
 
  {/* Kırmızı dosyalar / Karar masası paneli - %100 Light Mode Glassmorphism */}
  <section className="rounded-2xl border-2 border-slate-200/60 bg-slate-50/80 backdrop-blur-xl shadow-xl overflow-hidden relative z-10">
- <div className="px-6 py-4 border-b border-slate-200/60 bg-gradient-to-r from-slate-50/90 via-red-50/50 to-slate-50/90 flex items-center justify-between flex-wrap gap-3">
+ <div className="px-4 py-4 border-b border-slate-200/60 bg-gradient-to-r from-slate-50/90 via-red-50/50 to-slate-50/90 flex items-center justify-between flex-wrap gap-3">
  <div className="flex items-center gap-3">
  <div className="p-3 rounded-xl bg-gradient-to-br from-red-100 to-red-50 border border-red-200 shadow-sm">
  <Gavel size={22} className="text-red-700" />
@@ -91,7 +91,7 @@ export function CAEEscalationDesk() {
  )}
  </div>
 
- <div className="p-6">
+ <div className="p-4">
  {loadingEscalations ? (
  <div className="flex items-center justify-center py-16 gap-3 text-slate-500">
  <Loader2 size={24} className="animate-spin" />
@@ -194,7 +194,7 @@ export function CAEEscalationDesk() {
  <div className="relative w-[600px] h-full bg-white/80 backdrop-blur-2xl border-l border-slate-200/50 shadow-[0_0_40px_rgba(0,0,0,0.1)] pointer-events-auto transform transition-transform duration-300 flex flex-col">
  
  {/* Header / Yaldızlı Rozetler */}
- <div className="px-6 py-6 border-b border-slate-200/60 bg-gradient-to-br from-slate-50/50 via-white/50 to-amber-50/30">
+ <div className="px-4 py-4 border-b border-slate-200/60 bg-gradient-to-br from-slate-50/50 via-white/50 to-amber-50/30">
  <div className="flex items-start justify-between">
  <div>
  <div className="flex items-center gap-3 mb-3">
@@ -276,7 +276,7 @@ export function CAEEscalationDesk() {
  </div>
 
  {/* Footer Actions */}
- <div className="p-6 border-t border-slate-200/60 bg-slate-50/80 flex gap-4">
+ <div className="p-4 border-t border-slate-200/60 bg-slate-50/80 flex gap-4">
  <button
  type="button"
  onClick={() => handleDecision(selectedEscalation.id, 'RETURNED_FOR_ACTION')}

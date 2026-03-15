@@ -138,7 +138,7 @@ export function BaselIVDashboard() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50 overflow-auto">
  {/* Header */}
- <div className="px-6 pt-6 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10 flex justify-between items-end">
+ <div className="px-4 pt-4 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10 flex justify-between items-end">
  <div className="flex items-center gap-3">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center shadow-lg shadow-slate-500/20">
  <ShieldCheck size={22} className="text-white" />
@@ -150,10 +150,10 @@ export function BaselIVDashboard() {
  </div>
  </div>
 
- <div className="p-6 grid grid-cols-1 xl:grid-cols-3 gap-6">
+ <div className="p-4 grid grid-cols-1 xl:grid-cols-3 gap-4">
  
  {/* Left: Summary KPIs & Gauge */}
- <div className="xl:col-span-1 flex flex-col gap-6">
+ <div className="xl:col-span-1 flex flex-col gap-4">
  <div className="h-[280px]">
  <CapitalAdequacyGauge period="2026-Q1" />
  </div>

@@ -71,9 +71,9 @@ export function BulkPlanningModal({
  };
 
  return (
- <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+ <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
  <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 rounded-2xl border border-white/20 shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
- <div className="flex items-center justify-between p-6 border-b border-white/10">
+ <div className="flex items-center justify-between p-4 border-b border-white/10">
  <div>
  <h2 className="text-2xl font-bold text-white flex items-center gap-3">
  <Calendar className="w-7 h-7 text-blue-400" />
@@ -91,7 +91,7 @@ export function BulkPlanningModal({
  </button>
  </div>
 
- <div className="flex-1 overflow-y-auto p-6 space-y-6">
+ <div className="flex-1 overflow-y-auto p-4 space-y-4">
  {!result ? (
  <>
  <div className="grid grid-cols-3 gap-4">
@@ -209,7 +209,7 @@ export function BulkPlanningModal({
  ) : (
  <div className="space-y-4">
  {result.success ? (
- <div className="bg-green-500/10 border border-green-400/30 rounded-xl p-6 text-center">
+ <div className="bg-green-500/10 border border-green-400/30 rounded-xl p-4 text-center">
  <CheckCircle2 className="w-16 h-16 text-green-400 mx-auto mb-4" />
  <div className="text-2xl font-bold text-white mb-2">
  {result.created_count} Engagements Created
@@ -219,7 +219,7 @@ export function BulkPlanningModal({
  </div>
  </div>
  ) : (
- <div className="bg-red-500/10 border border-red-400/30 rounded-xl p-6 text-center">
+ <div className="bg-red-500/10 border border-red-400/30 rounded-xl p-4 text-center">
  <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
  <div className="text-xl font-bold text-white">
  Creation Failed
@@ -243,10 +243,10 @@ export function BulkPlanningModal({
  )}
  </div>
 
- <div className="border-t border-white/10 p-6 flex items-center justify-between">
+ <div className="border-t border-white/10 p-4 flex items-center justify-between">
  <button
  onClick={onClose}
- className="px-6 py-3 bg-surface/5 text-white rounded-xl font-semibold hover:bg-surface/10 transition-colors"
+ className="px-4 py-3 bg-surface/5 text-white rounded-xl font-semibold hover:bg-surface/10 transition-colors"
  >
  {result ? 'Close' : 'Cancel'}
  </button>
@@ -254,7 +254,7 @@ export function BulkPlanningModal({
  <button
  onClick={handleCreate}
  disabled={isCreating || selectedEntities.length === 0}
- className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+ className="px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
  >
  {isCreating ? (
  <>

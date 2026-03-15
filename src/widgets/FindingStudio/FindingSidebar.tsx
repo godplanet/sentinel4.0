@@ -56,7 +56,7 @@ export function FindingSidebar({
 
  <div className={clsx(
  'overflow-y-auto',
- activeTab === 'muzakere' ? 'p-0 h-[calc(100vh-250px)]' : 'p-6 max-h-[calc(100vh-250px)]'
+ activeTab === 'muzakere' ? 'p-0 h-[calc(100vh-250px)]' : 'p-4 max-h-[calc(100vh-250px)]'
  )}>
  {activeTab === 'detay' && <DetayTab finding={finding} />}
  {activeTab === 'tarihce' && <TarihceTab finding={finding} />}

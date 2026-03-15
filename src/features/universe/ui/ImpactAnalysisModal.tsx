@@ -52,7 +52,7 @@ export function ImpactAnalysisModal({ entityId, entityName, onClose }: ImpactAna
  <div className="h-1.5 w-full bg-gradient-to-r from-red-500 via-red-400 to-rose-500" />
 
  {/* Header */}
- <div className="flex items-start justify-between px-6 pt-5 pb-4 border-b border-slate-100">
+ <div className="flex items-start justify-between px-4 pt-5 pb-4 border-b border-slate-100">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
  <AlertTriangle size={20} className="text-red-600" />
@@ -73,7 +73,7 @@ export function ImpactAnalysisModal({ entityId, entityName, onClose }: ImpactAna
  </div>
 
  {/* İçerik */}
- <div className="px-6 py-5">
+ <div className="px-4 py-5">
  {isLoading && (
  <div className="flex flex-col items-center gap-3 py-5">
  <div className="w-8 h-8 border-2 border-slate-200 border-t-red-500 rounded-full animate-spin" />

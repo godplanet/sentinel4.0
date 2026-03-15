@@ -197,9 +197,9 @@ export function SignaturePanel({
 
  if (reportStatus === 'published') {
  return (
- <div className="border-t border-slate-200 bg-canvas p-6 print:bg-surface print:border-t-2 print:border-black print:pt-8">
+ <div className="border-t border-slate-200 bg-canvas p-4 print:bg-surface print:border-t-2 print:border-black print:pt-5">
  <div className="max-w-4xl mx-auto">
- <div className="flex items-center gap-3 mb-6 print:mb-4 print:justify-center">
+ <div className="flex items-center gap-3 mb-3 print:mb-4 print:justify-center">
  <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center print:hidden">
  <Lock size={18} className="text-emerald-600" />
  </div>
@@ -220,7 +220,7 @@ export function SignaturePanel({
  initial={{ opacity: 0, x: -20 }}
  animate={{ opacity: 1, x: 0 }}
  transition={{ delay: index * 0.1 }}
- className="bg-surface border border-slate-200 rounded-lg p-4 signature-block print:rounded-none print:border-2 print:border-black print:p-6"
+ className="bg-surface border border-slate-200 rounded-lg p-4 signature-block print:rounded-none print:border-2 print:border-black print:p-4"
  >
  <div className="flex items-start justify-between print:block">
  <div className="flex items-start gap-3 print:block">
@@ -270,9 +270,9 @@ export function SignaturePanel({
  }
 
  return (
- <div className="border-t border-slate-200 bg-canvas p-6 print:bg-surface print:border-t-2 print:border-black print:pt-8">
+ <div className="border-t border-slate-200 bg-canvas p-4 print:bg-surface print:border-t-2 print:border-black print:pt-5">
  <div className="max-w-4xl mx-auto">
- <div className="flex items-center gap-3 mb-6 print:mb-4 print:justify-center">
+ <div className="flex items-center gap-3 mb-3 print:mb-4 print:justify-center">
  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center print:hidden">
  <Shield size={18} className="text-blue-600" />
  </div>
@@ -286,7 +286,7 @@ export function SignaturePanel({
  </div>
  </div>
 
- <div className="space-y-4 mb-6">
+ <div className="space-y-4 mb-3">
  {(workflow || []).map((step, index) => {
  const signature = signatures.find((s) => s.order_index === step.order_index);
  const isPending = !signature;
@@ -298,7 +298,7 @@ export function SignaturePanel({
  initial={{ opacity: 0, y: 10 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: index * 0.1 }}
- className={`bg-surface border rounded-lg p-4 signature-block print:rounded-none print:border-2 print:border-black print:p-6 ${
+ className={`bg-surface border rounded-lg p-4 signature-block print:rounded-none print:border-2 print:border-black print:p-4 ${
  isNext ? 'border-blue-500 ring-2 ring-blue-100 print:ring-0' : 'border-slate-200'
  }`}
  >
@@ -411,7 +411,7 @@ export function SignaturePanel({
  animate={{ scale: 1 }}
  exit={{ scale: 0.95 }}
  onClick={(e) => e.stopPropagation()}
- className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-6"
+ className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-4"
  >
  <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
@@ -468,7 +468,7 @@ export function SignaturePanel({
  animate={{ scale: 1 }}
  exit={{ scale: 0.95 }}
  onClick={(e) => e.stopPropagation()}
- className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-6"
+ className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-4"
  >
  <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">

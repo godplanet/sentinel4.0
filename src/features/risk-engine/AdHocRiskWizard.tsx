@@ -93,7 +93,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
  className="bg-surface rounded-2xl shadow-2xl w-full max-w-xl max-h-[85vh] flex flex-col"
  onClick={e => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4 rounded-t-2xl flex items-center justify-between">
+ <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-4 rounded-t-2xl flex items-center justify-between">
  <div className="flex items-center gap-3">
  <Zap size={22} className="text-white" />
  <div>
@@ -106,7 +106,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
  </button>
  </div>
 
- <div className="flex items-center gap-1 px-6 py-3 bg-canvas border-b border-slate-200">
+ <div className="flex items-center gap-1 px-4 py-3 bg-canvas border-b border-slate-200">
  {(STEPS || []).map((s, i) => {
  const Icon = s.icon;
  return (
@@ -128,7 +128,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
  })}
  </div>
 
- <div className="flex-1 overflow-auto p-6">
+ <div className="flex-1 overflow-auto p-4">
  <AnimatePresence mode="wait">
  <motion.div key={step} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
  {step === 0 && (
@@ -239,7 +239,7 @@ export function AdHocRiskWizard({ isOpen, onClose, onSubmit }: AdHocRiskWizardPr
  </AnimatePresence>
  </div>
 
- <div className="bg-canvas px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+ <div className="bg-canvas px-4 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
  <button
  onClick={() => step > 0 ? setStep(s => s - 1) : onClose()}
  className="flex items-center gap-1 px-4 py-2 bg-surface border border-slate-300 text-slate-700 rounded-lg font-medium text-sm"

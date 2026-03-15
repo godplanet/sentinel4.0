@@ -135,7 +135,7 @@ export function EntityDetailDrawer({ entityId, onClose }: EntityDetailDrawerProp
  className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md bg-white shadow-2xl flex flex-col"
  >
  {/* ─── Header ─────────── */}
- <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-5 flex-shrink-0">
+ <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-4 py-5 flex-shrink-0">
  <div className="flex items-start justify-between">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center">

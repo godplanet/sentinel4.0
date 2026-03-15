@@ -112,7 +112,7 @@ export const FindingStudioPage: React.FC = () => {
 
       {/* ================= HEADER ================= */}
       <header className={cn(
-        "shrink-0 h-16 flex items-center justify-between px-6 z-30 transition-all",
+        "shrink-0 h-16 flex items-center justify-between px-4 z-30 transition-all",
         mode === 'zen' 
           ? "bg-transparent border-b border-transparent" 
           : "bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-sm"
@@ -332,7 +332,7 @@ export const FindingStudioPage: React.FC = () => {
             </div>
 
             {/* RIGHT: Control Center */}
-            <div className="w-[340px] shrink-0 flex flex-col gap-6 h-full overflow-hidden">
+            <div className="w-[340px] shrink-0 flex flex-col gap-4 h-full overflow-hidden">
               <div className="flex-1 bg-white/70 backdrop-blur-xl rounded-2xl border border-white/50 shadow-sm overflow-hidden flex flex-col">
                 {finding?.status === 'review' ? (
                   // REVIEW MODE - Gözden Geçirme Paneli

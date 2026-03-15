@@ -59,7 +59,7 @@ export default function GovernanceWorkbenchPage() {
  return (
  <div className="min-h-screen bg-[#FDFBF7]">
  <div className="bg-surface/70 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
- <div className="w-full px-4 sm:px-6 lg:px-6 py-4 flex items-start justify-between gap-6 flex-wrap">
+ <div className="w-full px-4 sm:px-4 lg:px-4 py-4 flex items-start justify-between gap-4 flex-wrap">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shadow-sm">
  <ShieldCheck size={19} className="text-white" />
@@ -108,7 +108,7 @@ export default function GovernanceWorkbenchPage() {
  </div>
  </div>
 
- <div className="w-full px-4 sm:px-6 lg:px-6 py-4 space-y-6">
+ <div className="w-full px-4 sm:px-4 lg:px-4 py-4 space-y-4">
  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
  <KpiCard icon={Database} label="Toplam Aksiyon" value={filtered.length.toLocaleString('tr-TR')} sub="görüntülenen" color="slate" />
  <KpiCard icon={AlertTriangle} label="BDDK İhlali" value={(filtered || []).filter((a) => a.is_bddk_breach).length.toLocaleString('tr-TR')} sub="365+ gün vadesi aşıldı" color="maroon" pulse={stats.bddk > 0} />

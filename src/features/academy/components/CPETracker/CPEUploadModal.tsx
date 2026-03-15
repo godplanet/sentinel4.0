@@ -99,7 +99,7 @@ export function CPEUploadModal({ userId, onClose, onCreated }: CPEUploadModalPro
  <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
  style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
  <div className="w-full max-w-lg bg-surface rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-100">
  <div>
  <h2 className="text-primary font-semibold text-base">Log External CPE</h2>
  <p className="text-slate-500 text-xs mt-0.5">
@@ -113,7 +113,7 @@ export function CPEUploadModal({ userId, onClose, onCreated }: CPEUploadModalPro
  </button>
  </div>
 
- <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
+ <form onSubmit={handleSubmit} className="px-4 py-5 space-y-4">
  <Field label="Course / Training Name" error={errors.title} required>
  <input
  type="text"

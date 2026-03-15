@@ -150,7 +150,7 @@ export function WorkflowChevronBar({ currentState }: WorkflowProgressBarProps) {
  return (
  <div
  key={step.state}
- className={`relative flex items-center justify-center px-6 py-2 text-sm font-medium transition-all ${
+ className={`relative flex items-center justify-center px-4 py-2 text-sm font-medium transition-all ${
  isCompleted
  ? 'bg-green-500 text-white'
  : isCurrent

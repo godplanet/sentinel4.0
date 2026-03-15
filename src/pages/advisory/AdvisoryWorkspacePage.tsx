@@ -64,7 +64,7 @@ export default function AdvisoryWorkspacePage() {
 
  return (
  <div className="h-full flex flex-col">
- <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-cyan-700 px-6 py-4 shadow-lg">
+ <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-cyan-700 px-4 py-4 shadow-lg">
  <div className="flex items-center gap-4">
  <button
  onClick={() => navigate('/advisory')}

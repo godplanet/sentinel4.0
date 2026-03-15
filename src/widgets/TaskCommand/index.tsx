@@ -91,7 +91,7 @@ function Sidebar({ lists, activeListId, onSelect, searchQuery, onSearchChange }:
  }}
  >
  {/* Başlık */}
- <div className="px-5 pt-6 pb-4">
+ <div className="px-5 pt-4 pb-4">
  <h1 className="text-base font-black text-slate-800 tracking-tight">Task Command</h1>
  <p className="text-xs text-slate-400 mt-0.5">Sentinel GRC v3.0</p>
  </div>
@@ -660,7 +660,7 @@ export function TaskCommandWidget() {
  {/* ─── Orta: Görev Listesi ─────────────────────────────────────────── */}
  <main className="flex-1 flex flex-col min-w-0 bg-white/40">
  {/* Liste Başlığı */}
- <div className="px-6 pt-6 pb-4">
+ <div className="px-4 pt-4 pb-4">
  <div className="flex items-center gap-3">
  <span className="text-2xl">{activeList?.icon ?? '📋'}</span>
  <h2

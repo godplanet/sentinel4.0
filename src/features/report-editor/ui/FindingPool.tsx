@@ -59,7 +59,7 @@ export function FindingPool({ onInsertFinding }: FindingPoolProps) {
  value={search}
  onChange={(e) => setSearch(e.target.value)}
  placeholder="Bulgu ara..."
- className="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 rounded-lg bg-canvas focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-surface"
+ className="w-full pl-5 pr-3 py-2 text-xs border border-slate-200 rounded-lg bg-canvas focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-surface"
  />
  </div>
  </div>

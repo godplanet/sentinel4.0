@@ -9,7 +9,7 @@ import React from 'react';
 const EcosystemImpactPage: React.FC = () => {
  return (
  <div className="min-h-screen bg-[#FDFBF7] p-5">
- <div className="w-full px-4 sm:px-6 lg:px-6 space-y-5">
+ <div className="w-full px-4 sm:px-4 lg:px-4 space-y-5">
  <motion.div
  initial={{ opacity: 0, y: -10 }}
  animate={{ opacity: 1, y: 0 }}
@@ -30,7 +30,7 @@ const EcosystemImpactPage: React.FC = () => {
  </p>
  </motion.div>
 
- <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
  <motion.div
  initial={{ opacity: 0, y: 12 }}
  animate={{ opacity: 1, y: 0 }}
@@ -47,7 +47,7 @@ const EcosystemImpactPage: React.FC = () => {
  </motion.div>
  </div>
 
- <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+ <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
  <motion.div
  initial={{ opacity: 0, y: 12 }}
  animate={{ opacity: 1, y: 0 }}

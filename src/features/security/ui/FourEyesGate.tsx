@@ -61,7 +61,7 @@ export const FourEyesGate = ({
 
  {isModalOpen && (
  <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm">
- <div className="relative w-full max-w-lg rounded-2xl bg-surface border border-slate-700/60 shadow-2xl shadow-black/50 p-6">
+ <div className="relative w-full max-w-lg rounded-2xl bg-surface border border-slate-700/60 shadow-2xl shadow-black/50 p-4">
  <div className="flex items-start gap-4">
  <div className="mt-1 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-rose-500 to-amber-500 shadow-lg shadow-rose-500/40">
  <ShieldAlert className="h-6 w-6 text-white" />
@@ -98,7 +98,7 @@ export const FourEyesGate = ({
  </div>
  </div>
 
- <div className="mt-6 flex items-center justify-end gap-3">
+ <div className="mt-3 flex items-center justify-end gap-3">
  <button
  type="button"
  onClick={() => setIsModalOpen(false)}

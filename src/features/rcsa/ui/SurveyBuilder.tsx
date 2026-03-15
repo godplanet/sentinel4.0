@@ -164,7 +164,7 @@ export const SurveyBuilder = ({ campaignId }: SurveyBuilderProps) => {
  )}
 
  {items.length === 0 && !isLoading && (
- <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-canvas px-4 py-6 text-center text-xs text-slate-500">
+ <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-canvas px-4 py-4 text-center text-xs text-slate-500">
  <AlertTriangle className="h-5 w-5 text-slate-400" />
  <p>Bu kampanya için henüz tanımlı RCSA sorusu yok.</p>
  <button

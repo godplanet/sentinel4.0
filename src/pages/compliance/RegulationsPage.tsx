@@ -184,7 +184,7 @@ function DocumentUploadModal({ regulation, onClose }: UploadModalProps) {
  className="bg-surface w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden"
  >
  {/* Başlık */}
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-100">
  <div className="flex items-center gap-2.5">
  <Upload size={16} className="text-blue-600" />
  <div>
@@ -436,7 +436,7 @@ function RegFormModal({ existing, onClose }: RegFormModalProps) {
  exit={{ opacity: 0, y: 10 }}
  className="bg-surface w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden"
  >
- <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+ <div className="flex items-center justify-between px-4 py-4 border-b border-slate-100">
  <div className="flex items-center gap-2.5">
  <BookMarked size={16} className="text-blue-600" />
  <h2 className="text-sm font-bold text-primary font-sans">
@@ -700,7 +700,7 @@ function RegulationRow({ reg, onEdit, onUpload }: RegRowProps) {
  {/* Genişletilmiş Açıklama */}
  {expanded && (
  <tr className="bg-canvas/50 border-b border-slate-100">
- <td colSpan={8} className="px-6 py-3">
+ <td colSpan={8} className="px-4 py-3">
  <p className="text-xs text-slate-600 font-sans leading-relaxed">{reg.description}</p>
  {(reg.metadata?.documents?.length ?? 0) > 0 && (
  <div className="mt-3 flex flex-wrap gap-2">
@@ -791,7 +791,7 @@ export default function RegulationsPage() {
  />
 
  <div className="flex-1 p-4 overflow-auto">
- <div className="w-full px-4 sm:px-6 lg:px-6 space-y-6">
+ <div className="w-full px-4 sm:px-4 lg:px-4 space-y-4">
 
  {/* İstatistik Kartları */}
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

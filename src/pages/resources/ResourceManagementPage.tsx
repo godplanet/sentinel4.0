@@ -99,7 +99,7 @@ function ResourceHeader({ activeTab, onTabChange }: { activeTab: TabKey; onTabCh
  return (
  <div className="border-b border-slate-200 bg-surface">
  {/* Top row: Title + CTA */}
- <div className="px-6 pt-5 pb-0 flex items-start justify-between gap-4">
+ <div className="px-4 pt-5 pb-0 flex items-start justify-between gap-4">
  <div className="flex items-center gap-3 min-w-0">
  {/* Icon badge */}
  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-sm">
@@ -134,7 +134,7 @@ function ResourceHeader({ activeTab, onTabChange }: { activeTab: TabKey; onTabCh
 
  {/* Tab Row */}
  <div className="relative mt-3 overflow-x-auto no-scrollbar">
- <div className="flex gap-0.5 px-6 min-w-max">
+ <div className="flex gap-0.5 px-4 min-w-max">
  {RESOURCE_TABS.map((t) => {
  const Icon = t.icon;
  const isActive = activeTab === t.key;
@@ -198,7 +198,7 @@ export default function ResourceManagementPage() {
 
  {/* Main content: single uniform container, no double-padding */}
  <div className="flex-1 overflow-auto">
- <div className="w-full px-4 sm:px-6 lg:px-6 w-full px-6 py-4">
+ <div className="w-full px-4 sm:px-4 lg:px-4 w-full px-4 py-4">
  {renderTabContent()}
  </div>
  </div>

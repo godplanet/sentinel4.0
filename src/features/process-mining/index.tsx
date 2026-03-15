@@ -135,7 +135,7 @@ export function ProcessMiningPage() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50 overflow-auto">
  {/* Header */}
- <div className="px-6 pt-6 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10">
+ <div className="px-4 pt-4 pb-4 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm z-10">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-800 flex items-center justify-center shadow-lg shadow-blue-500/20">
  <Network size={22} className="text-white" />
@@ -166,7 +166,7 @@ export function ProcessMiningPage() {
  </div>
  </div>
 
- <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
  {/* Left: Digital Twin Model */}
  <div className="flex flex-col">
  <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-2">

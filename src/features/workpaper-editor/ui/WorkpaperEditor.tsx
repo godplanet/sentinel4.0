@@ -27,7 +27,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
 
  if (!workpaper || !step) {
  return (
- <div className="p-6 bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200">
+ <div className="p-4 bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200">
  <p className="text-gray-600">Workpaper not found</p>
  </div>
  );
@@ -107,8 +107,8 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
 
  return (
  <div className="space-y-4">
- <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
- <div className="flex items-start justify-between mb-6">
+ <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4">
+ <div className="flex items-start justify-between mb-3">
  <div className="flex-1">
  <div className="flex items-center gap-3 mb-2">
  <h2 className="text-2xl font-semibold text-primary">{step.title}</h2>
@@ -133,7 +133,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
  )}
  </div>
 
- <div className="flex gap-2 mb-6">
+ <div className="flex gap-2 mb-3">
  <button
  onClick={() => handleStatusChange('draft')}
  disabled={workpaper.status === 'draft'}
@@ -157,7 +157,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
  </button>
  </div>
 
- <div className="mb-6">
+ <div className="mb-3">
  <div className="flex items-center justify-between mb-3">
  <h3 className="text-lg font-semibold text-primary">Test Results</h3>
  <button
@@ -213,7 +213,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
  </div>
  </div>
 
- <div className="mb-6">
+ <div className="mb-3">
  <label className="block text-sm font-medium text-gray-700 mb-2">
  Notes
  </label>
@@ -226,7 +226,7 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
         />
       </div>
 
-      <div className="mb-6">
+      <div className="mb-3">
         <ScratchpadPanel 
           workpaper={workpaper as any} 
           onSave={handleScratchpadSave} 
@@ -237,14 +237,14 @@ export function WorkpaperEditor({ workpaperId, onClose }: WorkpaperEditorProps) 
  {onClose && (
  <button
  onClick={onClose}
- className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-canvas transition-colors"
+ className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-canvas transition-colors"
  >
  Cancel
  </button>
  )}
  <button
  onClick={handleSave}
- className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+ className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
  >
  Save Changes
  </button>

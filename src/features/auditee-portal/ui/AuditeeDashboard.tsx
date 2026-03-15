@@ -186,7 +186,7 @@ export const AuditeeDashboard = () => {
  <div className="space-y-4">
  {/* Stats Cards */}
  <div className="grid grid-cols-4 gap-4">
- <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+ <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4">
  <div className="flex items-center justify-between">
  <div>
  <div className="text-sm text-gray-600 mb-1">Toplam Atanma</div>
@@ -198,7 +198,7 @@ export const AuditeeDashboard = () => {
  </div>
  </div>
 
- <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+ <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4">
  <div className="flex items-center justify-between">
  <div>
  <div className="text-sm text-gray-600 mb-1">Bekleyen</div>
@@ -210,7 +210,7 @@ export const AuditeeDashboard = () => {
  </div>
  </div>
 
- <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+ <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4">
  <div className="flex items-center justify-between">
  <div>
  <div className="text-sm text-gray-600 mb-1">Kabul Edildi</div>
@@ -222,7 +222,7 @@ export const AuditeeDashboard = () => {
  </div>
  </div>
 
- <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6">
+ <div className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4">
  <div className="flex items-center justify-between">
  <div>
  <div className="text-sm text-gray-600 mb-1">Reddedildi</div>
@@ -319,19 +319,19 @@ export const AuditeeDashboard = () => {
  <table className="w-full">
  <thead className="bg-canvas border-b border-gray-200">
  <tr>
- <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+ <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
  Kod
  </th>
- <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+ <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
  Başlık
  </th>
- <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+ <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
  Seviye
  </th>
- <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+ <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
  Durum
  </th>
- <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+ <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
  Son Tarih
  </th>
  </tr>
@@ -343,13 +343,13 @@ export const AuditeeDashboard = () => {
  onClick={() => handleFindingClick(finding)}
  className="hover:bg-blue-50 cursor-pointer transition-colors"
  >
- <td className="px-6 py-4 whitespace-nowrap">
+ <td className="px-4 py-4 whitespace-nowrap">
  <span className="text-sm font-mono text-gray-600">{finding.code}</span>
  </td>
- <td className="px-6 py-4">
+ <td className="px-4 py-4">
  <div className="text-sm font-medium text-primary">{finding.title}</div>
  </td>
- <td className="px-6 py-4 whitespace-nowrap">
+ <td className="px-4 py-4 whitespace-nowrap">
  <span
  className={clsx(
  'px-2 py-1 text-xs font-semibold rounded',
@@ -359,13 +359,13 @@ export const AuditeeDashboard = () => {
  {getSeverityLabel(finding.severity)}
  </span>
  </td>
- <td className="px-6 py-4 whitespace-nowrap">
+ <td className="px-4 py-4 whitespace-nowrap">
  <div className="flex items-center gap-2">
  {getStatusIcon(finding.status)}
  <span className="text-sm text-gray-700">{finding.status}</span>
  </div>
  </td>
- <td className="px-6 py-4 whitespace-nowrap">
+ <td className="px-4 py-4 whitespace-nowrap">
  <div className="flex items-center gap-2 text-sm text-gray-600">
  <Calendar className="w-4 h-4" />
  {new Date(finding.dueDate).toLocaleDateString('tr-TR')}
@@ -393,7 +393,7 @@ export const AuditeeDashboard = () => {
  <div
  key={finding.id}
  onClick={() => handleFindingClick(finding)}
- className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer"
+ className="bg-surface/80 backdrop-blur-xl rounded-lg border border-gray-200 p-4 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer"
  >
  <div className="flex items-start justify-between mb-3">
  <span className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">

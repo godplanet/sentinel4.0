@@ -34,7 +34,7 @@ export function FindingPaper({ finding }: FindingPaperProps) {
  <div className="p-[20mm] space-y-5 font-serif text-primary">
  
  {/* Başlık Alanı */}
- <div className="border-b-4 border-slate-900 pb-6 mb-4">
+ <div className="border-b-4 border-slate-900 pb-4 mb-4">
  <div className="flex justify-between items-start mb-4">
  <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">İç Denetim Raporu</span>
  <span className="text-xs font-mono text-slate-400">{new Date(finding.created_at).toLocaleDateString('tr-TR')}</span>
@@ -59,7 +59,7 @@ export function FindingPaper({ finding }: FindingPaperProps) {
  </section>
 
  {/* Detaylı Analiz (Condition, Criteria, Cause, Effect) */}
- <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
  <section className="bg-canvas p-4 rounded-xl border border-slate-100">
  <h3 className="text-xs font-bold text-slate-500 uppercase mb-2 font-sans">Mevcut Durum (Condition)</h3>
  <p className="text-sm leading-relaxed text-slate-700">

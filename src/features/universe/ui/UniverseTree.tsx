@@ -91,7 +91,7 @@ export const UniverseTree = () => {
  if (error) {
  return (
  <div className="w-full h-[700px] bg-red-50/40 rounded-2xl border border-red-100 flex items-center justify-center">
- <div className="text-center px-6">
+ <div className="text-center px-4">
  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
  <span className="text-red-400 text-xl font-bold">!</span>
  </div>

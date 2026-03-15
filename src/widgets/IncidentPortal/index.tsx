@@ -100,7 +100,7 @@ export function IncidentPortal() {
  animate={{ opacity: 1, y: 0 }}
  className="bg-surface rounded-2xl shadow-2xl overflow-hidden max-w-2xl mx-auto"
  >
- <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+ <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-4">
  <div className="flex items-center gap-4">
  <div className="w-16 h-16 bg-surface/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
  <Shield className="w-9 h-9 text-white" />
@@ -116,7 +116,7 @@ export function IncidentPortal() {
  </div>
  </div>
 
- <form onSubmit={handleSubmit} className="p-5 space-y-6">
+ <form onSubmit={handleSubmit} className="p-5 space-y-4">
  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
  <Lock className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
  <div className="text-sm text-blue-900">
@@ -224,7 +224,7 @@ export function IncidentPortal() {
  <button
  type="submit"
  disabled={isSubmitting}
- className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 disabled:from-slate-400 disabled:to-slate-500 disabled:cursor-not-allowed transition-all font-semibold text-lg shadow-lg hover:shadow-xl"
+ className="w-full flex items-center justify-center gap-3 px-4 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 disabled:from-slate-400 disabled:to-slate-500 disabled:cursor-not-allowed transition-all font-semibold text-lg shadow-lg hover:shadow-xl"
  >
  {isSubmitting ? (
  <>

@@ -105,7 +105,7 @@ export default function IntegrationsPage() {
  };
 
  return (
- <div className="p-4 space-y-6">
+ <div className="p-4 space-y-4">
  <PageHeader
  title="Entegrasyon"
  description="Kurumsal sistemler ile API entegrasyonları (SAP, LDAP, E-posta)"
@@ -127,7 +127,7 @@ export default function IntegrationsPage() {
  </div>
  </div>
 
- <div className="grid lg:grid-cols-2 gap-6">
+ <div className="grid lg:grid-cols-2 gap-4">
  <div className="bg-surface rounded-xl border border-slate-200 shadow-sm">
  <div className="p-4 border-b border-slate-200">
  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">

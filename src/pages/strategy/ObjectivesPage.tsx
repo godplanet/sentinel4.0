@@ -3,7 +3,7 @@ import { PageHeader } from '@/shared/ui';
 
 export default function ObjectivesPage() {
  return (
- <div className="p-5 space-y-6">
+ <div className="p-5 space-y-4">
  <PageHeader
  title="Stratejik Hedefler"
  description="Kurumsal hedefler ve denetim departmanı stratejisinin uyumlandırılması"

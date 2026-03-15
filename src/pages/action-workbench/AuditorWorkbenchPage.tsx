@@ -60,7 +60,7 @@ export default function AuditorWorkbenchPage() {
  )}
 
  {normalActions.length > 0 && (
- <div className="mt-8">
+ <div className="mt-4">
  <SectionLabel label="Aksiyonlar" />
  {(normalActions || []).map((action) => (
  <ActionTestCard
@@ -87,7 +87,7 @@ export default function AuditorWorkbenchPage() {
  )}
  </div>
 
- <div className="mt-8 p-5 bg-surface border border-slate-200 rounded-xl shadow-sm">
+ <div className="mt-4 p-5 bg-surface border border-slate-200 rounded-xl shadow-sm">
  <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">
  Bileşen Referans Rehberi
  </p>

@@ -73,7 +73,7 @@ function TiptapField({ label, fieldKey, content, placeholder, readOnly = false, 
  };
 
  return (
- <div className="mb-6">
+ <div className="mb-3">
  <div className="flex items-center justify-between mb-2">
  <label className="block text-xs font-sans font-semibold uppercase tracking-widest text-slate-500">
  {label}
@@ -160,7 +160,7 @@ function DynamicTiptapField({ section, index, readOnly = false, onChange }: Dyna
  const label = `${romanNumerals[index] ?? index + 1}. ${section.title}`;
 
  return (
- <div className="mb-6">
+ <div className="mb-3">
  <label className="block text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-2">
  {label}
  </label>
@@ -179,7 +179,7 @@ function DynamicTiptapField({ section, index, readOnly = false, onChange }: Dyna
 
 function SkeletonBlock({ lines = 3 }: { lines?: number }) {
  return (
- <div className="mb-6 animate-pulse">
+ <div className="mb-3 animate-pulse">
  <div className="h-3 w-24 bg-slate-200 rounded mb-3" />
  <div className="rounded-xl border border-slate-200 bg-canvas px-4 py-3 space-y-2">
  {Array.from({ length: lines }).map((_, i) => (
@@ -295,12 +295,12 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 20, nightMod
  const displayRiskLevel = activeReport?.risk_level;
 
  return (
- <div className="min-h-full bg-slate-50 overflow-y-auto py-5 px-4 lg:px-6">
+ <div className="min-h-full bg-slate-50 overflow-y-auto py-5 px-4 lg:px-4">
  <div className="max-w-4xl mx-auto">
  <div
           id="executive-summary-content"
           data-report-content="true"
- className="w-full rounded-sm shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] ring-1 ring-black/5 transition-colors duration-300 px-6 lg:px-14 py-10"
+ className="w-full rounded-sm shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] ring-1 ring-black/5 transition-colors duration-300 px-4 lg:px-14 py-10"
  style={{ ...paperStyle, transition: "background-color 0.3s ease" }}
  >
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -325,7 +325,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 20, nightMod
  </div>
 
  {layoutType !== 'info_note' && (
- <div className="bg-surface/80 rounded-2xl border border-slate-200 p-6 mb-6 shadow-sm">
+ <div className="bg-surface/80 rounded-2xl border border-slate-200 p-4 mb-3 shadow-sm">
  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-4">
  Skor ve Değerlendirme
  </h3>
@@ -388,7 +388,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 20, nightMod
  value={es?.trend ?? 0}
  disabled={readOnly}
  onChange={(e) => updateExecutiveSummary({ trend: parseFloat(e.target.value) || 0 })}
- className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-primary focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed pr-8 bg-surface"
+ className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-sans font-semibold text-primary focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-canvas disabled:cursor-not-allowed pr-5 bg-surface"
  />
  <span className="absolute right-2 top-1/2 -translate-y-1/2">
  {trendNeutral ? (
@@ -449,7 +449,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 20, nightMod
  )}
 
  {layoutType === 'investigation' && (
- <div className="bg-red-50 rounded-2xl border border-red-200 p-6 mb-6 shadow-sm">
+ <div className="bg-red-50 rounded-2xl border border-red-200 p-4 mb-3 shadow-sm">
  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-red-600 mb-4">
  Soruşturma Temel Bilgileri
  </h3>
@@ -500,7 +500,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 20, nightMod
  </div>
  )}
 
- <div className="bg-surface/80 rounded-2xl border border-slate-200 p-6 mb-6 shadow-sm">
+ <div className="bg-surface/80 rounded-2xl border border-slate-200 p-4 mb-3 shadow-sm">
  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-4">
  {layoutType === 'info_note' ? 'Özet' : 'YK Bilgilendirme Notu'}
  </h3>
@@ -518,8 +518,8 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 20, nightMod
  />
  </div>
 
- <div className="bg-surface/80 rounded-2xl border border-slate-200 p-6 shadow-sm">
- <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-6">
+ <div className="bg-surface/80 rounded-2xl border border-slate-200 p-4 shadow-sm">
+ <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500 mb-3">
  Detaylı Bölümler
  </h3>
 
@@ -578,7 +578,7 @@ export function ExecutiveSummaryStudio({ readOnly = false, warmth = 20, nightMod
  </div>
 
  {layoutType !== 'info_note' && (
- <div className="bg-surface/80 rounded-2xl border border-slate-200 p-6 mt-6 shadow-sm">
+ <div className="bg-surface/80 rounded-2xl border border-slate-200 p-4 mt-3 shadow-sm">
  <div className="flex items-center gap-2 mb-4">
  <UserCheck size={16} className="text-slate-500" />
  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-slate-500">

@@ -91,7 +91,7 @@ export const CampaignManager: React.FC = () => {
 
  return (
  <div className="bg-surface/70 backdrop-blur-md border border-slate-200 shadow-sm rounded-2xl overflow-hidden h-full">
- <div className="px-6 pt-6 pb-4 border-b border-slate-100">
+ <div className="px-4 pt-4 pb-4 border-b border-slate-100">
  <div className="flex items-center gap-3">
  <div className="w-9 h-9 rounded-xl bg-canvas border border-slate-200 flex items-center justify-center">
  <Target size={16} className="text-slate-700" />
@@ -107,11 +107,11 @@ export const CampaignManager: React.FC = () => {
 
  <div className="divide-y divide-slate-100">
  {isLoading ? (
- <div className="px-6 py-5 flex items-center justify-center">
+ <div className="px-4 py-5 flex items-center justify-center">
  <Loader2 size={20} className="animate-spin text-slate-400" />
  </div>
  ) : (campaigns ?? []).length === 0 ? (
- <div className="px-6 py-5 text-center text-sm text-slate-400">
+ <div className="px-4 py-5 text-center text-sm text-slate-400">
  Henüz kampanya bulunmuyor.
  </div>
  ) : (
@@ -123,7 +123,7 @@ export const CampaignManager: React.FC = () => {
  const isDone = pct === 100;
 
  return (
- <div key={row.campaign.id} className="px-6 py-5 space-y-3">
+ <div key={row.campaign.id} className="px-4 py-5 space-y-3">
  <div>
  <p className="text-sm font-semibold text-primary font-sans">{row.campaign.title}</p>
  <p className="text-xs text-slate-500 font-serif italic leading-relaxed mt-1 line-clamp-2">

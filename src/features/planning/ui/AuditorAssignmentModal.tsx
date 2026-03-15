@@ -238,7 +238,7 @@ Tespit yoksa "TEMIZ: Gizli çıkar çatışması tespit edilmedi." yaz.`;
  className="bg-surface rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col"
  onClick={(e) => e.stopPropagation()}
  >
- <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 rounded-t-2xl flex items-center justify-between">
+ <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-4 py-4 rounded-t-2xl flex items-center justify-between">
  <div>
  <h2 className="text-lg font-bold text-white flex items-center gap-2">
  <Users size={20} />
@@ -251,7 +251,7 @@ Tespit yoksa "TEMIZ: Gizli çıkar çatışması tespit edilmedi." yaz.`;
  </button>
  </div>
 
- <div className="p-6 flex-1 overflow-auto space-y-4">
+ <div className="p-4 flex-1 overflow-auto space-y-4">
  <div className="relative">
  <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
  <input
@@ -432,7 +432,7 @@ Tespit yoksa "TEMIZ: Gizli çıkar çatışması tespit edilmedi." yaz.`;
  )}
  </div>
 
- <div className="bg-canvas px-6 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+ <div className="bg-canvas px-4 py-4 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
  <p className="text-xs text-slate-500">
  {selectedAuditor ? `Seçilen: ${selectedAuditor.full_name}` : 'Denetçi seçin'}
  </p>

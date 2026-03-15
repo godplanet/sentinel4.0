@@ -74,7 +74,7 @@ export default function DashboardSidebar({ filters, onFiltersChange, engagementO
 
  return (
  <div className="w-80 h-screen overflow-y-auto rounded-tr-3xl" style={{ backgroundColor: '#1e3a8a' }}>
- <div className="p-4 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center">

@@ -163,7 +163,7 @@ export default function AcademyPage() {
  icon={BookOpen}
  />
 
- <div className="w-full px-4 sm:px-6 lg:px-6 sm:px-6 py-4">
+ <div className="w-full px-4 sm:px-4 lg:px-4 sm:px-4 py-4">
  <div className="grid grid-cols-3 gap-4 mb-4">
  <StatCard icon={<Trophy size={18} className="text-amber-500" />} label="Total XP Earned" value={totalXP.toLocaleString()} sub="from passed exams" color="amber" />
  <StatCard icon={<Award size={18} className="text-emerald-500" />} label="Certificates" value={String(attempts.length)} sub="exams passed" color="emerald" />

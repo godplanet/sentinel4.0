@@ -74,7 +74,7 @@ function WhyStepCard({ step, stepIndex, analysisId, isLast }: WhyStepProps) {
 
  {/* Connector arrow */}
  {!isLast && (
- <ChevronDown size={20} className="text-slate-300 mt-6 shrink-0" />
+ <ChevronDown size={20} className="text-slate-300 mt-3 shrink-0" />
  )}
  </div>
  );

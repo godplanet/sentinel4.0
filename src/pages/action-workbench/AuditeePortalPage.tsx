@@ -4,10 +4,10 @@ import { Lock, Shield } from 'lucide-react';
 
 export default function AuditeePortalPage() {
  return (
- <div className="min-h-screen bg-[#FDFBF7] p-4 md:p-8 flex flex-col">
+ <div className="min-h-screen bg-[#FDFBF7] p-4 md:p-5 flex flex-col">
  <MagicLinkHeader />
- <main className="flex-1 mt-6 min-h-0">
- <div className="w-full px-4 sm:px-6 lg:px-6 h-full" style={{ minHeight: '70vh' }}>
+ <main className="flex-1 mt-3 min-h-0">
+ <div className="w-full px-4 sm:px-4 lg:px-4 h-full" style={{ minHeight: '70vh' }}>
  <motion.div
  initial={{ opacity: 0, y: 12 }}
  animate={{ opacity: 1, y: 0 }}
@@ -20,7 +20,7 @@ export default function AuditeePortalPage() {
  </div>
  </main>
 
- <footer className="mt-8 text-center">
+ <footer className="mt-4 text-center">
  <div className="inline-flex items-center gap-2 text-xs text-slate-400">
  <Lock size={11} />
  <span>
@@ -38,9 +38,9 @@ function MagicLinkHeader() {
  <motion.header
  initial={{ opacity: 0, y: -8 }}
  animate={{ opacity: 1, y: 0 }}
- className="w-full px-4 sm:px-6 lg:px-6 w-full"
+ className="w-full px-4 sm:px-4 lg:px-4 w-full"
  >
- <div className="bg-surface/70 backdrop-blur-md border border-slate-200 rounded-2xl px-6 py-4 shadow-sm flex items-center justify-between">
+ <div className="bg-surface/70 backdrop-blur-md border border-slate-200 rounded-2xl px-4 py-4 shadow-sm flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shadow-sm">
  <Shield size={20} className="text-white" />
@@ -55,7 +55,7 @@ function MagicLinkHeader() {
  </div>
  </div>
 
- <div className="hidden md:flex items-center gap-6">
+ <div className="hidden md:flex items-center gap-4">
  <InfoChip label="Güvenli Oturum" icon="🔒" />
  <InfoChip label="BDDK Uyumlu" icon="🏛️" />
  <InfoChip label="GIAS 2024" icon="📋" />

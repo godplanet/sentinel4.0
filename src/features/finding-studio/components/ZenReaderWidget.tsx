@@ -86,7 +86,7 @@ export const ZenReaderWidget: React.FC<ZenReaderWidgetProps> = ({
       style={{ ...paperStyle, borderColor: warmthFull.borderColor }}
     >
       {/* Header */}
-      <header className="mb-10 border-b-2 border-black/10 pb-6">
+      <header className="mb-10 border-b-2 border-black/10 pb-4">
         <div className="flex items-start justify-between mb-4">
           <div className="flex flex-col gap-2">
             <span className={cn(
@@ -141,17 +141,17 @@ export const ZenReaderWidget: React.FC<ZenReaderWidgetProps> = ({
         "relative p-10 md:p-12 transition-all duration-500 flex flex-col",
         layout === 'book' 
           ? "h-full overflow-y-auto custom-scrollbar rounded-r-2xl" 
-          : "h-auto rounded-xl shadow-xl border border-stone-100/50 hover:shadow-2xl transition-shadow mt-8"
+          : "h-auto rounded-xl shadow-xl border border-stone-100/50 hover:shadow-2xl transition-shadow mt-4"
       )}
       style={layout === 'book' ? paperStyle : { backgroundColor: warmthFull.backgroundColor }}
     >
-      <div className="mb-6 pb-4 border-b border-black/5">
+      <div className="mb-3 pb-4 border-b border-black/5">
         <h3 className="font-sans font-bold text-xs uppercase tracking-widest opacity-50 flex items-center gap-2">
           <Target size={14} /> Yönetim Aksiyon Planı
         </h3>
       </div>
 
-      <div className="space-y-6 flex-1">
+      <div className="space-y-4 flex-1">
         <div className="p-4 bg-black/5 rounded-lg border border-black/5">
           <div className="grid grid-cols-2 gap-4">
              <div>
@@ -175,7 +175,7 @@ export const ZenReaderWidget: React.FC<ZenReaderWidgetProps> = ({
         </div>
       </div>
       
-      <div className="mt-auto pt-8 text-center text-[10px] opacity-30 font-mono">
+      <div className="mt-auto pt-5 text-center text-[10px] opacity-30 font-mono">
          Sayfa 2 / 2
       </div>
     </aside>
@@ -186,7 +186,7 @@ export const ZenReaderWidget: React.FC<ZenReaderWidgetProps> = ({
   if (layout === 'book') {
     return (
       // Outer scroll container — fills the entire zen main panel, centers the book
-      <div className="flex items-start justify-center w-full min-h-full py-10 px-6 xl:px-16">
+      <div className="flex items-start justify-center w-full min-h-full py-10 px-4 xl:px-16">
         {/*
           A4 Two-Page Book Spread:
             A4 portrait = 210×297mm → ratio = 1:√2 (height = width × √2)

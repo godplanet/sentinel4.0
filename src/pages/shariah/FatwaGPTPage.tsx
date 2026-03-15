@@ -58,7 +58,7 @@ export default function FatwaGPTPage() {
 
  return (
  <div className="min-h-screen p-4">
- <div className="w-full w-full px-4 sm:px-6 lg:px-6 mb-4">
+ <div className="w-full w-full px-4 sm:px-4 lg:px-4 mb-4">
  <div className="flex items-center gap-3 mb-2">
  <BookOpen className="w-8 h-8 text-emerald-600" />
  <div>
@@ -71,7 +71,7 @@ export default function FatwaGPTPage() {
  </div>
  </div>
 
- <div className="w-full w-full px-4 sm:px-6 lg:px-6 space-y-6">
+ <div className="w-full w-full px-4 sm:px-4 lg:px-4 space-y-4">
  {/* Islamic Pattern Header */}
  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 p-5 text-white">
  <div className="absolute inset-0 opacity-10" style={{
@@ -102,9 +102,9 @@ export default function FatwaGPTPage() {
  </div>
  </div>
 
- <div className="grid lg:grid-cols-3 gap-6">
+ <div className="grid lg:grid-cols-3 gap-4">
  {/* Main Chat Interface */}
- <div className="lg:col-span-2 space-y-6">
+ <div className="lg:col-span-2 space-y-4">
  <GlassCard className="p-4">
  <div className="flex items-center gap-3 mb-4">
  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
@@ -169,7 +169,7 @@ export default function FatwaGPTPage() {
 
  {/* Response Display */}
  {response && (
- <GlassCard className="p-4 space-y-6">
+ <GlassCard className="p-4 space-y-4">
  {/* Ruling Badge */}
  <div className="flex items-start gap-4">
  <div className={`p-3 rounded-xl ${

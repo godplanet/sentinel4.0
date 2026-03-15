@@ -54,7 +54,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
  <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-200 flex flex-col max-h-[90vh]">
  
  {/* Header */}
- <div className="flex justify-between items-center p-6 border-b bg-canvas">
+ <div className="flex justify-between items-center p-4 border-b bg-canvas">
  <div className="flex items-center gap-3">
  <div className={`p-3 rounded-xl ${type === 'goal' ? 'bg-indigo-100 text-indigo-600' : 'bg-emerald-100 text-emerald-600'}`}>
  {type === 'goal' ? <Target size={24} /> : <ListChecks size={24} />}
@@ -239,7 +239,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
  </div>
 
  {/* Footer Actions */}
- <div className="p-6 border-t bg-canvas flex justify-between items-center">
+ <div className="p-4 border-t bg-canvas flex justify-between items-center">
  <div className="text-xs text-slate-400 font-medium">
  * Zorunlu alanlar işaretlenmiştir.
  </div>
@@ -247,7 +247,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
  <button 
  type="button" 
  onClick={onClose} 
- className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:bg-surface hover:shadow-sm border border-transparent hover:border-slate-200 rounded-xl transition-all"
+ className="px-4 py-2.5 text-sm font-bold text-slate-600 hover:bg-surface hover:shadow-sm border border-transparent hover:border-slate-200 rounded-xl transition-all"
  >
  Vazgeç
  </button>
@@ -260,7 +260,7 @@ export const AddStrategyItemModal = ({ isOpen, onClose, type }: Props) => {
  form.reportValidity();
  }
  }}
- className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg shadow-indigo-200 hover:shadow-indigo-300 hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all"
+ className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg shadow-indigo-200 hover:shadow-indigo-300 hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all"
  >
  <Save size={18} />
  Kaydet

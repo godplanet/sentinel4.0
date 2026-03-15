@@ -40,7 +40,7 @@ export function ExamIntro({ attemptCount }: ExamIntroProps) {
  ];
 
  return (
- <div className="min-h-screen bg-[#070c18] flex items-center justify-center p-6">
+ <div className="min-h-screen bg-[#070c18] flex items-center justify-center p-4">
  <div className="w-full max-w-2xl">
  <div className="mb-4 text-center">
  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium mb-4"
@@ -82,7 +82,7 @@ export function ExamIntro({ attemptCount }: ExamIntroProps) {
  />
  </div>
 
- <div className="rounded-xl border border-white/[0.07] bg-surface/[0.03] p-5 mb-6 space-y-3">
+ <div className="rounded-xl border border-white/[0.07] bg-surface/[0.03] p-5 mb-3 space-y-3">
  <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">
  Sınav Kuralları
  </p>
@@ -96,7 +96,7 @@ export function ExamIntro({ attemptCount }: ExamIntroProps) {
  ))}
  </div>
 
- <div className="flex items-center justify-between mb-6">
+ <div className="flex items-center justify-between mb-3">
  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-medium ${diff.color}`}>
  {diff.label} Seviye
  </span>

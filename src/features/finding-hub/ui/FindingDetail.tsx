@@ -65,7 +65,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
 
  return (
  <div className="bg-surface rounded-lg border border-slate-200 overflow-hidden">
- <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+ <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-4 py-4 border-b border-slate-200 flex items-center justify-between">
  <div className="space-y-1">
  <div className="flex items-center gap-3">
  <span className="text-sm font-mono text-slate-600 bg-surface px-3 py-1 rounded border border-slate-200">
@@ -91,7 +91,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
  )}
  </div>
 
- <div className="p-6 space-y-6">
+ <div className="p-4 space-y-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-1">
  <div className="text-xs font-medium text-slate-500">Durum</div>
@@ -173,7 +173,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
  )}
 
  {finding.assignment && (
- <div className="border-t border-slate-200 pt-6 space-y-4">
+ <div className="border-t border-slate-200 pt-4 space-y-4">
  <h3 className="text-sm font-semibold text-slate-700">Atama Bilgileri</h3>
 
  <div className="grid grid-cols-2 gap-4">
@@ -237,7 +237,7 @@ export function FindingDetail({ findingId, onClose }: FindingDetailProps) {
  )}
 
  {actionSteps.length > 0 && (
- <div className="border-t border-slate-200 pt-6 space-y-4">
+ <div className="border-t border-slate-200 pt-4 space-y-4">
  <h3 className="text-sm font-semibold text-slate-700">Aksiyon Adımları</h3>
  <div className="space-y-3">
  {(actionSteps || []).map((step) => (

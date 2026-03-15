@@ -70,7 +70,7 @@ export function DataPipelineMonitor({ pipeline }: DataPipelineMonitorProps) {
  return (
  <div className="bg-white/80 backdrop-blur-lg border border-slate-200 shadow-xl rounded-2xl overflow-hidden">
  {/* Başlık */}
- <div className="px-6 py-5 border-b border-slate-200 bg-slate-50/80">
+ <div className="px-4 py-5 border-b border-slate-200 bg-slate-50/80">
  <div className="flex items-start justify-between gap-4">
  <div className="flex items-start gap-3">
  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">

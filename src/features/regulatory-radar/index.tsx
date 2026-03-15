@@ -154,7 +154,7 @@ function BulletinDetailPanel({
  initial={{ opacity: 0 }}
  animate={{ opacity: 1 }}
  exit={{ opacity: 0 }}
- className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-6"
+ className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4"
  onClick={onClose}
  >
  <motion.div
@@ -165,7 +165,7 @@ function BulletinDetailPanel({
  className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white/90 backdrop-blur-lg rounded-2xl border border-slate-200 shadow-2xl"
  >
  {/* Modal Başlık */}
- <div className={`px-6 py-5 border-b border-slate-200 ${cfg.bg}`}>
+ <div className={`px-4 py-5 border-b border-slate-200 ${cfg.bg}`}>
  <div className="flex items-start justify-between gap-3">
  <div>
  <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -188,7 +188,7 @@ function BulletinDetailPanel({
  </div>
  </div>
 
- <div className="p-6 space-y-5">
+ <div className="p-4 space-y-5">
  {/* Özet */}
  {bulletin.summary && (
  <div className="text-sm text-slate-700 leading-relaxed bg-slate-50 rounded-xl p-4 border border-slate-200">
@@ -230,7 +230,7 @@ function BulletinDetailPanel({
  </h3>
 
  {(impacts || []).length === 0 && !isLoading ? (
- <p className="text-xs text-slate-400 text-center py-6">
+ <p className="text-xs text-slate-400 text-center py-4">
  Bu bülten için henüz etki analizi kaydı oluşturulmamış.
  </p>
  ) : (
@@ -264,7 +264,7 @@ export function RegulatoryRadar() {
  return (
  <div className="h-full flex flex-col bg-slate-50/50">
  {/* Başlık */}
- <div className="px-6 pt-6 pb-5 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm">
+ <div className="px-4 pt-4 pb-5 bg-white/70 backdrop-blur-lg border-b border-slate-200 shadow-sm">
  <div className="flex items-center gap-3 mb-5">
  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
  <ScanLine size={20} className="text-white" />
@@ -295,7 +295,7 @@ export function RegulatoryRadar() {
  {/* İçerik — Sol: Sinyal Listesi, Sağ: Açık Uyarılar */}
  <div className="flex-1 overflow-hidden flex gap-0">
  {/* Sol Panel — Bültenler */}
- <div className="flex-1 overflow-y-auto p-6">
+ <div className="flex-1 overflow-y-auto p-4">
  {/* Filtreler */}
  <div className="flex items-center gap-2 mb-5 flex-wrap">
  {['ALL', 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW'].map((level) => {
