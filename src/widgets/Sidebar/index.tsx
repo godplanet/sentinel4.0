@@ -164,7 +164,7 @@ export const Sidebar = () => {
  to={module.path || '/'}
  title={module.label}
  className={clsx(
- 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-xs transition-all',
+ 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition-all',
  isActive
  ? `${bgActive} ${textActive}`
  : `${textMuted} ${bgHover} hover:${textActive}`,
@@ -191,7 +191,7 @@ export const Sidebar = () => {
  onClick={() => toggleModule(module.id)}
  title={module.label}
  className={clsx(
- 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-xs transition-all duration-200',
+ 'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition-all duration-200',
   isBrainSection
   ? isActive
   ? 'bg-indigo-500/25 text-indigo-700 shadow-[0_0_20px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40 backdrop-blur-sm'
@@ -251,7 +251,7 @@ export const Sidebar = () => {
  key={subItem.path}
  to={subItem.path}
  className={clsx(
- 'flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all',
+ 'flex items-center gap-2 px-2 py-1 rounded-md text-[11px] font-medium transition-all',
   isBrainSection
   ? isSubActive
   ? 'bg-indigo-500/20 text-indigo-700 shadow-[0_0_10px_rgba(99,102,241,0.2)] ring-1 ring-indigo-500/25 backdrop-blur-sm'
@@ -335,7 +335,7 @@ export const Sidebar = () => {
  size={10}
  className="text-indigo-400 drop-shadow-[0_0_6px_rgba(99,102,241,1)]"
  />
- <span className="text-[9px] font-bold text-indigo-300/80 uppercase tracking-[0.2em] whitespace-nowrap">
+ <span className="text-[8px] font-bold text-indigo-300/80 uppercase tracking-[0.2em] whitespace-nowrap">
  Sentinel AI
  </span>
  </div>
@@ -365,7 +365,7 @@ export const Sidebar = () => {
  <button
  onClick={() => setChatOpen(!chatOpen)}
  className={clsx(
- 'w-full relative overflow-hidden rounded-xl p-2.5 transition-all hover:scale-105 group',
+ 'w-full relative overflow-hidden rounded-xl p-2 transition-all hover:scale-105 group',
  'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600',
  'shadow-[0_0_20px_rgba(124,58,237,0.6)] hover:shadow-[0_0_30px_rgba(124,58,237,0.8)]'
  )}
@@ -374,15 +374,15 @@ export const Sidebar = () => {
  <div className="relative flex items-center justify-center gap-3">
  <div className="relative">
  <div className="absolute inset-0 bg-surface rounded-full blur-md opacity-50 animate-pulse" />
- <Brain className="relative text-white" size={18} />
+ <Brain className="relative text-white" size={14} />
  </div>
  {isSidebarOpen && (
  <div className="flex-1 text-left">
  <div className="flex items-center gap-2 mb-0.5">
- <span className="text-xs font-black text-white tracking-tight">Sentinel Asistan</span>
+ <span className="text-[10px] font-black text-white tracking-tight">Sentinel Asistan</span>
  <Sparkles size={14} className="text-yellow-300 animate-pulse" />
  </div>
- <div className="text-[10px] text-white/80 font-medium uppercase tracking-wider">Zeka Çekirdeği</div>
+ <div className="text-[9px] text-white/80 font-medium uppercase tracking-wider">Zeka Çekirdeği</div>
  </div>
  )}
  </div>
@@ -507,10 +507,10 @@ export const Sidebar = () => {
  </div>
   {isSidebarOpen && (
   <div className="flex-1 text-left overflow-hidden">
-  <div className={clsx("font-semibold text-sm truncate", textMain)}>
+  <div className={clsx("font-semibold text-[11px] truncate", textMain)}>
   {userData?.name || 'Sentinel Kullanıcısı'}
   </div>
-  <div className={clsx("text-[10px] truncate uppercase tracking-wider", textMuted)}>
+  <div className={clsx("text-[9px] truncate uppercase tracking-wider", textMuted)}>
   {userData?.role || 'Kıdemli Müfettiş'}
   </div>
  </div>
