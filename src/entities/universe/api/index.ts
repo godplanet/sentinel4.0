@@ -26,7 +26,8 @@ export async function fetchEntityFindingCounts(): Promise<Record<string, EntityF
  const byEntity: Record<string, EntityFindingCounts> = {};
  const normalize = (s: string) => (s || '').toUpperCase();
  for (const row of data || []) {
- const entityId = (row.audit_engagements as { entity_id: string } | null)?.entity_id;
+ const ae = row.audit_engagements as unknown as { entity_id: string } | { entity_id: string }[] | null;
+ const entityId = Array.isArray(ae) ? ae[0]?.entity_id : ae?.entity_id;
  if (!entityId) continue;
  if (!byEntity[entityId]) byEntity[entityId] = { critical: 0, high: 0, medium: 0, low: 0 };
  const sev = normalize(row.severity as string);
@@ -120,15 +121,43 @@ export function useUpdateEntity() {
  });
 }
 
+export function useUpdateEntityMetadata() {
+ const qc = useQueryClient();
+ return useMutation({
+  mutationFn: async ({ id, metadataPatch }: { id: string; metadataPatch: Record<string, unknown> }) => {
+   const { data: current } = await supabase.from('audit_entities').select('metadata').eq('id', id).single();
+   const merged = { ...(current?.metadata ?? {}), ...metadataPatch };
+   const { data, error } = await supabase
+    .from('audit_entities')
+    .update({ metadata: merged, updated_at: new Date().toISOString() })
+    .eq('id', id)
+    .select()
+    .single();
+   if (error) throw error;
+   return data as AuditEntity;
+  },
+  onSuccess: () => {
+   qc.invalidateQueries({ queryKey: KEYS.all });
+   qc.invalidateQueries({ queryKey: ['audit-universe-live'] });
+  },
+ });
+}
+
 export function useDeleteEntity() {
  const qc = useQueryClient();
  return useMutation({
  mutationFn: async (id: string) => {
- const { error } = await supabase
- .from('audit_entities')
- .delete()
- .eq('id', id);
- if (error) throw error;
+  const { error } = await supabase.from('audit_entities').delete().eq('id', id);
+  if (error) {
+   // FK constraint: fall back to INACTIVE so it disappears from active views
+   if (error.message.includes('foreign key') || error.message.includes('violates')) {
+    const { error: inactErr } = await supabase
+     .from('audit_entities').update({ status: 'INACTIVE' }).eq('id', id);
+    if (inactErr) throw inactErr;
+   } else {
+    throw error;
+   }
+  }
  },
  onSuccess: () => { qc.invalidateQueries({ queryKey: KEYS.all }); qc.invalidateQueries({ queryKey: ['audit-universe-live'] }); },
  });

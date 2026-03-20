@@ -29,6 +29,7 @@ const StrategicAnalysisPage = lazy(() => import('@/pages/dashboard/StrategicAnal
 const ExecutionConsolidatedPage = lazy(() => import('@/pages/execution-consolidated'));
 const CognitiveInterviewPage = lazy(() => import('@/pages/execution/CognitiveInterviewPage'));
 const ExecutionDetailPage = lazy(() => import('@/pages/execution/ExecutionPage'));
+const MyTaskDetailPage = lazy(() => import('@/pages/execution/MyTaskDetailPage'));
 const SmartContractPage = lazy(() => import('@/pages/execution/SmartContractPage'));
 const ZakatLedgerPage = lazy(() => import('@/pages/execution/ZakatLedgerPage'));
 const FindingCenterPage = lazy(() => import('@/pages/findings/FindingCenterPage'));
@@ -58,6 +59,7 @@ const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
 const AccessDeniedPage = lazy(() => import('@/pages/error/AccessDeniedPage'));
 const NotFoundPage = lazy(() => import('@/pages/error/NotFoundPage'));
 const WorkpapersPage = lazy(() => import('@/pages/execution/WorkpapersPage'));
+const ReportBuilderPage = lazy(() => import('@/pages/execution/ReportBuilderPage'));
 const BoardEvaluationPage = lazy(() => import('@/pages/governance/BoardEvaluationPage'));
 const BoardReportingPage = lazy(() => import('@/pages/governance/BoardReportingPage'));
 const CulturePulsePage = lazy(() => import('@/pages/governance/CulturePulsePage'));
@@ -202,8 +204,9 @@ export const AppRoutes = () => {
  <Route path="/governance/charter" element={<ProtectedRoute><GovernancePage /></ProtectedRoute>} />
 
  <Route path="/execution/my-engagements" element={<ProtectedRoute><ExecutionConsolidatedPage /></ProtectedRoute>} />
- <Route path="/execution/my-engagements/:id" element={<ProtectedRoute><ExecutionDetailPage /></ProtectedRoute>} />
+ <Route path="/execution/my-engagements/:id" element={<ProtectedRoute><MyTaskDetailPage /></ProtectedRoute>} />
  <Route path="/execution/workpapers" element={<ProtectedRoute><WorkpapersPage /></ProtectedRoute>} />
+ <Route path="/execution/report-builder" element={<ProtectedRoute><ReportBuilderPage /></ProtectedRoute>} />
  <Route path="/execution/investigations" element={<Navigate to="/403" replace />} />
  <Route path="/execution/findings" element={<ProtectedRoute><FindingCenterPage /></ProtectedRoute>} />
  <Route path="/execution/finding-hub" element={<Navigate to="/execution/findings" replace />} />

@@ -4,6 +4,7 @@ import {
 } from '@/entities/risk/api/scenario-api';
 import { useHeatmapData } from '@/entities/risk/heatmap-api';
 import type { AssessmentWithDetails } from '@/entities/risk/heatmap-types';
+import { useAuditEntities } from '@/entities/universe';
 import { useCometData } from '@/entities/risk/velocity-api';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -34,6 +35,7 @@ export function StrategicHeatmap() {
  const { data: assessments = [], isLoading: loadingAssessments, isError: assessmentsError, error: assessmentsErr, refetch: refetchAssessments } = useHeatmapData();
  const { data: comets = [], isLoading: loadingComets, isError: cometsError, refetch: refetchComets } = useCometData();
  const { data: scenarios = [] } = useRiskScenarios();
+ const { data: entities = [], isLoading: loadingEntities } = useAuditEntities();
 
  const [viewMode, setViewMode] = useState<ViewMode>('classic');
  const [matrixMode, setMatrixMode] = useState<MatrixMode>('inherent');
@@ -80,7 +82,7 @@ export function StrategicHeatmap() {
  return { worsening, improving, stable, total: (comets || []).length };
  }, [comets]);
 
- if (loadingAssessments || loadingComets) {
+ if (loadingAssessments || loadingComets || loadingEntities) {
  return (
  <div className="flex items-center justify-center py-20">
  <Loader2 className="animate-spin text-slate-400" size={32} />
@@ -117,8 +119,8 @@ export function StrategicHeatmap() {
  );
  }
 
- // Empty state
- if (assessments.length === 0 && comets.length === 0) {
+ // Empty state — only show when there are no entities in the inventory at all
+ if (entities.length === 0) {
  return (
  <div className="bg-surface rounded-xl border-2 border-dashed border-slate-200 p-12 shadow-sm">
  <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto">

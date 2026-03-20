@@ -29,12 +29,91 @@ function riskLevel(score: number) {
 }
 
 // ── Entity type display helpers ──────────────────────────────────────────────
+const ENTITY_TYPE_META: Record<string, { label: string; rowBg: string; nameCls: string; badgeCls: string }> = {
+  HOLDING:      { label: 'Holding',    rowBg: 'bg-purple-50/80 border-b border-purple-100 hover:bg-purple-50',    nameCls: 'text-purple-900 font-bold',    badgeCls: 'bg-purple-100 text-purple-700 border-purple-200' },
+  BANK:         { label: 'Banka',      rowBg: 'bg-blue-50/80 border-b border-blue-100 hover:bg-blue-100/60',      nameCls: 'text-blue-900 font-bold',      badgeCls: 'bg-blue-100 text-blue-700 border-blue-200' },
+  GROUP:        { label: 'Grup',       rowBg: 'bg-indigo-50/80 border-b border-indigo-100 hover:bg-indigo-100/60', nameCls: 'text-indigo-900 font-bold',    badgeCls: 'bg-indigo-100 text-indigo-700 border-indigo-200' },
+  HEADQUARTERS: { label: 'GMY',        rowBg: 'bg-slate-100/80 border-b border-slate-200 hover:bg-slate-100',     nameCls: 'text-slate-800 font-bold',     badgeCls: 'bg-slate-200 text-slate-700 border-slate-300' },
+  UNIT:         { label: 'Birim',      rowBg: 'bg-emerald-50/80 border-b border-emerald-100 hover:bg-emerald-100/60', nameCls: 'text-emerald-900 font-semibold', badgeCls: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
+  DEPARTMENT:   { label: 'Departman',  rowBg: 'bg-teal-50/80 border-b border-teal-100 hover:bg-teal-100/60',      nameCls: 'text-teal-900 font-semibold',  badgeCls: 'bg-teal-100 text-teal-700 border-teal-200' },
+  BRANCH:       { label: 'Şube',       rowBg: 'bg-amber-50/80 border-b border-amber-100 hover:bg-amber-100/60',   nameCls: 'text-amber-900 font-semibold', badgeCls: 'bg-amber-100 text-amber-700 border-amber-200' },
+  PROCESS:      { label: 'Süreç',      rowBg: 'bg-orange-50/80 border-b border-orange-100 hover:bg-orange-100/60', nameCls: 'text-orange-900 font-semibold', badgeCls: 'bg-orange-100 text-orange-700 border-orange-200' },
+  SUBSIDIARY:   { label: 'İştirak',    rowBg: 'bg-rose-50/80 border-b border-rose-100 hover:bg-rose-100/60',      nameCls: 'text-rose-900 font-semibold',  badgeCls: 'bg-rose-100 text-rose-700 border-rose-200' },
+  VENDOR:       { label: 'Tedarikçi',  rowBg: 'bg-violet-50/80 border-b border-violet-100 hover:bg-violet-100/60', nameCls: 'text-violet-900 font-semibold', badgeCls: 'bg-violet-100 text-violet-700 border-violet-200' },
+  IT_ASSET:     { label: 'BT Varlığı', rowBg: 'bg-cyan-50/80 border-b border-cyan-100 hover:bg-cyan-100/60',      nameCls: 'text-cyan-900 font-semibold',  badgeCls: 'bg-cyan-100 text-cyan-700 border-cyan-200' },
+};
+
 function entityTypeLabel(type: string) {
-  if (type === 'HEADQUARTERS') return { label: 'HQ',   cls: 'bg-slate-100 text-slate-600' };
-  if (type === 'DEPARTMENT')   return { label: 'GMY',  cls: 'bg-sky-100 text-sky-700' };
-  if (type === 'UNIT')         return { label: 'Birim',cls: 'bg-emerald-100 text-emerald-700' };
-  if (type === 'BRANCH')       return { label: 'Şube', cls: 'bg-rose-100 text-rose-700' };
-  return { label: type, cls: 'bg-slate-100 text-slate-500' };
+  return ENTITY_TYPE_META[type] ?? { label: type, badgeCls: 'bg-slate-100 text-slate-500 border-slate-200', rowBg: '', nameCls: '' };
+}
+
+// Depth-based row colors (inline style fallback to guarantee rendering)
+const DEPTH_BG_COLORS = [
+  '#eff6ff',  // blue-50   depth 0
+  '#eef2ff',  // indigo-50 depth 1
+  '#f5f3ff',  // violet-50 depth 2
+  '#f0fdfa',  // teal-50   depth 3
+  '#f8fafc',  // slate-50  depth 4+
+];
+const DEPTH_TEXT_COLORS = [
+  '#1e3a5f',  // depth 0
+  '#312e81',  // depth 1
+  '#4c1d95',  // depth 2
+  '#134e4a',  // depth 3
+  '#334155',  // depth 4+
+];
+const DEPTH_BORDER_COLORS = [
+  '#bfdbfe',  // blue-200
+  '#c7d2fe',  // indigo-200
+  '#ddd6fe',  // violet-200
+  '#99f6e4',  // teal-200
+  '#e2e8f0',  // slate-200
+];
+
+const DEPTH_STYLES = [
+  { nameCls: 'font-bold',     badgeCls: 'bg-blue-100 text-blue-700 border-blue-200',     label: '' },
+  { nameCls: 'font-bold',     badgeCls: 'bg-indigo-100 text-indigo-700 border-indigo-200', label: '' },
+  { nameCls: 'font-semibold', badgeCls: 'bg-violet-100 text-violet-700 border-violet-200', label: '' },
+  { nameCls: 'font-semibold', badgeCls: 'bg-teal-100 text-teal-700 border-teal-200',       label: '' },
+  { nameCls: 'font-medium',   badgeCls: 'bg-slate-200 text-slate-600 border-slate-300',    label: '' },
+];
+
+function groupRowStyle(entityType: string | undefined, depth: number): {
+  nameCls: string; badgeCls: string; label: string;
+  inlineBg: string; inlineColor: string; inlineBorder: string;
+} {
+  const d = Math.min(depth, DEPTH_STYLES.length - 1);
+  if (entityType && ENTITY_TYPE_META[entityType]) {
+    const m = ENTITY_TYPE_META[entityType];
+    // Extract inline bg/color from the Tailwind class names so Tailwind purge doesn't break them
+    const bgMap: Record<string, string> = {
+      HOLDING: '#faf5ff', BANK: '#eff6ff', GROUP: '#eef2ff', HEADQUARTERS: '#f8fafc',
+      UNIT: '#ecfdf5', DEPARTMENT: '#f0fdfa', BRANCH: '#fffbeb', PROCESS: '#fff7ed',
+      SUBSIDIARY: '#fff1f2', VENDOR: '#f5f3ff', IT_ASSET: '#ecfeff',
+    };
+    const colorMap: Record<string, string> = {
+      HOLDING: '#6b21a8', BANK: '#1e40af', GROUP: '#3730a3', HEADQUARTERS: '#1e293b',
+      UNIT: '#065f46', DEPARTMENT: '#134e4a', BRANCH: '#78350f', PROCESS: '#7c2d12',
+      SUBSIDIARY: '#881337', VENDOR: '#4c1d95', IT_ASSET: '#164e63',
+    };
+    const borderMap: Record<string, string> = {
+      HOLDING: '#e9d5ff', BANK: '#bfdbfe', GROUP: '#c7d2fe', HEADQUARTERS: '#e2e8f0',
+      UNIT: '#a7f3d0', DEPARTMENT: '#99f6e4', BRANCH: '#fde68a', PROCESS: '#fed7aa',
+      SUBSIDIARY: '#fecdd3', VENDOR: '#ddd6fe', IT_ASSET: '#a5f3fc',
+    };
+    return {
+      nameCls: m.nameCls, badgeCls: m.badgeCls, label: m.label,
+      inlineBg: bgMap[entityType] ?? '',
+      inlineColor: colorMap[entityType] ?? '',
+      inlineBorder: borderMap[entityType] ?? '',
+    };
+  }
+  return {
+    ...DEPTH_STYLES[d],
+    inlineBg: DEPTH_BG_COLORS[d],
+    inlineColor: DEPTH_TEXT_COLORS[d],
+    inlineBorder: DEPTH_BORDER_COLORS[d],
+  };
 }
 
 // ── EntityRiskTable ──────────────────────────────────────────────────────────
@@ -79,14 +158,19 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
         if (!parent.children.find(ch => ch.path === node.path)) parent.children.push(node);
       }
     });
-    nodeMap.forEach(node => node.children.sort((a, b) => a.path.localeCompare(b.path)));
+    nodeMap.forEach(node => node.children.sort((a, b) => {
+      const aGroup = a.children.length > 0 ? 0 : 1;
+      const bGroup = b.children.length > 0 ? 0 : 1;
+      if (aGroup !== bGroup) return aGroup - bGroup;
+      return a.path.localeCompare(b.path);
+    }));
     return Array.from(nodeMap.values())
       .filter(n => !n.path.includes('.'))
       .sort((a, b) => a.path.localeCompare(b.path));
   }, [entities]);
 
-  // Default: expand root and org.hq
-  const [expanded, setExpanded] = useState<Set<string>>(() => new Set(['org', 'org.hq']));
+  // Default: all collapsed
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
   const toggle = (path: string) => setExpanded(prev => {
     const next = new Set(prev);
     next.has(path) ? next.delete(path) : next.add(path);
@@ -116,20 +200,26 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
       const avgControl   = avgOf(a => a.control_effectiveness * 100);
       const avgResidual  = avgOf(a => a.residual_score);
 
-      const isRoot = depth === 0;
-      const rowBg = isRoot
-        ? 'bg-sky-50/90 border-b border-sky-200 hover:bg-sky-100/80'
-        : 'bg-slate-50/70 border-b border-slate-100 hover:bg-slate-100/60';
-      const textCls = isRoot ? 'text-sky-800 font-bold text-xs' : 'text-slate-700 font-semibold text-xs';
+      const style = groupRowStyle(node.entity?.type, depth);
+      const trStyle = style.inlineBg
+        ? { backgroundColor: style.inlineBg, borderBottom: `1px solid ${style.inlineBorder}` }
+        : undefined;
 
       return (
         <React.Fragment key={node.path}>
-          <tr className={`${rowBg} cursor-pointer transition-colors`} onClick={() => toggle(node.path)}>
+          <tr
+            className="cursor-pointer transition-colors"
+            style={trStyle}
+            onClick={() => toggle(node.path)}
+          >
             <td className="px-3 py-2" style={{ paddingLeft: (12 + indent) + 'px' }}>
               <div className="flex items-center gap-1.5">
-                <ChevronRight size={11} className={clsx('text-sky-500 transition-transform flex-shrink-0', isExpanded && 'rotate-90')} />
+                <ChevronRight size={11} className={clsx('transition-transform flex-shrink-0 opacity-60', isExpanded && 'rotate-90')} />
                 <div>
-                  <div className={textCls}>{node.label}</div>
+                  <div
+                    className={clsx('text-xs', style.nameCls)}
+                    style={style.inlineColor ? { color: style.inlineColor } : undefined}
+                  >{node.label}</div>
                   <div className="text-[9px] text-slate-400 font-mono">{leaves.length} birim{n > 0 ? ` · ${n} değerlendirme` : ' · değerlendirme yok'}</div>
                 </div>
               </div>
@@ -183,14 +273,21 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
     const ctrl = assessment != null ? assessment.control_effectiveness * 100 : null;
     const lvl = inh !== null ? riskLevel(inh) : null;
     const typeMeta = entityTypeLabel(entity.type);
+    const leafGroupStyle = groupRowStyle(entity.type, depth);
+    const leafTrStyle = leafGroupStyle.inlineBg
+      ? { backgroundColor: leafGroupStyle.inlineBg + 'aa', borderBottom: `1px solid ${leafGroupStyle.inlineBorder}66` }
+      : { borderBottom: '1px solid #f1f5f9' };
 
     return (
-      <tr key={entity.id} className="border-b border-slate-50 hover:bg-blue-50/30 transition-colors">
-        <td className="px-3 py-2 font-medium text-slate-700 text-xs" style={{ paddingLeft: (12 + indent + 14) + 'px' }}>
-          {entity.name}
+      <tr key={entity.id} className="transition-colors" style={leafTrStyle}>
+        <td className="px-3 py-2 text-xs" style={{ paddingLeft: (12 + indent + 14) + 'px' }}>
+          <span
+            className={clsx('font-medium', leafGroupStyle.nameCls)}
+            style={leafGroupStyle.inlineColor ? { color: leafGroupStyle.inlineColor } : undefined}
+          >{entity.name}</span>
         </td>
         <td className="px-3 py-2">
-          <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold', typeMeta.cls)}>{typeMeta.label}</span>
+          <span className={clsx('px-1.5 py-0.5 rounded border text-[9px] font-bold', typeMeta.badgeCls)}>{typeMeta.label}</span>
         </td>
         <td className="px-3 py-2 text-center">
           {assessment

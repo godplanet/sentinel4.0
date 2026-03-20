@@ -30,13 +30,14 @@ import {
  Upload,
  Workflow,
  X, Zap,
+ LayoutGrid,
 } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 // --- MİMARİ BAĞLANTILAR (FSD) ---
-import { useCreateEntity, useUpdateEntity, useDeleteEntity } from '@/entities/universe/api';
+import { useCreateEntity, useUpdateEntity, useDeleteEntity, useUpdateEntityMetadata } from '@/entities/universe/api';
 import { useAuditUniverseLive, useBulkCreateEntities, type AuditEntityLive } from '@/entities/universe/api/universe-live-api';
 import type { EntityType } from '@/entities/universe/model/types';
 import { calculateEntityGrade, type EntityGradeInput } from '@/features/grading-engine/calculator';
@@ -67,6 +68,7 @@ interface NewEntityForm {
   name: string;
   type: string;
   parentPath: string;
+  rotation_type: 'MANDATORY' | 'ROTATION';
 }
 
 interface EditEntityForm {
@@ -74,6 +76,7 @@ interface EditEntityForm {
   name: string;
   type: string;
   path: string;
+  rotation_type: 'MANDATORY' | 'ROTATION';
 }
 
 export default function AuditUniversePage() {
@@ -81,13 +84,14 @@ export default function AuditUniversePage() {
  const queryClient = useQueryClient();
 
  const [searchTerm, setSearchTerm] = useState('');
- const [viewMode, setViewMode] = useState<'tree' | 'canvas' | 'neural'>('tree');
+ const [viewMode, setViewMode] = useState<'tree' | 'canvas' | 'neural' | 'schema'>('tree');
+ const [schemaTab, setSchemaTab] = useState<'org' | 'proc' | 'prod' | 'sub' | 'tp'>('org');
  const [selectedEntity, setSelectedEntity] = useState<AuditEntityLive | null>(null);
  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
  const [showBulkModal, setShowBulkModal] = useState(false);
  const [isBulkCreating, setIsBulkCreating] = useState(false);
  const [showNewEntityModal, setShowNewEntityModal] = useState(false);
- const [newEntityForm, setNewEntityForm] = useState<NewEntityForm>({ name: '', type: 'UNIT', parentPath: '' });
+ const [newEntityForm, setNewEntityForm] = useState<NewEntityForm>({ name: '', type: 'UNIT', parentPath: '', rotation_type: 'ROTATION' });
  const [showParentPicker, setShowParentPicker] = useState(false);
  const [parentSearch, setParentSearch] = useState('');
  const [customTypes, _setCustomTypes] = useState<{ key: string; label: string; desc: string; color: string; bgColor: string }[]>([]);
@@ -104,6 +108,7 @@ export default function AuditUniversePage() {
  const universe = liveUniverse ?? [];
  const createEntity = useCreateEntity();
  const updateEntity = useUpdateEntity();
+ const updateEntityMetadata = useUpdateEntityMetadata();
  const deleteEntity = useDeleteEntity();
  const bulkCreateEntities = useBulkCreateEntities();
 
@@ -115,6 +120,7 @@ export default function AuditUniversePage() {
   if (!editingEntity) return;
   try {
    await updateEntity.mutateAsync({ id: editingEntity.id, name: editingEntity.name, type: editingEntity.type as EntityType, path: editingEntity.path });
+   await updateEntityMetadata.mutateAsync({ id: editingEntity.id, metadataPatch: { rotation_type: editingEntity.rotation_type } });
    toast.success(`"${editingEntity.name}" güncellendi.`);
    setEditingEntity(null);
   } catch (err: unknown) {
@@ -148,11 +154,11 @@ export default function AuditUniversePage() {
  };
 
  const handleDownloadTemplate = () => {
-   const header = 'name,type,path,risk_score';
+   const header = 'name,type,path,risk_score,rotation_type';
    const examples = [
-     'Kurumsal Bankacılık Direktörlüğü,UNIT,bank.corporate_banking,60',
-     'Hazine Bölümü,UNIT,bank.treasury,75',
-     'Bireysel Bankacılık,UNIT,bank.retail,50',
+     'Kurumsal Bankacılık Direktörlüğü,UNIT,org.hq.kb_gmy,60,ROTATION',
+     'Hazine Bölümü,UNIT,org.hq.hazine,75,ROTATION',
+     'Kredi Süreci,PROCESS,proc.admin.kredi,80,MANDATORY',
    ].join('\n');
    const csv = `${header}\n${examples}`;
    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -181,16 +187,22 @@ export default function AuditUniversePage() {
      const typeIdx = headers.indexOf('type');
      const pathIdx = headers.indexOf('path');
      const riskIdx = headers.indexOf('risk_score');
+     const rotIdx = headers.indexOf('rotation_type');
 
      if (nameIdx === -1 || pathIdx === -1) throw new Error('CSV\'de "name" ve "path" sütunları zorunludur.');
 
      const rows = lines.slice(1).map(line => {
        const cols = line.split(',').map(c => c.trim().replace(/"/g, ''));
+       const path = cols[pathIdx] || '';
+       const rawRot = rotIdx >= 0 ? cols[rotIdx]?.toUpperCase() : undefined;
+       const rotation_type: 'MANDATORY' | 'ROTATION' =
+         rawRot === 'MANDATORY' ? 'MANDATORY' : rawRot === 'ROTATION' ? 'ROTATION' : (path.startsWith('proc') ? 'MANDATORY' : 'ROTATION');
        return {
          name: cols[nameIdx] || '',
          type: (typeIdx >= 0 ? cols[typeIdx] : 'UNIT') || 'UNIT',
-         path: cols[pathIdx] || '',
+         path,
          risk_score: riskIdx >= 0 ? Number(cols[riskIdx]) || 50 : 50,
+         rotation_type,
        };
      }).filter(r => r.name && r.path);
 
@@ -293,10 +305,11 @@ export default function AuditUniversePage() {
     risk_score: 50,
     velocity_multiplier: 1.0,
     status: 'ACTIVE',
+    metadata: { rotation_type: newEntityForm.rotation_type },
    });
    toast.success(`"${newEntityForm.name}" denetim evrenine eklendi.`);
    setShowNewEntityModal(false);
-   setNewEntityForm({ name: '', type: 'UNIT', parentPath: '' });
+   setNewEntityForm({ name: '', type: 'UNIT', parentPath: '', rotation_type: 'ROTATION' });
    setShowParentPicker(false);
    setParentSearch('');
   } catch (err: unknown) {
@@ -349,6 +362,7 @@ export default function AuditUniversePage() {
  {(
  [
  { mode: 'tree', Icon: ListTree, label: 'Tablo Görünümü' },
+ { mode: 'schema', Icon: LayoutGrid, label: 'Şema Görünümü' },
  { mode: 'canvas', Icon: Workflow, label: 'Süreç Kanvası' },
  { mode: 'neural', Icon: Radar, label: 'Bulaşıcılık Radarı' },
  ] as const
@@ -380,16 +394,16 @@ export default function AuditUniversePage() {
 
  {/* KPI CARDS */}
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 xl:grid-cols-3 gap-4">
- <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl p-4 shadow-md border border-slate-700 relative overflow-hidden flex flex-col justify-between">
- <div className="absolute -right-6 -top-6 text-white/5"><Scale size={160} /></div>
+ <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl px-3 py-2.5 shadow-md border border-slate-700 relative overflow-hidden flex flex-col justify-between">
+ <div className="absolute -right-6 -top-6 text-white/5"><Scale size={120} /></div>
  <div className="relative z-10">
- <h2 className="text-slate-300 text-xs font-bold uppercase tracking-widest mb-1 flex items-center gap-2">
- <ShieldCheck size={16} className="text-emerald-400"/> Banka Geneli Güvence
+ <h2 className="text-slate-300 text-[10px] font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1.5">
+ <ShieldCheck size={13} className="text-emerald-400"/> Banka Geneli Güvence
  </h2>
- <p className="text-slate-500 text-xs font-medium">Risk Ağırlıklı Ortalama (RWA)</p>
+ <p className="text-slate-500 text-[10px] font-medium">Risk Ağırlıklı Ortalama (RWA)</p>
  </div>
- <div className="mt-3 flex items-end gap-4 relative z-10">
- <div className="text-6xl font-black text-white tracking-tighter">{rwaScore}</div>
+ <div className="mt-2 flex items-end gap-3 relative z-10">
+ <div className="text-4xl font-black text-white tracking-tighter">{rwaScore}</div>
  <div className="mb-2">
  <div className={clsx("inline-flex px-2.5 py-0.5 rounded text-sm font-bold border", Number(rwaScore) < 50 ? 'bg-fuchsia-900/50 text-fuchsia-300 border-fuchsia-800' : Number(rwaScore) < 70 ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30')}>
  {rwaGrade}
@@ -399,19 +413,19 @@ export default function AuditUniversePage() {
  </div>
  </div>
 
- <div className="xl:col-span-2 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-4 shadow-md border border-slate-700/50 flex flex-col justify-center relative overflow-hidden">
+ <div className="xl:col-span-2 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl px-3 py-2.5 shadow-md border border-slate-700/50 flex flex-col justify-center relative overflow-hidden">
  <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-500 rounded-full opacity-10 blur-3xl pointer-events-none"></div>
- <div className="flex items-start gap-4 relative z-10">
- <div className="p-3 bg-blue-500/20 rounded-xl border border-blue-500/30 shrink-0"><BrainCircuit className="w-6 h-6 text-blue-300" /></div>
+ <div className="flex items-start gap-3 relative z-10">
+ <div className="p-2 bg-blue-500/20 rounded-lg border border-blue-500/30 shrink-0"><BrainCircuit className="w-5 h-5 text-blue-300" /></div>
  <div className="flex-1">
- <div className="flex items-center justify-between mb-2">
- <h3 className="text-blue-200 font-bold flex items-center gap-2">
+ <div className="flex items-center justify-between mb-1">
+ <h3 className="text-blue-200 text-[11px] font-bold flex items-center gap-1.5">
  Sentinel AI Stratejik Gözlem
  {Number(rwaScore) < 60 && <span className="px-2 py-0.5 bg-rose-500/20 text-rose-300 text-[10px] rounded-full border border-rose-500/30 uppercase tracking-wide animate-pulse">Sistemik Risk Uyarısı</span>}
  </h3>
  <div className="text-xs text-blue-300/70 font-mono flex items-center gap-2"><span>Aktif Veto: {cappedCount}</span><span>|</span><span>Toplam Ağırlık: {totalWeight.toFixed(1)}</span></div>
  </div>
- <p className="text-slate-300 text-sm leading-relaxed">
+ <p className="text-slate-300 text-xs leading-relaxed">
  Aritmetik ortalamalar yanıltıcıdır. <strong>Hazine Bölümü (Risk Ağırlığı: 10.0)</strong> tarafındaki <em>Şer'i İhlal Vetosu</em> ve <strong>IT Bölümündeki</strong> <em>Yüksek Hacim Tavanı</em>, Banka Genel RWA Puanını <strong className="text-rose-400">{rwaScore} ({rwaOpinion})</strong> seviyesine çekmiştir. Yönetim Kurulu'na acil durum raporlaması önerilir.
  </p>
  </div>
@@ -419,11 +433,7 @@ export default function AuditUniversePage() {
  </div>
  </motion.div>
 
- {/* INFO BANNER */}
- <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-start gap-3 shadow-sm">
- <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
- <div className="text-sm text-blue-900 leading-relaxed"><strong>Kısıt Bazlı Kesinti Modeli (IIA Std 14.5):</strong> Doğrusal puanlama reddedilmiştir. Bir varlığın ham puanı yüksek olsa dahi, <em>Kritik Bulgu Varlığı</em> (Max D), <em>Yüksek Hacim</em> (Max C) veya <em>Şer'i İhlal</em> (Sıfırlama) gibi kurallar Nihai Notu ezer. Varlıkları seçip denetim görevine dönüştürebilirsiniz.</div>
- </div>
+
 
  {/* CANVAS VIEW */}
  {viewMode === 'canvas' && (
@@ -438,6 +448,120 @@ export default function AuditUniversePage() {
  <RiskContagionRadar />
  </div>
  )}
+
+ {/* SCHEMA VIEW */}
+ {viewMode === 'schema' && (() => {
+  const SCHEMA_TABS = [
+   { key: 'org', label: 'Organizasyon Yapı', prefix: 'org', color: 'blue' },
+   { key: 'proc', label: 'Süreçler', prefix: 'proc', color: 'orange' },
+   { key: 'prod', label: 'Ürünler', prefix: 'prod', color: 'emerald' },
+   { key: 'sub', label: 'İştirakler', prefix: 'sub', color: 'rose' },
+   { key: 'tp', label: 'Üçüncü Taraflar', prefix: 'tp', color: 'violet' },
+  ] as const;
+  const activeTabDef = SCHEMA_TABS.find(t => t.key === schemaTab)!;
+  const tabEntities = universe.filter(e => e.path.startsWith(activeTabDef.prefix + '.') || e.path === activeTabDef.prefix);
+  const colorMap: Record<string, { tab: string; active: string; badge: string; card: string }> = {
+   blue:    { tab: 'border-blue-500 text-blue-600',   active: 'bg-blue-600 text-white border-blue-600',   badge: 'bg-blue-100 text-blue-700',   card: 'border-blue-200 hover:border-blue-400' },
+   orange:  { tab: 'border-orange-500 text-orange-600', active: 'bg-orange-500 text-white border-orange-500', badge: 'bg-orange-100 text-orange-700', card: 'border-orange-200 hover:border-orange-400' },
+   emerald: { tab: 'border-emerald-500 text-emerald-600', active: 'bg-emerald-600 text-white border-emerald-600', badge: 'bg-emerald-100 text-emerald-700', card: 'border-emerald-200 hover:border-emerald-400' },
+   rose:    { tab: 'border-rose-500 text-rose-600',   active: 'bg-rose-600 text-white border-rose-600',   badge: 'bg-rose-100 text-rose-700',   card: 'border-rose-200 hover:border-rose-400' },
+   violet:  { tab: 'border-violet-500 text-violet-600', active: 'bg-violet-600 text-white border-violet-600', badge: 'bg-violet-100 text-violet-700', card: 'border-violet-200 hover:border-violet-400' },
+  };
+  const gradeColors: Record<string, string> = {
+   A: 'bg-emerald-100 text-emerald-700', B: 'bg-blue-100 text-blue-700',
+   C: 'bg-amber-100 text-amber-700', D: 'bg-red-100 text-red-700', F: 'bg-fuchsia-100 text-fuchsia-700',
+  };
+  return (
+   <div className="bg-surface rounded-xl shadow-sm border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+    {/* Tab bar */}
+    <div className="flex border-b border-slate-200 bg-slate-50 overflow-x-auto">
+     {SCHEMA_TABS.map(tab => {
+      const isActive = schemaTab === tab.key;
+      const c = colorMap[tab.color];
+      const count = universe.filter(e => e.path.startsWith(tab.prefix + '.') || e.path === tab.prefix).length;
+      return (
+       <button
+        key={tab.key}
+        onClick={() => setSchemaTab(tab.key as typeof schemaTab)}
+        className={clsx(
+         'flex items-center gap-2 px-5 py-3 text-sm font-semibold whitespace-nowrap border-b-2 transition-all duration-150',
+         isActive ? c.active + ' -mb-px' : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
+        )}
+       >
+        {tab.label}
+        <span className={clsx('px-1.5 py-0.5 rounded text-[10px] font-bold', isActive ? 'bg-white/25 text-inherit' : 'bg-slate-200 text-slate-600')}>
+         {count}
+        </span>
+       </button>
+      );
+     })}
+    </div>
+
+    {/* Content */}
+    <div className="p-5">
+     {tabEntities.length === 0 ? (
+      <div className="flex flex-col items-center justify-center py-16 text-slate-400">
+       <Building2 className="w-10 h-10 mb-3 opacity-30" />
+       <p className="font-medium text-sm">Bu kategoride varlık bulunamadı</p>
+       <p className="text-xs mt-1 opacity-70">Yeni varlık ekleyerek başlayabilirsiniz</p>
+      </div>
+     ) : (() => {
+      // Group by first 2 path segments (parent grouping)
+      const groups = new Map<string, typeof tabEntities>();
+      tabEntities.forEach(e => {
+       const parts = e.path.split('.');
+       const groupKey = parts.length >= 2 ? parts.slice(0, 2).join('.') : parts[0];
+       if (!groups.has(groupKey)) groups.set(groupKey, []);
+       groups.get(groupKey)!.push(e);
+      });
+      const c = colorMap[activeTabDef.color];
+      return (
+       <div className="space-y-5">
+        {Array.from(groups.entries()).map(([groupKey, groupEntities]) => {
+         const groupName = groupEntities.find(e => e.path === groupKey)?.name ?? groupKey.split('.').pop()?.replace(/_/g, ' ') ?? groupKey;
+         return (
+          <div key={groupKey}>
+           <div className="flex items-center gap-2 mb-2">
+            <div className={clsx('px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wide', c.badge)}>
+             {groupName}
+            </div>
+            <div className="flex-1 h-px bg-slate-100" />
+            <span className="text-[10px] text-slate-400 font-mono">{groupEntities.length} varlık</span>
+           </div>
+           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+            {groupEntities.map(entity => {
+             const grade = calculateEntityGrade(entity as unknown as EntityGradeInput);
+             return (
+              <div
+               key={entity.id}
+               className={clsx('bg-white rounded-lg border p-3 transition-all cursor-pointer group', c.card)}
+               onClick={() => setSelectedEntity(entity)}
+              >
+               <div className="flex items-start justify-between gap-1 mb-1.5">
+                <span className="text-[10px] text-slate-400 font-mono truncate">{entity.path.split('.').slice(-2).join('.')}</span>
+                <span className={clsx('text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0', gradeColors[grade.grade] ?? 'bg-slate-100 text-slate-600')}>
+                 {grade.grade}
+                </span>
+               </div>
+               <div className="font-semibold text-slate-800 text-xs leading-tight line-clamp-2 mb-1.5">{entity.name}</div>
+               <div className="flex items-center justify-between">
+                <span className="text-[9px] text-slate-400 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5 font-mono">{entity.type}</span>
+                <span className="text-[10px] font-bold text-slate-600">{entity.risk_score ?? '—'}</span>
+               </div>
+              </div>
+             );
+            })}
+           </div>
+          </div>
+         );
+        })}
+       </div>
+      );
+     })()}
+    </div>
+   </div>
+  );
+ })()}
 
  {/* TABLE */}
  {viewMode === 'tree' && (
@@ -565,7 +689,12 @@ export default function AuditUniversePage() {
     if (!parent.children.find(ch => ch.path === node.path)) parent.children.push(node);
    }
   });
-  nodeMap.forEach(node => node.children.sort((a, b) => a.path.localeCompare(b.path)));
+  nodeMap.forEach(node => node.children.sort((a, b) => {
+   const aGroup = a.children.length > 0 ? 0 : 1;
+   const bGroup = b.children.length > 0 ? 0 : 1;
+   if (aGroup !== bGroup) return aGroup - bGroup;
+   return a.path.localeCompare(b.path);
+  }));
   const roots = Array.from(nodeMap.values()).filter(n => !n.path.includes('.')).sort((a, b) => a.path.localeCompare(b.path));
 
   const collectLeaves = (node: TNode): typeof filteredUniverse => {
@@ -637,8 +766,35 @@ export default function AuditUniversePage() {
          <span className={`w-5 h-5 flex items-center justify-center rounded font-bold border ${totalS > 0 ? 'bg-yellow-400 text-slate-900 border-yellow-500' : 'bg-slate-50 text-slate-300 border-slate-200'}`}>{totalS}</span>
         </div>
        </td>
-       <td className="px-2 py-2.5 text-right">
-        <ChevronRight size={14} className={`${col.chevron} transition-transform ${isGrpExpanded ? 'rotate-90' : ''}`} />
+       <td className="px-2 py-2.5 text-right" onClick={e => e.stopPropagation()}>
+        {isEditMode ? (
+         <button
+          onClick={async (e) => {
+           e.stopPropagation();
+           const groupLeaves = collectLeaves(node);
+           const groupEntity = node.entity;
+           const total = groupLeaves.length + (groupEntity ? 1 : 0);
+           const label = groupEntity?.name ?? node.label;
+           if (!window.confirm(`"${label}" grubu ve altındaki ${groupLeaves.length} varlık silinsin mi?\nBu işlem geri alınamaz.`)) return;
+           try {
+            await Promise.all(groupLeaves.map(e => deleteEntity.mutateAsync(e.id)));
+            if (groupEntity) await deleteEntity.mutateAsync(groupEntity.id);
+            toast.success(`"${label}" ve ${total} varlık silindi.`);
+           } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : 'Bilinmeyen hata';
+            if (msg.includes('foreign key') || msg.includes('violates')) {
+             toast.error('Bu varlık başka bir kayıtta kullanılıyor. Önce ilişkili kayıtları kaldırın.');
+            } else {
+             toast.error(`Silme hatası: ${msg}`);
+            }
+           }
+          }}
+          className="w-6 h-6 inline-flex items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors font-bold text-lg leading-none"
+          title={`"${node.entity?.name ?? node.label}" grubunu sil`}
+         >−</button>
+        ) : (
+         <ChevronRight size={14} className={`${col.chevron} transition-transform ${isGrpExpanded ? 'rotate-90' : ''}`} />
+        )}
        </td>
       </tr>
       {isGrpExpanded && node.children.map(ch => renderNode(ch, depth + 1))}
@@ -708,7 +864,7 @@ export default function AuditUniversePage() {
         >−</button>
        ) : (
         <div className="flex items-center justify-end gap-0.5">
-         <button onClick={(e) => { e.stopPropagation(); setEditingEntity({ id: entity.id, name: entity.name, type: entity.type, path: entity.path }); }} className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Düzenle"><Pencil size={13} /></button>
+         <button onClick={(e) => { e.stopPropagation(); setEditingEntity({ id: entity.id, name: entity.name, type: entity.type, path: entity.path, rotation_type: entity.rotation_type ?? (entity.path.startsWith('proc') ? 'MANDATORY' : 'ROTATION') }); }} className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Düzenle"><Pencil size={13} /></button>
          <ChevronRight size={14} className={`text-slate-400 group-hover:text-blue-500 transition-transform ${isDetailOpen ? 'rotate-90' : ''}`} />
         </div>
        )}
@@ -818,6 +974,12 @@ export default function AuditUniversePage() {
  </div>
  </>
  )}
+
+ {/* INFO BANNER */}
+ <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-start gap-3 shadow-sm">
+ <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+ <div className="text-sm text-blue-900 leading-relaxed"><strong>Kısıt Bazlı Kesinti Modeli (IIA Std 14.5):</strong> Doğrusal puanlama reddedilmiştir. Bir varlığın ham puanı yüksek olsa dahi, <em>Kritik Bulgu Varlığı</em> (Max D), <em>Yüksek Hacim</em> (Max C) veya <em>Şer'i İhlal</em> (Sıfırlama) gibi kurallar Nihai Notu ezer. Varlıkları seçip denetim görevine dönüştürebilirsiniz.</div>
+ </div>
 
  {/* FLOATING SELECTION BAR */}
  <AnimatePresence>
@@ -971,7 +1133,7 @@ export default function AuditUniversePage() {
           const isSelected = newEntityForm.parentPath === cat.path || newEntityForm.parentPath.startsWith(cat.path + '.');
           return (
            <button key={cat.path} type="button"
-            onClick={() => setNewEntityForm(f => ({ ...f, type: cat.type, parentPath: cat.path }))}
+            onClick={() => setNewEntityForm(f => ({ ...f, type: cat.type, parentPath: cat.path, rotation_type: cat.path === 'proc' ? 'MANDATORY' : 'ROTATION' }))}
             className={"flex flex-col items-center gap-1 py-2.5 px-1 rounded-xl border-2 text-center transition-all " + (
              isSelected ? cat.bgColor + " " + cat.color + " shadow-sm" : "bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50"
             )}
@@ -980,6 +1142,21 @@ export default function AuditUniversePage() {
            </button>
           );
          })}
+        </div>
+       </div>
+
+       {/* Denetim Türü */}
+       <div>
+        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Denetim Türü</label>
+        <div className="flex gap-2">
+         <button type="button"
+          onClick={() => setNewEntityForm(f => ({ ...f, rotation_type: 'MANDATORY' }))}
+          className={'flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all ' + (newEntityForm.rotation_type === 'MANDATORY' ? 'bg-red-50 border-red-400 text-red-700' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300')}
+         >🔒 Zorunlu</button>
+         <button type="button"
+          onClick={() => setNewEntityForm(f => ({ ...f, rotation_type: 'ROTATION' }))}
+          className={'flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all ' + (newEntityForm.rotation_type === 'ROTATION' ? 'bg-blue-50 border-blue-400 text-blue-700' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300')}
+         >🔄 Rotasyon</button>
         </div>
        </div>
 
@@ -997,7 +1174,20 @@ export default function AuditUniversePage() {
        <div>
         <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Bağlı Olduğu Üst Birim</label>
         <div className="relative">
-         <button type="button" onClick={() => setShowParentPicker(v => !v)}
+         <button type="button" onClick={() => {
+           if (!showParentPicker) {
+            // Auto-expand root paths and current-selection ancestors when picker opens
+            const roots = new Set(universe.map(e => e.path.split('.')[0]));
+            const ancestors = newEntityForm.parentPath
+             ? newEntityForm.parentPath.split('.').reduce<string[]>((acc, _, i, arr) => {
+                if (i > 0) acc.push(arr.slice(0, i).join('.'));
+                return acc;
+               }, [])
+             : [];
+            setExpandedPaths(prev => new Set([...prev, ...roots, ...ancestors]));
+           }
+           setShowParentPicker(v => !v);
+          }}
           className="w-full flex items-center justify-between px-3 py-2.5 bg-white border border-slate-200 rounded-xl text-sm hover:border-blue-400 transition-all"
          >
           <span className={newEntityForm.parentPath ? "text-slate-800" : "text-slate-400"}>
@@ -1010,13 +1200,17 @@ export default function AuditUniversePage() {
 
          {showParentPicker && (() => {
            // Build virtual node map: all entity paths + all their ancestors
+           const CAT_LABELS: Record<string, string> = {
+            org: 'Organizasyonel Yapı', proc: 'Süreçler', prod: 'Ürünler',
+            sub: 'İştirakler', tp: 'Üçüncü Taraflar',
+           };
            const nameMap = new Map<string, string>();
            universe.forEach(e => {
             nameMap.set(e.path, e.name);
             const parts = e.path.split('.');
             for (let i = 1; i < parts.length; i++) {
              const anc = parts.slice(0, i).join('.');
-             if (!nameMap.has(anc)) nameMap.set(anc, parts[i - 1]);
+             if (!nameMap.has(anc)) nameMap.set(anc, CAT_LABELS[anc] || parts[i - 1]);
             }
            });
            const getChildren = (parentPath: string) =>
@@ -1196,6 +1390,20 @@ export default function AuditUniversePage() {
            )}
           >{t.label}</button>
          ))}
+        </div>
+       </div>
+
+       <div>
+        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Denetim Türü</label>
+        <div className="flex gap-2">
+         <button type="button"
+          onClick={() => setEditingEntity(f => f ? { ...f, rotation_type: 'MANDATORY' } : f)}
+          className={'flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all ' + (editingEntity.rotation_type === 'MANDATORY' ? 'bg-red-50 border-red-400 text-red-700' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300')}
+         >🔒 Zorunlu</button>
+         <button type="button"
+          onClick={() => setEditingEntity(f => f ? { ...f, rotation_type: 'ROTATION' } : f)}
+          className={'flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all ' + (editingEntity.rotation_type === 'ROTATION' ? 'bg-blue-50 border-blue-400 text-blue-700' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300')}
+         >🔄 Rotasyon</button>
         </div>
        </div>
 

@@ -1,323 +1,276 @@
-import { fetchEngagementsList, fetchInvestigations } from '@/entities/planning/api/queries';
-import { KanbanBoard } from '@/features/engagement-kanban';
+import { usePersonaStore } from '@/entities/user/model/persona-store';
+import { AgileEngagementsPage } from '@/pages/execution/AgileEngagementsPage';
 import { PageHeader } from '@/shared/ui';
 import clsx from 'clsx';
-import { AlertTriangle, ArrowRight, Briefcase, Calendar, CheckCircle2, Clock, FileText, Shield, TrendingUp, Zap } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import {
+  ArrowRight, Briefcase, Building2, Calendar, CheckCircle2,
+  Clock, FileText, Shield, Zap,
+} from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type TabKey = 'audits' | 'agile' | 'investigations';
+type TaskStatus = 'PLANNED' | 'IN_PROGRESS' | 'REPORTING' | 'COMPLETED';
 
 const TABS = [
- { key: 'audits' as TabKey, label: 'Denetimlerim', icon: Briefcase },
- { key: 'agile' as TabKey, label: 'Agile Denetim', icon: Zap },
- { key: 'investigations' as TabKey, label: 'Soruşturmalar', icon: Shield },
+  { key: 'audits' as TabKey, label: 'Denetimlerim', icon: Briefcase },
+  { key: 'agile' as TabKey, label: 'Çevik Denetimler', icon: Zap },
+  { key: 'investigations' as TabKey, label: 'Soruşturmalar', icon: Shield },
 ];
 
-interface Engagement {
- id: string;
- title: string;
- status: string;
- audit_type: string;
- start_date: string;
- end_date: string;
- estimated_hours?: number;
- risk_snapshot_score?: number;
+const STATUS_LABELS: Record<TaskStatus, string> = {
+  PLANNED: 'Planlandı',
+  IN_PROGRESS: 'Devam Ediyor',
+  REPORTING: 'Raporlama',
+  COMPLETED: 'Tamamlandı',
+};
+
+const STATUS_STYLES: Record<TaskStatus, string> = {
+  PLANNED: 'bg-blue-100 text-blue-700 border-blue-200',
+  IN_PROGRESS: 'bg-amber-100 text-amber-700 border-amber-200',
+  REPORTING: 'bg-purple-100 text-purple-700 border-purple-200',
+  COMPLETED: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+};
+
+interface MyTask {
+  id: string;
+  title: string;
+  category: string;
+  categoryIcon: React.ElementType;
+  categoryColor: string;
+  audit_type: string;
+  entity_name: string;
+  start_date: string;
+  end_date: string;
+  status: TaskStatus;
+  risk_score: number;
 }
 
-interface Investigation {
- id: string;
- case_number: string;
- title: string;
- status: string;
- severity: string;
- created_at: string;
-}
+export const MY_TASKS: MyTask[] = [
+  {
+    id: 'task-org1',
+    title: 'Kadıköy Şubesi',
+    category: 'Organizasyonel Yapı',
+    categoryIcon: Building2,
+    categoryColor: 'blue',
+    audit_type: 'İç Kontrol Denetimi',
+    entity_name: 'Kadıköy Şubesi',
+    start_date: '2026-02-01',
+    end_date: '2026-04-30',
+    status: 'IN_PROGRESS',
+    risk_score: 74,
+  },
+  {
+    id: 'task-org2',
+    title: 'Çankaya Şubesi',
+    category: 'Organizasyonel Yapı',
+    categoryIcon: Building2,
+    categoryColor: 'blue',
+    audit_type: 'Operasyonel Risk Denetimi',
+    entity_name: 'Çankaya Şubesi',
+    start_date: '2026-01-15',
+    end_date: '2026-03-31',
+    status: 'REPORTING',
+    risk_score: 82,
+  },
+  {
+    id: 'task-org3',
+    title: 'Karşıyaka Şubesi',
+    category: 'Organizasyonel Yapı',
+    categoryIcon: Building2,
+    categoryColor: 'blue',
+    audit_type: 'Uyum Denetimi',
+    entity_name: 'Karşıyaka Şubesi',
+    start_date: '2026-03-01',
+    end_date: '2026-05-31',
+    status: 'PLANNED',
+    risk_score: 68,
+  },
+];
 
 export default function ExecutionConsolidatedPage() {
- const navigate = useNavigate();
- const [activeTab, setActiveTab] = useState<TabKey>('audits');
- const [engagements, setEngagements] = useState<Engagement[]>([]);
- const [investigations, setInvestigations] = useState<Investigation[]>([]);
- const [loading, setLoading] = useState(true);
- const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
+  const navigate = useNavigate();
+  const { getCurrentPersonaConfig } = usePersonaStore();
+  const config = getCurrentPersonaConfig();
+  const userName = config.name;
 
- useEffect(() => {
- loadData();
- }, [activeTab]);
+  const [activeTab, setActiveTab] = useState<TabKey>('audits');
 
- const loadData = async () => {
- try {
- setLoading(true);
- if (activeTab === 'audits') {
- const data = await fetchEngagementsList();
- setEngagements(data || []);
- } else if (activeTab === 'investigations') {
- const data = await fetchInvestigations();
- setInvestigations(data || []);
- }
- } catch (error) {
- console.error('Failed to load data:', error);
- } finally {
- setLoading(false);
- }
- };
+  const stats = [
+    { label: 'Toplam Görev', value: MY_TASKS.length, icon: Briefcase, color: 'blue' },
+    { label: 'Devam Ediyor', value: MY_TASKS.filter(t => t.status === 'IN_PROGRESS').length, icon: Clock, color: 'amber' },
+    { label: 'Planlandı', value: MY_TASKS.filter(t => t.status === 'PLANNED').length, icon: Calendar, color: 'purple' },
+    { label: 'Tamamlandı', value: MY_TASKS.filter(t => t.status === 'COMPLETED').length, icon: CheckCircle2, color: 'emerald' },
+  ];
 
- const getStatusBadge = (status: string) => {
- const styles: Record<string, string> = {
- PLANNED: 'bg-blue-100 text-blue-700 border-blue-300',
- IN_PROGRESS: 'bg-orange-100 text-orange-700 border-orange-300',
- REPORTING: 'bg-purple-100 text-purple-700 border-purple-300',
- COMPLETED: 'bg-green-100 text-green-700 border-green-300',
- OPEN: 'bg-red-100 text-red-700 border-red-300',
- ACTIVE: 'bg-orange-100 text-orange-700 border-orange-300',
- CLOSED: 'bg-slate-100 text-slate-700 border-slate-300',
- LEGAL: 'bg-purple-100 text-purple-700 border-purple-300',
- };
+  return (
+    <div className="flex flex-col bg-canvas min-h-screen">
+      <PageHeader title="Görevlerim" subtitle="Denetim Görevleri ve Soruşturmalar" icon={FileText} />
 
- return (
- <span className={`inline-flex items-center px-3 py-1 rounded-lg border text-xs font-medium ${styles[status] || 'bg-slate-100 text-slate-700 border-slate-300'}`}>
- {status}
- </span>
- );
- };
+      {/* Tab Bar */}
+      <div className="border-b border-slate-200 bg-surface px-4">
+        <div className="flex gap-1">
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={clsx(
+                'flex items-center gap-2 px-4 py-3 font-medium text-sm transition-all relative',
+                activeTab === tab.key
+                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  : 'text-slate-600 hover:text-primary hover:bg-canvas'
+              )}
+            >
+              <tab.icon size={16} />
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
- return (
- <div className="h-screen flex flex-col bg-canvas">
- <PageHeader
- title="İcra Yönetimi"
- subtitle="Denetim Görevleri ve Soruşturmalar"
- icon={FileText}
- />
+      <div className="flex-1">
+        {/* ── Denetimlerim ── */}
+        {activeTab === 'audits' && (
+          <div className="p-4 space-y-4">
+            {/* Stat Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {stats.map(({ label, value, icon: Icon, color }) => (
+                <div key={label} className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <Icon className={`text-${color}-600`} size={22} />
+                    <span className="text-2xl font-bold text-primary">{value}</span>
+                  </div>
+                  <p className="text-sm text-slate-600">{label}</p>
+                </div>
+              ))}
+            </div>
 
- <div className="border-b border-slate-200 bg-surface px-4">
- <div className="flex gap-1">
- {TABS.map((tab) => (
- <button
- key={tab.key}
- onClick={() => (tab.key === 'agile' ? navigate('/execution/agile') : setActiveTab(tab.key))}
- className={clsx(
- 'flex items-center gap-2 px-4 py-3 font-medium text-sm transition-all relative',
- activeTab === tab.key
- ? 'text-blue-600 border-b-2 border-blue-600'
- : 'text-slate-600 hover:text-primary hover:bg-canvas'
- )}
- >
- <tab.icon size={16} />
- {tab.label}
- </button>
- ))}
- </div>
- </div>
+            {/* Tasks Table */}
+            <div className="bg-surface rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Denetim Görevleri</span>
+                <span className="text-xs text-slate-400">{MY_TASKS.length} görev · Atanan: <span className="font-semibold text-slate-600">{userName}</span></span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-100 bg-slate-50/40">
+                      <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wide">Denetim Adı</th>
+                      <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wide">Kategori</th>
+                      <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wide">Denetlenen Varlık</th>
+                      <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wide">Atanan Müfettiş</th>
+                      <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wide">Tarih Aralığı</th>
+                      <th className="px-4 py-3 text-center text-[11px] font-bold text-slate-500 uppercase tracking-wide">Risk</th>
+                      <th className="px-4 py-3 text-center text-[11px] font-bold text-slate-500 uppercase tracking-wide">Durum</th>
+                      <th className="px-4 py-3 w-10" />
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {MY_TASKS.map((task) => {
+                      const CategoryIcon = task.categoryIcon;
+                      const initials = userName.split(' ').map((p: string) => p[0]).join('').slice(0, 2).toUpperCase();
+                      return (
+                        <tr
+                          key={task.id}
+                          onClick={() => navigate(`/execution/my-engagements/${task.id}`)}
+                          className="hover:bg-blue-50/40 cursor-pointer transition-colors group"
+                        >
+                          {/* Title */}
+                          <td className="px-4 py-3.5">
+                            <div className="flex items-center gap-3">
+                              <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <Briefcase size={15} className="text-white" />
+                              </div>
+                              <div>
+                                <p className="font-semibold text-slate-800 group-hover:text-blue-700 text-sm leading-snug">{task.title}</p>
+                                <p className="text-[11px] text-slate-400 mt-0.5">{task.audit_type}</p>
+                              </div>
+                            </div>
+                          </td>
+                          {/* Category */}
+                          <td className="px-4 py-3.5">
+                            <div className={clsx(
+                              'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border whitespace-nowrap',
+                              `bg-${task.categoryColor}-50 border-${task.categoryColor}-200`
+                            )}>
+                              <CategoryIcon size={11} className={`text-${task.categoryColor}-600`} />
+                              <span className={`text-[11px] font-bold text-${task.categoryColor}-700`}>{task.category}</span>
+                            </div>
+                          </td>
+                          {/* Entity */}
+                          <td className="px-4 py-3.5 text-xs text-slate-600 max-w-[160px] truncate">{task.entity_name}</td>
+                          {/* Inspector */}
+                          <td className="px-4 py-3.5">
+                            <div className="flex items-center gap-2">
+                              <div className="w-7 h-7 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-700 flex-shrink-0">
+                                {initials}
+                              </div>
+                              <span className="text-xs font-medium text-slate-700 whitespace-nowrap">{userName}</span>
+                            </div>
+                          </td>
+                          {/* Dates */}
+                          <td className="px-4 py-3.5 text-xs text-slate-500 whitespace-nowrap">
+                            <div className="flex items-center gap-1.5">
+                              <Calendar size={12} className="text-slate-400 flex-shrink-0" />
+                              {new Date(task.start_date).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })}
+                              {' — '}
+                              {new Date(task.end_date).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: '2-digit' })}
+                            </div>
+                          </td>
+                          {/* Risk */}
+                          <td className="px-4 py-3.5 text-center">
+                            <div className="flex flex-col items-center gap-1">
+                              <span className={clsx('text-sm font-bold',
+                                task.risk_score >= 75 ? 'text-red-600' : task.risk_score >= 50 ? 'text-amber-600' : 'text-emerald-600'
+                              )}>{task.risk_score}</span>
+                              <div className="w-12 h-1.5 rounded-full bg-slate-200 overflow-hidden">
+                                <div
+                                  className={clsx('h-full rounded-full',
+                                    task.risk_score >= 75 ? 'bg-red-500' : task.risk_score >= 50 ? 'bg-amber-400' : 'bg-emerald-500'
+                                  )}
+                                  style={{ width: `${task.risk_score}%` }}
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          {/* Status */}
+                          <td className="px-4 py-3.5 text-center">
+                            <span className={clsx('px-2.5 py-1 rounded-full border text-[11px] font-bold whitespace-nowrap', STATUS_STYLES[task.status])}>
+                              {STATUS_LABELS[task.status]}
+                            </span>
+                          </td>
+                          {/* Arrow */}
+                          <td className="px-4 py-3.5">
+                            <ArrowRight size={14} className="text-slate-300 group-hover:text-blue-600 transition-colors" />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
 
- <div className="flex-1 overflow-auto">
- {activeTab === 'audits' && (
- <div className="p-4">
- <div className="mb-4">
- <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
- <div className="flex items-center justify-between mb-2">
- <Briefcase className="text-blue-600" size={24} />
- <span className="text-2xl font-bold text-primary">{engagements.length}</span>
- </div>
- <p className="text-sm text-slate-600">Toplam Görev</p>
- </div>
+        {/* ── Çevik Denetimler ── */}
+        {activeTab === 'agile' && (
+          <div className="p-4">
+            <AgileEngagementsPage />
+          </div>
+        )}
 
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
- <div className="flex items-center justify-between mb-2">
- <Clock className="text-orange-600" size={24} />
- <span className="text-2xl font-bold text-primary">
- {(engagements || []).filter((e) => e.status === 'IN_PROGRESS').length}
- </span>
- </div>
- <p className="text-sm text-slate-600">İcrada</p>
- </div>
-
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
- <div className="flex items-center justify-between mb-2">
- <Calendar className="text-purple-600" size={24} />
- <span className="text-2xl font-bold text-primary">
- {(engagements || []).filter((e) => e.status === 'PLANNED').length}
- </span>
- </div>
- <p className="text-sm text-slate-600">Planlanmış</p>
- </div>
-
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
- <div className="flex items-center justify-between mb-2">
- <CheckCircle2 className="text-green-600" size={24} />
- <span className="text-2xl font-bold text-primary">
- {(engagements || []).filter((e) => e.status === 'COMPLETED').length}
- </span>
- </div>
- <p className="text-sm text-slate-600">Tamamlandı</p>
- </div>
- </div>
- </div>
-
- <div className="mb-4 flex gap-2">
- <button
- onClick={() => setViewMode('list')}
- className={clsx(
- 'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
- viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-surface text-slate-700 border border-slate-200'
- )}
- >
- Liste
- </button>
- <button
- onClick={() => setViewMode('kanban')}
- className={clsx(
- 'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
- viewMode === 'kanban' ? 'bg-blue-600 text-white' : 'bg-surface text-slate-700 border border-slate-200'
- )}
- >
- Kanban
- </button>
- </div>
-
- {loading ? (
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-12">
- <div className="flex items-center justify-center">
- <Clock className="animate-spin text-blue-600 mr-2" size={24} />
- <p className="text-slate-600">Yükleniyor...</p>
- </div>
- </div>
- ) : viewMode === 'kanban' ? (
- <KanbanBoard engagements={engagements} />
- ) : (
- <div className="space-y-4">
- {(engagements || []).map((engagement) => (
- <button
- key={engagement.id}
- onClick={() => navigate(`/execution/my-engagements/${engagement.id}`)}
- className="w-full bg-surface rounded-lg shadow-sm border border-slate-200 p-4 hover:shadow-md transition-all text-left group"
- >
- <div className="flex items-start justify-between mb-4">
- <div className="flex-1">
- <div className="flex items-center gap-3 mb-2">
- <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
- <Briefcase className="text-white" size={24} />
- </div>
- <div>
- <h3 className="text-lg font-bold text-primary group-hover:text-blue-600 transition-colors">
- {engagement.title}
- </h3>
- <p className="text-sm text-slate-600">{engagement.audit_type}</p>
- </div>
- </div>
- </div>
- {getStatusBadge(engagement.status)}
- </div>
-
- <div className="grid grid-cols-4 gap-4">
- <div className="flex items-center gap-2">
- <Calendar size={16} className="text-slate-400" />
- <div>
- <p className="text-xs text-slate-500">Başlangıç</p>
- <p className="text-sm font-medium text-primary">
- {new Date(engagement.start_date).toLocaleDateString()}
- </p>
- </div>
- </div>
- <div className="flex items-center gap-2">
- <Calendar size={16} className="text-slate-400" />
- <div>
- <p className="text-xs text-slate-500">Bitiş</p>
- <p className="text-sm font-medium text-primary">
- {new Date(engagement.end_date).toLocaleDateString()}
- </p>
- </div>
- </div>
- <div className="flex items-center gap-2">
- <Clock size={16} className="text-slate-400" />
- <div>
- <p className="text-xs text-slate-500">Tahmini Saat</p>
- <p className="text-sm font-medium text-primary">{engagement.estimated_hours || '-'}</p>
- </div>
- </div>
- <div className="flex items-center gap-2">
- <TrendingUp size={16} className="text-slate-400" />
- <div>
- <p className="text-xs text-slate-500">Risk Skoru</p>
- <p className="text-sm font-medium text-primary">
- {engagement.risk_snapshot_score?.toFixed(0) || '-'}
- </p>
- </div>
- </div>
- </div>
-
- <div className="flex items-center justify-end pt-3 mt-3 border-t border-slate-200">
- <div className="flex items-center gap-2 text-blue-600">
- <span className="text-sm font-medium">Detaya Git</span>
- <ArrowRight size={16} />
- </div>
- </div>
- </button>
- ))}
- </div>
- )}
- </div>
- )}
-
- {activeTab === 'investigations' && (
- <div className="p-4">
- <div className="bg-surface rounded-lg shadow-sm border border-slate-200 p-4">
- <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
- <Shield size={20} className="text-red-600" />
- Soruşturma Dosyaları
- </h3>
- <p className="text-slate-600 mb-4">
- Gizlilik dereceli soruşturma vakalarının takibi.
- </p>
-
- {loading ? (
- <div className="flex items-center justify-center py-12">
- <Clock className="animate-spin text-blue-600 mr-2" size={24} />
- <p className="text-slate-600">Yükleniyor...</p>
- </div>
- ) : investigations.length === 0 ? (
- <div className="text-center py-12">
- <AlertTriangle className="mx-auto text-slate-400 mb-4" size={48} />
- <p className="text-slate-600">Henüz soruşturma kaydı yok</p>
- </div>
- ) : (
- <div className="space-y-3">
- {(investigations || []).map((inv) => (
- <div
- key={inv.id}
- className="p-4 border border-slate-200 rounded-lg hover:border-red-300 hover:bg-red-50/50 transition-all"
- >
- <div className="flex items-start justify-between">
- <div className="flex-1">
- <div className="flex items-center gap-2 mb-2">
- <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-mono font-bold rounded">
- {inv.case_number}
- </span>
- {getStatusBadge(inv.status)}
- <span className={clsx(
- 'px-2 py-1 text-xs font-medium rounded',
- inv.severity === 'CRITICAL' ? 'bg-red-200 text-red-800' :
- inv.severity === 'HIGH' ? 'bg-orange-200 text-orange-800' :
- 'bg-yellow-200 text-yellow-800'
- )}>
- {inv.severity}
- </span>
- </div>
- <h4 className="font-semibold text-primary mb-1">{inv.title}</h4>
- <p className="text-xs text-slate-500">
- Açılış: {new Date(inv.created_at).toLocaleDateString()}
- </p>
- </div>
- </div>
- </div>
- ))}
- </div>
- )}
- </div>
- </div>
- )}
- </div>
- </div>
- );
+        {/* ── Soruşturmalar ── */}
+        {activeTab === 'investigations' && (
+          <div className="p-4">
+            <div className="bg-surface rounded-lg border border-slate-200 p-16 text-center">
+              <Shield size={40} className="mx-auto text-slate-300 mb-3" />
+              <p className="text-slate-500 font-medium">Henüz soruşturma kaydı yok</p>
+              <p className="text-xs text-slate-400 mt-1">Gizlilik dereceli soruşturma vakaları burada listelenir</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }

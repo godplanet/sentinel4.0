@@ -339,6 +339,12 @@ export const navigationConfig: NavigationItem[] = [
  badgeColor: 'purple',
  },
  {
+ id: 'report-builder',
+ label: 'Rapor Oluşturucu',
+ path: '/execution/report-builder',
+ icon: FileText,
+ },
+ {
  id: 'process-canvas',
  label: 'Süreç Haritası',
  path: '/process-canvas',

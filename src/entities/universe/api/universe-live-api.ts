@@ -10,6 +10,8 @@ export interface AuditEntityLive {
   type: string;
   path: string;
   weight: number;
+  risk_score: number;
+  rotation_type: 'MANDATORY' | 'ROTATION';
   findings: {
     bordo: number;
     kizil: number;
@@ -26,6 +28,7 @@ export interface BulkEntityInput {
   type: string;
   path: string;
   risk_score?: number;
+  rotation_type?: 'MANDATORY' | 'ROTATION';
 }
 
 export function useAuditUniverseLive() {
@@ -34,7 +37,7 @@ export function useAuditUniverseLive() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('audit_entities')
-        .select('id, name, type, path, metadata, created_at')
+        .select('id, name, type, path, status, metadata, created_at, risk_score')
         .order('path');
 
       if (error) throw error;
@@ -44,10 +47,13 @@ export function useAuditUniverseLive() {
         name: string;
         type: string | null;
         path: string | null;
+        status: string | null;
         created_at: string | null;
+        risk_score: number | null;
         metadata: {
           weight?: number;
           lastAudit?: string;
+          rotation_type?: 'MANDATORY' | 'ROTATION';
           findings_summary?: {
             bordo?: number;
             kizil?: number;
@@ -59,12 +65,16 @@ export function useAuditUniverseLive() {
         } | null;
       };
 
-      return (data || []).map((row: AuditEntityRow) => ({
+      return (data || [])
+        .filter((row: AuditEntityRow) => (row.status ?? '').toUpperCase() === 'ACTIVE')
+        .map((row: AuditEntityRow) => ({
         id: row.id,
         name: row.name,
         type: row.type ?? 'UNIT',
         path: row.path ?? '',
         weight: Number(row.metadata?.weight ?? 1.0),
+        rotation_type: (row.metadata?.rotation_type ?? ((row.path ?? '').startsWith('proc') ? 'MANDATORY' : 'ROTATION')) as 'MANDATORY' | 'ROTATION',
+        risk_score: Number(row.risk_score ?? 50),
         findings: {
           bordo: Number(row.metadata?.findings_summary?.bordo ?? 0),
           kizil: Number(row.metadata?.findings_summary?.kizil ?? 0),
@@ -92,6 +102,9 @@ export function useBulkCreateEntities() {
         velocity_multiplier: 1.0,
         status: 'ACTIVE',
         tenant_id: TENANT,
+        metadata: {
+          rotation_type: input.rotation_type ?? (input.path.startsWith('proc') ? 'MANDATORY' : 'ROTATION'),
+        },
       }));
       const { data, error } = await supabase
         .from('audit_entities')
