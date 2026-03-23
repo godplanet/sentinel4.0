@@ -52,7 +52,7 @@ function ExecutionTab() {
  if (isLoading) {
  return (
  <div className="flex items-center justify-center py-16">
- < className="w-6 h-6 text-slate-400 animate-spin" />
+ <Loader2 className="w-6 h-6 text-slate-400 animate-spin" />
  </div>
  );
  }
@@ -66,7 +66,7 @@ function ExecutionTab() {
  if (stats.length === 0) {
  return (
  <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 text-center">
- < className="mx-auto w-7 h-7 text-slate-300 mb-3" />
+ <ClipboardCheck className="mx-auto w-7 h-7 text-slate-300 mb-3" />
  <p className="text-sm text-slate-600">Bu dönem için raporlanacak denetim icra verisi bulunmamaktadır.</p>
  </div>
  );
@@ -123,7 +123,7 @@ function FindingsTab() {
  if (isLoading) {
  return (
  <div className="flex items-center justify-center py-16">
- < className="w-6 h-6 text-slate-400 animate-spin" />
+ <Loader2 className="w-6 h-6 text-slate-400 animate-spin" />
  </div>
  );
  }
@@ -137,7 +137,7 @@ function FindingsTab() {
  if (findings.length === 0) {
  return (
  <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 text-center">
- < className="mx-auto w-7 h-7 text-emerald-400 mb-3" />
+ <CheckCircle2 className="mx-auto w-7 h-7 text-emerald-400 mb-3" />
  <p className="text-sm text-slate-600 font-medium">
  Bu dönem için raporlanacak kritik bulgu bulunmamaktadır.
  </p>
@@ -198,7 +198,7 @@ function EscalationsTab() {
  if (isLoading) {
  return (
  <div className="flex items-center justify-center py-16">
- < className="w-6 h-6 text-slate-400 animate-spin" />
+ <Loader2 className="w-6 h-6 text-slate-400 animate-spin" />
  </div>
  );
  }
@@ -212,7 +212,7 @@ function EscalationsTab() {
  if (escalations.length === 0) {
  return (
  <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 text-center">
- < className="mx-auto w-7 h-7 text-slate-300 mb-3" />
+ <ClipboardCheck className="mx-auto w-7 h-7 text-slate-300 mb-3" />
  <p className="text-sm text-slate-600 font-medium">
  Başdenetçi tarafından kurula arz edilen aksiyon gecikmesi bulunmamaktadır.
  </p>

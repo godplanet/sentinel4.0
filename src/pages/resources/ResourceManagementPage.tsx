@@ -166,6 +166,7 @@ export default function ResourceManagementPage() {
  const [searchParams, setSearchParams] = useSearchParams();
  const tabFromUrl = (searchParams?.get?.('tab') ?? null) as TabKey | null;
  const [activeTab, setActiveTab] = useState<TabKey>(tabFromUrl || 'overview');
+ const [openAddAuditor, setOpenAddAuditor] = useState(false);
 
  useEffect(() => {
  if (tabFromUrl && RESOURCE_TABS.some(t => t.key === tabFromUrl)) {
@@ -178,10 +179,14 @@ export default function ResourceManagementPage() {
  setSearchParams({ tab: tabKey });
  };
 
+ // Wire "Denetçi Ekle" CTA onClick
+ const poolTab = RESOURCE_TABS.find(t => t.key === 'pool');
+ if (poolTab?.cta) poolTab.cta.onClick = () => { setActiveTab('pool'); setOpenAddAuditor(true); };
+
  const renderTabContent = () => {
  switch (activeTab) {
  case 'overview': return <TalentDashboard />;
- case 'pool': return <ResourcePoolView />;
+ case 'pool': return <ResourcePoolView openAddModal={openAddAuditor} onAddModalClose={() => setOpenAddAuditor(false)} />;
  case 'matcher': return <ResourceMatcherView />;
  case 'talent': return <TalentMatrixView />;
  case 'rpg': return <TalentRPGView />;

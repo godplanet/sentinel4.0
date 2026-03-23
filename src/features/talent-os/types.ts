@@ -2,6 +2,17 @@ export type AuditorTitle = 'Junior' | 'Senior' | 'Manager' | 'Expert';
 export type BurnoutZone = 'GREEN' | 'AMBER' | 'RED';
 export type ServiceComplexity = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 
+export type Specialization = 'İdari' | 'BT' | 'Mali' | 'Uyum' | 'Risk' | 'Diğer';
+
+export const SPECIALIZATION_LABELS: Record<Specialization, string> = {
+ 'İdari': 'İdari Denetim',
+ 'BT': 'BT Denetimi',
+ 'Mali': 'Mali Denetim',
+ 'Uyum': 'Uyum Denetimi',
+ 'Risk': 'Risk Denetimi',
+ 'Diğer': 'Diğer',
+};
+
 export interface TalentProfile {
  id: string;
  user_id: string | null;
@@ -9,6 +20,7 @@ export interface TalentProfile {
  avatar_url: string | null;
  title: AuditorTitle;
  department: string;
+ specialization: Specialization;
  total_xp: number;
  current_level: number;
  fatigue_score: number;

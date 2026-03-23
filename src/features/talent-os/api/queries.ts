@@ -1,6 +1,6 @@
 import { supabase } from '@/shared/api/supabase';
 import { useQuery } from '@tanstack/react-query';
-import type { AuditServiceTemplate, TalentProfileWithSkills } from '../types';
+import type { AuditServiceTemplate, Specialization, TalentProfileWithSkills } from '../types';
 
 /**
  * Wave 15: Talent-OS Resource Allocator - Uçtan Uca (E2E) Veri Bağlamı
@@ -82,6 +82,7 @@ export function useTalentPool() {
  avatar_url: p?.avatar_url ?? null,
  title: p?.title ?? 'Junior',
  department: p?.department ?? 'Bilinmeyen Departman',
+ specialization: (p?.specialization ?? 'İdari') as Specialization,
  total_xp: p?.total_xp ?? 0,
  current_level: p?.current_level ?? 1,
  fatigue_score: p?.fatigue_score ?? 0,
