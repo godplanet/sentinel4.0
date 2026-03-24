@@ -38,7 +38,7 @@ import { useNavigate } from 'react-router-dom';
 
 // --- MİMARİ BAĞLANTILAR (FSD) ---
 import { useCreateEntity, useUpdateEntity, useDeleteEntity, useUpdateEntityMetadata } from '@/entities/universe/api';
-import { useAuditUniverseLive, useBulkCreateEntities, type AuditEntityLive } from '@/entities/universe/api/universe-live-api';
+import { useAuditUniverseLive, useBulkCreateEntities, inferEntityCategory, type AuditEntityLive } from '@/entities/universe/api/universe-live-api';
 import type { EntityType } from '@/entities/universe/model/types';
 import { calculateEntityGrade, type EntityGradeInput } from '@/features/grading-engine/calculator';
 import { createEngagementsFromEntities, getDefaultPlanId } from '@/features/planning/linkage';
@@ -77,6 +77,7 @@ interface EditEntityForm {
   type: string;
   path: string;
   rotation_type: 'MANDATORY' | 'ROTATION';
+  entity_category: 'IT' | 'İdari';
 }
 
 export default function AuditUniversePage() {
@@ -120,7 +121,7 @@ export default function AuditUniversePage() {
   if (!editingEntity) return;
   try {
    await updateEntity.mutateAsync({ id: editingEntity.id, name: editingEntity.name, type: editingEntity.type as EntityType, path: editingEntity.path });
-   await updateEntityMetadata.mutateAsync({ id: editingEntity.id, metadataPatch: { rotation_type: editingEntity.rotation_type } });
+   await updateEntityMetadata.mutateAsync({ id: editingEntity.id, metadataPatch: { rotation_type: editingEntity.rotation_type, entity_category: editingEntity.entity_category } });
    toast.success(`"${editingEntity.name}" güncellendi.`);
    setEditingEntity(null);
   } catch (err: unknown) {
@@ -827,7 +828,12 @@ export default function AuditUniversePage() {
          {entity.type === 'IT_ASSET' ? <Server size={12} /> : <Building2 size={12} />}
         </div>
         <div className="min-w-0">
-         <div className="font-semibold text-slate-900 text-sm truncate group-hover:text-blue-700 transition-colors">{entity.name}</div>
+         <div className="flex items-center gap-1.5">
+          <span className="font-semibold text-slate-900 text-sm truncate group-hover:text-blue-700 transition-colors">{entity.name}</span>
+          <span className={clsx('shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold border', entity.entity_category === 'IT' ? 'bg-cyan-50 text-cyan-700 border-cyan-200' : 'bg-slate-100 text-slate-600 border-slate-200')}>
+           {entity.entity_category}
+          </span>
+         </div>
          <div className="text-[10px] text-slate-400 font-mono truncate">{entity.path}</div>
         </div>
        </div>
@@ -864,7 +870,7 @@ export default function AuditUniversePage() {
         >−</button>
        ) : (
         <div className="flex items-center justify-end gap-0.5">
-         <button onClick={(e) => { e.stopPropagation(); setEditingEntity({ id: entity.id, name: entity.name, type: entity.type, path: entity.path, rotation_type: entity.rotation_type ?? (entity.path.startsWith('proc') ? 'MANDATORY' : 'ROTATION') }); }} className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Düzenle"><Pencil size={13} /></button>
+         <button onClick={(e) => { e.stopPropagation(); setEditingEntity({ id: entity.id, name: entity.name, type: entity.type, path: entity.path, rotation_type: entity.rotation_type ?? (entity.path.startsWith('proc') ? 'MANDATORY' : 'ROTATION'), entity_category: entity.entity_category }); }} className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Düzenle"><Pencil size={13} /></button>
          <ChevronRight size={14} className={`text-slate-400 group-hover:text-blue-500 transition-transform ${isDetailOpen ? 'rotate-90' : ''}`} />
         </div>
        )}
@@ -892,6 +898,12 @@ export default function AuditUniversePage() {
              <div className="bg-canvas rounded p-2"><div className="text-[9px] text-slate-500">Toplam Bulgu</div><div className="font-bold text-slate-800">{entity.findings.bordo+entity.findings.kizil+entity.findings.turuncu+entity.findings.sari}</div></div>
              <div className="bg-canvas rounded p-2"><div className="text-[9px] text-slate-500">Son Denetim</div><div className="text-xs font-semibold text-slate-700">{entity.lastAudit}</div></div>
              <div className="bg-canvas rounded p-2"><div className="text-[9px] text-slate-500">Şeri İhlal</div><div className={clsx("font-bold", entity.findings.shariah_systemic > 0 ? "text-fuchsia-700" : "text-slate-400")}>{entity.findings.shariah_systemic > 0 ? `${entity.findings.shariah_systemic} Tespit` : 'Yok'}</div></div>
+             <div className="bg-canvas rounded p-2 col-span-2 flex items-center justify-between">
+              <div className="text-[9px] text-slate-500">Kategori</div>
+              <span className={clsx('px-2 py-0.5 rounded border text-[10px] font-bold', entity.entity_category === 'IT' ? 'bg-cyan-50 text-cyan-700 border-cyan-200' : 'bg-slate-100 text-slate-600 border-slate-200')}>
+               {entity.entity_category === 'IT' ? '💻 BT (IT)' : '🏢 İdari'}
+              </span>
+             </div>
             </div>
            </div>
            <div className="bg-surface border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col justify-between">
@@ -1404,6 +1416,20 @@ export default function AuditUniversePage() {
           onClick={() => setEditingEntity(f => f ? { ...f, rotation_type: 'ROTATION' } : f)}
           className={'flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all ' + (editingEntity.rotation_type === 'ROTATION' ? 'bg-blue-50 border-blue-400 text-blue-700' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300')}
          >🔄 Rotasyon</button>
+        </div>
+       </div>
+
+       <div>
+        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Kategori</label>
+        <div className="flex gap-2">
+         <button type="button"
+          onClick={() => setEditingEntity(f => f ? { ...f, entity_category: 'IT' } : f)}
+          className={'flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all ' + (editingEntity.entity_category === 'IT' ? 'bg-cyan-50 border-cyan-400 text-cyan-700' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300')}
+         >💻 BT (IT)</button>
+         <button type="button"
+          onClick={() => setEditingEntity(f => f ? { ...f, entity_category: 'İdari' } : f)}
+          className={'flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all ' + (editingEntity.entity_category === 'İdari' ? 'bg-slate-100 border-slate-400 text-slate-700' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300')}
+         >🏢 İdari</button>
         </div>
        </div>
 

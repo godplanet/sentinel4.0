@@ -4,6 +4,27 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const TENANT = ACTIVE_TENANT_ID;
 
+// IT anahtar kelimelerine göre otomatik kategori tespiti
+export function inferEntityCategory(name: string, type: string): 'IT' | 'İdari' {
+  if (type === 'IT_ASSET') return 'IT';
+  const lower = (' ' + name.toLowerCase()
+    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c') + ' ');
+  const IT_KEYWORDS = [
+    'siber', 'bilgi teknoloji', ' bt ', 'yazilim', 'donanim',
+    'dijital bankac', 'veri yonet', 'veri merkez', 'data',
+    'network', 'altyapi ve sistem', 'altyapi yonet',
+    'core banking', 'swift', 'mobil', 'internet bankac',
+    ' it ', 'teknoloji', 'server', 'veritabani',
+    ' api ', 'entegrasyon', 'kartli odeme', 'odeme sistemleri',
+    'yazilim gelistir', 'bt surec', 'bt yonetisim', 'bt operasyon',
+    'kimlik ve erisim', 'bilgi guvenligi', 'is surekliligi',
+    'felaket kurtarma', 'olay ve problem', 'bulut yonetim',
+    'elektronik bankac', 'ag ve sistem', 'log yonetim',
+  ];
+  return IT_KEYWORDS.some(kw => lower.includes(kw)) ? 'IT' : 'İdari';
+}
+
 export interface AuditEntityLive {
   id: string;
   name: string;
@@ -12,6 +33,7 @@ export interface AuditEntityLive {
   weight: number;
   risk_score: number;
   rotation_type: 'MANDATORY' | 'ROTATION';
+  entity_category: 'IT' | 'İdari';
   findings: {
     bordo: number;
     kizil: number;
@@ -54,6 +76,7 @@ export function useAuditUniverseLive() {
           weight?: number;
           lastAudit?: string;
           rotation_type?: 'MANDATORY' | 'ROTATION';
+          entity_category?: 'IT' | 'İdari';
           findings_summary?: {
             bordo?: number;
             kizil?: number;
@@ -74,6 +97,7 @@ export function useAuditUniverseLive() {
         path: row.path ?? '',
         weight: Number(row.metadata?.weight ?? 1.0),
         rotation_type: (row.metadata?.rotation_type ?? ((row.path ?? '').startsWith('proc') ? 'MANDATORY' : 'ROTATION')) as 'MANDATORY' | 'ROTATION',
+        entity_category: row.metadata?.entity_category ?? inferEntityCategory(row.name, row.type ?? 'UNIT'),
         risk_score: Number(row.risk_score ?? 50),
         findings: {
           bordo: Number(row.metadata?.findings_summary?.bordo ?? 0),
