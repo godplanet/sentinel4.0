@@ -1,22 +1,15 @@
-import {
-  useCreateAssessment,
-  useHeatmapData,
-  useRiskDefinitions
-} from '@/entities/risk/heatmap-api';
-import type { AssessmentWithDetails, CreateAssessmentInput } from '@/entities/risk/heatmap-types';
+import { useHeatmapData } from '@/entities/risk/heatmap-api';
+import type { AssessmentWithDetails } from '@/entities/risk/heatmap-types';
 import { useAuditEntities } from '@/entities/universe';
 import type { AuditEntity } from '@/entities/universe/model/types';
 import { PageHeader } from '@/shared/ui';
 import { StrategicHeatmap } from '@/widgets/StrategicHeatmap';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
 import {
   ChevronRight,
   Grid3x3,
   Loader2,
-  Plus,
   Shield,
-  X,
 } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 
@@ -80,7 +73,14 @@ interface TNode {
   children: TNode[];
 }
 
-function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void }) {
+// Kategori sıra düzeni — Audit Universe ile aynı
+const CAT_ORDER = ['org', 'proc', 'prod', 'sub', 'tp'];
+function catRank(path: string) {
+  const i = CAT_ORDER.indexOf(path.split('.')[0]);
+  return i === -1 ? 99 : i;
+}
+
+function EntityRiskTable({ selectedCell }: { selectedCell?: string | null }) {
   const { data: entities = [], isLoading: entLoading } = useAuditEntities();
   const { data: assessments = [] } = useHeatmapData();
 
@@ -258,14 +258,7 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
                 <div className="w-12 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div className="h-full bg-blue-500 rounded-full" style={{ width: ctrl + '%' }} /></div>
                 <span className="font-medium text-xs text-slate-600">%{ctrl.toFixed(0)}</span>
               </div>
-            : <div className="flex justify-center">
-                <button
-                  onClick={() => onAssess(entity.id)}
-                  className="px-2 py-0.5 text-[10px] font-bold bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-                >
-                  Değerlendir
-                </button>
-              </div>}
+            : <span className="text-slate-300 text-xs block text-center">—</span>}
         </td>
         <td className="px-3 py-2 text-center">
           {res !== null
@@ -287,6 +280,95 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
     </div>
   );
 
+  // ── Hücre seçili: flat + kategori sıralamalı görünüm ──────────────────────
+  if (selectedCell) {
+    const [impStr, likStr] = selectedCell.split('-');
+    const imp = +impStr, lik = +likStr;
+    const cellEntities = entities
+      .filter(e => {
+        const a = assessmentMap.get(e.id);
+        return a && a.impact === imp && a.likelihood === lik;
+      })
+      .sort((a, b) => {
+        const cr = catRank(a.path) - catRank(b.path);
+        return cr !== 0 ? cr : a.path.localeCompare(b.path);
+      });
+
+    return (
+      <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100 bg-slate-50/60">
+          <div className="flex items-center gap-2">
+            <Shield size={14} className="text-blue-600" />
+            <span className="text-sm font-bold text-slate-800">
+              Hücre: Etki <span className="text-blue-600">{imp}</span> × Olasılık <span className="text-blue-600">{lik}</span>
+            </span>
+            <span className="text-xs text-slate-400">— {cellEntities.length} varlık</span>
+            <span className={clsx('px-2 py-0.5 rounded border text-[9px] font-bold', riskLevel(imp * lik).cls)}>{riskLevel(imp * lik).label}</span>
+          </div>
+          <span className="text-[10px] text-slate-400">Hücre seçimini kaldırmak için ısı haritasında aynı hücreye tekrar tıklayın</span>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-slate-100 bg-slate-50/40 text-slate-500">
+                <th className="text-left px-3 py-2 font-semibold">Varlık</th>
+                <th className="text-left px-3 py-2 font-semibold">Tür</th>
+                <th className="text-center px-3 py-2 font-semibold">Ham Risk</th>
+                <th className="text-center px-3 py-2 font-semibold">Kontrol %</th>
+                <th className="text-center px-3 py-2 font-semibold">Kalıntı</th>
+                <th className="text-center px-3 py-2 font-semibold">Seviye</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cellEntities.map(entity => {
+                const a = assessmentMap.get(entity.id);
+                const inh = a?.inherent_risk_score ?? null;
+                const res = a?.residual_score ?? null;
+                const ctrl = a != null ? a.control_effectiveness * 100 : null;
+                const lvl = inh !== null ? riskLevel(inh) : null;
+                const typeMeta = entityTypeLabel(entity.type);
+                const leafCat = getCatStyle(entity.path, 1);
+                return (
+                  <tr key={entity.id} className="transition-colors" style={{ backgroundColor: leafCat.leafBg, borderBottom: `1px solid ${leafCat.leafBorder}` }}>
+                    <td className="px-3 py-2 text-xs">
+                      <div className="font-medium" style={{ color: leafCat.leafText }}>{entity.name}</div>
+                      <div className="text-[9px] text-slate-400 font-mono">{entity.path}</div>
+                    </td>
+                    <td className="px-3 py-2">
+                      <span className={clsx('px-1.5 py-0.5 rounded border text-[9px] font-bold', typeMeta.badgeCls)}>{typeMeta.label}</span>
+                    </td>
+                    <td className="px-3 py-2 text-center">
+                      {inh !== null
+                        ? <><span className={clsx('font-black text-sm', inh >= 20 ? 'text-fuchsia-700' : inh >= 15 ? 'text-red-600' : inh >= 10 ? 'text-orange-600' : inh >= 5 ? 'text-amber-600' : 'text-emerald-600')}>{inh}</span><span className="text-slate-300 text-[9px]">/25</span></>
+                        : <span className="text-slate-300 text-xs">—</span>}
+                    </td>
+                    <td className="px-3 py-2">
+                      {ctrl !== null
+                        ? <div className="flex items-center gap-1.5 justify-center">
+                            <div className="w-12 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div className="h-full bg-blue-500 rounded-full" style={{ width: ctrl + '%' }} /></div>
+                            <span className="font-medium text-xs text-slate-600">%{ctrl.toFixed(0)}</span>
+                          </div>
+                        : <span className="text-slate-300 text-xs block text-center">—</span>}
+                    </td>
+                    <td className="px-3 py-2 text-center">
+                      {res !== null
+                        ? <span className={clsx('font-bold text-sm', res >= 10 ? 'text-fuchsia-700' : res >= 7 ? 'text-red-600' : res >= 4 ? 'text-amber-600' : 'text-emerald-600')}>{res.toFixed(1)}</span>
+                        : <span className="text-slate-300 text-xs">—</span>}
+                    </td>
+                    <td className="px-3 py-2 text-center">
+                      {lvl ? <span className={clsx('px-1.5 py-0.5 rounded border text-[9px] font-bold', lvl.cls)}>{lvl.label}</span> : <span className="text-slate-300 text-xs">—</span>}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Normal ağaç görünümü ────────────────────────────────────────────────────
   return (
     <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-slate-100 bg-slate-50/60">
@@ -320,16 +402,7 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
 // ── RiskHeatmapPage ──────────────────────────────────────────────────────────
 export default function RiskHeatmapPage() {
   const { data: assessments = [], isLoading } = useHeatmapData();
-  const { data: riskDefs = [] } = useRiskDefinitions();
-  const { data: entities = [] } = useAuditEntities();
-
-  const [showNewModal, setShowNewModal] = useState(false);
-  const [prefilledEntityId, setPrefilledEntityId] = useState<string | undefined>();
-
-  const handleAssess = (entityId: string) => {
-    setPrefilledEntityId(entityId);
-    setShowNewModal(true);
-  };
+  const [selectedCell, setSelectedCell] = useState<string | null>(null);
 
   if (isLoading) {
     return (
@@ -348,180 +421,13 @@ export default function RiskHeatmapPage() {
       />
 
       <div className="flex-1 overflow-auto p-4">
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={() => { setPrefilledEntityId(undefined); setShowNewModal(true); }}
-            className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors"
-          >
-            <Plus size={14} />
-            Yeni Değerlendirme
-          </button>
-        </div>
-
-        <StrategicHeatmap />
+        <StrategicHeatmap onCellSelect={setSelectedCell} />
 
         <div className="mt-4">
-          <EntityRiskTable onAssess={handleAssess} />
+          <EntityRiskTable selectedCell={selectedCell} />
         </div>
       </div>
-
-      {showNewModal && (
-        <NewAssessmentModal
-          riskDefs={riskDefs}
-          entities={entities}
-          prefilledEntityId={prefilledEntityId}
-          onClose={() => { setShowNewModal(false); setPrefilledEntityId(undefined); }}
-        />
-      )}
     </div>
   );
 }
 
-// ── NewAssessmentModal ───────────────────────────────────────────────────────
-function NewAssessmentModal({
-  riskDefs,
-  entities,
-  prefilledEntityId,
-  onClose,
-}: {
-  riskDefs: { id: string; title: string; category: string }[];
-  entities: { id: string; name: string; type: string }[];
-  prefilledEntityId?: string;
-  onClose: () => void;
-}) {
-  const createAssessment = useCreateAssessment();
-  const [form, setForm] = useState<CreateAssessmentInput>({
-    entity_id: prefilledEntityId ?? '',
-    risk_id: '',
-    impact: 3,
-    likelihood: 3,
-    control_effectiveness: 0.5,
-    justification: '',
-  });
-
-  const handleSubmit = async () => {
-    if (!form.entity_id || !form.risk_id) return;
-    await createAssessment.mutateAsync(form);
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg p-4"
-      >
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-              <Shield size={18} className="text-blue-600" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-primary">Yeni Risk Değerlendirmesi</h2>
-              <p className="text-xs text-slate-500">Varlığa risk atayarak heatmap'i güncelleyin</p>
-            </div>
-          </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-lg">
-            <X size={18} className="text-slate-500" />
-          </button>
-        </div>
-
-        <div className="space-y-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Varlık</label>
-            <select
-              value={form.entity_id}
-              onChange={e => setForm(f => ({ ...f, entity_id: e.target.value }))}
-              className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">Varlık seçin...</option>
-              {(entities || []).map(e => (
-                <option key={e.id} value={e.id}>{e.name} ({e.type})</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Risk</label>
-            <select
-              value={form.risk_id}
-              onChange={e => setForm(f => ({ ...f, risk_id: e.target.value }))}
-              className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">Risk seçin...</option>
-              {(riskDefs || []).map(r => (
-                <option key={r.id} value={r.id}>{r.title} ({r.category})</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">Etki (1-5)</label>
-              <input
-                type="number" min={1} max={5} value={form.impact}
-                onChange={e => setForm(f => ({ ...f, impact: Math.min(5, Math.max(1, +e.target.value)) }))}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm text-center font-bold focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">Olasılık (1-5)</label>
-              <input
-                type="number" min={1} max={5} value={form.likelihood}
-                onChange={e => setForm(f => ({ ...f, likelihood: Math.min(5, Math.max(1, +e.target.value)) }))}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm text-center font-bold focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">Kontrol %</label>
-              <input
-                type="number" min={0} max={100} value={Math.round(form.control_effectiveness * 100)}
-                onChange={e => setForm(f => ({ ...f, control_effectiveness: Math.min(1, Math.max(0, +e.target.value / 100)) }))}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm text-center font-bold focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-          </div>
-
-          <div className="bg-canvas rounded-lg p-3 flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-600">Doğal Risk Skoru</span>
-            <span className={clsx(
-              'text-lg font-black',
-              form.impact * form.likelihood >= 20 ? 'text-fuchsia-700' :
-              form.impact * form.likelihood >= 15 ? 'text-red-600' :
-              form.impact * form.likelihood >= 10 ? 'text-orange-600' :
-              form.impact * form.likelihood >= 5  ? 'text-amber-600' : 'text-emerald-600'
-            )}>
-              {form.impact * form.likelihood}
-            </span>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Gerekçe</label>
-            <textarea
-              value={form.justification ?? ''}
-              onChange={e => setForm(f => ({ ...f, justification: e.target.value }))}
-              rows={2}
-              className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Bu risk değerlendirmesinin gerekçeleri..."
-            />
-          </div>
-        </div>
-
-        <div className="flex gap-3 mt-3">
-          <button onClick={onClose} className="flex-1 py-2.5 bg-slate-100 text-slate-600 rounded-lg font-semibold text-sm hover:bg-slate-200 transition-colors">
-            İptal
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={!form.entity_id || !form.risk_id || createAssessment.isPending}
-            className="flex-1 py-2.5 bg-blue-600 text-white rounded-lg font-semibold text-sm hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
-          >
-            {createAssessment.isPending && <Loader2 size={14} className="animate-spin" />}
-            Kaydet
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  );
-}

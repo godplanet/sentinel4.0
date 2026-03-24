@@ -31,11 +31,20 @@ import { TimeTravelSlider } from './TimeTravelSlider';
 type ViewMode = 'classic' | 'radar';
 type MatrixMode = 'inherent' | 'residual';
 
-export function StrategicHeatmap() {
- const { data: assessments = [], isLoading: loadingAssessments, isError: assessmentsError, error: assessmentsErr, refetch: refetchAssessments } = useHeatmapData();
+export function StrategicHeatmap({ onCellSelect }: { onCellSelect?: (key: string | null) => void } = {}) {
+ const { data: rawAssessments = [], isLoading: loadingAssessments, isError: assessmentsError, error: assessmentsErr, refetch: refetchAssessments } = useHeatmapData();
  const { data: comets = [], isLoading: loadingComets, isError: cometsError, refetch: refetchComets } = useCometData();
  const { data: scenarios = [] } = useRiskScenarios();
  const { data: entities = [], isLoading: loadingEntities } = useAuditEntities();
+
+ // Entity başına tek kayıt — en son değerlendirmeyi kullan
+ const assessments = useMemo(() => {
+  const seen = new Map<string, AssessmentWithDetails>();
+  for (const a of rawAssessments) {
+   if (!seen.has(a.entity_id)) seen.set(a.entity_id, a);
+  }
+  return Array.from(seen.values());
+ }, [rawAssessments]);
 
  const [viewMode, setViewMode] = useState<ViewMode>('classic');
  const [matrixMode, setMatrixMode] = useState<MatrixMode>('inherent');
@@ -51,9 +60,11 @@ export function StrategicHeatmap() {
 
  const handleCellClick = useCallback((key: string, risks: AssessmentWithDetails[]) => {
  if ((risks || []).length === 0) return;
- setSelectedCell(prev => prev === key ? null : key);
+ const next = selectedCell === key ? null : key;
+ setSelectedCell(next);
  setSelectedRisk(null);
- }, []);
+ onCellSelect?.(next);
+ }, [selectedCell, onCellSelect]);
 
  const handleTimeChange = useCallback((p: number) => {
  setTimeProgress(p);
