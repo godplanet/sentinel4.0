@@ -9,21 +9,22 @@ interface ClassicGridProps {
  selectedCell?: string | null;
 }
 
+// Audit Universe bordo/kızıl/turuncu/sarı/yeşil renk sistemi
 const CELL_COLORS: Record<number, string> = {
- 1: 'bg-emerald-100',
- 2: 'bg-emerald-100',
- 3: 'bg-yellow-100',
- 4: 'bg-yellow-100',
- 5: 'bg-amber-100',
- 6: 'bg-amber-200',
- 8: 'bg-orange-200',
- 9: 'bg-orange-200',
- 10: 'bg-orange-300',
- 12: 'bg-red-200',
- 15: 'bg-red-300',
- 16: 'bg-red-400',
- 20: 'bg-red-500',
- 25: 'bg-red-600',
+ 1:  'bg-emerald-100',   // Düşük
+ 2:  'bg-emerald-100',
+ 3:  'bg-emerald-50',
+ 4:  'bg-emerald-50',
+ 5:  'bg-yellow-100',    // Sarı / Orta
+ 6:  'bg-yellow-200',
+ 8:  'bg-yellow-200',
+ 9:  'bg-yellow-300',
+ 10: 'bg-orange-200',    // Turuncu / Yüksek
+ 12: 'bg-orange-300',
+ 15: 'bg-orange-400',
+ 16: 'bg-red-300',       // Kızıl / Kritik
+ 20: 'bg-fuchsia-300',   // Bordo / Çok Kritik
+ 25: 'bg-fuchsia-600',
 };
 
 function getCellColor(score: number): string {
@@ -87,7 +88,7 @@ export function ClassicGrid({ assessments, mode, onCellClick, selectedCell }: Cl
  {risksInCell.length > 0 ? (
  <div className={clsx(
  'w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white shadow-md transition-transform',
- score >= 15 ? 'bg-red-700' : score >= 10 ? 'bg-orange-600' : score >= 5 ? 'bg-yellow-600' : 'bg-emerald-600',
+ score >= 20 ? 'bg-fuchsia-950' : score >= 15 ? 'bg-red-600' : score >= 10 ? 'bg-orange-500' : score >= 5 ? 'bg-yellow-500' : 'bg-emerald-500',
  isSelected && 'scale-110'
  )}>
  {risksInCell.length}
@@ -103,6 +104,20 @@ export function ClassicGrid({ assessments, mode, onCellClick, selectedCell }: Cl
  </div>
  <div className="text-center mt-2">
  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">OLASILIK</span>
+ </div>
+ {/* Renk açıklaması — Audit Universe ile aynı sistem */}
+ <div className="flex items-center gap-2 mt-3 flex-wrap">
+ {[
+  { bg: 'bg-fuchsia-950', label: 'Bordo (20-25)', text: 'text-white' },
+  { bg: 'bg-red-600',     label: 'Kızıl (15-19)', text: 'text-white' },
+  { bg: 'bg-orange-500',  label: 'Turuncu (10-14)', text: 'text-white' },
+  { bg: 'bg-yellow-400',  label: 'Sarı (5-9)',  text: 'text-slate-900' },
+  { bg: 'bg-emerald-500', label: 'Yeşil (1-4)', text: 'text-white' },
+ ].map((z) => (
+  <div key={z.label} className={clsx('flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold border border-white/20', z.bg, z.text)}>
+  {z.label}
+  </div>
+ ))}
  </div>
  </div>
  </div>

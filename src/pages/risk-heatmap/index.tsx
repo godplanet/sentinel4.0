@@ -20,12 +20,13 @@ import {
 } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 
-// ── Risk level helper ────────────────────────────────────────────────────────
+// ── Risk level helper — Audit Universe renk sistemiyle uyumlu ────────────────
 function riskLevel(score: number) {
-  if (score >= 15) return { label: 'Kritik', cls: 'bg-red-100 text-red-800 border-red-300' };
-  if (score >= 10) return { label: 'Yüksek', cls: 'bg-orange-100 text-orange-800 border-orange-300' };
-  if (score >= 5)  return { label: 'Orta',   cls: 'bg-amber-100 text-amber-800 border-amber-300' };
-  return               { label: 'Düşük',  cls: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
+  if (score >= 20) return { label: 'Bordo',  cls: 'bg-fuchsia-950 text-white border-fuchsia-900',      textCls: 'text-fuchsia-700' };
+  if (score >= 15) return { label: 'Kritik', cls: 'bg-red-600 text-white border-red-700',              textCls: 'text-red-600'     };
+  if (score >= 10) return { label: 'Yüksek', cls: 'bg-orange-500 text-white border-orange-600',        textCls: 'text-orange-600'  };
+  if (score >= 5)  return { label: 'Orta',   cls: 'bg-yellow-400 text-slate-900 border-yellow-500',    textCls: 'text-amber-600'   };
+  return               { label: 'Düşük',  cls: 'bg-emerald-100 text-emerald-800 border-emerald-200', textCls: 'text-emerald-600' };
 }
 
 // ── Entity type display helpers ──────────────────────────────────────────────
@@ -237,7 +238,7 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
             </td>
             <td className="px-3 py-2 text-center">
               {avgInherent !== null
-                ? <span className={clsx('font-black text-sm', avgInherent >= 15 ? 'text-red-600' : avgInherent >= 10 ? 'text-orange-600' : avgInherent >= 5 ? 'text-amber-600' : 'text-emerald-600')}>{avgInherent.toFixed(1)}</span>
+                ? <span className={clsx('font-black text-sm', avgInherent >= 20 ? 'text-fuchsia-700' : avgInherent >= 15 ? 'text-red-600' : avgInherent >= 10 ? 'text-orange-600' : avgInherent >= 5 ? 'text-amber-600' : 'text-emerald-600')}>{avgInherent.toFixed(1)}</span>
                 : <span className="text-[9px] text-slate-400">—</span>}
             </td>
             <td className="px-3 py-2">
@@ -301,7 +302,7 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
         </td>
         <td className="px-3 py-2 text-center">
           {inh !== null
-            ? <><span className={clsx('font-black text-sm', inh >= 15 ? 'text-red-600' : inh >= 10 ? 'text-orange-600' : inh >= 5 ? 'text-amber-600' : 'text-emerald-600')}>{inh}</span><span className="text-slate-300 text-[9px]">/25</span></>
+            ? <><span className={clsx('font-black text-sm', inh >= 20 ? 'text-fuchsia-700' : inh >= 15 ? 'text-red-600' : inh >= 10 ? 'text-orange-600' : inh >= 5 ? 'text-amber-600' : 'text-emerald-600')}>{inh}</span><span className="text-slate-300 text-[9px]">/25</span></>
             : <span className="text-slate-300 text-xs">—</span>}
         </td>
         <td className="px-3 py-2">
@@ -321,7 +322,7 @@ function EntityRiskTable({ onAssess }: { onAssess: (entityId: string) => void })
         </td>
         <td className="px-3 py-2 text-center">
           {res !== null
-            ? <span className={clsx('font-bold text-sm', res >= 7 ? 'text-red-600' : res >= 4 ? 'text-amber-600' : 'text-emerald-600')}>{res.toFixed(1)}</span>
+            ? <span className={clsx('font-bold text-sm', res >= 10 ? 'text-fuchsia-700' : res >= 7 ? 'text-red-600' : res >= 4 ? 'text-amber-600' : 'text-emerald-600')}>{res.toFixed(1)}</span>
             : <span className="text-slate-300 text-xs">—</span>}
         </td>
         <td className="px-3 py-2 text-center">
@@ -539,9 +540,10 @@ function NewAssessmentModal({
             <span className="text-xs font-medium text-slate-600">Doğal Risk Skoru</span>
             <span className={clsx(
               'text-lg font-black',
+              form.impact * form.likelihood >= 20 ? 'text-fuchsia-700' :
               form.impact * form.likelihood >= 15 ? 'text-red-600' :
               form.impact * form.likelihood >= 10 ? 'text-orange-600' :
-              form.impact * form.likelihood >= 5  ? 'text-yellow-600' : 'text-emerald-600'
+              form.impact * form.likelihood >= 5  ? 'text-amber-600' : 'text-emerald-600'
             )}>
               {form.impact * form.likelihood}
             </span>

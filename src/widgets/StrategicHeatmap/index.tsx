@@ -235,16 +235,16 @@ export function StrategicHeatmap() {
  exit={{ opacity: 0 }}
  className={clsx(
  'rounded-xl border p-4 shadow-sm',
- activeScenario.severity === 'CRITICAL' ? 'bg-red-50 border-red-200' :
- activeScenario.severity === 'HIGH' ? 'bg-orange-50 border-orange-200' :
- 'bg-amber-50 border-amber-200'
+ activeScenario.severity === 'CRITICAL' ? 'bg-fuchsia-50 border-fuchsia-300' :
+ activeScenario.severity === 'HIGH' ? 'bg-red-50 border-red-200' :
+ 'bg-orange-50 border-orange-200'
  )}
  >
  <div className="flex items-start justify-between gap-2">
  <div>
  <p className={clsx(
  'text-[10px] font-black uppercase tracking-widest mb-1',
- activeScenario.severity === 'CRITICAL' ? 'text-red-600' : 'text-orange-600'
+ activeScenario.severity === 'CRITICAL' ? 'text-fuchsia-700' : activeScenario.severity === 'HIGH' ? 'text-red-600' : 'text-orange-600'
  )}>
  {activeScenario.type} · {activeScenario.severity}
  </p>
