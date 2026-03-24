@@ -12,6 +12,8 @@ import { useHeatmapData } from '@/entities/risk';
 import { useAuditUniverseLive } from '@/entities/universe/api/universe-live-api';
 import { BDDKPackageModal } from '@/features/bddk-export/BDDKPackageModal';
 import { AnnualPlanView } from '@/features/planning/ui/AnnualPlanView';
+import { fetchAuditorProfiles, type AuditorProfileRow } from '@/features/planning/api/auditor-assignment-api';
+import { createFourEyesApproval } from '@/features/security/api/four-eyes';
 import { PlanAdherence } from '@/widgets/PlanAdherence';
 import { UniverseScoring } from '@/widgets/UniverseScoring';
 import { supabase } from '@/shared/api/supabase';
@@ -27,6 +29,7 @@ import {
   CheckCircle2,
   ChevronDown,
   ChevronUp,
+  ClipboardList,
   Clock,
   Edit2,
   Eye,
@@ -38,20 +41,24 @@ import {
   List,
   Lock,
   Loader2,
+  Minus,
   Monitor,
   Package,
   Plus,
   RefreshCw,
+  Send,
   Shield,
   ShieldAlert,
   Sliders,
   Target,
   TrendingDown,
   TrendingUp,
+  UserCheck,
+  UserPlus,
   Users,
   X,
 } from 'lucide-react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -82,6 +89,20 @@ interface QuickPlanForm {
   startDate: string;
   auditType: AuditType;
   estimatedHours: number;
+}
+
+interface InspectorConfig {
+  id: string;       // user_id from auditor_profiles
+  name: string;
+  department: string | null;
+  availableWeeks: number;
+}
+
+interface DraftItem {
+  entity: EntityWithRisk;
+  durationWeeks: number;
+  assignedAuditorId: string | null;
+  assignedAuditorName: string | null;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -328,13 +349,141 @@ function EntityRow({
         ) : (
           <button
             onClick={() => onPlan(entity)}
-            className="inline-flex items-center gap-1 text-[10px] font-bold bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg transition-colors"
+            className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-lg transition-colors"
           >
-            <Plus size={10} /> Planla
+            <Plus size={10} /> Taslağa Ekle
           </button>
         )}
       </td>
     </tr>
+  );
+}
+
+// ─── Inspector Picker Modal ────────────────────────────────────────────────────
+
+function InspectorPickerModal({
+  category,
+  currentPool,
+  onSave,
+  onClose,
+}: {
+  category: 'IT' | 'İdari';
+  currentPool: InspectorConfig[];
+  onSave: (pool: InspectorConfig[]) => void;
+  onClose: () => void;
+}) {
+  const { data: profiles = [], isLoading } = useQuery({
+    queryKey: ['auditor-profiles'],
+    queryFn: fetchAuditorProfiles,
+  });
+
+  // Start with current pool selections
+  const [selected, setSelected] = useState<Map<string, number>>(
+    new Map(currentPool.map(a => [a.id, a.availableWeeks]))
+  );
+
+  const toggle = (p: AuditorProfileRow) => {
+    setSelected(prev => {
+      const next = new Map(prev);
+      if (next.has(p.user_id)) next.delete(p.user_id);
+      else next.set(p.user_id, 40);
+      return next;
+    });
+  };
+
+  const setWeeks = (id: string, weeks: number) => {
+    setSelected(prev => { const next = new Map(prev); next.set(id, Math.max(1, Math.min(52, weeks))); return next; });
+  };
+
+  const handleSave = () => {
+    const pool: InspectorConfig[] = Array.from(selected.entries()).map(([id, weeks]) => {
+      const p = profiles.find(x => x.user_id === id)!;
+      return { id, name: p?.full_name ?? id, department: p?.department ?? null, availableWeeks: weeks };
+    });
+    onSave(pool);
+    onClose();
+  };
+
+  const totalWeeks = Array.from(selected.values()).reduce((s, w) => s + w, 0);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <div className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden" onClick={e => e.stopPropagation()}>
+        <div className={clsx('px-5 py-4 flex items-center justify-between', category === 'IT' ? 'bg-cyan-600' : 'bg-indigo-600')}>
+          <div className="flex items-center gap-2">
+            <Monitor size={16} className="text-white" />
+            <span className="font-bold text-white">{category === 'IT' ? 'BT (IT)' : 'İdari'} Müfettiş Havuzu</span>
+          </div>
+          <div className="flex items-center gap-3">
+            {selected.size > 0 && (
+              <span className="text-xs text-white/80 bg-white/20 px-2 py-0.5 rounded-full">
+                {selected.size} seçili · {totalWeeks} hf
+              </span>
+            )}
+            <button onClick={onClose} className="text-white/70 hover:text-white"><X size={16} /></button>
+          </div>
+        </div>
+
+        <div className="p-4 max-h-[440px] overflow-y-auto">
+          {isLoading ? (
+            <div className="flex items-center justify-center py-12 gap-2 text-slate-400">
+              <Loader2 size={18} className="animate-spin" /><span className="text-sm">Yükleniyor...</span>
+            </div>
+          ) : profiles.length === 0 ? (
+            <div className="text-center py-12 text-slate-400">
+              <Users size={36} className="mx-auto mb-3 opacity-20" />
+              <p className="text-sm">Müfettiş profili bulunamadı</p>
+              <p className="text-xs mt-1">Yetenek yönetiminden müfettiş ekleyin</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {profiles.map(p => {
+                const isSelected = selected.has(p.user_id);
+                const weeks = selected.get(p.user_id) ?? 40;
+                return (
+                  <div
+                    key={p.user_id}
+                    className={clsx('flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer', isSelected ? (category === 'IT' ? 'bg-cyan-50 border-cyan-200' : 'bg-indigo-50 border-indigo-200') : 'bg-slate-50 border-slate-200 hover:border-slate-300')}
+                    onClick={() => toggle(p)}
+                  >
+                    <div className={clsx('w-9 h-9 rounded-full flex items-center justify-center text-sm font-black text-white shrink-0', isSelected ? (category === 'IT' ? 'bg-cyan-600' : 'bg-indigo-600') : 'bg-slate-400')}>
+                      {(p.full_name || '?').charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-slate-800 text-sm">{p.full_name}</div>
+                      <div className="text-[10px] text-slate-400">{p.title ?? p.department ?? 'Müfettiş'}</div>
+                    </div>
+                    {isSelected && (
+                      <div className="flex items-center gap-1.5 shrink-0" onClick={e => e.stopPropagation()}>
+                        <span className="text-[10px] text-slate-500 font-medium">Hafta:</span>
+                        <div className="flex items-center gap-0.5 bg-white border border-slate-200 rounded-lg p-0.5">
+                          <button onClick={() => setWeeks(p.user_id, weeks - 1)} className="w-5 h-5 flex items-center justify-center rounded text-slate-500 hover:bg-slate-100"><ChevronDown size={10} /></button>
+                          <span className="w-8 text-center text-xs font-bold text-slate-800">{weeks}</span>
+                          <button onClick={() => setWeeks(p.user_id, weeks + 1)} className="w-5 h-5 flex items-center justify-center rounded text-slate-500 hover:bg-slate-100"><ChevronUp size={10} /></button>
+                        </div>
+                      </div>
+                    )}
+                    {isSelected && <CheckCircle2 size={16} className={category === 'IT' ? 'text-cyan-600 shrink-0' : 'text-indigo-600 shrink-0'} />}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        <div className="px-5 py-3.5 border-t border-slate-100 bg-slate-50 flex items-center justify-between gap-3">
+          <span className="text-xs text-slate-500">
+            {selected.size} müfettiş · Toplam <strong>{totalWeeks}</strong> hafta · ~<strong>{Math.round(totalWeeks * (80/100))}</strong> hf etkin kapasite
+          </span>
+          <div className="flex gap-2">
+            <button onClick={onClose} className="px-3 py-1.5 text-xs text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50">İptal</button>
+            <button onClick={handleSave} className={clsx('px-4 py-1.5 text-xs text-white rounded-lg font-bold transition-colors', category === 'IT' ? 'bg-cyan-600 hover:bg-cyan-700' : 'bg-indigo-600 hover:bg-indigo-700')}>
+              Kaydet
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -345,19 +494,25 @@ export default function StrategicPlanningPage() {
   const [planMode, setPlanMode] = useState<PlanMode>('mode1_core');
   const [showBDDKModal, setShowBDDKModal] = useState(false);
   const [quickPlanForm, setQuickPlanForm] = useState<QuickPlanForm | null>(null);
-  const [inspectors, setInspectors] = useState(5);
   const [hoursPerAudit, setHoursPerAudit] = useState(40);
   const [searchMode1, setSearchMode1] = useState('');
   const [searchMode2, setSearchMode2] = useState('');
   const [sortDesc, setSortDesc] = useState(true);
   const [closingId, setClosingId] = useState<string | null>(null);
-  const [availableWeeks, setAvailableWeeks] = useState(40);
+  // Inspector pools (IT and İdari separate)
+  const [itPool, setItPool] = useState<InspectorConfig[]>([]);
+  const [idariPool, setIdariPool] = useState<InspectorConfig[]>([]);
+  const [showInspectorPicker, setShowInspectorPicker] = useState<'IT' | 'İdari' | null>(null);
   const [utilizationPct, setUtilizationPct] = useState(80);
   const [categoryFilter, setCategoryFilter] = useState<'IT' | 'İdari'>('İdari');
   const [auditDurations, setAuditDurations] = useState<Record<string, number>>({
     org: 2, proc: 3, prod: 2, sub: 2, tp: 1, BRANCH: 2,
   });
   const [showDurationConfig, setShowDurationConfig] = useState(false);
+  // Draft plan
+  const [draftItems, setDraftItems] = useState<Map<string, DraftItem>>(new Map());
+  const [isDraftPanelOpen, setIsDraftPanelOpen] = useState(false);
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -375,6 +530,35 @@ export default function StrategicPlanningPage() {
     queryKey: ['active-audit-plan'],
     queryFn: fetchActivePlan,
     staleTime: 30_000,
+  });
+
+  const { data: allPlans = [] } = useQuery({
+    queryKey: ['audit-plans-list'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('audit_plans')
+        .select('id, title, period_start, period_end, status, version, created_at')
+        .order('period_start', { ascending: false });
+      if (error) throw error;
+      return data as { id: string; title: string; period_start: string; period_end: string; status: string; version: number; created_at: string }[];
+    },
+    staleTime: 30_000,
+  });
+
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
+
+  const { data: planEngagements = [] } = useQuery({
+    queryKey: ['plan-engagements', selectedPlanId],
+    enabled: !!selectedPlanId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('audit_engagements')
+        .select('id, title, audit_type, start_date, end_date, status, estimated_hours, risk_snapshot_score, entity_id, audit_entities(name)')
+        .eq('plan_id', selectedPlanId!)
+        .order('start_date');
+      if (error) throw error;
+      return (data ?? []) as { id: string; title: string; audit_type: string; start_date: string; end_date: string; status: string; estimated_hours: number; risk_snapshot_score: number; entity_id: string; audit_entities: { name: string } | null }[];
+    },
   });
 
   // ─── Risk Score Computation ───────────────────────────────────────────────
@@ -431,7 +615,9 @@ export default function StrategicPlanningPage() {
   });
   const plannedIds = new Set(plannedThisYear.map(e => e.entity_id).filter(Boolean));
 
-  const totalCapacityWeeks = inspectors * availableWeeks * (utilizationPct / 100);
+  const itCapacityWeeks = itPool.reduce((s, a) => s + a.availableWeeks, 0) * (utilizationPct / 100);
+  const idariCapacityWeeks = idariPool.reduce((s, a) => s + a.availableWeeks, 0) * (utilizationPct / 100);
+  const totalCapacityWeeks = itCapacityWeeks + idariCapacityWeeks;
 
   const getEntityDurationWeeks = useCallback((entity: EntityWithRisk): number => {
     if (entity.type === 'BRANCH') return auditDurations['BRANCH'] ?? 2;
@@ -439,11 +625,17 @@ export default function StrategicPlanningPage() {
     return auditDurations[prefix] ?? 2;
   }, [auditDurations]);
 
+  // Only show leaf entities (no parent nodes) in planning lists
+  const leafEntities = useMemo(() =>
+    enriched.filter(e => !enriched.some(other => other.id !== e.id && other.path.startsWith(e.path + '.'))),
+    [enriched]
+  );
+
   // IT / İdari splits
-  const itMandatory = useMemo(() => enriched.filter(e => e.entity_category === 'IT' && e.rotation_type === 'MANDATORY'), [enriched]);
-  const itAgile = useMemo(() => enriched.filter(e => e.entity_category === 'IT' && e.rotation_type === 'ROTATION'), [enriched]);
-  const idariMandatory = useMemo(() => enriched.filter(e => e.entity_category === 'İdari' && e.rotation_type === 'MANDATORY'), [enriched]);
-  const idariAgile = useMemo(() => enriched.filter(e => e.entity_category === 'İdari' && e.rotation_type === 'ROTATION'), [enriched]);
+  const itMandatory = useMemo(() => leafEntities.filter(e => e.entity_category === 'IT' && e.rotation_type === 'MANDATORY'), [leafEntities]);
+  const itAgile = useMemo(() => leafEntities.filter(e => e.entity_category === 'IT' && e.rotation_type === 'ROTATION'), [leafEntities]);
+  const idariMandatory = useMemo(() => leafEntities.filter(e => e.entity_category === 'İdari' && e.rotation_type === 'MANDATORY'), [leafEntities]);
+  const idariAgile = useMemo(() => leafEntities.filter(e => e.entity_category === 'İdari' && e.rotation_type === 'ROTATION'), [leafEntities]);
 
   const mandatoryWeeksTotal = useMemo(() =>
     [...itMandatory, ...idariMandatory].reduce((s, e) => s + getEntityDurationWeeks(e), 0),
@@ -541,6 +733,91 @@ export default function StrategicPlanningPage() {
     }
   };
 
+  const addToDraft = (entity: EntityWithRisk) => {
+    setDraftItems(prev => {
+      const next = new Map(prev);
+      next.set(entity.id, {
+        entity,
+        durationWeeks: getEntityDurationWeeks(entity),
+        assignedAuditorId: null,
+        assignedAuditorName: null,
+      });
+      return next;
+    });
+    setIsDraftPanelOpen(true);
+  };
+
+  const removeFromDraft = (id: string) => {
+    setDraftItems(prev => { const next = new Map(prev); next.delete(id); return next; });
+  };
+
+  // Auto-assign auditors: IT entities → IT pool (round-robin), İdari → İdari pool
+  const autoAssignAuditors = () => {
+    setDraftItems(prev => {
+      const next = new Map(prev);
+      let itIdx = 0, idariIdx = 0;
+      for (const [id, item] of next.entries()) {
+        if (item.entity.entity_category === 'IT' && itPool.length > 0) {
+          const aud = itPool[itIdx % itPool.length];
+          next.set(id, { ...item, assignedAuditorId: aud.id, assignedAuditorName: aud.name });
+          itIdx++;
+        } else if (item.entity.entity_category === 'İdari' && idariPool.length > 0) {
+          const aud = idariPool[idariIdx % idariPool.length];
+          next.set(id, { ...item, assignedAuditorId: aud.id, assignedAuditorName: aud.name });
+          idariIdx++;
+        }
+      }
+      return next;
+    });
+  };
+
+  const createDraftPlan = async () => {
+    if (draftItems.size === 0) { toast.error('Taslak plan boş. Önce denetim öğesi ekleyin.'); return; }
+    setIsSavingDraft(true);
+    try {
+      const planTitle = `${thisYear} Yılı Denetim Planı`;
+      const { data: plan, error: planErr } = await supabase
+        .from('audit_plans')
+        .insert({ tenant_id: ACTIVE_TENANT_ID, title: planTitle, period_start: `${thisYear}-01-01`, period_end: `${thisYear}-12-31`, status: 'DRAFT', version: 1 })
+        .select().single();
+      if (planErr) throw planErr;
+
+      const items = Array.from(draftItems.values());
+      const engRows = items.map((item, i) => {
+        const month = i % 12;
+        const start = new Date(thisYear, month, 1);
+        const end = new Date(thisYear, month, item.durationWeeks * 7);
+        return {
+          tenant_id: ACTIVE_TENANT_ID,
+          plan_id: plan.id,
+          entity_id: item.entity.id,
+          title: `${item.entity.name} Denetimi`,
+          audit_type: item.entity.rotation_type === 'MANDATORY' ? 'COMPREHENSIVE' : 'TARGETED',
+          start_date: start.toISOString().slice(0, 10),
+          end_date: end.toISOString().slice(0, 10),
+          estimated_hours: item.durationWeeks * 40,
+          risk_snapshot_score: item.entity.riskScore,
+          status: 'PLANNED',
+          assigned_auditor_id: item.assignedAuditorId ?? undefined,
+        };
+      });
+      const { error: engErr } = await supabase.from('audit_engagements').insert(engRows);
+      if (engErr) throw engErr;
+
+      await createFourEyesApproval({ resourceType: 'audit_plan', resourceId: plan.id, actionName: 'APPROVE_AUDIT_PLAN', payload: { title: planTitle, itemCount: items.length, year: thisYear } });
+
+      toast.success(`"${planTitle}" taslak oluşturuldu ve onaya gönderildi (${items.length} denetim)`);
+      setDraftItems(new Map());
+      setIsDraftPanelOpen(false);
+      queryClient.invalidateQueries({ queryKey: ['audit-plans-list'] });
+      queryClient.invalidateQueries({ queryKey: ['audit-engagements-list'] });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Plan oluşturma hatası');
+    } finally {
+      setIsSavingDraft(false);
+    }
+  };
+
   // ─── Tab Config ───────────────────────────────────────────────────────────
 
   const tabs = [
@@ -604,7 +881,144 @@ export default function StrategicPlanningPage() {
           )}
 
           {/* ── Yıllık Plan ─────────────────────────────────────────────── */}
-          {activeTab === 'annual' && <AnnualPlanView />}
+          {activeTab === 'annual' && (
+            <div className="flex flex-col">
+              {selectedPlanId ? (
+                /* Plan Detail View */
+                <div className="p-5">
+                  <div className="flex items-center gap-3 mb-5">
+                    <button onClick={() => setSelectedPlanId(null)} className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-semibold transition-colors">
+                      <ChevronDown size={12} className="-rotate-90" /> Planlara Dön
+                    </button>
+                    {(() => {
+                      const plan = allPlans.find(p => p.id === selectedPlanId);
+                      if (!plan) return null;
+                      const statusColors: Record<string, string> = { DRAFT: 'bg-amber-100 text-amber-700 border-amber-200', APPROVED: 'bg-emerald-100 text-emerald-700 border-emerald-200', LOCKED: 'bg-slate-100 text-slate-600 border-slate-300' };
+                      const statusLabels: Record<string, string> = { DRAFT: 'Taslak', APPROVED: 'Onaylı', LOCKED: 'Kilitli' };
+                      return (
+                        <>
+                          <div>
+                            <h2 className="text-base font-bold text-slate-800">{plan.title}</h2>
+                            <p className="text-xs text-slate-500">{plan.period_start} → {plan.period_end}</p>
+                          </div>
+                          <span className={clsx('px-2 py-0.5 rounded border text-xs font-bold', statusColors[plan.status] ?? 'bg-slate-100 text-slate-600 border-slate-200')}>
+                            {statusLabels[plan.status] ?? plan.status}
+                          </span>
+                          <span className="text-xs text-slate-400 ml-auto">{planEngagements.length} denetim</span>
+                        </>
+                      );
+                    })()}
+                  </div>
+                  {planEngagements.length === 0 ? (
+                    <div className="text-center py-12 text-slate-400"><FileText size={32} className="mx-auto mb-3 opacity-20" /><p className="text-sm">Bu planda henüz denetim yok</p></div>
+                  ) : (
+                    <div className="rounded-xl border border-slate-200 overflow-hidden">
+                      <table className="w-full">
+                        <thead className="bg-slate-50 border-b border-slate-200">
+                          <tr>
+                            <th className="px-3 py-2.5 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Varlık / Denetim</th>
+                            <th className="px-3 py-2.5 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide hidden md:table-cell">Tür</th>
+                            <th className="px-3 py-2.5 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Tarih</th>
+                            <th className="px-3 py-2.5 text-center text-[10px] font-bold text-slate-500 uppercase tracking-wide">Risk</th>
+                            <th className="px-3 py-2.5 text-center text-[10px] font-bold text-slate-500 uppercase tracking-wide">Statü</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {planEngagements.map(eng => {
+                            const statusCls: Record<string, string> = { PLANNED: 'bg-blue-100 text-blue-700', IN_PROGRESS: 'bg-amber-100 text-amber-700', COMPLETED: 'bg-emerald-100 text-emerald-700', CANCELLED: 'bg-slate-100 text-slate-500' };
+                            const statusLbl: Record<string, string> = { PLANNED: 'Planlandı', IN_PROGRESS: 'Devam', COMPLETED: 'Tamamlandı', CANCELLED: 'İptal' };
+                            return (
+                              <tr key={eng.id} className="border-b border-slate-100 hover:bg-slate-50/60 transition-colors">
+                                <td className="px-3 py-2.5">
+                                  <div className="font-semibold text-slate-800 text-xs">{eng.title}</div>
+                                  {eng.audit_entities && <div className="text-[9px] text-slate-400">{eng.audit_entities.name}</div>}
+                                </td>
+                                <td className="px-3 py-2.5 hidden md:table-cell">
+                                  <span className="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono border border-slate-200">{eng.audit_type}</span>
+                                </td>
+                                <td className="px-3 py-2.5 text-xs text-slate-600 font-mono">{eng.start_date} → {eng.end_date}</td>
+                                <td className="px-3 py-2.5 text-center">
+                                  <span className={clsx('text-xs font-black', eng.risk_snapshot_score >= 60 ? 'text-red-600' : eng.risk_snapshot_score >= 40 ? 'text-amber-600' : 'text-emerald-600')}>{eng.risk_snapshot_score}</span>
+                                </td>
+                                <td className="px-3 py-2.5 text-center">
+                                  <span className={clsx('px-1.5 py-0.5 rounded text-[9px] font-bold', statusCls[eng.status] ?? 'bg-slate-100 text-slate-500')}>{statusLbl[eng.status] ?? eng.status}</span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* Plan List by Year */
+                <div className="p-5">
+                  <div className="flex items-center gap-2 mb-5">
+                    <CalendarRange size={15} className="text-indigo-500" />
+                    <h3 className="text-sm font-bold text-slate-800">Denetim Planları</h3>
+                    <span className="text-xs text-slate-400">({allPlans.length} plan)</span>
+                  </div>
+                  {allPlans.length === 0 ? (
+                    <div className="text-center py-16 text-slate-400">
+                      <FileText size={40} className="mx-auto mb-3 opacity-20" />
+                      <p className="text-sm font-medium">Henüz plan oluşturulmadı</p>
+                      <p className="text-xs mt-1">Bimodal Plan sekmesinden taslak plan oluşturun</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {(() => {
+                        const byYear = new Map<number, typeof allPlans>();
+                        allPlans.forEach(p => {
+                          const y = new Date(p.period_start).getFullYear();
+                          if (!byYear.has(y)) byYear.set(y, []);
+                          byYear.get(y)!.push(p);
+                        });
+                        return Array.from(byYear.entries()).sort(([a], [b]) => b - a).map(([year, plans]) => (
+                          <div key={year}>
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-xs font-black text-slate-500 uppercase tracking-widest">{year}</span>
+                              <div className="flex-1 h-px bg-slate-100" />
+                            </div>
+                            <div className="grid gap-2">
+                              {plans.map(plan => {
+                                const statusCls: Record<string, string> = { DRAFT: 'border-amber-200 bg-amber-50', APPROVED: 'border-emerald-200 bg-emerald-50', LOCKED: 'border-slate-300 bg-slate-50' };
+                                const statusBadge: Record<string, string> = { DRAFT: 'bg-amber-100 text-amber-700 border-amber-200', APPROVED: 'bg-emerald-100 text-emerald-700 border-emerald-200', LOCKED: 'bg-slate-100 text-slate-600 border-slate-300' };
+                                const statusLabel: Record<string, string> = { DRAFT: 'Taslak', APPROVED: 'Onaylı', LOCKED: 'Kilitli' };
+                                return (
+                                  <button
+                                    key={plan.id}
+                                    onClick={() => setSelectedPlanId(plan.id)}
+                                    className={clsx('w-full text-left p-4 rounded-xl border-2 transition-all hover:shadow-md', statusCls[plan.status] ?? 'border-slate-200 bg-white')}
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2">
+                                          <span className="font-bold text-slate-800 text-sm">{plan.title}</span>
+                                          <span className={clsx('px-2 py-0.5 rounded border text-[10px] font-bold', statusBadge[plan.status] ?? 'bg-slate-100 text-slate-600 border-slate-200')}>
+                                            {statusLabel[plan.status] ?? plan.status}
+                                          </span>
+                                        </div>
+                                        <div className="text-xs text-slate-500 mt-0.5">{plan.period_start} → {plan.period_end}</div>
+                                      </div>
+                                      <ChevronDown size={16} className="text-slate-400 -rotate-90 shrink-0" />
+                                    </div>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        ));
+                      })()}
+                    </div>
+                  )}
+                  <div className="mt-6 pt-4 border-t border-slate-100">
+                    <AnnualPlanView />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* ── Plan Uyumu ──────────────────────────────────────────────── */}
           {activeTab === 'adherence' && (
@@ -741,39 +1155,63 @@ export default function StrategicPlanningPage() {
               <div className="px-5 py-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700 space-y-4">
 
                 {/* Inputs row */}
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
 
-                  {/* Müfettiş */}
-                  <div className="flex items-center gap-2">
-                    <Users size={13} className="text-slate-400" />
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Müfettiş</span>
-                    <div className="flex items-center gap-0.5 bg-slate-700 rounded-lg p-0.5">
-                      <button onClick={() => setInspectors(v => Math.max(1, v - 1))} className="w-6 h-6 flex items-center justify-center rounded-md text-slate-300 hover:bg-slate-600 transition-colors"><ChevronDown size={11} /></button>
-                      <span className="w-7 text-center text-sm font-black text-white">{inspectors}</span>
-                      <button onClick={() => setInspectors(v => Math.min(50, v + 1))} className="w-6 h-6 flex items-center justify-center rounded-md text-slate-300 hover:bg-slate-600 transition-colors"><ChevronUp size={11} /></button>
-                    </div>
+                  {/* IT Inspector Pool button */}
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-cyan-400 font-bold uppercase tracking-widest">BT (IT) Müfettişleri</span>
+                    <button
+                      onClick={() => setShowInspectorPicker('IT')}
+                      className="flex items-center gap-2 px-3 py-2 bg-cyan-900/60 hover:bg-cyan-800/80 border border-cyan-700/50 rounded-xl transition-all group"
+                    >
+                      <div className="flex -space-x-1.5">
+                        {itPool.slice(0, 3).map(a => (
+                          <div key={a.id} className="w-6 h-6 rounded-full bg-cyan-600 border-2 border-slate-800 flex items-center justify-center text-[9px] font-black text-white">
+                            {a.name.charAt(0)}
+                          </div>
+                        ))}
+                        {itPool.length > 3 && <div className="w-6 h-6 rounded-full bg-slate-600 border-2 border-slate-800 flex items-center justify-center text-[9px] font-bold text-white">+{itPool.length - 3}</div>}
+                        {itPool.length === 0 && <div className="w-6 h-6 rounded-full bg-slate-700 border border-dashed border-cyan-600 flex items-center justify-center"><UserPlus size={11} className="text-cyan-400" /></div>}
+                      </div>
+                      <div className="text-left">
+                        <div className="text-xs font-bold text-cyan-300">{itPool.length > 0 ? `${itPool.length} müfettiş` : 'Seç'}</div>
+                        {itPool.length > 0 && <div className="text-[9px] text-cyan-500">{itPool.reduce((s, a) => s + a.availableWeeks, 0)} hf</div>}
+                      </div>
+                      <div className="text-[10px] font-black text-cyan-300 ml-auto">{itCapacityWeeks.toFixed(0)} hf</div>
+                    </button>
                   </div>
 
-                  <div className="w-px h-8 bg-slate-700" />
+                  <div className="w-px h-14 bg-slate-700" />
 
-                  {/* Çalışma Haftası */}
-                  <div className="flex items-center gap-2">
-                    <CalendarRange size={13} className="text-slate-400" />
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Çalışma<br/>Haftası</span>
-                    <div className="flex items-center gap-0.5 bg-slate-700 rounded-lg p-0.5">
-                      <button onClick={() => setAvailableWeeks(v => Math.max(1, v - 1))} className="w-6 h-6 flex items-center justify-center rounded-md text-slate-300 hover:bg-slate-600 transition-colors"><ChevronDown size={11} /></button>
-                      <span className="w-7 text-center text-sm font-black text-white">{availableWeeks}</span>
-                      <button onClick={() => setAvailableWeeks(v => Math.min(52, v + 1))} className="w-6 h-6 flex items-center justify-center rounded-md text-slate-300 hover:bg-slate-600 transition-colors"><ChevronUp size={11} /></button>
-                    </div>
-                    <span className="text-[10px] text-slate-500">/52 hafta</span>
+                  {/* İdari Inspector Pool button */}
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-indigo-400 font-bold uppercase tracking-widest">İdari Müfettişler</span>
+                    <button
+                      onClick={() => setShowInspectorPicker('İdari')}
+                      className="flex items-center gap-2 px-3 py-2 bg-indigo-900/60 hover:bg-indigo-800/80 border border-indigo-700/50 rounded-xl transition-all group"
+                    >
+                      <div className="flex -space-x-1.5">
+                        {idariPool.slice(0, 3).map(a => (
+                          <div key={a.id} className="w-6 h-6 rounded-full bg-indigo-600 border-2 border-slate-800 flex items-center justify-center text-[9px] font-black text-white">
+                            {a.name.charAt(0)}
+                          </div>
+                        ))}
+                        {idariPool.length > 3 && <div className="w-6 h-6 rounded-full bg-slate-600 border-2 border-slate-800 flex items-center justify-center text-[9px] font-bold text-white">+{idariPool.length - 3}</div>}
+                        {idariPool.length === 0 && <div className="w-6 h-6 rounded-full bg-slate-700 border border-dashed border-indigo-600 flex items-center justify-center"><UserPlus size={11} className="text-indigo-400" /></div>}
+                      </div>
+                      <div className="text-left">
+                        <div className="text-xs font-bold text-indigo-300">{idariPool.length > 0 ? `${idariPool.length} müfettiş` : 'Seç'}</div>
+                        {idariPool.length > 0 && <div className="text-[9px] text-indigo-500">{idariPool.reduce((s, a) => s + a.availableWeeks, 0)} hf</div>}
+                      </div>
+                      <div className="text-[10px] font-black text-indigo-300 ml-auto">{idariCapacityWeeks.toFixed(0)} hf</div>
+                    </button>
                   </div>
 
-                  <div className="w-px h-8 bg-slate-700" />
+                  <div className="w-px h-14 bg-slate-700" />
 
                   {/* Doluluk Oranı */}
-                  <div className="flex items-center gap-2">
-                    <Gauge size={13} className="text-slate-400" />
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Doluluk</span>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Doluluk</span>
                     <div className="flex items-center gap-0.5 bg-slate-700 rounded-lg p-0.5">
                       <button onClick={() => setUtilizationPct(v => Math.max(10, v - 5))} className="w-6 h-6 flex items-center justify-center rounded-md text-slate-300 hover:bg-slate-600 transition-colors"><ChevronDown size={11} /></button>
                       <span className="w-10 text-center text-sm font-black text-white">{utilizationPct}%</span>
@@ -781,7 +1219,7 @@ export default function StrategicPlanningPage() {
                     </div>
                   </div>
 
-                  <div className="w-px h-8 bg-slate-700" />
+                  <div className="w-px h-14 bg-slate-700" />
 
                   {/* Derived metrics */}
                   <div className="flex items-center gap-5">
@@ -805,16 +1243,24 @@ export default function StrategicPlanningPage() {
 
                   <div className="flex-1 min-w-0" />
 
-                  {/* Süre ayarları toggle */}
-                  <button
-                    onClick={() => setShowDurationConfig(v => !v)}
-                    className={clsx(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all',
-                      showDurationConfig ? 'bg-indigo-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                  {/* Draft plan badge + Süre toggle */}
+                  <div className="flex items-center gap-2">
+                    {draftItems.size > 0 && (
+                      <button
+                        onClick={() => setIsDraftPanelOpen(v => !v)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-[11px] font-bold transition-all"
+                      >
+                        <ClipboardList size={12} />
+                        Taslak ({draftItems.size})
+                      </button>
                     )}
-                  >
-                    <Sliders size={12} /> Süre Ayarları
-                  </button>
+                    <button
+                      onClick={() => setShowDurationConfig(v => !v)}
+                      className={clsx('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all', showDurationConfig ? 'bg-indigo-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600')}
+                    >
+                      <Sliders size={12} /> Süre Ayarları
+                    </button>
+                  </div>
                 </div>
 
                 {/* Progress bars */}
@@ -1002,7 +1448,7 @@ export default function StrategicPlanningPage() {
                         </thead>
                         <tbody>
                           {currentMandatory.map(e => (
-                            <EntityRow key={e.id} entity={e} isPlanned={plannedIds.has(e.id)} onPlan={openPlanModal} durationWeeks={getEntityDurationWeeks(e)} />
+                            <EntityRow key={e.id} entity={e} isPlanned={plannedIds.has(e.id)} onPlan={addToDraft} durationWeeks={getEntityDurationWeeks(e)} />
                           ))}
                         </tbody>
                       </table>
@@ -1065,7 +1511,7 @@ export default function StrategicPlanningPage() {
                         </thead>
                         <tbody>
                           {currentAgile.map(e => (
-                            <EntityRow key={e.id} entity={e} isPlanned={plannedIds.has(e.id)} onPlan={openPlanModal} showSuggestion durationWeeks={getEntityDurationWeeks(e)} />
+                            <EntityRow key={e.id} entity={e} isPlanned={plannedIds.has(e.id)} onPlan={addToDraft} showSuggestion durationWeeks={getEntityDurationWeeks(e)} />
                           ))}
                         </tbody>
                       </table>
@@ -1124,14 +1570,121 @@ export default function StrategicPlanningPage() {
                     <strong className="text-slate-700">{annualPlanSummary.monthlyAgile.reduce((s, n) => s + n, 0)}</strong> agile ={' '}
                     <strong className="text-slate-900">{annualPlanSummary.monthlyMandatory.reduce((s, n) => s + n, 0) + annualPlanSummary.monthlyAgile.reduce((s, n) => s + n, 0)}</strong> denetim
                   </span>
-                  <span className="text-slate-400">{annualPlanSummary.monthlyWeeks.reduce((s, n) => s + n, 0).toFixed(0)} hafta · {inspectors} müfettiş · {availableWeeks} çalışma haftası · %{utilizationPct} doluluk</span>
+                  <span className="text-slate-400">{annualPlanSummary.monthlyWeeks.reduce((s, n) => s + n, 0).toFixed(0)} hafta · {itPool.length + idariPool.length} müfettiş · %{utilizationPct} doluluk</span>
                 </div>
               </div>
+
+              {/* ━━━ TASLAK PLAN PANELİ ━━━ */}
+              {isDraftPanelOpen && draftItems.size > 0 && (
+                <div className="p-5 border-t-2 border-emerald-200 bg-emerald-50/50">
+                  <div className="flex items-center gap-2 mb-4 flex-wrap">
+                    <ClipboardList size={15} className="text-emerald-600" />
+                    <h4 className="text-sm font-bold text-slate-800">Taslak Plan</h4>
+                    <span className="text-[10px] text-slate-400">— {draftItems.size} denetim öğesi seçildi</span>
+                    <div className="ml-auto flex items-center gap-2">
+                      {(itPool.length > 0 || idariPool.length > 0) && (
+                        <button
+                          onClick={autoAssignAuditors}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors"
+                        >
+                          <UserCheck size={12} /> Otomatik Ata
+                        </button>
+                      )}
+                      <button
+                        onClick={createDraftPlan}
+                        disabled={isSavingDraft}
+                        className="flex items-center gap-1.5 px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition-colors disabled:opacity-50"
+                      >
+                        {isSavingDraft ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} />}
+                        {isSavingDraft ? 'Oluşturuluyor...' : 'Plan Oluştur & Onaya Gönder'}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl border border-emerald-200 overflow-hidden bg-white">
+                    <table className="w-full">
+                      <thead className="bg-emerald-50 border-b border-emerald-100">
+                        <tr>
+                          <th className="px-3 py-2 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Varlık</th>
+                          <th className="px-3 py-2 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide hidden md:table-cell">Kategori</th>
+                          <th className="px-3 py-2 text-center text-[10px] font-bold text-slate-500 uppercase tracking-wide">Risk</th>
+                          <th className="px-3 py-2 text-center text-[10px] font-bold text-slate-500 uppercase tracking-wide">Süre</th>
+                          <th className="px-3 py-2 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Atanan Müfettiş</th>
+                          <th className="px-3 py-2 text-right text-[10px] font-bold text-slate-500 uppercase tracking-wide">Kaldır</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Array.from(draftItems.values()).map(item => {
+                          const audPool = item.entity.entity_category === 'IT' ? itPool : idariPool;
+                          return (
+                            <tr key={item.entity.id} className="border-b border-emerald-50 hover:bg-emerald-50/30 transition-colors">
+                              <td className="px-3 py-2.5">
+                                <div className="font-semibold text-slate-800 text-xs">{item.entity.name}</div>
+                                <div className="text-[9px] text-slate-400 font-mono">{item.entity.path}</div>
+                              </td>
+                              <td className="px-3 py-2.5 hidden md:table-cell">
+                                <span className={clsx('px-1.5 py-0.5 rounded border text-[9px] font-bold', item.entity.entity_category === 'IT' ? 'bg-cyan-50 text-cyan-700 border-cyan-200' : 'bg-indigo-50 text-indigo-700 border-indigo-200')}>
+                                  {item.entity.entity_category}
+                                </span>
+                              </td>
+                              <td className="px-3 py-2.5 text-center">
+                                <span className={clsx('text-xs font-black', item.entity.riskScore >= 60 ? 'text-red-600' : item.entity.riskScore >= 40 ? 'text-amber-600' : 'text-emerald-600')}>{item.entity.riskScore}</span>
+                              </td>
+                              <td className="px-3 py-2.5 text-center">
+                                <div className="flex items-center gap-0.5 justify-center">
+                                  <button onClick={() => setDraftItems(prev => { const next = new Map(prev); const it = next.get(item.entity.id); if (it) next.set(item.entity.id, { ...it, durationWeeks: Math.max(1, it.durationWeeks - 1) }); return next; })} className="w-4 h-4 flex items-center justify-center rounded text-slate-400 hover:bg-slate-100"><ChevronDown size={9} /></button>
+                                  <span className="w-8 text-center text-xs font-bold text-indigo-700">{item.durationWeeks}hf</span>
+                                  <button onClick={() => setDraftItems(prev => { const next = new Map(prev); const it = next.get(item.entity.id); if (it) next.set(item.entity.id, { ...it, durationWeeks: Math.min(12, it.durationWeeks + 1) }); return next; })} className="w-4 h-4 flex items-center justify-center rounded text-slate-400 hover:bg-slate-100"><ChevronUp size={9} /></button>
+                                </div>
+                              </td>
+                              <td className="px-3 py-2.5">
+                                <select
+                                  value={item.assignedAuditorId ?? ''}
+                                  onChange={e => {
+                                    const aud = audPool.find(a => a.id === e.target.value);
+                                    setDraftItems(prev => { const next = new Map(prev); const it = next.get(item.entity.id); if (it) next.set(item.entity.id, { ...it, assignedAuditorId: e.target.value || null, assignedAuditorName: aud?.name ?? null }); return next; });
+                                  }}
+                                  className="text-[10px] border border-slate-200 rounded-lg px-1.5 py-1 bg-white text-slate-700 focus:outline-none focus:border-indigo-400 max-w-[130px]"
+                                >
+                                  <option value="">— Seç —</option>
+                                  {audPool.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+                                </select>
+                              </td>
+                              <td className="px-3 py-2.5 text-right">
+                                <button onClick={() => removeFromDraft(item.entity.id)} className="w-6 h-6 inline-flex items-center justify-center rounded-full bg-red-50 text-red-500 hover:bg-red-100 transition-colors">
+                                  <Minus size={11} />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                    <div className="px-4 py-2.5 bg-emerald-50 border-t border-emerald-100 flex items-center justify-between text-xs text-slate-600">
+                      <span>
+                        Toplam: <strong>{Array.from(draftItems.values()).reduce((s, i) => s + i.durationWeeks, 0)}</strong> hafta ·{' '}
+                        <strong>{Array.from(draftItems.values()).reduce((s, i) => s + i.durationWeeks * 40, 0)}</strong> adam-saat
+                      </span>
+                      <span className="text-slate-400">{thisYear} planı · {draftItems.size} denetim</span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
             </div>
           )}
         </div>
       </div>
+
+      {/* ── Inspector Picker Modal ─────────────────────────────────────── */}
+      {showInspectorPicker && (
+        <InspectorPickerModal
+          category={showInspectorPicker}
+          currentPool={showInspectorPicker === 'IT' ? itPool : idariPool}
+          onSave={showInspectorPicker === 'IT' ? setItPool : setIdariPool}
+          onClose={() => setShowInspectorPicker(null)}
+        />
+      )}
 
       {/* ── Quick Plan Modal ─────────────────────────────────────────────── */}
       {quickPlanForm && (
