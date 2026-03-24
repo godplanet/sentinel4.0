@@ -1,0 +1,1 @@
+const E={LOW:"Dusuk",MEDIUM:"Orta",HIGH:"Yuksek",CRITICAL:"Kritik"},T={PLANNED:"Planlı",ACTIVE:"Aktif",COMPLETED:"Tamamlandı"},A={PLANNED:"Planlı",ACTIVE:"Aktif",COMPLETED:"Tamamlandı"};export{A as E,E as P,T as S};

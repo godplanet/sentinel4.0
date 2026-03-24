@@ -1,0 +1,1 @@
+import{j as m}from"./index-CySU8kiC.js";import{TaskCommandWidget as o}from"./index-DBAn9OZw.js";import"./refresh-cw-CkxME6gL.js";import"./star-CJiw4XFX.js";import"./sun-BuuTnLnD.js";import"./circle-CTj2E9JM.js";import"./sun-medium-BkwwoHVt.js";function l(){return m.jsx("div",{className:"h-full flex flex-col p-4 bg-slate-50",children:m.jsx(o,{})})}export{l as default};

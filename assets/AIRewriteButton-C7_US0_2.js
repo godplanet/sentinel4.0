@@ -1,0 +1,5 @@
+import{r as l,j as e,L as m,m as d,ah as c}from"./index-CySU8kiC.js";const p=({originalText:t,onRewrite:r})=>{const[i,s]=l.useState(!1),n=async()=>{if(!t.trim())return;s(!0),await new Promise(o=>setTimeout(o,2e3));const a=`[AI İyileştirme] ${t}. Bu bulgu, sistemik kontrol zayıflığından kaynaklanmakta olup, kurumsal risk yönetimi çerçevesinde kritik öneme sahiptir.`;r(a),s(!1)};return e.jsx("button",{onClick:n,disabled:i||!t.trim(),className:`
+ inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium
+ transition-all duration-200
+ ${i||!t.trim()?"bg-gray-100 text-gray-400 cursor-not-allowed":"bg-indigo-50 text-indigo-700 hover:bg-indigo-100 hover:shadow-md"}
+ `,children:i?e.jsxs(e.Fragment,{children:[e.jsx(m,{className:"w-4 h-4 animate-spin"}),e.jsx("span",{children:"AI İyileştiriyor..."})]}):e.jsxs(e.Fragment,{children:[e.jsx(d.div,{animate:{scale:[1,1.2,1]},transition:{duration:2,repeat:1/0,repeatType:"loop"},children:e.jsx(c,{className:"w-4 h-4"})}),e.jsx("span",{children:"AI ile İyileştir"})]})})};export{p as AIRewriteButton};
