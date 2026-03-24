@@ -12,7 +12,6 @@ import { useHeatmapData } from '@/entities/risk';
 import { useAuditUniverseLive } from '@/entities/universe/api/universe-live-api';
 import { BDDKPackageModal } from '@/features/bddk-export/BDDKPackageModal';
 import { AnnualPlanView } from '@/features/planning/ui/AnnualPlanView';
-import { fetchAuditorProfiles, type AuditorProfileRow } from '@/features/planning/api/auditor-assignment-api';
 import { createFourEyesApproval } from '@/features/security/api/four-eyes';
 import { PlanAdherence } from '@/widgets/PlanAdherence';
 import { UniverseScoring } from '@/widgets/UniverseScoring';
@@ -92,9 +91,10 @@ interface QuickPlanForm {
 }
 
 interface InspectorConfig {
-  id: string;       // user_id from auditor_profiles
+  id: string;       // id from talent_profiles
   name: string;
   department: string | null;
+  title: string | null;
   availableWeeks: number;
 }
 
@@ -285,20 +285,20 @@ function QuickPlanModal({
 function EntityRow({
   entity,
   isPlanned,
-  onPlan,
+  isDraft,
   showSuggestion,
   durationWeeks,
 }: {
   entity: EntityWithRisk;
   isPlanned: boolean;
-  onPlan: (e: EntityWithRisk) => void;
+  isDraft?: boolean;
   showSuggestion?: boolean;
   durationWeeks?: number;
 }) {
   const rl = riskLevel(entity.riskScore);
 
   return (
-    <tr className={clsx('border-b border-slate-100 transition-colors', isPlanned ? 'bg-emerald-50/40' : 'hover:bg-slate-50/80')}>
+    <tr className={clsx('border-b border-slate-100 transition-colors', isDraft ? 'bg-emerald-50/50' : isPlanned ? 'bg-blue-50/30' : 'hover:bg-slate-50/80')}>
       <td className="px-3 py-2.5">
         <div className="flex items-center gap-1.5">
           <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden flex-shrink-0">
@@ -342,17 +342,16 @@ function EntityRow({
         </td>
       )}
       <td className="px-3 py-2.5 text-right">
-        {isPlanned ? (
+        {isDraft ? (
           <span className="inline-flex items-center gap-1 text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-lg font-bold">
+            <Check size={10} /> Taslakta
+          </span>
+        ) : isPlanned ? (
+          <span className="inline-flex items-center gap-1 text-[10px] text-blue-700 bg-blue-50 border border-blue-200 px-2 py-1 rounded-lg font-bold">
             <Check size={10} /> Planlandı
           </span>
         ) : (
-          <button
-            onClick={() => onPlan(entity)}
-            className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-lg transition-colors"
-          >
-            <Plus size={10} /> Taslağa Ekle
-          </button>
+          <span className="text-[10px] text-slate-300">—</span>
         )}
       </td>
     </tr>
@@ -360,6 +359,15 @@ function EntityRow({
 }
 
 // ─── Inspector Picker Modal ────────────────────────────────────────────────────
+
+interface TalentRow {
+  id: string;
+  full_name: string;
+  title: string | null;
+  department: string | null;
+  is_available: boolean;
+  burnout_zone: string | null;
+}
 
 function InspectorPickerModal({
   category,
@@ -372,21 +380,28 @@ function InspectorPickerModal({
   onSave: (pool: InspectorConfig[]) => void;
   onClose: () => void;
 }) {
-  const { data: profiles = [], isLoading } = useQuery({
-    queryKey: ['auditor-profiles'],
-    queryFn: fetchAuditorProfiles,
+  const { data: profiles = [], isLoading } = useQuery<TalentRow[]>({
+    queryKey: ['talent-profiles-picker'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('talent_profiles')
+        .select('id, full_name, title, department, is_available, burnout_zone')
+        .order('full_name');
+      if (error) throw error;
+      return (data ?? []) as TalentRow[];
+    },
+    staleTime: 60_000,
   });
 
-  // Start with current pool selections
   const [selected, setSelected] = useState<Map<string, number>>(
     new Map(currentPool.map(a => [a.id, a.availableWeeks]))
   );
 
-  const toggle = (p: AuditorProfileRow) => {
+  const toggle = (p: TalentRow) => {
     setSelected(prev => {
       const next = new Map(prev);
-      if (next.has(p.user_id)) next.delete(p.user_id);
-      else next.set(p.user_id, 40);
+      if (next.has(p.id)) next.delete(p.id);
+      else next.set(p.id, 40);
       return next;
     });
   };
@@ -397,14 +412,15 @@ function InspectorPickerModal({
 
   const handleSave = () => {
     const pool: InspectorConfig[] = Array.from(selected.entries()).map(([id, weeks]) => {
-      const p = profiles.find(x => x.user_id === id)!;
-      return { id, name: p?.full_name ?? id, department: p?.department ?? null, availableWeeks: weeks };
+      const p = profiles.find(x => x.id === id)!;
+      return { id, name: p?.full_name ?? id, department: p?.department ?? null, title: p?.title ?? null, availableWeeks: weeks };
     });
     onSave(pool);
     onClose();
   };
 
   const totalWeeks = Array.from(selected.values()).reduce((s, w) => s + w, 0);
+  const burnoutColor: Record<string, string> = { GREEN: 'bg-emerald-400', AMBER: 'bg-amber-400', RED: 'bg-red-500' };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
@@ -413,6 +429,7 @@ function InspectorPickerModal({
           <div className="flex items-center gap-2">
             <Monitor size={16} className="text-white" />
             <span className="font-bold text-white">{category === 'IT' ? 'BT (IT)' : 'İdari'} Müfettiş Havuzu</span>
+            <span className="text-[10px] text-white/60 bg-white/15 px-2 py-0.5 rounded-full">Yetenek Yönetimi</span>
           </div>
           <div className="flex items-center gap-3">
             {selected.size > 0 && (
@@ -424,7 +441,7 @@ function InspectorPickerModal({
           </div>
         </div>
 
-        <div className="p-4 max-h-[440px] overflow-y-auto">
+        <div className="p-4 max-h-[460px] overflow-y-auto">
           {isLoading ? (
             <div className="flex items-center justify-center py-12 gap-2 text-slate-400">
               <Loader2 size={18} className="animate-spin" /><span className="text-sm">Yükleniyor...</span>
@@ -433,33 +450,39 @@ function InspectorPickerModal({
             <div className="text-center py-12 text-slate-400">
               <Users size={36} className="mx-auto mb-3 opacity-20" />
               <p className="text-sm">Müfettiş profili bulunamadı</p>
-              <p className="text-xs mt-1">Yetenek yönetiminden müfettiş ekleyin</p>
+              <p className="text-xs mt-1">Yetenek Yönetimi sayfasından müfettiş ekleyin</p>
             </div>
           ) : (
             <div className="space-y-2">
               {profiles.map(p => {
-                const isSelected = selected.has(p.user_id);
-                const weeks = selected.get(p.user_id) ?? 40;
+                const isSelected = selected.has(p.id);
+                const weeks = selected.get(p.id) ?? 40;
                 return (
                   <div
-                    key={p.user_id}
+                    key={p.id}
                     className={clsx('flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer', isSelected ? (category === 'IT' ? 'bg-cyan-50 border-cyan-200' : 'bg-indigo-50 border-indigo-200') : 'bg-slate-50 border-slate-200 hover:border-slate-300')}
                     onClick={() => toggle(p)}
                   >
-                    <div className={clsx('w-9 h-9 rounded-full flex items-center justify-center text-sm font-black text-white shrink-0', isSelected ? (category === 'IT' ? 'bg-cyan-600' : 'bg-indigo-600') : 'bg-slate-400')}>
+                    <div className={clsx('w-9 h-9 rounded-full flex items-center justify-center text-sm font-black text-white shrink-0 relative', isSelected ? (category === 'IT' ? 'bg-cyan-600' : 'bg-indigo-600') : 'bg-slate-400')}>
                       {(p.full_name || '?').charAt(0).toUpperCase()}
+                      {p.burnout_zone && (
+                        <span className={clsx('absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-white', burnoutColor[p.burnout_zone] ?? 'bg-slate-400')} />
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-slate-800 text-sm">{p.full_name}</div>
-                      <div className="text-[10px] text-slate-400">{p.title ?? p.department ?? 'Müfettiş'}</div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-semibold text-slate-800 text-sm">{p.full_name}</span>
+                        {!p.is_available && <span className="text-[8px] bg-amber-100 text-amber-700 border border-amber-200 px-1 py-0.5 rounded font-bold">Meşgul</span>}
+                      </div>
+                      <div className="text-[10px] text-slate-400">{p.title ?? ''}{p.title && p.department ? ' · ' : ''}{p.department ?? ''}</div>
                     </div>
                     {isSelected && (
                       <div className="flex items-center gap-1.5 shrink-0" onClick={e => e.stopPropagation()}>
                         <span className="text-[10px] text-slate-500 font-medium">Hafta:</span>
                         <div className="flex items-center gap-0.5 bg-white border border-slate-200 rounded-lg p-0.5">
-                          <button onClick={() => setWeeks(p.user_id, weeks - 1)} className="w-5 h-5 flex items-center justify-center rounded text-slate-500 hover:bg-slate-100"><ChevronDown size={10} /></button>
+                          <button onClick={() => setWeeks(p.id, weeks - 1)} className="w-5 h-5 flex items-center justify-center rounded text-slate-500 hover:bg-slate-100"><ChevronDown size={10} /></button>
                           <span className="w-8 text-center text-xs font-bold text-slate-800">{weeks}</span>
-                          <button onClick={() => setWeeks(p.user_id, weeks + 1)} className="w-5 h-5 flex items-center justify-center rounded text-slate-500 hover:bg-slate-100"><ChevronUp size={10} /></button>
+                          <button onClick={() => setWeeks(p.id, weeks + 1)} className="w-5 h-5 flex items-center justify-center rounded text-slate-500 hover:bg-slate-100"><ChevronUp size={10} /></button>
                         </div>
                       </div>
                     )}
@@ -473,7 +496,7 @@ function InspectorPickerModal({
 
         <div className="px-5 py-3.5 border-t border-slate-100 bg-slate-50 flex items-center justify-between gap-3">
           <span className="text-xs text-slate-500">
-            {selected.size} müfettiş · Toplam <strong>{totalWeeks}</strong> hafta · ~<strong>{Math.round(totalWeeks * (80/100))}</strong> hf etkin kapasite
+            {selected.size} müfettiş · Toplam <strong>{totalWeeks}</strong> hf · Etkin ~<strong>{Math.round(totalWeeks * 0.8)}</strong> hf
           </span>
           <div className="flex gap-2">
             <button onClick={onClose} className="px-3 py-1.5 text-xs text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50">İptal</button>
@@ -733,23 +756,51 @@ export default function StrategicPlanningPage() {
     }
   };
 
-  const addToDraft = (entity: EntityWithRisk) => {
-    setDraftItems(prev => {
-      const next = new Map(prev);
-      next.set(entity.id, {
-        entity,
-        durationWeeks: getEntityDurationWeeks(entity),
-        assignedAuditorId: null,
-        assignedAuditorName: null,
-      });
-      return next;
-    });
-    setIsDraftPanelOpen(true);
-  };
-
   const removeFromDraft = (id: string) => {
     setDraftItems(prev => { const next = new Map(prev); next.delete(id); return next; });
   };
+
+  // Auto-fill draft: ALL mandatory + agile up to remaining capacity, then auto-assign
+  const autoFillDraft = useCallback(() => {
+    const allMandatory = [...itMandatory, ...idariMandatory].sort((a, b) => b.riskScore - a.riskScore);
+    const allAgile = [...itAgile, ...idariAgile].sort((a, b) => b.riskScore - a.riskScore);
+
+    const next = new Map<string, DraftItem>();
+
+    // Add all mandatory leaf entities
+    for (const e of allMandatory) {
+      next.set(e.id, { entity: e, durationWeeks: getEntityDurationWeeks(e), assignedAuditorId: null, assignedAuditorName: null });
+    }
+
+    // Add agile entities up to agile capacity
+    let remaining = agileCapacityWeeks;
+    for (const e of allAgile) {
+      if (remaining <= 0) break;
+      const dur = getEntityDurationWeeks(e);
+      if (dur <= remaining) {
+        next.set(e.id, { entity: e, durationWeeks: dur, assignedAuditorId: null, assignedAuditorName: null });
+        remaining -= dur;
+      }
+    }
+
+    // Auto-assign auditors inline
+    let itIdx = 0, idariIdx = 0;
+    for (const [id, item] of next.entries()) {
+      if (item.entity.entity_category === 'IT' && itPool.length > 0) {
+        const aud = itPool[itIdx % itPool.length];
+        next.set(id, { ...item, assignedAuditorId: aud.id, assignedAuditorName: aud.name });
+        itIdx++;
+      } else if (item.entity.entity_category === 'İdari' && idariPool.length > 0) {
+        const aud = idariPool[idariIdx % idariPool.length];
+        next.set(id, { ...item, assignedAuditorId: aud.id, assignedAuditorName: aud.name });
+        idariIdx++;
+      }
+    }
+
+    setDraftItems(next);
+    setIsDraftPanelOpen(true);
+    toast.success(`Taslak plan oluşturuldu: ${next.size} denetim (${allMandatory.length} zorunlu + ${next.size - allMandatory.length} agile)`);
+  }, [itMandatory, idariMandatory, itAgile, idariAgile, getEntityDurationWeeks, agileCapacityWeeks, itPool, idariPool]);
 
   // Auto-assign auditors: IT entities → IT pool (round-robin), İdari → İdari pool
   const autoAssignAuditors = () => {
@@ -1243,12 +1294,12 @@ export default function StrategicPlanningPage() {
 
                   <div className="flex-1 min-w-0" />
 
-                  {/* Draft plan badge + Süre toggle */}
-                  <div className="flex items-center gap-2">
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-2 flex-wrap">
                     {draftItems.size > 0 && (
                       <button
                         onClick={() => setIsDraftPanelOpen(v => !v)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-[11px] font-bold transition-all"
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 rounded-lg text-[11px] font-bold transition-all"
                       >
                         <ClipboardList size={12} />
                         Taslak ({draftItems.size})
@@ -1259,6 +1310,12 @@ export default function StrategicPlanningPage() {
                       className={clsx('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all', showDurationConfig ? 'bg-indigo-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600')}
                     >
                       <Sliders size={12} /> Süre Ayarları
+                    </button>
+                    <button
+                      onClick={autoFillDraft}
+                      className="flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-lg text-[11px] font-bold transition-all shadow-sm shadow-emerald-500/30"
+                    >
+                      <Kanban size={12} /> Planı Otomatik Doldur
                     </button>
                   </div>
                 </div>
@@ -1448,7 +1505,7 @@ export default function StrategicPlanningPage() {
                         </thead>
                         <tbody>
                           {currentMandatory.map(e => (
-                            <EntityRow key={e.id} entity={e} isPlanned={plannedIds.has(e.id)} onPlan={addToDraft} durationWeeks={getEntityDurationWeeks(e)} />
+                            <EntityRow key={e.id} entity={e} isPlanned={plannedIds.has(e.id)} isDraft={draftItems.has(e.id)} durationWeeks={getEntityDurationWeeks(e)} />
                           ))}
                         </tbody>
                       </table>
@@ -1511,7 +1568,7 @@ export default function StrategicPlanningPage() {
                         </thead>
                         <tbody>
                           {currentAgile.map(e => (
-                            <EntityRow key={e.id} entity={e} isPlanned={plannedIds.has(e.id)} onPlan={addToDraft} showSuggestion durationWeeks={getEntityDurationWeeks(e)} />
+                            <EntityRow key={e.id} entity={e} isPlanned={plannedIds.has(e.id)} isDraft={draftItems.has(e.id)} showSuggestion durationWeeks={getEntityDurationWeeks(e)} />
                           ))}
                         </tbody>
                       </table>
