@@ -60,43 +60,46 @@ function getInitials(name: string) {
 
 function FatigueMeter({ score }: { score: number }) {
  const pct = Math.min(1, Math.max(0, score / 100));
- const R = 34, CX = 50, CY = 50;
+ // Arc opens UPWARD: from left (angle=π) to right (angle=0) through the TOP.
+ // sweep=1 = clockwise in SVG screen space = goes through upper half.
+ const R = 34, CX = 50, CY = 52;
  const ptX = (a: number) => CX + R * Math.cos(a);
  const ptY = (a: number) => CY - R * Math.sin(a);
  const bgStart = { x: ptX(Math.PI), y: ptY(Math.PI) };
- const bgEnd = { x: ptX(0), y: ptY(0) };
- const bgPath = `M ${bgStart.x} ${bgStart.y} A ${R} ${R} 0 0 0 ${bgEnd.x} ${bgEnd.y}`;
- const fillEnd = Math.PI - pct * Math.PI;
- const fillEndPt = { x: ptX(fillEnd), y: ptY(fillEnd) };
- const largeArc = pct > 0.5 ? 1 : 0;
- const fillPath = pct > 0.001
- ? `M ${bgStart.x} ${bgStart.y} A ${R} ${R} 0 ${largeArc} 0 ${fillEndPt.x} ${fillEndPt.y}`
- : null;
+ const bgEnd   = { x: ptX(0),       y: ptY(0) };
+ // sweep=1: clockwise → top arc. largeArc=1 ensures the upper semicircle is chosen.
+ const bgPath  = `M ${bgStart.x} ${bgStart.y} A ${R} ${R} 0 1 1 ${bgEnd.x} ${bgEnd.y}`;
+ // Fill: clockwise from left to fillAngle. Span ≤ 180° → largeArc always 0.
+ const fillAngle = Math.PI - pct * Math.PI;
+ const fillEndPt = { x: ptX(fillAngle), y: ptY(fillAngle) };
+ const fillPath  = pct > 0.001
+  ? `M ${bgStart.x} ${bgStart.y} A ${R} ${R} 0 0 1 ${fillEndPt.x} ${fillEndPt.y}`
+  : null;
+ // Needle: π (left, 0%) → 0 (right, 100%)
  const needleAngle = Math.PI - pct * Math.PI;
- const needleTip = {
- x: CX + (R - 6) * Math.cos(needleAngle),
- y: CY - (R - 6) * Math.sin(needleAngle),
- };
+ const needleTip   = { x: CX + (R - 6) * Math.cos(needleAngle), y: CY - (R - 6) * Math.sin(needleAngle) };
  const color = score >= 80 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#10b981';
  const TICKS = [0, 0.25, 0.5, 0.75, 1];
  return (
- <svg viewBox="0 0 100 58" className="w-full max-w-[130px] mx-auto">
- <path d={bgPath} fill="none" stroke="#e2e8f0" strokeWidth="9" strokeLinecap="round" />
- {fillPath && <path d={fillPath} fill="none" stroke={color} strokeWidth="9" strokeLinecap="round" opacity={0.9} />}
- {(TICKS || []).map((t) => {
- const a = Math.PI - t * Math.PI;
- return (
- <line key={t}
- x1={CX + (R + 2) * Math.cos(a)} y1={CY - (R + 2) * Math.sin(a)}
- x2={CX + (R + 8) * Math.cos(a)} y2={CY - (R + 8) * Math.sin(a)}
- stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round"
- />
- );
- })}
- <line x1={CX} y1={CY} x2={needleTip.x} y2={needleTip.y} stroke={color} strokeWidth="2" strokeLinecap="round" />
- <circle cx={CX} cy={CY} r="3" fill={color} />
- <text x="50" y="50" textAnchor="middle" fontSize="13" fontWeight="bold" fill={color} fontFamily="monospace">{score}</text>
- <text x="50" y="57" textAnchor="middle" fontSize="6.5" fill="#94a3b8" fontFamily="sans-serif" letterSpacing="0.5">YORGUNLUK</text>
+ <svg viewBox="0 0 100 62" className="w-full max-w-[130px] mx-auto">
+  <path d={bgPath} fill="none" stroke="#e2e8f0" strokeWidth="9" strokeLinecap="round" />
+  {fillPath && <path d={fillPath} fill="none" stroke={color} strokeWidth="9" strokeLinecap="round" opacity={0.9} />}
+  {(TICKS || []).map((t) => {
+   const a = Math.PI - t * Math.PI;
+   return (
+    <line key={t}
+     x1={CX + (R + 2) * Math.cos(a)} y1={CY - (R + 2) * Math.sin(a)}
+     x2={CX + (R + 8) * Math.cos(a)} y2={CY - (R + 8) * Math.sin(a)}
+     stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round"
+    />
+   );
+  })}
+  <line x1={CX} y1={CY} x2={needleTip.x} y2={needleTip.y} stroke={color} strokeWidth="2" strokeLinecap="round" />
+  <circle cx={CX} cy={CY} r="3" fill={color} />
+  <text x="17" y="60" textAnchor="middle" fontSize="6" fill="#94a3b8" fontFamily="sans-serif">0</text>
+  <text x="83" y="60" textAnchor="middle" fontSize="6" fill="#94a3b8" fontFamily="sans-serif">100</text>
+  <text x="50" y="54" textAnchor="middle" fontSize="12" fontWeight="bold" fill={color} fontFamily="monospace">{score}</text>
+  <text x="50" y="61" textAnchor="middle" fontSize="6" fill="#94a3b8" fontFamily="sans-serif" letterSpacing="0.5">YORGUNLUK</text>
  </svg>
  );
 }
