@@ -53,3 +53,7 @@ fluid_layout.mjs
 
 # Supabase disabled dumps
 *.sql.skip
+# Yerel Script - Gizli Anahtar İçerir
+scripts/assign-branches.cjs
+scripts/check-departments.cjs
+scripts/update-risk-assessments.cjs

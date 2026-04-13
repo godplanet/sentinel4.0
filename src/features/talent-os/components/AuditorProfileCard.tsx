@@ -36,12 +36,6 @@ const LEVEL_GRADIENTS: Record<number, string> = {
  5: 'from-rose-600 via-orange-500 to-amber-400',
 };
 
-const TITLE_MAP: Record<string, string> = {
- Junior: 'Jr. Denetçi',
- Senior: 'Kd. Denetçi',
- Manager: 'Denetim Müdürü',
- Expert: 'Uzman Denetçi',
-};
 
 const CERT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
  CIA: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
@@ -229,8 +223,6 @@ export function AuditorProfileCard({
 
  <div className="flex-1 min-w-0">
  <h3 className="text-primary font-semibold text-sm leading-tight truncate">{profile?.full_name ?? 'Bilinmeyen'}</h3>
- <p className="text-slate-500 text-xs mt-0.5">{TITLE_MAP[profile?.title ?? 'Junior'] ?? profile?.title}</p>
- <p className="text-slate-400 text-[10px] mt-0.5 truncate">{profile?.department ?? ''}</p>
  <div className="flex items-center gap-2 mt-1.5">
  <div className="flex items-center gap-1">
  <Trophy className="w-3 h-3 text-amber-500" />

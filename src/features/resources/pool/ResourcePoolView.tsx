@@ -9,7 +9,6 @@ import type {
   Specialization,
   TalentProfileWithSkills,
 } from '@/features/talent-os/types';
-import { SPECIALIZATION_LABELS } from '@/features/talent-os/types';
 import { AuditorDetailPanel } from '@/widgets/TalentOS/AuditorDetailPanel';
 import { ResourcePoolGrid } from '@/widgets/TalentOS/ResourcePoolGrid';
 import clsx from 'clsx';
@@ -33,41 +32,51 @@ import toast from 'react-hot-toast';
 type SpecFilter = 'all' | Specialization;
 
 const SPEC_TABS: { key: SpecFilter; label: string }[] = [
-  { key: 'all', label: 'Tümü' },
-  { key: 'İdari', label: 'İdari' },
-  { key: 'BT', label: 'BT' },
-  { key: 'Mali', label: 'Mali' },
-  { key: 'Uyum', label: 'Uyum' },
-  { key: 'Risk', label: 'Risk' },
+  { key: 'all',   label: 'Tümü' },
+  { key: 'İdari', label: 'Bankacılık Denetimleri' },
+  { key: 'BT',    label: 'Bilgi Sistemleri Denetimleri' },
+  { key: 'Mali',  label: 'Mali' },
+  { key: 'Uyum',  label: 'Uyum' },
+  { key: 'Risk',  label: 'Risk' },
   { key: 'Diğer', label: 'Diğer' },
 ];
 
-const TITLE_OPTIONS: AuditorTitle[] = ['Junior', 'Senior', 'Manager', 'Expert'];
-const SPEC_OPTIONS: Specialization[] = ['İdari', 'BT', 'Mali', 'Uyum', 'Risk', 'Diğer'];
+const TR_TITLE_OPTIONS: { label: string; level: number; title: AuditorTitle }[] = [
+  { label: 'Başmüfettiş',                 level: 5, title: 'Expert' },
+  { label: 'Kıdemli Müfettiş',            level: 4, title: 'Manager' },
+  { label: 'Müfettiş',                    level: 3, title: 'Senior' },
+  { label: 'Yetkili Müfettiş Yardımcısı', level: 2, title: 'Junior' },
+  { label: 'Müfettiş Yardımcısı',         level: 1, title: 'Junior' },
+];
+
+const DEPARTMENT_OPTIONS: { value: string; spec: Specialization }[] = [
+  { value: 'Bankacılık Denetimleri',       spec: 'İdari' },
+  { value: 'Bilgi Sistemleri Denetimleri', spec: 'BT' },
+];
+
+function levelToTrTitle(level: number): string {
+  return TR_TITLE_OPTIONS.find((t) => t.level === level)?.label ?? 'Müfettiş Yardımcısı';
+}
 
 // ─── Add/Edit Modal ───────────────────────────────────────────────────────────
 
 interface AuditorFormData {
   full_name: string;
-  title: AuditorTitle;
+  tr_title: string;
   department: string;
-  specialization: Specialization;
-  hourly_rate: number;
-  is_available: boolean;
+  tenure_since_year: number;
 }
 
 const EMPTY_FORM: AuditorFormData = {
   full_name: '',
-  title: 'Junior',
-  department: '',
-  specialization: 'İdari',
-  hourly_rate: 0,
-  is_available: true,
+  tr_title: 'Müfettiş Yardımcısı',
+  department: 'Bankacılık Denetimleri',
+  tenure_since_year: new Date().getFullYear(),
 };
 
 interface AuditorModalProps {
   mode: 'add' | 'edit';
-  initial?: AuditorFormData & { id?: string };
+  initial?: AuditorFormData & { id: string };
   onClose: () => void;
 }
 
@@ -84,13 +93,25 @@ function AuditorModal({ mode, initial, onClose }: AuditorModalProps) {
 
   async function handleSubmit() {
     if (!form.full_name.trim()) { toast.error('Ad Soyad zorunlu'); return; }
-    if (!form.department.trim()) { toast.error('Departman zorunlu'); return; }
+    const titleMeta = TR_TITLE_OPTIONS.find((t) => t.label === form.tr_title) ?? TR_TITLE_OPTIONS[4];
+    const deptMeta  = DEPARTMENT_OPTIONS.find((d) => d.value === form.department) ?? DEPARTMENT_OPTIONS[0];
+    const yearsExperience = Math.max(0, new Date().getFullYear() - form.tenure_since_year);
+    const payload = {
+      full_name:     form.full_name.trim(),
+      title:         titleMeta.title,
+      current_level: titleMeta.level,
+      department:    form.department,
+      specialization: deptMeta.spec,
+      hourly_rate:   0,
+      is_available:  true,
+      total_xp:      yearsExperience * 150 * titleMeta.level,
+    };
     try {
       if (mode === 'add') {
-        await createAuditor.mutateAsync(form);
+        await createAuditor.mutateAsync(payload);
         toast.success(`${form.full_name} eklendi`);
       } else {
-        await updateAuditor.mutateAsync({ id: initial!.id!, ...form });
+        await updateAuditor.mutateAsync({ id: initial!.id!, ...payload });
         toast.success('Denetçi güncellendi');
       }
       onClose();
@@ -133,59 +154,40 @@ function AuditorModal({ mode, initial, onClose }: AuditorModalProps) {
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1">Ünvan *</label>
               <select
-                value={form.title}
-                onChange={(e) => set('title', e.target.value as AuditorTitle)}
+                value={form.tr_title}
+                onChange={(e) => {
+                  const t = TR_TITLE_OPTIONS.find(o => o.label === e.target.value);
+                  const MIN_YEARS: Record<number, number> = { 5: 8, 4: 6, 3: 3, 2: 2, 1: 1 };
+                  const minYr = t ? new Date().getFullYear() - (MIN_YEARS[t.level] ?? 1) : form.tenure_since_year;
+                  setForm(prev => ({ ...prev, tr_title: e.target.value, tenure_since_year: minYr }));
+                }}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                {TITLE_OPTIONS.map((t) => <option key={t} value={t}>{t}</option>)}
+                {TR_TITLE_OPTIONS.map((t) => <option key={t.label} value={t.label}>{t.label}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">Uzmanlık *</label>
-              <select
-                value={form.specialization}
-                onChange={(e) => set('specialization', e.target.value as Specialization)}
+              <label className="block text-xs font-semibold text-slate-600 mb-1">Kıdem Başlangıcı</label>
+              <input
+                type="number"
+                min={1980}
+                max={new Date().getFullYear()}
+                value={form.tenure_since_year}
+                onChange={(e) => set('tenure_since_year', Number(e.target.value))}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {SPEC_OPTIONS.map((s) => (
-                  <option key={s} value={s}>{SPECIALIZATION_LABELS[s]}</option>
-                ))}
-              </select>
+              />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-600 mb-1">Departman *</label>
-            <input
+            <label className="block text-xs font-semibold text-slate-600 mb-1">Başkan Yardımcılığı *</label>
+            <select
               value={form.department}
               onChange={(e) => set('department', e.target.value)}
-              placeholder="Örn: BT Denetimi"
               className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">Saatlik Ücret (TRY)</label>
-              <input
-                type="number"
-                min={0}
-                value={form.hourly_rate}
-                onChange={(e) => set('hourly_rate', Number(e.target.value))}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">Durum</label>
-              <select
-                value={form.is_available ? 'yes' : 'no'}
-                onChange={(e) => set('is_available', e.target.value === 'yes')}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="yes">Müsait</option>
-                <option value="no">Meşgul</option>
-              </select>
-            </div>
+            >
+              {DEPARTMENT_OPTIONS.map((d) => <option key={d.value} value={d.value}>{d.value}</option>)}
+            </select>
           </div>
         </div>
 
@@ -454,11 +456,14 @@ export function ResourcePoolView({ openAddModal, onAddModalClose }: ResourcePool
             initial={{
               id: editProfile.id,
               full_name: editProfile.full_name,
-              title: editProfile.title,
-              department: editProfile.department,
-              specialization: editProfile.specialization,
-              hourly_rate: editProfile.hourly_rate,
-              is_available: editProfile.is_available,
+              tr_title: levelToTrTitle(editProfile.current_level),
+              department: DEPARTMENT_OPTIONS.some(d => d.value === editProfile.department)
+                ? editProfile.department
+                : 'Bankacılık Denetimleri',
+              tenure_since_year: (() => {
+                const MIN_YEARS: Record<number, number> = { 5: 8, 4: 6, 3: 3, 2: 2, 1: 1 };
+                return new Date().getFullYear() - (MIN_YEARS[editProfile.current_level] ?? 1);
+              })(),
             }}
             onClose={() => setEditProfile(null)}
           />

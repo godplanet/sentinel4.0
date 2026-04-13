@@ -11,8 +11,20 @@ import {
 } from '@/features/talent-os/lib/EntropyEngine';
 import { supabase } from '@/shared/api/supabase';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Activity, AlertTriangle, Award, Check, DollarSign, Loader2, RefreshCw, Send, ShieldCheck, TrendingDown, Users, X, Zap } from 'lucide-react';
+import { Activity, AlertTriangle, Award, Check, DollarSign, Loader2, Monitor, RefreshCw, Send, Shield, ShieldCheck, TrendingDown, Users, X, Zap } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+
+const IT_KEYWORDS = [
+ 'bilgi sistem', 'bilgi teknoloji', 'bt', 'siber', 'teknoloji',
+ 'yazilim', 'network', 'sistem', 'data', 'dijital',
+];
+
+function isItBranch(department: string | null, title: string | null): boolean {
+ const src = ((department ?? '') + ' ' + (title ?? '')).toLowerCase()
+  .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+  .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c');
+ return IT_KEYWORDS.some(kw => src.includes(kw));
+}
 
 const KUDOS_CATEGORIES = [
  { value: 'QUALITY', label: 'Kalite', color: 'border-sky-200 bg-sky-50 text-sky-700' },
@@ -320,6 +332,7 @@ function HourlyRatePanel({ profiles, onRefresh }: { profiles: TalentProfileEnric
 
 export function TalentRPGView() {
  const { profiles, loading, error, teamStats, refetch } = useTalentData();
+ const [branchFilter, setBranchFilter] = useState<'all' | 'banking' | 'it'>('all');
  const [selectedId, setSelectedId] = useState<string | null>(null);
  const [kudosTarget, setKudosTarget] = useState<TalentProfileEnriched | null>(null);
  const [adminMode, setAdminMode] = useState(false);
@@ -361,6 +374,11 @@ export function TalentRPGView() {
  }
  }, [profiles, refreshing]);
 
+ const filteredProfiles = profiles.filter((p) => {
+  if (branchFilter === 'it') return isItBranch(p.department, p.title);
+  if (branchFilter === 'banking') return !isItBranch(p.department, p.title);
+  return true;
+ });
  const selectedProfile = profiles.find((p) => p.id === selectedId) ?? null;
 
  if (loading) {
@@ -439,6 +457,27 @@ export function TalentRPGView() {
  </div>
  </div>
 
+ {/* Branch filter */}
+ <div className="flex items-center gap-2 flex-wrap">
+  {([
+   { key: 'all',     label: 'Tümü',                      icon: <Users size={13} />,   cls: 'bg-slate-100 border-slate-300 text-slate-700' },
+   { key: 'banking', label: 'Bankacılık Denetimleri',     icon: <Shield size={13} />,  cls: 'bg-indigo-50 border-indigo-300 text-indigo-700' },
+   { key: 'it',      label: 'Bilgi Sistemleri Denetimleri', icon: <Monitor size={13} />, cls: 'bg-cyan-50 border-cyan-300 text-cyan-700' },
+  ] as const).map(({ key, label, icon, cls }) => (
+   <button
+    key={key}
+    onClick={() => setBranchFilter(key)}
+    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all shadow-sm
+     ${branchFilter === key ? cls + ' ring-1 ring-offset-1 ' + cls.replace('bg-', 'ring-') : 'bg-surface border-slate-200 text-slate-500 hover:border-slate-300'}`}
+   >
+    {icon}{label}
+    {key === 'banking' && <span className="ml-1 text-[10px] opacity-70">{profiles.filter(p => !isItBranch(p.department, p.title)).length}</span>}
+    {key === 'it' && <span className="ml-1 text-[10px] opacity-70">{profiles.filter(p => isItBranch(p.department, p.title)).length}</span>}
+    {key === 'all' && <span className="ml-1 text-[10px] opacity-70">{profiles.length}</span>}
+   </button>
+  ))}
+ </div>
+
  {/* Full-width gradient stat banner */}
  <div className="rounded-2xl overflow-hidden shadow-sm bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white">
  <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-white/20">
@@ -491,7 +530,7 @@ export function TalentRPGView() {
 
  <div className={`grid gap-5 ${selectedProfile ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3'}`}>
  <div className={`grid gap-5 ${selectedProfile ? 'lg:col-span-2 grid-cols-1 sm:grid-cols-2' : 'col-span-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3'}`}>
- {(profiles || []).map((profile) => (
+ {(filteredProfiles || []).map((profile) => (
  <AuditorProfileCard
  key={profile.id}
  profile={profile}
@@ -506,7 +545,7 @@ export function TalentRPGView() {
  />
  ))}
 
- {profiles.length === 0 && (
+ {filteredProfiles.length === 0 && (
  <div className="col-span-full flex flex-col items-center justify-center py-16 bg-canvas border-2 border-dashed border-slate-200 rounded-xl text-slate-500">
  <Users className="w-12 h-12 mb-3 text-slate-300" />
  <p className="text-sm font-medium">Henüz denetçi profili yok</p>

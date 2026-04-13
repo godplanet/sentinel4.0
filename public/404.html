@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Sentinel 4.0</title>
+  <script>
+    // GitHub Pages SPA redirect — path'i sessionStorage'a kaydet, index.html'e yönlendir
+    sessionStorage.redirect = location.href;
+    window.location.replace(
+      location.protocol + '//' + location.hostname +
+      (location.port ? ':' + location.port : '') +
+      location.pathname.split('/').slice(0, 2).join('/') + '/'
+    );
+  </script>
+</head>
+<body></body>
+</html>

@@ -1,6 +1,6 @@
 import { getFatigueBgColor, getFatigueLabel } from '@/features/talent-os/fatigue';
 import type { TalentProfileWithSkills } from '@/features/talent-os/types';
-import { LEVEL_LABELS, SKILL_LABELS, TITLE_LABELS } from '@/features/talent-os/types';
+import { SKILL_LABELS } from '@/features/talent-os/types';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { AlertTriangle, Shield, TrendingUp, User, Zap } from 'lucide-react';
@@ -74,17 +74,13 @@ export function TalentCard({ profile, selected, onClick }: TalentCardProps) {
  <AlertTriangle size={14} className="text-red-500 flex-shrink-0" />
  )}
  </div>
- <p className="text-xs text-slate-500">{profile.department}</p>
  <div className="flex items-center gap-2 mt-1.5">
  <span className={clsx(
  'inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded-full border',
  LEVEL_COLORS[profile.current_level] || LEVEL_COLORS[1]
  )}>
  <Shield size={10} />
- Svy {profile.current_level} - {LEVEL_LABELS[profile.current_level]}
- </span>
- <span className="text-xs text-slate-400">
- {TITLE_LABELS[profile.title]}
+ Lv. {profile.current_level}
  </span>
  </div>
  </div>
